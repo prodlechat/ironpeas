@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Méthode SPIN — Maîtriser l'Art de la Vente | Producteur à Succès</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            color: #1F2937;
+            background: #FAFBFC;
+        }
+        :root {
+            --primary: #6C3AED;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+        }
+        .progress-bar {
+            position: fixed; top: 0; left: 0; right: 0;
+            height: 4px; background: var(--primary);
+            z-index: 1000; transform-origin: left; transform: scaleX(0);
+        }
+        .hero {
+            background: linear-gradient(135deg, #1E3A5F 0%, #2563EB 50%, #3B82F6 100%);
+            color: white; padding: 60px 20px; text-align: center;
+            position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: -50%; right: -10%;
+            width: 400px; height: 400px;
+            background: rgba(255,255,255,0.06); border-radius: 50%;
+        }
+        .hero::after {
+            content: ''; position: absolute; bottom: -30%; left: -5%;
+            width: 300px; height: 300px;
+            background: rgba(255,255,255,0.04); border-radius: 50%;
+        }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; }
+        .badge {
+            display: inline-block; background: rgba(255,255,255,0.2);
+            padding: 6px 14px; border-radius: 20px; font-size: 12px;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px;
+        }
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(28px, 5vw, 48px); font-weight: 700;
+            margin-bottom: 16px; line-height: 1.2;
+        }
+        .hero p { color: rgba(255,255,255,0.9); font-size: 16px; margin-top: 16px; max-width: 700px; margin-left: auto; margin-right: auto; }
+        .hero-meta {
+            display: flex; gap: 24px; justify-content: center;
+            flex-wrap: wrap; margin-top: 20px; font-size: 14px; opacity: 0.95;
+        }
+        .hero-meta span { display: flex; align-items: center; gap: 6px; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        .toc {
+            background: white; border-left: 4px solid var(--info);
+            padding: 24px; border-radius: 8px; margin-bottom: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .toc h2 { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 600; margin-bottom: 16px; color: var(--info); }
+        .toc ol { list-style: none; counter-reset: item; }
+        .toc li { counter-increment: item; margin-bottom: 10px; }
+        .toc li:before {
+            content: counter(item); background: var(--info); color: white;
+            border-radius: 50%; width: 24px; height: 24px;
+            display: inline-flex; align-items: center; justify-content: center;
+            margin-right: 10px; font-size: 12px; font-weight: 600;
+        }
+        .toc a { color: var(--info); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+        .toc a:hover { color: #1D4ED8; }
+        section { margin-bottom: 50px; }
+        .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .section-icon {
+            font-size: 24px; width: 44px; height: 44px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 10px; color: white; flex-shrink: 0;
+        }
+        h2 { font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700; color: #111827; }
+        h3 { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: #111827; margin-top: 24px; margin-bottom: 12px; }
+        p { line-height: 1.7; margin-bottom: 16px; font-size: 15px; }
+        strong { color: var(--primary); font-weight: 600; }
+        .callout { padding: 16px; border-left: 4px solid; border-radius: 4px; margin: 20px 0; }
+        .callout.highlight { border-color: var(--primary); background: linear-gradient(135deg, rgba(108,58,237,0.08) 0%, rgba(108,58,237,0.02) 100%); }
+        .callout.tip { border-color: var(--success); background: linear-gradient(135deg, rgba(16,185,129,0.08) 0%, rgba(16,185,129,0.02) 100%); }
+        .callout.warning { border-color: var(--danger); background: linear-gradient(135deg, rgba(239,68,68,0.08) 0%, rgba(239,68,68,0.02) 100%); }
+        .callout.info { border-color: var(--info); background: linear-gradient(135deg, rgba(59,130,246,0.08) 0%, rgba(59,130,246,0.02) 100%); }
+        .callout.amber { border-color: var(--accent); background: linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(245,158,11,0.02) 100%); }
+        .callout strong { font-weight: 600; }
+        .callout p { margin-bottom: 0; }
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        th { background: var(--info); color: white; padding: 12px 16px; text-align: left; font-weight: 600; font-size: 14px; }
+        td { padding: 12px 16px; border-top: 1px solid #E5E7EB; font-size: 14px; }
+        tr:nth-child(even) { background: #F9FAFB; }
+        tr:hover { background: #EFF6FF; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 24px 0; }
+        .card {
+            background: white; border-radius: 10px; padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-top: 3px solid var(--info);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .card-icon { font-size: 32px; margin-bottom: 12px; }
+        .card h4 { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; color: #1E3A5F; margin-bottom: 8px; }
+        .card p { font-size: 13px; color: #6B7280; margin-bottom: 0; line-height: 1.5; }
+        details { margin: 20px 0; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; background: white; }
+        summary { padding: 16px; cursor: pointer; font-weight: 600; color: var(--info); user-select: none; }
+        summary::before { content: '▶'; margin-right: 12px; transition: transform 0.2s; display: inline-block; }
+        details[open] summary::before { transform: rotate(90deg); }
+        details[open] summary { background: #F9FAFB; border-bottom: 1px solid #E5E7EB; }
+        details > div, details > p { padding: 16px; }
+        .timeline { position: relative; margin: 30px 0; padding-left: 40px; }
+        .timeline::before { content: ''; position: absolute; left: 16px; top: 0; bottom: 0; width: 3px; background: linear-gradient(to bottom, #3B82F6, #6C3AED, #10B981, #F59E0B); border-radius: 2px; }
+        .timeline-item { position: relative; margin-bottom: 30px; }
+        .timeline-dot { position: absolute; left: -32px; top: 4px; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 0 2px; }
+        .timeline-content { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .timeline-content h4 { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+        .timeline-content p { font-size: 14px; margin-bottom: 0; }
+        .example-box { background: #F0F9FF; border: 1px solid #BAE6FD; border-radius: 8px; padding: 20px; margin: 20px 0; }
+        .example-box h4 { color: #0369A1; font-family: 'Space Grotesk', sans-serif; font-size: 16px; margin-bottom: 12px; }
+        .example-box p { font-size: 14px; margin-bottom: 8px; }
+        .example-box .dialogue { font-style: italic; color: #374151; padding-left: 16px; border-left: 3px solid #93C5FD; margin: 8px 0; }
+        .quiz { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 40px; }
+        .quiz h3 { margin-top: 0; }
+        .quiz-question { margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid #E5E7EB; }
+        .quiz-question:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .question-text { font-weight: 600; margin-bottom: 12px; color: #111827; }
+        .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+        .quiz-option { display: flex; align-items: flex-start; gap: 10px; }
+        .quiz-option input[type="radio"] { margin-top: 4px; cursor: pointer; accent-color: var(--info); }
+        .quiz-option label { cursor: pointer; flex: 1; font-size: 14px; }
+        .quiz-feedback { margin-top: 12px; padding: 10px; border-radius: 4px; font-size: 13px; display: none; }
+        .quiz-feedback.show { display: block; }
+        .quiz-feedback.correct { background: rgba(16,185,129,0.1); color: #059669; border-left: 3px solid var(--success); }
+        .quiz-feedback.incorrect { background: rgba(239,68,68,0.1); color: #DC2626; border-left: 3px solid var(--danger); }
+        .btn-submit-quiz {
+            background: var(--info); color: white; border: none;
+            padding: 12px 24px; border-radius: 6px; font-weight: 600;
+            cursor: pointer; font-size: 14px; transition: background 0.2s; margin-top: 20px;
+        }
+        .btn-submit-quiz:hover { background: #1D4ED8; }
+        footer { background: #1F2937; color: white; padding: 40px 20px; text-align: center; margin-top: 60px; }
+        .footer-content { max-width: 900px; margin: 0 auto; }
+        .logo { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700; color: var(--info); margin-bottom: 12px; }
+        .footer-text { font-size: 13px; opacity: 0.8; margin-bottom: 8px; }
+        @media print {
+            .progress-bar, .hero::before, .hero::after { display: none; }
+            .hero { background: #2563EB !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+        @media (max-width: 768px) {
+            .hero { padding: 40px 20px; }
+            .hero h1 { font-size: 28px; }
+            .hero-meta { flex-direction: column; gap: 12px; }
+            h2 { font-size: 22px; }
+            h3 { font-size: 18px; }
+            .section-header { flex-direction: column; align-items: flex-start; }
+            .quiz { padding: 20px; }
+            .cards-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="hero">
+        <div class="hero-content">
+            <span class="badge">Prospection & Vente</span>
+            <h1>La Méthode SPIN</h1>
+            <p>Maîtriser la technique de vente utilisée par les meilleurs vendeurs du monde, adaptée à l'industrie musicale : booking, négociation avec les diffuseurs, programmateurs et partenaires.</p>
+            <div class="hero-meta">
+                <span>👤 Formateur : Tarik Hamiche</span>
+                <span>🎓 Producteur à Succès</span>
+                <span>⏱️ ~45 min</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="toc">
+            <h2>📑 Sommaire</h2>
+            <ol>
+                <li><a href="#s1">Origine de la méthode SPIN</a></li>
+                <li><a href="#s2">Les 4 phases d'un appel de prospection</a></li>
+                <li><a href="#s3">S.P.I.N. — Les 4 types de questions</a></li>
+                <li><a href="#s4">Besoin implicite vs besoin explicite</a></li>
+                <li><a href="#s5">La balance coût / problème</a></li>
+                <li><a href="#s6">Mise en pratique : exemples concrets</a></li>
+                <li><a href="#s7">Préparer ses appels avec la matrice SPIN</a></li>
+                <li><a href="#quiz">Test de compréhension</a></li>
+            </ol>
+        </div>
+
+        <!-- Section 1 -->
+        <section id="s1">
+            <div class="section-header">
+                <div class="section-icon" style="background: #1E3A5F;">📚</div>
+                <h2>Origine de la méthode SPIN</h2>
+            </div>
+            <p>La méthode SPIN a été développée par <strong>Neil Rackham</strong>, un universitaire et chercheur américain qui a consacré une grande partie de sa carrière à étudier les meilleurs vendeurs du monde. Sa question fondatrice : pourquoi certains vendeurs réalisent des résultats exceptionnels alors que d'autres, avec la même formation et la même expérience, restent dans la moyenne ?</p>
+            <p>Pour y répondre, Rackham a enregistré et analysé <strong>des millions d'appels téléphoniques</strong> de prospection et de vente. Il en a extrait un modèle commun aux top performers : la méthode SPIN.</p>
+
+            <div class="callout info">
+                <strong>Le saviez-vous ?</strong> SPIN est un acronyme pour <strong>Situation, Problem, Implication, Need-payoff</strong>. Chaque lettre correspond à un type de question à poser dans un ordre précis pour guider naturellement le prospect vers l'achat.
+            </div>
+
+            <p>Le constat de Rackham est clair : les meilleurs vendeurs ne sont pas ceux qui parlent le plus. Ce sont ceux qui <strong>posent les bonnes questions</strong> dans le bon ordre. La clé de la vente, ce n'est pas de convaincre, c'est d'amener le prospect à se convaincre lui-même.</p>
+        </section>
+
+        <!-- Section 2 -->
+        <section id="s2">
+            <div class="section-header">
+                <div class="section-icon" style="background: var(--info);">📞</div>
+                <h2>Les 4 phases d'un appel de prospection</h2>
+            </div>
+            <p>Avant de détailler la méthode SPIN elle-même, il faut comprendre la <strong>structure d'un appel de prospection réussi</strong>. Tout appel suit quatre phases distinctes :</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot" style="background: #3B82F6; box-shadow: 0 0 0 2px #3B82F6;"></div>
+                    <div class="timeline-content">
+                        <h4>Phase 1 — Les préliminaires</h4>
+                        <p>L'introduction : vous vous présentez, vous établissez le contact. Cette phase est courte et se passe à peu près toujours de la même manière. L'objectif est d'être professionnel et chaleureux.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot" style="background: #6C3AED; box-shadow: 0 0 0 2px #6C3AED;"></div>
+                    <div class="timeline-content">
+                        <h4>Phase 2 — Investigation (le cœur de SPIN)</h4>
+                        <p>C'est LA phase décisive. C'est ici que vous posez les questions SPIN pour comprendre la situation du prospect, identifier ses problèmes, amplifier les implications et l'amener à formuler ses besoins. <strong>C'est cette phase qui fait toute la différence.</strong></p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot" style="background: #10B981; box-shadow: 0 0 0 2px #10B981;"></div>
+                    <div class="timeline-content">
+                        <h4>Phase 3 — Démontrer l'efficacité</h4>
+                        <p>Une fois que le prospect a identifié et verbalisé son problème, vous présentez votre solution. Cette étape coule naturellement quand la phase 2 a été bien menée.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot" style="background: #F59E0B; box-shadow: 0 0 0 2px #F59E0B;"></div>
+                    <div class="timeline-content">
+                        <h4>Phase 4 — Obtenir un engagement</h4>
+                        <p>La conclusion : obtenir un accord concret. Ce n'est pas forcément une vente immédiate — ça peut être un deuxième rendez-vous, un envoi d'EPK, une écoute. L'important est d'obtenir une action concrète.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="callout highlight">
+                <strong>À retenir :</strong> Si la phase 2 (Investigation) se passe bien, les phases 3 et 4 viennent quasiment toutes seules. C'est pourquoi la méthode SPIN se concentre essentiellement sur l'art de poser les bonnes questions.
+            </div>
+        </section>
+
+        <!-- Section 3 -->
+        <section id="s3">
+            <div class="section-header">
+                <div class="section-icon" style="background: var(--primary);">🔤</div>
+                <h2>S.P.I.N. — Les 4 types de questions</h2>
+            </div>
+            <p>Le cœur de la méthode réside dans <strong>quatre types de questions</strong>, à poser dans cet ordre précis :</p>
+
+            <div class="cards-grid">
+                <div class="card" style="border-top-color: #3B82F6;">
+                    <div class="card-icon">🔵</div>
+                    <h4>S — Situation</h4>
+                    <p>Questions factuelles pour comprendre le contexte du prospect. Courtes et ciblées. Ne pas s'éterniser ici.</p>
+                </div>
+                <div class="card" style="border-top-color: #EF4444;">
+                    <div class="card-icon">🔴</div>
+                    <h4>P — Problème</h4>
+                    <p>Questions pour identifier les difficultés, insatisfactions ou manques du prospect. C'est ici que vous creusez.</p>
+                </div>
+                <div class="card" style="border-top-color: #F59E0B;">
+                    <div class="card-icon">🟡</div>
+                    <h4>I — Implication</h4>
+                    <p>Questions pour amplifier la gravité du problème. Vous aidez le prospect à mesurer les conséquences de ne rien faire.</p>
+                </div>
+                <div class="card" style="border-top-color: #10B981;">
+                    <div class="card-icon">🟢</div>
+                    <h4>N — Need-payoff</h4>
+                    <p>Questions qui amènent le prospect à exprimer lui-même le bénéfice d'une solution. C'est lui qui « vend » à votre place.</p>
+                </div>
+            </div>
+
+            <h3>S — Questions de Situation</h3>
+            <p>Les questions de situation servent à <strong>établir le contexte</strong>. Elles sont factuelles et rapides. L'erreur classique est de rester trop longtemps sur ces questions — le prospect s'ennuie.</p>
+
+            <div class="example-box">
+                <h4>🎯 Exemples dans le music business</h4>
+                <p class="dialogue">"Vous êtes bien le programmateur du festival X ?"</p>
+                <p class="dialogue">"Ça fait combien de temps que vous organisez cet événement ?"</p>
+                <p class="dialogue">"Combien d'artistes programmez-vous par édition ?"</p>
+            </div>
+
+            <h3>P — Questions de Problème</h3>
+            <p>Les questions de problème visent à <strong>faire émerger une difficulté</strong> que le prospect rencontre. C'est le moment où vous commencez à creuser.</p>
+
+            <div class="example-box">
+                <h4>🎯 Exemples dans le music business</h4>
+                <p class="dialogue">"Est-ce que vous avez prévu des premières parties locales ?"</p>
+                <p class="dialogue">"Est-ce que vous trouvez facilement des artistes qui remplissent la salle ?"</p>
+                <p class="dialogue">"Est-ce que vous avez parfois des difficultés à renouveler votre programmation ?"</p>
+            </div>
+
+            <h3>I — Questions d'Implication</h3>
+            <p>C'est la phase la plus puissante. Vous aidez le prospect à <strong>mesurer les conséquences</strong> de son problème. Vous « remuez le couteau dans la plaie » — pas par malveillance, mais pour l'aider à prendre conscience de l'urgence.</p>
+
+            <div class="example-box">
+                <h4>🎯 Exemples dans le music business</h4>
+                <p class="dialogue">"Si votre DJ principal part, est-ce que vous pensez que vous retrouveriez facilement quelqu'un d'aussi bon ?"</p>
+                <p class="dialogue">"Imaginez les pertes sur trois semaines le temps de trouver un remplaçant..."</p>
+                <p class="dialogue">"Quel impact ça aurait sur la réputation de votre salle si pendant un mois le public ne vient plus ?"</p>
+            </div>
+
+            <div class="callout warning">
+                <strong>Attention :</strong> Les questions d'implication doivent être posées avec <strong>empathie</strong>, pas avec agressivité. L'objectif n'est pas de culpabiliser le prospect, mais de l'aider à voir clairement la situation.
+            </div>
+
+            <h3>N — Questions Need-payoff</h3>
+            <p>Les questions need-payoff amènent le prospect à <strong>formuler lui-même le bénéfice</strong> de la solution que vous allez proposer. C'est magique : au lieu de vendre, vous faites en sorte que le prospect se vende la solution à lui-même.</p>
+
+            <div class="example-box">
+                <h4>🎯 Exemples dans le music business</h4>
+                <p class="dialogue">"Si je pouvais vous proposer un artiste qui attire régulièrement 300-400 personnes dans cette tranche d'âge, ça vous intéresserait ?"</p>
+                <p class="dialogue">"Est-ce que ça vous serait utile d'avoir une première partie qui amène son propre public ?"</p>
+                <p class="dialogue">"Si on pouvait résoudre ce problème de remplissage sur vos soirées du jeudi, quel impact ça aurait sur votre chiffre ?"</p>
+            </div>
+        </section>
+
+        <!-- Section 4 -->
+        <section id="s4">
+            <div class="section-header">
+                <div class="section-icon" style="background: #059669;">💡</div>
+                <h2>Besoin implicite vs besoin explicite</h2>
+            </div>
+            <p>Un concept fondamental de la méthode SPIN est la distinction entre <strong>besoin implicite</strong> et <strong>besoin explicite</strong>. Comprendre cette différence change tout dans votre approche commerciale.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Besoin implicite</th>
+                        <th>Besoin explicite</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Le prospect mentionne une insatisfaction ou difficulté <strong>sans la formuler clairement</strong> comme un besoin</td>
+                        <td>Le prospect <strong>exprime clairement</strong> qu'il a besoin d'une solution spécifique</td>
+                    </tr>
+                    <tr>
+                        <td>"C'est vrai que le jeudi, la salle est un peu vide..."</td>
+                        <td>"J'ai besoin d'un artiste qui ramène du monde le jeudi."</td>
+                    </tr>
+                    <tr>
+                        <td>Peu engageant — le prospect peut vivre avec</td>
+                        <td>Très engageant — le prospect cherche activement une solution</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>Le rôle des questions d'<strong>Implication</strong> et de <strong>Need-payoff</strong> est précisément de transformer un besoin implicite en besoin explicite. Quand le prospect passe de « c'est un peu embêtant » à « il faut absolument que je règle ça », vous avez gagné.</p>
+
+            <div class="callout highlight">
+                <strong>À retenir :</strong> Ne présentez jamais votre solution tant que le besoin n'est pas devenu <strong>explicite</strong>. Si vous proposez trop tôt, le prospect n'a pas encore pris conscience de l'urgence et il n'achètera pas.
+            </div>
+        </section>
+
+        <!-- Section 5 -->
+        <section id="s5">
+            <div class="section-header">
+                <div class="section-icon" style="background: var(--accent);">⚖️</div>
+                <h2>La balance coût / problème</h2>
+            </div>
+            <p>Toute décision d'achat se résume à une <strong>balance mentale</strong> que le prospect fait dans sa tête : est-ce que le coût de la solution vaut la gravité de mon problème ?</p>
+
+            <div class="cards-grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="card" style="border-top-color: var(--success); text-align: center;">
+                    <div class="card-icon">✅</div>
+                    <h4>Vente conclue</h4>
+                    <p>Le problème est perçu comme <strong>plus grave</strong> que le coût de la solution. Le prospect achète.</p>
+                </div>
+                <div class="card" style="border-top-color: var(--danger); text-align: center;">
+                    <div class="card-icon">❌</div>
+                    <h4>Pas de vente</h4>
+                    <p>La solution coûte <strong>trop cher</strong> par rapport à la gravité perçue du problème. Le prospect refuse.</p>
+                </div>
+            </div>
+
+            <p>Le rôle des questions d'Implication est justement de <strong>faire monter la gravité perçue</strong> du problème. Plus le prospect réalise que son problème est sérieux, plus il est prêt à investir dans une solution.</p>
+
+            <div class="example-box">
+                <h4>🚗 Exemple hors musique (la voiture)</h4>
+                <p>Votre voiture a une défaillance mineure. Trois garagistes vous disent qu'elle peut encore rouler des milliers de kilomètres. Un garagiste vous propose de la réparer pour 8 000 €.</p>
+                <p><strong>Résultat :</strong> Vous refusez — le problème n'est pas assez grave pour justifier le coût.</p>
+                <p>Mais si un garagiste vous dit : <em>"Cette pièce peut lâcher à tout moment. Si ça arrive sur l'autoroute avec vos enfants à l'arrière, les conséquences peuvent être dramatiques."</em></p>
+                <p><strong>Résultat :</strong> Le problème prend une toute autre dimension. Les 8 000 € paraissent soudain raisonnables.</p>
+            </div>
+
+            <div class="callout amber">
+                <strong>Attention :</strong> Il ne s'agit pas de manipuler. Il s'agit d'aider le prospect à prendre conscience de la <strong>réalité</strong> de son problème. Si le problème est réellement grave, vous lui rendez service en l'aidant à le voir.
+            </div>
+        </section>
+
+        <!-- Section 6 -->
+        <section id="s6">
+            <div class="section-header">
+                <div class="section-icon" style="background: #7C3AED;">🎯</div>
+                <h2>Mise en pratique : exemples concrets</h2>
+            </div>
+            <p>Voyons comment appliquer la méthode SPIN dans un cas concret du music business : <strong>vous appelez le gérant d'une salle de concert pour placer votre artiste</strong>.</p>
+
+            <h3>Scénario : placer un DJ dans une salle</h3>
+
+            <div class="example-box">
+                <h4>🔵 S — Situation</h4>
+                <p class="dialogue">"Bonjour, je m'appelle [votre nom], je suis producteur chez [votre label]. Vous êtes bien le programmateur de la salle X ? Ça fait combien de temps que vous organisez des soirées ici ?"</p>
+                <p><em>Objectif : établir le contact, comprendre le contexte. Deux ou trois questions maximum.</em></p>
+            </div>
+
+            <div class="example-box">
+                <h4>🔴 P — Problème</h4>
+                <p class="dialogue">"Est-ce que vous avez des soirs dans la semaine où la salle est un peu moins remplie que d'habitude ?"</p>
+                <p class="dialogue">"Est-ce qu'il y a des styles musicaux que vous aimeriez proposer mais pour lesquels vous ne trouvez pas les bons artistes ?"</p>
+                <p><em>Objectif : faire émerger une insatisfaction. Si le prospect dit « oui, le jeudi c'est compliqué », vous avez votre accroche.</em></p>
+            </div>
+
+            <div class="example-box">
+                <h4>🟡 I — Implication</h4>
+                <p class="dialogue">"Et sur ces soirées du jeudi, ça représente combien de perte par rapport à une bonne soirée ?"</p>
+                <p class="dialogue">"Si ça continue comme ça, est-ce que vous pensez que votre DJ actuel va rester motivé ?"</p>
+                <p class="dialogue">"Imaginez qu'il parte — combien de temps ça vous prendrait pour trouver quelqu'un d'aussi bon ?"</p>
+                <p><em>Objectif : amplifier le problème. Le prospect réalise que « c'est un peu vide le jeudi » est en fait un problème sérieux.</em></p>
+            </div>
+
+            <div class="example-box">
+                <h4>🟢 N — Need-payoff</h4>
+                <p class="dialogue">"Si je pouvais vous proposer un artiste qui attire régulièrement 300-400 personnes sur cette tranche d'âge, est-ce que ça vous intéresserait ?"</p>
+                <p class="dialogue">"Et si en plus il amenait son propre public, ça changerait quoi pour vous ?"</p>
+                <p><em>Objectif : le prospect verbalise lui-même le bénéfice. C'est lui qui dit « oui, ça me changerait la vie ». La vente est quasiment faite.</em></p>
+            </div>
+
+            <div class="callout tip">
+                <strong>Astuce :</strong> Le secret des meilleurs vendeurs, c'est de poser plus de questions et de parler moins. Si vous parlez plus de 40% du temps lors d'un appel, vous parlez trop.
+            </div>
+        </section>
+
+        <!-- Section 7 -->
+        <section id="s7">
+            <div class="section-header">
+                <div class="section-icon" style="background: #059669;">📝</div>
+                <h2>Préparer ses appels avec la matrice SPIN</h2>
+            </div>
+            <p>Avant chaque session de prospection, préparez-vous en remplissant une <strong>matrice SPIN</strong>. C'est un exercice simple mais redoutablement efficace.</p>
+
+            <h3>La méthode en 3 étapes</h3>
+            <ol style="margin-left: 20px; margin-bottom: 16px; line-height: 2.2;">
+                <li><strong>Listez 3 problèmes potentiels</strong> que votre prospect pourrait avoir (salle vide, difficulté de programmation, manque de renouvellement, etc.)</li>
+                <li><strong>Pour chaque problème, notez 3 conséquences désastreuses</strong> si le problème n'est pas résolu (perte de CA, départ du DJ, mauvaise réputation, etc.)</li>
+                <li><strong>Pour chaque conséquence, rédigez une question d'implication</strong> qui amènera le prospect à en parler lui-même</li>
+            </ol>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Problème identifié</th>
+                        <th>Conséquences possibles</th>
+                        <th>Question d'implication</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Salle à moitié vide le jeudi</td>
+                        <td>Perte de chiffre d'affaires hebdomadaire</td>
+                        <td>"Ça représente combien de manque à gagner par mois ?"</td>
+                    </tr>
+                    <tr>
+                        <td>Salle à moitié vide le jeudi</td>
+                        <td>Le DJ vedette risque de partir</td>
+                        <td>"S'il part, combien de temps pour trouver un remplaçant ?"</td>
+                    </tr>
+                    <tr>
+                        <td>Salle à moitié vide le jeudi</td>
+                        <td>Réputation en baisse dans le quartier</td>
+                        <td>"Quel impact sur votre image si ça dure encore 2-3 mois ?"</td>
+                    </tr>
+                    <tr>
+                        <td>Programmation pas renouvelée</td>
+                        <td>Public habitué qui se lasse</td>
+                        <td>"Est-ce que vos réguliers commencent à venir moins souvent ?"</td>
+                    </tr>
+                    <tr>
+                        <td>Programmation pas renouvelée</td>
+                        <td>Pas d'attraction pour un nouveau public</td>
+                        <td>"Comment vous attirez de nouveaux clients actuellement ?"</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout highlight">
+                <strong>À retenir :</strong> La préparation, c'est <strong>80% du succès</strong> d'un appel de prospection. Un appel préparé avec la matrice SPIN sera infiniment plus efficace qu'un appel improvisé. Préparez vos questions AVANT de décrocher le téléphone.
+            </div>
+
+            <details>
+                <summary>💡 Combien de questions préparer ?</summary>
+                <div>
+                    <p>Préparez au minimum <strong>3 problèmes potentiels</strong> avec <strong>3 conséquences chacun</strong>, soit environ 9 questions d'implication prêtes à l'emploi. Vous n'utiliserez pas toutes ces questions à chaque appel, mais vous serez prêt à rebondir quelle que soit la direction de la conversation.</p>
+                </div>
+            </details>
+        </section>
+
+        <!-- Quiz -->
+        <section id="quiz">
+            <div class="quiz">
+                <h3>✅ Test de compréhension</h3>
+                <p>Vérifiez votre maîtrise de la méthode SPIN :</p>
+
+                <form id="quizForm">
+                    <div class="quiz-question">
+                        <div class="question-text">1. Que signifie l'acronyme SPIN ?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option"><input type="radio" id="q1a" name="q1" value="a"><label for="q1a">Stratégie, Plan, Innovation, Négociation</label></div>
+                            <div class="quiz-option"><input type="radio" id="q1b" name="q1" value="b"><label for="q1b">Situation, Problem, Implication, Need-payoff</label></div>
+                            <div class="quiz-option"><input type="radio" id="q1c" name="q1" value="c"><label for="q1c">Selling, Positioning, Influencing, Networking</label></div>
+                            <div class="quiz-option"><input type="radio" id="q1d" name="q1" value="d"><label for="q1d">Solution, Persuasion, Impact, Négociation</label></div>
+                        </div>
+                        <div class="quiz-feedback q1-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <div class="question-text">2. Quelle est la phase la plus importante d'un appel de prospection ?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option"><input type="radio" id="q2a" name="q2" value="a"><label for="q2a">Les préliminaires (se présenter)</label></div>
+                            <div class="quiz-option"><input type="radio" id="q2b" name="q2" value="b"><label for="q2b">L'investigation (poser les questions SPIN)</label></div>
+                            <div class="quiz-option"><input type="radio" id="q2c" name="q2" value="c"><label for="q2c">La démonstration d'efficacité</label></div>
+                            <div class="quiz-option"><input type="radio" id="q2d" name="q2" value="d"><label for="q2d">L'obtention de l'engagement</label></div>
+                        </div>
+                        <div class="quiz-feedback q2-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <div class="question-text">3. Quel est le rôle des questions d'Implication ?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option"><input type="radio" id="q3a" name="q3" value="a"><label for="q3a">Établir le contexte du prospect</label></div>
+                            <div class="quiz-option"><input type="radio" id="q3b" name="q3" value="b"><label for="q3b">Proposer directement votre solution</label></div>
+                            <div class="quiz-option"><input type="radio" id="q3c" name="q3" value="c"><label for="q3c">Amplifier la gravité du problème en explorant ses conséquences</label></div>
+                            <div class="quiz-option"><input type="radio" id="q3d" name="q3" value="d"><label for="q3d">Conclure la vente</label></div>
+                        </div>
+                        <div class="quiz-feedback q3-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <div class="question-text">4. Qu'est-ce qu'un besoin explicite ?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option"><input type="radio" id="q4a" name="q4" value="a"><label for="q4a">Un besoin que le vendeur impose au prospect</label></div>
+                            <div class="quiz-option"><input type="radio" id="q4b" name="q4" value="b"><label for="q4b">Un besoin que le prospect exprime clairement et pour lequel il cherche activement une solution</label></div>
+                            <div class="quiz-option"><input type="radio" id="q4c" name="q4" value="c"><label for="q4c">Un besoin caché dont le prospect n'a pas conscience</label></div>
+                            <div class="quiz-option"><input type="radio" id="q4d" name="q4" value="d"><label for="q4d">Un besoin inventé pour justifier l'achat</label></div>
+                        </div>
+                        <div class="quiz-feedback q4-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <div class="question-text">5. Combien de problèmes potentiels faut-il préparer minimum avant un appel ?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option"><input type="radio" id="q5a" name="q5" value="a"><label for="q5a">1 problème suffit</label></div>
+                            <div class="quiz-option"><input type="radio" id="q5b" name="q5" value="b"><label for="q5b">3 problèmes avec 3 conséquences chacun</label></div>
+                            <div class="quiz-option"><input type="radio" id="q5c" name="q5" value="c"><label for="q5c">10 problèmes minimum</label></div>
+                            <div class="quiz-option"><input type="radio" id="q5d" name="q5" value="d"><label for="q5d">Pas besoin de préparer, il faut improviser</label></div>
+                        </div>
+                        <div class="quiz-feedback q5-feedback"></div>
+                    </div>
+
+                    <button type="button" class="btn-submit-quiz" onclick="checkQuiz()">Vérifier mes réponses</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="logo">🎵 Producteur à Succès</div>
+            <p class="footer-text">Formation professionnelle en gestion de carrière musicale</p>
+            <p class="footer-text">© 2025 Tarik Hamiche — Tous droits réservés</p>
+        </div>
+    </footer>
+
+    <script>
+        function updateProgressBar() {
+            var winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+            document.getElementById('progressBar').style.transform = 'scaleX(' + (scrolled / 100) + ')';
+        }
+        window.addEventListener('scroll', updateProgressBar);
+
+        document.querySelectorAll('.toc a').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) { target.scrollIntoView({ behavior: 'smooth' }); }
+            });
+        });
+
+        var quizAnswers = { q1: 'b', q2: 'b', q3: 'c', q4: 'b', q5: 'b' };
+        var feedbackMessages = {
+            q1: { correct: '✓ Exact ! SPIN = Situation, Problem, Implication, Need-payoff.', incorrect: '✗ Incorrect. SPIN signifie Situation, Problem, Implication, Need-payoff.' },
+            q2: { correct: '✓ Correct ! L\'investigation est le cœur de la méthode — c\'est là que tout se joue.', incorrect: '✗ Incorrect. La phase d\'investigation (poser les questions SPIN) est la plus déterminante.' },
+            q3: { correct: '✓ Parfait ! Les questions d\'implication amplifient la gravité perçue du problème.', incorrect: '✗ Incorrect. Les questions d\'implication servent à amplifier les conséquences du problème.' },
+            q4: { correct: '✓ Excellent ! Un besoin explicite est un besoin clairement exprimé par le prospect.', incorrect: '✗ Incorrect. Un besoin explicite est un besoin que le prospect formule lui-même clairement.' },
+            q5: { correct: '✓ Juste ! 3 problèmes × 3 conséquences = 9 questions d\'implication prêtes à l\'emploi.', incorrect: '✗ Incorrect. Il faut préparer au minimum 3 problèmes avec 3 conséquences chacun.' }
+        };
+
+        function checkQuiz() {
+            var allAnswered = true;
+            var score = 0;
+            for (var i = 1; i <= 5; i++) {
+                var selected = document.querySelector('input[name="q' + i + '"]:checked');
+                if (!selected) { allAnswered = false; continue; }
+                var feedback = document.querySelector('.q' + i + '-feedback');
+                var isCorrect = selected.value === quizAnswers['q' + i];
+                if (isCorrect) {
+                    score++;
+                    feedback.className = 'quiz-feedback q' + i + '-feedback show correct';
+                    feedback.textContent = feedbackMessages['q' + i].correct;
+                } else {
+                    feedback.className = 'quiz-feedback q' + i + '-feedback show incorrect';
+                    feedback.textContent = feedbackMessages['q' + i].incorrect;
+                }
+            }
+            if (!allAnswered) { alert('Veuillez répondre à toutes les questions avant de vérifier.'); return; }
+            document.querySelector('.quiz').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

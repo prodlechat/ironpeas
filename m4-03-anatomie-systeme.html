@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Anatomie d'un Système d'Acquisition de Fans - Module 4</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C3AED;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --bg-light: #F9FAFB;
+            --border: #E5E7EB;
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            background-color: #FFFFFF;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #A78BFA 0%, var(--primary) 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .header-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+            margin-bottom: 20px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .metadata {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 0.9em;
+            opacity: 0.85;
+            margin-top: 20px;
+        }
+
+        .metadata-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav {
+            background: white;
+            padding: 20px;
+            border-bottom: 2px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            overflow-x: auto;
+        }
+
+        nav ul {
+            list-style: none;
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            gap: 10px;
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            padding: 8px 12px;
+            color: var(--text-dark);
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.3s;
+            font-size: 0.9em;
+            white-space: nowrap;
+        }
+
+        nav button:hover {
+            color: var(--primary);
+        }
+
+        nav button.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            scroll-margin-top: 80px;
+        }
+
+        .section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2em;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+            color: var(--text-dark);
+        }
+
+        .section h3 {
+            font-size: 1.4em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .section-intro {
+            font-size: 1.1em;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .section ul, .section ol {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        .section li {
+            margin-bottom: 12px;
+            line-height: 1.8;
+        }
+
+        .callout {
+            border-left: 5px solid;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+            background-color: var(--bg-light);
+        }
+
+        .callout.important {
+            border-left-color: var(--primary);
+            background-color: rgba(108, 58, 237, 0.08);
+        }
+
+        .callout.tip {
+            border-left-color: var(--success);
+            background-color: rgba(16, 185, 129, 0.08);
+        }
+
+        .callout.warning {
+            border-left-color: var(--danger);
+            background-color: rgba(239, 68, 68, 0.08);
+        }
+
+        .callout.info {
+            border-left-color: var(--info);
+            background-color: rgba(59, 130, 246, 0.08);
+        }
+
+        .callout-title {
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .callout.important .callout-title {
+            color: var(--primary);
+        }
+
+        .callout.tip .callout-title {
+            color: var(--success);
+        }
+
+        .callout.warning .callout-title {
+            color: var(--danger);
+        }
+
+        .callout.info .callout-title {
+            color: var(--info);
+        }
+
+        .callout p {
+            margin: 0;
+            font-size: 0.95em;
+            color: var(--text-light);
+        }
+
+        .flow-diagram {
+            background: linear-gradient(135deg, #F9FAFB, #F3F4F6);
+            padding: 30px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border: 2px solid var(--border);
+            text-align: center;
+        }
+
+        .flow-step {
+            display: inline-block;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            border: 2px solid var(--primary);
+            margin: 10px;
+            font-weight: 600;
+            color: var(--primary);
+            min-width: 150px;
+        }
+
+        .flow-arrow {
+            display: inline-block;
+            margin: 0 10px;
+            color: var(--primary);
+            font-size: 1.5em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--primary), #8B5CF6);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: var(--bg-light);
+        }
+
+        details {
+            margin: 15px 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        summary {
+            padding: 15px;
+            cursor: pointer;
+            background-color: var(--bg-light);
+            font-weight: 600;
+            user-select: none;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        summary:hover {
+            background-color: #F3F4F6;
+        }
+
+        summary::marker {
+            color: var(--primary);
+        }
+
+        details[open] summary {
+            background-color: rgba(108, 58, 237, 0.05);
+        }
+
+        details-content {
+            padding: 20px;
+        }
+
+        .quiz {
+            background: linear-gradient(135deg, #F9FAFB, #F3F4F6);
+            padding: 40px;
+            border-radius: 12px;
+            margin: 40px 0;
+        }
+
+        .quiz h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            color: var(--primary);
+        }
+
+        .quiz-question {
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .quiz-question p {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .quiz-option label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .quiz-feedback {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            display: none;
+            font-size: 0.9em;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #047857;
+            border-left: 3px solid var(--success);
+        }
+
+        .quiz-feedback.incorrect {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #991B1B;
+            border-left: 3px solid var(--danger);
+        }
+
+        .submit-quiz {
+            background: linear-gradient(135deg, var(--primary), #8B5CF6);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+
+        .submit-quiz:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 58, 237, 0.3);
+        }
+
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 40px 20px;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        footer p {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .section h2 {
+                font-size: 1.5em;
+            }
+
+            nav ul {
+                gap: 5px;
+            }
+
+            nav button {
+                padding: 8px 8px;
+                font-size: 0.8em;
+            }
+
+            main {
+                padding: 20px 15px;
+            }
+
+            .flow-step {
+                min-width: 120px;
+                padding: 12px 15px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <header class="header">
+        <div class="header-container">
+            <div class="badge">Module 4 • Anatomie du Système</div>
+            <h1>L'Anatomie d'un Système d'Acquisition de Fans</h1>
+            <p>Décortiquez les fondations théoriques d'un système d'acquisition performant. Comprenez chaque élément, son rôle, et comment ils s'articulent ensemble pour créer un moteur de croissance de fanbase durable.</p>
+            <div class="metadata">
+                <div class="metadata-item">
+                    <span>👨‍🏫 Formateur:</span>
+                    <strong>Tarik Hamiche</strong>
+                </div>
+                <div class="metadata-item">
+                    <span>🎓 Organisme:</span>
+                    <strong>Producteur à Succès</strong>
+                </div>
+                <div class="metadata-item">
+                    <span>📚 Module:</span>
+                    <strong>4</strong>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <ul id="navList">
+            <button onclick="scrollToSection('overview')">Vue d'ensemble</button>
+            <button onclick="scrollToSection('foundations')">Les Fondations</button>
+            <button onclick="scrollToSection('components')">Les Composants</button>
+            <button onclick="scrollToSection('flow')">Le Flux</button>
+            <button onclick="scrollToSection('mistakes')">Erreurs Courantes</button>
+            <button onclick="scrollToSection('quiz')">Quiz</button>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Section 1: Overview -->
+        <section id="overview" class="section">
+            <h2>🏗️ Vue d'Ensemble du Système</h2>
+            <p class="section-intro">Comprendre la structure complète d'un système d'acquisition efficace</p>
+
+            <p>Un système d'acquisition de fans ne fonctionne pas au hasard. C'est une structure organisée, pensée et construite méthodiquement. Cette vidéo vous propose de "décortiquer littéralement" l'anatomie d'un système d'acquisition en trois temps.</p>
+
+            <p>D'abord, nous verrons comment théoriquement ce système fonctionne. Ensuite, dans la vidéo suivante, nous l'appliquerons concrètement avec Leadbox. Enfin, nous ferons une formation complète sur comment utiliser l'outil.</p>
+
+            <div class="callout important">
+                <div class="callout-title">📌 Concept Fondamental</div>
+                <p>Un système d'acquisition n'est pas magique. C'est une mécanique simple mais puissante quand elle est bien construite et exécutée. L'important est de comprendre comment les pièces s'assemblent pour créer un moteur de croissance.</p>
+            </div>
+
+            <div class="flow-diagram">
+                <p style="margin-bottom: 20px; font-weight: 600; color: var(--primary);">Le Flux d'un Système d'Acquisition</p>
+                <div style="margin: 20px 0;">
+                    <div class="flow-step">Discovery</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">Lead Magnet</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">Email</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">Fan</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Foundations -->
+        <section id="foundations" class="section">
+            <h2>🎯 Les Fondations du Système</h2>
+            <p class="section-intro">Les principes de base qui rendent un système efficace</p>
+
+            <h3>1. La Loi de l'Échange</h3>
+            <p>Le système fonctionne sur un principe fondamental: l'échange de valeur. Vous offrez quelque chose d'utile, et en retour, les gens vous donnent leurs coordonnées (et surtout, leur attention).</p>
+
+            <p>C'est un contrat simple et honnête. Pas de manipulation, pas de tromperie. Juste une proposition claire: "Je vous offre ceci, et en échange, vous me donnez cela."</p>
+
+            <h3>2. L'Importance de la Pertinence</h3>
+            <p>Tout ce que vous offrez doit être pertinent pour votre audience cible. Si vous êtes producteur de musique électronique et vous offrez un guide sur la musique classique, ce n'est pas pertinent.</p>
+
+            <p>La pertinence crée la qualification automatique. Plus votre offre est alignée avec vos fans cibles, plus ils seront intéressés et engagés.</p>
+
+            <h3>3. L'Autorité et la Crédibilité</h3>
+            <p>Pour que les gens acceptent votre proposition, ils doivent vous percevoir comme ayant de l'autorité et de la crédibilité dans votre domaine.</p>
+
+            <p>C'est pourquoi la qualité de ce que vous offrez est si importante. Un lead magnet bien produit dit: "Je sais de quoi je parle".</p>
+
+            <div class="callout tip">
+                <div class="callout-title">✅ À Retenir</div>
+                <p>Les trois fondations - l'échange, la pertinence et l'autorité - doivent toutes être présentes pour qu'un système fonctionne vraiment bien. Si une manque, l'efficacité baisse drastiquement.</p>
+            </div>
+        </section>
+
+        <!-- Section 3: Components -->
+        <section id="components" class="section">
+            <h2>🔧 Les Composants du Système</h2>
+            <p class="section-intro">Chaque élément qui compose un système d'acquisition complet</p>
+
+            <h3>1. Le Point de Discovery</h3>
+            <p>C'est là où vos fans potentiels vous découvrent pour la première fois. Cela pourrait être:</p>
+            <ul>
+                <li>Votre profil Instagram</li>
+                <li>Un article de blog</li>
+                <li>Une vidéo YouTube</li>
+                <li>Une playlist Spotify</li>
+                <li>Une annonce publicitaire</li>
+                <li>Une recommandation d'ami</li>
+            </ul>
+
+            <p>Le point de discovery n'a pas besoin d'être parfait. Il a juste besoin de créer assez de curiosité pour que la personne veuille en savoir plus.</p>
+
+            <h3>2. Le Lead Magnet</h3>
+            <p>C'est votre appât - quelque chose de valeur que vous offrez gratuitement. C'est généralement:</p>
+            <ul>
+                <li>Un guide PDF</li>
+                <li>Des ressources musicales (templates, presets)</li>
+                <li>Une vidéo d'apprentissage</li>
+                <li>Un accès exclusif</li>
+            </ul>
+
+            <p>Le lead magnet doit être attrayant, utile, et créer une première impression positive de vous et de votre marque.</p>
+
+            <h3>3. Le Formulaire de Capture</h3>
+            <p>C'est le mécanisme qui capture les informations de contact. Il doit être:</p>
+            <ul>
+                <li>Simple (pas trop de champs)</li>
+                <li>Clair (précis sur ce qu'on demande)</li>
+                <li>Attractif (bien conçu visuellement)</li>
+                <li>Efficace (conversion élevée)</li>
+            </ul>
+
+            <h3>4. La Séquence d'Emails</h3>
+            <p>Une fois que quelqu'un a donné ses informations, vous commencez une conversation par email. Cette séquence doit:</p>
+            <ul>
+                <li>Livrer immédiatement ce qui a été promis</li>
+                <li>Construire une relation</li>
+                <li>Démontrer votre expertise</li>
+                <li>Créer de l'engouement pour votre musique</li>
+            </ul>
+
+            <h3>5. La Conversion en Fan</h3>
+            <p>Le système doit finalement transformer ces contacts en fans réels - gens qui écoutent votre musique, vont à vos concerts, achètent vos produits, partagent votre contenu.</p>
+
+            <div class="callout info">
+                <div class="callout-title">💡 À Savoir</div>
+                <p>Chaque composant est important. Si l'un d'entre eux manque ou est mal exécuté, tout le système en souffre. C'est pourquoi il faut être méticuleusement attentif à chaque détail.</p>
+            </div>
+
+            <details>
+                <summary><strong>🔍 En Détail: Ce Qui Rend Chaque Composant Efficace</strong></summary>
+                <div class="details-content">
+                    <p><strong>Point de Discovery:</strong> Doit créer de la curiosité sans être trop agressif. Soyez authentique.</p>
+                    <p><strong>Lead Magnet:</strong> Doit être tellement bon que les gens se demandent pourquoi vous le donnez gratuitement.</p>
+                    <p><strong>Formulaire:</strong> Doit demander le minimum (prénom + email) pour maximiser les conversions.</p>
+                    <p><strong>Séquence d'Emails:</strong> Doit être pensée comme une conversation, pas comme un bombardement de promotions.</p>
+                    <p><strong>Conversion:</strong> Doit être naturelle - si tout le reste est bon, la conversion suit.</p>
+                </div>
+            </details>
+        </section>
+
+        <!-- Section 4: The Flow -->
+        <section id="flow" class="section">
+            <h2>♻️ Le Flux Complet du Système</h2>
+            <p class="section-intro">Comment les éléments s'articulent pour créer un moteur de croissance</p>
+
+            <h3>Étape 1: Quelqu'un Vous Découvre</h3>
+            <p>Une personne vous découvre par hasard - elle voit une de vos vidéos, entend parler de vous, voit une annonce. À ce stade, elle ne connaît rien sur vous sauf que quelque chose a capté son attention.</p>
+
+            <h3>Étape 2: Elle Voit Votre Lead Magnet</h3>
+            <p>Vous lui présentez votre offre: "Hey, voici quelque chose qui pourrait vraiment t'intéresser. C'est gratuit, et ça va te sauver du temps/t'apprendre quelque chose/te faire économiser de l'argent."</p>
+
+            <h3>Étape 3: Elle Échange Ses Coordonnées</h3>
+            <p>Si votre offre est irrésistible, elle pense: "Pourquoi pas?" et donne son email (et peut-être son prénom).</p>
+
+            <h3>Étape 4: Vous Livrez Immédiatement</h3>
+            <p>Elle reçoit instantanément ce que vous aviez promis. Pas d'attente, pas de complications. Cela crée une première bonne impression.</p>
+
+            <h3>Étape 5: Vous Construisez la Relation</h3>
+            <p>Vous envoyez une séquence d'emails qui:</p>
+            <ul>
+                <li>Offre plus de valeur</li>
+                <li>Montre votre expertise</li>
+                <li>Raconte votre histoire</li>
+                <li>Crée une connexion humaine</li>
+            </ul>
+
+            <h3>Étape 6: Transformation en Fan</h3>
+            <p>Naturellement, après avoir reçu de la valeur et senti une connexion, la personne devient un fan. Elle écoute votre musique, partage vos contenus, achète vos produits.</p>
+
+            <div class="callout warning">
+                <div class="callout-title">⚠️ Point Critique</div>
+                <p>Le système ne fonctionne que s'il y a une "friction" minimale à chaque étape. Si chaque étape est difficile ou confuse, les gens abandonnent. Simplifiez, simplifiez, simplifiez.</p>
+            </div>
+        </section>
+
+        <!-- Section 5: Common Mistakes -->
+        <section id="mistakes" class="section">
+            <h2>❌ Erreurs Courantes à Éviter</h2>
+            <p class="section-intro">Les pièges qui transforment un bon système en mauvais</p>
+
+            <h3>Erreur 1: Comprendre le Système Comme Purement Technique</h3>
+            <p>Beaucoup pensent que c'est juste une question d'outil. Ils achètent Leadbox et s'attendent à ce que ce soit magique. L'outil n'est que le vecteur. C'est votre stratégie et votre contenu qui font la vraie différence.</p>
+
+            <h3>Erreur 2: Offrir une Valeur Insuffisante</h3>
+            <p>Si votre lead magnet n'est pas vraiment bon, les gens ne vont pas convertir. Et même s'ils le font, ils ne seront pas engagés.</p>
+
+            <h3>Erreur 3: Abandoner Après le Lead Magnet</h3>
+            <p>Beaucoup livrent le lead magnet puis disparaissent. Vous devez continuer à fournir de la valeur pour construire une vraie relation.</p>
+
+            <h3>Erreur 4: Demander Trop d'Informations</h3>
+            <p>Plus vous demandez de champs au formulaire, moins de gens vont convertir. Gardez-le simple.</p>
+
+            <h3>Erreur 5: Ne Pas Tester et Optimiser</h3>
+            <p>Le système ne fonctionne pas parfaitement du premier coup. Vous devez mesurer, analyser, et améliorer continuellement.</p>
+
+            <div class="callout tip">
+                <div class="callout-title">✅ La Clé du Succès</div>
+                <p>Le succès vient de la compréhension profonde du système, pas juste de l'utilisation d'un outil. Comprenez pourquoi chaque élément existe, et vous pourrez l'adapter et l'optimiser pour votre contexte unique.</p>
+            </div>
+        </section>
+
+        <!-- Quiz -->
+        <section id="quiz" class="section">
+            <div class="quiz">
+                <h3>📋 Testez Votre Compréhension</h3>
+                <p style="color: var(--text-light); margin-bottom: 25px;">Vérifiez que vous avez bien assimilé les concepts fondamentaux du système d'acquisition.</p>
+
+                <div class="quiz-question">
+                    <p>1. Quel est le principe fondamental qui fait fonctionner un système d'acquisition?</p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">
+                            <input type="radio" id="q1a" name="quiz1" value="a">
+                            <label for="q1a">L'utilisation de la meilleure technologie</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q1b" name="quiz1" value="b">
+                            <label for="q1b">L'échange de valeur entre vous et votre audience</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q1c" name="quiz1" value="c">
+                            <label for="q1c">La manipulation psychologique</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q1d" name="quiz1" value="d">
+                            <label for="q1d">Le hasard et la chance</label>
+                        </div>
+                    </div>
+                    <div class="quiz-feedback" id="feedback1"></div>
+                </div>
+
+                <div class="quiz-question">
+                    <p>2. Les trois fondations du système sont:</p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">
+                            <input type="radio" id="q2a" name="quiz2" value="a">
+                            <label for="q2a">Technologie, Budget, Temps</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q2b" name="quiz2" value="b">
+                            <label for="q2b">Échange, Pertinence, Autorité</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q2c" name="quiz2" value="c">
+                            <label for="q2c">Musique, Marketing, Ventes</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q2d" name="quiz2" value="d">
+                            <label for="q2d">Email, Social Media, Web</label>
+                        </div>
+                    </div>
+                    <div class="quiz-feedback" id="feedback2"></div>
+                </div>
+
+                <div class="quiz-question">
+                    <p>3. Quel est le composant MOINS important d'un système d'acquisition?</p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">
+                            <input type="radio" id="q3a" name="quiz3" value="a">
+                            <label for="q3a">Le point de discovery</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q3b" name="quiz3" value="b">
+                            <label for="q3b">Le lead magnet</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q3c" name="quiz3" value="c">
+                            <label for="q3c">La couleur du formulaire</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q3d" name="quiz3" value="d">
+                            <label for="q3d">La séquence d'emails</label>
+                        </div>
+                    </div>
+                    <div class="quiz-feedback" id="feedback3"></div>
+                </div>
+
+                <div class="quiz-question">
+                    <p>4. Combien d'informations demander au formulaire?</p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">
+                            <input type="radio" id="q4a" name="quiz4" value="a">
+                            <label for="q4a">Seulement l'email</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q4b" name="quiz4" value="b">
+                            <label for="q4b">Prénom + Email</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q4c" name="quiz4" value="c">
+                            <label for="q4c">Maximum d'informations possibles</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q4d" name="quiz4" value="d">
+                            <label for="q4d">Aucune - offrez sans demander</label>
+                        </div>
+                    </div>
+                    <div class="quiz-feedback" id="feedback4"></div>
+                </div>
+
+                <div class="quiz-question">
+                    <p>5. Après avoir livré le lead magnet, vous devez:</p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">
+                            <input type="radio" id="q5a" name="quiz5" value="a">
+                            <label for="q5a">Arrêter et attendre les ventes</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q5b" name="quiz5" value="b">
+                            <label for="q5b">Continuer avec une séquence d'emails de suivi</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q5c" name="quiz5" value="c">
+                            <label for="q5c">Demander une vente immédiatement</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q5d" name="quiz5" value="d">
+                            <label for="q5d">Supprimer les emails inactifs</label>
+                        </div>
+                    </div>
+                    <div class="quiz-feedback" id="feedback5"></div>
+                </div>
+
+                <button class="submit-quiz" onclick="checkQuiz()">Vérifier vos réponses</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <footer-content>
+            <div class="footer-logo">Producteur à Succès</div>
+            <p>Formation Music Business pour Artistes et Producteurs</p>
+            <p>Module 4 • Maîtriser l'Acquisition de Fans</p>
+            <p style="margin-top: 20px; opacity: 0.6;">© 2026 Producteur à Succès. Tous droits réservés.</p>
+        </footer-content>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / scrollHeight) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function checkQuiz() {
+            const answers = {
+                'quiz1': 'b',
+                'quiz2': 'b',
+                'quiz3': 'c',
+                'quiz4': 'b',
+                'quiz5': 'b'
+            };
+
+            let score = 0;
+            for (let i = 1; i <= 5; i++) {
+                const selected = document.querySelector(`input[name="quiz${i}"]:checked`);
+                const feedback = document.getElementById(`feedback${i}`);
+
+                if (selected) {
+                    const isCorrect = selected.value === answers[`quiz${i}`];
+                    feedback.classList.add('show');
+
+                    if (isCorrect) {
+                        feedback.classList.remove('incorrect');
+                        feedback.classList.add('correct');
+                        feedback.textContent = '✅ Correct!';
+                        score++;
+                    } else {
+                        feedback.classList.remove('correct');
+                        feedback.classList.add('incorrect');
+                        feedback.textContent = '❌ Incorrect. Relisez la section correspondante.';
+                    }
+                }
+            }
+
+            alert(`Vous avez obtenu ${score}/5 bonnes réponses!`);
+        }
+    </script>
+</body>
+</html>

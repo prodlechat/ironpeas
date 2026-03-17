@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimiser son système d'acquisition de fans - Module 4</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C3AED;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --gray-900: #111827;
+            --gray-800: #1F2937;
+            --gray-700: #374151;
+            --gray-600: #4B5563;
+            --gray-400: #9CA3AF;
+            --gray-200: #E5E7EB;
+            --gray-50: #F9FAFB;
+        }
+
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--gray-900);
+            background-color: var(--gray-50);
+            line-height: 1.6;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            width: 0%;
+            z-index: 1000;
+            transition: width 0.2s ease;
+        }
+
+        /* Header/Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #7C3AED 100%);
+            color: white;
+            padding: 60px 20px;
+            margin-bottom: 40px;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.1em;
+            opacity: 0.95;
+            margin-bottom: 30px;
+            max-width: 700px;
+        }
+
+        .hero-meta {
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 30px;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .meta-item strong {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        /* Sommaire */
+        .toc {
+            background: white;
+            max-width: 900px;
+            margin: -40px auto 40px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .toc h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            color: var(--gray-900);
+        }
+
+        .toc ol {
+            list-style: none;
+            counter-reset: item;
+        }
+
+        .toc li {
+            counter-increment: item;
+            margin-bottom: 12px;
+        }
+
+        .toc a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .toc a:before {
+            content: counter(item);
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .toc a:hover {
+            color: var(--accent);
+        }
+
+        .toc a:hover:before {
+            background: var(--accent);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+        }
+
+        section {
+            background: white;
+            margin-bottom: 30px;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            color: var(--gray-900);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        section h2 .icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 1.5em;
+        }
+
+        .icon-primary {
+            background: rgba(108, 58, 237, 0.1);
+            color: var(--primary);
+        }
+
+        .icon-accent {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--accent);
+        }
+
+        .icon-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .icon-info {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+        }
+
+        section p {
+            margin-bottom: 20px;
+            color: var(--gray-700);
+            line-height: 1.8;
+        }
+
+        section ul, section ol {
+            margin-left: 24px;
+            margin-bottom: 20px;
+            color: var(--gray-700);
+        }
+
+        section li {
+            margin-bottom: 12px;
+            line-height: 1.8;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            padding: 24px;
+            margin: 24px 0;
+            border-left: 4px solid;
+            border-radius: 6px;
+            background-color: #f9fafb;
+        }
+
+        .callout.retention {
+            border-color: var(--primary);
+            background-color: rgba(108, 58, 237, 0.05);
+        }
+
+        .callout.tip {
+            border-color: var(--success);
+            background-color: rgba(16, 185, 129, 0.05);
+        }
+
+        .callout.warning {
+            border-color: var(--accent);
+            background-color: rgba(245, 158, 11, 0.05);
+        }
+
+        .callout.info {
+            border-color: var(--info);
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+
+        .callout-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .callout.retention .callout-title {
+            color: var(--primary);
+        }
+
+        .callout.tip .callout-title {
+            color: var(--success);
+        }
+
+        .callout.warning .callout-title {
+            color: var(--accent);
+        }
+
+        .callout.info .callout-title {
+            color: var(--info);
+        }
+
+        .callout p {
+            margin-bottom: 0;
+            font-size: 0.95em;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .comparison-table th {
+            background: var(--primary);
+            color: white;
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 16px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .comparison-table tr:hover {
+            background-color: var(--gray-50);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Accordions */
+        details {
+            margin: 16px 0;
+            border: 1px solid var(--gray-200);
+            padding: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        details:hover {
+            border-color: var(--primary);
+            background-color: rgba(108, 58, 237, 0.02);
+        }
+
+        summary {
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            user-select: none;
+        }
+
+        summary::marker {
+            color: var(--primary);
+        }
+
+        details[open] {
+            border-color: var(--primary);
+        }
+
+        details[open] summary {
+            margin-bottom: 16px;
+        }
+
+        details p {
+            margin-bottom: 12px;
+        }
+
+        /* Quiz */
+        .quiz-section {
+            background: linear-gradient(135deg, rgba(108, 58, 237, 0.1) 0%, rgba(245, 158, 11, 0.1) 100%);
+        }
+
+        .quiz-question {
+            margin: 30px 0;
+            padding: 24px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .quiz-question h4 {
+            margin-bottom: 16px;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .quiz-option {
+            margin: 12px 0;
+            padding: 12px;
+            border: 2px solid var(--gray-200);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary);
+            background-color: rgba(108, 58, 237, 0.05);
+        }
+
+        .quiz-option input[type="radio"] {
+            margin-right: 12px;
+            cursor: pointer;
+        }
+
+        .quiz-feedback {
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            color: var(--success);
+        }
+
+        .quiz-feedback.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            color: var(--danger);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--gray-900);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        footer .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        footer .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        footer p {
+            color: var(--gray-400);
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8em;
+            }
+
+            section {
+                padding: 24px;
+            }
+
+            section h2 {
+                font-size: 1.4em;
+            }
+
+            .toc {
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            .hero-meta {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .comparison-table {
+                font-size: 0.9em;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar"></div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Module 4</div>
+            <h1>Optimiser son système d'acquisition de fans</h1>
+            <p>Apprenez à construire et optimiser un système complet et automatisé pour attirer continuellement de nouveaux fans qualifiés vers votre musique.</p>
+            <div class="hero-meta">
+                <div>
+                    <strong>Formateur</strong>
+                    Tarik Hamiche
+                </div>
+                <div>
+                    <strong>Organisme</strong>
+                    Producteur à Succès
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="toc">
+        <h2>Sommaire</h2>
+        <ol>
+            <li><a href="#section-1">Pourquoi un système d'acquisition ?</a></li>
+            <li><a href="#section-2">Les 3 étapes fondamentales</a></li>
+            <li><a href="#section-3">Étape 1 : Attirer le trafic qualifié</a></li>
+            <li><a href="#section-4">Étape 2 : Convertir en followers</a></li>
+            <li><a href="#section-5">Étape 3 : Fidéliser et monétiser</a></li>
+            <li><a href="#section-6">Automatiser votre système</a></li>
+            <li><a href="#section-7">Mesurer et optimiser</a></li>
+        </ol>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Section 1 -->
+        <section id="section-1">
+            <h2><span class="icon icon-primary">🎯</span>Pourquoi un système d'acquisition ?</h2>
+
+            <p>La plupart des musiciens traitent l'acquisition de fans comme une tâche ponctuelle : une publication ici, une collaboration là. Mais les musiciens qui réussissent utilisent un <strong>système</strong> - un processus répétable et optimisé qui fonctionne de façon prévisible.</p>
+
+            <h3>Différence : Tâche vs Système</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Approche</th>
+                        <th>Résultats</th>
+                        <th>Scalabilité</th>
+                        <th>Prévisibilité</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Tâches ponctuelles</strong></td>
+                        <td>Aléatoires, inconsistants</td>
+                        <td>Impossible à grande échelle</td>
+                        <td>Basse</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Système optimisé</strong></td>
+                        <td>Prévisibles et constants</td>
+                        <td>Facile à augmenter</td>
+                        <td>Haute</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout info">
+                <div class="callout-title">💡 Le saviez-vous ?</div>
+                <p>Les musiciens avec un système d'acquisition acquièrent en moyenne 50% plus de fans par mois, avec 40% moins d'effort.</p>
+            </div>
+
+            <h3>Bénéfices d'un système</h3>
+            <ul>
+                <li><strong>Prévisibilité :</strong> Vous savez combien de fans vous attirerez</li>
+                <li><strong>Efficacité :</strong> Moins d'effort pour plus de résultats</li>
+                <li><strong>Scalabilité :</strong> Augmenter simplement votre budget pour augmenter les résultats</li>
+                <li><strong>Contrôle :</strong> Maîtriser vos résultats plutôt que subir les algorithmes</li>
+                <li><strong>Croissance exponentielle :</strong> Les fans attirent d'autres fans</li>
+            </ul>
+
+            <div class="callout retention">
+                <div class="callout-title">📌 À retenir</div>
+                <p>Un système d'acquisition bien construit est l'une des meilleures utilisations de votre temps et argent en tant que musicien émergent.</p>
+            </div>
+        </section>
+
+        <!-- Section 2 -->
+        <section id="section-2">
+            <h2><span class="icon icon-accent">🔄</span>Les 3 étapes fondamentales</h2>
+
+            <p>Tout système d'acquisition efficace repose sur 3 étapes interconnectées qui forment un cycle continu :</p>
+
+            <ul>
+                <li><strong>Étape 1 - Attirer :</strong> Amener les bonnes personnes vers vos contenus</li>
+                <li><strong>Étape 2 - Convertir :</strong> Transformer les visiteurs en followers</li>
+                <li><strong>Étape 3 - Fidéliser :</strong> Garder les fans engagés et en monétiser une partie</li>
+            </ul>
+
+            <div class="callout tip">
+                <div class="callout-title">✨ Astuce</div>
+                <p>Ces 3 étapes forment un cycle : les fans fidèles deviennent vos meilleurs promoteurs, amenant ainsi plus de nouveaux visiteurs. C'est le cycle de croissance naturelle.</p>
+            </div>
+
+            <h3>Vue d'ensemble du funnel d'acquisition</h3>
+            <div class="callout info">
+                <div class="callout-title">📊 Structure du funnel</div>
+                <p>Pour obtenir 1000 nouveaux fans, vous avez généralement besoin de :</p>
+                <ul>
+                    <li>10 000 personnes attirées vers vos contenus</li>
+                    <li>3 000-4 000 conversions initiales (clics, visites)</li>
+                    <li>1 000-1 500 followers acquis</li>
+                    <li>100-150 fans très engagés</li>
+                </ul>
+            </div>
+
+            <details>
+                <summary>Taux de conversion typiques</summary>
+                <p>Voici les taux de conversion à viser selon votre plateforme :</p>
+                <ul>
+                    <li><strong>YouTube :</strong> 8-15% (vue → subscribe)</li>
+                    <li><strong>Instagram :</strong> 3-5% (impression → follow)</li>
+                    <li><strong>TikTok :</strong> 5-10% (vue → follow)</li>
+                    <li><strong>Spotify :</strong> 2-4% (stream → save)</li>
+                    <li><strong>Facebook :</strong> 2-3% (impression → like page)</li>
+                </ul>
+            </details>
+        </section>
+
+        <!-- Section 3 -->
+        <section id="section-3">
+            <h2><span class="icon icon-success">📢</span>Étape 1 : Attirer le trafic qualifié</h2>
+
+            <p>L'attraction de trafic qualifié est la fondation. La "qualité" signifie : des personnes intéressées par votre musique, pas seulement du trafic aléatoire.</p>
+
+            <h3>Canaux d'attraction</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Canal</th>
+                        <th>Coût</th>
+                        <th>Qualité</th>
+                        <th>Volume</th>
+                        <th>Temps de mise en place</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Contenu organique</strong></td>
+                        <td>Gratuit</td>
+                        <td>Très haute</td>
+                        <td>Moyen</td>
+                        <td>2-3 mois</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Publicité ciblée</strong></td>
+                        <td>Modéré</td>
+                        <td>Haute</td>
+                        <td>Très élevé</td>
+                        <td>Quelques jours</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Collaborations</strong></td>
+                        <td>Gratuit/Modéré</td>
+                        <td>Très haute</td>
+                        <td>Moyen-Élevé</td>
+                        <td>1-2 mois</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Partenariats de plateforme</strong></td>
+                        <td>Gratuit</td>
+                        <td>Très haute</td>
+                        <td>Très élevé</td>
+                        <td>2-4 semaines</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Optimiser l'attraction</h3>
+            <ul>
+                <li>Utiliser les données pour identifier votre audience idéale</li>
+                <li>Créer du contenu spécifiquement pour cette audience</li>
+                <li>Tester différents canaux et garder les meilleurs</li>
+                <li>Continuer à augmenter le budget sur les canaux performants</li>
+                <li>Diversifier pour ne pas dépendre d'une seule source</li>
+            </ul>
+
+            <div class="callout warning">
+                <div class="callout-title">⚠️ Attention</div>
+                <p>Ne pas optimiser sur le volume seul. 1000 vrais fans valent plus que 10 000 followers aléatoires qui ne coutent rien. Cherchez la qualité d'abord.</p>
+            </div>
+        </section>
+
+        <!-- Section 4 -->
+        <section id="section-4">
+            <h2><span class="icon icon-info">🎁</span>Étape 2 : Convertir en followers</h2>
+
+            <p>Attirer du trafic n'est que le début. L'étape critique est de convertir ces visiteurs en followers réels qui reviennent régulièrement.</p>
+
+            <h3>Éléments de conversion essentiels</h3>
+            <ul>
+                <li><strong>Call-to-Action clairs :</strong> Dire explicitement aux gens de vous suivre</li>
+                <li><strong>Value proposition :</strong> Pourquoi devraient-ils vous suivre ?</li>
+                <li><strong>Facilité d'action :</strong> Le bouton follow doit être visible et facile à cliquer</li>
+                <li><strong>Promesse :</strong> Quel contenu vont-ils recevoir ?</li>
+                <li><strong>Urgence :</strong> Raison de vous suivre maintenant</li>
+            </ul>
+
+            <details>
+                <summary>Formule pour un CTA efficace</summary>
+                <p>Un CTA (Call-to-Action) efficace contient ces éléments :</p>
+                <ul>
+                    <li><strong>Action spécifique :</strong> "Suivez-moi" pas "Consultez"</li>
+                    <li><strong>Bénéfice :</strong> "pour recevoir 3 beats gratuits"</li>
+                    <li><strong>Urgence :</strong> "avant que l'offre expire"</li>
+                    <li><strong>Contexme :</strong> Placé au bon moment</li>
+                </ul>
+                <p><strong>Exemple :</strong> "Suivez-moi pour accéder à mes 3 meilleures loops gratuites - offre valable jusqu'à demain seulement"</p>
+            </details>
+
+            <h3>Taux de conversion par plateforme</h3>
+            <div class="callout info">
+                <div class="callout-title">📊 Objectifs réalistes</div>
+                <ul>
+                    <li>Contenu YouTube : viser 8-15% de subscribe rate</li>
+                    <li>Contenu Instagram : viser 3-5% de follow rate</li>
+                    <li>Publicité : viser 1-5% de click-through rate</li>
+                    <li>Email : viser 30-40% de taux d'ouverture</li>
+                </ul>
+            </div>
+
+            <div class="callout tip">
+                <div class="callout-title">✨ Astuce</div>
+                <p>Le meilleur CTA est simple, rapide à comprendre, et placé au moment du maximum d'attention (souvent au début ou à la fin du contenu).</p>
+            </div>
+        </section>
+
+        <!-- Section 5 -->
+        <section id="section-5">
+            <h2><span class="icon icon-primary">💝</span>Étape 3 : Fidéliser et monétiser</h2>
+
+            <p>Les nouveaux followers ne vous servent à rien s'ils deviennent inactifs. La fidélisation crée des super-fans engagés qui vous soutiennent financièrement.</p>
+
+            <h3>Stratégies de fidélisation</h3>
+            <ul>
+                <li><strong>Contenu régulier :</strong> Publier selon un calendrier prévisible</li>
+                <li><strong>Engagement authentique :</strong> Répondre aux commentaires et messages</li>
+                <li><strong>Exclusivité :</strong> Donner du contenu spécial aux followers</li>
+                <li><strong>Communauté :</strong> Créer un sentiment d'appartenance</li>
+                <li><strong>Évolution :</strong> Continuer à surprendre avec du nouveau contenu</li>
+            </ul>
+
+            <h3>Modèles de monétisation</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Modèle</th>
+                        <th>Fans requis</th>
+                        <th>Revenu potentiel</th>
+                        <th>Effort</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Streaming</strong></td>
+                        <td>100+</td>
+                        <td>$$$</td>
+                        <td>Faible</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Patreon/Membership</strong></td>
+                        <td>500+</td>
+                        <td>$$$$</td>
+                        <td>Moyen</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Vente de beats</strong></td>
+                        <td>1000+</td>
+                        <td>$$$$</td>
+                        <td>Moyen</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Coaching/Services</strong></td>
+                        <td>5000+</td>
+                        <td>$$$$$</td>
+                        <td>Élevé</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Merch</strong></td>
+                        <td>2000+</td>
+                        <td>$$$</td>
+                        <td>Moyen</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout retention">
+                <div class="callout-title">📌 À retenir</div>
+                <p>Ne pas chercher à monétiser avant d'avoir au moins 500-1000 fans très engagés. La fidélisation vient d'abord, la monétisation ensuite.</p>
+            </div>
+
+            <details>
+                <summary>Cycle de fidélisation efficace</summary>
+                <ul>
+                    <li>Semaine 1-2 : Contenu de présentation</li>
+                    <li>Semaine 2-3 : Contenu éducatif ou inspirant</li>
+                    <li>Semaine 3-4 : Appel à engagement (questions, sondages)</li>
+                    <li>Semaine 4+ : Contenu exclusif, coulisses</li>
+                    <li>Mensuel : Announcement d'une offre ou événement</li>
+                </ul>
+            </details>
+        </section>
+
+        <!-- Section 6 -->
+        <section id="section-6">
+            <h2><span class="icon icon-accent">⚙️</span>Automatiser votre système</h2>
+
+            <p>La vraie puissance d'un système vient de l'automatisation. Une fois mise en place, elle fonctionne avec minimal effort.</p>
+
+            <h3>Éléments à automatiser</h3>
+            <ul>
+                <li><strong>Publication de contenu :</strong> Planifier à l'avance, publier automatiquement</li>
+                <li><strong>Email marketing :</strong> Séquences automatiques pour nouveaux followers</li>
+                <li><strong>Publicité :</strong> Campagnes longue durée avec budget défini</li>
+                <li><strong>Réponses :</strong> Auto-répondeurs pour questions fréquentes</li>
+                <li><strong>Suivi :</strong> Dashboard qui met à jour vos métriques</li>
+            </ul>
+
+            <h3>Outils d'automatisation recommandés</h3>
+            <div class="callout info">
+                <div class="callout-title">🛠️ Stack technologique</div>
+                <ul>
+                    <li><strong>Planification de contenu :</strong> Later, Buffer, Hootsuite</li>
+                    <li><strong>Email :</strong> Mailchimp, ConvertKit, ActiveCampaign</li>
+                    <li><strong>Publicité :</strong> Facebook Ads Manager, Google Ads</li>
+                    <li><strong>Analytics :</strong> Google Analytics, Spotify for Artists</li>
+                </ul>
+            </div>
+
+            <div class="callout warning">
+                <div class="callout-title">⚠️ Attention</div>
+                <p>L'automatisation ne signifie pas l'absence. Vous devez toujours monitorer, répondre aux commentaires, et ajuster en fonction des résultats.</p>
+            </div>
+        </section>
+
+        <!-- Section 7 -->
+        <section id="section-7">
+            <h2><span class="icon icon-success">📊</span>Mesurer et optimiser</h2>
+
+            <p>Ce qui n'est pas mesuré ne peut pas être amélioré. Établissez des KPIs (Key Performance Indicators) clairs et suivez-les régulièrement.</p>
+
+            <h3>Métriques essentielles à suivre</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Métrique</th>
+                        <th>Ce qu'elle mesure</th>
+                        <th>Bon taux</th>
+                        <th>Fréquence à suivre</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Trafic attiré</strong></td>
+                        <td>Nombre de visiteurs</td>
+                        <td>+10-20% /mois</td>
+                        <td>Hebdo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Taux de conversion</strong></td>
+                        <td>% de visiteurs devenant followers</td>
+                        <td>3-10%</td>
+                        <td>Hebdo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Coût par follower</strong></td>
+                        <td>Budget / nouveaux followers</td>
+                        <td>0.50-2€</td>
+                        <td>Hebdo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Engagement rate</strong></td>
+                        <td>% d'interactions sur followers</td>
+                        <td>3-5%</td>
+                        <td>Mensuel</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lifetime value</strong></td>
+                        <td>Revenu total par follower</td>
+                        <td>$5-50</td>
+                        <td>Mensuel</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Cycle d'optimisation</h3>
+            <ol>
+                <li>Définir les KPIs à suivre</li>
+                <li>Collecter les données pendant 2-4 semaines</li>
+                <li>Analyser : qu'est-ce qui fonctionne, qu'est-ce qui ne fonctionne pas ?</li>
+                <li>Hypothèse : pourquoi ça fonctionne ? Comment l'améliorer ?</li>
+                <li>Test : essayer une amélioration</li>
+                <li>Répéter avec la prochaine métrique</li>
+            </ol>
+
+            <div class="callout tip">
+                <div class="callout-title">✨ Astuce</div>
+                <p>Améliorer chaque métrique de 10% = croissance de 10%. Améliorer 5 métriques de 10% chacune = croissance de 60%.</p>
+            </div>
+
+            <details>
+                <summary>Template de dashboard mensuel</summary>
+                <p>Créez un document où vous suivez chaque mois :</p>
+                <ul>
+                    <li>Nombre de nouveaux followers par source</li>
+                    <li>Coût total d'acquisition</li>
+                    <li>Coût par follower (CPF)</li>
+                    <li>Taux de conversion par canal</li>
+                    <li>Top 3 contenus (par engagement)</li>
+                    <li>1 chose qui a bien fonctionné</li>
+                    <li>1 chose à améliorer le mois prochain</li>
+                </ul>
+            </details>
+
+            <div class="callout retention">
+                <div class="callout-title">📌 À retenir</div>
+                <p>La mesure régulière transforme les suppositions en certitudes. Consacrez 30 minutes par semaine à vérifier vos métriques.</p>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section class="quiz-section">
+            <h2><span class="icon icon-primary">✅</span>Quiz de révision</h2>
+
+            <div class="quiz-question">
+                <h4>Question 1 : Quel est le taux de conversion réaliste pour YouTube ?</h4>
+                <label class="quiz-option">
+                    <input type="radio" name="q1" value="a"> A) 1-2%
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="q1" value="b"> B) 8-15%
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="q1" value="c"> C) 25-30%
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="q1" value="d"> D) 50%+
+                </label>
+                <div class="quiz-feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <h4>Question 2 : Combien de followers avez-vous besoin avant de monétiser via Patreon ?</h4>
+                <label class="quiz-option">
+                    <input type="radio" name="q2" value="a"> A) 100+
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="q2" value="b"> B) 500+
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="q2" value="c"> C) 5000+
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="q2" value="d"> D) 10 000+
+                </label>
+                <div class="quiz-feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <h4>Question 3 : Quelle est la première étape d'un système d'acquisition ?</h4>
+                <label class="quiz-option">
+                    <input type="radio" name="q3" value="a"> A) Convertir en followers
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="q3" value="b"> B) Attirer du trafic qualifié
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="q3" value="c"> C) Monétiser
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="q3" value="d"> D) Fidéliser
+                </label>
+                <div class="quiz-feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <h4>Question 4 : Quel élément est PLUS important pour la conversion ?</h4>
+                <label class="quiz-option">
+                    <input type="radio" name="q4" value="a"> A) Le nombre de likes sur votre profil
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="q4" value="b"> B) Un Call-to-Action clair et visible
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="q4" value="c"> C) La longueur du contenu
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="q4" value="d"> D) Votre nombre total de followers
+                </label>
+                <div class="quiz-feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <h4>Question 5 : À quelle fréquence devez-vous vérifier vos KPIs ?</h4>
+                <label class="quiz-option">
+                    <input type="radio" name="q5" value="a"> A) Une fois par an
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="q5" value="b"> B) Une fois par trimestre
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="q5" value="c"> C) Chaque semaine
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="q5" value="d"> D) Plusieurs fois par jour
+                </label>
+                <div class="quiz-feedback"></div>
+            </div>
+
+            <button onclick="submitQuiz()" style="margin-top: 30px; padding: 12px 24px; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 1em;">Vérifier mes réponses</button>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="logo">Producteur à Succès</div>
+            <p>Formation complète pour musiciens et producteurs</p>
+            <p>Créé par Tarik Hamiche</p>
+            <p style="margin-top: 20px; color: var(--gray-500); font-size: 0.8em;">© 2025 Producteur à Succès. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Progress Bar
+        window.addEventListener('scroll', function() {
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / docHeight) * 100;
+            document.querySelector('.progress-bar').style.width = scrolled + '%';
+        });
+
+        // Smooth Scroll for TOC
+        document.querySelectorAll('.toc a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Quiz Logic
+        const correctAnswers = {
+            q1: 'b', // 8-15%
+            q2: 'b', // 500+
+            q3: 'b', // Attirer du trafic
+            q4: 'b', // CTA clair
+            q5: 'c'  // Chaque semaine
+        };
+
+        function submitQuiz() {
+            let score = 0;
+            const totalQuestions = Object.keys(correctAnswers).length;
+
+            for (const [question, correctAnswer] of Object.entries(correctAnswers)) {
+                const selected = document.querySelector(`input[name="${question}"]:checked`);
+                const feedback = document.querySelector(`input[name="${question}"]`).closest('.quiz-question').querySelector('.quiz-feedback');
+
+                if (!selected) {
+                    feedback.textContent = '❌ Veuillez sélectionner une réponse';
+                    feedback.className = 'quiz-feedback show incorrect';
+                } else if (selected.value === correctAnswer) {
+                    feedback.textContent = '✅ Bonne réponse ! Vous maîtrisez ce concept.';
+                    feedback.className = 'quiz-feedback show correct';
+                    score++;
+                } else {
+                    feedback.textContent = '❌ Incorrect. La bonne réponse est : ' + getCorrectAnswerText(question, correctAnswer);
+                    feedback.className = 'quiz-feedback show incorrect';
+                }
+            }
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            alert(`Vous avez obtenu ${score}/${totalQuestions}. ${score === totalQuestions ? 'Excellent !' : 'Continuez vos efforts !'}`);
+        }
+
+        function getCorrectAnswerText(question, answer) {
+            const answers = {
+                q1: { b: 'B) 8-15%' },
+                q2: { b: 'B) 500+' },
+                q3: { b: 'B) Attirer du trafic qualifié' },
+                q4: { b: 'B) Un Call-to-Action clair et visible' },
+                q5: { c: 'C) Chaque semaine' }
+            };
+            return answers[question][answer];
+        }
+    </script>
+</body>
+</html>

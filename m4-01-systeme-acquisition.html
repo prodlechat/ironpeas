@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Création d'un système d'acquisition simple mais efficace de A à Z sur Leadbox - Module 4</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C3AED;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --bg-light: #F9FAFB;
+            --border: #E5E7EB;
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            background-color: #FFFFFF;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #8B5CF6 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .header-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+            margin-bottom: 20px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .metadata {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 0.9em;
+            opacity: 0.85;
+            margin-top: 20px;
+        }
+
+        .metadata-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            padding: 20px;
+            border-bottom: 2px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            padding: 8px 0;
+            color: var(--text-dark);
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.3s;
+            margin-right: 20px;
+            font-size: 0.95em;
+        }
+
+        nav button:hover {
+            color: var(--primary);
+        }
+
+        nav button.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            scroll-margin-top: 80px;
+        }
+
+        .section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2em;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+            color: var(--text-dark);
+        }
+
+        .section-intro {
+            font-size: 1.1em;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .section ul, .section ol {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        .section li {
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            border-left: 5px solid;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+            background-color: var(--bg-light);
+        }
+
+        .callout.important {
+            border-left-color: var(--primary);
+            background-color: rgba(108, 58, 237, 0.08);
+        }
+
+        .callout.tip {
+            border-left-color: var(--success);
+            background-color: rgba(16, 185, 129, 0.08);
+        }
+
+        .callout.warning {
+            border-left-color: var(--danger);
+            background-color: rgba(239, 68, 68, 0.08);
+        }
+
+        .callout.info {
+            border-left-color: var(--info);
+            background-color: rgba(59, 130, 246, 0.08);
+        }
+
+        .callout-title {
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .callout.important .callout-title {
+            color: var(--primary);
+        }
+
+        .callout.tip .callout-title {
+            color: var(--success);
+        }
+
+        .callout.warning .callout-title {
+            color: var(--danger);
+        }
+
+        .callout.info .callout-title {
+            color: var(--info);
+        }
+
+        .callout p {
+            margin: 0;
+            font-size: 0.95em;
+            color: var(--text-light);
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--primary), #8B5CF6);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: var(--bg-light);
+        }
+
+        /* Accordéons */
+        details {
+            margin: 15px 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        summary {
+            padding: 15px;
+            cursor: pointer;
+            background-color: var(--bg-light);
+            font-weight: 600;
+            user-select: none;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        summary:hover {
+            background-color: #F3F4F6;
+        }
+
+        summary::marker {
+            color: var(--primary);
+        }
+
+        details[open] summary {
+            background-color: rgba(108, 58, 237, 0.05);
+        }
+
+        details-content {
+            padding: 20px;
+        }
+
+        /* Quiz */
+        .quiz {
+            background: linear-gradient(135deg, #F9FAFB, #F3F4F6);
+            padding: 40px;
+            border-radius: 12px;
+            margin: 40px 0;
+        }
+
+        .quiz h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            color: var(--primary);
+        }
+
+        .quiz-question {
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .quiz-question p {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .quiz-option label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .quiz-feedback {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            display: none;
+            font-size: 0.9em;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #047857;
+            border-left: 3px solid var(--success);
+        }
+
+        .quiz-feedback.incorrect {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #991B1B;
+            border-left: 3px solid var(--danger);
+        }
+
+        .submit-quiz {
+            background: linear-gradient(135deg, var(--primary), #8B5CF6);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+
+        .submit-quiz:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 58, 237, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 40px 20px;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        footer p {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .section h2 {
+                font-size: 1.5em;
+            }
+
+            .metadata {
+                gap: 15px;
+            }
+
+            nav button {
+                margin-right: 10px;
+                font-size: 0.85em;
+            }
+
+            main {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="badge">Module 4 • Acquisition</div>
+            <h1>Création d'un système d'acquisition simple mais efficace de A à Z sur Leadbox</h1>
+            <p>Apprenez comment mettre en place un système d'acquisition de fans performant et gratuit en utilisant Leadbox, une plateforme puissante de gestion de listes d'email.</p>
+            <div class="metadata">
+                <div class="metadata-item">
+                    <span>👨‍🏫 Formateur:</span>
+                    <strong>Tarik Hamiche</strong>
+                </div>
+                <div class="metadata-item">
+                    <span>🎓 Organisme:</span>
+                    <strong>Producteur à Succès</strong>
+                </div>
+                <div class="metadata-item">
+                    <span>📚 Module:</span>
+                    <strong>4</strong>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <ul id="navList">
+            <button onclick="scrollToSection('intro')">Introduction</button>
+            <button onclick="scrollToSection('leadbox')">Leadbox Explained</button>
+            <button onclick="scrollToSection('setup')">Setup Process</button>
+            <button onclick="scrollToSection('alternatives')">Alternatives</button>
+            <button onclick="scrollToSection('implementation')">Implementation</button>
+            <button onclick="scrollToSection('quiz')">Quiz</button>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Section 1: Introduction -->
+        <section id="intro" class="section">
+            <h2>🚀 Introduction au Système d'Acquisition</h2>
+            <p class="section-intro">Découvrez comment appliquer la théorie à la pratique en créant un système d'acquisition de fans performant</p>
+
+            <p>Dans cette vidéo, nous allons passer de la théorie à la pratique. Après avoir étudié l'anatomie de notre système d'acquisition de fans, nous allons maintenant l'appliquer dans un contexte réel. Pour ce faire, nous utilisons un outil très puissant appelé Leadbox.</p>
+
+            <p>Leadbox est une plateforme innovante qui vous permet de créer un système d'acquisition de fans en quelques minutes seulement. C'est l'outil idéal pour commencer, et surtout, il est complètement gratuit jusqu'à ce que vous ayez 100 fans en base.</p>
+
+            <div class="callout important">
+                <div class="callout-title">📌 À Retenir</div>
+                <p>Le système d'acquisition que vous allez apprendre est simple mais très efficace. Vous pouvez commencer gratuitement et ne payer que lorsque votre liste atteindra 100 fans (environ 20-30€/mois).</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Leadbox Explained -->
+        <section id="leadbox" class="section">
+            <h2>📦 Qu'est-ce que Leadbox?</h2>
+            <p class="section-intro">Une plateforme complète pour gérer votre acquisition de fans</p>
+
+            <p>Leadbox est un outil complet qui vous permet de créer votre propre système d'acquisition de fans. C'est la solution que nous utilisons pour mettre en pratique l'anatomie du système d'acquisition que nous avons vue en théorie.</p>
+
+            <h3>Caractéristiques principales:</h3>
+            <ul>
+                <li>Interface intuitive et facile à utiliser</li>
+                <li>Création de formulaires en quelques clics</li>
+                <li>Intégration avec vos outils existants</li>
+                <li>Gestion complète de vos listes d'emails</li>
+                <li>Automatisation des séquences d'emails</li>
+                <li>Plan gratuit jusqu'à 100 fans</li>
+            </ul>
+
+            <div class="callout info">
+                <div class="callout-title">💡 Info Utile</div>
+                <p>Leadbox est conçu spécifiquement pour les musiciens et artistes qui veulent construire leur fanbase de manière professionnelle et efficace.</p>
+            </div>
+        </section>
+
+        <!-- Section 3: Setup Process -->
+        <section id="setup" class="section">
+            <h2>⚙️ Processus de Configuration Étape par Étape</h2>
+            <p class="section-intro">Guide complet pour créer votre compte et configurer votre premier formulaire</p>
+
+            <h3>Étape 1: Créer votre compte</h3>
+            <p>Visitez unbox.com (ou unbox.fr pour la France) et cliquez sur "Créer un compte". Le processus est simple et vous pouvez commencer immédiatement.</p>
+
+            <div class="callout tip">
+                <div class="callout-title">✅ Conseil Pratique</div>
+                <p>Ne vous inquiétez pas si vous ne comprenez pas tous les paramètres au premier coup d'œil. Nous vous montrerons exactement comment configurer votre compte de A à Z dans la prochaine vidéo.</p>
+            </div>
+
+            <h3>Étape 2: Configuration initiale</h3>
+            <p>Une fois connecté, vous accéderez au tableau de bord. Là, vous pouvez commencer à créer vos formulaires et à gérer vos listes.</p>
+
+            <h3>Étape 3: Les deux outils principaux</h3>
+            <p>Leadbox propose deux outils fondamentaux pour votre système d'acquisition:</p>
+            <ol>
+                <li><strong>Outil 1:</strong> Pour la création et la gestion de formulaires d'acquisition</li>
+                <li><strong>Outil 2:</strong> Pour l'automatisation des séquences d'emails et le suivi</li>
+            </ol>
+        </section>
+
+        <!-- Section 4: Alternatives -->
+        <section id="alternatives" class="section">
+            <h2>🔄 Outils Alternatifs</h2>
+            <p class="section-intro">Autres options disponibles pour créer votre système d'acquisition</p>
+
+            <p>Bien que Leadbox soit notre choix principal, il existe d'autres outils que vous pouvez utiliser pour réaliser des objectifs similaires.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Outil</th>
+                        <th>Avantages</th>
+                        <th>Plan Gratuit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Leadbox</strong></td>
+                        <td>Interface intuitive, conçu pour musiciens</td>
+                        <td>Jusqu'à 100 fans</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Wolf</strong></td>
+                        <td>Fonctionnalités avancées, très flexible</td>
+                        <td>Oui (limité)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Feo</strong></td>
+                        <td>Solution simplifée, facile à débuter</td>
+                        <td>Oui (limité)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Autres outils</strong></td>
+                        <td>Variés selon la plateforme</td>
+                        <td>Certains oui</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout warning">
+                <div class="callout-title">⚠️ Important</div>
+                <p>Peu importe l'outil que vous choisissez, ce qui compte vraiment est la mise en place du système d'acquisition. L'outil n'est que le moyen de concrétiser votre système.</p>
+            </div>
+        </section>
+
+        <!-- Section 5: Implementation -->
+        <section id="implementation" class="section">
+            <h2>🎯 Mise en Place de Votre Système</h2>
+            <p class="section-intro">Comment transformer la théorie en action concrete</p>
+
+            <h3>Étapes pratiques:</h3>
+            <ol>
+                <li>
+                    <strong>Définissez votre offre d'accueil:</strong> Créez quelque chose de valeur à offrir en échange de l'email (freebie, exclusivité, etc.)
+                </li>
+                <li>
+                    <strong>Créez votre formulaire:</strong> Utilisez Leadbox pour créer un formulaire attrayant
+                </li>
+                <li>
+                    <strong>Intégrez le formulaire:</strong> Placez-le sur votre site, vos réseaux sociaux, etc.
+                </li>
+                <li>
+                    <strong>Testez le système:</strong> Vérifiez que tout fonctionne correctement
+                </li>
+                <li>
+                    <strong>Lancer et optimiser:</strong> Lancez votre campagne et ajustez en fonction des résultats
+                </li>
+            </ol>
+
+            <h3>Éléments clés du succès:</h3>
+            <details>
+                <summary><strong>🎨 Créativité et Design</strong></summary>
+                <div class="details-content">
+                    <p>Votre formulaire doit être attrayant visuellement. Utilisez des couleurs qui correspondent à votre marque et un design qui capte l'attention. Un formulaire bien conçu aura un taux de conversion plus élevé.</p>
+                </div>
+            </details>
+
+            <details>
+                <summary><strong>📝 Copywriting Efficace</strong></summary>
+                <div class="details-content">
+                    <p>Le texte de votre offre est crucial. Il doit communiquer clairement la valeur que l'utilisateur reçevra en échange de son email. Utilisez un langage persuasif mais honnête.</p>
+                </div>
+            </details>
+
+            <details>
+                <summary><strong>🎁 Offre d'Accueil Irrésistible</strong></summary>
+                <div class="details-content">
+                    <p>Votre freebie doit être vraiment utile et à jour. C'est le premier point de contact avec vos fans potentiels. Faites en sorte que cela crée une forte première impression.</p>
+                </div>
+            </details>
+
+            <details>
+                <summary><strong>📧 Séquence d'Email Initial</strong></summary>
+                <div class="details-content">
+                    <p>Après qu'un fan se soit inscrit, envoyez immédiatement votre offre et commencez une séquence d'emails pour construire la relation. C'est votre chance de faire une excellente impression.</p>
+                </div>
+            </details>
+
+            <div class="callout tip">
+                <div class="callout-title">💡 Conseil Pro</div>
+                <p>Ne surestimez pas les capacités techniques du système. Il n'est qu'une distribution mécanique de listes. L'objectif véritable est de créer une communauté engagée autour de votre musique.</p>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="quiz" class="section">
+            <div class="quiz">
+                <h3>📋 Testez vos connaissances</h3>
+                <p style="color: var(--text-light); margin-bottom: 25px;">Répondez aux questions suivantes pour vérifier votre compréhension du module.</p>
+
+                <div class="quiz-question">
+                    <p>1. Quel est le plan tarifaire gratuit de Leadbox?</p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">
+                            <input type="radio" id="q1a" name="quiz1" value="a">
+                            <label for="q1a">Jusqu'à 50 fans</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q1b" name="quiz1" value="b">
+                            <label for="q1b">Jusqu'à 100 fans</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q1c" name="quiz1" value="c">
+                            <label for="q1c">Jusqu'à 200 fans</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q1d" name="quiz1" value="d">
+                            <label for="q1d">Accès gratuit illimité</label>
+                        </div>
+                    </div>
+                    <div class="quiz-feedback" id="feedback1"></div>
+                </div>
+
+                <div class="quiz-question">
+                    <p>2. Quel est l'élément MOINS important dans un système d'acquisition?</p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">
+                            <input type="radio" id="q2a" name="quiz2" value="a">
+                            <label for="q2a">L'offre d'accueil attrayante</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q2b" name="quiz2" value="b">
+                            <label for="q2b">Le design esthétique du formulaire</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q2c" name="quiz2" value="c">
+                            <label for="q2c">La couleur exacte de la lettre d'accueil</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q2d" name="quiz2" value="d">
+                            <label for="q2d">La séquence d'emails initial</label>
+                        </div>
+                    </div>
+                    <div class="quiz-feedback" id="feedback2"></div>
+                </div>
+
+                <div class="quiz-question">
+                    <p>3. Quel est le vrai objectif du système d'acquisition?</p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">
+                            <input type="radio" id="q3a" name="quiz3" value="a">
+                            <label for="q3a">Collecter le maximum d'emails</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q3b" name="quiz3" value="b">
+                            <label for="q3b">Créer une communauté engagée autour de votre musique</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q3c" name="quiz3" value="c">
+                            <label for="q3c">Utiliser la technologie la plus avancée</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q3d" name="quiz3" value="d">
+                            <label for="q3d">Automatiser complètement votre marketing</label>
+                        </div>
+                    </div>
+                    <div class="quiz-feedback" id="feedback3"></div>
+                </div>
+
+                <div class="quiz-question">
+                    <p>4. À partir de combien de fans devez-vous généralement payer?</p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">
+                            <input type="radio" id="q4a" name="quiz4" value="a">
+                            <label for="q4a">À partir de 50 fans</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q4b" name="quiz4" value="b">
+                            <label for="q4b">À partir de 100 fans</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q4c" name="quiz4" value="c">
+                            <label for="q4c">À partir de 500 fans</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q4d" name="quiz4" value="d">
+                            <label for="q4d">Toujours gratuit</label>
+                        </div>
+                    </div>
+                    <div class="quiz-feedback" id="feedback4"></div>
+                </div>
+
+                <div class="quiz-question">
+                    <p>5. Quel est le premier choix d'outil recommandé?</p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">
+                            <input type="radio" id="q5a" name="quiz5" value="a">
+                            <label for="q5a">Wolf</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q5b" name="quiz5" value="b">
+                            <label for="q5b">Leadbox</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q5c" name="quiz5" value="c">
+                            <label for="q5c">Feo</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" id="q5d" name="quiz5" value="d">
+                            <label for="q5d">Peu importe, tous se valent</label>
+                        </div>
+                    </div>
+                    <div class="quiz-feedback" id="feedback5"></div>
+                </div>
+
+                <button class="submit-quiz" onclick="checkQuiz()">Vérifier vos réponses</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <footer-content>
+            <div class="footer-logo">Producteur à Succès</div>
+            <p>Formation Music Business pour Artistes et Producteurs</p>
+            <p>Module 4 • Maîtriser l'Acquisition de Fans</p>
+            <p style="margin-top: 20px; opacity: 0.6;">© 2026 Producteur à Succès. Tous droits réservés.</p>
+        </footer-content>
+    </footer>
+
+    <script>
+        // Progress Bar
+        window.addEventListener('scroll', () => {
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / scrollHeight) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Navigation
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Quiz Logic
+        function checkQuiz() {
+            const answers = {
+                'quiz1': 'b',
+                'quiz2': 'c',
+                'quiz3': 'b',
+                'quiz4': 'b',
+                'quiz5': 'b'
+            };
+
+            let score = 0;
+            for (let i = 1; i <= 5; i++) {
+                const selected = document.querySelector(`input[name="quiz${i}"]:checked`);
+                const feedback = document.getElementById(`feedback${i}`);
+
+                if (selected) {
+                    const isCorrect = selected.value === answers[`quiz${i}`];
+                    feedback.classList.add('show');
+
+                    if (isCorrect) {
+                        feedback.classList.remove('incorrect');
+                        feedback.classList.add('correct');
+                        feedback.textContent = '✅ Correct!';
+                        score++;
+                    } else {
+                        feedback.classList.remove('correct');
+                        feedback.classList.add('incorrect');
+                        feedback.textContent = '❌ Incorrect. Relisez la section correspondante.';
+                    }
+                }
+            }
+
+            alert(`Vous avez obtenu ${score}/5 bonnes réponses!`);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer Son Label Musical en SASU - Procédure Étape par Étape</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6C3AED;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --light-bg: #F9FAFB;
+            --border: #E5E7EB;
+        }
+
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden !important;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: #1F2937;
+            line-height: 1.6;
+        }
+
+        /* Barre de progression sticky */
+        .progress-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: white;
+            border-bottom: 2px solid var(--border);
+            padding: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .progress-container {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--primary);
+            min-width: 150px;
+        }
+
+        .progress-track {
+            flex: 1;
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        /* Conteneur principal */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Hero section */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #000;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #6B7280;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            color: #6B7280;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Étapes */
+        .steps {
+            margin-bottom: 2rem;
+        }
+
+        .step {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .step:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .step-header {
+            display: flex;
+            gap: 1.5rem;
+            padding: 2rem;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .step-number.color-1 { background: var(--primary); }
+        .step-number.color-2 { background: var(--accent); }
+        .step-number.color-3 { background: var(--success); }
+        .step-number.color-4 { background: var(--info); }
+        .step-number.color-5 { background: var(--danger); }
+
+        .step-content h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #000;
+        }
+
+        .step-content p {
+            color: #6B7280;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .step-body {
+            padding: 0 2rem 2rem 2rem;
+        }
+
+        .checklist {
+            background: #F3F4F6;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            align-items: flex-start;
+            cursor: pointer;
+        }
+
+        .checkbox-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            cursor: pointer;
+            accent-color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            flex: 1;
+            padding-top: 2px;
+        }
+
+        .checkbox-item input[type="checkbox"]:checked + label {
+            text-decoration: line-through;
+            color: #9CA3AF;
+        }
+
+        /* Callout boxes */
+        .callout {
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .callout-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .callout-content p {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .callout.retenir {
+            background: #EDE9FE;
+            border-left-color: var(--primary);
+        }
+
+        .callout.astuce {
+            background: #DBEAFE;
+            border-left-color: var(--info);
+        }
+
+        .callout.attention {
+            background: #FEF3C7;
+            border-left-color: var(--accent);
+        }
+
+        .callout.danger {
+            background: #FEE2E2;
+            border-left-color: var(--danger);
+        }
+
+        .callout.success {
+            background: #DCFCE7;
+            border-left-color: var(--success);
+        }
+
+        /* Lien externe */
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        a:hover {
+            border-bottom-color: var(--primary);
+        }
+
+        /* Tableaux */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table th {
+            background: var(--light-bg);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+        }
+
+        table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Détails / Accordéon */
+        details {
+            margin-bottom: 1.5rem;
+        }
+
+        summary {
+            cursor: pointer;
+            padding: 1rem;
+            background: var(--light-bg);
+            border-radius: 6px;
+            font-weight: 600;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        summary:hover {
+            background: #E5E7EB;
+        }
+
+        details[open] summary {
+            margin-bottom: 1rem;
+        }
+
+        /* Récapitulatif final */
+        .recap {
+            background: linear-gradient(135deg, var(--primary) 0%, #8B5CF6 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .recap h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .recap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .recap-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .recap-card h3 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            opacity: 0.8;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .recap-card .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        /* Footer */
+        footer {
+            background: #1F2937;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .step-header {
+                padding: 1.5rem;
+                flex-direction: column;
+            }
+
+            .step-number {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .step-body {
+                padding: 0 1.5rem 1.5rem 1.5rem;
+            }
+
+            .progress-container {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .hero-meta {
+                gap: 1rem;
+            }
+
+            .recap-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Print */
+        @media print {
+            .progress-bar {
+                position: static;
+            }
+
+            .step {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Confetti animation */
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .confetti {
+            position: fixed;
+            pointer-events: none;
+        }
+
+        .confetti-particle {
+            animation: confetti-fall 3s ease-in forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Barre de progression -->
+    <div class="progress-bar">
+        <div class="progress-container">
+            <div class="progress-text"><span id="completed">0</span> / <span id="total">0</span> tâches</div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conteneur principal -->
+    <div class="container">
+        <!-- Hero -->
+        <div class="hero">
+            <div class="hero-badge">Procédure Pratique</div>
+            <h1>Créer Son Label Musical en SASU</h1>
+            <p>Guide complet étape par étape pour formaliser votre structure juridique et administratives</p>
+            <div class="hero-meta">
+                <div class="meta-item">⏱️ Durée : ~40 minutes</div>
+                <div class="meta-item">👨‍🏫 Formateur : Tarik Hamiche</div>
+                <div class="meta-item">🎯 Producteur à Succès</div>
+            </div>
+        </div>
+
+        <!-- Étapes -->
+        <div class="steps">
+            <!-- Étape 1 -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number color-1">1</div>
+                    <div class="step-content">
+                        <h2>Choisir la dénomination sociale</h2>
+                        <p>Vérifiez que votre nom de label n'existe pas et est disponible partout.</p>
+                    </div>
+                </div>
+                <div class="step-body">
+                    <div class="checklist">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-1-1">
+                            <label for="check-1-1">Vérifier sur <a href="https://www.societe.com" target="_blank">Societe.com</a> que le nom n'existe pas</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-1-2">
+                            <label for="check-1-2">Vérifier sur <a href="https://data.inpi.fr" target="_blank">data.inpi.fr</a> que le nom n'est pas déposé comme marque</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-1-3">
+                            <label for="check-1-3">Vérifier la disponibilité du domaine .fr / .com</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-1-4">
+                            <label for="check-1-4">Choisir un nom distinctif, facile à retenir et à prononcer</label>
+                        </div>
+                    </div>
+                    <div class="callout retenir">
+                        <div class="callout-icon">💡</div>
+                        <div class="callout-content">
+                            <p><strong>À retenir :</strong> Un bon nom de label doit être unique, mémorable et représentatif de votre vision artistique.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Étape 2 -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number color-2">2</div>
+                    <div class="step-content">
+                        <h2>Rédiger les statuts de la SASU</h2>
+                        <p>Les statuts définissent le fonctionnement juridique de votre structure.</p>
+                    </div>
+                </div>
+                <div class="step-body">
+                    <div class="checklist">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-2-1">
+                            <label for="check-2-1">Inclure les mentions obligatoires : dénomination, objet social, siège social, capital, durée, président</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-2-2">
+                            <label for="check-2-2">Rédiger un objet social LARGE : "Production, édition et distribution de phonogrammes et vidéogrammes, booking d'artistes, merchandising, consulting en musique, et plus généralement toutes opérations..."</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-2-3">
+                            <label for="check-2-3">Choisir entre faire rédiger par un expert (200-500€) ou utiliser un modèle en ligne</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-2-4">
+                            <label for="check-2-4">Dater, parapher et signer les statuts</label>
+                        </div>
+                    </div>
+                    <div class="callout attention">
+                        <div class="callout-icon">⚠️</div>
+                        <div class="callout-content">
+                            <p><strong>Conseil futur :</strong> Pensez dès maintenant à créer un holding (société mère qui détient les parts) pour une meilleure structuration patrimoniale.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Étape 3 -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number color-3">3</div>
+                    <div class="step-content">
+                        <h2>Déposer le capital social</h2>
+                        <p>Constituez le capital initial auprès d'une banque.</p>
+                    </div>
+                </div>
+                <div class="step-body">
+                    <div class="checklist">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-3-1">
+                            <label for="check-3-1">Décider du montant du capital (minimum légal : 1€, recommandé : 1 000€+ pour la crédibilité)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-3-2">
+                            <label for="check-3-2">Ouvrir un compte en ligne auprès d'une banque rapide (Qonto, Shine, Wise)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-3-3">
+                            <label for="check-3-3">Vérifier que la banque est d'un groupe différent de votre banque personnelle</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-3-4">
+                            <label for="check-3-4">Obtenir l'attestation de dépôt des fonds</label>
+                        </div>
+                    </div>
+                    <div class="callout astuce">
+                        <div class="callout-icon">🏦</div>
+                        <div class="callout-content">
+                            <p><strong>Banques recommandées :</strong> Qonto, Shine, Wise (ouverture 24-48h, attestation immédiate)</p>
+                        </div>
+                    </div>
+                    <details>
+                        <summary>📋 Les 6 grands groupes bancaires</summary>
+                        <div style="padding: 1rem; background: var(--light-bg); border-radius: 6px;">
+                            <p style="margin-bottom: 0;">Choisissez une banque en ligne indépendante de :</p>
+                            <ul style="margin-top: 0.75rem; margin-left: 1.5rem;">
+                                <li>BNP Paribas</li>
+                                <li>BPCE (Natixis, Banque Populaire, Caisse d'Épargne)</li>
+                                <li>Crédit Agricole</li>
+                                <li>Crédit Mutuel & CIC</li>
+                                <li>Société Générale</li>
+                                <li>La Banque Postale</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <!-- Étape 4 -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number color-4">4</div>
+                    <div class="step-content">
+                        <h2>Publier l'annonce légale (JAL)</h2>
+                        <p>Étape obligatoire avant l'immatriculation auprès de l'INPI.</p>
+                    </div>
+                </div>
+                <div class="step-body">
+                    <div class="checklist">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-4-1">
+                            <label for="check-4-1">Préparer les informations obligatoires : nom, forme juridique, capital, siège, objet, président, RCS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-4-2">
+                            <label for="check-4-2">Utiliser une plateforme JAL (Les Annonces Légales, Legalstart, Captain Contrat)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-4-3">
+                            <label for="check-4-3">Payer les frais (138€ à 162€ selon le département)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-4-4">
+                            <label for="check-4-4">Conserver l'attestation de parution</label>
+                        </div>
+                    </div>
+                    <div class="callout danger">
+                        <div class="callout-icon">🔴</div>
+                        <div class="callout-content">
+                            <p><strong>Obligatoire :</strong> Sans cette annonce légale, vous ne pourrez pas immatriculer votre SASU.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Étape 5 -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number color-1">5</div>
+                    <div class="step-content">
+                        <h2>Déposer le dossier sur le Guichet Unique INPI</h2>
+                        <p>L'immatriculation officielle de votre SASU.</p>
+                    </div>
+                </div>
+                <div class="step-body">
+                    <div class="checklist">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-5-1">
+                            <label for="check-5-1">Se rendre sur <a href="https://formalites.entreprises.gouv.fr" target="_blank">formalites.entreprises.gouv.fr</a></label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-5-2">
+                            <label for="check-5-2">Créer un compte INPI avec identifiants valides</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-5-3">
+                            <label for="check-5-3">Télécharger les documents : statuts signés, acte de nomination du président, justificatif siège social</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-5-4">
+                            <label for="check-5-4">Ajouter : attestation JAL, pièce d'identité du président, déclaration non-condamnation, attestation dépôt capital</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-5-5">
+                            <label for="check-5-5">Remplir la liste des souscripteurs d'actions et déclaration des bénéficiaires effectifs (DBE)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-5-6">
+                            <label for="check-5-6">Payer les frais (~37€ immatriculation + ~21€ DBE)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-5-7">
+                            <label for="check-5-7">Attendre l'immatriculation (3-5 jours si dossier complet, 15 jours pour corrections si rejeté)</label>
+                        </div>
+                    </div>
+                    <div class="callout success">
+                        <div class="callout-icon">✅</div>
+                        <div class="callout-content">
+                            <p><strong>Info :</strong> Vous recevrez un numéro SIRET et SIREN une fois l'immatriculation acceptée.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Étape 6 -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number color-2">6</div>
+                    <div class="step-content">
+                        <h2>Obtenir le Kbis</h2>
+                        <p>Le document de preuve légale de l'existence de votre société.</p>
+                    </div>
+                </div>
+                <div class="step-body">
+                    <div class="checklist">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-6-1">
+                            <label for="check-6-1">Attendre la délivrance du Kbis (environ 1 semaine après immatriculation)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-6-2">
+                            <label for="check-6-2">Télécharger le Kbis en format numérique immédiatement</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-6-3">
+                            <label for="check-6-3">Imprimer 3-4 copies certifiées (utile pour les démarches)</label>
+                        </div>
+                    </div>
+                    <div class="callout retenir">
+                        <div class="callout-icon">📄</div>
+                        <div class="callout-content">
+                            <p><strong>À retenir :</strong> Le Kbis est nécessaire pour ouvrir le compte bancaire pro définitif, signer des contrats et s'inscrire à l'URSSAF.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Étape 7 -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number color-3">7</div>
+                    <div class="step-content">
+                        <h2>Choisir le siège social</h2>
+                        <p>Décidez où sera domiciliée votre structure juridiquement.</p>
+                    </div>
+                </div>
+                <div class="step-body">
+                    <div class="checklist">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-7-1">
+                            <label for="check-7-1">Option 1 : Domicile personnel (gratuit, plus courant au démarrage)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-7-2">
+                            <label for="check-7-2">Option 2 : Domiciliation commerciale (150-500€/an)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-7-3">
+                            <label for="check-7-3">Option 3 : Local commercial (coûteux, pour structures plus grandes)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-7-4">
+                            <label for="check-7-4">Vérifier que votre copropriété/bail autorise cette activité professionnelle</label>
+                        </div>
+                    </div>
+                    <div class="callout attention">
+                        <div class="callout-icon">⚠️</div>
+                        <div class="callout-content">
+                            <p><strong>Attention :</strong> Certaines communes ou copropriétés peuvent limiter ou interdire l'activité professionnelle au domicile. Vérifiez auprès de votre syndic ou mairie.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Étape 8 -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number color-4">8</div>
+                    <div class="step-content">
+                        <h2>Configurer la TVA et la fiscalité</h2>
+                        <p>Paramétrez votre situation fiscale correctement dès le départ.</p>
+                    </div>
+                </div>
+                <div class="step-body">
+                    <div class="checklist">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-8-1">
+                            <label for="check-8-1">Vérifier que le numéro de TVA intracommunautaire est actif</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-8-2">
+                            <label for="check-8-2">Déterminer le taux TVA applicable selon votre activité</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-8-3">
+                            <label for="check-8-3">Choisir entre déclaration mensuelle (CA > 4 500€/mois) ou trimestrielle</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-8-4">
+                            <label for="check-8-4">Comprendre l'Impôt sur les Sociétés (IS) : 15% jusqu'à 42 500€, puis 25%</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-8-5">
+                            <label for="check-8-5">Mettre en place un logiciel de facturation automatisé</label>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Type de bien/service</th>
+                                <th>Taux TVA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Phonogrammes & vidéogrammes (musique)</td>
+                                <td>20% (standard)</td>
+                            </tr>
+                            <tr>
+                                <td>Spectacle vivant</td>
+                                <td>10%</td>
+                            </tr>
+                            <tr>
+                                <td>Biens culturels</td>
+                                <td>5.5%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="callout danger">
+                        <div class="callout-icon">🔴</div>
+                        <div class="callout-content">
+                            <p><strong>Cas réel :</strong> Un producteur a oublié d'activer sa TVA → 12 000€ de remboursement bloqué. Ne commettez pas cette erreur !</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Étape 9 -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number color-1">9</div>
+                    <div class="step-content">
+                        <h2>S'inscrire à l'URSSAF et choisir un expert-comptable</h2>
+                        <p>Finalisez votre conformité sociale et administrative.</p>
+                    </div>
+                </div>
+                <div class="step-body">
+                    <div class="checklist">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-9-1">
+                            <label for="check-9-1">Comprendre votre statut : en SASU, le président est "assimilé salarié"</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-9-2">
+                            <label for="check-9-2">Choisir entre 2 modes de rémunération : salaire (cotisations ~80% du net) vs dividendes (flat tax 30%)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-9-3">
+                            <label for="check-9-3">S'inscrire à l'URSSAF (démarche automatisée après Guichet Unique)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-9-4">
+                            <label for="check-9-4">Rechercher un expert-comptable spécialisé en musique/entertainment</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-9-5">
+                            <label for="check-9-5">Prévoir un budget EC : 100-300€/mois selon prestations</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="check-9-6">
+                            <label for="check-9-6">Signer un contrat d'expertise comptable</label>
+                        </div>
+                    </div>
+                    <div class="callout astuce">
+                        <div class="callout-icon">💼</div>
+                        <div class="callout-content">
+                            <p><strong>Conseil :</strong> Choisissez un expert-comptable qui connaît le secteur musique/entertainment. Les enjeux de droits d'auteur, SACEM et droits voisins sont spécifiques.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Récapitulatif -->
+        <div class="recap">
+            <h2>✅ Récapitulatif & Budget</h2>
+            <div class="recap-grid">
+                <div class="recap-card">
+                    <h3>Statuts</h3>
+                    <div class="value">0-500€</div>
+                </div>
+                <div class="recap-card">
+                    <h3>Capital social</h3>
+                    <div class="value">1-1000€</div>
+                </div>
+                <div class="recap-card">
+                    <h3>Annonce légale</h3>
+                    <div class="value">138-162€</div>
+                </div>
+                <div class="recap-card">
+                    <h3>INPI & DBE</h3>
+                    <div class="value">~58€</div>
+                </div>
+            </div>
+            <p><strong>Budget total estimé :</strong></p>
+            <ul style="margin-left: 1.5rem; margin-top: 1rem; line-height: 1.8;">
+                <li>✨ <strong>Seul</strong> (statuts en ligne) : 200-500€</li>
+                <li>✨ <strong>Avec accompagnement</strong> (statuts via avocat) : 500-1500€</li>
+                <li>✨ <strong>Expertise comptable annuelle</strong> : 1200-3600€</li>
+            </ul>
+            <p style="margin-top: 1.5rem; opacity: 0.9;"><em>À cela s'ajoute éventuellement une domiciliation commerciale si vous ne travaillez pas de chez vous.</em></p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>Producteur à Succès</strong> — Formation & Accompagnement</p>
+        <p>Formateur : Tarik Hamiche | <a href="#">www.productorasuccessus.fr</a></p>
+        <p style="margin-top: 1rem; opacity: 0.8;">© 2026 Tous droits réservés</p>
+    </footer>
+
+    <script>
+        // Fonction pour calculer et mettre à jour la progression
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const total = checkboxes.length;
+
+            document.getElementById('completed').textContent = checked;
+            document.getElementById('total').textContent = total;
+
+            const percentage = total > 0 ? (checked / total) * 100 : 0;
+            document.getElementById('progressFill').style.width = percentage + '%';
+
+            // Confetti si 100%
+            if (percentage === 100 && total > 0) {
+                createConfetti();
+            }
+        }
+
+        // Fonction pour créer des confettis
+        function createConfetti() {
+            const colors = ['#6C3AED', '#F59E0B', '#10B981', '#EF4444', '#3B82F6'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.opacity = 0.8;
+                confetti.style.width = (Math.random() * 8 + 4) + 'px';
+                confetti.style.height = (Math.random() * 8 + 4) + 'px';
+                confetti.style.borderRadius = '50%';
+                confetti.classList.add('confetti-particle');
+                confetti.style.animationDelay = (Math.random() * 0.5) + 's';
+                document.body.appendChild(confetti);
+
+                // Supprimer après animation
+                setTimeout(() => confetti.remove(), 3500);
+            }
+        }
+
+        // Ajouter des event listeners à tous les checkboxes
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', updateProgress);
+        });
+
+        // Initialiser la progression au chargement
+        updateProgress();
+    </script>
+</body>
+</html>

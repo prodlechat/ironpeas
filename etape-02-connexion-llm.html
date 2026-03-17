@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Étape N°2 — Connexion du LLM | Producteur à Succès</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --primary: #6C5CE7;
+    --primary-light: #A29BFE;
+    --primary-bg: #F0EEFF;
+    --primary-dark: #5A4BD1;
+    --success: #00B894;
+    --success-bg: #E8FBF5;
+    --success-dark: #00896A;
+    --warning: #FDCB6E;
+    --warning-bg: #FFF8E7;
+    --warning-dark: #B8860B;
+    --danger: #E17055;
+    --danger-bg: #FDEAE6;
+    --danger-dark: #C0392B;
+    --info: #0984E3;
+    --info-bg: #E8F4FD;
+    --info-dark: #0767B0;
+    --dark: #2D3436;
+    --gray: #636E72;
+    --light-gray: #DFE6E9;
+    --bg: #F8F9FA;
+    --white: #FFFFFF;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  code {
+    background: var(--primary-bg);
+    color: var(--primary-dark);
+    padding: 0.15em 0.45em;
+    border-radius: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+    font-weight: 500;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    background: linear-gradient(135deg, #00B894 0%, #00CEC9 50%, #0984E3 100%);
+    color: white;
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%);
+    animation: pulse 8s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+  .header-content { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; }
+  .brand { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 3px; opacity: 0.9; margin-bottom: 0.5rem; }
+  .header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.75rem; }
+  .header .subtitle { font-size: 1.05rem; opacity: 0.92; max-width: 600px; margin: 0 auto 0.5rem; }
+  .badge-row { display: flex; gap: 0.6rem; justify-content: center; margin-top: 1.2rem; flex-wrap: wrap; }
+  .badge {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    padding: 0.35rem 0.85rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  /* ===== PROGRESS BAR ===== */
+  .progress-container {
+    background: var(--white);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .progress-inner { max-width: 820px; margin: 0 auto; }
+  .progress-label { font-size: 0.8rem; font-weight: 600; color: var(--gray); margin-bottom: 0.4rem; display: flex; justify-content: space-between; }
+  .progress-bar { height: 8px; background: var(--light-gray); border-radius: 50px; overflow: hidden; }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--success), var(--info));
+    border-radius: 50px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+
+  /* ===== MAIN ===== */
+  .main { max-width: 840px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  /* ===== SOMMAIRE ===== */
+  .toc {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1.8rem;
+    margin-bottom: 2.5rem;
+    box-shadow: var(--shadow);
+  }
+  .toc h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--success); }
+  .toc-list { list-style: none; display: grid; gap: 0.5rem; }
+  .toc-item a {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.65rem 1rem;
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: var(--dark);
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+  }
+  .toc-item a:hover { background: var(--success-bg); color: var(--success-dark); transform: translateX(4px); }
+  .toc-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px;
+    background: var(--success);
+    color: white;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* ===== STEP CARD ===== */
+  .step-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+    border-left: 5px solid var(--success);
+    position: relative;
+  }
+  .step-card[data-type="warning"] { border-left-color: var(--warning); }
+  .step-card[data-type="danger"] { border-left-color: var(--danger); }
+
+  .step-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; }
+  .step-number {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--success), #00CEC9);
+    color: white;
+    border-radius: 14px;
+    font-size: 1.3rem;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .step-title-group { flex: 1; }
+  .step-title { font-size: 1.25rem; font-weight: 700; color: var(--dark); }
+  .step-subtitle { font-size: 0.85rem; color: var(--gray); margin-top: 0.15rem; }
+
+  .step-body p { margin-bottom: 1rem; color: #555; }
+  .step-body strong { color: var(--dark); }
+  .step-body ul, .step-body ol { margin: 0.5rem 0 1rem 1.4rem; color: #555; }
+  .step-body li { margin-bottom: 0.4rem; }
+
+  /* ===== WHY BOX ===== */
+  .why-box {
+    background: linear-gradient(135deg, #E8FBF5, #E8F4FD);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.3rem;
+    margin-bottom: 1.2rem;
+    border-left: 4px solid var(--success);
+  }
+  .why-box .why-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--success-dark);
+    margin-bottom: 0.3rem;
+  }
+  .why-box p { margin: 0; font-size: 0.92rem; color: #444; }
+
+  /* ===== TABLE ===== */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.88rem;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .data-table thead th {
+    background: var(--dark);
+    color: white;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .data-table tbody td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--light-gray);
+    color: #555;
+  }
+  .data-table tbody tr:nth-child(even) { background: var(--bg); }
+  .data-table tbody tr:last-child td { border-bottom: none; }
+  .data-table .price { font-weight: 700; color: var(--success-dark); }
+  .data-table .price-high { font-weight: 700; color: var(--danger-dark); }
+  .data-table .highlight-row { background: var(--success-bg) !important; }
+  .data-table .total-row {
+    background: var(--dark) !important;
+    color: white;
+    font-weight: 700;
+  }
+  .data-table .total-row td { color: white; border-bottom: none; }
+
+  /* ===== CODE BLOCK ===== */
+  .code-block {
+    background: #1E1E2E;
+    border-radius: var(--radius-sm);
+    margin: 1rem 0;
+    overflow: hidden;
+  }
+  .code-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.6rem 1rem;
+    background: rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .code-label {
+    font-size: 0.75rem; font-weight: 600; color: #00CEC9;
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+  .code-label .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); display: inline-block; }
+  .copy-btn {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #CCC;
+    padding: 0.3rem 0.75rem;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .copy-btn:hover { background: rgba(255,255,255,0.2); color: white; }
+  .copy-btn.copied { background: var(--success); color: white; border-color: var(--success); }
+  .code-body { padding: 1rem 1.2rem; overflow-x: auto; }
+  .code-body pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: #CDD6F4;
+    white-space: pre;
+    margin: 0;
+  }
+
+  /* ===== ALERT ===== */
+  .alert {
+    display: flex; gap: 0.75rem;
+    padding: 1rem 1.2rem;
+    border-radius: var(--radius-sm);
+    margin: 1rem 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .alert-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 0.1rem; }
+  .alert-info { background: var(--info-bg); color: var(--info-dark); }
+  .alert-warning { background: var(--warning-bg); color: var(--warning-dark); }
+  .alert-success { background: var(--success-bg); color: var(--success-dark); }
+  .alert-danger { background: var(--danger-bg); color: var(--danger-dark); }
+
+  /* ===== VALIDATION ===== */
+  .validation {
+    background: var(--success-bg);
+    border: 2px solid var(--success);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.2rem;
+    margin: 1rem 0;
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+  }
+  .validation-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .validation-text { font-size: 0.9rem; color: var(--success-dark); font-weight: 500; }
+
+  /* ===== SUBSTEP ===== */
+  .substep {
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1rem;
+    border-left: 3px solid #00CEC9;
+  }
+  .substep-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--success-dark);
+    margin-bottom: 0.5rem;
+  }
+  .substep p { margin-bottom: 0.5rem; font-size: 0.95rem; color: #555; }
+
+  /* ===== NUMBERED LIST STYLED ===== */
+  .onboarding-steps {
+    list-style: none;
+    counter-reset: onboarding;
+    margin: 1rem 0;
+  }
+  .onboarding-steps li {
+    counter-increment: onboarding;
+    padding: 0.75rem 1rem 0.75rem 3.2rem;
+    position: relative;
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    margin-bottom: 0.5rem;
+    font-size: 0.92rem;
+    color: #555;
+    border-left: 3px solid var(--light-gray);
+    transition: all 0.2s;
+  }
+  .onboarding-steps li:hover { border-left-color: var(--success); background: var(--success-bg); }
+  .onboarding-steps li::before {
+    content: counter(onboarding);
+    position: absolute;
+    left: 0.75rem;
+    top: 0.7rem;
+    width: 24px; height: 24px;
+    background: var(--success);
+    color: white;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .onboarding-steps li strong { color: var(--dark); }
+  .onboarding-steps li.highlight {
+    background: var(--warning-bg);
+    border-left-color: var(--warning);
+  }
+  .onboarding-steps li.highlight::before { background: var(--warning-dark); }
+
+  /* ===== TROUBLESHOOT ===== */
+  .trouble-item {
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    border: 1px solid var(--light-gray);
+  }
+  .trouble-q {
+    padding: 1rem 1.2rem;
+    font-weight: 600; font-size: 0.9rem;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 0.6rem;
+    color: var(--danger);
+    transition: background 0.2s;
+    user-select: none;
+  }
+  .trouble-q:hover { background: var(--danger-bg); }
+  .trouble-q .arrow { transition: transform 0.3s; font-size: 0.7rem; }
+  .trouble-q.open .arrow { transform: rotate(90deg); }
+  .trouble-a {
+    display: none;
+    padding: 0 1.2rem 1rem;
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.6;
+  }
+  .trouble-a.open { display: block; }
+
+  /* ===== CHECKLIST ===== */
+  .checklist {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    border-left: 5px solid var(--success);
+    margin-top: 2.5rem;
+  }
+  .checklist h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--success); }
+  .checklist .checklist-subtitle { color: var(--gray); font-size: 0.9rem; margin-bottom: 1.2rem; }
+  .check-item {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--bg);
+    font-size: 0.95rem;
+    cursor: pointer;
+    user-select: none;
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-box {
+    width: 24px; height: 24px;
+    border: 2px solid var(--light-gray);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    font-size: 0.8rem;
+  }
+  .check-box.checked { background: var(--success); border-color: var(--success); color: white; }
+  .check-text.checked { text-decoration: line-through; color: var(--gray); }
+
+  /* ===== NEXT MODULE ===== */
+  .next-module {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, var(--success-bg), var(--info-bg));
+    border-radius: var(--radius);
+  }
+  .next-module p { color: var(--gray); font-size: 0.9rem; margin-bottom: 0.5rem; }
+  .next-module h3 { color: var(--success-dark); font-size: 1.2rem; font-weight: 700; }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--gray);
+    font-size: 0.8rem;
+  }
+  .footer strong { color: var(--dark); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    .header { padding: 2rem 1.2rem; }
+    .header h1 { font-size: 1.6rem; }
+    .main { padding: 1.5rem 1rem 3rem; }
+    .step-card { padding: 1.5rem; }
+    .step-header { flex-wrap: wrap; }
+    .code-body { padding: 0.8rem; }
+    .code-body pre { font-size: 0.75rem; }
+    .data-table { font-size: 0.78rem; }
+    .data-table thead th, .data-table tbody td { padding: 0.5rem 0.6rem; }
+    .onboarding-steps li { padding-left: 2.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="header-content">
+    <div class="brand">Producteur à Succès</div>
+    <h1>ÉTAPE N°2 — Connexion du LLM</h1>
+    <p class="subtitle">On donne un cerveau IA à OpenClaw et on l'installe sur le serveur. Budget maîtrisé, zéro mauvaise surprise.</p>
+    <div class="badge-row">
+      <span class="badge">🧠 Claude Haiku</span>
+      <span class="badge">🔑 Clé API Anthropic</span>
+      <span class="badge">⏱️ ~15 min</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== PROGRESS BAR ===== -->
+<div class="progress-container">
+  <div class="progress-inner">
+    <div class="progress-label">
+      <span>Progression</span>
+      <span id="progressText">0 / 4 étapes</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MAIN ===== -->
+<div class="main">
+
+  <!-- SOMMAIRE -->
+  <nav class="toc">
+    <h2>📍 Sommaire</h2>
+    <ul class="toc-list">
+      <li class="toc-item"><a href="#etape1"><span class="toc-num">1</span> Comprendre les coûts (tokens, modèles, budget)</a></li>
+      <li class="toc-item"><a href="#etape2"><span class="toc-num">2</span> Créer sa clé API Anthropic</a></li>
+      <li class="toc-item"><a href="#etape3"><span class="toc-num">3</span> Installer OpenClaw sur le VPS</a></li>
+      <li class="toc-item"><a href="#etape4"><span class="toc-num">4</span> Configurer OpenClaw (onboarding)</a></li>
+    </ul>
+  </nav>
+
+  <!-- ========================================== -->
+  <!-- 1 — COMPRENDRE LES COÛTS -->
+  <!-- ========================================== -->
+  <div class="step-card" id="etape1">
+    <div class="step-header">
+      <div class="step-number">1</div>
+      <div class="step-title-group">
+        <div class="step-title">Comprendre les coûts</div>
+        <div class="step-subtitle">Combien ça coûte, et comment éviter les mauvaises surprises</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="why-box">
+        <div class="why-label">💡 Pourquoi ?</div>
+        <p>OpenClaw a besoin d'un "cerveau" (un modèle d'IA comme Claude ou GPT) pour fonctionner. Ce cerveau coûte de l'argent à chaque utilisation — on appelle ça les <strong>tokens</strong>. Avant de continuer, il faut comprendre combien ça coûte pour ne pas avoir de mauvaise surprise.</p>
+      </div>
+
+      <p><strong>Le coût total par mois :</strong></p>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Poste</th>
+            <th>Coût</th>
+            <th>Comparable à...</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>VPS Hostinger (KVM2)</td>
+            <td class="price">~9,59 €/mois</td>
+            <td>Un abonnement Netflix</td>
+          </tr>
+          <tr>
+            <td>Tokens IA — Haiku</td>
+            <td class="price">~3-10 €/mois</td>
+            <td>Un ou deux cafés</td>
+          </tr>
+          <tr>
+            <td>Ubuntu, OpenClaw, Telegram</td>
+            <td class="price">Gratuit</td>
+            <td>—</td>
+          </tr>
+          <tr class="total-row">
+            <td>Total</td>
+            <td>~13-20 €/mois</td>
+            <td>Un resto rapide</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p><strong>Les modèles disponibles :</strong></p>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Modèle</th>
+            <th>Prix</th>
+            <th>Pour quoi faire</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="highlight-row">
+            <td><strong>Claude Haiku</strong></td>
+            <td class="price">Très peu cher</td>
+            <td>Trier emails, résumés, agenda — <strong>parfait pour débuter</strong></td>
+          </tr>
+          <tr>
+            <td>Claude Sonnet</td>
+            <td>Moyen</td>
+            <td>Rédaction, analyse — quand Haiku ne suffit pas</td>
+          </tr>
+          <tr>
+            <td>Claude Opus</td>
+            <td class="price-high">Cher</td>
+            <td>Tâches complexes — à éviter au quotidien</td>
+          </tr>
+          <tr>
+            <td>Kimi 2.5</td>
+            <td class="price">Très peu cher</td>
+            <td>Alternative à Haiku, clé API gratuite au départ</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="alert alert-success">
+        <span class="alert-icon">💰</span>
+        <div>On va utiliser <strong>Haiku</strong> pour cette installation. C'est le modèle le plus économique et il suffit pour <strong>90% des usages courants</strong>. Vous pourrez changer à tout moment.</div>
+      </div>
+
+      <div class="alert alert-info">
+        <span class="alert-icon">💡</span>
+        <div><strong>Conseil :</strong> Avec 10$ de crédits Anthropic et le modèle Haiku, vous pouvez utiliser OpenClaw pendant des <strong>semaines</strong> en usage normal (tri emails, résumés, gestion agenda). Pas besoin de mettre 50$ d'entrée de jeu.</div>
+      </div>
+
+      <div class="alert alert-danger">
+        <span class="alert-icon">⚠️</span>
+        <div><strong>Note sur le mode OAuth :</strong> Si vous avez déjà un abonnement Claude Pro/Max, vous pourriez être tenté de l'utiliser directement avec OpenClaw au lieu de payer des tokens. C'est techniquement possible, mais Anthropic considère cela comme une <strong>violation de ses conditions d'utilisation</strong> et peut bannir votre compte. On recommande la clé API pour être tranquille.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 2 — CLÉ API -->
+  <!-- ========================================== -->
+  <div class="step-card" id="etape2">
+    <div class="step-header">
+      <div class="step-number">2</div>
+      <div class="step-title-group">
+        <div class="step-title">Créer sa clé API Anthropic</div>
+        <div class="step-subtitle">Le badge d'accès qui permet à OpenClaw d'utiliser le cerveau Claude</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="why-box">
+        <div class="why-label">💡 Pourquoi ?</div>
+        <p>La clé API, c'est le badge d'accès qui permet à OpenClaw d'utiliser le cerveau Claude. Sans clé, pas de cerveau, pas de réponses.</p>
+      </div>
+
+      <p><strong>Voici les étapes :</strong></p>
+      <ol class="onboarding-steps">
+        <li>Allez sur <strong>console.anthropic.com</strong> (copiez le lien ci-dessous et collez-le dans votre navigateur)</li>
+        <li>Créez un compte si vous n'en avez pas (email + mot de passe classique)</li>
+        <li>Une fois connecté, allez dans <strong>API Keys</strong> (dans le menu de gauche)</li>
+        <li>Cliquez sur <strong>Create Key</strong> (Créer une clé)</li>
+        <li>Donnez-lui un nom (par exemple <code>openclaw</code>)</li>
+        <li class="highlight"><strong>COPIEZ LA CLÉ IMMÉDIATEMENT</strong> — elle ne sera plus jamais affichée !</li>
+        <li>Collez-la dans un endroit sûr (Notes, document, 1Password...)</li>
+        <li>Allez dans <strong>Billing</strong> (Facturation) et rechargez avec <strong>10$ minimum</strong></li>
+      </ol>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label"><span class="dot"></span> Adresse web — collez dans votre navigateur, PAS dans le terminal</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+        </div>
+        <div class="code-body"><pre>https://console.anthropic.com</pre>
+        </div>
+      </div>
+
+      <div class="validation">
+        <span class="validation-icon">✅</span>
+        <span class="validation-text">Si vous voyez votre clé dans la liste des API Keys, et que votre solde affiche au moins <strong>10$</strong>, c'est bon !</span>
+      </div>
+
+      <div class="alert alert-danger">
+        <span class="alert-icon">🔴</span>
+        <div><strong>Attention :</strong> La clé API ne s'affiche qu'<strong>UNE SEULE FOIS</strong> au moment de la création. Si vous fermez la fenêtre sans la copier, il faudra en créer une nouvelle. Copiez-la <strong>AVANT</strong> de faire quoi que ce soit d'autre.</div>
+      </div>
+
+      <!-- Troubleshoot clé API -->
+      <div style="margin-top:1.2rem;">
+        <p style="font-weight:600; color:var(--gray); font-size:0.85rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">Problème ?</p>
+        <div class="trouble-item">
+          <div class="trouble-q" onclick="toggleTrouble(this)"><span class="arrow">▶</span> "J'ai fermé la fenêtre sans copier la clé"</div>
+          <div class="trouble-a">Pas de panique. Retournez dans <strong>API Keys</strong>, supprimez l'ancienne clé, et créez-en une nouvelle. Pensez à la copier cette fois !</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q" onclick="toggleTrouble(this)"><span class="arrow">▶</span> "Je ne trouve pas le menu Billing"</div>
+          <div class="trouble-a">Dans le menu de gauche de la console Anthropic, cherchez <strong>Settings</strong> puis <strong>Billing</strong>. Si vous ne le trouvez pas, essayez l'URL directe : <code>console.anthropic.com/settings/billing</code></div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q" onclick="toggleTrouble(this)"><span class="arrow">▶</span> "Ma carte est refusée"</div>
+          <div class="trouble-a">Anthropic n'accepte que certaines cartes bancaires. Essayez avec une autre carte ou une carte virtuelle (Revolut, N26, etc.). Les cartes prépayées sont parfois refusées.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 3 — INSTALLER OPENCLAW -->
+  <!-- ========================================== -->
+  <div class="step-card" id="etape3">
+    <div class="step-header">
+      <div class="step-number">3</div>
+      <div class="step-title-group">
+        <div class="step-title">Installer OpenClaw sur le VPS</div>
+        <div class="step-subtitle">C'est LE moment — votre agent IA va exister</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="why-box">
+        <div class="why-label">💡 Pourquoi ?</div>
+        <p>C'est LE moment : on installe OpenClaw sur votre VPS. Après ça, votre agent IA existera.</p>
+      </div>
+
+      <div class="alert alert-danger">
+        <span class="alert-icon">🔴</span>
+        <div>
+          <strong>IMPORTANT — Où taper cette commande :</strong><br>
+          Cette commande doit être tapée dans votre <strong>terminal SSH</strong> — celui où vous voyez <code>openclaw@srv-quelquechose</code> au début de la ligne.
+          <ul style="margin:0.5rem 0 0 1.2rem;">
+            <li><strong>PAS</strong> dans le terminal Hostinger (dans le navigateur)</li>
+            <li><strong>PAS</strong> directement sur votre Mac/PC (sinon OpenClaw s'installe sur VOTRE ordinateur et a accès à tout !)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="substep">
+        <div class="substep-label">🔍 Comment vérifier où vous êtes ?</div>
+        <p>Regardez le début de la ligne de commande :</p>
+        <ul>
+          <li><code>openclaw@srv...</code> → Vous êtes <strong>au bon endroit</strong></li>
+          <li><code>votre-nom@MacBook...</code> ou <code>C:\Users\...</code> → Vous êtes sur <strong>votre ordi</strong> ! Reconnectez-vous d'abord en SSH (Étape N°1)</li>
+        </ul>
+      </div>
+
+      <p>Copiez la commande ci-dessous et collez-la dans le terminal SSH :</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label"><span class="dot"></span> Terminal SSH — en tant qu'openclaw</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+        </div>
+        <div class="code-body"><pre>curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash</pre>
+        </div>
+      </div>
+
+      <div class="alert alert-danger">
+        <span class="alert-icon">⚠️</span>
+        <div><strong>Vérifiez DEUX FOIS</strong> que vous êtes bien sur le serveur (prompt <code>openclaw@srv...</code>) avant de lancer cette commande. Si vous l'installez par erreur sur votre Mac/PC, OpenClaw aura accès à <strong>TOUT</strong> votre ordinateur personnel — vos photos, vos fichiers, vos mots de passe.</div>
+      </div>
+
+      <div class="validation">
+        <span class="validation-icon">✅</span>
+        <span class="validation-text">Si l'installation se termine sans erreur rouge et que vous voyez un message de succès ou un menu d'onboarding, c'est parfait !</span>
+      </div>
+
+      <!-- Troubleshoot installation -->
+      <div style="margin-top:1.2rem;">
+        <p style="font-weight:600; color:var(--gray); font-size:0.85rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">Problème ?</p>
+        <div class="trouble-item">
+          <div class="trouble-q" onclick="toggleTrouble(this)"><span class="arrow">▶</span> "curl: command not found"</div>
+          <div class="trouble-a">Curl n'est pas installé. Tapez d'abord : <code>sudo apt-get install -y curl</code> puis relancez la commande d'installation.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q" onclick="toggleTrouble(this)"><span class="arrow">▶</span> "Permission denied" pendant l'installation</div>
+          <div class="trouble-a">Vous n'êtes peut-être pas connecté en tant que <code>openclaw</code>. Vérifiez le prompt. Si nécessaire : <code>su - openclaw</code></div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q" onclick="toggleTrouble(this)"><span class="arrow">▶</span> L'installation ne démarre pas ou plante</div>
+          <div class="trouble-a">Vérifiez votre connexion internet sur le VPS : <code>ping -c 3 google.com</code>. Si ça ne répond pas, redémarrez le VPS depuis Hostinger.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q" onclick="toggleTrouble(this)"><span class="arrow">▶</span> "brew: command not found" après l'installation</div>
+          <div class="trouble-a">Homebrew n'est pas dans le PATH. Tapez : <code>eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"</code> puis relancez.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 4 — ONBOARDING -->
+  <!-- ========================================== -->
+  <div class="step-card" id="etape4">
+    <div class="step-header">
+      <div class="step-number">4</div>
+      <div class="step-title-group">
+        <div class="step-title">Configurer OpenClaw (onboarding)</div>
+        <div class="step-subtitle">La fiche d'arrivée de votre nouvel employé IA</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="why-box">
+        <div class="why-label">💡 Pourquoi ?</div>
+        <p>OpenClaw vous pose des questions pour se configurer : quel cerveau utiliser, quelles compétences activer. C'est comme remplir la fiche d'arrivée d'un nouvel employé.</p>
+      </div>
+
+      <p><strong>L'installateur va vous poser plusieurs questions. Voici exactement quoi répondre :</strong></p>
+
+      <ol class="onboarding-steps">
+        <li><strong>Quickstart ou Manual ?</strong> → Choisissez <strong>Quickstart</strong></li>
+        <li><strong>"I understand this is personal..."</strong> → Répondez <strong>Yes</strong> (vous confirmez que c'est pour votre usage)</li>
+        <li><strong>Auth method</strong> (méthode de connexion au cerveau IA) → Choisissez <code>Anthropic API key</code></li>
+        <li><strong>"How do you want to provide this API key?"</strong> → Choisissez <strong>Environment variable</strong> (c'est la méthode la plus simple)</li>
+        <li><strong>Collez votre clé API</strong> (celle de la sous-étape 2 — copiez-collez-la depuis vos notes)</li>
+        <li class="highlight"><strong>Modèle</strong> → Choisissez <strong>Haiku</strong> (pas Opus, beaucoup trop cher pour débuter !)</li>
+      </ol>
+
+      <div class="alert alert-warning">
+        <span class="alert-icon">⏸️</span>
+        <div>L'onboarding va ensuite vous demander votre <strong>token Telegram</strong>. Pas de panique — on le crée ensemble à l'<strong>Étape N°3</strong>. La suite au prochain module !</div>
+      </div>
+
+      <div class="alert alert-info">
+        <span class="alert-icon">💡</span>
+        <div><strong>Conseil :</strong> Ne fermez pas le terminal ! L'onboarding est en pause, il attend votre réponse. Passez à l'Étape N°3 pour créer votre bot Telegram et obtenir le token, puis revenez ici pour continuer.</div>
+      </div>
+
+      <!-- Troubleshoot onboarding -->
+      <div style="margin-top:1.2rem;">
+        <p style="font-weight:600; color:var(--gray); font-size:0.85rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">Problème ?</p>
+        <div class="trouble-item">
+          <div class="trouble-q" onclick="toggleTrouble(this)"><span class="arrow">▶</span> "J'ai fermé le terminal par erreur"</div>
+          <div class="trouble-a">Pas de panique. Reconnectez-vous en SSH (<code>ssh -L 6080:localhost:6080 openclaw@VOTRE_IP</code>) et relancez l'onboarding. Vos paramètres précédents sont souvent sauvegardés.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q" onclick="toggleTrouble(this)"><span class="arrow">▶</span> "La clé API est refusée / Invalid API key"</div>
+          <div class="trouble-a">Vérifiez que vous avez bien copié la clé en entier (elle commence par <code>sk-ant-</code>). Assurez-vous aussi que votre solde Billing est bien rechargé (10$ minimum).</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q" onclick="toggleTrouble(this)"><span class="arrow">▶</span> "Je ne vois pas l'option Haiku"</div>
+          <div class="trouble-a">Les noms de modèles peuvent varier selon la version d'OpenClaw. Cherchez le modèle le moins cher / le plus rapide dans la liste proposée.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q" onclick="toggleTrouble(this)"><span class="arrow">▶</span> "J'ai choisi Opus par erreur"</div>
+          <div class="trouble-a">Vous pourrez changer le modèle dans la configuration d'OpenClaw après l'installation. Cherchez le fichier de config ou relancez l'onboarding.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q" onclick="toggleTrouble(this)"><span class="arrow">▶</span> "L'onboarding est bloqué / ne répond plus"</div>
+          <div class="trouble-a">Appuyez sur <strong>Ctrl+C</strong> pour arrêter, puis relancez la commande d'installation. Vos précédentes réponses sont généralement sauvegardées.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CHECKLIST ===== -->
+  <div class="checklist">
+    <h2>✅ Checklist fin d'Étape N°2</h2>
+    <p class="checklist-subtitle">Tout doit être coché avant de passer à l'étape suivante.</p>
+
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <span class="check-text">Budget compris (~13-20 €/mois tout compris)</span>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <span class="check-text">Compte Anthropic créé sur <code>console.anthropic.com</code></span>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <span class="check-text">Clé API copiée et sauvegardée en lieu sûr</span>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <span class="check-text">Solde Billing rechargé (10$ minimum)</span>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <span class="check-text">OpenClaw installé sur le VPS</span>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <span class="check-text">Onboarding en cours — en attente du token Telegram</span>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <span class="check-text">Prêt pour l'Étape N°3</span>
+    </div>
+  </div>
+
+  <!-- ===== NEXT ===== -->
+  <div class="next-module">
+    <p>Prochaine étape</p>
+    <h3>➡️ Étape N°3 — Création du bot Telegram</h3>
+    <div style="margin-top:1.5rem; padding-top:1.5rem; border-top:2px solid rgba(0,184,148,0.2);">
+      <p style="font-size:1rem; font-weight:700; color:var(--dark); margin-bottom:0.3rem;">🎓 Master Class IA du 24 Mars 2026</p>
+      <p style="font-size:0.95rem; color:#555; margin-bottom:0.8rem;">99€ la place — Replay inclus + Procédures étape par étape</p>
+      <a href="https://bit.ly/3masterclass-ia" target="_blank" rel="noopener" style="display:inline-block; background:linear-gradient(135deg, var(--success), #00CEC9); color:white; padding:0.75rem 2rem; border-radius:50px; text-decoration:none; font-weight:700; font-size:0.95rem; box-shadow:0 4px 15px rgba(0,184,148,0.35); transition:transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(0,184,148,0.45)';" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 15px rgba(0,184,148,0.35)';">Réserver ma place →</a>
+    </div>
+  </div>
+
+</div><!-- / main -->
+
+<footer class="footer">
+  <strong>Producteur à Succès</strong> — Master Class IA du 24 Mars 2026
+</footer>
+
+<script>
+// Copy to clipboard
+function copyCode(btn) {
+  const codeBody = btn.closest('.code-block').querySelector('.code-body pre');
+  const text = codeBody.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copié ✓';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copier';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+// Troubleshooting accordion
+function toggleTrouble(q) {
+  q.classList.toggle('open');
+  q.nextElementSibling.classList.toggle('open');
+}
+
+// Checklist
+function toggleCheck(item) {
+  const box = item.querySelector('.check-box');
+  const text = item.querySelector('.check-text');
+  box.classList.toggle('checked');
+  text.classList.toggle('checked');
+  box.textContent = box.classList.contains('checked') ? '✓' : '';
+  updateProgress();
+}
+
+// Progress bar
+function updateProgress() {
+  const total = document.querySelectorAll('.check-box').length;
+  const checked = document.querySelectorAll('.check-box.checked').length;
+  const pct = Math.round((checked / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = checked + ' / ' + total + ' étapes';
+}
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+</body>
+</html>

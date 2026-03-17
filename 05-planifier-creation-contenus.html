@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planifier sa création de contenus - Producteur à Succès</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C3AED;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --gray-600: #4B5563;
+            --gray-800: #1F2937;
+        }
+        
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--gray-800);
+            background: #fff;
+        }
+        
+        .progress-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            height: 4px;
+            background: var(--gray-200);
+            width: 100%;
+        }
+        
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #8B5CF6 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+        
+        .hero p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            opacity: 0.95;
+        }
+        
+        .metadata {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            font-size: 0.95em;
+            flex-wrap: wrap;
+        }
+        
+        .metadata-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .metadata-item strong {
+            font-weight: 600;
+        }
+        
+        .toc {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 30px;
+            margin: 40px 0;
+        }
+        
+        .toc h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .toc ul {
+            list-style: none;
+        }
+        
+        .toc li {
+            margin: 10px 0;
+        }
+        
+        .toc a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .toc a:hover {
+            color: var(--accent);
+        }
+        
+        section {
+            margin: 50px 0;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .section-icon {
+            font-size: 2em;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gray-100);
+            border-radius: 8px;
+        }
+        
+        .section-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8em;
+            color: var(--primary);
+            margin: 0;
+            flex: 1;
+        }
+        
+        .section-header.accent h2 { color: var(--accent); }
+        .section-header.success h2 { color: var(--success); }
+        .section-header.danger h2 { color: var(--danger); }
+        .section-header.info h2 { color: var(--info); }
+        
+        .section-content {
+            margin-left: 65px;
+            line-height: 1.8;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        .callout {
+            border-left: 5px solid var(--gray-400);
+            padding: 20px;
+            margin: 20px 0;
+            background: var(--gray-50);
+            border-radius: 4px;
+        }
+        
+        .callout.retenir {
+            border-left-color: var(--primary);
+            background: rgba(108, 58, 237, 0.05);
+        }
+        
+        .callout.astuce {
+            border-left-color: var(--success);
+            background: rgba(16, 185, 129, 0.05);
+        }
+        
+        .callout.attention {
+            border-left-color: var(--danger);
+            background: rgba(239, 68, 68, 0.05);
+        }
+        
+        .callout.saviez {
+            border-left-color: var(--info);
+            background: rgba(59, 130, 246, 0.05);
+        }
+        
+        .callout-title {
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        details {
+            border: 1px solid var(--gray-200);
+            border-radius: 6px;
+            padding: 15px;
+            margin: 20px 0;
+            background: var(--gray-50);
+        }
+        
+        summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        summary::-webkit-details-marker {
+            color: var(--primary);
+        }
+        
+        details[open] summary {
+            margin-bottom: 15px;
+        }
+        
+        .quiz {
+            background: var(--gray-50);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 30px;
+            margin: 40px 0;
+        }
+        
+        .quiz h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .quiz-question {
+            margin-bottom: 30px;
+        }
+        
+        .quiz-question p {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .quiz-option:hover {
+            background: rgba(108, 58, 237, 0.1);
+        }
+        
+        .quiz-option input[type="radio"] {
+            cursor: pointer;
+        }
+        
+        .quiz-feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .quiz-feedback.correct {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            display: block;
+        }
+        
+        .quiz-feedback.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            display: block;
+        }
+        
+        .quiz-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+            margin-top: 20px;
+        }
+        
+        .quiz-button:hover {
+            background: #5a2dbd;
+        }
+        
+        .footer {
+            background: var(--gray-800);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .footer-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .footer-text {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8em;
+            }
+            
+            .section-header h2 {
+                font-size: 1.3em;
+            }
+            
+            .metadata {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-bar-fill"></div>
+    </div>
+    
+    <div class="hero">
+        <div class="container">
+            <div class="badge">Module 3</div>
+            <h1>Planifier sa création de contenus</h1>
+            <p>Comment créer 3 à 6 mois de contenu en quelques heures de travail</p>
+            <div class="metadata">
+                <div class="metadata-item">
+                    <strong>Formateur:</strong> Tarik Hamiche
+                </div>
+                <div class="metadata-item">
+                    <strong>Organisme:</strong> Producteur à Succès
+                </div>
+                <div class="metadata-item">
+                    <strong>Module:</strong> Stratégies de création de contenu
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="toc">
+            <h2>📚 Sommaire</h2>
+            <ul>
+                <li><a href="#strategies">1. Les deux stratégies principales</a></li>
+                <li><a href="#formats">2. Choisir les bons formats</a></li>
+                <li><a href="#planning">3. Planification du contenu</a></li>
+                <li><a href="#production">4. Organisation de la production</a></li>
+                <li><a href="#themes">5. Définir ses sous-thèmes</a></li>
+                <li><a href="#calendrier">6. Construire un calendrier éditorial</a></li>
+                <li><a href="#authenticit">7. L'importance de l'authenticité</a></li>
+            </ul>
+        </div>
+        
+        <section id="strategies">
+            <div class="section-header">
+                <div class="section-icon">📋</div>
+                <h2>Les deux stratégies principales</h2>
+            </div>
+            <div class="section-content">
+                <p>Quand on est artiste, on n'a pas l'intention de devenir youtubeur à temps plein. L'objectif est de créer du contenu qui maintient la relation avec vos fans sans y consacrer une part démesurée de votre temps.</p>
+                
+                <p><strong>Stratégie 1 : La grosse production</strong></p>
+                <p>Vous organisez une journée de production professionnelle : vous engagez un photographe, un cameraman, vous louez un studio ou un décor, et vous créez beaucoup de contenu d'une seule traite. Ce contenu sera ensuite utilisé pendant 3 à 6 mois. L'avantage : un résultat professionnel et costaud, qui plaît à l'algorithme.</p>
+                
+                <div class="callout retenir">
+                    <div class="callout-title">✨ À retenir</div>
+                    <p>Une grosse production initiale vous permet de créer plusieurs mois de contenu en quelques heures de travail. C'est l'investissement initial qui fait toute la différence.</p>
+                </div>
+                
+                <p style="margin-top: 20px;"><strong>Stratégie 2 : La production au quotidien (smartphone)</strong></p>
+                <p>Vous créez du contenu régulièrement avec votre téléphone, sans grosse production. Vous vous filmez en train de travailler, de parler, d'interagir. Cette approche est moins coûteuse, plus agile, et surtout, elle crée de l'authenticité. Les gens adorent voir des vraies personnes à l'écran.</p>
+                
+                <div class="callout astuce">
+                    <div class="callout-title">💡 Astuce</div>
+                    <p>Combinez les deux stratégies ! Créez du contenu de haute qualité avec les grosses productions, mais complétez avec du contenu quotidien au smartphone pour maintenir une relation régulière avec votre audience.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="formats">
+            <div class="section-header accent">
+                <div class="section-icon">🎬</div>
+                <h2>Choisir les bons formats</h2>
+            </div>
+            <div class="section-content">
+                <p>Il existe plusieurs formats de contenu : vidéos longues (YouTube), shorts (TikTok, Reels), contenu écrit, podcasts, etc. La clé est de choisir 1 à 3 formats dans lesquels vous excellez, puis d'en ajouter progressivement.</p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Format</th>
+                            <th>Plateforme idéale</th>
+                            <th>Durée recommandée</th>
+                            <th>Avantage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Shorts vidéo</strong></td>
+                            <td>TikTok, Reels, YouTube Shorts</td>
+                            <td>30 sec - 1 min</td>
+                            <td>Facile à consommer, viral</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Vidéos moyennes</strong></td>
+                            <td>YouTube, Instagram</td>
+                            <td>2-10 min</td>
+                            <td>Bon équilibre contenu/engagement</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Vidéos longues</strong></td>
+                            <td>YouTube</td>
+                            <td>10+ min</td>
+                            <td>Profondeur, SEO friendly</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Podcasts</strong></td>
+                            <td>Spotify, Apple Podcasts</td>
+                            <td>20-60 min</td>
+                            <td>Audience fidèle, multitâche</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Contenu écrit</strong></td>
+                            <td>Blog, LinkedIn, Medium</td>
+                            <td>800-2000 mots</td>
+                            <td>SEO, authority, partage</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="callout attention">
+                    <div class="callout-title">⚠️ Attention</div>
+                    <p>Ne cherchez pas à couvrir tous les formats d'emblée. Vous vous disperseriez. Concentrez-vous sur 2-3 formats maximum et approfondissez avant d'en ajouter d'autres.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="planning">
+            <div class="section-header success">
+                <div class="section-icon">📅</div>
+                <h2>Planification du contenu</h2>
+            </div>
+            <div class="section-content">
+                <p>Avant de créer, vous devez réfléchir à la longueur idéale de votre contenu et à la plateforme où il vivra. Une vidéo de 10 minutes n'a pas la même utilité qu'un court de 30 secondes.</p>
+                
+                <details>
+                    <summary>📖 Questions clés à vous poser</summary>
+                    <div style="margin-top: 15px;">
+                        <p><strong>Quelle est la longueur idéale?</strong> Cela dépend de votre audience et du format choisi.</p>
+                        <p style="margin-top: 10px;"><strong>Quelle plateforme?</strong> Chaque plateforme a ses préférences : TikTok préfère les courts, YouTube préfère les longs.</p>
+                        <p style="margin-top: 10px;"><strong>Quel rythme de publication?</strong> Régulier et durable plutôt que sporadique.</p>
+                        <p style="margin-top: 10px;"><strong>Quel ton et style?</strong> Cohérent avec votre identité de marque.</p>
+                    </div>
+                </details>
+                
+                <div class="callout saviez">
+                    <div class="callout-title">❓ Le saviez-vous?</div>
+                    <p>Une bonne planification réduit le stress créatif. Quand vous avez un calendrier clair, vous n'avez pas à réfléchir constamment à "quoi créer aujourd'hui".</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="production">
+            <div class="section-header danger">
+                <div class="section-icon">🎥</div>
+                <h2>Organisation de la production</h2>
+            </div>
+            <div class="section-content">
+                <p>L'organisation est la clé pour créer efficacement. Plutôt que de créer un contenu à la fois, créez en batch : regroupez les tâches similaires pour maximiser votre efficacité.</p>
+                
+                <p style="margin-top: 15px;">Les étapes du batch production :</p>
+                <ol style="margin: 15px 0 15px 20px;">
+                    <li><strong>Brainstorm collectif:</strong> Générez 20-30 idées en une seule session</li>
+                    <li><strong>Regroupement:</strong> Organisez par thème ou format</li>
+                    <li><strong>Production:</strong> Créez tous les contenus d'un même type ensemble</li>
+                    <li><strong>Post-production:</strong> Appliquez les mêmes traitements</li>
+                    <li><strong>Scheduling:</strong> Planifiez la diffusion</li>
+                </ol>
+            </div>
+        </section>
+        
+        <section id="themes">
+            <div class="section-header info">
+                <div class="section-icon">🏷️</div>
+                <h2>Définir ses sous-thèmes</h2>
+            </div>
+            <div class="section-content">
+                <p>Un sous-thème est un angle de traitement différent d'un même sujet général. Par exemple, si votre thème général est "la production musicale", vos sous-thèmes pourraient être :</p>
+                
+                <ul style="margin: 15px 0 15px 20px;">
+                    <li>Tips et techniques de production</li>
+                    <li>L'histoire derrière ma créativité</li>
+                    <li>Erreurs courantes et comment les éviter</li>
+                    <li>Types de beats et styles que j'utilise</li>
+                    <li>Mon processus créatif</li>
+                    <li>Outils et équipements essentiels</li>
+                </ul>
+                
+                <div class="callout astuce">
+                    <div class="callout-title">💡 Astuce</div>
+                    <p>Créez une liste de 10-15 sous-thèmes. Quand vous vous asseyez pour créer, consultez cette liste et choisissez. Vous n'avez plus à réfléchir, juste à exécuter.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="calendrier">
+            <div class="section-header">
+                <div class="section-icon">📆</div>
+                <h2>Construire un calendrier éditorial</h2>
+            </div>
+            <div class="section-content">
+                <p>Un calendrier éditorial est votre feuille de route. Il vous permet de visualiser votre stratégie sur plusieurs mois et d'identifier les gaps ou redondances.</p>
+                
+                <p style="margin-top: 15px;">Votre calendrier doit inclure :</p>
+                <ul style="margin: 15px 0 15px 20px;">
+                    <li>Date de publication</li>
+                    <li>Format et plateforme</li>
+                    <li>Thème ou sous-thème</li>
+                    <li>Mots-clés ou hashtags</li>
+                    <li>Responsable de la création</li>
+                    <li>Statut de production (brouillon, finalisé, publié)</li>
+                </ul>
+                
+                <details>
+                    <summary>🔧 Outils pour créer un calendrier</summary>
+                    <div style="margin-top: 15px;">
+                        <p><strong>Gratuits :</strong> Google Sheets, Notion, Trello</p>
+                        <p style="margin-top: 10px;"><strong>Payants :</strong> Monday.com, Airtable, Asana</p>
+                        <p style="margin-top: 10px;"><strong>Spécialisés réseaux sociaux :</strong> Buffer, Later, Hootsuite</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+        
+        <section id="authenticite">
+            <div class="section-header accent">
+                <div class="section-icon">💫</div>
+                <h2>L'importance de l'authenticité</h2>
+            </div>
+            <div class="section-content">
+                <p>Dans un monde saturé de contenu parfait et retouché, l'authenticité est votre atout majeur. Les gens veulent voir des vraies personnes, pas des influenceurs plastifiés.</p>
+                
+                <p style="margin-top: 15px;">Quand vous utilisez votre smartphone pour créer du contenu quotidien, vous offrez exactement cela : de l'authenticité brute. C'est pourquoi cette approche fonctionne si bien.</p>
+                
+                <div class="callout retenir">
+                    <div class="callout-title">✨ À retenir</div>
+                    <p>L'authenticité crée la connexion. Une vidéo tournée au smartphone par une vraie personne engendre plus d'engagement qu'une production cinématographique détachée.</p>
+                </div>
+            </div>
+        </section>
+        
+        <div class="quiz">
+            <h3>📝 Quiz de maîtrise</h3>
+            <p style="margin-bottom: 30px;">Testez votre compréhension des concepts clés</p>
+            
+            <form id="quizForm">
+                <div class="quiz-question">
+                    <p>Q1: Quel est le principal avantage de combiner les deux stratégies de production?</p>
+                    <label class="quiz-option">
+                        <input type="radio" name="q1" value="a">
+                        <span>Cela réduit les coûts</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q1" value="b">
+                        <span>Vous combinez le professionnel (grosses productions) avec l'authentique (contenu quotidien)</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q1" value="c">
+                        <span>Cela vous permet de devenir youtubeur</span>
+                    </label>
+                    <div class="quiz-feedback"></div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>Q2: Combien de formats faut-il maîtriser au démarrage?</p>
+                    <label class="quiz-option">
+                        <input type="radio" name="q2" value="a">
+                        <span>Au minimum 5 formats différents</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q2" value="b">
+                        <span>1 à 3 formats maximum</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q2" value="c">
+                        <span>Tous les formats disponibles</span>
+                    </label>
+                    <div class="quiz-feedback"></div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>Q3: Qu'est-ce qu'un sous-thème?</p>
+                    <label class="quiz-option">
+                        <input type="radio" name="q3" value="a">
+                        <span>Un thème moins important que le thème principal</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q3" value="b">
+                        <span>Un angle différent de traitement d'un même sujet général</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q3" value="c">
+                        <span>Un sujet complètement différent</span>
+                    </label>
+                    <div class="quiz-feedback"></div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>Q4: Comment la production en batch augmente-t-elle votre efficacité?</p>
+                    <label class="quiz-option">
+                        <input type="radio" name="q4" value="a">
+                        <span>En créant un contenu à la fois très lentement</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q4" value="b">
+                        <span>En regroupant les tâches similaires pour minimiser les changements de contexte</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q4" value="c">
+                        <span>En employant plus de gens</span>
+                    </label>
+                    <div class="quiz-feedback"></div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>Q5: Pourquoi l'authenticité est-elle importante dans le contenu?</p>
+                    <label class="quiz-option">
+                        <input type="radio" name="q5" value="a">
+                        <span>Parce que c'est moins cher à produire</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q5" value="b">
+                        <span>Parce que les gens veulent voir des vraies personnes et créent plus de connexion</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q5" value="c">
+                        <span>Parce que les algorithmes la préfèrent</span>
+                    </label>
+                    <div class="quiz-feedback"></div>
+                </div>
+                
+                <button type="button" class="quiz-button" onclick="submitQuiz()">Vérifier mes réponses</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="container">
+            <div class="footer-brand">Producteur à Succès</div>
+            <p class="footer-text">Formation professionnelle en business musical et création de contenu</p>
+            <p class="footer-text" style="margin-top: 15px; opacity: 0.7;">© 2024 Tarik Hamiche - Tous droits réservés</p>
+        </div>
+    </div>
+    
+    <script>
+        // Progress bar on scroll
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.querySelector('.progress-bar-fill').style.width = scrollPercent + '%';
+        });
+        
+        // Quiz answers
+        const quizAnswers = {
+            q1: 'b',
+            q2: 'b',
+            q3: 'b',
+            q4: 'b',
+            q5: 'b'
+        };
+        
+        function submitQuiz() {
+            let correct = 0;
+            
+            for (const [question, correctAnswer] of Object.entries(quizAnswers)) {
+                const selected = document.querySelector(`input[name="${question}"]:checked`);
+                const feedback = document.querySelector(`input[name="${question}"] + span`).parentElement.nextElementSibling;
+                
+                if (!selected) {
+                    feedback.textContent = '⚠️ Veuillez répondre à cette question';
+                    feedback.classList.remove('correct', 'incorrect');
+                    feedback.style.display = 'block';
+                } else if (selected.value === correctAnswer) {
+                    feedback.textContent = '✅ Excellente réponse!';
+                    feedback.classList.add('correct');
+                    feedback.classList.remove('incorrect');
+                    correct++;
+                } else {
+                    feedback.textContent = '❌ Mauvaise réponse - Revoir cette section';
+                    feedback.classList.add('incorrect');
+                    feedback.classList.remove('correct');
+                }
+            }
+            
+            const total = Object.keys(quizAnswers).length;
+            const percentage = Math.round((correct / total) * 100);
+            alert(`Score: ${correct}/${total} (${percentage}%)`);
+        }
+    </script>
+</body>
+</html>

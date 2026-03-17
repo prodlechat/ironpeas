@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prospection - Module 5 | Producteur à Succès</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C3AED;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-900: #111827;
+        }
+
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--gray-700);
+            background: linear-gradient(135deg, #f5f3ff 0%, #faf8ff 100%);
+            line-height: 1.6;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--info), var(--primary));
+            width: 0%;
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--info) 0%, #60A5FA 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            margin: 0 0 20px 0;
+            line-height: 1.2;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            opacity: 0.95;
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .toc {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .toc h2 {
+            margin-top: 0;
+            color: var(--primary);
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-list li {
+            margin-bottom: 12px;
+        }
+
+        .toc-list a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toc-list a:hover {
+            color: var(--accent);
+        }
+
+        .toc-list a::before {
+            content: '→';
+            font-weight: bold;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid;
+        }
+
+        .section-icon {
+            font-size: 32px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+        }
+
+        .section-1 .section-header { border-bottom-color: var(--info); }
+        .section-1 .section-icon { background: rgba(59, 130, 246, 0.1); }
+        .section-2 .section-header { border-bottom-color: var(--success); }
+        .section-2 .section-icon { background: rgba(16, 185, 129, 0.1); }
+        .section-3 .section-header { border-bottom-color: var(--accent); }
+        .section-3 .section-icon { background: rgba(245, 158, 11, 0.1); }
+        .section-4 .section-header { border-bottom-color: var(--primary); }
+        .section-4 .section-icon { background: rgba(108, 58, 237, 0.1); }
+
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            margin: 0;
+            color: var(--gray-900);
+        }
+
+        h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            color: var(--gray-800);
+        }
+
+        p { margin-bottom: 15px; line-height: 1.8; }
+
+        .callout {
+            margin: 25px 0;
+            padding: 20px;
+            border-left: 4px solid;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .callout-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .callout-remember {
+            border-left-color: var(--primary);
+            background: rgba(108, 58, 237, 0.05);
+        }
+
+        .callout-remember .callout-title { color: var(--primary); }
+
+        .callout-tip {
+            border-left-color: var(--success);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .callout-tip .callout-title { color: var(--success); }
+
+        .callout-warning {
+            border-left-color: var(--danger);
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .callout-warning .callout-title { color: var(--danger); }
+
+        .callout-info {
+            border-left-color: var(--info);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .callout-info .callout-title { color: var(--info); }
+
+        details {
+            margin: 20px 0;
+            padding: 0;
+        }
+
+        summary {
+            padding: 15px;
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            user-select: none;
+            transition: all 0.2s;
+        }
+
+        summary:hover {
+            background: var(--gray-100);
+        }
+
+        summary::before {
+            content: '▶';
+            font-size: 12px;
+            transition: transform 0.2s;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        details[open] summary::before {
+            transform: rotate(90deg);
+        }
+
+        details > *:not(summary) {
+            padding: 20px;
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .quiz-section {
+            background: linear-gradient(135deg, var(--info), #60A5FA);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-top: 50px;
+        }
+
+        .quiz-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+
+        .quiz-question {
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .quiz-option input[type="radio"] {
+            cursor: pointer;
+        }
+
+        .quiz-option label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .quiz-feedback {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background: rgba(16, 185, 129, 0.2);
+            color: #D1F3E1;
+        }
+
+        .quiz-feedback.incorrect {
+            background: rgba(239, 68, 68, 0.2);
+            color: #FDCDD9;
+        }
+
+        .footer {
+            background: var(--gray-900);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .footer-tagline {
+            font-size: 14px;
+            opacity: 0.7;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 13px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 32px; }
+            h2 { font-size: 22px; }
+            .section { padding: 25px; }
+            .hero { padding: 40px 20px; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section { animation: fadeIn 0.5s ease-out; }
+    </style>
+</head>
+<body>
+    <div class="progress-bar"></div>
+
+    <div class="hero">
+        <div class="hero-content">
+            <span class="badge">Module 5 - Vendre & Performer</span>
+            <h1>Prospection</h1>
+            <p class="hero-description">Maîtrisez l'art de la prospection auprès des organisateurs. Découvrez comment identifier vos cibles, préparer vos approches et transformer les prospects en clients.</p>
+            <div class="hero-meta">
+                <div class="meta-item">
+                    <span>🎓</span>
+                    <span>Formateur: Tarik Hamiche</span>
+                </div>
+                <div class="meta-item">
+                    <span>🏢</span>
+                    <span>Producteur à Succès</span>
+                </div>
+                <div class="meta-item">
+                    <span>🎯</span>
+                    <span>Stratégie de Vente</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="toc">
+            <h2>📑 Au Sommaire</h2>
+            <ul class="toc-list">
+                <li><a href="#section-1">Fondamentaux de la Prospection</a></li>
+                <li><a href="#section-2">Identification des Cibles</a></li>
+                <li><a href="#section-3">Préparation de l'Approche</a></li>
+                <li><a href="#section-4">Cycles de Vente & Suivi</a></li>
+            </ul>
+        </div>
+
+        <section id="section-1" class="section section-1">
+            <div class="section-header">
+                <div class="section-icon">🔍</div>
+                <h2>Fondamentaux de la Prospection</h2>
+            </div>
+
+            <p>Vous avez maintenant une offre irrésistible et vous vous distinguez de la concurrence. C'est le moment de commencer la prospection active auprès des organisateurs potentiels.</p>
+
+            <h3>Qu'est-ce que la prospection ?</h3>
+            <p>La prospection est l'ensemble des actions pour identifier, contacter et convertir des prospects (organisateurs, venues, festivals) en clients qui vous programmeront.</p>
+
+            <div class="callout callout-remember">
+                <div class="callout-title">💡 À retenir</div>
+                <p>La prospection n'est pas une activité ponctuelle : c'est un processus continu et systématique qui doit faire partie de votre routine hebdomadaire.</p>
+            </div>
+
+            <h3>Pourquoi la prospection est cruciale</h3>
+            <p>Sans prospection active, vous attendez que les opportunités viennent à vous. Avec prospection, vous créez les opportunités. C'est le levier de croissance principal.</p>
+
+            <details>
+                <summary>Statistiques sur la prospection</summary>
+                <ul>
+                    <li>70-80% des artistes n'ont jamais de plan de prospection</li>
+                    <li>Les artistes qui prospectent systématiquement obtiennent 3-5x plus de dates</li>
+                    <li>La prospection requiert patience : généralement 3-5 contacts avant un accord</li>
+                    <li>Un taux de conversion moyen est de 10-20% (2-4 clients pour 20 contacts)</li>
+                </ul>
+            </details>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✨ Astuce</div>
+                <p>Consacrez 30% de votre temps à la prospection active. C'est l'activité à ROI le plus élevé pour un musicien/producteur.</p>
+            </div>
+        </section>
+
+        <section id="section-2" class="section section-2">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h2>Identification des Cibles</h2>
+            </div>
+
+            <p>Ne prospecter pas "tout le monde". Identifiez les organisateurs qui correspondent à votre style musical, votre budget et vos objectifs.</p>
+
+            <h3>Créer votre liste de cibles</h3>
+            <p>Compilez une liste de 50-100 organisateurs/venues potentiels. Cela sera votre reservoir de prospects.</p>
+
+            <h3>Critères de ciblage</h3>
+            <ul>
+                <li><strong>Genre musical:</strong> La venue programme-t-elle votre style ?</li>
+                <li><strong>Capacité:</strong> Correspond-elle à votre niveau (100 pers, 500 pers, 2000 pers) ?</li>
+                <li><strong>Budget estimé:</strong> Le budget de la venue match-il vos tarifs ?</li>
+                <li><strong>Localisation:</strong> Régions prioritaires / accessibilité logistique</li>
+                <li><strong>Événements réguliers:</strong> La venue organize-t-elle des événements fréquemment ?</li>
+            </ul>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">⚠️ Attention</div>
+                <p>Éviter de contacter des venues qui ne correspondent pas à votre profil. Une approche shotgun dilue votre message et crée des résultats négatifs.</p>
+            </div>
+
+            <h3>Outils pour identifier les cibles</h3>
+            <details>
+                <summary>Ressources et outils</summary>
+                <ul>
+                    <li><strong>Google Maps:</strong> Recherchez "live music venues [city]"</li>
+                    <li><strong>Songkick / Bandsintown:</strong> Voir qui joue où et quand</li>
+                    <li><strong>Événements Facebook:</strong> Suivre les calendriers d'événements des venues</li>
+                    <li><strong>Réseaux locaux:</strong> Rencontrez d'autres musiciens et demandez leurs contacts</li>
+                    <li><strong>Annuaires professionnels:</strong> SNEP, associations de venues</li>
+                </ul>
+            </details>
+
+            <div class="callout callout-info">
+                <div class="callout-title">💬 Le saviez-vous ?</div>
+                <p>Les meilleures leads viennent souvent de recommandations d'autres musiciens ou des contacts directs avec les directeurs/bookers. Relationnal > bases de données.</p>
+            </div>
+        </section>
+
+        <section id="section-3" class="section section-3">
+            <div class="section-header">
+                <div class="section-icon">💼</div>
+                <h2>Préparation de l'Approche</h2>
+            </div>
+
+            <p>Avant de contacter un prospect, préparez minutieusement votre approche. Cela augmente dramatiquement vos chances de conversion.</p>
+
+            <h3>Recherche sur la venue</h3>
+            <p>Consultez son site web, son historique d'événements, ses pages sociales. Comprenez sa positioning et son audience.</p>
+
+            <h3>Craft your pitch</h3>
+            <p>Préparez un pitch court (30 secondes) qui explique :</p>
+            <ul>
+                <li>Qui vous êtes (artiste/producteur)</li>
+                <li>Votre style musical</li>
+                <li>Pourquoi c'est un match avec cette venue</li>
+                <li>Appel à l'action (RDV, discussion)</li>
+            </ul>
+
+            <div class="callout callout-remember">
+                <div class="callout-title">💡 À retenir</div>
+                <p>Votre pitch doit être personnalisé pour chaque venue. "J'aime votre salle, j'ai suivi vos derniers événements dans le genre X..." fait la différence.</p>
+            </div>
+
+            <h3>Matériel de présentation</h3>
+            <p>Préparez :</p>
+            <ul>
+                <li>Lien vers votre musique (Spotify, SoundCloud, YouTube)</li>
+                <li>Photos haute résolution (pour articles de presse)</li>
+                <li>One-sheet (1 page de présentation synthétique)</li>
+                <li>Vidéo court (30 sec) de vous en performance</li>
+                <li>Tarif / conditions (à adapter par prospect)</li>
+            </ul>
+
+            <details>
+                <summary>Template de One-Sheet</summary>
+                <div style="background: var(--gray-100); padding: 15px; border-radius: 6px; font-family: monospace; font-size: 12px;">
+[Logo]<br/>
+<strong>NOM DE L'ARTISTE</strong><br/>
+Genre: House / Techno Minimal<br/>
+<br/>
+🎵 Récemment joué:<br/>
+- Festival XYZ (500+ personnes)<br/>
+- Club ABC (résidents réguliers)<br/>
+<br/>
+📊 Audience:<br/>
+- 15K followers Instagram<br/>
+- 50K streams Spotify/mois<br/>
+<br/>
+🔗 Écouter: [Link]<br/>
+📧 Contact: [Email]
+                </div>
+            </details>
+        </section>
+
+        <section id="section-4" class="section section-4">
+            <div class="section-header">
+                <div class="section-icon">🔄</div>
+                <h2>Cycles de Vente & Suivi</h2>
+            </div>
+
+            <p>La prospection réussie suit un cycle : contact, découverte, proposition, suivi, accord. Chaque étape est essentielle.</p>
+
+            <h3>Étapes du cycle de vente</h3>
+            <ol>
+                <li><strong>Prise de contact initial:</strong> Email, appel, ou message</li>
+                <li><strong>Réponse et rapport:</strong> Établissez la connexion</li>
+                <li><strong>Découverte des besoins:</strong> Écoutez ce qu'ils recherchent</li>
+                <li><strong>Proposition:</strong> Présentez votre offre adaptée à leurs besoins</li>
+                <li><strong>Relance (J+3):</strong> Si pas de réponse, relancez poliment</li>
+                <li><strong>Négociation:</strong> Discutez prix, dates, conditions</li>
+                <li><strong>Accord:</strong> Contrat, confirmation, préparation</li>
+            </ol>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">⚠️ Attention</div>
+                <p>L'erreur #1 : Accepter un "non" trop rapidement. Souvent, les prospects disent "non" par défaut mais reconsidèrent après une relance bien faite.</p>
+            </div>
+
+            <h3>Suivi systématique</h3>
+            <p>Utilisez un CRM simple (Google Sheets, Airtable, Pipedrive) pour tracker :</p>
+            <ul>
+                <li>Date du premier contact</li>
+                <li>Statut (contacté, répondu, en négociation, accord, fermé)</li>
+                <li>Historique des interactions</li>
+                <li>Prochaine relance prévue</li>
+            </ul>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✨ Astuce</div>
+                <p>Planifiez vos relances automatiquement. Si pas de réponse en 3 jours, relance J+3. Si pas de réponse J+3 à J+7, relance J+7. Etc.</p>
+            </div>
+
+            <h3>Gestion des objections</h3>
+            <p>Quand vous recevez une objection :</p>
+            <ul>
+                <li><strong>Écoutez complètement</strong> avant de répondre</li>
+                <li><strong>Validez le point:</strong> "Je comprends que le budget soit limité..."</li>
+                <li><strong>Proposez une solution:</strong> "Et si on parlait d'une formule réduite..."</li>
+                <li><strong>Relancez l'engagement:</strong> "Pensez-vous que cela pourrait fonctionner ?"</li>
+            </ul>
+        </section>
+
+        <div class="quiz-section">
+            <h2 class="quiz-title">📚 Quiz de Validation</h2>
+
+            <div class="quiz-question">
+                <div class="question-text">1. Combien de temps devriez-vous consacrer à la prospection active par semaine ?</div>
+                <div class="quiz-options">
+                    <div class="quiz-option">
+                        <input type="radio" id="q1-a" name="q1" value="a">
+                        <label for="q1-a">Seulement quand vous avez du temps libre</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q1-b" name="q1" value="b">
+                        <label for="q1-b">Environ 30% de votre temps</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q1-c" name="q1" value="c">
+                        <label for="q1-c">C'est optionnel si vous êtes bon musicalement</label>
+                    </div>
+                </div>
+                <div class="quiz-feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <div class="question-text">2. Quel est le critère PRINCIPAL pour cibler une venue ?</div>
+                <div class="quiz-options">
+                    <div class="quiz-option">
+                        <input type="radio" id="q2-a" name="q2" value="a">
+                        <label for="q2-a">Simplement qu'elle existe et a des événements</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q2-b" name="q2" value="b">
+                        <label for="q2-b">Qu'elle programme votre style musical et correspond à votre budget</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q2-c" name="q2" value="c">
+                        <label for="q2-c">Qu'elle soit la plus grande possible</label>
+                    </div>
+                </div>
+                <div class="quiz-feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <div class="question-text">3. Combien de temps devriez-vous attendre avant une relance après un premier contact ?</div>
+                <div class="quiz-options">
+                    <div class="quiz-option">
+                        <input type="radio" id="q3-a" name="q3" value="a">
+                        <label for="q3-a">Immédiatement (le jour même)</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q3-b" name="q3" value="b">
+                        <label for="q3-b">3 à 7 jours</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q3-c" name="q3" value="c">
+                        <label for="q3-c">Plusieurs semaines ou mois</label>
+                    </div>
+                </div>
+                <div class="quiz-feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <div class="question-text">4. Quel matériel de présentation est ESSENTIEL ?</div>
+                <div class="quiz-options">
+                    <div class="quiz-option">
+                        <input type="radio" id="q4-a" name="q4" value="a">
+                        <label for="q4-a">Lien vers votre musique et photos haute résolution</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q4-b" name="q4" value="b">
+                        <label for="q4-b">Seulement votre lien Spotify</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q4-c" name="q4" value="c">
+                        <label for="q4-c">Rien de particulier, votre talent suffit</label>
+                    </div>
+                </div>
+                <div class="quiz-feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <div class="question-text">5. Que faire après un "non" d'un prospect ?</div>
+                <div class="quiz-options">
+                    <div class="quiz-option">
+                        <input type="radio" id="q5-a" name="q5" value="a">
+                        <label for="q5-a">Accepter le refus et passer au suivant</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q5-b" name="q5" value="b">
+                        <label for="q5-b">Écouter l'objection et proposer une solution alternative</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q5-c" name="q5" value="c">
+                        <label for="q5-c">Insister agressivement jusqu'à obtenir un accord</label>
+                    </div>
+                </div>
+                <div class="quiz-feedback"></div>
+            </div>
+
+            <button onclick="checkQuiz()" style="margin-top: 30px; padding: 12px 30px; background: white; color: var(--info); border: 2px solid white; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 16px; transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.color='white';" onmouseout="this.style.background='white'; this.style.color='var(--info)';">Vérifier les Réponses</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">Producteur à Succès</div>
+            <p class="footer-tagline">Formation professionnelle en music business</p>
+            <div class="footer-links">
+                <a href="#">Site Officiel</a>
+                <a href="#">Conditions d'Utilisation</a>
+                <a href="#">Politique de Confidentialité</a>
+                <a href="#">Contact</a>
+            </div>
+            <p style="margin-top: 20px; font-size: 12px; opacity: 0.6;">© 2026 Producteur à Succès. Tous droits réservés.</p>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollTop = window.scrollY;
+            const progress = (scrollTop / windowHeight) * 100;
+            document.querySelector('.progress-bar').style.width = progress + '%';
+        });
+
+        const correctAnswers = {
+            q1: 'b',
+            q2: 'b',
+            q3: 'b',
+            q4: 'a',
+            q5: 'b'
+        };
+
+        function checkQuiz() {
+            let score = 0;
+            for (let i = 1; i <= 5; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (!selected) {
+                    alert(`Question ${i}: Veuillez sélectionner une réponse.`);
+                    return;
+                }
+                const feedback = document.querySelector(`input[name="q${i}"]`).closest('.quiz-question').querySelector('.quiz-feedback');
+                if (selected.value === correctAnswers[`q${i}`]) {
+                    feedback.textContent = '✓ Correct !';
+                    feedback.className = 'quiz-feedback show correct';
+                    score++;
+                } else {
+                    feedback.textContent = '✗ Incorrect. La bonne réponse est: ' + (selected.value === 'a' ? 'A' : selected.value === 'b' ? 'B' : 'C');
+                    feedback.className = 'quiz-feedback show incorrect';
+                }
+            }
+            const message = score === 5 ? 'Excellent ! Vous maîtrisez la prospection.' : `Bravo ! Vous avez obtenu ${score}/5. Révisez les sujets manqués.`;
+            setTimeout(() => alert(message), 500);
+        }
+    </script>
+</body>
+</html>

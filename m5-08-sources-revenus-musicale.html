@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sources de revenus - Module 5 | Producteur à Succès</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C3AED;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --dark: #1F2937;
+            --light: #F9FAFB;
+            --border: #E5E7EB;
+        }
+
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: white;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #7C3AED 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto 24px;
+            font-weight: 300;
+        }
+
+        .metadata {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            font-size: 14px;
+            opacity: 0.9;
+            flex-wrap: wrap;
+        }
+
+        .metadata-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Navigation */
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            padding: 16px 40px;
+        }
+
+        .nav-content {
+            display: flex;
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-item {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--dark);
+            cursor: pointer;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        /* Main content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        /* TOC */
+        .toc {
+            background: var(--light);
+            border-left: 4px solid var(--primary);
+            padding: 24px;
+            border-radius: 8px;
+            margin-bottom: 48px;
+        }
+
+        .toc h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            margin-bottom: 16px;
+            color: var(--dark);
+        }
+
+        .toc ol {
+            list-style-position: inside;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .toc li {
+            cursor: pointer;
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .toc li:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 60px;
+            scroll-margin-top: 120px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .section-icon {
+            font-size: 32px;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), #7C3AED);
+            color: white;
+            border-radius: 8px;
+        }
+
+        .section-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .section-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #374151;
+        }
+
+        /* Callout boxes */
+        .callout {
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid;
+            margin: 16px 0;
+            background: var(--light);
+        }
+
+        .callout-retenir {
+            border-left-color: var(--primary);
+            background: rgba(108, 58, 237, 0.05);
+        }
+
+        .callout-astuce {
+            border-left-color: var(--success);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .callout-attention {
+            border-left-color: var(--danger);
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .callout-info {
+            border-left-color: var(--info);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .callout strong {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            font-size: 15px;
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--primary), #7C3AED);
+            color: white;
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:hover {
+            background: var(--light);
+        }
+
+        /* Accordion */
+        details {
+            margin: 16px 0;
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        details summary {
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        details[open] summary {
+            margin-bottom: 12px;
+        }
+
+        details p {
+            margin: 0;
+        }
+
+        /* Quiz */
+        .quiz-section {
+            background: linear-gradient(135deg, var(--primary) 0%, #7C3AED 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-top: 60px;
+        }
+
+        .quiz-section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            margin-bottom: 24px;
+        }
+
+        .quiz-question {
+            margin-bottom: 32px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .quiz-question p {
+            color: white;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 8px 0;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .quiz-option input[type="radio"] {
+            cursor: pointer;
+        }
+
+        .quiz-option label {
+            cursor: pointer;
+            flex: 1;
+            color: white;
+        }
+
+        .quiz-button {
+            background: var(--accent);
+            color: var(--dark);
+            border: none;
+            padding: 12px 32px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 16px;
+        }
+
+        .quiz-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(245, 158, 11, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .footer-text {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 16px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            font-size: 13px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .container {
+                padding: 40px 24px;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-content {
+                gap: 16px;
+                overflow-x: auto;
+            }
+
+            .metadata {
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="badge">Module 5 • Formation</div>
+            <h1>Identifier les différentes sources de revenus dans la filière musicale</h1>
+            <p>Découvrez les 7 grandes sources de revenus de l'industrie musicale et apprenez à les monétiser efficacement.</p>
+            <div class="metadata">
+                <div class="metadata-item">
+                    <span>📚</span>
+                    <span><strong>Formateur:</strong> Tarik Hamiche</span>
+                </div>
+                <div class="metadata-item">
+                    <span>🎓</span>
+                    <span><strong>Organisme:</strong> Producteur à Succès</span>
+                </div>
+                <div class="metadata-item">
+                    <span>⏱️</span>
+                    <span><strong>Module:</strong> 5 - Les revenus</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sticky Navigation -->
+    <nav class="sticky-nav">
+        <div class="nav-content" id="navItems">
+            <a class="nav-item" href="#introduction">Introduction</a>
+            <a class="nav-item" href="#les-sept-sources">Les 7 sources</a>
+            <a class="nav-item" href="#streaming">Streaming</a>
+            <a class="nav-item" href="#sync">Synchronisation</a>
+            <a class="nav-item" href="#concerts">Concerts</a>
+            <a class="nav-item" href="#merchandising">Merchandising</a>
+            <a class="nav-item" href="#quiz">Quiz</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Table of Contents -->
+        <div class="toc">
+            <h2>📑 Sommaire du module</h2>
+            <ol>
+                <li>Introduction aux sources de revenus</li>
+                <li>Les 7 grandes sources de revenus</li>
+                <li>Le streaming et la musique numérique</li>
+                <li>La synchronisation musicale</li>
+                <li>Les revenus des concerts et performances</li>
+                <li>Le merchandising et ventes directes</li>
+                <li>Stratégies de monétisation multiples</li>
+            </ol>
+        </div>
+
+        <!-- Section 1: Introduction -->
+        <section id="introduction">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h2>Introduction aux sources de revenus</h2>
+            </div>
+            <div class="section-content">
+                <p>Bienvenue dans ce module dédié à l'identification des différentes sources de revenus dans la filière musicale. C'est une question fondamentale pour tout musicien ou producteur qui souhaite vivre de sa passion.</p>
+
+                <div class="callout callout-retenir">
+                    <strong>À retenir</strong>
+                    <p>Qu'est-ce qui fait fonctionner cette industrie? Qu'est-ce qui va vous faire vivre de votre musique? Ces questions sont centrales pour comprendre l'écosystème musical actuel.</p>
+                </div>
+
+                <p>La filière musicale a considérablement évolué au cours des dernières années. Il y a encore cinq ou six ans, on parlait de beaucoup plus de sources de revenus. Aujourd'hui, il est crucial de comprendre les 7 grandes sources pour construire une stratégie de monétisation cohérente.</p>
+
+                <div class="callout callout-astuce">
+                    <strong>Astuce</strong>
+                    <p>Ne mettez pas tous vos œufs dans le même panier! La diversification des sources de revenus est la clé du succès durable dans la musique.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Les 7 sources -->
+        <section id="les-sept-sources">
+            <div class="section-header">
+                <div class="section-icon">💰</div>
+                <h2>Les 7 grandes sources de revenus</h2>
+            </div>
+            <div class="section-content">
+                <p>L'industrie musicale moderne repose sur sept piliers de monétisation distincts:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Source de revenu</th>
+                            <th>Description</th>
+                            <th>Potentiel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Streaming musical</strong></td>
+                            <td>Écoute en ligne via Spotify, Apple Music, etc.</td>
+                            <td>Continu</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Téléchargement</strong></td>
+                            <td>Vente de fichiers musicaux numériques</td>
+                            <td>Moyen</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Synchronisation</strong></td>
+                            <td>Utilisation dans films, pubs, séries, jeux</td>
+                            <td>Très élevé</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Concerts et live</strong></td>
+                            <td>Spectacles, festivals, tournées</td>
+                            <td>Très élevé</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ventes physiques</strong></td>
+                            <td>Vinyles, CD, cassettes</td>
+                            <td>En croissance</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Merchandising</strong></td>
+                            <td>Produits dérivés aux fans</td>
+                            <td>Élevé</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Royalties et droits</strong></td>
+                            <td>Droits d'auteur, voisins, mécaniques</td>
+                            <td>Continu</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-info">
+                    <strong>Le saviez-vous?</strong>
+                    <p>La synchronisation musicale peut générer des revenus bien plus importants que le streaming traditionnel. Une seule placement dans une série populaire ou un film blockbuster peut valoir des milliers d'euros.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Streaming -->
+        <section id="streaming">
+            <div class="section-header">
+                <div class="section-icon">🎵</div>
+                <h2>Le streaming et la musique numérique</h2>
+            </div>
+            <div class="section-content">
+                <p>Le streaming est devenu la source dominante de revenus dans l'industrie musicale moderne. Avec des plateformes comme Spotify, Apple Music, YouTube Music, et bien d'autres, les artistes ont accès à des milliards d'auditeurs potentiels.</p>
+
+                <details>
+                    <summary>💡 Comment fonctionne la rémunération par streaming?</summary>
+                    <p>Les services de streaming versent un pourcentage de leurs revenus d'abonnement et publicité aux ayants droit. Cet argent est distribué par des agrégateurs et des sociétés de gestion collective en fonction du nombre de lectures (streams) de chaque morceau.</p>
+                </details>
+
+                <div class="callout callout-attention">
+                    <strong>Attention</strong>
+                    <p>Les revenus du streaming seul ne suffisent généralement pas à vivre confortablement de la musique. Un artiste a besoin d'une stratégie multi-canaux.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Synchronisation -->
+        <section id="sync">
+            <div class="section-header">
+                <div class="section-icon">🎬</div>
+                <h2>La synchronisation musicale</h2>
+            </div>
+            <div class="section-content">
+                <p>La synchronisation (ou "sync") consiste à placer votre musique dans du contenu visuel: films, séries, publicités, jeux vidéo, documentaires, etc.</p>
+
+                <div class="callout callout-retenir">
+                    <strong>À retenir</strong>
+                    <p>La synchronisation est l'une des sources les plus lucratives pour un musicien ou producteur. Une seule synchronisation bien négociée peut générer plus de revenus qu'un an de streaming.</p>
+                </div>
+
+                <p>Pour augmenter vos chances d'obtenir des synchronisations, travaillez avec des superviseurs musicaux, inscrivez-vous sur des plateformes spécialisées, et construisez un catalogue de musique variée.</p>
+            </div>
+        </section>
+
+        <!-- Section 5: Concerts -->
+        <section id="concerts">
+            <div class="section-header">
+                <div class="section-icon">🎤</div>
+                <h2>Les revenus des concerts et performances</h2>
+            </div>
+            <div class="section-content">
+                <p>Les concerts et les performances live restent une source majeure de revenus pour les artistes. Que ce soit des petits concerts locaux ou des grandes tournées internationales, le live génère d'importants revenus.</p>
+
+                <div class="callout callout-astuce">
+                    <strong>Astuce</strong>
+                    <p>Pour "Décrochez Vos Premières Dates", utilisez les stratégies apprises dans le module 4. Commencez petit, bâtissez une audience locale, puis élargissez progressivement votre rayon d'action.</p>
+                </div>
+
+                <p>Au-delà du cachet de performance, les concerts offrent une excellente opportunité pour vendre du merchandising et renforcer votre connexion avec vos fans.</p>
+            </div>
+        </section>
+
+        <!-- Section 6: Merchandising -->
+        <section id="merchandising">
+            <div class="section-header">
+                <div class="section-icon">👕</div>
+                <h2>Le merchandising et ventes directes</h2>
+            </div>
+            <div class="section-content">
+                <p>Le merchandising va bien au-delà des simples t-shirts! Vous pouvez vendre des vêtements, des objets de collection, des éditions limitées de votre musique, et bien d'autres produits.</p>
+
+                <details>
+                    <summary>💡 Quels types de merchandise vendre?</summary>
+                    <p>T-shirts, hoodies, chapeaux, mugs, vinyles, CD, cassettes, affiches, livres de photos, NFTs, etc. L'important est de proposer des produits en alignement avec votre image et vos fans.</p>
+                </details>
+
+                <div class="callout callout-info">
+                    <strong>Le saviez-vous?</strong>
+                    <p>Les ventes directes aux fans (sans intermédiaires) ont les meilleures marges bénéficiaires. C'est particulièrement important pour les ventes physiques et le merchandising.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7: Stratégie globale -->
+        <section id="strategie">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h2>Stratégie de monétisation multiples</h2>
+            </div>
+            <div class="section-content">
+                <p>Le succès durable dans la musique nécessite une approche multifacette. Voici comment construire votre stratégie:</p>
+
+                <div class="callout callout-retenir">
+                    <strong>À retenir</strong>
+                    <p>Les artistes qui gagnent le plus n'en vivent pas d'une seule source. Ils combinent streaming, synchronisation, concerts, merchandise et droits. C'est l'écosystème complet qui génère du revenu.</p>
+                </div>
+
+                <p><strong>Étapes pour construire votre stratégie:</strong></p>
+                <ol style="margin-left: 20px; margin-top: 16px;">
+                    <li>Créez une musique de qualité professionnelle</li>
+                    <li>Distribuez-la sur tous les plateformes de streaming</li>
+                    <li>Ciblez des synchronisations dès le début</li>
+                    <li>Organisez des concerts et performances</li>
+                    <li>Créez et vendez du merchandise</li>
+                    <li>Optimisez vos royalties et droits</li>
+                    <li>Mesurez, analysez et ajustez régulièrement</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="quiz" class="quiz-section">
+            <h2>📝 Quiz: Testez vos connaissances</h2>
+            <form id="quizForm">
+                <div class="quiz-question">
+                    <p><strong>Question 1:</strong> Combien de grandes sources de revenus y a-t-il dans l'industrie musicale?</p>
+                    <div class="quiz-option">
+                        <input type="radio" id="q1a" name="q1" value="5">
+                        <label for="q1a">5 sources</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q1b" name="q1" value="7">
+                        <label for="q1b">7 sources</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q1c" name="q1" value="10">
+                        <label for="q1c">10 sources</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <p><strong>Question 2:</strong> Quelle est généralement la source la plus lucrative pour un musicien?</p>
+                    <div class="quiz-option">
+                        <input type="radio" id="q2a" name="q2" value="streaming">
+                        <label for="q2a">Le streaming musical</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q2b" name="q2" value="sync">
+                        <label for="q2b">La synchronisation musicale</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q2c" name="q2" value="ventes">
+                        <label for="q2c">Les ventes physiques</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <p><strong>Question 3:</strong> Quel est le conseil principal pour réussir dans la musique?</p>
+                    <div class="quiz-option">
+                        <input type="radio" id="q3a" name="q3" value="une">
+                        <label for="q3a">Se concentrer sur une seule source de revenu</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q3b" name="q3" value="multiple">
+                        <label for="q3b">Diversifier les sources de revenus</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q3c" name="q3" value="luck">
+                        <label for="q3c">Compter sur la chance</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <p><strong>Question 4:</strong> Qu'est-ce que la synchronisation musicale?</p>
+                    <div class="quiz-option">
+                        <input type="radio" id="q4a" name="q4" value="sync">
+                        <label for="q4a">Placer votre musique dans du contenu visuel (films, pubs, séries)</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q4b" name="q4" value="stream">
+                        <label for="q4b">Synchroniser votre musique avec des streaming</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q4c" name="q4" value="merge">
+                        <label for="q4c">Fusionner plusieurs titres ensemble</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <p><strong>Question 5:</strong> Quelle est la meilleure stratégie pour vendre du merchandising?</p>
+                    <div class="quiz-option">
+                        <input type="radio" id="q5a" name="q5" value="direct">
+                        <label for="q5a">Vendre directement aux fans (meilleures marges)</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q5b" name="q5" value="retail">
+                        <label for="q5b">Vendre exclusivement en magasin</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q5c" name="q5" value="wholesale">
+                        <label for="q5c">Vendre uniquement en gros</label>
+                    </div>
+                </div>
+
+                <button type="button" class="quiz-button" onclick="submitQuiz()">Vérifier mes réponses</button>
+            </form>
+            <div id="quizResult" style="margin-top: 24px;"></div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">🎵 Producteur à Succès</div>
+            <p class="footer-text">Formation complète pour réussir dans l'industrie musicale</p>
+            <div class="footer-links">
+                <a href="#">Contact</a>
+                <a href="#">Mentions légales</a>
+                <a href="#">Politique de confidentialité</a>
+                <a href="#">Conditions d'utilisation</a>
+            </div>
+            <p class="footer-text" style="margin-top: 24px; font-size: 12px; opacity: 0.6;">© 2026 Producteur à Succès. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', function() {
+            const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('progressBar').style.width = scrollPercentage + '%';
+        });
+
+        // Smooth scrolling for nav items
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Quiz submission
+        function submitQuiz() {
+            const answers = {
+                q1: document.querySelector('input[name="q1"]:checked')?.value,
+                q2: document.querySelector('input[name="q2"]:checked')?.value,
+                q3: document.querySelector('input[name="q3"]:checked')?.value,
+                q4: document.querySelector('input[name="q4"]:checked')?.value,
+                q5: document.querySelector('input[name="q5"]:checked')?.value,
+            };
+
+            const correctAnswers = {
+                q1: '7',
+                q2: 'sync',
+                q3: 'multiple',
+                q4: 'sync',
+                q5: 'direct',
+            };
+
+            let score = 0;
+            for (let q in answers) {
+                if (answers[q] === correctAnswers[q]) {
+                    score++;
+                }
+            }
+
+            const resultDiv = document.getElementById('quizResult');
+            const percentage = Math.round((score / 5) * 100);
+
+            let resultHTML = `<div style="padding: 20px; background: rgba(255, 255, 255, 0.1); border-radius: 8px;">
+                <h3 style="margin-bottom: 12px;">Résultat: ${score}/5 (${percentage}%)</h3>`;
+
+            if (percentage === 100) {
+                resultHTML += '<p>🎉 Excellent! Vous maîtrisez parfaitement le contenu de ce module!</p>';
+            } else if (percentage >= 80) {
+                resultHTML += '<p>✨ Très bien! Vous avez une bonne compréhension du module.</p>';
+            } else if (percentage >= 60) {
+                resultHTML += '<p>👍 Bien! Continuez à réviser les sections clés.</p>';
+            } else {
+                resultHTML += '<p>📖 À revoir. Lisez attentivement les sections du module.</p>';
+            }
+
+            resultHTML += '</div>';
+            resultDiv.innerHTML = resultHTML;
+        }
+
+        // TOC links
+        document.querySelectorAll('.toc li').forEach(item => {
+            item.addEventListener('click', function() {
+                const text = this.textContent;
+                const sectionId = text.toLowerCase()
+                    .replace(/[^a-z0-9\s]/g, '')
+                    .trim()
+                    .replace(/\s+/g, '-');
+
+                // Try to find matching section
+                const sections = ['introduction', 'les-sept-sources', 'streaming', 'sync', 'concerts', 'merchandising', 'strategie'];
+                for (let section of sections) {
+                    if (text.includes('Introduction') && section === 'introduction') {
+                        document.querySelector('#' + section).scrollIntoView({ behavior: 'smooth' });
+                        break;
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

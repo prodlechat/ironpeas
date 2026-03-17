@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 2 – Vidéo 2 : Explorer les dispositifs d'aide disponibles (Partie 2)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { width: 100% !important; max-width: 100% !important; overflow-x: hidden; }
+
+        :root {
+            --primary: #6C3AED;
+            --primary-light: #EDE9FE;
+            --accent: #F59E0B;
+            --accent-light: #FEF3C7;
+            --success: #10B981;
+            --success-light: #D1FAE5;
+            --danger: #EF4444;
+            --danger-light: #FEE2E2;
+            --info: #3B82F6;
+            --info-light: #DBEAFE;
+            --teal: #14B8A6;
+            --teal-light: #CCFBF1;
+            --orange: #F97316;
+            --orange-light: #FFF7ED;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-500: #6B7280;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            --radius: 12px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--gray-800);
+            background: var(--gray-50);
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed; top: 0; left: 0; width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), #A78BFA, var(--teal));
+            z-index: 1000; transition: width 0.1s ease;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #4C1D95 0%, #6C3AED 40%, #7C3AED 70%, #2E1065 100%);
+            color: white; padding: 60px 24px 50px; text-align: center;
+            position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.08) 0%, transparent 60%);
+        }
+        .hero::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 6px;
+            background: linear-gradient(90deg, var(--accent), var(--teal), var(--info), var(--primary));
+        }
+        .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+        .badge {
+            display: inline-block; background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);
+            padding: 6px 16px; border-radius: 50px; font-size: 0.85rem;
+            font-weight: 500; margin-bottom: 20px; letter-spacing: 0.5px;
+        }
+        .badge-suite {
+            display: inline-block; background: var(--accent); color: var(--gray-900);
+            padding: 4px 12px; border-radius: 50px; font-size: 0.75rem;
+            font-weight: 700; margin-left: 8px; letter-spacing: 0.5px; text-transform: uppercase;
+        }
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            font-weight: 700; margin-bottom: 16px; line-height: 1.2;
+        }
+        .hero p { font-size: 1.05rem; opacity: 0.9; max-width: 650px; margin: 0 auto 24px; }
+        .meta-tags { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; font-size: 0.9rem; opacity: 0.85; }
+        .meta-tags span { display: flex; align-items: center; gap: 6px; }
+
+        /* Container */
+        .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+        /* TOC */
+        .toc {
+            background: white; border-radius: var(--radius); box-shadow: var(--shadow-md);
+            padding: 32px; margin: -30px auto 40px; position: relative; z-index: 2; max-width: 900px;
+        }
+        .toc h2 {
+            font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem;
+            color: var(--primary); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+        }
+        .toc-list { list-style: none; }
+        .toc-list li { border-bottom: 1px solid var(--gray-100); }
+        .toc-list li:last-child { border-bottom: none; }
+        .toc-list a {
+            display: flex; align-items: center; gap: 12px; padding: 12px 8px;
+            text-decoration: none; color: var(--gray-700); font-size: 0.95rem;
+            transition: all 0.2s; border-radius: 8px;
+        }
+        .toc-list a:hover { background: var(--primary-light); color: var(--primary); padding-left: 16px; }
+        .toc-number {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 28px; height: 28px; background: var(--primary-light);
+            color: var(--primary); border-radius: 8px; font-weight: 600;
+            font-size: 0.85rem; flex-shrink: 0;
+        }
+
+        /* Sections */
+        .section {
+            background: white; border-radius: var(--radius);
+            box-shadow: var(--shadow); margin-bottom: 32px; overflow: hidden;
+        }
+        .section-header {
+            padding: 24px 32px; display: flex; align-items: center; gap: 16px;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        .section-icon {
+            width: 48px; height: 48px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; flex-shrink: 0;
+        }
+        .section-header h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; color: var(--gray-900); }
+        .section-body { padding: 28px 32px; }
+        .section-body p { margin-bottom: 16px; text-align: justify; }
+        .section-body p:last-child { margin-bottom: 0; }
+
+        .section-purple .section-header { background: linear-gradient(135deg, var(--primary-light), #F3E8FF); }
+        .section-purple .section-icon { background: var(--primary); color: white; }
+        .section-green .section-header { background: linear-gradient(135deg, var(--success-light), #ECFDF5); }
+        .section-green .section-icon { background: var(--success); color: white; }
+        .section-blue .section-header { background: linear-gradient(135deg, var(--info-light), #EFF6FF); }
+        .section-blue .section-icon { background: var(--info); color: white; }
+        .section-amber .section-header { background: linear-gradient(135deg, var(--accent-light), #FFFBEB); }
+        .section-amber .section-icon { background: var(--accent); color: white; }
+        .section-red .section-header { background: linear-gradient(135deg, var(--danger-light), #FEF2F2); }
+        .section-red .section-icon { background: var(--danger); color: white; }
+        .section-teal .section-header { background: linear-gradient(135deg, var(--teal-light), #F0FDFA); }
+        .section-teal .section-icon { background: var(--teal); color: white; }
+        .section-orange .section-header { background: linear-gradient(135deg, var(--orange-light), #FFF7ED); }
+        .section-orange .section-icon { background: var(--orange); color: white; }
+
+        /* Callout Boxes */
+        .callout {
+            border-radius: 10px; padding: 18px 22px; margin: 20px 0;
+            border-left: 4px solid; display: flex; gap: 14px; align-items: flex-start;
+        }
+        .callout-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+        .callout-content { flex: 1; }
+        .callout-title { font-weight: 700; margin-bottom: 4px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .callout-text { font-size: 0.95rem; }
+
+        .callout-tip { background: var(--success-light); border-color: var(--success); }
+        .callout-tip .callout-title { color: #065F46; }
+        .callout-warning { background: var(--accent-light); border-color: var(--accent); }
+        .callout-warning .callout-title { color: #92400E; }
+        .callout-danger { background: var(--danger-light); border-color: var(--danger); }
+        .callout-danger .callout-title { color: #991B1B; }
+        .callout-info { background: var(--info-light); border-color: var(--info); }
+        .callout-info .callout-title { color: #1E40AF; }
+        .callout-key { background: var(--primary-light); border-color: var(--primary); }
+        .callout-key .callout-title { color: #4C1D95; }
+
+        /* Tables */
+        .table-wrapper { overflow-x: auto; margin: 20px 0; border-radius: 10px; box-shadow: var(--shadow); }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        thead th {
+            background: var(--primary); color: white; padding: 14px 16px;
+            text-align: left; font-weight: 600; font-size: 0.85rem;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        thead th:first-child { border-radius: 10px 0 0 0; }
+        thead th:last-child { border-radius: 0 10px 0 0; }
+        tbody td { padding: 12px 16px; border-bottom: 1px solid var(--gray-100); }
+        tbody tr:nth-child(even) { background: var(--gray-50); }
+        tbody tr:hover { background: var(--primary-light); }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px; margin: 20px 0;
+        }
+        .card {
+            background: var(--gray-50); border: 1px solid var(--gray-200);
+            border-radius: 10px; padding: 20px; transition: all 0.2s;
+        }
+        .card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+        .card-icon { font-size: 2rem; margin-bottom: 10px; }
+        .card-title { font-weight: 700; font-size: 1rem; margin-bottom: 8px; color: var(--gray-900); }
+        .card-text { font-size: 0.9rem; color: var(--gray-500); line-height: 1.5; }
+        .card-amount { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--primary); margin-top: 10px; }
+
+        /* Accordion */
+        details { margin: 16px 0; border: 1px solid var(--gray-200); border-radius: 10px; overflow: hidden; }
+        summary {
+            padding: 14px 20px; font-weight: 600; cursor: pointer;
+            background: var(--gray-50); display: flex; align-items: center; gap: 10px;
+            list-style: none; user-select: none; transition: background 0.2s;
+        }
+        summary::-webkit-details-marker { display: none; }
+        summary::before { content: '▸'; transition: transform 0.2s; }
+        details[open] summary::before { transform: rotate(90deg); }
+        summary:hover { background: var(--primary-light); }
+        details .detail-content { padding: 16px 20px; font-size: 0.95rem; }
+
+        /* Timeline */
+        .timeline { position: relative; padding-left: 30px; margin: 20px 0; }
+        .timeline::before {
+            content: ''; position: absolute; left: 10px; top: 0; bottom: 0;
+            width: 3px; background: linear-gradient(180deg, var(--primary), var(--teal), var(--success));
+            border-radius: 3px;
+        }
+        .timeline-item { position: relative; margin-bottom: 24px; padding-left: 20px; }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -24px; top: 6px;
+            width: 12px; height: 12px; background: var(--primary);
+            border: 3px solid white; border-radius: 50%; box-shadow: var(--shadow);
+        }
+        .timeline-title { font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
+        .timeline-text { font-size: 0.9rem; color: var(--gray-500); }
+
+        /* Pros/Cons */
+        .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+        .pros, .cons { border-radius: 10px; padding: 20px; }
+        .pros { background: var(--success-light); border: 1px solid #A7F3D0; }
+        .cons { background: var(--danger-light); border: 1px solid #FECACA; }
+        .pros h4, .cons h4 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+        .pros h4 { color: #065F46; }
+        .cons h4 { color: #991B1B; }
+        .pros li, .cons li { font-size: 0.9rem; margin-bottom: 8px; list-style: none; padding-left: 22px; position: relative; }
+        .pros li::before { content: '✓'; position: absolute; left: 0; color: var(--success); font-weight: 700; }
+        .cons li::before { content: '✗'; position: absolute; left: 0; color: var(--danger); font-weight: 700; }
+
+        /* Big Number Highlight */
+        .big-number {
+            display: flex; align-items: center; gap: 20px;
+            background: linear-gradient(135deg, var(--primary-light), #F3E8FF);
+            border-radius: 12px; padding: 24px; margin: 20px 0;
+        }
+        .big-number-value {
+            font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem;
+            font-weight: 800; color: var(--primary); line-height: 1; flex-shrink: 0;
+        }
+        .big-number-label { font-size: 0.95rem; color: var(--gray-700); }
+
+        /* Quiz */
+        .quiz-container { margin: 20px 0; }
+        .quiz-question {
+            background: var(--gray-50); border: 2px solid var(--gray-200);
+            border-radius: 12px; padding: 24px; margin-bottom: 20px; transition: border-color 0.3s;
+        }
+        .quiz-question.correct { border-color: var(--success); background: var(--success-light); }
+        .quiz-question.incorrect { border-color: var(--danger); background: var(--danger-light); }
+        .quiz-q-text { font-weight: 600; margin-bottom: 16px; font-size: 1.05rem; }
+        .quiz-option {
+            display: block; width: 100%; text-align: left; padding: 12px 16px;
+            margin-bottom: 8px; border: 2px solid var(--gray-200); border-radius: 8px;
+            background: white; cursor: pointer; font-size: 0.95rem;
+            transition: all 0.2s; font-family: inherit;
+        }
+        .quiz-option:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-light); }
+        .quiz-option.selected-correct { border-color: var(--success); background: var(--success-light); }
+        .quiz-option.selected-wrong { border-color: var(--danger); background: var(--danger-light); }
+        .quiz-option.reveal-correct { border-color: var(--success); background: var(--success-light); }
+        .quiz-feedback { margin-top: 12px; padding: 12px 16px; border-radius: 8px; font-size: 0.9rem; display: none; }
+        .quiz-feedback.show { display: block; }
+        .quiz-feedback.correct { background: var(--success-light); color: #065F46; }
+        .quiz-feedback.incorrect { background: var(--danger-light); color: #991B1B; }
+        .quiz-score {
+            text-align: center; padding: 30px;
+            background: linear-gradient(135deg, var(--primary-light), #F3E8FF);
+            border-radius: 12px; margin-top: 24px; display: none;
+        }
+        .quiz-score h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; color: var(--primary); }
+        .quiz-score p { color: var(--gray-500); margin-top: 8px; }
+
+        /* Footer */
+        .footer { text-align: center; padding: 40px 24px; color: var(--gray-500); font-size: 0.85rem; }
+        .footer-brand { font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: var(--primary); font-size: 1.1rem; margin-bottom: 8px; }
+
+        /* Print */
+        @media print {
+            .progress-bar, .quiz-option, .quiz-feedback, .quiz-score { display: none; }
+            .hero { background: var(--primary) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .section { break-inside: avoid; box-shadow: none; border: 1px solid var(--gray-200); }
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .section-body, .section-header { padding: 16px 20px; }
+            .toc { padding: 20px; margin: -20px 16px 30px; }
+            .hero { padding: 40px 16px 36px; }
+            .pros-cons { grid-template-columns: 1fr; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .big-number { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- HERO -->
+<header class="hero">
+    <div class="hero-content">
+        <div class="badge">📚 Module 2 — Vidéo 2 <span class="badge-suite">Suite & Fin</span></div>
+        <h1>Explorer les dispositifs d'aide disponibles (Partie 2)</h1>
+        <p>Crédits d'impôt phonographique et éditorial, aides CNM (développement artiste, structuration, export international) — les dispositifs les plus puissants pour les producteurs et éditeurs.</p>
+        <div class="meta-tags">
+            <span>👤 Formateur : Tarik Hamiche</span>
+            <span>⏱️ Session live (suite)</span>
+            <span>🎓 Producteur à Succès</span>
+        </div>
+    </div>
+</header>
+
+<!-- TABLE OF CONTENTS -->
+<div class="container">
+    <nav class="toc">
+        <h2>📋 Sommaire</h2>
+        <ol class="toc-list">
+            <li><a href="#s1"><span class="toc-number">1</span> Aide à la création de clip vidéo (SPPF / SCPP)</a></li>
+            <li><a href="#s2"><span class="toc-number">2</span> Le Crédit d'Impôt Phonographique (CIP)</a></li>
+            <li><a href="#s3"><span class="toc-number">3</span> Le Crédit d'Impôt Éditorial</a></li>
+            <li><a href="#s4"><span class="toc-number">4</span> Les aides CNM : Développement artiste</a></li>
+            <li><a href="#s5"><span class="toc-number">5</span> L'aide CNM à la structuration des entreprises</a></li>
+            <li><a href="#s6"><span class="toc-number">6</span> L'aide CNM au développement international (Export)</a></li>
+            <li><a href="#s7"><span class="toc-number">7</span> Tableau récapitulatif & Quiz de validation</a></li>
+        </ol>
+    </nav>
+</div>
+
+<!-- SECTION 1 -->
+<div class="container">
+    <section class="section section-purple" id="s1">
+        <div class="section-header">
+            <div class="section-icon">🎬</div>
+            <h2>1. Aide à la création de clip vidéo (SPPF / SCPP)</h2>
+        </div>
+        <div class="section-body">
+            <p>Pour compléter les aides à l'enregistrement et à la promotion vues en Partie 1, la SPPF et la SCPP proposent également une aide spécifique à la création de clips vidéo. Ce dispositif prend en charge l'ensemble des dépenses liées à la production d'un clip, sans limitation de postes budgétaires.</p>
+
+            <div class="callout callout-key">
+                <div class="callout-icon">🔑</div>
+                <div class="callout-content">
+                    <div class="callout-title">Critères d'éligibilité</div>
+                    <div class="callout-text">Le clip doit être rattaché à une sortie de projet musical d'au minimum 5 titres (EP) ou un album, avec un contrat de distribution en place. Le clip ne doit pas être déjà diffusé au moment de la demande. Les titres doivent être déposés au répertoire de l'organisme concerné.</div>
+                </div>
+            </div>
+
+            <div class="callout callout-danger">
+                <div class="callout-icon">🚫</div>
+                <div class="callout-content">
+                    <div class="callout-title">Ce qui est exclu</div>
+                    <div class="callout-text">Les captations de concert, les captations scénarisées (type documentaire ou mise en scène), et les compilations ou albums multi-artistes ne sont pas éligibles. Le clip doit être une création originale dédiée à un titre spécifique.</div>
+                </div>
+            </div>
+
+            <p>En revanche, toutes les dépenses de production sont prises en charge : location de matériel, éclairage, personnel technique, figurants, location de lieu (même une villa à l'étranger pour un tournage), post-production, effets spéciaux, etc. Il n'y a pas de restriction sur la nature des dépenses tant qu'elles sont directement liées à la production du clip.</p>
+
+            <div class="callout callout-tip">
+                <div class="callout-icon">✅</div>
+                <div class="callout-content">
+                    <div class="callout-title">Astuce</div>
+                    <div class="callout-text">Vous pouvez cumuler l'aide clip avec l'aide enregistrement et l'aide promotion sur un même projet. C'est l'avantage de ces dispositifs SPPF/SCPP : chaque volet (enregistrement, clip, promo) fait l'objet d'une demande séparée.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2 -->
+    <section class="section section-green" id="s2">
+        <div class="section-header">
+            <div class="section-icon">🧾</div>
+            <h2>2. Le Crédit d'Impôt Phonographique (CIP)</h2>
+        </div>
+        <div class="section-body">
+            <p>Le Crédit d'Impôt Phonographique est l'un des dispositifs les plus puissants à disposition des producteurs de musique. Contrairement aux subventions classiques, il s'agit d'un avantage fiscal : l'État vous rembourse une partie de vos dépenses de production sous forme de crédit d'impôt.</p>
+
+            <div class="big-number">
+                <div class="big-number-value">30 %</div>
+                <div class="big-number-label">C'est le taux du crédit d'impôt sur les dépenses de production éligibles. Pour les TPE/PME (ce qui concerne la majorité des labels indépendants), ce taux peut même être plus avantageux. Il n'y a pas de plafond de dépenses aussi bas que pour les subventions classiques.</div>
+            </div>
+
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; margin: 24px 0 12px; color: var(--gray-900);">Comment fonctionne le CIP ?</h3>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-title">1. Demande d'agrément provisoire</div>
+                    <div class="timeline-text">Vous déposez un dossier auprès du CNM avec un budget prévisionnel de votre projet de production. Vous projetez un chiffre d'affaires envisagé (soyez réaliste).</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-title">2. Obtention de l'agrément provisoire</div>
+                    <div class="timeline-text">Si le dossier est accepté, vous recevez un agrément provisoire qui vous autorise à engager vos dépenses en sachant qu'elles seront éligibles au crédit d'impôt.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-title">3. Production et engagement des dépenses</div>
+                    <div class="timeline-text">Vous engagez vos dépenses de production : enregistrement, mix, mastering, valorisation du temps de composition, cachets artistes, etc.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-title">4. Demande d'agrément définitif</div>
+                    <div class="timeline-text">Avec votre expert-comptable, vous constituez le dossier final avec les justificatifs de dépenses réelles.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-title">5. Crédit d'impôt versé</div>
+                    <div class="timeline-text">Le crédit d'impôt est imputé sur votre impôt sur les sociétés (ou remboursé si votre impôt est inférieur au crédit).</div>
+                </div>
+            </div>
+
+            <div class="callout callout-warning">
+                <div class="callout-icon">⚠️</div>
+                <div class="callout-content">
+                    <div class="callout-title">Expert-comptable indispensable</div>
+                    <div class="callout-text">Le CIP doit impérativement être monté en coordination avec un expert-comptable habitué à ce type de dispositif. Il y a des documents spécifiques à remplir, des attestations fiscales à produire, et des montants à valider. Ne vous lancez pas seul dans cette démarche.</div>
+                </div>
+            </div>
+
+            <div class="callout callout-info">
+                <div class="callout-icon">📊</div>
+                <div class="callout-content">
+                    <div class="callout-title">Le saviez-vous ?</div>
+                    <div class="callout-text">Le temps de composition et d'enregistrement peut être valorisé dans le CIP. Un exemple concret évoqué en formation : en valorisant le temps de composition, d'enregistrement, de mix et de mastering, un projet a pu atteindre plus de 70 000 € de valorisation totale prise en compte pour le calcul du crédit d'impôt.</div>
+                </div>
+            </div>
+
+            <details>
+                <summary>💡 Quelle différence entre CIP et subvention classique ?</summary>
+                <div class="detail-content">
+                    <p>Une subvention (ADAMI, SPPF, SCPP…) est un versement direct d'argent avant ou après vos dépenses. Le crédit d'impôt, lui, est une réduction de votre impôt sur les sociétés. Si votre crédit d'impôt est supérieur à votre impôt dû, la différence vous est remboursée par l'administration fiscale. Le CIP est cumulable avec certaines subventions, ce qui en fait un levier très puissant pour les labels structurés.</p>
+                </div>
+            </details>
+        </div>
+    </section>
+
+    <!-- SECTION 3 -->
+    <section class="section section-amber" id="s3">
+        <div class="section-header">
+            <div class="section-icon">📝</div>
+            <h2>3. Le Crédit d'Impôt Éditorial</h2>
+        </div>
+        <div class="section-body">
+            <p>Ce crédit d'impôt concerne les éditeurs de musique (et non les producteurs de phonogrammes). Si vous avez une activité d'édition musicale, ce dispositif peut vous permettre de récupérer une partie de vos investissements dans le développement d'auteurs et de compositeurs.</p>
+
+            <div class="callout callout-key">
+                <div class="callout-icon">🔑</div>
+                <div class="callout-content">
+                    <div class="callout-title">Les 2 volets du crédit d'impôt éditorial</div>
+                    <div class="callout-text"><strong>Volet 1 :</strong> Développement d'auteurs ou de compositeurs et création de nouveaux répertoires. <strong>Volet 2 :</strong> Valorisation du catalogue d'œuvres existant (œuvres de plus de 10 ans après première publication).</div>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Critère</th>
+                            <th>Détail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Seuil minimum de droits</strong></td>
+                            <td>Percevoir au minimum 5 000 € de droits d'auteur sur l'une des deux années précédant la demande</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nombre de demandes</strong></td>
+                            <td>Jusqu'à 3 demandes par an et par éditeur</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dépenses éligibles (Volet 1)</strong></td>
+                            <td>Toutes les dépenses liées au développement d'auteurs/compositeurs : sessions d'écriture, enregistrement de maquettes, promotion, déplacements</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dépenses éligibles (Volet 2)</strong></td>
+                            <td>Remise en valeur du catalogue ancien : remasterisation, sync, promotion de back-catalogue</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="callout callout-tip">
+                <div class="callout-icon">✅</div>
+                <div class="callout-content">
+                    <div class="callout-title">Astuce</div>
+                    <div class="callout-text">Le seuil de 5 000 € de droits n'est pas très élevé : avec deux grosses répartitions dans l'année et des titres qui tournent un minimum, c'est atteignable. Et vous avez deux années de référence possibles pour atteindre ce seuil.</div>
+                </div>
+            </div>
+
+            <details>
+                <summary>🤔 Le crédit d'impôt éditorial couvre-t-il l'achat de catalogue ?</summary>
+                <div class="detail-content">
+                    <p>A priori, le coût d'acquisition d'un catalogue éditorial n'est pas éligible au crédit d'impôt. En revanche, si vous achetez un catalogue en sommeil et que vous investissez dans sa remise au goût du jour (remasterisation, nouvelles productions, promotion, placements en sync, etc.), ces dépenses d'investissement sont éligibles au volet 2 du crédit d'impôt. C'est la nuance : le prix d'achat non, les investissements de valorisation oui.</p>
+                </div>
+            </details>
+        </div>
+    </section>
+
+    <!-- SECTION 4 -->
+    <section class="section section-blue" id="s4">
+        <div class="section-header">
+            <div class="section-icon">🚀</div>
+            <h2>4. Les aides CNM : Développement artiste</h2>
+        </div>
+        <div class="section-body">
+            <p>Le Centre National de la Musique (CNM) est l'organisme qui propose les aides les plus conséquentes pour les labels et producteurs structurés. L'aide au développement d'artiste est le dispositif phare : il finance l'ensemble du cycle de développement d'un artiste, de l'enregistrement à la tournée.</p>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">🎙️</div>
+                    <div class="card-title">Enregistrement</div>
+                    <div class="card-text">Prise en charge des frais de studio, ingénieur du son, musiciens, mix, mastering. La valorisation de vos propres prestations est acceptée par le CNM.</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📣</div>
+                    <div class="card-title">Promotion</div>
+                    <div class="card-text">Attaché de presse, marketing digital, publicité, création de contenus visuels, relations médias, campagnes réseaux sociaux.</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎤</div>
+                    <div class="card-title">Tournée / Live</div>
+                    <div class="card-text">Frais de tournée, booking, technique, transport, hébergement des musiciens, location de matériel pour les concerts.</div>
+                </div>
+            </div>
+
+            <div class="callout callout-warning">
+                <div class="callout-icon">⚠️</div>
+                <div class="callout-content">
+                    <div class="callout-title">Prérequis importants</div>
+                    <div class="callout-text">Pour accéder aux aides CNM, votre structure doit respecter les prérequis vus en Partie 1 : minimum 6 mois d'existence, attestations URSSAF, France Travail et Audiens à jour. Le CNM est particulièrement rigoureux sur ces conditions administratives.</div>
+                </div>
+            </div>
+
+            <p>L'avantage majeur du CNM par rapport aux autres organismes : la valorisation est acceptée. Si vous enregistrez et mixez chez vous, vous pouvez comptabiliser ces prestations dans votre budget. Cela permet de gonfler significativement le budget éligible et donc le montant de l'aide obtenue.</p>
+
+            <div class="callout callout-info">
+                <div class="callout-icon">📊</div>
+                <div class="callout-content">
+                    <div class="callout-title">Le saviez-vous ?</div>
+                    <div class="callout-text">Le CNM met régulièrement à jour ses règlements (dernière mise à jour en juin de l'année précédente). Les conditions d'éligibilité peuvent évoluer. Consultez toujours le site officiel du CNM pour vérifier les critères en vigueur avant de monter votre dossier.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5 -->
+    <section class="section section-teal" id="s5">
+        <div class="section-header">
+            <div class="section-icon">🏗️</div>
+            <h2>5. L'aide CNM à la structuration des entreprises</h2>
+        </div>
+        <div class="section-body">
+            <p>Ce dispositif ne finance pas un projet musical spécifique, mais le développement de votre structure elle-même. L'objectif est d'accompagner la croissance des labels, éditeurs et entreprises musicales indépendantes en finançant leurs investissements structurels.</p>
+
+            <div class="callout callout-key">
+                <div class="callout-icon">🔑</div>
+                <div class="callout-content">
+                    <div class="callout-title">Ce que finance l'aide à la structuration</div>
+                    <div class="callout-text">Embauches et salaires (CDI, sur un an à compter de l'embauche), évolutions internes, formations du personnel, investissements technologiques (plateformes, logiciels, sites), prestations de conseil, et communication de la structure en tant que marque.</div>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Poste de dépense</th>
+                            <th>Exemples concrets</th>
+                            <th>Éligible ?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Personnel</strong></td>
+                            <td>Recrutement CDI, évolution de poste, augmentation de salaire + charges</td>
+                            <td style="color: var(--success); font-weight:700;">✓ Oui</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Formation</strong></td>
+                            <td>Formation des salariés, montée en compétence liée à une évolution interne</td>
+                            <td style="color: var(--success); font-weight:700;">✓ Oui</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Technologie</strong></td>
+                            <td>Achat de sites, plateformes, logiciels, outils de gestion, licences catalogue</td>
+                            <td style="color: var(--success); font-weight:700;">✓ Oui</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Conseil</strong></td>
+                            <td>Cabinet de conseil, accompagnement stratégique, audit</td>
+                            <td style="color: var(--success); font-weight:700;">✓ Oui</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Communication corporate</strong></td>
+                            <td>Communication de la structure (pas d'un projet musical), branding</td>
+                            <td style="color: var(--success); font-weight:700;">✓ Oui</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Promotion d'un projet musical</strong></td>
+                            <td>Promo d'un single, d'un album</td>
+                            <td style="color: var(--danger); font-weight:700;">✗ Non</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="callout callout-tip">
+                <div class="callout-icon">✅</div>
+                <div class="callout-content">
+                    <div class="callout-title">Astuce</div>
+                    <div class="callout-text">Cette aide est idéale quand votre label commence à grossir et que vous devez recruter. Le salaire d'un nouveau salarié en CDI sur un an (plus les charges) peut être pris en charge, ce qui réduit considérablement le risque financier lié à une première embauche.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6 -->
+    <section class="section section-orange" id="s6">
+        <div class="section-header">
+            <div class="section-icon">🌍</div>
+            <h2>6. L'aide CNM au développement international (Export)</h2>
+        </div>
+        <div class="section-body">
+            <p>Le dispositif d'aide à l'export du CNM finance le développement de vos artistes à l'international. C'est un levier formidable pour les labels qui souhaitent conquérir de nouveaux marchés, mais il faut pouvoir démontrer un minimum de traction dans le pays cible.</p>
+
+            <div class="callout callout-warning">
+                <div class="callout-icon">⚠️</div>
+                <div class="callout-content">
+                    <div class="callout-title">Condition clé</div>
+                    <div class="callout-text">Vous devez pouvoir justifier d'un minimum d'audience ou de présence dans le pays visé. Si vous revendiquez vouloir vous développer au Japon mais que vous n'avez aucun follower ni aucune connexion sur place, le dossier ne passera pas. L'aide accompagne un développement en cours, elle ne le crée pas de zéro.</div>
+                </div>
+            </div>
+
+            <p>Les dépenses prises en charge couvrent les déplacements (transport, hébergement, repas), la représentation sur place, les frais de promotion locale, et même le tournage de clips à l'étranger si cela s'inscrit dans une stratégie de développement international.</p>
+
+            <div class="callout callout-tip">
+                <div class="callout-icon">✅</div>
+                <div class="callout-content">
+                    <div class="callout-title">Le hack pour démarrer</div>
+                    <div class="callout-text">Pour une première demande d'aide à l'export, greffez-vous sur des salons professionnels internationaux. Par exemple, l'ADE (Amsterdam Dance Event) en octobre : vous sollicitez l'aide pour vous y rendre en représentation. Cela finance le salon, le développement, et si vous revenez avec un clip tourné aux Pays-Bas, c'est encore mieux. C'est un excellent point de départ pour construire votre dossier d'export.</div>
+                </div>
+            </div>
+
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>✓ Ce qui renforce votre dossier</h4>
+                    <ul>
+                        <li>Des chiffres de streaming dans le pays cible</li>
+                        <li>Des contacts professionnels locaux (booking, média, label)</li>
+                        <li>Une participation à un salon professionnel international</li>
+                        <li>Un historique de concerts ou de showcases à l'étranger</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>✗ Ce qui fragilise votre dossier</h4>
+                    <ul>
+                        <li>Aucune audience mesurable dans le pays visé</li>
+                        <li>Pas de contacts ni de réseau local</li>
+                        <li>Un pays choisi sans justification stratégique</li>
+                        <li>Aucune action concrète déjà menée à l'international</li>
+                    </ul>
+                </div>
+            </div>
+
+            <details>
+                <summary>🎵 Exemple concret : un artiste électro à l'ADE</summary>
+                <div class="detail-content">
+                    <p>Imaginons que vous êtes un artiste électro et que vous souhaitez développer votre présence aux Pays-Bas. Vous sollicitez l'aide à l'export pour participer à l'Amsterdam Dance Event (ADE), l'un des plus grands événements de musique électronique au monde. L'aide finance votre déplacement, votre hébergement et vos frais de représentation. Sur place, vous faites un DJ set, vous rencontrez des bookers, vous tournez un clip. Au retour, vous avez du contenu, des contacts, et un début de notoriété locale. La prochaine demande sera d'autant plus facile à justifier.</p>
+                </div>
+            </details>
+        </div>
+    </section>
+
+    <!-- SECTION 7 — RECAP + QUIZ -->
+    <section class="section section-purple" id="s7">
+        <div class="section-header">
+            <div class="section-icon">🧠</div>
+            <h2>7. Tableau récapitulatif & Quiz de validation</h2>
+        </div>
+        <div class="section-body">
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Dispositif</th>
+                            <th>Organisme</th>
+                            <th>Type</th>
+                            <th>Profil visé</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Aide création clip vidéo</strong></td>
+                            <td>SPPF / SCPP</td>
+                            <td>Subvention</td>
+                            <td>Producteur (label)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Crédit d'Impôt Phonographique</strong></td>
+                            <td>CNM / État</td>
+                            <td>Crédit d'impôt (~30 %)</td>
+                            <td>Producteur (label)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Crédit d'Impôt Éditorial</strong></td>
+                            <td>CNM / État</td>
+                            <td>Crédit d'impôt</td>
+                            <td>Éditeur de musique</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aide développement artiste</strong></td>
+                            <td>CNM</td>
+                            <td>Subvention</td>
+                            <td>Label avec artiste</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aide à la structuration</strong></td>
+                            <td>CNM</td>
+                            <td>Subvention</td>
+                            <td>Label / entreprise musicale</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aide export / international</strong></td>
+                            <td>CNM</td>
+                            <td>Subvention</td>
+                            <td>Label avec stratégie internationale</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="callout callout-key" style="margin-top:30px;">
+                <div class="callout-icon">💡</div>
+                <div class="callout-content">
+                    <div class="callout-title">Le mot de la fin</div>
+                    <div class="callout-text">Les dispositifs d'aide en France sont parmi les plus généreux au monde pour l'industrie musicale. La clé, c'est de s'y prendre tôt, de monter des dossiers solides, et de travailler avec un expert-comptable pour les crédits d'impôt. N'attendez pas d'être « gros » pour solliciter ces aides : elles sont précisément conçues pour vous aider à grandir.</div>
+                </div>
+            </div>
+
+            <!-- QUIZ -->
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; margin: 30px 0 20px; color: var(--primary);">🎯 Quiz de validation — Testez vos connaissances</h3>
+
+            <div class="quiz-container" id="quiz">
+                <!-- Q1 -->
+                <div class="quiz-question" id="q1">
+                    <div class="quiz-q-text">1. Quel type de vidéo n'est PAS éligible à l'aide clip SPPF/SCPP ?</div>
+                    <button class="quiz-option" onclick="checkAnswer('q1', this, false)">A. Un clip tourné à l'étranger</button>
+                    <button class="quiz-option" onclick="checkAnswer('q1', this, true)">B. Une captation de concert scénarisée</button>
+                    <button class="quiz-option" onclick="checkAnswer('q1', this, false)">C. Un clip avec figurants et effets spéciaux</button>
+                    <button class="quiz-option" onclick="checkAnswer('q1', this, false)">D. Un clip tourné dans un studio de cinéma</button>
+                    <div class="quiz-feedback correct" id="q1-correct">Exact ! Les captations de concert et captations scénarisées (type documentaire) sont exclues du dispositif.</div>
+                    <div class="quiz-feedback incorrect" id="q1-incorrect">La bonne réponse est B. Les captations de concert et les formats documentaires/scénarisés ne sont pas éligibles.</div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="quiz-question" id="q2">
+                    <div class="quiz-q-text">2. Quel professionnel est indispensable pour monter un dossier de Crédit d'Impôt Phonographique ?</div>
+                    <button class="quiz-option" onclick="checkAnswer('q2', this, false)">A. Un avocat spécialisé en propriété intellectuelle</button>
+                    <button class="quiz-option" onclick="checkAnswer('q2', this, true)">B. Un expert-comptable habitué au CIP</button>
+                    <button class="quiz-option" onclick="checkAnswer('q2', this, false)">C. Un manager artistique</button>
+                    <button class="quiz-option" onclick="checkAnswer('q2', this, false)">D. Un distributeur digital</button>
+                    <div class="quiz-feedback correct" id="q2-correct">Parfait ! L'expert-comptable est indispensable pour constituer le dossier fiscal, les attestations et les montants à valider.</div>
+                    <div class="quiz-feedback incorrect" id="q2-incorrect">La bonne réponse est B. Le CIP est un dispositif fiscal qui nécessite impérativement l'accompagnement d'un expert-comptable.</div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="quiz-question" id="q3">
+                    <div class="quiz-q-text">3. Quel est le seuil minimum de droits d'auteur pour accéder au Crédit d'Impôt Éditorial ?</div>
+                    <button class="quiz-option" onclick="checkAnswer('q3', this, false)">A. 2 500 € sur les 3 dernières années</button>
+                    <button class="quiz-option" onclick="checkAnswer('q3', this, true)">B. 5 000 € sur l'une des 2 années précédentes</button>
+                    <button class="quiz-option" onclick="checkAnswer('q3', this, false)">C. 10 000 € sur l'année en cours</button>
+                    <button class="quiz-option" onclick="checkAnswer('q3', this, false)">D. 7 128 € sur les 3 dernières années</button>
+                    <div class="quiz-feedback correct" id="q3-correct">Bravo ! Il faut percevoir au minimum 5 000 € de droits d'auteur sur l'une des deux années précédant la demande.</div>
+                    <div class="quiz-feedback incorrect" id="q3-incorrect">La bonne réponse est B : 5 000 € minimum de droits d'auteur sur l'une des deux années précédant la demande.</div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="quiz-question" id="q4">
+                    <div class="quiz-q-text">4. Laquelle de ces dépenses est éligible à l'aide CNM à la structuration ?</div>
+                    <button class="quiz-option" onclick="checkAnswer('q4', this, false)">A. La promotion d'un single</button>
+                    <button class="quiz-option" onclick="checkAnswer('q4', this, false)">B. L'enregistrement d'un album</button>
+                    <button class="quiz-option" onclick="checkAnswer('q4', this, true)">C. Le salaire d'un nouveau salarié en CDI</button>
+                    <button class="quiz-option" onclick="checkAnswer('q4', this, false)">D. Les frais de distribution digitale</button>
+                    <div class="quiz-feedback correct" id="q4-correct">Exact ! L'aide à la structuration finance les dépenses liées au développement de la structure elle-même : embauches, formations, technologie, conseil.</div>
+                    <div class="quiz-feedback incorrect" id="q4-incorrect">La bonne réponse est C. L'aide à la structuration concerne le développement de la structure (embauches, formations, techno), pas la promotion ou la production musicale.</div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="quiz-question" id="q5">
+                    <div class="quiz-q-text">5. Quelle est la meilleure stratégie pour une première demande d'aide à l'export CNM ?</div>
+                    <button class="quiz-option" onclick="checkAnswer('q5', this, false)">A. Viser directement le marché américain sans contacts</button>
+                    <button class="quiz-option" onclick="checkAnswer('q5', this, false)">B. Attendre d'avoir 10 000 followers dans le pays cible</button>
+                    <button class="quiz-option" onclick="checkAnswer('q5', this, true)">C. Se greffer sur un salon professionnel international (ex: ADE)</button>
+                    <button class="quiz-option" onclick="checkAnswer('q5', this, false)">D. Envoyer des DM à des artistes locaux</button>
+                    <div class="quiz-feedback correct" id="q5-correct">Bien joué ! Participer à un salon pro international est le meilleur point de départ : cela finance le déplacement, crée des contacts, et génère du contenu pour justifier les demandes suivantes.</div>
+                    <div class="quiz-feedback incorrect" id="q5-incorrect">La bonne réponse est C. Les salons pro internationaux (ADE, SXSW, etc.) sont le tremplin idéal pour une première demande d'aide à l'export.</div>
+                </div>
+
+                <div class="quiz-score" id="quizScore">
+                    <h3 id="scoreText"></h3>
+                    <p id="scoreMessage"></p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-brand">Producteur à Succès</div>
+    <p>Formation Music Business par Tarik Hamiche</p>
+    <p style="margin-top: 8px; opacity: 0.7;">Module 2 — Vidéo 2 : Explorer les dispositifs d'aide disponibles (Partie 2)</p>
+</footer>
+
+<script>
+    // Progress Bar
+    window.addEventListener('scroll', () => {
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const progress = (scrollTop / scrollHeight) * 100;
+        document.getElementById('progressBar').style.width = progress + '%';
+    });
+
+    // Quiz Logic
+    let answered = 0;
+    let score = 0;
+    const totalQuestions = 5;
+
+    function checkAnswer(qId, btn, isCorrect) {
+        const question = document.getElementById(qId);
+        if (question.classList.contains('correct') || question.classList.contains('incorrect')) return;
+
+        const buttons = question.querySelectorAll('.quiz-option');
+        buttons.forEach(b => b.disabled = true);
+
+        if (isCorrect) {
+            btn.classList.add('selected-correct');
+            question.classList.add('correct');
+            document.getElementById(qId + '-correct').classList.add('show');
+            score++;
+        } else {
+            btn.classList.add('selected-wrong');
+            question.classList.add('incorrect');
+            document.getElementById(qId + '-incorrect').classList.add('show');
+            buttons.forEach(b => {
+                if (b.onclick.toString().includes('true')) b.classList.add('reveal-correct');
+            });
+        }
+
+        answered++;
+        if (answered === totalQuestions) showScore();
+    }
+
+    function showScore() {
+        const scoreDiv = document.getElementById('quizScore');
+        const scoreText = document.getElementById('scoreText');
+        const scoreMsg = document.getElementById('scoreMessage');
+        scoreDiv.style.display = 'block';
+        scoreText.textContent = score + ' / ' + totalQuestions;
+        if (score === totalQuestions) {
+            scoreMsg.textContent = 'Parfait ! Vous maîtrisez l\'ensemble des dispositifs d\'aide. Vous êtes prêt à monter vos dossiers !';
+        } else if (score >= 3) {
+            scoreMsg.textContent = 'Bon résultat ! Relisez les sections correspondant aux questions manquées pour consolider vos acquis.';
+        } else {
+            scoreMsg.textContent = 'N\'hésitez pas à revoir le cours. Ces dispositifs sont des leviers essentiels pour financer votre croissance !';
+        }
+    }
+</script>
+
+</body>
+</html>

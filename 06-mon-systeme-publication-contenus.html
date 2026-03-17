@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Système de Publication de contenus - Producteur à Succès</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C3AED;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --gray-600: #4B5563;
+            --gray-800: #1F2937;
+        }
+        
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--gray-800);
+            background: #fff;
+        }
+        
+        .progress-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            height: 4px;
+            background: var(--gray-200);
+            width: 100%;
+        }
+        
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #8B5CF6 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+        
+        .hero p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            opacity: 0.95;
+        }
+        
+        .metadata {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            font-size: 0.95em;
+            flex-wrap: wrap;
+        }
+        
+        .metadata-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .metadata-item strong {
+            font-weight: 600;
+        }
+        
+        .toc {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 30px;
+            margin: 40px 0;
+        }
+        
+        .toc h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .toc ul {
+            list-style: none;
+        }
+        
+        .toc li {
+            margin: 10px 0;
+        }
+        
+        .toc a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .toc a:hover {
+            color: var(--accent);
+        }
+        
+        section {
+            margin: 50px 0;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .section-icon {
+            font-size: 2em;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gray-100);
+            border-radius: 8px;
+        }
+        
+        .section-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8em;
+            color: var(--primary);
+            margin: 0;
+            flex: 1;
+        }
+        
+        .section-header.accent h2 { color: var(--accent); }
+        .section-header.success h2 { color: var(--success); }
+        .section-header.danger h2 { color: var(--danger); }
+        .section-header.info h2 { color: var(--info); }
+        
+        .section-content {
+            margin-left: 65px;
+            line-height: 1.8;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            margin: 15px 0 15px 20px;
+        }
+        
+        .callout {
+            border-left: 5px solid var(--gray-400);
+            padding: 20px;
+            margin: 20px 0;
+            background: var(--gray-50);
+            border-radius: 4px;
+        }
+        
+        .callout.retenir {
+            border-left-color: var(--primary);
+            background: rgba(108, 58, 237, 0.05);
+        }
+        
+        .callout.astuce {
+            border-left-color: var(--success);
+            background: rgba(16, 185, 129, 0.05);
+        }
+        
+        .callout.attention {
+            border-left-color: var(--danger);
+            background: rgba(239, 68, 68, 0.05);
+        }
+        
+        .callout.saviez {
+            border-left-color: var(--info);
+            background: rgba(59, 130, 246, 0.05);
+        }
+        
+        .callout-title {
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        details {
+            border: 1px solid var(--gray-200);
+            border-radius: 6px;
+            padding: 15px;
+            margin: 20px 0;
+            background: var(--gray-50);
+        }
+        
+        summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        summary::-webkit-details-marker {
+            color: var(--primary);
+        }
+        
+        details[open] summary {
+            margin-bottom: 15px;
+        }
+        
+        .quiz {
+            background: var(--gray-50);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 30px;
+            margin: 40px 0;
+        }
+        
+        .quiz h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .quiz-question {
+            margin-bottom: 30px;
+        }
+        
+        .quiz-question p {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .quiz-option:hover {
+            background: rgba(108, 58, 237, 0.1);
+        }
+        
+        .quiz-option input[type="radio"] {
+            cursor: pointer;
+        }
+        
+        .quiz-feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .quiz-feedback.correct {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            display: block;
+        }
+        
+        .quiz-feedback.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            display: block;
+        }
+        
+        .quiz-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+            margin-top: 20px;
+        }
+        
+        .quiz-button:hover {
+            background: #5a2dbd;
+        }
+        
+        .footer {
+            background: var(--gray-800);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .footer-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .footer-text {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8em;
+            }
+            
+            .section-header h2 {
+                font-size: 1.3em;
+            }
+            
+            .metadata {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-bar-fill"></div>
+    </div>
+    
+    <div class="hero">
+        <div class="container">
+            <div class="badge">Module 3</div>
+            <h1>Mon Système de Publication de contenus</h1>
+            <p>Créer, organiser et publier du contenu de manière systématique et efficace</p>
+            <div class="metadata">
+                <div class="metadata-item">
+                    <strong>Formateur:</strong> Tarik Hamiche
+                </div>
+                <div class="metadata-item">
+                    <strong>Organisme:</strong> Producteur à Succès
+                </div>
+                <div class="metadata-item">
+                    <strong>Module:</strong> Stratégies de création de contenu
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="toc">
+            <h2>📚 Sommaire</h2>
+            <ul>
+                <li><a href="#pourquoi">1. Pourquoi avoir un système?</a></li>
+                <li><a href="#creation">2. Étape 1 : La création</a></li>
+                <li><a href="#organisation">3. Étape 2 : L'organisation</a></li>
+                <li><a href="#publication">4. Étape 3 : La publication</a></li>
+                <li><a href="#calendrier">5. Utiliser un calendrier éditorial</a></li>
+                <li><a href="#automation">6. Automatisation de la publication</a></li>
+                <li><a href="#mesure">7. Mesure et optimisation</a></li>
+            </ul>
+        </div>
+        
+        <section id="pourquoi">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h2>Pourquoi avoir un système?</h2>
+            </div>
+            <div class="section-content">
+                <p>Publier du contenu sans système, c'est comme naviguer sans boussole. Vous allez partout et nulle part à la fois. Un système de publication vous permet de rester organisé, de publier régulièrement et de maintenir la cohérence de votre présence en ligne.</p>
+                
+                <div class="callout retenir">
+                    <div class="callout-title">✨ À retenir</div>
+                    <p>Un système transforme la création de contenu d'une tâche chaotique et stressante en un processus fluide et prévisible.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="creation">
+            <div class="section-header accent">
+                <div class="section-icon">✏️</div>
+                <h2>Étape 1 : La création</h2>
+            </div>
+            <div class="section-content">
+                <p>Il y a plusieurs approches pour créer du contenu efficacement. Vous pouvez créer en batch, créer quotidiennement, ou faire une grosse production. Je recommande une approche hybride.</p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Approche</th>
+                            <th>Fréquence</th>
+                            <th>Avantages</th>
+                            <th>Inconvénients</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Grosse production</strong></td>
+                            <td>1-2x par an</td>
+                            <td>Contenu professionnel, qualité cinématographique</td>
+                            <td>Coûteux, chronophage</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Création quotidienne</strong></td>
+                            <td>Tous les jours</td>
+                            <td>Authentic, régulier, relation constante</td>
+                            <td>Peut être épuisant, moins professionnel</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Approche hybride</strong></td>
+                            <td>Mixte</td>
+                            <td>Meilleur des deux mondes</td>
+                            <td>Nécessite plus de planification</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="callout astuce">
+                    <div class="callout-title">💡 Astuce</div>
+                    <p>Faites une grosse production une ou deux fois par an, puis complétez avec du contenu régulier. Cela vous donne du contenu de qualité professionnel ET une relation quotidienne avec votre audience.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="organisation">
+            <div class="section-header success">
+                <div class="section-icon">📁</div>
+                <h2>Étape 2 : L'organisation</h2>
+            </div>
+            <div class="section-content">
+                <p>Une bonne organisation est essentielle pour ne pas vous perdre. Créez une structure de dossiers logique et cohérente.</p>
+                
+                <details>
+                    <summary>📋 Structure recommandée pour vos dossiers</summary>
+                    <div style="margin-top: 15px;">
+                        <p><strong>Niveau 1 : Par plateforme</strong></p>
+                        <ul style="margin: 10px 0 10px 20px;">
+                            <li>YouTube/</li>
+                            <li>TikTok/</li>
+                            <li>Instagram/</li>
+                            <li>Blog/</li>
+                        </ul>
+                        
+                        <p style="margin-top: 15px;"><strong>Niveau 2 : Par thème ou mois</strong></p>
+                        <ul style="margin: 10px 0 10px 20px;">
+                            <li>YouTube/Production Musicale/</li>
+                            <li>YouTube/Mars 2024/</li>
+                            <li>Instagram/Reels - Marketing/</li>
+                        </ul>
+                    </div>
+                </details>
+                
+                <p style="margin-top: 20px;"><strong>Nommage des fichiers</strong></p>
+                <p>Ne nommez pas vos vidéos "vidéo final 2" ou "vidéo final final". Utilisez des noms descriptifs:</p>
+                <ul>
+                    <li>✓ "YouTube - Production musicale - Mars 2024 - 1080p"</li>
+                    <li>✗ "vidéo final"</li>
+                    <li>✓ "TikTok - Beats tips - v02"</li>
+                    <li>✗ "tiktok_v2_final_VRAI"</li>
+                </ul>
+                
+                <div class="callout saviez">
+                    <div class="callout-title">❓ Le saviez-vous?</div>
+                    <p>Un bon système d'organisation peut vous faire gagner des heures de recherche et réduire le stress. C'est un petit investissement pour un grand retour.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="publication">
+            <div class="section-header danger">
+                <div class="section-icon">📤</div>
+                <h2>Étape 3 : La publication</h2>
+            </div>
+            <div class="section-content">
+                <p>Une fois votre contenu créé et organisé, il est temps de le publier. Mais publier intelligemment, c'est plus que d'appuyer sur un bouton.</p>
+                
+                <p style="margin-top: 15px;"><strong>Considérations importantes :</strong></p>
+                <ul>
+                    <li>Choisir le bon moment pour publier</li>
+                    <li>Adapter le contenu au format de la plateforme</li>
+                    <li>Utiliser les mots-clés et hashtags appropriés</li>
+                    <li>Créer des descriptions engageantes</li>
+                    <li>Planifier votre calendrier de publication</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section id="calendrier">
+            <div class="section-header info">
+                <div class="section-icon">📅</div>
+                <h2>Utiliser un calendrier éditorial</h2>
+            </div>
+            <div class="section-content">
+                <p>Le calendrier éditorial est votre plan de bataille. Il doit répondre à plusieurs questions importantes :</p>
+                
+                <details>
+                    <summary>❓ Questions clés pour votre calendrier</summary>
+                    <div style="margin-top: 15px;">
+                        <p><strong>Combien de contenus par semaine?</strong> Décidez d'une fréquence réaliste et soutenable.</p>
+                        <p style="margin-top: 10px;"><strong>Quel jour?</strong> Cohérence : publier le même jour aide votre audience à vous suivre.</p>
+                        <p style="margin-top: 10px;"><strong>À quelle heure?</strong> Généralement 19h-20h quand les gens scrollent après le travail. À tester selon votre audience.</p>
+                        <p style="margin-top: 10px;"><strong>Quel type de contenu?</strong> Variez pour garder l'intérêt.</p>
+                    </div>
+                </details>
+                
+                <div class="callout attention">
+                    <div class="callout-title">⚠️ Attention</div>
+                    <p>Le timing de publication est crucial mais différent pour chaque audience. Ce qui fonctionne pour quelqu'un d'autre ne fonctionnera pas nécessairement pour vous. Testez et observez.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="automation">
+            <div class="section-header">
+                <div class="section-icon">🤖</div>
+                <h2>Automatisation de la publication</h2>
+            </div>
+            <div class="section-content">
+                <p>L'automatisation est un game-changer. Au lieu de publier manuellement chaque contenu au moment précis, utilisez des outils qui font le travail pour vous.</p>
+                
+                <details>
+                    <summary>🔧 Outils gratuits et payants</summary>
+                    <div style="margin-top: 15px;">
+                        <p><strong>Gratuits :</strong> Buffer, Later (version gratuite), Hootsuite (version gratuite)</p>
+                        <p style="margin-top: 10px;"><strong>Payants :</strong> Later (Pro), Hootsuite (Pro), Meta Business Suite</p>
+                        <p style="margin-top: 10px;"><strong>Avantage :</strong> Programmez votre contenu une fois, et c'est publié automatiquement à l'heure choisie.</p>
+                    </div>
+                </details>
+                
+                <div class="callout retenir">
+                    <div class="callout-title">✨ À retenir</div>
+                    <p>L'automatisation de la publication vous libère du travail manuel répétitif. Créez une fois, programmez, et laissez l'outil faire le reste.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="mesure">
+            <div class="section-header success">
+                <div class="section-icon">📊</div>
+                <h2>Mesure et optimisation</h2>
+            </div>
+            <div class="section-content">
+                <p>Publier n'est que la moitié du travail. Vous devez mesurer ce qui fonctionne et ce qui ne fonctionne pas pour améliorer continuellement votre stratégie.</p>
+                
+                <p style="margin-top: 15px;"><strong>Métriques clés à suivre :</strong></p>
+                <ul>
+                    <li><strong>Engagement :</strong> Likes, commentaires, partages, taux d'engagement</li>
+                    <li><strong>Reach :</strong> Vues, impressions, reach organique</li>
+                    <li><strong>Conversion :</strong> Clics, inscriptions, ventes</li>
+                    <li><strong>Audience :</strong> Followers, abonnés, croissance</li>
+                    <li><strong>Retention :</strong> Temps de visionnage, taux de rebond</li>
+                </ul>
+                
+                <div class="callout astuce">
+                    <div class="callout-title">💡 Astuce</div>
+                    <p>Analysez régulièrement vos données. Quels contenus performent bien? Quels contenus ne marche pas? Pourquoi? Utilisez ces insights pour améliorer votre stratégie future.</p>
+                </div>
+                
+                <p style="margin-top: 20px;">C'est un cycle continu : publier → mesurer → analyser → ajuster → répéter.</p>
+            </div>
+        </section>
+        
+        <div class="quiz">
+            <h3>📝 Quiz de maîtrise</h3>
+            <p style="margin-bottom: 30px;">Testez votre compréhension du système</p>
+            
+            <form id="quizForm">
+                <div class="quiz-question">
+                    <p>Q1: Pourquoi avoir un système de publication?</p>
+                    <label class="quiz-option">
+                        <input type="radio" name="q1" value="a">
+                        <span>Pour impressionner les autres créateurs</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q1" value="b">
+                        <span>Pour transformer une tâche chaotique en processus fluide</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q1" value="c">
+                        <span>Parce que c'est obligatoire</span>
+                    </label>
+                    <div class="quiz-feedback"></div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>Q2: Quelle est l'approche hybride recommandée?</p>
+                    <label class="quiz-option">
+                        <input type="radio" name="q2" value="a">
+                        <span>Seulement des grosses productions</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q2" value="b">
+                        <span>Une grosse production 1-2x par an + contenu régulier</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q2" value="c">
+                        <span>Seulement du contenu quotidien</span>
+                    </label>
+                    <div class="quiz-feedback"></div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>Q3: Comment organiser vos dossiers?</p>
+                    <label class="quiz-option">
+                        <input type="radio" name="q3" value="a">
+                        <span>Mettre tout dans un seul dossier</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q3" value="b">
+                        <span>Par plateforme, puis par thème ou mois</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q3" value="c">
+                        <span>N'importe comment, c'est pas important</span>
+                    </label>
+                    <div class="quiz-feedback"></div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>Q4: Quel est le meilleur moment pour publier?</p>
+                    <label class="quiz-option">
+                        <input type="radio" name="q4" value="a">
+                        <span>N'importe quand, le moment ne compte pas</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q4" value="b">
+                        <span>Généralement 19h-20h, à tester pour votre audience</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q4" value="c">
+                        <span>Tôt le matin, avant 9h</span>
+                    </label>
+                    <div class="quiz-feedback"></div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>Q5: Quel est le cycle d'amélioration continue?</p>
+                    <label class="quiz-option">
+                        <input type="radio" name="q5" value="a">
+                        <span>Publier et oublier</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q5" value="b">
+                        <span>Publier → Mesurer → Analyser → Ajuster → Répéter</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q5" value="c">
+                        <span>Seulement regarder les likes</span>
+                    </label>
+                    <div class="quiz-feedback"></div>
+                </div>
+                
+                <button type="button" class="quiz-button" onclick="submitQuiz()">Vérifier mes réponses</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="container">
+            <div class="footer-brand">Producteur à Succès</div>
+            <p class="footer-text">Formation professionnelle en business musical et création de contenu</p>
+            <p class="footer-text" style="margin-top: 15px; opacity: 0.7;">© 2024 Tarik Hamiche - Tous droits réservés</p>
+        </div>
+    </div>
+    
+    <script>
+        // Progress bar on scroll
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.querySelector('.progress-bar-fill').style.width = scrollPercent + '%';
+        });
+        
+        // Quiz answers
+        const quizAnswers = {
+            q1: 'b',
+            q2: 'b',
+            q3: 'b',
+            q4: 'b',
+            q5: 'b'
+        };
+        
+        function submitQuiz() {
+            let correct = 0;
+            
+            for (const [question, correctAnswer] of Object.entries(quizAnswers)) {
+                const selected = document.querySelector(`input[name="${question}"]:checked`);
+                const feedback = document.querySelector(`input[name="${question}"] + span`).parentElement.nextElementSibling;
+                
+                if (!selected) {
+                    feedback.textContent = '⚠️ Veuillez répondre à cette question';
+                    feedback.classList.remove('correct', 'incorrect');
+                    feedback.style.display = 'block';
+                } else if (selected.value === correctAnswer) {
+                    feedback.textContent = '✅ Excellente réponse!';
+                    feedback.classList.add('correct');
+                    feedback.classList.remove('incorrect');
+                    correct++;
+                } else {
+                    feedback.textContent = '❌ Mauvaise réponse - Revoir cette section';
+                    feedback.classList.add('incorrect');
+                    feedback.classList.remove('correct');
+                }
+            }
+            
+            const total = Object.keys(quizAnswers).length;
+            const percentage = Math.round((correct / total) * 100);
+            alert(`Score: ${correct}/${total} (${percentage}%)`);
+        }
+    </script>
+</body>
+</html>

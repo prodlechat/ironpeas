@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muzicenter V1 | Module 6 - Producteur à Succès</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C3AED;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --light-bg: #F9FAFB;
+            --border: #E5E7EB;
+        }
+
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            color: #1F2937;
+            line-height: 1.6;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--light-bg);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #7C3AED 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+
+        .header-subtitle {
+            font-size: 1.125rem;
+            opacity: 0.95;
+            margin-top: 0.5rem;
+        }
+
+        .metadata {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            font-size: 0.875rem;
+            opacity: 0.9;
+            flex-wrap: wrap;
+        }
+
+        .metadata-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: var(--light-bg);
+            border-left: 4px solid var(--primary);
+            padding: 2rem;
+            margin: 2rem;
+            border-radius: 8px;
+        }
+
+        .toc h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            margin-top: 0;
+        }
+
+        .toc ol {
+            margin: 0;
+            padding-left: 2rem;
+        }
+
+        .toc li {
+            margin: 0.75rem 0;
+            cursor: pointer;
+            color: var(--primary);
+        }
+
+        .toc li:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-icon {
+            font-size: 2rem;
+            min-width: 2.5rem;
+            text-align: center;
+        }
+
+        .section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.75rem;
+            color: var(--primary);
+            margin: 0;
+            flex: 1;
+        }
+
+        .section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--primary);
+            margin-top: 1.5rem;
+        }
+
+        .section p {
+            margin: 1rem 0;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 4px solid;
+        }
+
+        .callout.important {
+            background: #F3E8FF;
+            border-left-color: var(--primary);
+        }
+
+        .callout.important .callout-title {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .callout.tip {
+            background: #ECFDF5;
+            border-left-color: var(--success);
+        }
+
+        .callout.tip .callout-title {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .callout.warning {
+            background: #FFFBEB;
+            border-left-color: var(--accent);
+        }
+
+        .callout.warning .callout-title {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .callout.note {
+            background: #EFF6FF;
+            border-left-color: var(--info);
+        }
+
+        .callout.note .callout-title {
+            color: var(--info);
+            font-weight: 600;
+        }
+
+        .callout-title {
+            margin: 0 0 0.5rem 0;
+        }
+
+        .callout p {
+            margin: 0;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        th {
+            background: var(--light-bg);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border);
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:hover {
+            background: var(--light-bg);
+        }
+
+        /* Accordions */
+        details {
+            margin: 1rem 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        summary {
+            background: var(--light-bg);
+            padding: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        summary:hover {
+            background: #F3F4F6;
+        }
+
+        details[open] summary {
+            border-bottom: 1px solid var(--border);
+        }
+
+        details content {
+            padding: 1rem;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1rem 0;
+        }
+
+        li {
+            margin: 0.5rem 0;
+        }
+
+        /* Quiz */
+        .quiz {
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .quiz h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--primary);
+        }
+
+        .question {
+            margin: 1.5rem 0;
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            margin: 0.75rem 0;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 0.75rem;
+            margin-top: 0.25rem;
+            cursor: pointer;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .quiz-feedback {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background: #ECFDF5;
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .quiz-feedback.incorrect {
+            background: #FEE2E2;
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        .submit-btn, .reset-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 1rem;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background: #5B21B6;
+        }
+
+        .reset-btn {
+            background: var(--border);
+            color: #1F2937;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1F2937;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer p {
+            margin: 0.5rem 0;
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.75rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .metadata {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressBar"></div>
+    </div>
+
+    <header class="header">
+        <span class="badge">Module 6 · Plateforme de Distribution</span>
+        <h1>Muzicenter V1</h1>
+        <p class="header-subtitle">Maîtrisez les exigences techniques et optimisez votre présence sur Muzicenter</p>
+        <div class="metadata">
+            <div class="metadata-item">
+                <span>👨‍🏫 Formateur: Tarik Hamiche</span>
+            </div>
+            <div class="metadata-item">
+                <span>🏢 Producteur à Succès</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="toc">
+            <h2>Sommaire</h2>
+            <ol>
+                <li onclick="document.getElementById('section1').scrollIntoView({behavior:'smooth'})">Accès et configuration Muzicenter</li>
+                <li onclick="document.getElementById('section2').scrollIntoView({behavior:'smooth'})">Les éléments essentiels pour une bonne sortie</li>
+                <li onclick="document.getElementById('section3').scrollIntoView({behavior:'smooth'})">L'importance de la catégorisation musicale</li>
+                <li onclick="document.getElementById('section4').scrollIntoView({behavior:'smooth'})">Optimiser votre présence artistique</li>
+                <li onclick="document.getElementById('section5').scrollIntoView({behavior:'smooth'})">Offres spéciales et avantages exclusifs</li>
+            </ol>
+        </nav>
+
+        <section class="section" id="section1">
+            <div class="section-header">
+                <span class="section-icon">🔐</span>
+                <h2>Accès et configuration Muzicenter</h2>
+            </div>
+            <p>Pour demander un devis ou accéder à Muzicenter, vous devez contactez directement l'équipe à travers les canaux officiels. Cela garantit que vous obtiendrez le meilleur support et les informations les plus à jour.</p>
+
+            <div class="callout note">
+                <p class="callout-title">📧 Contact Officiel</p>
+                <p>Envoyez un email à l'adresse officielle Muzicenter pour demander votre accès. Vous recevrez tous les documents et instructions nécessaires en pièces jointes.</p>
+            </div>
+
+            <p>Sachez que Muzicenter offre également des alternatives et des offres spéciales qui peuvent être beaucoup plus intéressantes pour votre développement artistique. Ne vous limitez pas à la version standard, explorez toutes les possibilités.</p>
+        </section>
+
+        <section class="section" id="section2">
+            <div class="section-header">
+                <span class="section-icon">✅</span>
+                <h2>Les éléments essentiels pour une bonne sortie</h2>
+            </div>
+            <p>Pour réussir une sortie de musique sur Muzicenter, vous devez préparer plusieurs éléments clés. Une préparation minutieuse augmente considérablement vos chances de succès.</p>
+
+            <h3>Éléments indispensables</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Élément</th>
+                        <th>Description</th>
+                        <th>Importance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Pochette d'album</td>
+                        <td>Image de haute qualité représentant votre musique</td>
+                        <td>Critique</td>
+                    </tr>
+                    <tr>
+                        <td>Nom d'artiste</td>
+                        <td>Votre identité artistique professionnelle</td>
+                        <td>Critique</td>
+                    </tr>
+                    <tr>
+                        <td>Genre musical</td>
+                        <td>Classification précise de votre musique</td>
+                        <td>Très importante</td>
+                    </tr>
+                    <tr>
+                        <td>Métadonnées complètes</td>
+                        <td>Titres, artistes, producteurs, compositeurs</td>
+                        <td>Importante</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout warning">
+                <p class="callout-title">⚠️ Attention à la qualité</p>
+                <p>La pochette doit être de haute résolution et bien représenter votre style musical. Une mauvaise qualité peut donner une impression unprofessionnelle et réduire vos chances de playlist placement.</p>
+            </div>
+        </section>
+
+        <section class="section" id="section3">
+            <div class="section-header">
+                <span class="section-icon">🎵</span>
+                <h2>L'importance de la catégorisation musicale</h2>
+            </div>
+            <p>La catégorisation de votre musique est un élément crucial que de nombreux artistes sous-estiment. Un genre mal attribué peut coûter très cher en termes de visibilité et d'opportunités.</p>
+
+            <h3>Pourquoi la catégorisation est critique</h3>
+            <p>Quand votre musique est placée dans la mauvaise catégorie, vous causez plusieurs problèmes:</p>
+            <ul>
+                <li><strong>Perte de temps des programmateurs</strong>: Ils doivent manuellement vérifier et reclasser votre musique</li>
+                <li><strong>Réduction de visibilité</strong>: Vos morceaux ne seront pas découverts par le bon public</li>
+                <li><strong>Moins de placements en playlist</strong>: Les curateurs ne trouveront pas votre musique</li>
+                <li><strong>Impact négatif sur votre profil</strong>: Les erreurs systématiques nuisent à votre réputation</li>
+            </ul>
+
+            <div class="callout important">
+                <p class="callout-title">🎯 À retenir</p>
+                <p>Prenez le temps de qualifier correctement votre musique. Lisez attentivement les catégories proposées, écoutez des exemples dans chaque catégorie, et choisissez celle qui correspond vraiment à votre style. Cette étape peut faire la différence entre un succès et un échec.</p>
+            </div>
+
+            <h3>Comment bien catégoriser votre musique</h3>
+            <p>Muzicenter propose une liste précise de catégories. Voici la démarche recommandée:</p>
+            <ol>
+                <li>Écoutez attentivement votre morceau du début à la fin</li>
+                <li>Comparez avec les exemples fournis dans chaque catégorie</li>
+                <li>Identifiez le sous-genre le plus spécifique et pertinent</li>
+                <li>Vérifiez auprès de collègues musiciens si vous hésitez</li>
+                <li>Validez votre choix avant de soumettre</li>
+            </ol>
+
+            <div class="callout tip">
+                <p class="callout-title">💡 Conseil pro</p>
+                <p>Si votre morceau est à la croisée de deux genres, privilégiez le genre dominant. Vous pouvez souvent ajouter des tags supplémentaires pour enrichir la catégorisation.</p>
+            </div>
+        </section>
+
+        <section class="section" id="section4">
+            <div class="section-header">
+                <span class="section-icon">⭐</span>
+                <h2>Optimiser votre présence artistique</h2>
+            </div>
+            <p>Au-delà des éléments techniques de base, il existe plusieurs stratégies pour optimiser votre présence et maximiser votre visibilité sur Muzicenter.</p>
+
+            <details>
+                <summary>Optimisation du profil artiste</summary>
+                <div style="padding: 1rem;">
+                    <p>Votre profil artiste est la première impression que les curateurs et auditeurs auront de vous. Assurez-vous que:</p>
+                    <ul>
+                        <li>Votre photo de profil est professionnelle et reconnaissable</li>
+                        <li>Votre bio est concise et compétente</li>
+                        <li>Vos liens sociaux sont à jour</li>
+                        <li>Votre historique musical est complet</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary>Stratégie de sortie et lancement</summary>
+                <div style="padding: 1rem;">
+                    <p>Planifiez votre sortie musicale pour maximiser l'impact:</p>
+                    <ul>
+                        <li>Préparez vos publications sur les réseaux sociaux à l'avance</li>
+                        <li>Notifiez votre liste de contacts avant le lancement</li>
+                        <li>Coordonnez les sortis sur plusieurs plateformes</li>
+                        <li>Suivez les performances en temps réel</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary>Collaboration et networking</summary>
+                <div style="padding: 1rem;">
+                    <p>Utilisez Muzicenter pour développer votre réseau:</p>
+                    <ul>
+                        <li>Connectez-vous avec d'autres artistes de votre genre</li>
+                        <li>Participez aux projets collaboratifs proposés</li>
+                        <li>Engagez-vous avec les curateurs et programmateurs</li>
+                        <li>Buildez votre communauté progressivement</li>
+                    </ul>
+                </div>
+            </details>
+        </section>
+
+        <section class="section" id="section5">
+            <div class="section-header">
+                <span class="section-icon">🎁</span>
+                <h2>Offres spéciales et avantages exclusifs</h2>
+            </div>
+            <p>À la fin de cette formation, nous vous présenterons une offre qui peut être beaucoup plus intéressante que l'accès standard à Muzicenter. Cette offre exclusive est conçue pour les producteurs sérieux qui veulent accélérer leur développement.</p>
+
+            <div class="callout important">
+                <p class="callout-title">🎯 Opportunité à saisir</p>
+                <p>Restez attentif à l'offre spéciale qui vous sera présentée. Elle pourrait transformer votre approche de la distribution musicale et vous ouvrir des portes auparavant inaccessibles. Les places sont limitées et réservées aux participants engagés de la formation.</p>
+            </div>
+
+            <h3>Maximiser votre investissement</h3>
+            <p>Que vous choisissiez l'accès standard ou l'offre spéciale, voici comment tirer le maximum de votre investissement:</p>
+            <ul>
+                <li><strong>Apprenez les règles</strong>: Comprenez la plateforme en profondeur</li>
+                <li><strong>Appliquez les bonnes pratiques</strong>: Suivez les recommandations de catégorisation et metadata</li>
+                <li><strong>Publiez régulièrement</strong>: Construisez une présence constante</li>
+                <li><strong>Analysez vos résultats</strong>: Suivez vos performances et ajustez votre stratégie</li>
+                <li><strong>Restez engagé</strong>: Participez à la communauté et aux opportunités</li>
+            </ul>
+
+            <div class="callout tip">
+                <p class="callout-title">💡 Conseil final</p>
+                <p>Muzicenter est un investissement dans votre carrière. Traitez-le comme tel. Chaque sortie est une opportunité d'apprentissage et de croissance. Soyez patient, professionnel, et progressivement, vos efforts payeront.</p>
+            </div>
+        </section>
+
+        <section class="quiz">
+            <h2>Quiz - Vérifiez votre compréhension</h2>
+            <p>Testez votre connaissance sur Muzicenter. Répondez aux 5 questions suivantes:</p>
+
+            <div class="question">
+                <div class="question-text">1. Quel est le premier élément essentiel pour une bonne sortie sur Muzicenter?</div>
+                <div class="option">
+                    <input type="radio" id="q1a" name="q1" value="a">
+                    <label for="q1a">La pochette d'album de haute qualité</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q1b" name="q1" value="b">
+                    <label for="q1b">Le nombre de followers sur les réseaux</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q1c" name="q1" value="c">
+                    <label for="q1c">Le prix de vente du morceau</label>
+                </div>
+                <div class="quiz-feedback" data-question="1" data-correct="a">
+                    <strong>Correct!</strong> La pochette d'album est un élément visuel critique qui représente votre musique.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">2. Pourquoi la catégorisation musicale est-elle si importante?</div>
+                <div class="option">
+                    <input type="radio" id="q2a" name="q2" value="a">
+                    <label for="q2a">C'est juste une formalité administrative</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q2b" name="q2" value="b">
+                    <label for="q2b">Elle impacte la visibilité et les placements en playlist</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q2c" name="q2" value="c">
+                    <label for="q2c">Elle détermine le prix de votre musique</label>
+                </div>
+                <div class="quiz-feedback" data-question="2" data-correct="b">
+                    <strong>Correct!</strong> Une bonne catégorisation assure que votre musique est découverte par le bon public et les curateurs.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">3. Que se passe-t-il si vous placez votre musique dans la mauvaise catégorie?</div>
+                <div class="option">
+                    <input type="radio" id="q3a" name="q3" value="a">
+                    <label for="q3a">Rien de particulier, c'est automatiquement corrigé</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q3b" name="q3" value="b">
+                    <label for="q3b">Vous perdez du temps aux programmateurs et réduisez votre visibilité</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q3c" name="q3" value="c">
+                    <label for="q3c">Votre compte est automatiquement suspendu</label>
+                </div>
+                <div class="quiz-feedback" data-question="3" data-correct="b">
+                    <strong>Correct!</strong> Une mauvaise catégorisation frustre les programmateurs et nuit à vos chances de placement.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">4. Quel est le conseil principal pour bien catégoriser votre musique?</div>
+                <div class="option">
+                    <input type="radio" id="q4a" name="q4" value="a">
+                    <label for="q4a">Choisir rapidement la première catégorie qui convient</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q4b" name="q4" value="b">
+                    <label for="q4b">Prendre le temps d'écouter, comparer et valider votre choix</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q4c" name="q4" value="c">
+                    <label for="q4c">Demander à Muzicenter de choisir pour vous</label>
+                </div>
+                <div class="quiz-feedback" data-question="4" data-correct="b">
+                    <strong>Correct!</strong> La diligence dans la catégorisation est essentielle pour le succès de votre sortie.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">5. Qu'est-ce qui maximise votre retour sur investissement Muzicenter?</div>
+                <div class="option">
+                    <input type="radio" id="q5a" name="q5" value="a">
+                    <label for="q5a">Une sortie unique et puis l'oubli</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q5b" name="q5" value="b">
+                    <label for="q5b">L'apprentissage, la publication régulière, et l'analyse des performances</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q5c" name="q5" value="c">
+                    <label for="q5c">Ignorer les retours et continuer avec la même approche</label>
+                </div>
+                <div class="quiz-feedback" data-question="5" data-correct="b">
+                    <strong>Correct!</strong> La stratégie long-terme et l'optimisation progressive sont clés pour réussir.
+                </div>
+            </div>
+
+            <button class="submit-btn" onclick="checkQuiz()">Vérifier mes réponses</button>
+            <button class="reset-btn" onclick="resetQuiz()">Recommencer le quiz</button>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-logo">Producteur à Succès</div>
+        <p>Formation complète au music business pour artistes ambitieux</p>
+        <p>Module 6 - Plateforme de Distribution | Formateur: Tarik Hamiche</p>
+        <p style="margin-top: 1.5rem; opacity: 0.6; font-size: 0.875rem;">© 2024 Producteur à Succès. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        // Progress Bar
+        function updateProgressBar() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            document.getElementById('progressBar').style.width = scrollPercent + '%';
+        }
+
+        window.addEventListener('scroll', updateProgressBar);
+
+        // Quiz
+        function checkQuiz() {
+            let score = 0;
+            const questions = [
+                { id: '1', correct: 'a' },
+                { id: '2', correct: 'b' },
+                { id: '3', correct: 'b' },
+                { id: '4', correct: 'b' },
+                { id: '5', correct: 'b' }
+            ];
+
+            questions.forEach(q => {
+                const selected = document.querySelector(`input[name="q${q.id}"]:checked`);
+                const feedback = document.querySelector(`[data-question="${q.id}"]`);
+
+                if (selected) {
+                    if (selected.value === q.correct) {
+                        feedback.classList.add('show', 'correct');
+                        score++;
+                    } else {
+                        feedback.classList.add('show', 'incorrect');
+                        feedback.innerHTML = '<strong>Incorrect.</strong> Veuillez relire la section correspondante pour la bonne réponse.';
+                    }
+                }
+            });
+
+            const resultDiv = document.createElement('div');
+            resultDiv.className = 'callout note';
+            resultDiv.style.marginTop = '2rem';
+            resultDiv.innerHTML = `<strong>Votre score: ${score}/5</strong><p>${score === 5 ? 'Excellent! Vous maîtrisez le sujet.' : score >= 3 ? 'Bon travail! Continuez à progresser.' : 'Nous vous recommandons de relire le contenu.'}</p>`;
+
+            const quizSection = document.querySelector('.quiz');
+            const existingResult = quizSection.querySelector('.callout.note');
+            if (existingResult) existingResult.remove();
+            quizSection.appendChild(resultDiv);
+        }
+
+        function resetQuiz() {
+            document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
+            document.querySelectorAll('.quiz-feedback').forEach(div => {
+                div.classList.remove('show', 'correct', 'incorrect');
+            });
+            const resultDiv = document.querySelector('.quiz .callout.note');
+            if (resultDiv && !resultDiv.querySelector('strong').textContent.includes('À retenir')) {
+                resultDiv.remove();
+            }
+        }
+    </script>
+</body>
+</html>

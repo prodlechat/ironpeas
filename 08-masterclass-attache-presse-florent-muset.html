@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masterclass — Florent Muset : L'attaché de presse d'Angèle, Petit Biscuit, Niska, MHD…</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { width: 100% !important; max-width: 100% !important; overflow-x: hidden; }
+
+        :root {
+            --primary: #6C3AED;
+            --primary-light: #EDE9FE;
+            --accent: #F59E0B;
+            --accent-light: #FEF3C7;
+            --success: #10B981;
+            --success-light: #D1FAE5;
+            --danger: #EF4444;
+            --danger-light: #FEE2E2;
+            --info: #3B82F6;
+            --info-light: #DBEAFE;
+            --teal: #14B8A6;
+            --teal-light: #CCFBF1;
+            --gold: #D97706;
+            --gold-light: #FEF3C7;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-500: #6B7280;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            --radius: 12px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7; color: var(--gray-800); background: var(--gray-50);
+        }
+
+        .progress-bar {
+            position: fixed; top: 0; left: 0; width: 0%; height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--primary), var(--accent));
+            z-index: 1000; transition: width 0.1s ease;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 70%, #1a1a2e 100%);
+            color: white; padding: 60px 24px 50px; text-align: center;
+            position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 50% 120%, rgba(217,119,6,0.15) 0%, transparent 60%);
+        }
+        .hero::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 6px;
+            background: linear-gradient(90deg, var(--gold), var(--accent), var(--primary));
+        }
+        .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+        .badge-expert {
+            display: inline-block; background: linear-gradient(135deg, var(--gold), var(--accent));
+            color: var(--gray-900); padding: 6px 18px; border-radius: 50px; font-size: 0.8rem;
+            font-weight: 700; margin-bottom: 20px; letter-spacing: 1px; text-transform: uppercase;
+        }
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 700; margin-bottom: 16px; line-height: 1.2;
+        }
+        .hero p { font-size: 1.05rem; opacity: 0.9; max-width: 650px; margin: 0 auto 24px; }
+        .meta-tags { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; font-size: 0.9rem; opacity: 0.85; }
+        .meta-tags span { display: flex; align-items: center; gap: 6px; }
+
+        /* Expert Card */
+        .expert-card {
+            background: white; border-radius: var(--radius); box-shadow: var(--shadow-lg);
+            padding: 28px 32px; margin: -30px auto 40px; position: relative; z-index: 2;
+            max-width: 900px; display: flex; gap: 24px; align-items: center;
+            border-top: 4px solid var(--gold);
+        }
+        .expert-avatar {
+            width: 80px; height: 80px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--accent));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; flex-shrink: 0;
+        }
+        .expert-info { flex: 1; }
+        .expert-name { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--gray-900); }
+        .expert-title { font-size: 0.95rem; color: var(--gold); font-weight: 600; margin-bottom: 6px; }
+        .expert-desc { font-size: 0.9rem; color: var(--gray-500); }
+        .expert-artists {
+            display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;
+        }
+        .artist-tag {
+            background: var(--gray-100); color: var(--gray-700); padding: 3px 10px;
+            border-radius: 50px; font-size: 0.75rem; font-weight: 600;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+        /* TOC */
+        .toc {
+            background: white; border-radius: var(--radius); box-shadow: var(--shadow-md);
+            padding: 32px; margin: 0 auto 40px; max-width: 900px;
+        }
+        .toc h2 {
+            font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem;
+            color: var(--primary); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+        }
+        .toc-list { list-style: none; }
+        .toc-list li { border-bottom: 1px solid var(--gray-100); }
+        .toc-list li:last-child { border-bottom: none; }
+        .toc-list a {
+            display: flex; align-items: center; gap: 12px; padding: 12px 8px;
+            text-decoration: none; color: var(--gray-700); font-size: 0.95rem;
+            transition: all 0.2s; border-radius: 8px;
+        }
+        .toc-list a:hover { background: var(--primary-light); color: var(--primary); padding-left: 16px; }
+        .toc-number {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 28px; height: 28px; background: var(--primary-light);
+            color: var(--primary); border-radius: 8px; font-weight: 600;
+            font-size: 0.85rem; flex-shrink: 0;
+        }
+
+        /* Sections */
+        .section {
+            background: white; border-radius: var(--radius);
+            box-shadow: var(--shadow); margin-bottom: 32px; overflow: hidden;
+        }
+        .section-header {
+            padding: 24px 32px; display: flex; align-items: center; gap: 16px;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        .section-icon {
+            width: 48px; height: 48px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; flex-shrink: 0;
+        }
+        .section-header h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; color: var(--gray-900); }
+        .section-body { padding: 28px 32px; }
+        .section-body p { margin-bottom: 16px; text-align: justify; }
+        .section-body p:last-child { margin-bottom: 0; }
+
+        .section-gold .section-header { background: linear-gradient(135deg, var(--gold-light), #FFFBEB); }
+        .section-gold .section-icon { background: var(--gold); color: white; }
+        .section-purple .section-header { background: linear-gradient(135deg, var(--primary-light), #F3E8FF); }
+        .section-purple .section-icon { background: var(--primary); color: white; }
+        .section-green .section-header { background: linear-gradient(135deg, var(--success-light), #ECFDF5); }
+        .section-green .section-icon { background: var(--success); color: white; }
+        .section-blue .section-header { background: linear-gradient(135deg, var(--info-light), #EFF6FF); }
+        .section-blue .section-icon { background: var(--info); color: white; }
+        .section-amber .section-header { background: linear-gradient(135deg, var(--accent-light), #FFFBEB); }
+        .section-amber .section-icon { background: var(--accent); color: white; }
+        .section-teal .section-header { background: linear-gradient(135deg, var(--teal-light), #F0FDFA); }
+        .section-teal .section-icon { background: var(--teal); color: white; }
+
+        /* Callout */
+        .callout {
+            border-radius: 10px; padding: 18px 22px; margin: 20px 0;
+            border-left: 4px solid; display: flex; gap: 14px; align-items: flex-start;
+        }
+        .callout-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+        .callout-content { flex: 1; }
+        .callout-title { font-weight: 700; margin-bottom: 4px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .callout-text { font-size: 0.95rem; }
+        .callout-tip { background: var(--success-light); border-color: var(--success); }
+        .callout-tip .callout-title { color: #065F46; }
+        .callout-warning { background: var(--accent-light); border-color: var(--accent); }
+        .callout-warning .callout-title { color: #92400E; }
+        .callout-danger { background: var(--danger-light); border-color: var(--danger); }
+        .callout-danger .callout-title { color: #991B1B; }
+        .callout-info { background: var(--info-light); border-color: var(--info); }
+        .callout-info .callout-title { color: #1E40AF; }
+        .callout-key { background: var(--primary-light); border-color: var(--primary); }
+        .callout-key .callout-title { color: #4C1D95; }
+        .callout-quote {
+            background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+            border-color: var(--gold); font-style: italic;
+        }
+        .callout-quote .callout-title { color: var(--gold); }
+
+        /* Tables */
+        .table-wrapper { overflow-x: auto; margin: 20px 0; border-radius: 10px; box-shadow: var(--shadow); }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        thead th {
+            background: var(--primary); color: white; padding: 14px 16px;
+            text-align: left; font-weight: 600; font-size: 0.85rem;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        thead th:first-child { border-radius: 10px 0 0 0; }
+        thead th:last-child { border-radius: 0 10px 0 0; }
+        tbody td { padding: 12px 16px; border-bottom: 1px solid var(--gray-100); }
+        tbody tr:nth-child(even) { background: var(--gray-50); }
+        tbody tr:hover { background: var(--primary-light); }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px; margin: 20px 0;
+        }
+        .card {
+            background: var(--gray-50); border: 1px solid var(--gray-200);
+            border-radius: 10px; padding: 20px; transition: all 0.2s;
+        }
+        .card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+        .card-icon { font-size: 2rem; margin-bottom: 10px; }
+        .card-title { font-weight: 700; font-size: 1rem; margin-bottom: 8px; color: var(--gray-900); }
+        .card-text { font-size: 0.85rem; color: var(--gray-500); line-height: 1.5; }
+
+        /* Timeline */
+        .timeline { position: relative; padding-left: 30px; margin: 20px 0; }
+        .timeline::before {
+            content: ''; position: absolute; left: 10px; top: 0; bottom: 0;
+            width: 3px; background: linear-gradient(180deg, var(--gold), var(--primary), var(--success));
+            border-radius: 3px;
+        }
+        .timeline-item { position: relative; margin-bottom: 24px; padding-left: 20px; }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -24px; top: 6px;
+            width: 12px; height: 12px; background: var(--primary);
+            border: 3px solid white; border-radius: 50%; box-shadow: var(--shadow);
+        }
+        .timeline-title { font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
+        .timeline-text { font-size: 0.9rem; color: var(--gray-500); }
+
+        /* Accordion */
+        details { margin: 16px 0; border: 1px solid var(--gray-200); border-radius: 10px; overflow: hidden; }
+        summary {
+            padding: 14px 20px; font-weight: 600; cursor: pointer;
+            background: var(--gray-50); display: flex; align-items: center; gap: 10px;
+            list-style: none; user-select: none; transition: background 0.2s;
+        }
+        summary::-webkit-details-marker { display: none; }
+        summary::before { content: '▸'; transition: transform 0.2s; }
+        details[open] summary::before { transform: rotate(90deg); }
+        summary:hover { background: var(--primary-light); }
+        details .detail-content { padding: 16px 20px; font-size: 0.95rem; }
+
+        /* Pros/Cons */
+        .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+        .pros, .cons { border-radius: 10px; padding: 20px; }
+        .pros { background: var(--success-light); border: 1px solid #A7F3D0; }
+        .cons { background: var(--danger-light); border: 1px solid #FECACA; }
+        .pros h4, .cons h4 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+        .pros h4 { color: #065F46; }
+        .cons h4 { color: #991B1B; }
+        .pros li, .cons li { font-size: 0.9rem; margin-bottom: 8px; list-style: none; padding-left: 22px; position: relative; }
+        .pros li::before { content: '✓'; position: absolute; left: 0; color: var(--success); font-weight: 700; }
+        .cons li::before { content: '✗'; position: absolute; left: 0; color: var(--danger); font-weight: 700; }
+
+        /* Quiz */
+        .quiz-question {
+            background: var(--gray-50); border: 2px solid var(--gray-200);
+            border-radius: 12px; padding: 24px; margin-bottom: 20px; transition: border-color 0.3s;
+        }
+        .quiz-question.correct { border-color: var(--success); background: var(--success-light); }
+        .quiz-question.incorrect { border-color: var(--danger); background: var(--danger-light); }
+        .quiz-q-text { font-weight: 600; margin-bottom: 16px; font-size: 1.05rem; }
+        .quiz-option {
+            display: block; width: 100%; text-align: left; padding: 12px 16px;
+            margin-bottom: 8px; border: 2px solid var(--gray-200); border-radius: 8px;
+            background: white; cursor: pointer; font-size: 0.95rem;
+            transition: all 0.2s; font-family: inherit;
+        }
+        .quiz-option:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-light); }
+        .quiz-option.selected-correct { border-color: var(--success); background: var(--success-light); }
+        .quiz-option.selected-wrong { border-color: var(--danger); background: var(--danger-light); }
+        .quiz-option.reveal-correct { border-color: var(--success); background: var(--success-light); }
+        .quiz-feedback { margin-top: 12px; padding: 12px 16px; border-radius: 8px; font-size: 0.9rem; display: none; }
+        .quiz-feedback.show { display: block; }
+        .quiz-feedback.correct { background: var(--success-light); color: #065F46; }
+        .quiz-feedback.incorrect { background: var(--danger-light); color: #991B1B; }
+        .quiz-score {
+            text-align: center; padding: 30px;
+            background: linear-gradient(135deg, var(--gold-light), #FFFBEB);
+            border-radius: 12px; margin-top: 24px; display: none;
+        }
+        .quiz-score h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; color: var(--gold); }
+        .quiz-score p { color: var(--gray-500); margin-top: 8px; }
+
+        .footer { text-align: center; padding: 40px 24px; color: var(--gray-500); font-size: 0.85rem; }
+        .footer-brand { font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: var(--primary); font-size: 1.1rem; margin-bottom: 8px; }
+
+        @media print {
+            .progress-bar, .quiz-option, .quiz-feedback, .quiz-score { display: none; }
+            .section { break-inside: avoid; box-shadow: none; border: 1px solid var(--gray-200); }
+        }
+        @media (max-width: 640px) {
+            .section-body, .section-header { padding: 16px 20px; }
+            .toc { padding: 20px; }
+            .hero { padding: 40px 16px 36px; }
+            .pros-cons { grid-template-columns: 1fr; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .expert-card { flex-direction: column; text-align: center; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- HERO -->
+<header class="hero">
+    <div class="hero-content">
+        <div class="badge-expert">Masterclass · Bonus Expert</div>
+        <h1>Les relations presse dans la musique : les secrets d'un attaché de presse de renom</h1>
+        <p>Florent Muset, l'homme derrière les campagnes presse d'Angèle, Niska, Petit Biscuit et MHD, partage ses méthodes, ses conseils et ses coulisses pour réussir vos relations presse.</p>
+        <div class="meta-tags">
+            <span>🎙️ Interview par Tarik Hamiche</span>
+            <span>⏱️ ~45 min</span>
+            <span>🎓 Producteur à Succès</span>
+        </div>
+    </div>
+</header>
+
+<!-- EXPERT CARD -->
+<div class="container">
+    <div class="expert-card">
+        <div class="expert-avatar">🎙️</div>
+        <div class="expert-info">
+            <div class="expert-name">Florent Muset</div>
+            <div class="expert-title">Fondateur d'agence de promotion · Attaché de presse</div>
+            <div class="expert-desc">Plus de 10 ans d'expérience en relations presse musicales. Spécialisé rap (60 %), chanson, électro et rock. Accompagne les artistes de leur émergence à la consécration.</div>
+            <div class="expert-artists">
+                <span class="artist-tag">Angèle</span>
+                <span class="artist-tag">Niska</span>
+                <span class="artist-tag">Petit Biscuit</span>
+                <span class="artist-tag">MHD</span>
+                <span class="artist-tag">Maes</span>
+                <span class="artist-tag">Hervé</span>
+                <span class="artist-tag">Iliona</span>
+                <span class="artist-tag">Guy2bezbar</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC -->
+<div class="container">
+    <nav class="toc">
+        <h2>📋 Sommaire</h2>
+        <ol class="toc-list">
+            <li><a href="#s1"><span class="toc-number">1</span> Le rôle de l'attaché de presse dans la musique</a></li>
+            <li><a href="#s2"><span class="toc-number">2</span> Les supports de communication indispensables</a></li>
+            <li><a href="#s3"><span class="toc-number">3</span> Quand et comment solliciter un attaché de presse</a></li>
+            <li><a href="#s4"><span class="toc-number">4</span> La stratégie de relations presse : cibler et construire</a></li>
+            <li><a href="#s5"><span class="toc-number">5</span> Patience et timing : ne pas griller ses cartouches</a></li>
+            <li><a href="#s6"><span class="toc-number">6</span> Se démarquer : identité, storytelling et cases musicales</a></li>
+            <li><a href="#s7"><span class="toc-number">7</span> Quiz de validation</a></li>
+        </ol>
+    </nav>
+</div>
+
+<!-- SECTION 1 -->
+<div class="container">
+    <section class="section section-gold" id="s1">
+        <div class="section-header">
+            <div class="section-icon">📰</div>
+            <h2>1. Le rôle de l'attaché de presse dans la musique</h2>
+        </div>
+        <div class="section-body">
+            <p>L'attaché de presse s'occupe des relations presse et de l'image des artistes pour tout ce qui concerne les sorties d'albums, de clips et d'événements. Son rôle va bien au-delà du simple « placement » médiatique : il s'agit d'un véritable accompagnement stratégique dans la construction de la visibilité d'un artiste.</p>
+
+            <div class="callout callout-key">
+                <div class="callout-icon">🔑</div>
+                <div class="callout-content">
+                    <div class="callout-title">L'approche moderne du métier</div>
+                    <div class="callout-text">Aujourd'hui, la qualité prime sur la quantité. Un bon attaché de presse ne se contente pas d'envoyer votre projet partout en espérant que ça accroche. Il vous conseille sur vos supports de communication (biographie, visuels, storytelling), affine votre image et construit une stratégie sur mesure.</div>
+                </div>
+            </div>
+
+            <p>L'agence de Florent Muset accompagne des artistes sur la durée : beaucoup sont chez lui depuis leur premier album jusqu'au troisième ou quatrième. Cette relation de confiance est la clé. L'attaché de presse devient un membre à part entière de l'équipe, qui connaît l'artiste, son évolution, ses forces et ses points de vigilance.</p>
+
+            <div class="callout callout-quote">
+                <div class="callout-icon">💬</div>
+                <div class="callout-content">
+                    <div class="callout-title">Parole d'expert</div>
+                    <div class="callout-text">L'ère où l'attaché de presse se contentait de prendre un projet et d'essayer de le placer partout est révolue. Aujourd'hui, on crée un espace de conseil où on accompagne l'artiste sur la fabrication de ses supports de communication, son storytelling et la manière dont les gens vont le percevoir.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2 -->
+    <section class="section section-purple" id="s2">
+        <div class="section-header">
+            <div class="section-icon">📋</div>
+            <h2>2. Les supports de communication indispensables</h2>
+        </div>
+        <div class="section-body">
+            <p>Avant de contacter un attaché de presse ou de lancer votre propre campagne de relations presse, il est essentiel d'avoir un kit de communication complet et professionnel. Sans ces éléments, aucun journaliste ne pourra écrire sur vous correctement.</p>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">📝</div>
+                    <div class="card-title">La biographie</div>
+                    <div class="card-text">Le document le plus important. Elle doit raconter votre histoire, vos influences, votre parcours. C'est votre storytelling — la manière dont les journalistes vont vous percevoir et vous présenter.</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📸</div>
+                    <div class="card-title">Les photos presse</div>
+                    <div class="card-text">Des photos professionnelles, en haute définition, qui reflètent votre identité visuelle. Les médias en ont besoin pour illustrer leurs articles. Sans photos pro, pas de couverture.</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📁</div>
+                    <div class="card-title">L'EPK (Electronic Press Kit)</div>
+                    <div class="card-text">Un dossier de presse numérique qui regroupe bio, photos, liens d'écoute, clips, revue de presse existante, et liens réseaux sociaux. Tout doit être accessible en un clic.</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎧</div>
+                    <div class="card-title">Les liens d'écoute</div>
+                    <div class="card-text">Des liens privés vers vos morceaux (avant sortie) ou des maquettes avancées. Le journaliste doit pouvoir écouter avant tout le monde pour préparer son article.</div>
+                </div>
+            </div>
+
+            <div class="callout callout-tip">
+                <div class="callout-icon">✅</div>
+                <div class="callout-content">
+                    <div class="callout-title">Astuce</div>
+                    <div class="callout-text">Votre biographie est un outil stratégique, pas un simple résumé. Travaillez-la avec soin : mettez en avant les angles qui font votre singularité, les éléments de votre parcours qui créent de l'émotion ou de la curiosité. C'est souvent le premier (et parfois le seul) document qu'un journaliste lira.</div>
+                </div>
+            </div>
+
+            <div class="callout callout-warning">
+                <div class="callout-icon">⚠️</div>
+                <div class="callout-content">
+                    <div class="callout-title">Attention</div>
+                    <div class="callout-text">Des visuels cohérents et de qualité sont non négociables. Si vos pochettes, vos photos et votre identité visuelle ne sont pas au niveau, cela envoie un signal d'amateurisme aux médias. Investissez dans un bon photographe et un bon directeur artistique avant de lancer votre promo.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3 -->
+    <section class="section section-green" id="s3">
+        <div class="section-header">
+            <div class="section-icon">⏰</div>
+            <h2>3. Quand et comment solliciter un attaché de presse</h2>
+        </div>
+        <div class="section-body">
+            <p>L'une des erreurs les plus courantes est de solliciter un attaché de presse trop tôt, quand le projet n'est pas encore suffisamment abouti. Le timing est crucial : arriver trop tôt peut être contre-productif, car les journalistes risquent de se faire une première impression négative difficile à inverser par la suite.</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-title">Phase 1 : Préparer le terrain (3-6 mois avant)</div>
+                    <div class="timeline-text">Finalisez votre musique (mix, mastering), vos visuels, votre bio, votre EPK. Ayez au minimum un clip ou une vidéo à montrer. Créez une présence sur les réseaux sociaux.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-title">Phase 2 : Chercher votre attaché de presse (2-3 mois avant)</div>
+                    <div class="timeline-text">Identifiez les agences qui travaillent dans votre genre musical. Regardez leur roster. Prenez contact avec un projet abouti en main. Le budget se situe généralement entre 2 000 € et 5 000 € par mois.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-title">Phase 3 : Lancer la campagne presse (6-8 semaines avant la sortie)</div>
+                    <div class="timeline-text">L'attaché de presse commence à envoyer des écoutes exclusives aux médias ciblés. Les premiers retours arrivent. On ajuste la stratégie en fonction des réactions.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-title">Phase 4 : Sortie et suivi (jour J + 2-4 semaines)</div>
+                    <div class="timeline-text">Maximiser la couverture au moment de la sortie. Relancer les médias qui n'ont pas encore répondu. Organiser des interviews, des sessions live, des showcases.</div>
+                </div>
+            </div>
+
+            <div class="callout callout-danger">
+                <div class="callout-icon">🚫</div>
+                <div class="callout-content">
+                    <div class="callout-title">Ce qu'il ne faut pas faire</div>
+                    <div class="callout-text">Ne contactez pas un attaché de presse en disant « j'ai 3 morceaux en maquette, est-ce que tu peux me placer quelque part ». Le projet doit être finalisé, le mix et le mastering impeccables, les visuels prêts. Si un rédacteur en chef écoute votre projet et que le mix n'est pas au niveau, vous avez grillé une cartouche qu'il sera très difficile de rattraper.</div>
+                </div>
+            </div>
+
+            <details>
+                <summary>💶 Budget : combien coûte un attaché de presse ?</summary>
+                <div class="detail-content">
+                    <p>Pour un artiste indépendant, comptez entre 2 000 € et 5 000 € par mois, selon la taille de l'agence, la durée de la campagne et le périmètre de la mission. Certaines agences proposent des forfaits par projet (EP ou album) plutôt qu'un tarif mensuel. N'hésitez pas à négocier et à comparer plusieurs devis. L'important est que l'agence croie en votre projet et soit motivée — un prix bas avec un attaché de presse qui ne croit pas en votre musique ne sert à rien.</p>
+                </div>
+            </details>
+        </div>
+    </section>
+
+    <!-- SECTION 4 -->
+    <section class="section section-blue" id="s4">
+        <div class="section-header">
+            <div class="section-icon">🎯</div>
+            <h2>4. La stratégie de relations presse : cibler et construire</h2>
+        </div>
+        <div class="section-body">
+            <p>Envoyer votre projet à tous les médias en même temps est l'une des pires stratégies possibles. Les relations presse se construisent dans la durée, avec une approche ciblée et progressive.</p>
+
+            <div class="callout callout-key">
+                <div class="callout-icon">🔑</div>
+                <div class="callout-content">
+                    <div class="callout-title">Le principe fondamental</div>
+                    <div class="callout-text">Chaque envoi doit être ciblé. Identifiez les médias et les journalistes qui couvrent votre genre musical. Personnalisez votre approche. Un journaliste spécialisé rap ne sera pas intéressé par un projet folk, et inversement. Un envoi massif non ciblé donne une image d'amateurisme.</div>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type de média</th>
+                            <th>Intérêt pour un artiste émergent</th>
+                            <th>Timing idéal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Blogs spécialisés / webzines</strong></td>
+                            <td>Excellents pour les premières retombées. Plus accessibles, souvent à l'affût de nouveautés.</td>
+                            <td>Dès le premier single/clip</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Médias spécialisés (Mouv', Tsugi, Les Inrocks…)</strong></td>
+                            <td>Crédibilité et visibilité dans votre genre. Audience qualifiée.</td>
+                            <td>EP ou album, avec déjà une base de fans</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Playlists éditoriales (Spotify, Deezer, Apple Music)</strong></td>
+                            <td>Impact massif sur les streams. Travaillées par les attachés de presse et les labels.</td>
+                            <td>3-4 semaines avant la sortie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Médias généralistes (Le Monde, Libération, TV…)</strong></td>
+                            <td>Consécration. Réservé aux projets avec déjà un buzz ou un label solide derrière.</td>
+                            <td>Phase de développement avancée</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="callout callout-tip">
+                <div class="callout-icon">✅</div>
+                <div class="callout-content">
+                    <div class="callout-title">L'outil recommandé par Florent</div>
+                    <div class="callout-text"><strong>Hunter.io</strong> — Entrez n'importe quel nom de domaine (par exemple celui d'un magazine musical) et le site vous sort gratuitement les adresses email de tous les contacts référencés. C'est un outil précieux pour constituer votre base de contacts presse quand vous démarrez sans réseau.</div>
+                </div>
+            </div>
+
+            <details>
+                <summary>🤝 Peut-on faire ses RP soi-même en indépendant ?</summary>
+                <div class="detail-content">
+                    <p>Oui, c'est possible au démarrage, surtout pour les premiers singles et les premiers clips. Ciblez les blogs et webzines de votre genre, personnalisez chaque envoi, et soyez patient. L'avantage d'un attaché de presse professionnel, c'est son carnet d'adresses et sa crédibilité auprès des journalistes : quand il envoie un projet, les journalistes ouvrent le mail. Quand un artiste inconnu envoie un mail, il peut finir dans le spam. À vous de déterminer à quel stade de votre développement l'investissement dans un attaché de presse devient rentable.</p>
+                </div>
+            </details>
+        </div>
+    </section>
+
+    <!-- SECTION 5 -->
+    <section class="section section-amber" id="s5">
+        <div class="section-header">
+            <div class="section-icon">⏳</div>
+            <h2>5. Patience et timing : ne pas griller ses cartouches</h2>
+        </div>
+        <div class="section-body">
+            <p>L'un des messages les plus importants de cette masterclass : ne soyez pas trop pressé. Dans les relations presse comme dans le développement d'une carrière musicale, chaque étape se construit. Vouloir aller trop vite peut être contre-productif et vous faire perdre des opportunités précieuses.</p>
+
+            <div class="callout callout-danger">
+                <div class="callout-icon">🚫</div>
+                <div class="callout-content">
+                    <div class="callout-title">L'erreur fatale</div>
+                    <div class="callout-text">Si par malchance un rédacteur en chef d'un grand média écoute votre projet alors que le mix n'est pas finalisé, que les visuels sont bâclés ou que l'artiste n'est pas prêt pour une interview, il va se souvenir de votre nom… pour de mauvaises raisons. Vous aurez grillé une cartouche qu'il sera quasiment impossible de rattraper.</div>
+                </div>
+            </div>
+
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>✓ Le bon développement</h4>
+                    <ul>
+                        <li>Premiers retombées sur blogs spécialisés</li>
+                        <li>Construction progressive d'une revue de presse</li>
+                        <li>Buzz internet organique + intérêt médiatique</li>
+                        <li>Propositions de labels dans de bonnes conditions</li>
+                        <li>Meilleur rapport de force pour les négociations</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>✗ Le développement précipité</h4>
+                    <ul>
+                        <li>Envoi massif avant que le projet soit prêt</li>
+                        <li>Premières impressions négatives des journalistes</li>
+                        <li>Cartouches grillées chez les médias importants</li>
+                        <li>Signature de contrat dans l'urgence (mauvaises conditions)</li>
+                        <li>Image d'amateurisme difficile à inverser</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="callout callout-quote">
+                <div class="callout-icon">💬</div>
+                <div class="callout-content">
+                    <div class="callout-title">Parole d'expert</div>
+                    <div class="callout-text">On a aidé des projets naissants sur lesquels il se passait quelque chose. On les a accompagnés à affiner leur image, à faire deux ou trois premiers petits coups en médias pour montrer qu'il y avait aussi un intérêt médiatique. Et derrière, les propositions de labels étaient meilleures. Le rapport de force était en faveur de l'artiste.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6 -->
+    <section class="section section-teal" id="s6">
+        <div class="section-header">
+            <div class="section-icon">🌟</div>
+            <h2>6. Se démarquer : identité, storytelling et cases musicales</h2>
+        </div>
+        <div class="section-body">
+            <p>En France, les journalistes et les médias ont tendance à vouloir mettre les artistes dans des cases. C'est une réalité du marché qu'il faut comprendre et savoir utiliser à son avantage plutôt que de lutter contre.</p>
+
+            <div class="callout callout-info">
+                <div class="callout-icon">📊</div>
+                <div class="callout-content">
+                    <div class="callout-title">Le saviez-vous ?</div>
+                    <div class="callout-text">Les journalistes doivent pouvoir vous « pitcher » en une phrase à leur rédacteur en chef. Si votre projet est trop flou ou trop inclassable, ils ne sauront pas comment vous présenter — et ils passeront à un autre artiste. Avoir un ADN clair ne veut pas dire être enfermé dans un genre unique, mais avoir une proposition artistique identifiable.</div>
+                </div>
+            </div>
+
+            <p>L'important n'est pas de coller à une case rigide, mais d'avoir une proposition claire que les médias puissent identifier rapidement. Si vous faites de la chanson teintée d'électro avec des textes engagés, assumez-le et mettez-le en avant. Ne cherchez pas à plaire à tout le monde : cherchez à marquer les esprits de votre cible.</p>
+
+            <div class="callout callout-tip">
+                <div class="callout-icon">✅</div>
+                <div class="callout-content">
+                    <div class="callout-title">Astuce</div>
+                    <div class="callout-text">Votre storytelling est votre arme secrète. Ce qui fait qu'un journaliste va vouloir écrire sur vous, ce n'est pas seulement votre musique — c'est votre histoire. Un parcours atypique, une anecdote marquante, une vision du monde singulière : trouvez ce qui vous rend unique et mettez-le au cœur de votre communication.</div>
+                </div>
+            </div>
+
+            <div class="callout callout-key">
+                <div class="callout-icon">🔑</div>
+                <div class="callout-content">
+                    <div class="callout-title">Les 3 piliers d'une identité presse forte</div>
+                    <div class="callout-text"><strong>1. Un ADN musical clair :</strong> on doit pouvoir vous décrire en une phrase. <strong>2. Un storytelling authentique :</strong> votre histoire, vos motivations, ce qui vous différencie. <strong>3. Une cohérence visuelle :</strong> pochettes, photos, clips, réseaux sociaux — tout doit raconter la même histoire.</div>
+                </div>
+            </div>
+
+            <details>
+                <summary>🎭 Comment gérer quand on ne rentre dans aucune case ?</summary>
+                <div class="detail-content">
+                    <p>Si votre projet est véritablement inclassable ou transgenre, ne le voyez pas comme un handicap — faites-en votre force. Mais il faut que ce soit formulé clairement dans votre bio et votre EPK. Par exemple : « à la croisée du hip-hop et de la musique classique » est une proposition claire, même si elle est atypique. Ce qui ne fonctionne pas, c'est de ne pas savoir soi-même comment se définir. Le journaliste a besoin de pouvoir identifier votre proposition pour savoir dans quelle rubrique vous placer et quel angle d'article adopter.</p>
+                </div>
+            </details>
+        </div>
+    </section>
+
+    <!-- SECTION 7 — QUIZ -->
+    <section class="section section-gold" id="s7">
+        <div class="section-header">
+            <div class="section-icon">🧠</div>
+            <h2>7. Quiz de validation</h2>
+        </div>
+        <div class="section-body">
+
+            <div class="callout callout-key" style="margin-bottom: 30px;">
+                <div class="callout-icon">💡</div>
+                <div class="callout-content">
+                    <div class="callout-title">Récap express de la masterclass</div>
+                    <div class="callout-text">L'attaché de presse est un partenaire stratégique, pas un simple envoyeur de mails. Préparez vos supports (bio, photos, EPK) avant toute démarche. Ne contactez les médias que quand votre projet est finalisé. Ciblez plutôt que d'arroser. Construisez dans la durée. Et surtout : votre storytelling est votre meilleure arme.</div>
+                </div>
+            </div>
+
+            <div class="quiz-container" id="quiz">
+                <div class="quiz-question" id="q1">
+                    <div class="quiz-q-text">1. Selon Florent Muset, qu'est-ce qui prime aujourd'hui dans les relations presse ?</div>
+                    <button class="quiz-option" onclick="checkAnswer('q1', this, false)">A. La quantité d'envois aux médias</button>
+                    <button class="quiz-option" onclick="checkAnswer('q1', this, true)">B. La qualité du ciblage et de l'accompagnement</button>
+                    <button class="quiz-option" onclick="checkAnswer('q1', this, false)">C. Le nombre de followers sur les réseaux sociaux</button>
+                    <button class="quiz-option" onclick="checkAnswer('q1', this, false)">D. Le budget consacré à la promotion</button>
+                    <div class="quiz-feedback correct" id="q1-correct">Exact ! Florent insiste : la qualité prime sur la quantité. Un bon ciblage et un accompagnement stratégique valent plus qu'un envoi massif.</div>
+                    <div class="quiz-feedback incorrect" id="q1-incorrect">La bonne réponse est B. Aujourd'hui, la qualité du ciblage et l'accompagnement stratégique de l'artiste sont plus importants que la quantité d'envois.</div>
+                </div>
+
+                <div class="quiz-question" id="q2">
+                    <div class="quiz-q-text">2. Quel est le document le plus important dans un kit de communication presse ?</div>
+                    <button class="quiz-option" onclick="checkAnswer('q2', this, true)">A. La biographie (storytelling de l'artiste)</button>
+                    <button class="quiz-option" onclick="checkAnswer('q2', this, false)">B. La liste des concerts passés</button>
+                    <button class="quiz-option" onclick="checkAnswer('q2', this, false)">C. Les statistiques de streaming</button>
+                    <button class="quiz-option" onclick="checkAnswer('q2', this, false)">D. Le contrat de distribution</button>
+                    <div class="quiz-feedback correct" id="q2-correct">Bravo ! La biographie est l'outil stratégique numéro un. C'est souvent le premier document qu'un journaliste lira et qui déterminera s'il veut en savoir plus.</div>
+                    <div class="quiz-feedback incorrect" id="q2-incorrect">La bonne réponse est A. La biographie est le document clé : c'est votre storytelling, la manière dont les journalistes vous percevront.</div>
+                </div>
+
+                <div class="quiz-question" id="q3">
+                    <div class="quiz-q-text">3. Pourquoi est-il risqué de solliciter les médias trop tôt ?</div>
+                    <button class="quiz-option" onclick="checkAnswer('q3', this, false)">A. Parce que les médias n'acceptent que les artistes signés en label</button>
+                    <button class="quiz-option" onclick="checkAnswer('q3', this, false)">B. Parce que c'est trop cher</button>
+                    <button class="quiz-option" onclick="checkAnswer('q3', this, true)">C. Parce qu'un journaliste qui se fait une mauvaise première impression ne reviendra pas</button>
+                    <button class="quiz-option" onclick="checkAnswer('q3', this, false)">D. Parce que les médias ne couvrent que les albums, pas les singles</button>
+                    <div class="quiz-feedback correct" id="q3-correct">Parfait ! Si un journaliste écoute votre projet quand le mix n'est pas au niveau ou que les visuels sont bâclés, vous avez grillé une cartouche quasi irrécupérable.</div>
+                    <div class="quiz-feedback incorrect" id="q3-incorrect">La bonne réponse est C. Une mauvaise première impression chez un journaliste est très difficile à inverser. Il vaut mieux attendre d'être prêt.</div>
+                </div>
+
+                <div class="quiz-question" id="q4">
+                    <div class="quiz-q-text">4. Quel outil gratuit Florent recommande-t-il pour trouver les emails des contacts presse ?</div>
+                    <button class="quiz-option" onclick="checkAnswer('q4', this, false)">A. LinkedIn Premium</button>
+                    <button class="quiz-option" onclick="checkAnswer('q4', this, false)">B. Google Alerts</button>
+                    <button class="quiz-option" onclick="checkAnswer('q4', this, true)">C. Hunter.io</button>
+                    <button class="quiz-option" onclick="checkAnswer('q4', this, false)">D. Mailchimp</button>
+                    <div class="quiz-feedback correct" id="q4-correct">Exact ! Hunter.io permet d'entrer n'importe quel nom de domaine pour obtenir gratuitement les adresses email des contacts référencés.</div>
+                    <div class="quiz-feedback incorrect" id="q4-incorrect">La bonne réponse est C. Hunter.io est un outil gratuit qui permet de trouver les emails des contacts d'un média à partir de son nom de domaine.</div>
+                </div>
+
+                <div class="quiz-question" id="q5">
+                    <div class="quiz-q-text">5. Pourquoi est-il important d'avoir un « ADN musical clair » pour les relations presse ?</div>
+                    <button class="quiz-option" onclick="checkAnswer('q5', this, false)">A. Pour être sélectionné par les algorithmes de Spotify</button>
+                    <button class="quiz-option" onclick="checkAnswer('q5', this, true)">B. Pour que les journalistes puissent vous identifier et vous pitcher à leur rédaction</button>
+                    <button class="quiz-option" onclick="checkAnswer('q5', this, false)">C. Pour obtenir des aides et subventions</button>
+                    <button class="quiz-option" onclick="checkAnswer('q5', this, false)">D. Pour avoir plus de likes sur Instagram</button>
+                    <div class="quiz-feedback correct" id="q5-correct">Bien joué ! Les journalistes doivent pouvoir vous décrire en une phrase à leur rédacteur en chef. Sans proposition claire, ils passent au projet suivant.</div>
+                    <div class="quiz-feedback incorrect" id="q5-incorrect">La bonne réponse est B. Un ADN clair permet aux journalistes de vous identifier rapidement et de savoir comment vous présenter dans leur média.</div>
+                </div>
+
+                <div class="quiz-score" id="quizScore">
+                    <h3 id="scoreText"></h3>
+                    <p id="scoreMessage"></p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-brand">Producteur à Succès</div>
+    <p>Formation Music Business par Tarik Hamiche</p>
+    <p style="margin-top: 8px; opacity: 0.7;">Module 3 — Masterclass : Florent Muset, attaché de presse (Angèle, Niska, Petit Biscuit, MHD…)</p>
+</footer>
+
+<script>
+    window.addEventListener('scroll', () => {
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        document.getElementById('progressBar').style.width = (scrollTop / scrollHeight) * 100 + '%';
+    });
+
+    let answered = 0, score = 0;
+    const totalQuestions = 5;
+
+    function checkAnswer(qId, btn, isCorrect) {
+        const question = document.getElementById(qId);
+        if (question.classList.contains('correct') || question.classList.contains('incorrect')) return;
+        const buttons = question.querySelectorAll('.quiz-option');
+        buttons.forEach(b => b.disabled = true);
+        if (isCorrect) {
+            btn.classList.add('selected-correct');
+            question.classList.add('correct');
+            document.getElementById(qId + '-correct').classList.add('show');
+            score++;
+        } else {
+            btn.classList.add('selected-wrong');
+            question.classList.add('incorrect');
+            document.getElementById(qId + '-incorrect').classList.add('show');
+            buttons.forEach(b => { if (b.onclick.toString().includes('true')) b.classList.add('reveal-correct'); });
+        }
+        answered++;
+        if (answered === totalQuestions) {
+            const scoreDiv = document.getElementById('quizScore');
+            document.getElementById('scoreText').textContent = score + ' / ' + totalQuestions;
+            document.getElementById('scoreMessage').textContent = score === totalQuestions
+                ? 'Parfait ! Vous maîtrisez les clés des relations presse. Prêt à construire votre stratégie !'
+                : score >= 3
+                    ? 'Bon résultat ! Revoyez les sections correspondant aux questions manquées.'
+                    : 'Reprenez le cours attentivement. Les relations presse sont un levier essentiel de votre développement !';
+            scoreDiv.style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>

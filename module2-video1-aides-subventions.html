@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 2 – Vidéo 1 : Explorer les dispositifs d'aide disponibles (Partie 1)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden;
+        }
+
+        :root {
+            --primary: #6C3AED;
+            --primary-light: #EDE9FE;
+            --accent: #F59E0B;
+            --accent-light: #FEF3C7;
+            --success: #10B981;
+            --success-light: #D1FAE5;
+            --danger: #EF4444;
+            --danger-light: #FEE2E2;
+            --info: #3B82F6;
+            --info-light: #DBEAFE;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-500: #6B7280;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            --radius: 12px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--gray-800);
+            background: var(--gray-50);
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), #A78BFA);
+            z-index: 1000;
+            transition: width 0.1s ease;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #6C3AED 0%, #4C1D95 50%, #2E1065 100%);
+            color: white;
+            padding: 60px 24px 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+        .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        .hero p {
+            font-size: 1.05rem;
+            opacity: 0.9;
+            max-width: 650px;
+            margin: 0 auto 24px;
+        }
+        .meta-tags {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            opacity: 0.85;
+        }
+        .meta-tags span { display: flex; align-items: center; gap: 6px; }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            padding: 32px;
+            margin: -30px auto 40px;
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        }
+        .toc h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .toc-list { list-style: none; }
+        .toc-list li {
+            border-bottom: 1px solid var(--gray-100);
+        }
+        .toc-list li:last-child { border-bottom: none; }
+        .toc-list a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 8px;
+            text-decoration: none;
+            color: var(--gray-700);
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            border-radius: 8px;
+        }
+        .toc-list a:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+            padding-left: 16px;
+        }
+        .toc-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: var(--primary-light);
+            color: var(--primary);
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        /* Sections */
+        .section {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 32px;
+            overflow: hidden;
+        }
+        .section-header {
+            padding: 24px 32px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        .section-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        .section-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            color: var(--gray-900);
+        }
+        .section-body { padding: 28px 32px; }
+        .section-body p { margin-bottom: 16px; text-align: justify; }
+        .section-body p:last-child { margin-bottom: 0; }
+
+        /* Color variants for sections */
+        .section-purple .section-header { background: linear-gradient(135deg, var(--primary-light), #F3E8FF); }
+        .section-purple .section-icon { background: var(--primary); color: white; }
+        .section-green .section-header { background: linear-gradient(135deg, var(--success-light), #ECFDF5); }
+        .section-green .section-icon { background: var(--success); color: white; }
+        .section-blue .section-header { background: linear-gradient(135deg, var(--info-light), #EFF6FF); }
+        .section-blue .section-icon { background: var(--info); color: white; }
+        .section-amber .section-header { background: linear-gradient(135deg, var(--accent-light), #FFFBEB); }
+        .section-amber .section-icon { background: var(--accent); color: white; }
+        .section-red .section-header { background: linear-gradient(135deg, var(--danger-light), #FEF2F2); }
+        .section-red .section-icon { background: var(--danger); color: white; }
+
+        /* Callout Boxes */
+        .callout {
+            border-radius: 10px;
+            padding: 18px 22px;
+            margin: 20px 0;
+            border-left: 4px solid;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+        .callout-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+        .callout-content { flex: 1; }
+        .callout-title { font-weight: 700; margin-bottom: 4px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .callout-text { font-size: 0.95rem; }
+
+        .callout-tip { background: var(--success-light); border-color: var(--success); }
+        .callout-tip .callout-title { color: #065F46; }
+        .callout-warning { background: var(--accent-light); border-color: var(--accent); }
+        .callout-warning .callout-title { color: #92400E; }
+        .callout-danger { background: var(--danger-light); border-color: var(--danger); }
+        .callout-danger .callout-title { color: #991B1B; }
+        .callout-info { background: var(--info-light); border-color: var(--info); }
+        .callout-info .callout-title { color: #1E40AF; }
+        .callout-key { background: var(--primary-light); border-color: var(--primary); }
+        .callout-key .callout-title { color: #4C1D95; }
+
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        thead th {
+            background: var(--primary);
+            color: white;
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        thead th:first-child { border-radius: 10px 0 0 0; }
+        thead th:last-child { border-radius: 0 10px 0 0; }
+        tbody td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        tbody tr:nth-child(even) { background: var(--gray-50); }
+        tbody tr:hover { background: var(--primary-light); }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+        .card {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.2s;
+        }
+        .card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+        .card-icon { font-size: 2rem; margin-bottom: 10px; }
+        .card-title { font-weight: 700; font-size: 1rem; margin-bottom: 8px; color: var(--gray-900); }
+        .card-text { font-size: 0.9rem; color: var(--gray-500); line-height: 1.5; }
+        .card-amount { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--primary); margin-top: 10px; }
+
+        /* Accordion */
+        details {
+            margin: 16px 0;
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        summary {
+            padding: 14px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            background: var(--gray-50);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            list-style: none;
+            user-select: none;
+            transition: background 0.2s;
+        }
+        summary::-webkit-details-marker { display: none; }
+        summary::before { content: '▸'; transition: transform 0.2s; }
+        details[open] summary::before { transform: rotate(90deg); }
+        summary:hover { background: var(--primary-light); }
+        details .detail-content { padding: 16px 20px; font-size: 0.95rem; }
+
+        /* Timeline */
+        .timeline { position: relative; padding-left: 30px; margin: 20px 0; }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--primary), var(--success));
+            border-radius: 3px;
+        }
+        .timeline-item { position: relative; margin-bottom: 24px; padding-left: 20px; }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 6px;
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border: 3px solid white;
+            border-radius: 50%;
+            box-shadow: var(--shadow);
+        }
+        .timeline-title { font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
+        .timeline-text { font-size: 0.9rem; color: var(--gray-500); }
+
+        /* Quiz */
+        .quiz-container { margin: 20px 0; }
+        .quiz-question {
+            background: var(--gray-50);
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+        .quiz-question.correct { border-color: var(--success); background: var(--success-light); }
+        .quiz-question.incorrect { border-color: var(--danger); background: var(--danger-light); }
+        .quiz-q-text { font-weight: 600; margin-bottom: 16px; font-size: 1.05rem; }
+        .quiz-option {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .quiz-option:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-light); }
+        .quiz-option.selected-correct { border-color: var(--success); background: var(--success-light); }
+        .quiz-option.selected-wrong { border-color: var(--danger); background: var(--danger-light); }
+        .quiz-option.reveal-correct { border-color: var(--success); background: var(--success-light); }
+        .quiz-feedback {
+            margin-top: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            display: none;
+        }
+        .quiz-feedback.show { display: block; }
+        .quiz-feedback.correct { background: var(--success-light); color: #065F46; }
+        .quiz-feedback.incorrect { background: var(--danger-light); color: #991B1B; }
+        .quiz-score {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, var(--primary-light), #F3E8FF);
+            border-radius: 12px;
+            margin-top: 24px;
+            display: none;
+        }
+        .quiz-score h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; color: var(--primary); }
+        .quiz-score p { color: var(--gray-500); margin-top: 8px; }
+
+        /* Pros/Cons */
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+        .pros, .cons {
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .pros { background: var(--success-light); border: 1px solid #A7F3D0; }
+        .cons { background: var(--danger-light); border: 1px solid #FECACA; }
+        .pros h4, .cons h4 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+        .pros h4 { color: #065F46; }
+        .cons h4 { color: #991B1B; }
+        .pros li, .cons li { font-size: 0.9rem; margin-bottom: 8px; list-style: none; padding-left: 22px; position: relative; }
+        .pros li::before { content: '✓'; position: absolute; left: 0; color: var(--success); font-weight: 700; }
+        .cons li::before { content: '✗'; position: absolute; left: 0; color: var(--danger); font-weight: 700; }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 24px;
+            color: var(--gray-500);
+            font-size: 0.85rem;
+        }
+        .footer-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        /* Print */
+        @media print {
+            .progress-bar, .quiz-option, .quiz-feedback, .quiz-score { display: none; }
+            .hero { background: var(--primary) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .section { break-inside: avoid; box-shadow: none; border: 1px solid var(--gray-200); }
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .section-body, .section-header { padding: 16px 20px; }
+            .toc { padding: 20px; margin: -20px 16px 30px; }
+            .hero { padding: 40px 16px 36px; }
+            .pros-cons { grid-template-columns: 1fr; }
+            .cards-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- HERO -->
+<header class="hero">
+    <div class="hero-content">
+        <div class="badge">📚 Module 2 — Vidéo 1</div>
+        <h1>Explorer les dispositifs d'aide disponibles (Partie 1)</h1>
+        <p>Panorama complet des aides et subventions accessibles aux artistes indépendants, auteurs, compositeurs et producteurs : SACEM, ADAMI, SPPF, SCPP et CNM.</p>
+        <div class="meta-tags">
+            <span>👤 Formateur : Tarik Hamiche</span>
+            <span>⏱️ Session live</span>
+            <span>🎓 Producteur à Succès</span>
+        </div>
+    </div>
+</header>
+
+<!-- TABLE OF CONTENTS -->
+<div class="container">
+    <nav class="toc">
+        <h2>📋 Sommaire</h2>
+        <ol class="toc-list">
+            <li><a href="#s1"><span class="toc-number">1</span> Introduction : Pourquoi solliciter des aides ?</a></li>
+            <li><a href="#s2"><span class="toc-number">2</span> L'aide à l'autoproduction SACEM (5 000 €)</a></li>
+            <li><a href="#s3"><span class="toc-number">3</span> L'allocation de soutien professionnel SACEM (5 000 €)</a></li>
+            <li><a href="#s4"><span class="toc-number">4</span> Les aides ADAMI : Contenu numérique, Compagnonnage & Nouveaux Horizons</a></li>
+            <li><a href="#s5"><span class="toc-number">5</span> L'aide à la production et promotion ADAMI (jusqu'à 25 000 €)</a></li>
+            <li><a href="#s6"><span class="toc-number">6</span> Les prérequis généraux pour accéder aux aides</a></li>
+            <li><a href="#s7"><span class="toc-number">7</span> Les aides SPPF & SCPP : côté producteur</a></li>
+            <li><a href="#s8"><span class="toc-number">8</span> Tableau récapitulatif & Quiz de validation</a></li>
+        </ol>
+    </nav>
+</div>
+
+<!-- SECTION 1 -->
+<div class="container">
+    <section class="section section-purple" id="s1">
+        <div class="section-header">
+            <div class="section-icon">🎯</div>
+            <h2>1. Introduction : Pourquoi solliciter des aides ?</h2>
+        </div>
+        <div class="section-body">
+            <p>L'industrie musicale française dispose d'un écosystème unique d'aides et de subventions destinées aux artistes indépendants et aux producteurs. Ces dispositifs existent grâce aux organismes de gestion collective (SACEM, ADAMI, SPEDIDAM, SPPF, SCPP) et au Centre National de la Musique (CNM). Ils redistribuent une partie des droits collectés sous forme de soutien financier aux projets musicaux.</p>
+
+            <div class="callout callout-key">
+                <div class="callout-icon">💡</div>
+                <div class="callout-content">
+                    <div class="callout-title">À retenir</div>
+                    <div class="callout-text">Ces aides ne sont pas réservées aux « gros artistes ». Au contraire, la plupart ciblent spécifiquement les artistes émergents et les premiers projets. Si vous avez un minimum d'activité et un projet structuré, vous êtes probablement éligible à au moins l'un de ces dispositifs.</div>
+                </div>
+            </div>
+
+            <p>L'approche recommandée est simple : préparer un budget prévisionnel sérieux, montrer que vous avez réfléchi à l'utilisation des fonds, et démontrer que vous êtes entouré d'un environnement professionnel (distributeur, éditeur, manager, attaché de presse, etc.). Les commissions qui examinent les dossiers sont composées de professionnels actifs de l'industrie. Ils veulent simplement voir que vous avez la tête sur les épaules et un projet solide.</p>
+
+            <div class="callout callout-tip">
+                <div class="callout-icon">✅</div>
+                <div class="callout-content">
+                    <div class="callout-title">Astuce</div>
+                    <div class="callout-text">Préparez un budget prévisionnel détaillé même si l'organisme ne l'exige pas formellement. Quand un dossier est bien ficelé avec des arguments concrets, la commission n'a aucune raison de refuser si vous remplissez les critères.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2 -->
+    <section class="section section-green" id="s2">
+        <div class="section-header">
+            <div class="section-icon">🎵</div>
+            <h2>2. L'aide à l'autoproduction SACEM (5 000 €)</h2>
+        </div>
+        <div class="section-body">
+            <p>C'est le dispositif d'entrée de jeu le plus accessible pour un artiste auteur-compositeur qui débute en autoproduction. La SACEM met à disposition une aide forfaitaire de 5 000 € pour vous accompagner dans la création de vos premiers projets.</p>
+
+            <div class="callout callout-key">
+                <div class="callout-icon">🔑</div>
+                <div class="callout-content">
+                    <div class="callout-title">Critères d'éligibilité</div>
+                    <div class="callout-text">Être l'auteur ou le compositeur principal du projet. Le projet doit être votre 1er, 2e ou 3e projet autoproduit. Il doit comporter au minimum 5 titres inédits. Vous devez démontrer un environnement professionnel et une stratégie de développement.</div>
+                </div>
+            </div>
+
+            <p>La notion de « projet » est importante : un EP de 5 titres minimum ou un album compte comme un projet. En revanche, des singles isolés ne comptent pas comme des projets distincts. Si vous avez sorti 15 singles, cela ne compte pas comme 15 projets. Un maxi de 2 titres ne compte pas non plus. C'est le format EP minimum (5 titres) ou album qui définit un « projet » au sens de cette aide.</p>
+
+            <div class="callout callout-warning">
+                <div class="callout-icon">⚠️</div>
+                <div class="callout-content">
+                    <div class="callout-title">Attention</div>
+                    <div class="callout-text">Seuls les titres inédits (non encore commercialisés) comptent. Si vous avez déjà sorti vos morceaux en single avant de les regrouper en EP, ils ne seront plus considérés comme inédits. Pensez-y lors de votre stratégie de sortie.</div>
+                </div>
+            </div>
+
+            <details>
+                <summary>📄 Comment déposer votre demande ?</summary>
+                <div class="detail-content">
+                    <p>La demande se fait directement sur le portail de la SACEM. Les sessions d'appel à candidature ont lieu généralement en début d'année (période mars-mai). Vous complétez la demande, envoyez les éléments déclaratifs requis (relevés de droits, déclarations, etc.), et votre dossier est étudié en commission. Si le dossier est accepté, les 5 000 € sont crédités sur votre compte d'auteur ou de compositeur au début de l'année suivante.</p>
+                </div>
+            </details>
+
+            <details>
+                <summary>🌍 Artistes basés à l'étranger : est-ce possible ?</summary>
+                <div class="detail-content">
+                    <p>Oui, la SACEM couvre les artistes membres résidant à l'étranger. Certains artistes combinent d'ailleurs des aides de différents pays sur des projets distincts. Ce n'est pas illégal : les aides sont simplement non cumulables sur un même projet, mais parfaitement combinables sur des projets différents.</p>
+                </div>
+            </details>
+        </div>
+    </section>
+
+    <!-- SECTION 3 -->
+    <section class="section section-blue" id="s3">
+        <div class="section-header">
+            <div class="section-icon">💰</div>
+            <h2>3. L'allocation de soutien professionnel SACEM (5 000 €)</h2>
+        </div>
+        <div class="section-body">
+            <p>Ce deuxième dispositif SACEM est particulièrement intéressant pour les artistes émergents qui commencent à générer des revenus réguliers sans pour autant vivre confortablement de leur musique. C'est une aide de 5 000 € versée en une fois sur votre compte SACEM.</p>
+
+            <div class="callout callout-info">
+                <div class="callout-icon">📊</div>
+                <div class="callout-content">
+                    <div class="callout-title">Le saviez-vous ?</div>
+                    <div class="callout-text">Cette aide cible exactement le profil de l'artiste émergent : « Je ne suis pas encore assez riche pour vivre très confortablement de ma musique, mais je ne suis plus dans la phase où je galère avec 25 € de SACEM tous les six mois. »</div>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Critère</th>
+                            <th>Option A (3 ans)</th>
+                            <th>Option B (5 ans)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Période de référence</strong></td>
+                            <td>3 dernières années (hors année en cours)</td>
+                            <td>5 dernières années (hors année en cours)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Revenus minimum brut HT</strong></td>
+                            <td>7 128 € (~2 376 €/an)</td>
+                            <td>10 692 € (~2 138 €/an)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Revenus pris en compte</strong></td>
+                            <td colspan="2">Droits d'auteur, notes d'auteur, cachets, recettes d'exploitation digitale (TuneCore, etc.), avances — tous revenus liés à l'activité d'artiste-auteur</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Condition</strong></td>
+                            <td colspan="2">Être auteur ou compositeur, membre de la SACEM</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="callout callout-tip">
+                <div class="callout-icon">✅</div>
+                <div class="callout-content">
+                    <div class="callout-title">Astuce</div>
+                    <div class="callout-text">Si vous n'atteignez pas le seuil sur 3 ans, vous pouvez étendre le calcul aux 5 dernières années. Les montants sont cumulatifs : on additionne toutes les sources de revenus (droits SACEM, cachets, revenus digitaux, avances, etc.).</div>
+                </div>
+            </div>
+
+            <details>
+                <summary>📝 Qu'est-ce qu'une « note d'auteur » ?</summary>
+                <div class="detail-content">
+                    <p>Quand vous réalisez une prestation en tant qu'auteur ou compositeur (par exemple, la vente d'un texte ou d'une instrumentale), vous établissez une « note d'auteur ». C'est un document qui fait office de facture, sur lequel vous indiquez votre nom, votre numéro d'inscription à la SACEM et le montant de la prestation. Les cotisations sociales sont précomptées (retenues à la source) par le diffuseur. Ce format est différent d'une facture classique puisque l'auteur n'est pas considéré comme un travailleur indépendant au sens classique.</p>
+                </div>
+            </details>
+        </div>
+    </section>
+
+    <!-- SECTION 4 -->
+    <section class="section section-amber" id="s4">
+        <div class="section-header">
+            <div class="section-icon">🎭</div>
+            <h2>4. Les aides ADAMI : Contenu numérique, Compagnonnage & Nouveaux Horizons</h2>
+        </div>
+        <div class="section-body">
+            <p>L'ADAMI (Administration des Droits des Artistes et Musiciens Interprètes) propose trois dispositifs sous forme de bourses individuelles, accessibles aux artistes-interprètes. Contrairement aux aides SACEM (auteurs/compositeurs), celles-ci s'adressent à ceux qui interprètent la musique.</p>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">📱</div>
+                    <div class="card-title">Bourse Contenu Numérique</div>
+                    <div class="card-text">Financement pour créer du contenu original sous forme de vidéo, podcast, audio ou site internet. Les contenus doivent être originaux et innovants (pas de recyclage de clips existants).</div>
+                    <div class="card-amount">Jusqu'à 5 000 €</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🤝</div>
+                    <div class="card-title">Aide au Compagnonnage</div>
+                    <div class="card-text">Programme de mentorat structuré avec un artiste expérimenté. Minimum 7 séances sur 3 mois, avec un plan d'accompagnement et des livrables prouvant le compagnonnage.</div>
+                    <div class="card-amount">Jusqu'à 6 000 €</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">✈️</div>
+                    <div class="card-title">Bourse Nouveaux Horizons</div>
+                    <div class="card-text">Bourse pour une immersion créative à l'étranger ou un projet de reconversion/réorientation artistique. Couvre transport, hébergement, repas et frais de prestation.</div>
+                    <div class="card-amount">Jusqu'à 5 000 €</div>
+                </div>
+            </div>
+
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; margin: 24px 0 12px; color: var(--gray-900);">Bourse Contenu Numérique — En détail</h3>
+
+            <p>Cette aide finance la création de contenus numériques originaux. Les formats éligibles sont : la vidéo, le podcast (audio), et les sites internet (hors sites vitrines). L'idée est de proposer un projet de création de contenu innovant, pas simplement de recycler vos derniers clips ou lives.</p>
+
+            <div class="callout callout-danger">
+                <div class="callout-icon">🚫</div>
+                <div class="callout-content">
+                    <div class="callout-title">Ce qui ne fonctionne pas</div>
+                    <div class="callout-text">Réutiliser des extraits de clips existants, compiler vos derniers lives, ou simplement mettre en ligne du contenu déjà produit. Le projet doit démontrer une création originale et une démarche innovante.</div>
+                </div>
+            </div>
+
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; margin: 24px 0 12px; color: var(--gray-900);">Aide au Compagnonnage — En détail</h3>
+
+            <p>Ce dispositif vous permet de bénéficier de l'accompagnement d'un artiste confirmé (le « compagnon ») pendant une période définie. Le programme doit comporter au moins 7 séances réparties sur 3 mois minimum, avec des objectifs précis et un plan structuré (semaine par semaine si possible).</p>
+
+            <p>La cohérence entre le projet de compagnonnage et votre projet artistique global est essentielle. Si vous êtes chanteur de jazz et que vous souhaitez travailler avec un comédien pour améliorer votre prestance scénique, c'est recevable — à condition de le justifier clairement dans votre dossier.</p>
+
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; margin: 24px 0 12px; color: var(--gray-900);">Bourse Nouveaux Horizons — En détail</h3>
+
+            <p>C'est littéralement une bourse qui peut vous permettre de partir en immersion à l'étranger pour un projet artistique. Transport, hébergement, repas, petit matériel, frais de prestation (photographe, vidéaste, traducteur…) — tout peut être pris en charge jusqu'à 5 000 €. Le délai de dépôt est de 2 mois avant les premières dépenses engagées.</p>
+
+            <div class="callout callout-tip">
+                <div class="callout-icon">✅</div>
+                <div class="callout-content">
+                    <div class="callout-title">Astuce</div>
+                    <div class="callout-text">Pour la bourse Nouveaux Horizons, à votre retour, il vous suffit de communiquer un retour d'expérience à l'ADAMI. Si votre budget ne dépasse pas 5 000 €, l'intégralité de la bourse vous sera versée.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5 -->
+    <section class="section section-red" id="s5">
+        <div class="section-header">
+            <div class="section-icon">🚀</div>
+            <h2>5. L'aide à la production et promotion ADAMI (jusqu'à 25 000 €)</h2>
+        </div>
+        <div class="section-body">
+            <p>C'est le dispositif le plus conséquent de l'ADAMI pour les artistes en autoproduction ou les labels indépendants. Cette aide peut financer trois volets distincts : l'enregistrement, la création de clips, et la promotion. Le montant total peut atteindre jusqu'à 25 000 €.</p>
+
+            <div class="callout callout-key">
+                <div class="callout-icon">🔑</div>
+                <div class="callout-content">
+                    <div class="callout-title">Les 3 volets de l'aide</div>
+                    <div class="callout-text">Vous pouvez solliciter un budget pour l'enregistrement, un autre pour les clips vidéo, et un troisième pour la promotion/marketing. Chaque volet fait l'objet d'un versement séparé sur présentation des justificatifs (devis puis factures).</div>
+                </div>
+            </div>
+
+            <p>Pour le volet enregistrement, vous pouvez valoriser chaque morceau que vous avez produit à hauteur de 250 € maximum par titre pour les prises et 250 € pour le mix — soit 500 € de valorisation par titre si vous enregistrez et mixez chez vous.</p>
+
+            <div class="callout callout-warning">
+                <div class="callout-icon">⚠️</div>
+                <div class="callout-content">
+                    <div class="callout-title">Prérequis importants</div>
+                    <div class="callout-text">Pour accéder à cette aide, votre structure doit avoir au minimum 6 mois d'existence et être à jour auprès de l'URSSAF, France Travail et Audiens. C'est un critère commun à la plupart des aides au-delà des bourses individuelles.</div>
+                </div>
+            </div>
+
+            <details>
+                <summary>💶 Comment fonctionne le versement ?</summary>
+                <div class="detail-content">
+                    <p>La demande se fait via la plateforme HAIDA (la plateforme de demande de subvention de l'ADAMI). Si la commission accepte votre demande, le versement se fait par volets : un premier versement pour l'enregistrement, un deuxième pour les clips, un troisième pour la promotion. À chaque fois, vous devez fournir les justificatifs de dépenses (factures acquittées).</p>
+                </div>
+            </details>
+
+            <details>
+                <summary>📊 La valorisation, c'est quoi concrètement ?</summary>
+                <div class="detail-content">
+                    <p>La valorisation permet de comptabiliser dans votre budget des prestations que vous réalisez vous-même. Par exemple, si vous enregistrez chez vous et que vous mixez vos propres morceaux, vous pouvez « valoriser » cette prestation à 250 € par titre pour les prises + 250 € par titre pour le mix. Sur un EP de 6 titres, cela représente 3 000 € de valorisation. Attention : la valorisation est acceptée par le CNM et l'ADAMI, mais pas toujours par la SPPF et la SCPP.</p>
+                </div>
+            </details>
+        </div>
+    </section>
+
+    <!-- SECTION 6 -->
+    <section class="section section-purple" id="s6">
+        <div class="section-header">
+            <div class="section-icon">📋</div>
+            <h2>6. Les prérequis généraux pour accéder aux aides</h2>
+        </div>
+        <div class="section-body">
+            <p>Au-delà des bourses individuelles (autoproduction SACEM, bourses ADAMI), la plupart des aides structurelles exigent que vous disposiez d'une structure professionnelle en règle. Voici les prérequis communs à retenir.</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-title">1. Créer votre structure (label / association)</div>
+                    <div class="timeline-text">La structure doit avoir au moins 6 mois d'ancienneté à la date de la demande d'aide.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-title">2. S'affilier à l'URSSAF</div>
+                    <div class="timeline-text">Automatique dès que vous déclarez un premier salarié (cachet d'artiste). Obtenez une attestation de compte à jour de moins d'un an.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-title">3. S'affilier à France Travail</div>
+                    <div class="timeline-text">L'affiliation se déclenche également lors du premier cachet déclaré. Demandez votre attestation de compte à jour.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-title">4. S'affilier à Audiens</div>
+                    <div class="timeline-text">Caisse de retraite complémentaire du spectacle. Même logique : un premier cachet déclenche l'affiliation.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-title">5. Obtenir les attestations de compte à jour</div>
+                    <div class="timeline-text">Chacun de ces 3 organismes doit vous fournir une attestation de moins d'un an pour constituer votre dossier de demande d'aide.</div>
+                </div>
+            </div>
+
+            <div class="callout callout-tip">
+                <div class="callout-icon">✅</div>
+                <div class="callout-content">
+                    <div class="callout-title">La méthode express</div>
+                    <div class="callout-text">Pour vous affilier rapidement aux 3 organismes, il suffit de faire un seul cachet au minima conventionnel à un artiste via votre structure. Ce simple cachet déclenche automatiquement l'affiliation URSSAF, France Travail et Audiens. Quelques semaines après, vous pouvez demander vos attestations.</div>
+                </div>
+            </div>
+
+            <div class="callout callout-info">
+                <div class="callout-icon">📊</div>
+                <div class="callout-content">
+                    <div class="callout-title">À propos des licences d'entrepreneur de spectacles</div>
+                    <div class="callout-text">Pour une activité de label, les licences 2 et 3 ne sont pas indispensables. Elles deviennent importantes lorsque vous commencez à produire des événements avec billetterie au-dessus d'une certaine jauge. En dessous, vous avez droit à 6 événements sans licence par an. Pour simplement rémunérer un artiste (cachet), aucune licence n'est nécessaire.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 7 -->
+    <section class="section section-green" id="s7">
+        <div class="section-header">
+            <div class="section-icon">🏢</div>
+            <h2>7. Les aides SPPF & SCPP : côté producteur</h2>
+        </div>
+        <div class="section-body">
+            <p>Ces aides s'adressent aux producteurs de phonogrammes (labels) et complètent les dispositifs artiste vus précédemment. La SPPF (Société Civile des Producteurs de Phonogrammes en France) et la SCPP (Société Civile des Producteurs Phonographiques) proposent chacune des aides à l'enregistrement, à la promotion et au showcase.</p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aide</th>
+                            <th>SPPF</th>
+                            <th>SCPP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Aide enregistrement album</strong></td>
+                            <td>Subvention couvrant jusqu'à 70 % du budget. Versement en une fois après présentation des factures.</td>
+                            <td>Subvention couvrant jusqu'à 70 % du budget. Titres 100 % inédits obligatoires. Dépôt au répertoire SCPP requis.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aide promotion / marketing</strong></td>
+                            <td>Subvention pouvant atteindre 50 % du budget promo (attaché de presse, publicité, marketing digital, etc.)</td>
+                            <td>Idem, avec possibilité de demander jusqu'à 100 % de couverture selon les dispositifs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aide showcase</strong></td>
+                            <td>Financement de concerts de lancement (entrée gratuite obligatoire, pas de billetterie payante)</td>
+                            <td>Même principe, à demander max. 1 mois avant la date de sortie ou jusqu'à 6 mois après</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Apport minimum</strong></td>
+                            <td>30 % du budget total</td>
+                            <td>30 % du budget total</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Valorisation studio</strong></td>
+                            <td>Non acceptée (à vérifier)</td>
+                            <td>Non acceptée (à vérifier)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="callout callout-warning">
+                <div class="callout-icon">⚠️</div>
+                <div class="callout-content">
+                    <div class="callout-title">Différence clé avec l'ADAMI</div>
+                    <div class="callout-text">Contrairement à l'ADAMI et au CNM, la SPPF et la SCPP n'acceptent généralement pas la valorisation de studio (le fait de comptabiliser vos propres prestations d'enregistrement/mixage dans le budget). Vous devez avancer les frais réels puis obtenir le remboursement après validation.</div>
+                </div>
+            </div>
+
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>✓ Avantages SPPF/SCPP</h4>
+                    <ul>
+                        <li>Couverture de 70 % des frais d'enregistrement</li>
+                        <li>Aides cumulables (enregistrement + promo + showcase)</li>
+                        <li>Processus de demande relativement simple via interface dédiée</li>
+                        <li>Commissions composées de professionnels actifs</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>✗ Contraintes à connaître</h4>
+                    <ul>
+                        <li>Titres 100 % inédits obligatoires (SCPP)</li>
+                        <li>Pas de valorisation studio acceptée</li>
+                        <li>Il faut avancer les frais avant remboursement</li>
+                        <li>Showcase : entrée gratuite uniquement, pas de billetterie payante</li>
+                    </ul>
+                </div>
+            </div>
+
+            <details>
+                <summary>🎤 Focus sur l'aide Showcase</summary>
+                <div class="detail-content">
+                    <p>L'aide showcase finance vos concerts de lancement ou de promotion. Condition importante : l'entrée doit être gratuite (pas de billetterie payante). Vous pouvez la demander jusqu'à 1 mois avant la date de sortie de votre projet, et jusqu'à 6 mois après. Si vous faites plusieurs showcases de lancement, vous pouvez techniquement faire plusieurs demandes, mais le délai de 1 mois avant la date de sortie limite les possibilités en amont.</p>
+                </div>
+            </details>
+
+            <details>
+                <summary>🏷️ SPPF ou SCPP : laquelle choisir ?</summary>
+                <div class="detail-content">
+                    <p>Votre choix dépend de votre distributeur. Si vous êtes distribué par un distributeur indépendant (Believe, IDOL, Musicast, etc.), vous serez affilié à la SPPF. Si vous passez par une major ou un distributeur lié à une major, vous serez affilié à la SCPP. Dans tous les cas, il faut que votre catalogue soit déposé au répertoire de l'organisme correspondant pour être éligible aux aides.</p>
+                </div>
+            </details>
+        </div>
+    </section>
+
+    <!-- SECTION 8 — RECAP + QUIZ -->
+    <section class="section section-blue" id="s8">
+        <div class="section-header">
+            <div class="section-icon">🧠</div>
+            <h2>8. Tableau récapitulatif & Quiz de validation</h2>
+        </div>
+        <div class="section-body">
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Dispositif</th>
+                            <th>Organisme</th>
+                            <th>Montant max</th>
+                            <th>Profil visé</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Aide autoproduction</strong></td>
+                            <td>SACEM</td>
+                            <td>5 000 €</td>
+                            <td>Auteur/compositeur, 1er-3e projet</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Allocation soutien pro</strong></td>
+                            <td>SACEM</td>
+                            <td>5 000 €</td>
+                            <td>Auteur/compositeur émergent</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bourse contenu numérique</strong></td>
+                            <td>ADAMI</td>
+                            <td>5 000 €</td>
+                            <td>Artiste-interprète</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aide compagnonnage</strong></td>
+                            <td>ADAMI</td>
+                            <td>6 000 €</td>
+                            <td>Artiste-interprète</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bourse Nouveaux Horizons</strong></td>
+                            <td>ADAMI</td>
+                            <td>5 000 €</td>
+                            <td>Artiste-interprète en reconversion</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aide production & promo</strong></td>
+                            <td>ADAMI</td>
+                            <td>25 000 €</td>
+                            <td>Structure + artiste-interprète</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aide enregistrement album</strong></td>
+                            <td>SPPF / SCPP</td>
+                            <td>70 % du budget</td>
+                            <td>Producteur (label)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aide promotion & showcase</strong></td>
+                            <td>SPPF / SCPP</td>
+                            <td>50-100 % promo</td>
+                            <td>Producteur (label)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="callout callout-key" style="margin-top:30px;">
+                <div class="callout-icon">💡</div>
+                <div class="callout-content">
+                    <div class="callout-title">Le mot de la fin</div>
+                    <div class="callout-text">La Partie 2 de ce cours abordera les aides du CNM (Centre National de la Musique), qui complètent ce panorama avec des dispositifs encore plus conséquents. Retenez dès maintenant : si vous remplissez les critères, les chances d'obtenir ces aides sont très élevées. Les commissions sont bienveillantes et composées de professionnels qui comprennent vos réalités.</div>
+                </div>
+            </div>
+
+            <!-- QUIZ -->
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; margin: 30px 0 20px; color: var(--primary);">🎯 Quiz de validation — Testez vos connaissances</h3>
+
+            <div class="quiz-container" id="quiz">
+                <!-- Q1 -->
+                <div class="quiz-question" id="q1">
+                    <div class="quiz-q-text">1. Quel est le montant de l'aide à l'autoproduction de la SACEM ?</div>
+                    <button class="quiz-option" onclick="checkAnswer('q1', this, false)">A. 2 500 €</button>
+                    <button class="quiz-option" onclick="checkAnswer('q1', this, true)">B. 5 000 €</button>
+                    <button class="quiz-option" onclick="checkAnswer('q1', this, false)">C. 10 000 €</button>
+                    <button class="quiz-option" onclick="checkAnswer('q1', this, false)">D. 25 000 €</button>
+                    <div class="quiz-feedback correct" id="q1-correct">Exact ! L'aide à l'autoproduction SACEM est de 5 000 €, accessible pour vos 3 premiers projets autoproduits.</div>
+                    <div class="quiz-feedback incorrect" id="q1-incorrect">La bonne réponse est B : 5 000 €. C'est une aide forfaitaire pour les 3 premiers projets autoproduits.</div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="quiz-question" id="q2">
+                    <div class="quiz-q-text">2. Combien de titres minimum doit comporter un projet pour être éligible à l'aide autoproduction SACEM ?</div>
+                    <button class="quiz-option" onclick="checkAnswer('q2', this, false)">A. 3 titres</button>
+                    <button class="quiz-option" onclick="checkAnswer('q2', this, true)">B. 5 titres</button>
+                    <button class="quiz-option" onclick="checkAnswer('q2', this, false)">C. 8 titres</button>
+                    <button class="quiz-option" onclick="checkAnswer('q2', this, false)">D. 10 titres</button>
+                    <div class="quiz-feedback correct" id="q2-correct">Bien joué ! Il faut au minimum 5 titres inédits pour que le projet soit considéré comme éligible.</div>
+                    <div class="quiz-feedback incorrect" id="q2-incorrect">La bonne réponse est B : 5 titres minimum inédits sont nécessaires.</div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="quiz-question" id="q3">
+                    <div class="quiz-q-text">3. Quels sont les 3 organismes auprès desquels votre structure doit être à jour pour la plupart des aides ?</div>
+                    <button class="quiz-option" onclick="checkAnswer('q3', this, false)">A. SACEM, ADAMI, SPEDIDAM</button>
+                    <button class="quiz-option" onclick="checkAnswer('q3', this, false)">B. URSSAF, SACEM, Audiens</button>
+                    <button class="quiz-option" onclick="checkAnswer('q3', this, true)">C. URSSAF, France Travail, Audiens</button>
+                    <button class="quiz-option" onclick="checkAnswer('q3', this, false)">D. SPPF, SCPP, CNM</button>
+                    <div class="quiz-feedback correct" id="q3-correct">Parfait ! URSSAF, France Travail et Audiens sont les 3 organismes dont vous devez obtenir une attestation de compte à jour de moins d'un an.</div>
+                    <div class="quiz-feedback incorrect" id="q3-incorrect">La bonne réponse est C : URSSAF, France Travail et Audiens. Ces attestations de moins d'un an sont indispensables.</div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="quiz-question" id="q4">
+                    <div class="quiz-q-text">4. Quelle est la particularité de la Bourse Nouveaux Horizons de l'ADAMI ?</div>
+                    <button class="quiz-option" onclick="checkAnswer('q4', this, false)">A. Elle finance uniquement l'enregistrement en studio</button>
+                    <button class="quiz-option" onclick="checkAnswer('q4', this, false)">B. Elle est réservée aux artistes ayant plus de 10 ans de carrière</button>
+                    <button class="quiz-option" onclick="checkAnswer('q4', this, true)">C. Elle finance une immersion créative ou un projet de reconversion</button>
+                    <button class="quiz-option" onclick="checkAnswer('q4', this, false)">D. Elle n'est accessible qu'aux producteurs de labels</button>
+                    <div class="quiz-feedback correct" id="q4-correct">Exact ! La Bourse Nouveaux Horizons finance une immersion créative (à l'étranger notamment) ou un projet de reconversion artistique, jusqu'à 5 000 €.</div>
+                    <div class="quiz-feedback incorrect" id="q4-incorrect">La bonne réponse est C : cette bourse finance une immersion créative à l'étranger ou un projet de reconversion artistique.</div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="quiz-question" id="q5">
+                    <div class="quiz-q-text">5. Quel pourcentage du budget d'enregistrement les aides SPPF/SCPP peuvent-elles couvrir ?</div>
+                    <button class="quiz-option" onclick="checkAnswer('q5', this, false)">A. 50 %</button>
+                    <button class="quiz-option" onclick="checkAnswer('q5', this, true)">B. 70 %</button>
+                    <button class="quiz-option" onclick="checkAnswer('q5', this, false)">C. 90 %</button>
+                    <button class="quiz-option" onclick="checkAnswer('q5', this, false)">D. 100 %</button>
+                    <div class="quiz-feedback correct" id="q5-correct">Bravo ! Les aides SPPF et SCPP couvrent jusqu'à 70 % du budget d'enregistrement, avec un apport minimum de 30 % de votre part.</div>
+                    <div class="quiz-feedback incorrect" id="q5-incorrect">La bonne réponse est B : 70 %. Vous devez apporter au minimum 30 % du budget total.</div>
+                </div>
+
+                <div class="quiz-score" id="quizScore">
+                    <h3 id="scoreText"></h3>
+                    <p id="scoreMessage"></p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-brand">Producteur à Succès</div>
+    <p>Formation Music Business par Tarik Hamiche</p>
+    <p style="margin-top: 8px; opacity: 0.7;">Module 2 — Vidéo 1 : Explorer les dispositifs d'aide disponibles (Partie 1)</p>
+</footer>
+
+<script>
+    // Progress Bar
+    window.addEventListener('scroll', () => {
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const progress = (scrollTop / scrollHeight) * 100;
+        document.getElementById('progressBar').style.width = progress + '%';
+    });
+
+    // Quiz Logic
+    let answered = 0;
+    let score = 0;
+    const totalQuestions = 5;
+
+    function checkAnswer(qId, btn, isCorrect) {
+        const question = document.getElementById(qId);
+        if (question.classList.contains('correct') || question.classList.contains('incorrect')) return;
+
+        const buttons = question.querySelectorAll('.quiz-option');
+        buttons.forEach(b => b.disabled = true);
+
+        if (isCorrect) {
+            btn.classList.add('selected-correct');
+            question.classList.add('correct');
+            document.getElementById(qId + '-correct').classList.add('show');
+            score++;
+        } else {
+            btn.classList.add('selected-wrong');
+            question.classList.add('incorrect');
+            document.getElementById(qId + '-incorrect').classList.add('show');
+            buttons.forEach(b => {
+                if (b.onclick.toString().includes('true')) b.classList.add('reveal-correct');
+            });
+        }
+
+        answered++;
+        if (answered === totalQuestions) showScore();
+    }
+
+    function showScore() {
+        const scoreDiv = document.getElementById('quizScore');
+        const scoreText = document.getElementById('scoreText');
+        const scoreMsg = document.getElementById('scoreMessage');
+        scoreDiv.style.display = 'block';
+        scoreText.textContent = score + ' / ' + totalQuestions;
+        if (score === totalQuestions) {
+            scoreMsg.textContent = 'Parfait ! Vous maîtrisez les dispositifs d\'aide. Rendez-vous en Partie 2 pour les aides du CNM !';
+        } else if (score >= 3) {
+            scoreMsg.textContent = 'Bon résultat ! Relisez les sections correspondant aux questions manquées pour consolider vos acquis.';
+        } else {
+            scoreMsg.textContent = 'N\'hésitez pas à revoir le cours. Ces dispositifs sont essentiels pour financer vos projets !';
+        }
+    }
+</script>
+
+</body>
+</html>

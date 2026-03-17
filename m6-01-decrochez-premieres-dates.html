@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Décrochez Vos Premières Dates - Module 6 - Producteur à Succès</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #1f2937;
+            background: #f9fafb;
+        }
+
+        :root {
+            --primary: #6C3AED;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: sticky;
+            top: 0;
+            height: 4px;
+            background: #e5e7eb;
+            z-index: 100;
+        }
+
+        .progress-bar::after {
+            content: '';
+            display: block;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
+            color: white;
+            padding: 3rem 1.5rem;
+            text-align: center;
+        }
+
+        header .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        header .description {
+            font-size: 1.125rem;
+            opacity: 0.95;
+            margin-bottom: 1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        header .metadata {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        header .metadata-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Navigation */
+        nav.toc {
+            background: white;
+            padding: 2rem 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        nav.toc h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        nav.toc ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        nav.toc a {
+            color: var(--primary);
+            text-decoration: none;
+            padding: 0.5rem;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        nav.toc a:hover {
+            border-left-color: var(--primary);
+            padding-left: 1rem;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        section {
+            margin-bottom: 3rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        section h2 {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary);
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        section h2::before {
+            font-size: 1.5rem;
+        }
+
+        .section-01 h2 { color: var(--primary); }
+        .section-01 h2::before { content: '🎯'; }
+
+        .section-02 h2 { color: var(--success); }
+        .section-02 h2::before { content: '📋'; }
+
+        .section-03 h2 { color: var(--accent); }
+        .section-03 h2::before { content: '💼'; }
+
+        .section-04 h2 { color: var(--danger); }
+        .section-04 h2::before { content: '✓'; }
+
+        .section-05 h2 { color: var(--info); }
+        .section-05 h2::before { content: '📊'; }
+
+        section h3 {
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+        }
+
+        section p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        section ul, section ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        section li {
+            margin-bottom: 0.75rem;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid;
+            border-radius: 8px;
+            background-color: #f9fafb;
+        }
+
+        .callout-retention {
+            border-left-color: var(--primary);
+            background: rgba(108, 58, 237, 0.05);
+        }
+
+        .callout-retention .label {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .callout-tip {
+            border-left-color: var(--success);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .callout-tip .label {
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        .callout-warning {
+            border-left-color: var(--danger);
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .callout-warning .label {
+            color: var(--danger);
+            font-weight: 700;
+        }
+
+        .callout-info {
+            border-left-color: var(--info);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .callout-info .label {
+            color: var(--info);
+            font-weight: 700;
+        }
+
+        .callout .label {
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* Accordion */
+        details {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f3f4f6;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        details summary {
+            font-weight: 600;
+            color: var(--primary);
+            outline: none;
+            user-select: none;
+        }
+
+        details summary:hover {
+            text-decoration: underline;
+        }
+
+        details > *:not(summary) {
+            margin-top: 1rem;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        table thead {
+            background: var(--primary);
+            color: white;
+        }
+
+        table th, table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        table tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        /* Quiz */
+        .quiz {
+            background: #f0f9ff;
+            border: 2px solid var(--info);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        .quiz h3 {
+            color: var(--info);
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-question {
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-question p {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .quiz-option {
+            padding: 0.75rem 1rem;
+            background: white;
+            border: 2px solid #dbeafe;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--info);
+            background: #dbeafe;
+        }
+
+        .quiz-option input[type="radio"] {
+            margin-right: 0.75rem;
+        }
+
+        .quiz-feedback {
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background: #dcfce7;
+            border-left: 4px solid var(--success);
+            color: #166534;
+        }
+
+        .quiz-feedback.incorrect {
+            background: #fee2e2;
+            border-left: 4px solid var(--danger);
+            color: #991b1b;
+        }
+
+        /* Footer */
+        footer {
+            background: #1f2937;
+            color: white;
+            padding: 2rem 1.5rem;
+            margin-top: 3rem;
+        }
+
+        footer .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        footer .branding {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        footer .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+
+        footer p {
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.75rem;
+            }
+
+            section {
+                padding: 1.5rem;
+            }
+
+            .quiz {
+                padding: 1.5rem;
+            }
+
+            nav.toc ul {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar"></div>
+
+    <header>
+        <div class="badge">📚 Module 6 - Décrocher des Dates</div>
+        <h1>Décrochez Vos Premières Dates!</h1>
+        <p class="description">Apprenez la stratégie complète pour transformer vos offres en ventes concrètes et décrocher vos premières dates de concert avec les organisateurs.</p>
+        <div class="metadata">
+            <div class="metadata-item">
+                <span>👤</span>
+                <strong>Formateur:</strong> Tarik Hamiche
+            </div>
+            <div class="metadata-item">
+                <span>🏛️</span>
+                <strong>Organisme:</strong> Producteur à Succès
+            </div>
+            <div class="metadata-item">
+                <span>⏱️</span>
+                <strong>Durée:</strong> ~20 minutes
+            </div>
+        </div>
+    </header>
+
+    <nav class="toc">
+        <h2>📑 Sommaire</h2>
+        <ul>
+            <li><a href="#section-1">Les 6 étapes du cycle de vente</a></li>
+            <li><a href="#section-2">Prospection et présentation</a></li>
+            <li><a href="#section-3">Gestion du booking et contrats</a></li>
+            <li><a href="#section-4">Détails logistiques et VHR</a></li>
+            <li><a href="#section-5">Suivi post-spectacle</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="section-1" class="section-01">
+            <h2>Les 6 étapes du cycle de vente</h2>
+            <p>Pour décrocher vos premières dates, vous devez comprendre les étapes qui constituent le cycle complet de la vente. Tarik Hamiche explique qu'avant de pouvoir vendre une date, il faut d'abord avoir une offre irrésistible.</p>
+
+            <h3>1. Appel de Prospection</h3>
+            <p>La première étape du cycle de vente commence par l'appel de prospection. C'est le moment où vous contactez les organisateurs potentiels pour présenter votre artiste et évaluer le potentiel d'une collaboration.</p>
+
+            <h3>2. Présentation de l'Offre</h3>
+            <p>Lors de cette étape, vous présentez votre offre en détail : qui est l'artiste, quel type de spectacle vous proposez, et quelles valeurs vous apportez à l'événement de l'organisateur.</p>
+
+            <h3>3. Acceptation de l'Offre</h3>
+            <p>L'organisateur accepte (ou refuse) votre proposition. Si l'offre est irrésistible, cette étape devrait être une simple formalité.</p>
+
+            <h3>4. Récolte des Données pour le Contrat</h3>
+            <p>Une fois l'offre acceptée, vous rassemblez toutes les informations nécessaires : dates, heures, spécifications techniques, détails logistiques, etc.</p>
+
+            <h3>5. Complément et Envoi du Contrat</h3>
+            <p>Avec toutes les données, vous finalisez et envoyez le contrat de booking à l'organisateur pour signature.</p>
+
+            <h3>6. Suivi & Balance Retour Contrat + Acompte</h3>
+            <p>Vous assurez le suivi après la signature : récupération du document signé et vérification du paiement de l'acompte.</p>
+
+            <div class="callout callout-retention">
+                <div class="label">À retenir</div>
+                <p>Ces 6 étapes forment un cycle complet et indissociable. Vous ne pouvez pas avancer à l'étape suivante sans avoir complété la précédente. C'est la logique méthodique qui garantit vos premières dates.</p>
+            </div>
+        </section>
+
+        <section id="section-2" class="section-02">
+            <h2>La Prospection et Présentation</h2>
+            <p>La prospection est l'art de chercher et d'identifier les bons prospects. Lors de l'appel de prospection, vous cherchez à comprendre les photos et vidéos de l'artistepour vérifier que tout est conforme aux spécifications du contrat.</p>
+
+            <h3>Validation du VHR</h3>
+            <p>VHR signifie "Venue / Hotel / Restaurant" - c'est l'ensemble des informations concernant le lieu du spectacle, l'hébergement et la restauration. Lors de la validation du VHR, vous vérifiez :</p>
+            <ul>
+                <li>Les conditions de la salle et ses capacités techniques</li>
+                <li>Les détails concernant l'hébergement (nombre de chambres, type de chambre)</li>
+                <li>Les arrangements pour les repas et la restauration</li>
+                <li>Les installations spécifiques et les ressources disponibles</li>
+            </ul>
+
+            <details>
+                <summary>Points détaillés à valider dans le VHR</summary>
+                <p>Validez que tout est conforme avant le spectacle :</p>
+                <ul>
+                    <li>Capacité d'accueil de la salle et configuration de la scène</li>
+                    <li>Système audio et équipement technique disponible</li>
+                    <li>Nombre de chambres pour les musiciens et le staff</li>
+                    <li>Catégorie d'hôtel (4 étoiles, 3 étoiles, etc.)</li>
+                    <li>Détails des repas inclus ou à charge</li>
+                    <li>Parkings et transports disponibles</li>
+                </ul>
+            </details>
+
+            <div class="callout callout-tip">
+                <div class="label">Astuce</div>
+                <p>Demandez toujours une visite virtuelle ou des photos récentes du lieu. Cela vous permet de vérifier que les conditions réelles correspondent à ce qui a été décrit dans le contrat.</p>
+            </div>
+        </section>
+
+        <section id="section-3" class="section-03">
+            <h2>La Gestion du Booking et des Contrats</h2>
+            <p>Le booking est le cœur de votre business. C'est la confirmation écrite et légale d'une date de spectacle entre vous et un organisateur.</p>
+
+            <h3>La Fiche Technique du Booking</h3>
+            <p>La fiche technique doit être extrêmement précise et contenir :</p>
+            <ul>
+                <li><strong>Identification des parties :</strong> qui est le diffuseur ?</li>
+                <li><strong>Date et heure :</strong> quelle est la date du spectacle ? À quelle heure doit débuter le show ?</li>
+                <li><strong>Lieu :</strong> dans quel lieu se déroule le spectacle ?</li>
+                <li><strong>Conditions financières :</strong> quel est le montant du cachet ? Comment sera-t-il payé ?</li>
+                <li><strong>Détails techniques :</strong> quels équipements sont fournis ? Que doit apporter l'artiste ?</li>
+                <li><strong>Dispositions spéciales :</strong> y a-t-il des exigences particulières ?</li>
+            </ul>
+
+            <h3>Le Contrat Standard</h3>
+            <p>Un contrat de booking doit comporter plusieurs sections essentielles. Voici les éléments principaux :</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Section</th>
+                        <th>Informations Clés</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Parties</strong></td>
+                        <td>Organisateur et artiste/manager</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Date & Heure</strong></td>
+                        <td>Date précise et heure d'arrivée attendue</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lieu</strong></td>
+                        <td>Adresse complète du lieu de représentation</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cachet</strong></td>
+                        <td>Montant total et modalités de paiement</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Logistique</strong></td>
+                        <td>Transport, hébergement, restauration</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Technique</strong></td>
+                        <td>Équipements fournis/requis</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout callout-warning">
+                <div class="label">Attention</div>
+                <p>Ne jamais signer un contrat en ligne sans l'avoir examiné en détail. Certains organisateurs peuvent essayer de vous faire accepter des conditions désavantageuses. Lisez toujours attentivement chaque clause.</p>
+            </div>
+        </section>
+
+        <section id="section-4" class="section-04">
+            <h2>Détails Logistiques et Spécifications</h2>
+            <p>Les détails logistiques sont cruciaux pour que le spectacle se déroule sans problèmes. C'est la partie operationnelle du booking qui garantit que tout fonctionne sur le terrain.</p>
+
+            <h3>Transport</h3>
+            <p>Spécifiez clairement :</p>
+            <ul>
+                <li>Qui prend en charge le transport (artistevoyage seul ou avec des musiciens)</li>
+                <li>Type de véhicule (voiture personnelle, bus, covoiturage)</li>
+                <li>Itinéraire et horaires de départ/arrivée</li>
+                <li>Frais associés</li>
+            </ul>
+
+            <h3>Hébergement</h3>
+            <p>L'hébergement doit être clair dans le contrat :</p>
+            <ul>
+                <li>Nombre de chambres pour artiste, musiciens et staff</li>
+                <li>Catégorie d'hôtel (4 étoiles, 3 étoiles, etc.)</li>
+                <li>Durée (une nuit, plusieurs nuits)</li>
+                <li>Petit déjeuner inclus ou non</li>
+            </ul>
+
+            <h3>Restauration</h3>
+            <p>Clarifiez ce qui est inclus :</p>
+            <ul>
+                <li>Repas inclus avant le spectacle</li>
+                <li>Repas après le spectacle</li>
+                <li>Petits déjeuners (inclus à l'hôtel ou à charge)</li>
+                <li>Régimes alimentaires spéciaux</li>
+            </ul>
+
+            <details>
+                <summary>Éléments de logistique avancée</summary>
+                <p>Pour un spectacle professionnel, pensez aussi à :</p>
+                <ul>
+                    <li>Horaire de soundcheck (généralement 1-2 heures avant le show)</li>
+                    <li>Accès à des loges ou espaces de repos</li>
+                    <li>Fourniture de boissons et collations pendant le soundcheck</li>
+                    <li>Assistance technique sur place</li>
+                    <li>Assurance et responsabilité civile</li>
+                </ul>
+            </details>
+
+            <div class="callout callout-tip">
+                <div class="label">Astuce</div>
+                <p>Créez une checklist logistique que vous partagez avec l'organisateur 1-2 semaines avant le spectacle. Cela évite les surprises de dernière minute et montre votre professionnalisme.</p>
+            </div>
+        </section>
+
+        <section id="section-5" class="section-05">
+            <h2>Suivi Post-Spectacle</h2>
+            <p>Une fois que le spectacle est livré, votre travail n'est pas terminé. Le suivi post-spectacle est crucial pour bâtir des relations durables et positionner l'artiste pour de futures collaborations.</p>
+
+            <h3>Retour Chaud</h3>
+            <p>Dans les 48 heures suivant le spectacle, faites un retour auprès de l'organisateur :</p>
+            <ul>
+                <li>Demandez comment s'est déroulé le spectacle selon lui</li>
+                <li>Vérifiez sa satisfaction générale</li>
+                <li>Soyez attentif aux retours, positifs ou constructifs</li>
+                <li>Proposez une amélioration si nécessaire</li>
+            </ul>
+
+            <h3>Gestion des Responsabilités à Assurance</h3>
+            <p>Après le spectacle, clarifiez les responsabilités concernant :</p>
+            <ul>
+                <li>La responsabilité civile du spectacle</li>
+                <li>Les dommages potentiels aux installations</li>
+                <li>L'assurance de l'artiste</li>
+                <li>Les questions de sécurité</li>
+            </ul>
+
+            <h3>Prospects Chauds pour Nouvelles Dates</h3>
+            <p>Un spectacle réussi ouvre des portes. Après le show :</p>
+            <ul>
+                <li>Demandez si l'organisateur souhaite une nouvelle collaboration</li>
+                <li>Récoltez des références d'autres lieux intéressés</li>
+                <li>Demandez la permission d'utiliser le nom du lieu dans votre portfolio</li>
+                <li>Envisagez une résidence ou une tournée régulière</li>
+            </ul>
+
+            <div class="callout callout-info">
+                <div class="label">Le saviez-vous ?</div>
+                <p>Les organisateurs satisfaits peuvent devenir vos meilleurs ambassadeurs. Ils recommandent l'artiste à d'autres lieux, créant un effet réseau qui génère naturellement plus de dates.</p>
+            </div>
+
+            <h3>Suivi Administratif</h3>
+            <p>N'oubliez pas les aspects administratifs :</p>
+            <ul>
+                <li>Récupération de la facture signée</li>
+                <li>Vérification du paiement du solde (si acompte versé à l'avance)</li>
+                <li>Archivage du contrat et des documents</li>
+                <li>Mise à jour de votre carnet d'adresses</li>
+            </ul>
+
+            <details>
+                <summary>Suivi relations après-chaud : détails additionnels</summary>
+                <p>Avant de disparaître après un spectacle, pensez à :</p>
+                <ul>
+                    <li>Envoyer une photo ou vidéo du spectacle si possible</li>
+                    <li>Partager les évaluations du public si disponibles</li>
+                    <li>Proposer des dates pour une nouvelle collaboration</li>
+                    <li>Garder la personne dans votre mailing list</li>
+                    <li>Une visite après spectacle si location est proche</li>
+                </ul>
+            </details>
+        </section>
+
+        <!-- Quiz Interactif -->
+        <section class="quiz">
+            <h3>📝 Quiz - Testez Vos Connaissances</h3>
+
+            <div class="quiz-question">
+                <p><strong>Question 1:</strong> Combien d'étapes compose le cycle complet de vente d'une date ?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option">
+                        <input type="radio" name="q1" value="a"> a) 4 étapes
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q1" value="b"> b) 6 étapes
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q1" value="c"> c) 8 étapes
+                    </label>
+                </div>
+                <div class="quiz-feedback q1-feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>Question 2:</strong> Que signifie VHR dans le contexte du booking ?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option">
+                        <input type="radio" name="q2" value="a"> a) Venue / Hotel / Restaurant
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q2" value="b"> b) Videography / Host / Recording
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q2" value="c"> c) Verification / Handling / Rights
+                    </label>
+                </div>
+                <div class="quiz-feedback q2-feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>Question 3:</strong> Quel est le délai recommandé pour un retour chaud avec l'organisateur après un spectacle ?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option">
+                        <input type="radio" name="q3" value="a"> a) Dans les 24 heures
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q3" value="b"> b) Dans les 48 heures
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q3" value="c"> c) Dans la semaine
+                    </label>
+                </div>
+                <div class="quiz-feedback q3-feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>Question 4:</strong> Quelle est la première étape du cycle de vente ?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option">
+                        <input type="radio" name="q4" value="a"> a) Présentation de l'offre
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q4" value="b"> b) Appel de prospection
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q4" value="c"> c) Récolte des données
+                    </label>
+                </div>
+                <div class="quiz-feedback q4-feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>Question 5:</strong> Selon Tarik Hamiche, qu'est-ce qui doit être fait AVANT de vendre une date ?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option">
+                        <input type="radio" name="q5" value="a"> a) Créer un site web
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q5" value="b"> b) Créer une offre irrésistible
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q5" value="c"> c) Faire un appel de prospection
+                    </label>
+                </div>
+                <div class="quiz-feedback q5-feedback"></div>
+            </div>
+
+            <button onclick="checkQuiz()" style="margin-top: 1.5rem; padding: 0.75rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">Vérifier mes réponses</button>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="branding">
+                <div class="logo">✨ Producteur à Succès</div>
+            </div>
+            <p>Module 6 - Décrocher vos premières dates | Formation Music Business | © 2026 Tarik Hamiche</p>
+            <p style="margin-top: 1rem; font-size: 0.85rem;">Ce contenu est tiré de la transcription vidéo. Pour la meilleure expérience d'apprentissage, regardez la vidéo complète sur Vimeo.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Progress bar update
+        window.addEventListener('scroll', () => {
+            const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height);
+            document.querySelector('.progress-bar::after').style.width = (scrolled * 100) + '%';
+        });
+
+        // Quiz functionality
+        const answers = {
+            q1: 'b',
+            q2: 'a',
+            q3: 'b',
+            q4: 'b',
+            q5: 'b'
+        };
+
+        function checkQuiz() {
+            let score = 0;
+            for (let i = 1; i <= 5; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                const feedback = document.querySelector(`.q${i}-feedback`);
+
+                if (selected) {
+                    const correct = selected.value === answers[`q${i}`];
+                    feedback.classList.add('show');
+                    feedback.classList.toggle('correct', correct);
+                    feedback.classList.toggle('incorrect', !correct);
+
+                    if (correct) {
+                        feedback.innerHTML = '✓ Bonne réponse !';
+                        score++;
+                    } else {
+                        feedback.innerHTML = '✗ Mauvaise réponse. Relisez la section.';
+                    }
+                } else {
+                    feedback.innerHTML = '';
+                    feedback.classList.remove('show');
+                }
+            }
+
+            alert(`Vous avez obtenu ${score}/5. ${score === 5 ? 'Parfait !' : score >= 3 ? 'Bon travail !' : 'À revoir !'}`);
+        }
+
+        // Smooth scroll for TOC links
+        document.querySelectorAll('nav.toc a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

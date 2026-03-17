@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta Ads | Module 6 - Producteur à Succès</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C3AED;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --light-bg: #F9FAFB;
+            --border: #E5E7EB;
+        }
+
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            color: #1F2937;
+            line-height: 1.6;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--light-bg);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #7C3AED 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+
+        .header-subtitle {
+            font-size: 1.125rem;
+            opacity: 0.95;
+            margin-top: 0.5rem;
+        }
+
+        .metadata {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            font-size: 0.875rem;
+            opacity: 0.9;
+            flex-wrap: wrap;
+        }
+
+        .metadata-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: var(--light-bg);
+            border-left: 4px solid var(--primary);
+            padding: 2rem;
+            margin: 2rem;
+            border-radius: 8px;
+        }
+
+        .toc h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            margin-top: 0;
+        }
+
+        .toc ol {
+            margin: 0;
+            padding-left: 2rem;
+        }
+
+        .toc li {
+            margin: 0.75rem 0;
+            cursor: pointer;
+            color: var(--primary);
+        }
+
+        .toc li:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-icon {
+            font-size: 2rem;
+            min-width: 2.5rem;
+            text-align: center;
+        }
+
+        .section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.75rem;
+            color: var(--primary);
+            margin: 0;
+            flex: 1;
+        }
+
+        .section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--primary);
+            margin-top: 1.5rem;
+        }
+
+        .section p {
+            margin: 1rem 0;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 4px solid;
+        }
+
+        .callout.important {
+            background: #F3E8FF;
+            border-left-color: var(--primary);
+        }
+
+        .callout.important .callout-title {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .callout.tip {
+            background: #ECFDF5;
+            border-left-color: var(--success);
+        }
+
+        .callout.tip .callout-title {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .callout.warning {
+            background: #FFFBEB;
+            border-left-color: var(--accent);
+        }
+
+        .callout.warning .callout-title {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .callout.note {
+            background: #EFF6FF;
+            border-left-color: var(--info);
+        }
+
+        .callout.note .callout-title {
+            color: var(--info);
+            font-weight: 600;
+        }
+
+        .callout-title {
+            margin: 0 0 0.5rem 0;
+        }
+
+        .callout p {
+            margin: 0;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        th {
+            background: var(--light-bg);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border);
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:hover {
+            background: var(--light-bg);
+        }
+
+        /* Accordions */
+        details {
+            margin: 1rem 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        summary {
+            background: var(--light-bg);
+            padding: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        summary:hover {
+            background: #F3F4F6;
+        }
+
+        details[open] summary {
+            border-bottom: 1px solid var(--border);
+        }
+
+        details content {
+            padding: 1rem;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1rem 0;
+        }
+
+        li {
+            margin: 0.5rem 0;
+        }
+
+        /* Quiz */
+        .quiz {
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .quiz h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--primary);
+        }
+
+        .question {
+            margin: 1.5rem 0;
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            margin: 0.75rem 0;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 0.75rem;
+            margin-top: 0.25rem;
+            cursor: pointer;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .quiz-feedback {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background: #ECFDF5;
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .quiz-feedback.incorrect {
+            background: #FEE2E2;
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        .submit-btn, .reset-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 1rem;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background: #5B21B6;
+        }
+
+        .reset-btn {
+            background: var(--border);
+            color: #1F2937;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1F2937;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer p {
+            margin: 0.5rem 0;
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.75rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .metadata {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressBar"></div>
+    </div>
+
+    <header class="header">
+        <span class="badge">Module 6 · Publicité Digitale</span>
+        <h1>Meta Ads</h1>
+        <p class="header-subtitle">Maîtrisez la publicité Meta pour promouvoir votre musique sur Facebook, Instagram et au-delà</p>
+        <div class="metadata">
+            <div class="metadata-item">
+                <span>👨‍🏫 Formateur: Tarik Hamiche</span>
+            </div>
+            <div class="metadata-item">
+                <span>🏢 Producteur à Succès</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="toc">
+            <h2>Sommaire</h2>
+            <ol>
+                <li onclick="document.getElementById('section1').scrollIntoView({behavior:'smooth'})">Comprendre l'écosystème Meta Ads</li>
+                <li onclick="document.getElementById('section2').scrollIntoView({behavior:'smooth'})">Prérequis et configuration initiale</li>
+                <li onclick="document.getElementById('section3').scrollIntoView({behavior:'smooth'})">Créer et installer le pixel Meta</li>
+                <li onclick="document.getElementById('section4').scrollIntoView({behavior:'smooth'})">Configuration du compte Business Manager</li>
+                <li onclick="document.getElementById('section5').scrollIntoView({behavior:'smooth'})">Stratégies de publicité efficaces pour musiciens</li>
+            </ol>
+        </nav>
+
+        <section class="section" id="section1">
+            <div class="section-header">
+                <span class="section-icon">🌐</span>
+                <h2>Comprendre l'écosystème Meta Ads</h2>
+            </div>
+            <p>Meta Ads est un système publicitaire puissant qui vous permet de promouvoir votre musique sur plusieurs plateformes simultanément. C'est l'un des plus grands leviers de croissance pour les artistes modernes.</p>
+
+            <h3>Les plateformes incluses dans Meta Ads</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Plateforme</th>
+                        <th>Description</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Facebook</td>
+                        <td>Réseau social principal avec des milliards d'utilisateurs</td>
+                        <td>Actif</td>
+                    </tr>
+                    <tr>
+                        <td>Instagram</td>
+                        <td>Plateforme visuelle idéale pour les artistes</td>
+                        <td>Actif</td>
+                    </tr>
+                    <tr>
+                        <td>Audience Network</td>
+                        <td>Réseau d'applications partenaires</td>
+                        <td>Actif</td>
+                    </tr>
+                    <tr>
+                        <td>WhatsApp</td>
+                        <td>Application de messagerie (déploiement en cours)</td>
+                        <td>En test (Amérique du Nord)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout note">
+                <p class="callout-title">📱 Expansion future</p>
+                <p>Meta teste actuellement la publicité sur WhatsApp en Amérique du Nord. Très bientôt, vos annonces seront visibles sur cette plateforme aussi. C'est une opportunité extraordinaire pour atteindre de nouvelles audiences.</p>
+            </div>
+
+            <p>Avec Meta Ads, une seule campagne peut cibler les utilisateurs sur tous ces canaux simultanément, maximisant votre portée et votre efficacité publicitaire.</p>
+        </section>
+
+        <section class="section" id="section2">
+            <div class="section-header">
+                <span class="section-icon">✅</span>
+                <h2>Prérequis et configuration initiale</h2>
+            </div>
+            <p>Avant de lancer vos premières campagnes Meta Ads, vous devez vérifier que vous avez tous les prérequis en place.</p>
+
+            <h3>Vérification des prérequis</h3>
+            <ul>
+                <li><strong>Compte Facebook</strong>: Vous devez avoir un compte Facebook actif</li>
+                <li><strong>Compte Instagram</strong>: Vous devez être présent sur Instagram pour intégrer vos publicités</li>
+                <li><strong>Compte Instagram professionnel</strong>: IMPORTANT - Votre compte Instagram doit être basculé en mode professionnel (business ou creator)</li>
+                <li><strong>Accès Business Manager</strong>: Vous aurez besoin d'accéder à Meta Business Manager pour gérer vos campagnes</li>
+            </ul>
+
+            <div class="callout warning">
+                <p class="callout-title">⚠️ Compte Instagram Pro obligatoire</p>
+                <p>Si votre compte Instagram n'est pas basculé en mode professionnel, vous ne pourrez pas créer de campagnes Meta Ads efficacement. Allez dans les paramètres de votre compte Instagram et basculez-le en mode "Business" ou "Creator".</p>
+            </div>
+
+            <h3>Comment passer votre compte Instagram en professionnel</h3>
+            <ol>
+                <li>Ouvrez votre compte Instagram et allez dans les paramètres (engrenage)</li>
+                <li>Recherchez "Passer à un compte professionnel" ou "Basculer vers un compte pro"</li>
+                <li>Choisissez soit "Business" soit "Creator" selon votre statut</li>
+                <li>Complétez votre profil avec la catégorie correcte (Musicien/Artiste)</li>
+                <li>Confirmez le changement</li>
+            </ol>
+
+            <div class="callout tip">
+                <p class="callout-title">💡 Conseil</p>
+                <p>Préférez le compte "Creator" si vous êtes indépendant. Le compte "Business" est plus adapté si vous représentez une structure formelle.</p>
+            </div>
+        </section>
+
+        <section class="section" id="section3">
+            <div class="section-header">
+                <span class="section-icon">🔌</span>
+                <h2>Créer et installer le pixel Meta</h2>
+            </div>
+            <p>Le pixel Meta est un code de suivi crucial qui vous permet de mesurer l'efficacité de vos campagnes et de mieux cibler votre audience.</p>
+
+            <h3>Qu'est-ce que le pixel Meta?</h3>
+            <p>Le pixel Meta est un morceau de code JavaScript que vous installez sur votre site web ou votre système d'acquisition. Il track les actions des visiteurs (clics, achats, inscriptions, etc.) et vous permet de:</p>
+            <ul>
+                <li>Mesurer le ROI de vos campagnes publicitaires</li>
+                <li>Créer des audiences de retargeting (remarqueting)</li>
+                <li>Optimiser vos campagnes basées sur les actions réelles</li>
+                <li>Récupérer des visiteurs qui ne se sont pas convertis</li>
+            </ul>
+
+            <div class="callout important">
+                <p class="callout-title">🎯 À retenir</p>
+                <p>Le pixel est votre meilleur outil pour comprendre le comportement de votre audience et améliorer vos campagnes. Sans lui, vous publicisez à l'aveugle.</p>
+            </div>
+
+            <h3>Créer votre pixel Meta</h3>
+            <ol>
+                <li>Allez dans Meta Business Manager</li>
+                <li>Naviguez vers "Outils" puis "Pixel"</li>
+                <li>Cliquez sur "Créer un pixel"</li>
+                <li>Donnez un nom à votre pixel (ex: "Pixel Mon Site")</li>
+                <li>Entrez l'URL de votre site web</li>
+                <li>Acceptez les conditions et créez le pixel</li>
+            </ol>
+
+            <h3>Installer le pixel sur votre site</h3>
+            <p>Une fois créé, Meta vous donne un code à installer. Vous avez plusieurs options:</p>
+            <details>
+                <summary>Installation via Meta Pixel Helper</summary>
+                <div style="padding: 1rem;">
+                    <p>C'est la méthode la plus simple pour les débutants:</p>
+                    <ul>
+                        <li>Installez l'extension "Meta Pixel Helper" dans votre navigateur</li>
+                        <li>Activez-la sur votre site</li>
+                        <li>Meta installera automatiquement le pixel</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary>Installation manuelle du code</summary>
+                <div style="padding: 1rem;">
+                    <p>Pour un contrôle plus fin:</p>
+                    <ul>
+                        <li>Copiez le code du pixel fourni par Meta</li>
+                        <li>Collez-le dans le &lt;head&gt; de votre site (avant &lt;/head&gt;)</li>
+                        <li>Testez avec Meta Pixel Helper</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary>Installation via système CMS/Platform</summary>
+                <div style="padding: 1rem;">
+                    <p>Si vous utilisez Shopify, WordPress, Wix, etc.:</p>
+                    <ul>
+                        <li>Ces plateformes ont des intégrations natives</li>
+                        <li>Cherchez "Meta Pixel" dans les extensions/apps</li>
+                        <li>Installez et connectez votre pixel</li>
+                    </ul>
+                </div>
+            </details>
+
+            <div class="callout note">
+                <p class="callout-title">🔍 Vérification importante</p>
+                <p>Après installation, utilisez Meta Pixel Helper pour vérifier que le pixel fonctionne correctement. Vous devriez voir des événements trackés en temps réel.</p>
+            </div>
+        </section>
+
+        <section class="section" id="section4">
+            <div class="section-header">
+                <span class="section-icon">⚙️</span>
+                <h2>Configuration du compte Business Manager</h2>
+            </div>
+            <p>Meta Business Manager est le hub central d'où vous gérerez toutes vos publicités et propriétés numériques.</p>
+
+            <h3>Structure de Business Manager</h3>
+            <p>Voici comment organiser votre compte:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Élément</th>
+                        <th>Fonction</th>
+                        <th>Nombre recommandé</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Business Manager</td>
+                        <td>Compte principal - hub central</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Pages Facebook</td>
+                        <td>Pour publier du contenu organique</td>
+                        <td>1-2</td>
+                    </tr>
+                    <tr>
+                        <td>Comptes Instagram</td>
+                        <td>Pour publier et cibler</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Pixels</td>
+                        <td>Pour tracker les conversions</td>
+                        <td>1-2</td>
+                    </tr>
+                    <tr>
+                        <td>Catalogues</td>
+                        <td>Pour les produits (musique, merchandise)</td>
+                        <td>0-1</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Étapes de configuration</h3>
+            <ol>
+                <li>Créez votre compte Business Manager</li>
+                <li>Ajoutez votre page Facebook</li>
+                <li>Connectez votre compte Instagram professionnel</li>
+                <li>Installez votre pixel Meta</li>
+                <li>Configurez vos paramètres de facturation</li>
+                <li>Définissez les personnes autorisées à gérer les campagnes</li>
+            </ol>
+
+            <div class="callout tip">
+                <p class="callout-title">💡 Astuce de sécurité</p>
+                <p>Ne partagez jamais votre accès Business Manager avec des personnes non-fiables. Utilisez les rôles et permissions pour contrôler qui peut faire quoi dans votre compte.</p>
+            </div>
+        </section>
+
+        <section class="section" id="section5">
+            <div class="section-header">
+                <span class="section-icon">🎵</span>
+                <h2>Stratégies de publicité efficaces pour musiciens</h2>
+            </div>
+            <p>Maintenant que vous avez configuré votre infrastructure, passons aux stratégies qui fonctionnent réellement pour promouvoir votre musique.</p>
+
+            <h3>Les objectifs publicitaires adaptés à la musique</h3>
+            <ul>
+                <li><strong>Notoriété</strong>: Atteindre le maximum de personnes nouvelles</li>
+                <li><strong>Considération</strong>: Montrer votre musique à des fans potentiels</li>
+                <li><strong>Conversion</strong>: Diriger vers Spotify, Apple Music, Bandcamp, votre site</li>
+                <li><strong>Engagement</strong>: Augmenter likes, commentaires, partages</li>
+                <li><strong>Trafic</strong>: Envoyer vers votre site, email list, Discord</li>
+            </ul>
+
+            <h3>Type d'annonces récommandées</h3>
+            <details>
+                <summary>Annonces vidéo</summary>
+                <div style="padding: 1rem;">
+                    <p><strong>Parfaites pour la musique!</strong></p>
+                    <ul>
+                        <li>Montrez un clip du morceau (15-30 sec)</li>
+                        <li>Montrez votre processus créatif</li>
+                        <li>Testimoniaux de fans</li>
+                        <li>Behind-the-scenes de votre studio</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary>Annonces carousel</summary>
+                <div style="padding: 1rem;">
+                    <p><strong>Montrez plusieurs morceaux ou angles</strong></p>
+                    <ul>
+                        <li>Présenter 3-5 morceaux dans une seule annonce</li>
+                        <li>Montrer votre évolution artistique</li>
+                        <li>Présenter différentes collaborations</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary>Annonces collection</summary>
+                <div style="padding: 1rem;">
+                    <p><strong>Créez une expérience immersive</strong></p>
+                    <ul>
+                        <li>Présentez un album complet</li>
+                        <li>Montrez tous vos morceaux en un coup d'œil</li>
+                        <li>Créez une galerie interactive</li>
+                    </ul>
+                </div>
+            </details>
+
+            <div class="callout important">
+                <p class="callout-title">🎯 Le plus important</p>
+                <p>Le contenu est roi. Même avec le meilleur ciblage, une mauvaise annonce ne fonctionnera pas. Investissez dans des visuels et des vidéos de qualité.</p>
+            </div>
+
+            <h3>Ciblage pour musiciens</h3>
+            <p>Plutôt que de cibler des intérêts génériques, soyez spécifique:</p>
+            <ul>
+                <li><strong>Artistes similaires</strong>: Ciblez les fans de musiciens avec un style similaire au vôtre</li>
+                <li><strong>Genres spécifiques</strong>: Électronique, Hip-Hop, Rock, Indie, etc.</li>
+                <li><strong>Fans engagés</strong>: Ciblez les personnes qui suivent activement des musiciens</li>
+                <li><strong>Audiences personnalisées</strong>: Utilisez votre pixel pour retargeter vos anciens visiteurs</li>
+                <li><strong>Audiences similaires</strong>: Laissez Meta trouver de nouvelles personnes similaires à vos fans</li>
+            </ul>
+
+            <h3>Budget et calendrier</h3>
+            <p>Une approche progressive gagne toujours:</p>
+            <ol>
+                <li><strong>Semaine 1-2</strong>: Testez avec un petit budget (10-20€/jour)</li>
+                <li><strong>Semaine 3-4</strong>: Analysez les résultats, identifiez ce qui fonctionne</li>
+                <li><strong>Semaine 5+</strong>: Augmentez progressivement le budget sur ce qui fonctionne</li>
+            </ol>
+
+            <div class="callout tip">
+                <p class="callout-title">💡 Conseil pro</p>
+                <p>Ne lancez jamais une grosse campagne sans tester d'abord. Commencez petit, apprenez, puis expandez. C'est la meilleure façon de maximiser votre ROI.</p>
+            </div>
+        </section>
+
+        <section class="quiz">
+            <h2>Quiz - Testez vos connaissances Meta Ads</h2>
+            <p>Vérifiez votre compréhension avec ces 5 questions:</p>
+
+            <div class="question">
+                <div class="question-text">1. Quelles sont les principales plateformes incluses dans Meta Ads actuellement?</div>
+                <div class="option">
+                    <input type="radio" id="q1a" name="q1" value="a">
+                    <label for="q1a">Facebook et Instagram uniquement</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q1b" name="q1" value="b">
+                    <label for="q1b">Facebook, Instagram, Audience Network, et WhatsApp (en test)</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q1c" name="q1" value="c">
+                    <label for="q1c">Toutes les réseaux sociaux existants</label>
+                </div>
+                <div class="quiz-feedback" data-question="1" data-correct="b">
+                    <strong>Correct!</strong> Meta Ads couvre Facebook, Instagram, Audience Network, et teste WhatsApp en Amérique du Nord.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">2. Quel est l'élément le plus crucial pour lancer des campagnes Meta Ads efficaces?</div>
+                <div class="option">
+                    <input type="radio" id="q2a" name="q2" value="a">
+                    <label for="q2a">Avoir un grand nombre de followers</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q2b" name="q2" value="b">
+                    <label for="q2b">Avoir un compte Instagram basculé en mode professionnel</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q2c" name="q2" value="c">
+                    <label for="q2c">Posséder un grand studio d'enregistrement</label>
+                </div>
+                <div class="quiz-feedback" data-question="2" data-correct="b">
+                    <strong>Correct!</strong> Le mode professionnel est obligatoire pour accéder à toutes les fonctionnalités de publicité.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">3. Quel est le rôle principal du pixel Meta?</div>
+                <div class="option">
+                    <input type="radio" id="q3a" name="q3" value="a">
+                    <label for="q3a">Améliorer la qualité vidéo de vos annonces</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q3b" name="q3" value="b">
+                    <label for="q3b">Tracker les actions des visiteurs et optimiser les campagnes</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q3c" name="q3" value="c">
+                    <label for="q3c">Augmenter automatiquement votre budget publicitaire</label>
+                </div>
+                <div class="quiz-feedback" data-question="3" data-correct="b">
+                    <strong>Correct!</strong> Le pixel track le comportement des utilisateurs et vous permet d'optimiser efficacement.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">4. Quel type d'annonce est le plus adapté pour promouvoir votre musique?</div>
+                <div class="option">
+                    <input type="radio" id="q4a" name="q4" value="a">
+                    <label for="q4a">Les annonces texte uniquement</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q4b" name="q4" value="b">
+                    <label for="q4b">Les annonces vidéo montrant des clips de votre musique</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q4c" name="q4" value="c">
+                    <label for="q4c">Les annonces statiques sans aucune musique</label>
+                </div>
+                <div class="quiz-feedback" data-question="4" data-correct="b">
+                    <strong>Correct!</strong> Les annonces vidéo avec votre musique créent l'engagement maximal.
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">5. Quelle est la meilleure approche pour débuter avec Meta Ads?</div>
+                <div class="option">
+                    <input type="radio" id="q5a" name="q5" value="a">
+                    <label for="q5a">Investir 500€ d'un coup dans une grande campagne</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q5b" name="q5" value="b">
+                    <label for="q5b">Tester avec un petit budget, analyser, puis augmenter progressivement</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q5c" name="q5" value="c">
+                    <label for="q5c">Ignorer les résultats et continuer peu importe les performances</label>
+                </div>
+                <div class="quiz-feedback" data-question="5" data-correct="b">
+                    <strong>Correct!</strong> L'approche progressive et basée sur les données est toujours la meilleure stratégie.
+                </div>
+            </div>
+
+            <button class="submit-btn" onclick="checkQuiz()">Vérifier mes réponses</button>
+            <button class="reset-btn" onclick="resetQuiz()">Recommencer le quiz</button>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-logo">Producteur à Succès</div>
+        <p>Formation complète au music business pour artistes ambitieux</p>
+        <p>Module 6 - Publicité Digitale | Formateur: Tarik Hamiche</p>
+        <p style="margin-top: 1.5rem; opacity: 0.6; font-size: 0.875rem;">© 2024 Producteur à Succès. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        // Progress Bar
+        function updateProgressBar() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            document.getElementById('progressBar').style.width = scrollPercent + '%';
+        }
+
+        window.addEventListener('scroll', updateProgressBar);
+
+        // Quiz
+        function checkQuiz() {
+            let score = 0;
+            const questions = [
+                { id: '1', correct: 'b' },
+                { id: '2', correct: 'b' },
+                { id: '3', correct: 'b' },
+                { id: '4', correct: 'b' },
+                { id: '5', correct: 'b' }
+            ];
+
+            questions.forEach(q => {
+                const selected = document.querySelector(`input[name="q${q.id}"]:checked`);
+                const feedback = document.querySelector(`[data-question="${q.id}"]`);
+
+                if (selected) {
+                    if (selected.value === q.correct) {
+                        feedback.classList.add('show', 'correct');
+                        score++;
+                    } else {
+                        feedback.classList.add('show', 'incorrect');
+                        feedback.innerHTML = '<strong>Incorrect.</strong> Veuillez relire la section correspondante.';
+                    }
+                }
+            });
+
+            const resultDiv = document.createElement('div');
+            resultDiv.className = 'callout note';
+            resultDiv.style.marginTop = '2rem';
+            resultDiv.innerHTML = `<strong>Votre score: ${score}/5</strong><p>${score === 5 ? 'Parfait! Vous êtes prêt à lancer vos campagnes.' : score >= 3 ? 'Bon travail! Continuez à apprendre.' : 'Relisez le contenu pour mieux comprendre Meta Ads.'}</p>`;
+
+            const quizSection = document.querySelector('.quiz');
+            const existingResult = quizSection.querySelector('.callout.note');
+            if (existingResult) existingResult.remove();
+            quizSection.appendChild(resultDiv);
+        }
+
+        function resetQuiz() {
+            document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
+            document.querySelectorAll('.quiz-feedback').forEach(div => {
+                div.classList.remove('show', 'correct', 'incorrect');
+            });
+            const resultDiv = document.querySelector('.quiz .callout.note');
+            if (resultDiv && !resultDiv.querySelector('strong').textContent.includes('À retenir')) {
+                resultDiv.remove();
+            }
+        }
+    </script>
+</body>
+</html>

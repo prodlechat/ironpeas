@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6 Techniques pour Augmenter ses Ventes - Producteur à Succès</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C3AED;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --light-bg: #F9FAFB;
+            --border: #E5E7EB;
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            background-color: #ffffff;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            z-index: 1000;
+            transition: width 0.1s ease;
+        }
+
+        /* Header */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #8B5CF6 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .hero-metadata {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            font-size: 0.95rem;
+            opacity: 0.95;
+            flex-wrap: wrap;
+        }
+
+        .metadata-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: sticky;
+            top: 4px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0;
+            overflow-x: auto;
+        }
+
+        .nav-content::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .nav-content::-webkit-scrollbar-track {
+            background: var(--light-bg);
+        }
+
+        .nav-content::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .toc-list {
+            display: flex;
+            list-style: none;
+            gap: 0;
+        }
+
+        .toc-list li {
+            flex-shrink: 0;
+        }
+
+        .toc-list a {
+            display: block;
+            padding: 15px 20px;
+            color: var(--text-light);
+            text-decoration: none;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .toc-list a:hover,
+        .toc-list a.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 50px;
+            scroll-margin-top: 120px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .section-icon {
+            font-size: 2.5rem;
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        .section-content {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .callout-retention {
+            border-left-color: var(--primary);
+            background-color: rgba(108, 58, 237, 0.08);
+        }
+
+        .callout-tip {
+            border-left-color: var(--success);
+            background-color: rgba(16, 185, 129, 0.08);
+        }
+
+        .callout-warning {
+            border-left-color: var(--danger);
+            background-color: rgba(239, 68, 68, 0.08);
+        }
+
+        .callout-info {
+            border-left-color: var(--info);
+            background-color: rgba(59, 130, 246, 0.08);
+        }
+
+        .callout-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .callout-retention .callout-title { color: var(--primary); }
+        .callout-tip .callout-title { color: var(--success); }
+        .callout-warning .callout-title { color: var(--danger); }
+        .callout-info .callout-title { color: var(--info); }
+
+        /* Tables */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            overflow-x: auto;
+            display: block;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        .comparison-table tr:hover {
+            background-color: var(--light-bg);
+        }
+
+        /* Accordions */
+        details {
+            margin: 20px 0;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 15px;
+            background-color: var(--light-bg);
+        }
+
+        details summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            user-select: none;
+        }
+
+        details summary::marker {
+            color: var(--primary);
+        }
+
+        details[open] {
+            background-color: white;
+        }
+
+        details p {
+            margin-top: 15px;
+            margin-bottom: 0;
+            color: var(--text-light);
+        }
+
+        /* Quiz Section */
+        .quiz-section {
+            background: linear-gradient(135deg, var(--primary) 0%, #8B5CF6 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin: 40px 0;
+        }
+
+        .quiz-section h2 {
+            color: white;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .quiz-question {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .quiz-question h3 {
+            margin: 0 0 20px 0;
+            font-size: 1.1rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 12px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .quiz-option input[type="radio"] {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .quiz-option label {
+            cursor: pointer;
+            flex: 1;
+            margin: 0;
+        }
+
+        .quiz-feedback {
+            display: none;
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background: rgba(16, 185, 129, 0.3);
+            color: #D1FAE5;
+        }
+
+        .quiz-feedback.incorrect {
+            background: rgba(239, 68, 68, 0.3);
+            color: #FEE2E2;
+        }
+
+        .quiz-button {
+            display: block;
+            margin: 0 auto;
+            padding: 12px 30px;
+            background: white;
+            color: var(--primary);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .quiz-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .quiz-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--light-bg);
+            padding: 40px 20px;
+            margin-top: 60px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .footer-info {
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero-metadata {
+                gap: 15px;
+            }
+
+            .section h2 {
+                font-size: 1.5rem;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .toc-list a {
+                padding: 12px 15px;
+                font-size: 0.85rem;
+            }
+
+            .quiz-section {
+                padding: 25px;
+            }
+
+            .container {
+                padding: 25px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar"></div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <h1>🚀 6 Techniques pour Augmenter ses Ventes</h1>
+            <div class="hero-metadata">
+                <div class="metadata-item">
+                    <span>Formateur:</span>
+                    <strong>Tarik Hamiche</strong>
+                </div>
+                <div class="metadata-item">
+                    <span>Organisme:</span>
+                    <strong>Producteur à Succès</strong>
+                </div>
+                <div class="metadata-item">
+                    <span>Durée:</span>
+                    <strong>16 minutes</strong>
+                </div>
+                <div class="metadata-item">
+                    <span>Transcription:</span>
+                    <strong>18,500+ caractères</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation TOC -->
+    <div class="nav-container">
+        <div class="nav-content">
+            <ul class="toc-list">
+                <li><a href="#intro" class="toc-link active">Introduction</a></li>
+                <li><a href="#technique1" class="toc-link">Créer une Offre Irrésistible</a></li>
+                <li><a href="#technique2" class="toc-link">Choisir le Bon Véhicule</a></li>
+                <li><a href="#technique3" class="toc-link">Augmenter le Prix</a></li>
+                <li><a href="#technique4" class="toc-link">Augmenter la Fréquence</a></li>
+                <li><a href="#technique5" class="toc-link">Système d'Acquisition</a></li>
+                <li><a href="#technique6" class="toc-link">Multiplication et Levier</a></li>
+                <li><a href="#quiz" class="toc-link">Quiz</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Introduction Section -->
+        <section id="intro" class="section">
+            <div class="section-header">
+                <span class="section-icon">📊</span>
+                <h2>Introduction Essentielle</h2>
+            </div>
+            <div class="section-content">
+                <p>
+                    Comprendre comment augmenter considérablement vos ventes est essentiel pour développer votre activité musicale et générer votre revenu annuel en 1 mois.
+                </p>
+                <div class="callout callout-retention">
+                    <div class="callout-title">🎯 Concept Clé</div>
+                    <p>
+                        Il existe une formule mathématique simple mais puissante pour augmenter vos ventes. Cette formation vous présente les 6 leviers essentiels que vous pouvez actionner pour transformer votre business.
+                    </p>
+                </div>
+                <p>
+                    Chaque levier agit indépendamment, mais ensemble, ils créent une multiplication exponentielle de vos revenus. Tarik Hamiche vous partage 6 stratégies concrètes basées sur son expérience dans l'industrie musicale.
+                </p>
+            </div>
+        </section>
+
+        <!-- Technique 1 -->
+        <section id="technique1" class="section">
+            <div class="section-header">
+                <span class="section-icon">✨</span>
+                <h2>Technique 1: Créer une Offre Irrésistible</h2>
+            </div>
+            <div class="section-content">
+                <p>
+                    Le point de départ crucial pour augmenter vos ventes est de créer une offre que les clients ne peuvent pas refuser. Cette offre doit être unique, adaptée à votre niche, et apporter une valeur claire.
+                </p>
+                <div class="callout callout-info">
+                    <div class="callout-title">💡 La Base du Succès</div>
+                    <p>
+                        Une offre irrésistible signifie que c'est normal si au départ, elle n'est pas forcément hyper irrésistible au départ. Vous la peaufinez progressivement à travers les tests d'implémentation et l'apprentissage continu.
+                    </p>
+                </div>
+                <p>
+                    Soyez pas disposé initialement. Ne cherchez pas à proposer et prospérer intelligemment. En gros, comment faire en sorte que davantage de monde voie votre offre et devantage de monde la prenne.
+                </p>
+                <details>
+                    <summary>📖 Détails supplémentaires sur la création d'offre</summary>
+                    <p>
+                        Tarik explique comment il a expérimenté différentes approches pour ses offres musicales. En tant que beat maker, il a testé des placements chez des artistes urbains, du reggae, de la musique festive populaire, et d'autres genres. Cette diversification lui a permis de comprendre ce qui fonctionne et ce qui ne fonctionne pas.
+                    </p>
+                </details>
+            </div>
+        </section>
+
+        <!-- Technique 2 -->
+        <section id="technique2" class="section">
+            <div class="section-header">
+                <span class="section-icon">🎵</span>
+                <h2>Technique 2: Choisir le Bon Véhicule</h2>
+            </div>
+            <div class="section-content">
+                <p>
+                    Choisir le bon véhicule pour vendre votre offre est aussi important que l'offre elle-même. Il existe plusieurs véhicules potentiels pour monétiser votre talent musical et vos services.
+                </p>
+                <div class="callout callout-tip">
+                    <div class="callout-title">✅ Les Différents Véhicules</div>
+                    <p>
+                        Tarik a utilisé différents véhicules pour vendre : cours à pied 100% via Usain Bolt, vélo, moto, voiture de sport, avion, et jet supersonique. Chaque véhicule a ses avantages et ses limites selon l'époque et les objectifs.
+                    </p>
+                </div>
+                <p>
+                    Le choix du bon véhicule dépend de votre contexte : vos compétences actuelles, votre audience, votre budget, et vos objectifs à court et long terme. Un mauvais véhicule peut limiter votre potentiel même avec une excellente offre.
+                </p>
+            </div>
+        </section>
+
+        <!-- Technique 3 -->
+        <section id="technique3" class="section">
+            <div class="section-header">
+                <span class="section-icon">💰</span>
+                <h2>Technique 3: Augmenter le Prix</h2>
+            </div>
+            <div class="section-content">
+                <p>
+                    L'une des techniques les plus puissantes et souvent négligées est simplement d'augmenter le prix de votre offre. Cela peut avoir un impact dramatique sur vos revenus sans changer votre modèle ou votre charge de travail.
+                </p>
+                <div class="callout callout-warning">
+                    <div class="callout-title">⚠️ Le Courage de Monter les Prix</div>
+                    <p>
+                        Beaucoup d'artistes et de producteurs sous-évaluent leur travail. L'augmentation du prix n'est pas immédiate mais progressive. À l'image de la première année où l'on fait 5000 euros, la deuxième année 90 à 150 zéro, puis la troisième année plus de 80 zéro.
+                    </p>
+                </div>
+                <p>
+                    En augmentant votre prix, vous vous positionnez comme un professionnel de qualité. Bien sûr, cela doit être justifié par la valeur que vous apportez et la qualité de votre travail.
+                </p>
+                <details>
+                    <summary>📈 Exemple d'augmentation progressive</summary>
+                    <p>
+                        L'histoire personnelle de Tarik montre une progression claire : première année avec des prix modérés, augmentation progressive basée sur la demande et la réputation. Cette approche progressive permet de préparer le marché et de maintenir une satisfaction client élevée.
+                    </p>
+                </details>
+            </div>
+        </section>
+
+        <!-- Technique 4 -->
+        <section id="technique4" class="section">
+            <div class="section-header">
+                <span class="section-icon">🔄</span>
+                <h2>Technique 4: Augmenter la Fréquence</h2>
+            </div>
+            <div class="section-content">
+                <p>
+                    La fréquence désigne le nombre de fois qu'un client achète votre offre. Augmenter la fréquence des achats est une stratégie puissante qui ne nécessite pas d'acquérir de nouveaux clients.
+                </p>
+                <div class="callout callout-retention">
+                    <div class="callout-title">🔁 Fidélité et Répétition</div>
+                    <p>
+                        Si vous avez un client qui achète une fois, l'objectif est de le faire acheter deux fois, puis trois fois, et ainsi de suite. C'est une des raisons pour lesquelles les clubs recurring et les abonnements fonctionnent si bien.
+                    </p>
+                </div>
+                <p>
+                    La clé est de créer de la valeur continue pour vos clients. Tarik explique comment, en discutant avec un pot beat maker, il a découvert un truc : c'est qui dit écouté lui, j'ai des résultats stratégies, mais c'est normal. J'aurais été dans une fusée, voyez un petit peu la différence.
+                </p>
+                <details>
+                    <summary>📊 Système de Fréquence</summary>
+                    <p>
+                        Mettre en place un système de fréquence peut signifier créer plusieurs niveaux d'offres (entry-level, mid-tier, premium), offrir des services complémentaires, ou créer un modèle d'abonnement récurrent. Chaque interaction avec le client est une opportunité d'augmenter la fréquence.
+                    </p>
+                </details>
+            </div>
+        </section>
+
+        <!-- Technique 5 -->
+        <section id="technique5" class="section">
+            <div class="section-header">
+                <span class="section-icon">🎯</span>
+                <h2>Technique 5: Système d'Acquisition et de Promotion</h2>
+            </div>
+            <div class="section-content">
+                <p>
+                    Sans clients, il n'y a pas de ventes. Mettre en place un système d'acquisition efficace est crucial. Il faut que vous augmentiez le prix aussi. Ce que vous verrez, c'est une des une des augmentations que je dois reprendre à quelqu'un un de vous vais maîtriser cette idée dans la tête.
+                </p>
+                <div class="callout callout-info">
+                    <div class="callout-title">🌐 Les Canaux d'Acquisition</div>
+                    <p>
+                        Tarik a utilisé plusieurs canaux : articles de blog (créant à plein de gens), posts sur les réseaux sociaux (Facebook, compagnies), appels (demandant des potes qui étaient producteur ou), et videos YouTube (créant des vidéos youtube).
+                    </p>
+                </div>
+                <p>
+                    L'important est de créer un système durable et reproductible. Vous pouvez commencer avec un canal, puis en ajouter d'autres une fois que le premier est maîtrisé. Ce n'est pas une approche única, c'est une approche de multiplication.
+                </p>
+                <details>
+                    <summary>📱 Canaux Digitaux et Traditionnels</summary>
+                    <p>
+                        En 2017, Tarik a lancé sa première formation à l'époque où les formations en ligne commençaient tout juste à décoller. Il s'est intéressé au marketing digital et a découvert les principes de base du marketing. Finalement, il était à fond dedans. Il n'était pas préparé ça sur le moment. Et donc, quand j'ai repris, j'ai repris en me disant si je le fais.
+                    </p>
+                </details>
+            </div>
+        </section>
+
+        <!-- Technique 6 -->
+        <section id="technique6" class="section">
+            <div class="section-header">
+                <span class="section-icon">🚀</span>
+                <h2>Technique 6: Multiplication et Levier</h2>
+            </div>
+            <div class="section-content">
+                <p>
+                    La dernière et plus puissante technique est la multiplication. Lorsque vous maîtrisez les 5 premières techniques, vous pouvez commencer à les multiplier ensemble pour créer un effet exponentiel sur vos ventes.
+                </p>
+                <div class="callout callout-success">
+                    <div class="callout-title">🎆 L'Effet de Levier</div>
+                    <p>
+                        Si vous avez 20 formateurs qui font la même chose que vous, vous pouvez multiplier votre impact par 10. Et l'autre chose que je peux vous dire ici c'est une des une des augmentations. Finalement, si j'ai dit formateurs qui font la même chose que moi, je peux le multiplier par 10.
+                    </p>
+                </div>
+                <p>
+                    La multiplication n'est pas seulement sur le nombre de clients. C'est aussi sur le nombre de produits, le nombre de partenaires, ou le nombre de canaux. C'est créer un système qui fonctionne sans vous avoir besoin de toujours être dans le business.
+                </p>
+                <details>
+                    <summary>📈 Exemples de Levier</summary>
+                    <p>
+                        Vous pouvez créer un organisme de formation (comme Producteur à Succès), développer des produits informatiques (beats, plugins), former d'autres formateurs, ou créer des partenariats. Ces leviers vous permettent de scaler votre business bien au-delà de votre capacité personnelle à travailler.
+                    </p>
+                </details>
+            </div>
+        </section>
+
+        <!-- Tableau Comparatif -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-icon">📋</span>
+                <h2>Tableau Récapitulatif des 6 Techniques</h2>
+            </div>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Technique</th>
+                        <th>Description</th>
+                        <th>Impact sur les Revenus</th>
+                        <th>Effort Initial</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Offre Irrésistible</strong></td>
+                        <td>Créer une proposition de valeur unique et attractive</td>
+                        <td>Fondamental</td>
+                        <td>Élevé</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bon Véhicule</strong></td>
+                        <td>Choisir le canal de distribution optimal</td>
+                        <td>Critique</td>
+                        <td>Moyen</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Augmenter le Prix</strong></td>
+                        <td>Valoriser votre travail à sa juste valeur</td>
+                        <td>Multiplicatif</td>
+                        <td>Faible</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Augmenter la Fréquence</strong></td>
+                        <td>Vendre plus souvent aux mêmes clients</td>
+                        <td>Multiplicatif</td>
+                        <td>Moyen</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Acquisition</strong></td>
+                        <td>Mettre en place un système de marketing</td>
+                        <td>Essentiel</td>
+                        <td>Élevé</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Multiplication</strong></td>
+                        <td>Créer un levier pour scaler le business</td>
+                        <td>Exponentiel</td>
+                        <td>Très Élevé</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Key Takeaways -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-icon">💡</span>
+                <h2>Points Clés à Retenir</h2>
+            </div>
+            <div class="section-content">
+                <div class="callout callout-retention">
+                    <div class="callout-title">1. La Formule de Multiplication</div>
+                    <p>
+                        Vos ventes = (Qualité de l'offre) × (Choix du véhicule) × (Prix) × (Fréquence) × (Nombre de clients) × (Système). Chaque facteur est multiplicatif, donc améliorer un seul facteur augmente significativement vos ventes totales.
+                    </p>
+                </div>
+                <div class="callout callout-tip">
+                    <div class="callout-title">2. L'Ordre d'Exécution</div>
+                    <p>
+                        Commencez par créer une offre solide et un bon véhicule. Une fois que cela fonctionne, augmentez le prix graduellement. Puis, travaillez sur la fréquence et l'acquisition. Enfin, créez des leviers pour multiplier votre impact.
+                    </p>
+                </div>
+                <div class="callout callout-info">
+                    <div class="callout-title">3. L'Importance du Courage</div>
+                    <p>
+                        Beaucoup d'entrepreneurs restent coincés à la première étape par manque de courage ou de clarté. Comprendre et appliquer ces 6 techniques vous donne un avantage compétitif énorme dans votre industrie.
+                    </p>
+                </div>
+                <div class="callout callout-warning">
+                    <div class="callout-title">4. L'Evolution Continue</div>
+                    <p>
+                        Le journey de Tarik montre une progression constante. De 5000 euros la première année à 70 000+ euros, puis plusieurs centaines de milliers. C'est le résultat de l'application progressive de ces techniques, année après année.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="quiz" class="quiz-section">
+            <h2>🧠 Quiz Interactif</h2>
+            <form id="quizForm">
+                <!-- Question 1 -->
+                <div class="quiz-question">
+                    <h3>Question 1: Quelle est la première étape critique pour augmenter vos ventes?</h3>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q1" value="incorrect">
+                            <span>Trouver le plus grand nombre de clients possible</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q1" value="correct">
+                            <span>Créer une offre irrésistible et attractive</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q1" value="incorrect">
+                            <span>Augmenter immédiatement vos tarifs</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q1" value="incorrect">
+                            <span>Utiliser tous les canaux de marketing possible</span>
+                        </label>
+                    </div>
+                    <div class="quiz-feedback" id="feedback1"></div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="quiz-question">
+                    <h3>Question 2: Quel est l'impact d'augmenter le prix de votre offre?</h3>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q2" value="incorrect">
+                            <span>Cela diminue automatiquement votre nombre de clients</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q2" value="correct">
+                            <span>C'est multiplicatif sur vos revenus sans changer votre charge de travail</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q2" value="incorrect">
+                            <span>Cela n'a pas d'impact significatif si votre offre ne change pas</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q2" value="incorrect">
+                            <span>Le prix n'est jamais important, seule la qualité compte</span>
+                        </label>
+                    </div>
+                    <div class="quiz-feedback" id="feedback2"></div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="quiz-question">
+                    <h3>Question 3: Qu'est-ce que "augmenter la fréquence" signifie?</h3>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q3" value="incorrect">
+                            <span>Augmenter la publicité plus souvent</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q3" value="correct">
+                            <span>Faire en sorte que vos clients achètent plus souvent votre offre</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q3" value="incorrect">
+                            <span>Utiliser des ondes radio pour promouvoir votre service</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q3" value="incorrect">
+                            <span>Cela n'existe pas comme concept économique</span>
+                        </label>
+                    </div>
+                    <div class="quiz-feedback" id="feedback3"></div>
+                </div>
+
+                <!-- Question 4 -->
+                <div class="quiz-question">
+                    <h3>Question 4: Quel est l'effet de la "multiplication" sur vos revenus?</h3>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q4" value="incorrect">
+                            <span>C'est une addition simple de vos revenus</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q4" value="incorrect">
+                            <span>Cela diminue vos revenus à long terme</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q4" value="correct">
+                            <span>C'est un effet exponentiel qui scaler votre business bien au-delà de vos capacités personnelles</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q4" value="incorrect">
+                            <span>Ce n'est applicable que pour les grandes entreprises</span>
+                        </label>
+                    </div>
+                    <div class="quiz-feedback" id="feedback4"></div>
+                </div>
+
+                <!-- Question 5 -->
+                <div class="quiz-question">
+                    <h3>Question 5: Quel est le bon ordre pour appliquer les 6 techniques?</h3>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q5" value="correct">
+                            <span>Offre → Véhicule → Prix → Fréquence → Acquisition → Multiplication</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q5" value="incorrect">
+                            <span>Multiplication → Acquisition → Fréquence → Prix → Véhicule → Offre</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q5" value="incorrect">
+                            <span>L'ordre n'a pas d'importance, appliquez-les toutes simultanément</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q5" value="incorrect">
+                            <span>Commencez toujours par augmenter votre prix d'abord</span>
+                        </label>
+                    </div>
+                    <div class="quiz-feedback" id="feedback5"></div>
+                </div>
+
+                <button type="button" class="quiz-button" id="submitBtn">Vérifier mes réponses</button>
+            </form>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">📚 Producteur à Succès</div>
+            <p>
+                Formation: <strong>6 Techniques pour Augmenter ses Ventes</strong><br>
+                Formateur: <strong>Tarik Hamiche</strong><br>
+                Module: <strong>6</strong> | Vidéo: <strong>2</strong>
+            </p>
+            <div class="footer-info">
+                Transcription: 18,500+ caractères | Durée: 16 minutes | Généré: 2026
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Progress Bar
+        function updateProgressBar() {
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / scrollHeight) * 100;
+            document.querySelector('.progress-bar').style.width = scrolled + '%';
+        }
+
+        window.addEventListener('scroll', updateProgressBar);
+
+        // TOC Active Link
+        const sections = document.querySelectorAll('.section, .quiz-section');
+        const tocLinks = document.querySelectorAll('.toc-link');
+
+        function updateActiveLink() {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveLink);
+
+        // Quiz Functionality
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            const form = document.getElementById('quizForm');
+            const allAnswered = Array.from(form.querySelectorAll('input[type="radio"]'))
+                .every(radio => {
+                    const group = form.querySelectorAll(`input[name="${radio.name}"]`);
+                    return Array.from(group).some(r => r.checked);
+                });
+
+            if (!allAnswered) {
+                alert('Veuillez répondre à toutes les questions avant de vérifier!');
+                return;
+            }
+
+            for (let i = 1; i <= 5; i++) {
+                const checked = form.querySelector(`input[name="q${i}"]:checked`);
+                const feedback = document.getElementById(`feedback${i}`);
+                const isCorrect = checked.value === 'correct';
+
+                feedback.classList.add('show');
+                feedback.classList.remove(isCorrect ? 'incorrect' : 'correct');
+                feedback.classList.add(isCorrect ? 'correct' : 'incorrect');
+                feedback.textContent = isCorrect ? '✅ Correct!' : '❌ Incorrect. Révisez cette partie.';
+            }
+
+            this.disabled = true;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presse écrite et Webzines - Module 6 | Producteur à Succès</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            color: #1f2937;
+            background: #ffffff;
+        }
+
+        :root {
+            --primary: #6C3AED;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --light: #f9fafb;
+            --border: #e5e7eb;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: sticky;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.1s ease;
+            z-index: 999;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #5B21B6 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            opacity: 0.95;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .metadata {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .metadata-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: var(--light);
+            border-left: 4px solid var(--primary);
+            padding: 30px;
+            margin-bottom: 50px;
+            border-radius: 8px;
+        }
+
+        .toc h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .toc ul {
+            list-style: none;
+        }
+
+        .toc li {
+            margin-bottom: 12px;
+        }
+
+        .toc a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .toc a:hover {
+            color: #5B21B6;
+            text-decoration: underline;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 50px;
+            scroll-margin-top: 100px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .section-icon {
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--light);
+            border-radius: 8px;
+        }
+
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin: 25px 0 15px 0;
+            font-weight: 600;
+        }
+
+        p {
+            line-height: 1.7;
+            margin-bottom: 15px;
+            color: #374151;
+        }
+
+        strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+            border-radius: 6px;
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .callout-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .callout.retenir {
+            border-color: var(--primary);
+            background-color: rgba(108, 58, 237, 0.05);
+        }
+
+        .callout.retenir .callout-title {
+            color: var(--primary);
+        }
+
+        .callout.astuce {
+            border-color: var(--success);
+            background-color: rgba(16, 185, 129, 0.05);
+        }
+
+        .callout.astuce .callout-title {
+            color: var(--success);
+        }
+
+        .callout.attention {
+            border-color: var(--accent);
+            background-color: rgba(245, 158, 11, 0.05);
+        }
+
+        .callout.attention .callout-title {
+            color: var(--accent);
+        }
+
+        .callout.info {
+            border-color: var(--info);
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+
+        .callout.info .callout-title {
+            color: var(--info);
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: var(--light);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:hover {
+            background-color: var(--light);
+        }
+
+        /* Accordion */
+        details {
+            margin-bottom: 15px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        summary {
+            padding: 15px 20px;
+            background: var(--light);
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        summary:hover {
+            background-color: #f3f4f6;
+        }
+
+        details[open] summary {
+            background-color: var(--light);
+            border-bottom: 1px solid var(--border);
+        }
+
+        details > div {
+            padding: 20px;
+            line-height: 1.7;
+        }
+
+        summary::after {
+            content: '▼';
+            font-size: 0.8rem;
+            transition: transform 0.3s;
+        }
+
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+
+        /* Quiz */
+        .quiz-section {
+            background: var(--light);
+            padding: 40px;
+            border-radius: 8px;
+            margin-top: 50px;
+        }
+
+        .quiz-question {
+            margin-bottom: 30px;
+        }
+
+        .quiz-question h4 {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .quiz-option {
+            margin-bottom: 10px;
+        }
+
+        .quiz-option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .quiz-option label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quiz-button {
+            background: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+            margin-top: 20px;
+        }
+
+        .quiz-button:hover {
+            background: #5B21B6;
+        }
+
+        .quiz-feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            color: #065f46;
+        }
+
+        .quiz-feedback.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            color: #7f1d1d;
+        }
+
+        /* Footer */
+        footer {
+            background: #1f2937;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 80px;
+            border-top: 4px solid var(--primary);
+        }
+
+        footer .branding {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        footer .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        footer p {
+            color: #9ca3af;
+            margin-bottom: 10px;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            main {
+                padding: 30px 15px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .metadata {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .quiz-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <header>
+        <div class="badge-container">
+            <span class="badge">Module 6</span>
+            <span class="badge">Formation Music Business</span>
+        </div>
+        <h1>Presse écrite et Webzines</h1>
+        <p>Comprendre les stratégies de promotion et de relations presse pour maximiser la visibilité de votre musique dans les médias spécialisés</p>
+        <div class="metadata">
+            <div class="metadata-item">
+                <span>🎓</span>
+                <strong>Formateur:</strong> Tarik Hamiche
+            </div>
+            <div class="metadata-item">
+                <span>🏢</span>
+                <strong>Organisme:</strong> Producteur à Succès
+            </div>
+            <div class="metadata-item">
+                <span>⏱️</span>
+                <strong>Durée:</strong> ~1h
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <nav class="toc">
+            <h2>Sommaire</h2>
+            <ul>
+                <li><a href="#section1">Introduction : L'importance de la presse</a></li>
+                <li><a href="#section2">Les différents types de presse</a></li>
+                <li><a href="#section3">Presse écrite traditionnelle</a></li>
+                <li><a href="#section4">Webzines et médias en ligne</a></li>
+                <li><a href="#section5">Stratégies de relations presse</a></li>
+                <li><a href="#section6">Créer votre dossier de presse</a></li>
+                <li><a href="#section7">Construire votre réseau médias</a></li>
+                <li><a href="#quiz">Quiz final</a></li>
+            </ul>
+        </nav>
+
+        <section id="section1">
+            <div class="section-header">
+                <div class="section-icon">📰</div>
+                <h2>Introduction : L'importance de la presse</h2>
+            </div>
+            <p>La presse représente un <strong>levier stratégique incontournable</strong> pour les musiciens et producteurs qui souhaitent développer leur carrière. Contrairement à la publicité payante, une couverture presse vous accorde une <strong>crédibilité immédiate</strong> auprès du public.</p>
+
+            <div class="callout retenir">
+                <div class="callout-title">📌 À retenir</div>
+                <p>Une mention dans un média spécialisé vaut souvent plusieurs milliers d'euros de publicité payante, car le public accorde plus de confiance à l'information qui vient d'un tiers indépendant.</p>
+            </div>
+
+            <h3>Pourquoi la presse est stratégique ?</h3>
+            <ul>
+                <li><strong>Crédibilité et légitimité :</strong> Les journalistes agissent comme des "filtres de qualité"</li>
+                <li><strong>Amplification du message :</strong> Accès à des audiences que vous ne pouviez pas atteindre seul</li>
+                <li><strong>Validation externe :</strong> Un article de presse authentifie votre talent</li>
+                <li><strong>SEO et visibilité en ligne :</strong> Les backlinks depuis les médias renforcent votre présence web</li>
+                <li><strong>Dossier de presse :</strong> Les articles constituent des preuves sociales pour futurs partenaires</li>
+            </ul>
+        </section>
+
+        <section id="section2">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h2>Les différents types de presse</h2>
+            </div>
+            <p>Il n'existe pas une seule presse, mais plutôt un écosystème diversifié d'acteurs médiatiques ayant chacun leurs spécificités et audiences.</p>
+
+            <table>
+                <tr>
+                    <th>Type de presse</th>
+                    <th>Caractéristiques</th>
+                    <th>Audience cible</th>
+                </tr>
+                <tr>
+                    <td><strong>Presse généraliste</strong></td>
+                    <td>Couvre tous les sujets ; public large</td>
+                    <td>Grand public / généralistes</td>
+                </tr>
+                <tr>
+                    <td><strong>Presse spécialisée (musique)</strong></td>
+                    <td>Expertise métier ; audience fidèle</td>
+                    <td>Fans et professionnels du secteur</td>
+                </tr>
+                <tr>
+                    <td><strong>Webzines</strong></td>
+                    <td>Natifs numériques ; souvent spécialisés</td>
+                    <td>Communautés en ligne engagées</td>
+                </tr>
+                <tr>
+                    <td><strong>Podcasts</strong></td>
+                    <td>Format audio ; plutôt conversationnel</td>
+                    <td>Auditeurs réguliers en transport</td>
+                </tr>
+                <tr>
+                    <td><strong>Blogs influents</strong></td>
+                    <td>Voix individuelle ; haute spécialisation</td>
+                    <td>Niche d'enthousiastes</td>
+                </tr>
+            </table>
+
+            <div class="callout info">
+                <div class="callout-title">ℹ️ Le saviez-vous ?</div>
+                <p>Les webzines et médias en ligne représentent aujourd'hui plus de 60% des relations presse pour les artistes indépendants, surpassant largement la presse papier traditionnelle.</p>
+            </div>
+        </section>
+
+        <section id="section3">
+            <div class="section-header">
+                <div class="section-icon">📑</div>
+                <h2>Presse écrite traditionnelle</h2>
+            </div>
+            <p>Bien que diminuée par la montée du numérique, la presse écrite conserve une force de prescription et une crédibilité importantes, particulièrement dans les cercles musicaux établis.</p>
+
+            <h3>Avantages de la presse papier</h3>
+            <ul>
+                <li>Durée de vie plus longue (le magazine reste consulté plusieurs semaines)</li>
+                <li>Crédibilité maximale auprès du public établi</li>
+                <li>Lecteurs très engagés et fidèles</li>
+                <li>Pouvoir de collectionner et classer les articles</li>
+            </ul>
+
+            <h3>Défis de la presse papier</h3>
+            <ul>
+                <li>Délais de publication très longs (3-6 mois d'avance)</li>
+                <li>Audience plus réduite que le numérique</li>
+                <li>Moins de flexibilité dans les mises à jour de contenu</li>
+                <li>Coûts de distribution importants</li>
+            </ul>
+
+            <div class="callout astuce">
+                <div class="callout-title">💡 Astuce</div>
+                <p>Si vous contactez des magazines papier, prévoyez <strong>au minimum 4-6 mois d'avance</strong> pour un lancement d'album. Utilisez ce délai pour affiner votre projet et générer du buzz via les réseaux sociaux en parallèle.</p>
+            </div>
+
+            <h3>Magazines de référence pour la musique</h3>
+            <details>
+                <summary>Magazines francophones majeurs</summary>
+                <div>
+                    <p><strong>En France :</strong></p>
+                    <ul>
+                        <li>Les Inrockuptibles (rock, indépendant)</li>
+                        <li>Télérama (généraliste avec focus musique classique et jazz)</li>
+                        <li>Libération (cultures et musique alternative)</li>
+                        <li>Trax Magazine (électro, house, techno)</li>
+                        <li>Groove Magazine (hip-hop, R&B, soul)</li>
+                    </ul>
+                    <p><strong>Belgique :</strong></p>
+                    <ul>
+                        <li>Verso Magazine</li>
+                        <li>Les Cahiers du Cinéma</li>
+                    </ul>
+                    <p><strong>Suisse :</strong></p>
+                    <ul>
+                        <li>Lakimag</li>
+                        <li>Revue Fixxion</li>
+                    </ul>
+                </div>
+            </details>
+        </section>
+
+        <section id="section4">
+            <div class="section-header">
+                <div class="section-icon">💻</div>
+                <h2>Webzines et médias en ligne</h2>
+            </div>
+            <p>Les webzines représentent aujourd'hui le canaux privilégié pour atteindre les mélomanes engagés. Ils combinent les avantages de la presse spécialisée avec la flexibilité et la réactivité du numérique.</p>
+
+            <h3>Types de webzines musicaux</h3>
+            <ul>
+                <li><strong>Webzines généralistes musique :</strong> Couvrent tous les genres</li>
+                <li><strong>Webzines spécialisées par genre :</strong> Jazz, électro, rap, rock, metal, etc.</li>
+                <li><strong>Webzines critiques :</strong> Pitchfork, Resident Advisor (pour l'électro)</li>
+                <li><strong>Webzines communautaires :</strong> Construites par et pour une communauté</li>
+                <li><strong>Chaînes YouTube musicales :</strong> Nouveau format de "presse vidéo"</li>
+            </ul>
+
+            <div class="callout retenir">
+                <div class="callout-title">📌 À retenir</div>
+                <p>Un article dans une webzine reconnue (même petite) peut générer plus de trafic qu'une couverture de magazine papier grâce aux liens, partages réseaux sociaux et SEO.</p>
+            </div>
+
+            <h3>Avantages majeurs des webzines</h3>
+            <table>
+                <tr>
+                    <th>Avantage</th>
+                    <th>Impact</th>
+                </tr>
+                <tr>
+                    <td>Délais courts</td>
+                    <td>Publication possible en 1-4 semaines</td>
+                </tr>
+                <tr>
+                    <td>Audience mondiale</td>
+                    <td>Pas de limite géographique</td>
+                </tr>
+                <tr>
+                    <td>Contenu multimédia</td>
+                    <td>Embed de musique, vidéos, galeries photos</td>
+                </tr>
+                <tr>
+                    <td>Engagement interactif</td>
+                    <td>Commentaires, réactions temps réel</td>
+                </tr>
+                <tr>
+                    <td>Analytics détaillées</td>
+                    <td>Mesurez l'impact de chaque couverture</td>
+                </tr>
+            </table>
+
+            <h3>Stratégie de sélection des webzines</h3>
+            <p>Ne ciblez pas aléatoirement. Avant de contacter une webzine :</p>
+            <ul>
+                <li>Visitez le site régulièrement pendant 2-3 mois</li>
+                <li>Repérez le style d'articles et les artistes couverts</li>
+                <li>Identifiez le journaliste ou l'éditeur responsable de votre genre</li>
+                <li>Engagez-vous : commentez les articles, partagez sur réseaux sociaux</li>
+                <li>Listez 10-15 webzines que vous voudriez vraiment couvrir</li>
+            </ul>
+        </section>
+
+        <section id="section5">
+            <div class="section-header">
+                <div class="section-icon">🤝</div>
+                <h2>Stratégies de relations presse</h2>
+            </div>
+            <p>Avoir une bonne musique ne suffit pas ; il faut savoir la "vendre" aux journalistes. Les relations presse efficaces reposent sur la crédibilité, la pertinence et le timing.</p>
+
+            <h3>Les 5 règles d'or des relations presse</h3>
+            <ol>
+                <li><strong>Soyez pertinent :</strong> Envoyez votre musique uniquement à des journalistes qui couvrent votre genre</li>
+                <li><strong>Soyez personnel :</strong> Utilisez le prénom du journaliste, montrez que vous connaissez leur travail</li>
+                <li><strong>Soyez brefs :</strong> Email court et concis (max 150 mots) avec lien vers votre musique</li>
+                <li><strong>Soyez patients :</strong> Attendez 2-3 semaines avant de relancer</li>
+                <li><strong>Soyez professionnels :</strong> Orthographe, grammaire et présentation impeccables</li>
+            </ol>
+
+            <div class="callout attention">
+                <div class="callout-title">⚠️ Attention</div>
+                <p>Les journalistes reçoivent des dizaines d'emails par jour. Évitez absolument les emails génériques ou les pièces jointes. Un lien vers votre musique suffit. Sinon, votre email risque la corbeille.</p>
+            </div>
+
+            <h3>Structure d'un email de presse efficace</h3>
+            <details>
+                <summary>Voir un exemple</summary>
+                <div>
+                    <p><strong>Objet :</strong> [Artiste] - Nouvel EP "Titre" - [Genre musical]</p>
+                    <p><strong>Corps :</strong></p>
+                    <p>Bonjour [Prénom],</p>
+                    <p>J'ai apprécié votre article sur [Article que vous avez lu récemment].</p>
+                    <p>Je vous contacte car mon dernier projet semble correspondre à votre ligne éditoriale. Je suis [Brève description] et je publie mon EP "Titre" le [Date].</p>
+                    <p>[Une phrase pour expliquer pourquoi c'est pertinent pour LEUR audience]</p>
+                    <p>Vous pouvez découvrir le projet ici : [Lien avec code d'accès si besoin]</p>
+                    <p>Cordialement,<br/>
+                    [Votre nom]<br/>
+                    [Website ou réseaux sociaux]</p>
+                </div>
+            </details>
+
+            <h3>Le timing optimal</h3>
+            <ul>
+                <li><strong>6-8 semaines avant la sortie :</strong> Première vague vers les gros médias</li>
+                <li><strong>4-6 semaines avant :</strong> Deuxième vague vers webzines spécialisées</li>
+                <li><strong>2-3 semaines avant :</strong> Relances et médias généralistes</li>
+                <li><strong>À la sortie :</strong> Médias rapides et podcasts d'interview</li>
+                <li><strong>Après sortie :</strong> Articles de suivi (premières ventes, concert, etc.)</li>
+            </ul>
+        </section>
+
+        <section id="section6">
+            <div class="section-header">
+                <div class="section-icon">📂</div>
+                <h2>Créer votre dossier de presse</h2>
+            </div>
+            <p>Un dossier de presse professionnel facilite le travail des journalistes et augmente vos chances de couverture. C'est votre "pitch sheet" qui doit être parfait.</p>
+
+            <h3>Éléments essentiels du dossier de presse</h3>
+            <ul>
+                <li><strong>Biographie artistique :</strong> 2-3 paragraphes, 500-800 mots max</li>
+                <li><strong>Description du projet :</strong> Spécifique et pertinent pour le produit actuel</li>
+                <li><strong>High-res photos :</strong> Au minimum 5 photos en 300 dpi</li>
+                <li><strong>Données de sortie :</strong> Dates, plateformes, labels, codes d'accès</li>
+                <li><strong>Crédits musicaux :</strong> Collaborateurs, producteurs, musiciens</li>
+                <li><strong>Lien vers la musique :</strong> Streaming ou téléchargement HQ</li>
+                <li><strong>Contact :</strong> Vos coordonnées et votre manager si applicable</li>
+            </ul>
+
+            <div class="callout astuce">
+                <div class="callout-title">💡 Astuce</div>
+                <p>Créez un PDF de votre dossier de presse avec photos intégrées. Rendez-le disponible sur une landing page ou via WeTransfer. Les journalistes apprécient pouvoir télécharger facilement tous les assets.</p>
+            </div>
+
+            <h3>Biographie artistique : les pièges à éviter</h3>
+            <ul>
+                <li>❌ Ne pas écrire à la troisième personne ("L'artiste est né...")</li>
+                <li>❌ Trop longue (plus de 1000 mots) ou trop courte (moins de 200)</li>
+                <li>❌ Trop générique ("J'aime la musique depuis l'enfance...")</li>
+                <li>❌ Manque de chiffres ou de preuves (streams, concerts, prix)</li>
+                <li>✅ Plutôt : anecdote personnelle + données tangibles + vision artistique</li>
+            </ul>
+        </section>
+
+        <section id="section7">
+            <div class="section-header">
+                <div class="section-icon">🔗</div>
+                <h2>Construire votre réseau médias</h2>
+            </div>
+            <p>Un réseau médias durable est l'un de vos plus précieux atouts. Contrairement à la publicité payante, votre réseau ne disparaît jamais.</p>
+
+            <h3>Les 3 niveaux de votre réseau</h3>
+            <ul>
+                <li><strong>Niveau 1 - Influenceurs :</strong> 1K à 10K abonnés, très engagés, nichés</li>
+                <li><strong>Niveau 2 - Webzines :</strong> 10K à 100K visiteurs/mois, spécialisées</li>
+                <li><strong>Niveau 3 - Grands médias :</strong> 100K+ lecteurs, plus difficiles d'accès</li>
+            </ul>
+
+            <div class="callout retenir">
+                <div class="callout-title">📌 À retenir</div>
+                <p>Construisez votre réseau de bas vers le haut. Excellez auprès des petits médias avant de viser les grands. Les petits médias peuvent devenir vos meilleurs alliés et vous recommander à leurs pairs.</p>
+            </div>
+
+            <h3>Comment cultiver votre réseau</h3>
+            <table>
+                <tr>
+                    <th>Action</th>
+                    <th>Fréquence</th>
+                    <th>Objectif</th>
+                </tr>
+                <tr>
+                    <td>Commentez les articles</td>
+                    <td>1-2x/semaine</td>
+                    <td>Montrer que vous lisez et appréciez</td>
+                </tr>
+                <tr>
+                    <td>Partagez leur contenu</td>
+                    <td>2-3x/semaine</td>
+                    <td>Leur envoyer du trafic et des lecteurs</td>
+                </tr>
+                <tr>
+                    <td>Envoyez une info exclusive</td>
+                    <td>Tous les 3-6 mois</td>
+                    <td>Leur offrir du contenu unique</td>
+                </tr>
+                <tr>
+                    <td>Mentionnez-les dans vos contenus</td>
+                    <td>Régulièrement</td>
+                    <td>Créer une interdépendance positive</td>
+                </tr>
+                <tr>
+                    <td>Invitez-les à vos événements</td>
+                    <td>Pour chaque événement</td>
+                    <td>Cultiver la relation hors-ligne</td>
+                </tr>
+            </table>
+
+            <h3>Outils pour gérer votre réseau</h3>
+            <ul>
+                <li><strong>Spreadsheet Google :</strong> Simple mais efficace (journaliste, média, genre, email, dernière interaction)</li>
+                <li><strong>Airtable :</strong> Pour un suivi plus structuré avec tags et filtres</li>
+                <li><strong>HubSpot :</strong> Gratuit jusqu'à 1000 contacts, idéal pour petits labels</li>
+                <li><strong>Notion :</strong> Database personnalisée avec automation</li>
+            </ul>
+        </section>
+
+        <section id="quiz" class="quiz-section">
+            <h2>Quiz : Testez vos connaissances</h2>
+            <p>Répondez à ces 5 questions pour vérifier votre compréhension du module.</p>
+
+            <form id="quizForm">
+                <div class="quiz-question">
+                    <h4>1. Quel est le délai optimal pour contacter une presse papier avant une sortie d'album ?</h4>
+                    <div class="quiz-option">
+                        <input type="radio" id="q1a" name="q1" value="1">
+                        <label for="q1a">2-3 semaines avant</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q1b" name="q1" value="0">
+                        <label for="q1b">4-6 mois avant</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q1c" name="q1" value="0">
+                        <label for="q1c">1 mois avant</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q1d" name="q1" value="0">
+                        <label for="q1d">Le jour de la sortie</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h4>2. Quel est l'avantage principal d'une couverture presse sur la publicité payante ?</h4>
+                    <div class="quiz-option">
+                        <input type="radio" id="q2a" name="q2" value="0">
+                        <label for="q2a">C'est moins cher</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q2b" name="q2" value="1">
+                        <label for="q2b">Elle offre plus de crédibilité (tiers indépendant)</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q2c" name="q2" value="0">
+                        <label for="q2c">Elle apparaît automatiquement</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q2d" name="q2" value="0">
+                        <label for="q2d">Elle garantit un succès immédiat</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h4>3. Quel est l'élément à ÉVITER absolument dans un email de presse ?</h4>
+                    <div class="quiz-option">
+                        <input type="radio" id="q3a" name="q3" value="0">
+                        <label for="q3a">Mentionner les articles qu'on a aimés du journaliste</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q3b" name="q3" value="1">
+                        <label for="q3b">Envoyer un email générique à 100 journalistes à la fois</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q3c" name="q3" value="0">
+                        <label for="q3c">Inclure un lien vers sa musique</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q3d" name="q3" value="0">
+                        <label for="q3d">Respecter l'orthographe et la grammaire</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h4>4. Les webzines offrent quel avantage majeur comparé à la presse papier ?</h4>
+                    <div class="quiz-option">
+                        <input type="radio" id="q4a" name="q4" value="0">
+                        <label for="q4a">Plus de lecteurs</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q4b" name="q4" value="1">
+                        <label for="q4b">Délais plus courts et contenu multimédia</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q4c" name="q4" value="0">
+                        <label for="q4c">Pas de relance possible</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q4d" name="q4" value="0">
+                        <label for="q4d">Moins de crédibilité</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h4>5. Quel est le premier pas pour construire un réseau médias durable ?</h4>
+                    <div class="quiz-option">
+                        <input type="radio" id="q5a" name="q5" value="0">
+                        <label for="q5a">Contacter les plus grands médias immédiatement</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q5b" name="q5" value="1">
+                        <label for="q5b">S'engager régulièrement auprès de petits médias nichés</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q5c" name="q5" value="0">
+                        <label for="q5c">Payer pour des relations presse</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q5d" name="q5" value="0">
+                        <label for="q5d">Ignorer les commentaires et interactions</label>
+                    </div>
+                </div>
+
+                <button type="button" class="quiz-button" onclick="checkQuiz()">Vérifier mes réponses</button>
+                <div id="quizFeedback" class="quiz-feedback"></div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="branding">
+            <div class="logo">Producteur à Succès</div>
+        </div>
+        <p>Module 6 - Presse écrite et Webzines</p>
+        <p>Formation Music Business par <a href="#">Tarik Hamiche</a></p>
+        <p style="font-size: 0.85rem; color: #6b7280; margin-top: 20px;">© 2026 Producteur à Succès. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', function() {
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / scrollHeight) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Quiz
+        function checkQuiz() {
+            const answers = {
+                q1: '1',
+                q2: '1',
+                q3: '1',
+                q4: '1',
+                q5: '1'
+            };
+
+            let score = 0;
+            let allAnswered = true;
+
+            for (let question in answers) {
+                const selected = document.querySelector(`input[name="${question}"]:checked`);
+                if (!selected) {
+                    allAnswered = false;
+                    break;
+                }
+                if (selected.value === answers[question]) {
+                    score++;
+                }
+            }
+
+            if (!allAnswered) {
+                alert('Veuillez répondre à toutes les questions avant de vérifier.');
+                return;
+            }
+
+            const feedback = document.getElementById('quizFeedback');
+            const percentage = Math.round((score / 5) * 100);
+
+            if (percentage >= 80) {
+                feedback.className = 'quiz-feedback show correct';
+                feedback.innerHTML = `<strong>🎉 Excellent !</strong> Vous avez obtenu ${score}/5 (${percentage}%). Vous maîtrisez bien les stratégies de relations presse !`;
+            } else if (percentage >= 60) {
+                feedback.className = 'quiz-feedback show correct';
+                feedback.innerHTML = `<strong>✅ Bien !</strong> Vous avez obtenu ${score}/5 (${percentage}%). Relisez les sections pour consolider vos connaissances.`;
+            } else {
+                feedback.className = 'quiz-feedback show incorrect';
+                feedback.innerHTML = `<strong>📚 Continuons !</strong> Vous avez obtenu ${score}/5 (${percentage}%). Relisez attentivement les sections pour mieux comprendre le contenu.`;
+            }
+        }
+    </script>
+</body>
+</html>

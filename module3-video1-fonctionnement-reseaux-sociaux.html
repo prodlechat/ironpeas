@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 3 – Vidéo 1 : Comprendre le fonctionnement des Réseaux Sociaux</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { width: 100% !important; max-width: 100% !important; overflow-x: hidden; }
+
+        :root {
+            --primary: #6C3AED;
+            --primary-light: #EDE9FE;
+            --accent: #F59E0B;
+            --accent-light: #FEF3C7;
+            --success: #10B981;
+            --success-light: #D1FAE5;
+            --danger: #EF4444;
+            --danger-light: #FEE2E2;
+            --info: #3B82F6;
+            --info-light: #DBEAFE;
+            --teal: #14B8A6;
+            --teal-light: #CCFBF1;
+            --pink: #EC4899;
+            --pink-light: #FCE7F3;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-500: #6B7280;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            --radius: 12px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7; color: var(--gray-800); background: var(--gray-50);
+        }
+
+        .progress-bar {
+            position: fixed; top: 0; left: 0; width: 0%; height: 4px;
+            background: linear-gradient(90deg, var(--pink), var(--primary), var(--teal));
+            z-index: 1000; transition: width 0.1s ease;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #1E1B4B 0%, #312E81 30%, #6C3AED 60%, #7C3AED 100%);
+            color: white; padding: 60px 24px 50px; text-align: center;
+            position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .hero::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 6px;
+            background: linear-gradient(90deg, var(--pink), var(--accent), var(--teal), var(--info));
+        }
+        .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+        .badge {
+            display: inline-block; background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);
+            padding: 6px 16px; border-radius: 50px; font-size: 0.85rem;
+            font-weight: 500; margin-bottom: 20px; letter-spacing: 0.5px;
+        }
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            font-weight: 700; margin-bottom: 16px; line-height: 1.2;
+        }
+        .hero p { font-size: 1.05rem; opacity: 0.9; max-width: 650px; margin: 0 auto 24px; }
+        .meta-tags { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; font-size: 0.9rem; opacity: 0.85; }
+        .meta-tags span { display: flex; align-items: center; gap: 6px; }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+        /* TOC */
+        .toc {
+            background: white; border-radius: var(--radius); box-shadow: var(--shadow-md);
+            padding: 32px; margin: -30px auto 40px; position: relative; z-index: 2; max-width: 900px;
+        }
+        .toc h2 {
+            font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem;
+            color: var(--primary); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+        }
+        .toc-list { list-style: none; }
+        .toc-list li { border-bottom: 1px solid var(--gray-100); }
+        .toc-list li:last-child { border-bottom: none; }
+        .toc-list a {
+            display: flex; align-items: center; gap: 12px; padding: 12px 8px;
+            text-decoration: none; color: var(--gray-700); font-size: 0.95rem;
+            transition: all 0.2s; border-radius: 8px;
+        }
+        .toc-list a:hover { background: var(--primary-light); color: var(--primary); padding-left: 16px; }
+        .toc-number {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 28px; height: 28px; background: var(--primary-light);
+            color: var(--primary); border-radius: 8px; font-weight: 600;
+            font-size: 0.85rem; flex-shrink: 0;
+        }
+
+        /* Sections */
+        .section {
+            background: white; border-radius: var(--radius);
+            box-shadow: var(--shadow); margin-bottom: 32px; overflow: hidden;
+        }
+        .section-header {
+            padding: 24px 32px; display: flex; align-items: center; gap: 16px;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        .section-icon {
+            width: 48px; height: 48px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; flex-shrink: 0;
+        }
+        .section-header h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; color: var(--gray-900); }
+        .section-body { padding: 28px 32px; }
+        .section-body p { margin-bottom: 16px; text-align: justify; }
+        .section-body p:last-child { margin-bottom: 0; }
+
+        .section-purple .section-header { background: linear-gradient(135deg, var(--primary-light), #F3E8FF); }
+        .section-purple .section-icon { background: var(--primary); color: white; }
+        .section-green .section-header { background: linear-gradient(135deg, var(--success-light), #ECFDF5); }
+        .section-green .section-icon { background: var(--success); color: white; }
+        .section-blue .section-header { background: linear-gradient(135deg, var(--info-light), #EFF6FF); }
+        .section-blue .section-icon { background: var(--info); color: white; }
+        .section-amber .section-header { background: linear-gradient(135deg, var(--accent-light), #FFFBEB); }
+        .section-amber .section-icon { background: var(--accent); color: white; }
+        .section-pink .section-header { background: linear-gradient(135deg, var(--pink-light), #FDF2F8); }
+        .section-pink .section-icon { background: var(--pink); color: white; }
+        .section-teal .section-header { background: linear-gradient(135deg, var(--teal-light), #F0FDFA); }
+        .section-teal .section-icon { background: var(--teal); color: white; }
+
+        /* Callout */
+        .callout {
+            border-radius: 10px; padding: 18px 22px; margin: 20px 0;
+            border-left: 4px solid; display: flex; gap: 14px; align-items: flex-start;
+        }
+        .callout-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+        .callout-content { flex: 1; }
+        .callout-title { font-weight: 700; margin-bottom: 4px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .callout-text { font-size: 0.95rem; }
+        .callout-tip { background: var(--success-light); border-color: var(--success); }
+        .callout-tip .callout-title { color: #065F46; }
+        .callout-warning { background: var(--accent-light); border-color: var(--accent); }
+        .callout-warning .callout-title { color: #92400E; }
+        .callout-danger { background: var(--danger-light); border-color: var(--danger); }
+        .callout-danger .callout-title { color: #991B1B; }
+        .callout-info { background: var(--info-light); border-color: var(--info); }
+        .callout-info .callout-title { color: #1E40AF; }
+        .callout-key { background: var(--primary-light); border-color: var(--primary); }
+        .callout-key .callout-title { color: #4C1D95; }
+
+        /* Tables */
+        .table-wrapper { overflow-x: auto; margin: 20px 0; border-radius: 10px; box-shadow: var(--shadow); }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        thead th {
+            background: var(--primary); color: white; padding: 14px 16px;
+            text-align: left; font-weight: 600; font-size: 0.85rem;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        thead th:first-child { border-radius: 10px 0 0 0; }
+        thead th:last-child { border-radius: 0 10px 0 0; }
+        tbody td { padding: 12px 16px; border-bottom: 1px solid var(--gray-100); }
+        tbody tr:nth-child(even) { background: var(--gray-50); }
+        tbody tr:hover { background: var(--primary-light); }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px; margin: 20px 0;
+        }
+        .card {
+            background: var(--gray-50); border: 1px solid var(--gray-200);
+            border-radius: 10px; padding: 20px; transition: all 0.2s; text-align: center;
+        }
+        .card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+        .card-icon { font-size: 2.5rem; margin-bottom: 10px; }
+        .card-title { font-weight: 700; font-size: 1rem; margin-bottom: 8px; color: var(--gray-900); }
+        .card-text { font-size: 0.85rem; color: var(--gray-500); line-height: 1.5; }
+
+        /* Metric Bar */
+        .metric-bar {
+            background: white; border: 1px solid var(--gray-200); border-radius: 12px;
+            padding: 20px 24px; margin: 16px 0; display: flex; align-items: center; gap: 20px;
+        }
+        .metric-bar-icon { font-size: 2rem; flex-shrink: 0; }
+        .metric-bar-content { flex: 1; }
+        .metric-bar-title { font-weight: 700; font-size: 1rem; color: var(--gray-900); margin-bottom: 4px; }
+        .metric-bar-desc { font-size: 0.9rem; color: var(--gray-500); }
+        .metric-bar-badge {
+            background: var(--primary); color: white; padding: 4px 14px;
+            border-radius: 50px; font-size: 0.8rem; font-weight: 700; flex-shrink: 0;
+        }
+
+        /* Gauge Visual */
+        .gauge-container { margin: 20px 0; }
+        .gauge-row {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+        }
+        .gauge-label { width: 120px; font-size: 0.85rem; font-weight: 600; color: var(--gray-700); text-align: right; flex-shrink: 0; }
+        .gauge-track {
+            flex: 1; height: 28px; background: var(--gray-100); border-radius: 14px;
+            overflow: hidden; position: relative;
+        }
+        .gauge-fill {
+            height: 100%; border-radius: 14px; display: flex; align-items: center;
+            justify-content: flex-end; padding-right: 10px; color: white; font-size: 0.75rem; font-weight: 700;
+            transition: width 0.8s ease;
+        }
+        .gauge-verdict { width: 80px; font-size: 0.8rem; font-weight: 600; flex-shrink: 0; }
+
+        /* Circles visualization */
+        .circles-viz {
+            display: flex; align-items: center; justify-content: center; gap: 0;
+            margin: 24px 0; flex-wrap: wrap;
+        }
+        .circle-item { text-align: center; position: relative; }
+        .circle-ring {
+            width: 100px; height: 100px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; font-weight: 700; color: white;
+            margin: 0 auto 8px;
+        }
+        .circle-label { font-size: 0.75rem; color: var(--gray-500); max-width: 110px; }
+        .circle-arrow { font-size: 1.5rem; color: var(--gray-300); margin: 0 4px; align-self: center; }
+
+        /* Accordion */
+        details { margin: 16px 0; border: 1px solid var(--gray-200); border-radius: 10px; overflow: hidden; }
+        summary {
+            padding: 14px 20px; font-weight: 600; cursor: pointer;
+            background: var(--gray-50); display: flex; align-items: center; gap: 10px;
+            list-style: none; user-select: none; transition: background 0.2s;
+        }
+        summary::-webkit-details-marker { display: none; }
+        summary::before { content: '▸'; transition: transform 0.2s; }
+        details[open] summary::before { transform: rotate(90deg); }
+        summary:hover { background: var(--primary-light); }
+        details .detail-content { padding: 16px 20px; font-size: 0.95rem; }
+
+        /* Quiz */
+        .quiz-question {
+            background: var(--gray-50); border: 2px solid var(--gray-200);
+            border-radius: 12px; padding: 24px; margin-bottom: 20px; transition: border-color 0.3s;
+        }
+        .quiz-question.correct { border-color: var(--success); background: var(--success-light); }
+        .quiz-question.incorrect { border-color: var(--danger); background: var(--danger-light); }
+        .quiz-q-text { font-weight: 600; margin-bottom: 16px; font-size: 1.05rem; }
+        .quiz-option {
+            display: block; width: 100%; text-align: left; padding: 12px 16px;
+            margin-bottom: 8px; border: 2px solid var(--gray-200); border-radius: 8px;
+            background: white; cursor: pointer; font-size: 0.95rem;
+            transition: all 0.2s; font-family: inherit;
+        }
+        .quiz-option:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-light); }
+        .quiz-option.selected-correct { border-color: var(--success); background: var(--success-light); }
+        .quiz-option.selected-wrong { border-color: var(--danger); background: var(--danger-light); }
+        .quiz-option.reveal-correct { border-color: var(--success); background: var(--success-light); }
+        .quiz-feedback { margin-top: 12px; padding: 12px 16px; border-radius: 8px; font-size: 0.9rem; display: none; }
+        .quiz-feedback.show { display: block; }
+        .quiz-feedback.correct { background: var(--success-light); color: #065F46; }
+        .quiz-feedback.incorrect { background: var(--danger-light); color: #991B1B; }
+        .quiz-score {
+            text-align: center; padding: 30px;
+            background: linear-gradient(135deg, var(--primary-light), #F3E8FF);
+            border-radius: 12px; margin-top: 24px; display: none;
+        }
+        .quiz-score h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; color: var(--primary); }
+        .quiz-score p { color: var(--gray-500); margin-top: 8px; }
+
+        .footer { text-align: center; padding: 40px 24px; color: var(--gray-500); font-size: 0.85rem; }
+        .footer-brand { font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: var(--primary); font-size: 1.1rem; margin-bottom: 8px; }
+
+        @media print {
+            .progress-bar, .quiz-option, .quiz-feedback, .quiz-score { display: none; }
+            .section { break-inside: avoid; box-shadow: none; border: 1px solid var(--gray-200); }
+        }
+        @media (max-width: 640px) {
+            .section-body, .section-header { padding: 16px 20px; }
+            .toc { padding: 20px; margin: -20px 16px 30px; }
+            .hero { padding: 40px 16px 36px; }
+            .cards-grid { grid-template-columns: 1fr 1fr; }
+            .gauge-label { width: 80px; font-size: 0.75rem; }
+            .circles-viz { gap: 8px; }
+            .circle-ring { width: 70px; height: 70px; font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- HERO -->
+<header class="hero">
+    <div class="hero-content">
+        <div class="badge">📚 Module 3 — Vidéo 1 · Stratégies de création de contenu</div>
+        <h1>Comprendre le fonctionnement des Réseaux Sociaux</h1>
+        <p>Algorithmes, métriques clés, système de diffusion par cercles, types de contenus et avatar client : tout ce qu'il faut maîtriser avant de publier.</p>
+        <div class="meta-tags">
+            <span>👤 Formateur : Tarik Hamiche</span>
+            <span>⏱️ ~30 min</span>
+            <span>🎓 Producteur à Succès</span>
+        </div>
+    </div>
+</header>
+
+<!-- TOC -->
+<div class="container">
+    <nav class="toc">
+        <h2>📋 Sommaire</h2>
+        <ol class="toc-list">
+            <li><a href="#s1"><span class="toc-number">1</span> Qu'est-ce qu'un algorithme de recommandation ?</a></li>
+            <li><a href="#s2"><span class="toc-number">2</span> Les 4 métriques clés des algorithmes</a></li>
+            <li><a href="#s3"><span class="toc-number">3</span> Le Watch Time : la métrique reine</a></li>
+            <li><a href="#s4"><span class="toc-number">4</span> Le système de diffusion par cercles</a></li>
+            <li><a href="#s5"><span class="toc-number">5</span> Réseau social = entreprise à but lucratif</a></li>
+            <li><a href="#s6"><span class="toc-number">6</span> L'avatar client : connaître son audience</a></li>
+            <li><a href="#s7"><span class="toc-number">7</span> Quiz de validation</a></li>
+        </ol>
+    </nav>
+</div>
+
+<!-- SECTION 1 -->
+<div class="container">
+    <section class="section section-purple" id="s1">
+        <div class="section-header">
+            <div class="section-icon">🤖</div>
+            <h2>1. Qu'est-ce qu'un algorithme de recommandation ?</h2>
+        </div>
+        <div class="section-body">
+            <p>On ne peut pas parler de stratégie de création de contenus pour les réseaux sociaux sans parler des algorithmes de recommandation. Plus vous en saurez sur les algorithmes, plus vous serez en capacité de les séduire, de les influencer, et donc d'obtenir leur soutien quand vous publierez du contenu.</p>
+
+            <div class="callout callout-key">
+                <div class="callout-icon">🔑</div>
+                <div class="callout-content">
+                    <div class="callout-title">Définition simple</div>
+                    <div class="callout-text">Un algorithme, c'est un bout de code — une suite de zéros et de uns. C'est un programme automatisé qui répond à certaines règles. Si vous comprenez ces règles et ce à quoi l'algorithme est sensible (que ce soit sur TikTok, Instagram, YouTube, LinkedIn ou X), vous êtes en capacité de l'utiliser dans votre intérêt.</div>
+                </div>
+            </div>
+
+            <p>L'algorithme de recommandation a un objectif simple : proposer à chaque utilisateur le contenu le plus pertinent possible pour le garder le plus longtemps possible sur la plateforme. Pour déterminer ce qui est « pertinent », il analyse en temps réel plusieurs signaux émis par chaque contenu publié.</p>
+
+            <div class="callout callout-tip">
+                <div class="callout-icon">✅</div>
+                <div class="callout-content">
+                    <div class="callout-title">L'état d'esprit à adopter</div>
+                    <div class="callout-text">Ne voyez pas l'algorithme comme un ennemi ou un obstacle. C'est un allié potentiel : si votre contenu coche les bonnes cases, l'algorithme travaillera pour vous en le diffusant à un public de plus en plus large. Votre mission : comprendre ses règles et les respecter.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2 -->
+    <section class="section section-pink" id="s2">
+        <div class="section-header">
+            <div class="section-icon">📊</div>
+            <h2>2. Les 4 métriques clés des algorithmes</h2>
+        </div>
+        <div class="section-body">
+            <p>Tous les algorithmes de recommandation, quelle que soit la plateforme, évaluent votre contenu sur la base de 4 métriques principales. Les voici, classées par ordre d'importance :</p>
+
+            <div class="metric-bar" style="border-left: 4px solid var(--primary);">
+                <div class="metric-bar-icon">⏱️</div>
+                <div class="metric-bar-content">
+                    <div class="metric-bar-title">1. Le Watch Time (temps de visionnage)</div>
+                    <div class="metric-bar-desc">Combien de temps les gens regardent votre contenu. C'est LA métrique la plus importante sur toutes les plateformes sans exception.</div>
+                </div>
+                <div class="metric-bar-badge">N°1</div>
+            </div>
+
+            <div class="metric-bar" style="border-left: 4px solid var(--pink);">
+                <div class="metric-bar-icon">🔄</div>
+                <div class="metric-bar-content">
+                    <div class="metric-bar-title">2. Les Partages</div>
+                    <div class="metric-bar-desc">Quand quelqu'un partage votre contenu (en story, en DM, sur un autre réseau), c'est le signal le plus puissant d'engagement. Un partage = une recommandation personnelle.</div>
+                </div>
+                <div class="metric-bar-badge">N°2</div>
+            </div>
+
+            <div class="metric-bar" style="border-left: 4px solid var(--accent);">
+                <div class="metric-bar-icon">💬</div>
+                <div class="metric-bar-content">
+                    <div class="metric-bar-title">3. Les Commentaires</div>
+                    <div class="metric-bar-desc">Les commentaires créent de la conversation et augmentent le temps passé sur le contenu. Plus il y a de commentaires, plus l'algorithme considère le contenu comme engageant.</div>
+                </div>
+                <div class="metric-bar-badge">N°3</div>
+            </div>
+
+            <div class="metric-bar" style="border-left: 4px solid var(--success);">
+                <div class="metric-bar-icon">🔖</div>
+                <div class="metric-bar-content">
+                    <div class="metric-bar-title">4. Les Sauvegardes / Enregistrements</div>
+                    <div class="metric-bar-desc">Quand quelqu'un sauvegarde votre contenu, cela signifie qu'il veut y revenir. L'algorithme interprète cela comme un contenu à forte valeur.</div>
+                </div>
+                <div class="metric-bar-badge">N°4</div>
+            </div>
+
+            <div class="callout callout-info">
+                <div class="callout-icon">📊</div>
+                <div class="callout-content">
+                    <div class="callout-title">Le saviez-vous ?</div>
+                    <div class="callout-text">Le simple « like » est en réalité la métrique la moins valorisée par les algorithmes. Un like demande un effort minime, tandis qu'un partage ou un commentaire témoigne d'un engagement bien plus profond. Concentrez-vous sur les partages et les commentaires plutôt que sur les likes.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3 -->
+    <section class="section section-amber" id="s3">
+        <div class="section-header">
+            <div class="section-icon">⏱️</div>
+            <h2>3. Le Watch Time : la métrique reine</h2>
+        </div>
+        <div class="section-body">
+            <p>Le Watch Time (temps de visionnage moyen) est le critère numéro un pour tous les algorithmes. C'est simple : plus les gens regardent votre contenu longtemps, plus l'algorithme le pousse à une audience plus large.</p>
+
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; margin: 24px 0 16px; color: var(--gray-900);">Échelle de performance du Watch Time</h3>
+
+            <div class="gauge-container">
+                <div class="gauge-row">
+                    <div class="gauge-label">3-10 sec</div>
+                    <div class="gauge-track">
+                        <div class="gauge-fill" style="width: 15%; background: var(--danger);">15%</div>
+                    </div>
+                    <div class="gauge-verdict" style="color: var(--danger);">Mauvais</div>
+                </div>
+                <div class="gauge-row">
+                    <div class="gauge-label">10-20 sec</div>
+                    <div class="gauge-track">
+                        <div class="gauge-fill" style="width: 35%; background: var(--accent);">35%</div>
+                    </div>
+                    <div class="gauge-verdict" style="color: var(--accent);">Moyen</div>
+                </div>
+                <div class="gauge-row">
+                    <div class="gauge-label">25-30 sec</div>
+                    <div class="gauge-track">
+                        <div class="gauge-fill" style="width: 55%; background: var(--info);">55%</div>
+                    </div>
+                    <div class="gauge-verdict" style="color: var(--info);">Dans la moyenne</div>
+                </div>
+                <div class="gauge-row">
+                    <div class="gauge-label">30-45 sec</div>
+                    <div class="gauge-track">
+                        <div class="gauge-fill" style="width: 75%; background: var(--teal);">75%</div>
+                    </div>
+                    <div class="gauge-verdict" style="color: var(--teal);">Bon</div>
+                </div>
+                <div class="gauge-row">
+                    <div class="gauge-label">50-60+ sec</div>
+                    <div class="gauge-track">
+                        <div class="gauge-fill" style="width: 95%; background: var(--success);">95%</div>
+                    </div>
+                    <div class="gauge-verdict" style="color: var(--success);">Excellent</div>
+                </div>
+            </div>
+
+            <div class="callout callout-key">
+                <div class="callout-icon">🔑</div>
+                <div class="callout-content">
+                    <div class="callout-title">La règle du hook toutes les 5-10 secondes</div>
+                    <div class="callout-text">Pour maximiser le Watch Time, il faut intégrer un élément d'accroche (hook) toutes les 5 à 10 secondes. Les 3 premières secondes servent à capter l'attention (le hook principal). Les 7 secondes suivantes posent le concept. La seule réaction recherchée chez le spectateur doit être : « je veux en savoir plus ».</div>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Moment</th>
+                            <th>Objectif</th>
+                            <th>Technique</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>0-3 sec</strong></td>
+                            <td>Capter l'attention immédiatement</td>
+                            <td>Hook visuel ou verbal fort, phrase choc, question provocante</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3-10 sec</strong></td>
+                            <td>Poser le concept / le thème</td>
+                            <td>Expliquer de quoi on va parler, créer de la curiosité</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Toutes les 5-10 sec</strong></td>
+                            <td>Relancer l'intérêt</td>
+                            <td>Nouveau hook, changement de plan, révélation, question ouverte</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fin</strong></td>
+                            <td>Inciter à l'action</td>
+                            <td>Call-to-action (commentaire, partage, follow), ou teaser du contenu suivant</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="callout callout-tip">
+                <div class="callout-icon">✅</div>
+                <div class="callout-content">
+                    <div class="callout-title">Astuce</div>
+                    <div class="callout-text">Ne commencez jamais une vidéo par « Salut, c'est [votre nom], aujourd'hui on va parler de… ». Vous perdez immédiatement 3 secondes de Watch Time sur un contenu qui pourrait ne pas capter l'attention. Commencez directement par le hook le plus percutant possible.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4 -->
+    <section class="section section-blue" id="s4">
+        <div class="section-header">
+            <div class="section-icon">🎯</div>
+            <h2>4. Le système de diffusion par cercles</h2>
+        </div>
+        <div class="section-body">
+            <p>Les algorithmes ne diffusent jamais votre contenu à tout le monde d'un coup. Ils fonctionnent par cercles concentriques : votre contenu est d'abord montré à un petit groupe, puis — si les métriques sont bonnes — il est poussé vers un cercle plus large, et ainsi de suite.</p>
+
+            <div class="circles-viz">
+                <div class="circle-item">
+                    <div class="circle-ring" style="background: linear-gradient(135deg, var(--primary), #8B5CF6); width: 80px; height: 80px;">
+                        <span>1er<br>cercle</span>
+                    </div>
+                    <div class="circle-label">~100-300 personnes<br>(vos abonnés proches)</div>
+                </div>
+                <div class="circle-arrow">→</div>
+                <div class="circle-item">
+                    <div class="circle-ring" style="background: linear-gradient(135deg, var(--info), #60A5FA); width: 95px; height: 95px;">
+                        <span>2e<br>cercle</span>
+                    </div>
+                    <div class="circle-label">~1 000-5 000<br>(audience élargie)</div>
+                </div>
+                <div class="circle-arrow">→</div>
+                <div class="circle-item">
+                    <div class="circle-ring" style="background: linear-gradient(135deg, var(--teal), #2DD4BF); width: 110px; height: 110px;">
+                        <span>3e<br>cercle</span>
+                    </div>
+                    <div class="circle-label">~10 000-50 000<br>(explore / pour toi)</div>
+                </div>
+                <div class="circle-arrow">→</div>
+                <div class="circle-item">
+                    <div class="circle-ring" style="background: linear-gradient(135deg, var(--pink), #F472B6); width: 125px; height: 125px;">
+                        <span>Viralité</span>
+                    </div>
+                    <div class="circle-label">100 000+<br>(diffusion massive)</div>
+                </div>
+            </div>
+
+            <div class="callout callout-key">
+                <div class="callout-icon">🔑</div>
+                <div class="callout-content">
+                    <div class="callout-title">Comment ça marche concrètement</div>
+                    <div class="callout-text">Quand vous publiez, l'algorithme montre votre contenu à un petit échantillon (1er cercle). Si ce groupe a un bon Watch Time, commente, partage et sauvegarde, l'algorithme en conclut que le contenu est qualitatif et le pousse au 2e cercle. Si les métriques restent bonnes au 2e cercle, il le pousse au 3e, et ainsi de suite. C'est exactement comme ça que fonctionne la viralité.</div>
+                </div>
+            </div>
+
+            <div class="callout callout-danger">
+                <div class="callout-icon">🚫</div>
+                <div class="callout-content">
+                    <div class="callout-title">Ce qui stoppe la diffusion</div>
+                    <div class="callout-text">Si au 1er cercle votre Watch Time est faible (3-10 secondes), que personne ne commente ni ne partage, l'algorithme conclut que le contenu n'intéresse pas et arrête sa diffusion. Votre vidéo « meurt » au 1er cercle. C'est pourquoi les premières secondes sont cruciales.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5 -->
+    <section class="section section-green" id="s5">
+        <div class="section-header">
+            <div class="section-icon">💰</div>
+            <h2>5. Réseau social = entreprise à but lucratif</h2>
+        </div>
+        <div class="section-body">
+            <p>Un point fondamental que beaucoup d'artistes oublient : les réseaux sociaux sont des entreprises à but lucratif. Leur modèle économique repose sur la publicité. Plus les utilisateurs passent de temps sur la plateforme, plus la régie publicitaire peut vendre d'impressions, et plus l'entreprise gagne d'argent.</p>
+
+            <div class="callout callout-key">
+                <div class="callout-icon">💡</div>
+                <div class="callout-content">
+                    <div class="callout-title">La règle d'or</div>
+                    <div class="callout-text">L'objectif numéro un d'un réseau social est de garder ses utilisateurs sur la plateforme le plus longtemps possible. Si votre contenu contribue à cet objectif (les gens restent, regardent, interagissent), l'algorithme vous récompense en vous donnant plus de visibilité. Si votre contenu fait fuir les gens, l'algorithme vous pénalise.</div>
+                </div>
+            </div>
+
+            <p>C'est pour cette raison que le Watch Time est la métrique numéro un : un contenu qui retient les gens 60 secondes est littéralement plus « rentable » pour la plateforme qu'un contenu sur lequel les gens passent 5 secondes avant de scroller. Comprenez cette logique économique et vous comprendrez pourquoi l'algorithme fonctionne comme il fonctionne.</p>
+
+            <div class="callout callout-warning">
+                <div class="callout-icon">⚠️</div>
+                <div class="callout-content">
+                    <div class="callout-title">Attention au contenu qui renvoie hors plateforme</div>
+                    <div class="callout-text">Les algorithmes n'aiment pas les contenus qui renvoient vers un lien externe (« lien dans la bio », « allez voir mon site »). Pourquoi ? Parce que ça fait sortir l'utilisateur de la plateforme, ce qui va à l'encontre de leur modèle économique. Réservez les appels à action externes pour les moments stratégiques.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6 -->
+    <section class="section section-teal" id="s6">
+        <div class="section-header">
+            <div class="section-icon">👤</div>
+            <h2>6. L'avatar client : connaître son audience</h2>
+        </div>
+        <div class="section-body">
+            <p>Avant de créer du contenu, il faut savoir à qui vous parlez. Chaque plateforme a son propre « avatar » — un profil type d'utilisateur avec ses préférences, ses habitudes et ses attentes. Et au-delà de la plateforme, votre audience à vous a un avatar spécifique qu'il faut identifier.</p>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">🎵</div>
+                    <div class="card-title">TikTok</div>
+                    <div class="card-text">Audience jeune (16-30 ans). Contenus courts, divertissants, tendances. Attention courte, besoin de hooks puissants.</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📸</div>
+                    <div class="card-title">Instagram</div>
+                    <div class="card-text">Audience 18-40 ans. Esthétique visuelle, Reels, carrousels éducatifs. Mix entre lifestyle et valeur.</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📺</div>
+                    <div class="card-title">YouTube</div>
+                    <div class="card-text">Audience large. Contenus longs et éducatifs. Les gens viennent chercher de la valeur et des réponses.</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">💼</div>
+                    <div class="card-title">LinkedIn</div>
+                    <div class="card-text">Professionnels 25-55 ans. Contenus expertise, storytelling pro, partage d'expérience. Ton plus sérieux.</div>
+                </div>
+            </div>
+
+            <div class="callout callout-info">
+                <div class="callout-icon">📊</div>
+                <div class="callout-content">
+                    <div class="callout-title">L'analogie des marques</div>
+                    <div class="callout-text">Pensez aux grandes marques : les utilisateurs Apple aiment le beau design et l'ergonomie. Les acheteurs Amazon aiment commander depuis leur canapé avec la garantie de livraison rapide et de retour facile. Chaque marque attire un « avatar » précis. Votre projet musical fonctionne pareil : identifiez le profil type de vos fans idéaux (âge, centres d'intérêt, habitudes de consommation, plateformes préférées) et créez du contenu qui leur parle directement.</div>
+                </div>
+            </div>
+
+            <details>
+                <summary>🎯 Comment définir votre avatar en 5 questions</summary>
+                <div class="detail-content">
+                    <p><strong>1. Quel âge a votre fan idéal ?</strong> — Cela détermine la plateforme prioritaire et le ton.</p>
+                    <p><strong>2. Quels autres artistes écoute-t-il ?</strong> — Cela vous aide à comprendre ses goûts et à positionner votre contenu.</p>
+                    <p><strong>3. Sur quelle plateforme passe-t-il le plus de temps ?</strong> — Concentrez vos efforts là-dessus.</p>
+                    <p><strong>4. Quel type de contenu consomme-t-il ?</strong> — Vidéos courtes, longues, podcasts, carrousels ?</p>
+                    <p><strong>5. Qu'est-ce qui le fait réagir (commenter, partager) ?</strong> — L'humour, l'émotion, l'info exclusive, la polémique ?</p>
+                </div>
+            </details>
+
+            <div class="callout callout-tip">
+                <div class="callout-icon">✅</div>
+                <div class="callout-content">
+                    <div class="callout-title">Astuce</div>
+                    <div class="callout-text">Ne cherchez pas à être partout en même temps. Identifiez la plateforme où se trouve votre avatar principal, maîtrisez-la, puis étendez-vous progressivement. Un artiste qui cartonne sur TikTok n'a pas forcément besoin d'être sur LinkedIn, et inversement.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 7 — QUIZ -->
+    <section class="section section-purple" id="s7">
+        <div class="section-header">
+            <div class="section-icon">🧠</div>
+            <h2>7. Quiz de validation</h2>
+        </div>
+        <div class="section-body">
+
+            <div class="callout callout-key" style="margin-bottom: 30px;">
+                <div class="callout-icon">💡</div>
+                <div class="callout-content">
+                    <div class="callout-title">Récap express</div>
+                    <div class="callout-text">Les algorithmes sont vos alliés si vous respectez leurs règles. Le Watch Time est roi. Les partages et commentaires valent plus que les likes. Les réseaux sociaux veulent garder les gens sur la plateforme. Connaissez votre avatar avant de publier. Hookez toutes les 5-10 secondes.</div>
+                </div>
+            </div>
+
+            <div class="quiz-container" id="quiz">
+                <!-- Q1 -->
+                <div class="quiz-question" id="q1">
+                    <div class="quiz-q-text">1. Quelle est la métrique la plus importante pour les algorithmes de recommandation ?</div>
+                    <button class="quiz-option" onclick="checkAnswer('q1', this, false)">A. Le nombre de likes</button>
+                    <button class="quiz-option" onclick="checkAnswer('q1', this, true)">B. Le Watch Time (temps de visionnage)</button>
+                    <button class="quiz-option" onclick="checkAnswer('q1', this, false)">C. Le nombre d'abonnés</button>
+                    <button class="quiz-option" onclick="checkAnswer('q1', this, false)">D. Le nombre de publications par jour</button>
+                    <div class="quiz-feedback correct" id="q1-correct">Exact ! Le Watch Time est LA métrique numéro un sur toutes les plateformes. Plus les gens regardent longtemps, plus l'algorithme pousse votre contenu.</div>
+                    <div class="quiz-feedback incorrect" id="q1-incorrect">La bonne réponse est B. Le Watch Time (temps de visionnage) est la métrique la plus valorisée par tous les algorithmes.</div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="quiz-question" id="q2">
+                    <div class="quiz-q-text">2. À quelle fréquence faut-il intégrer un élément d'accroche (hook) dans une vidéo ?</div>
+                    <button class="quiz-option" onclick="checkAnswer('q2', this, false)">A. Au début et à la fin uniquement</button>
+                    <button class="quiz-option" onclick="checkAnswer('q2', this, false)">B. Toutes les 30 secondes</button>
+                    <button class="quiz-option" onclick="checkAnswer('q2', this, true)">C. Toutes les 5 à 10 secondes</button>
+                    <button class="quiz-option" onclick="checkAnswer('q2', this, false)">D. Une seule fois, dans les 3 premières secondes</button>
+                    <div class="quiz-feedback correct" id="q2-correct">Bravo ! Il faut relancer l'intérêt toutes les 5 à 10 secondes pour maintenir un Watch Time élevé.</div>
+                    <div class="quiz-feedback incorrect" id="q2-incorrect">La bonne réponse est C. Un hook toutes les 5-10 secondes maintient l'attention et maximise le Watch Time.</div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="quiz-question" id="q3">
+                    <div class="quiz-q-text">3. Comment fonctionne le système de diffusion par cercles ?</div>
+                    <button class="quiz-option" onclick="checkAnswer('q3', this, false)">A. L'algorithme montre le contenu à tout le monde en même temps</button>
+                    <button class="quiz-option" onclick="checkAnswer('q3', this, true)">B. Le contenu est d'abord montré à un petit groupe, puis élargi si les métriques sont bonnes</button>
+                    <button class="quiz-option" onclick="checkAnswer('q3', this, false)">C. Seuls vos abonnés voient votre contenu</button>
+                    <button class="quiz-option" onclick="checkAnswer('q3', this, false)">D. La diffusion dépend uniquement du nombre de hashtags utilisés</button>
+                    <div class="quiz-feedback correct" id="q3-correct">Parfait ! L'algorithme teste votre contenu sur un petit échantillon (1er cercle) puis l'élargit progressivement si les métriques sont au rendez-vous.</div>
+                    <div class="quiz-feedback incorrect" id="q3-incorrect">La bonne réponse est B. Le système par cercles concentriques élargit la diffusion étape par étape selon les performances.</div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="quiz-question" id="q4">
+                    <div class="quiz-q-text">4. Pourquoi les réseaux sociaux favorisent-ils les contenus à fort Watch Time ?</div>
+                    <button class="quiz-option" onclick="checkAnswer('q4', this, false)">A. Parce qu'ils préfèrent les créateurs populaires</button>
+                    <button class="quiz-option" onclick="checkAnswer('q4', this, false)">B. Parce que les vidéos longues sont toujours meilleures</button>
+                    <button class="quiz-option" onclick="checkAnswer('q4', this, true)">C. Parce que plus les gens restent longtemps, plus la plateforme peut vendre de publicité</button>
+                    <button class="quiz-option" onclick="checkAnswer('q4', this, false)">D. Parce que c'est un choix arbitraire des développeurs</button>
+                    <div class="quiz-feedback correct" id="q4-correct">Exact ! Les réseaux sociaux sont des entreprises qui vendent de la publicité. Plus de temps passé = plus de pub = plus de revenus.</div>
+                    <div class="quiz-feedback incorrect" id="q4-incorrect">La bonne réponse est C. Le modèle économique des réseaux repose sur la publicité : plus de temps passé = plus de revenus publicitaires.</div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="quiz-question" id="q5">
+                    <div class="quiz-q-text">5. Quel type d'engagement a le plus de poids pour l'algorithme ?</div>
+                    <button class="quiz-option" onclick="checkAnswer('q5', this, false)">A. Les likes</button>
+                    <button class="quiz-option" onclick="checkAnswer('q5', this, true)">B. Les partages</button>
+                    <button class="quiz-option" onclick="checkAnswer('q5', this, false)">C. Les follows</button>
+                    <button class="quiz-option" onclick="checkAnswer('q5', this, false)">D. Les vues</button>
+                    <div class="quiz-feedback correct" id="q5-correct">Bien joué ! Le partage est le signal d'engagement le plus puissant. C'est une recommandation personnelle que l'algorithme valorise au maximum.</div>
+                    <div class="quiz-feedback incorrect" id="q5-incorrect">La bonne réponse est B. Le partage est le signal le plus puissant car il représente une recommandation personnelle active.</div>
+                </div>
+
+                <div class="quiz-score" id="quizScore">
+                    <h3 id="scoreText"></h3>
+                    <p id="scoreMessage"></p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-brand">Producteur à Succès</div>
+    <p>Formation Music Business par Tarik Hamiche</p>
+    <p style="margin-top: 8px; opacity: 0.7;">Module 3 — Vidéo 1 : Comprendre le fonctionnement des Réseaux Sociaux</p>
+</footer>
+
+<script>
+    window.addEventListener('scroll', () => {
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        document.getElementById('progressBar').style.width = (scrollTop / scrollHeight) * 100 + '%';
+    });
+
+    let answered = 0, score = 0;
+    const totalQuestions = 5;
+
+    function checkAnswer(qId, btn, isCorrect) {
+        const question = document.getElementById(qId);
+        if (question.classList.contains('correct') || question.classList.contains('incorrect')) return;
+        const buttons = question.querySelectorAll('.quiz-option');
+        buttons.forEach(b => b.disabled = true);
+        if (isCorrect) {
+            btn.classList.add('selected-correct');
+            question.classList.add('correct');
+            document.getElementById(qId + '-correct').classList.add('show');
+            score++;
+        } else {
+            btn.classList.add('selected-wrong');
+            question.classList.add('incorrect');
+            document.getElementById(qId + '-incorrect').classList.add('show');
+            buttons.forEach(b => { if (b.onclick.toString().includes('true')) b.classList.add('reveal-correct'); });
+        }
+        answered++;
+        if (answered === totalQuestions) {
+            const scoreDiv = document.getElementById('quizScore');
+            document.getElementById('scoreText').textContent = score + ' / ' + totalQuestions;
+            document.getElementById('scoreMessage').textContent = score === totalQuestions
+                ? 'Parfait ! Vous maîtrisez le fonctionnement des algorithmes. Prêt pour la création de contenu !'
+                : score >= 3
+                    ? 'Bon résultat ! Revoyez les sections correspondant aux questions manquées.'
+                    : 'Reprenez le cours attentivement. Ces bases sont essentielles pour votre stratégie de contenu !';
+            scoreDiv.style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>

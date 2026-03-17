@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Droits Voisins des Producteurs - Module 5 - Producteur à Succès</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            color: #1F2937;
+            background: #FAFBFC;
+        }
+
+        :root {
+            --primary: #6C3AED;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary);
+            z-index: 1000;
+            transform-origin: left;
+        }
+
+        /* Header/Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #7C3AED 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(28px, 5vw, 48px);
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .hero-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* TOC */
+        .toc {
+            background: white;
+            border-left: 4px solid var(--primary);
+            padding: 24px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .toc h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--primary);
+        }
+
+        .toc ol {
+            list-style: none;
+            counter-reset: item;
+        }
+
+        .toc li {
+            counter-increment: item;
+            margin-bottom: 10px;
+        }
+
+        .toc li:before {
+            content: counter(item);
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .toc a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .toc a:hover {
+            color: #7C3AED;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 50px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .section-icon {
+            font-size: 28px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: white;
+            border-radius: 8px;
+        }
+
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: #111827;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            line-height: 1.7;
+            margin-bottom: 16px;
+            font-size: 15px;
+        }
+
+        strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            padding: 16px;
+            border-left: 4px solid;
+            border-radius: 4px;
+            margin: 20px 0;
+            background-size: cover;
+            background-position: right;
+        }
+
+        .callout.highlight {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(108, 58, 237, 0.08) 0%, rgba(108, 58, 237, 0.02) 100%);
+        }
+
+        .callout.tip {
+            border-color: var(--success);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(16, 185, 129, 0.02) 100%);
+        }
+
+        .callout.warning {
+            border-color: var(--danger);
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(239, 68, 68, 0.02) 100%);
+        }
+
+        .callout.info {
+            border-color: var(--info);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(59, 130, 246, 0.02) 100%);
+        }
+
+        .callout strong {
+            font-weight: 600;
+        }
+
+        .callout p {
+            margin-bottom: 0;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-top: 1px solid #E5E7EB;
+        }
+
+        tr:hover {
+            background: #F9FAFB;
+        }
+
+        /* Accordion */
+        details {
+            margin: 20px 0;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+        }
+
+        summary {
+            padding: 16px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        summary::before {
+            content: '▶';
+            margin-right: 12px;
+            transition: transform 0.2s;
+        }
+
+        details[open] summary::before {
+            transform: rotate(90deg);
+        }
+
+        details[open] summary {
+            background: #F9FAFB;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        details > p, details > div {
+            padding: 0 16px 16px 16px;
+        }
+
+        /* Quiz */
+        .quiz {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        .quiz h3 {
+            margin-top: 0;
+        }
+
+        .quiz-question {
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .quiz-question:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #111827;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .quiz-option input[type="radio"] {
+            margin-top: 4px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .quiz-option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .quiz-feedback {
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            border-left: 3px solid var(--success);
+        }
+
+        .quiz-feedback.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            color: #DC2626;
+            border-left: 3px solid var(--danger);
+        }
+
+        .btn-submit-quiz {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn-submit-quiz:hover {
+            background: #7C3AED;
+        }
+
+        /* Footer */
+        footer {
+            background: #1F2937;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .footer-text {
+            font-size: 13px;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 40px 20px;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .hero-meta {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .toc {
+                margin-bottom: 30px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            h3 {
+                font-size: 18px;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .quiz {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Hero -->
+    <div class="hero">
+        <div class="hero-content">
+            <span class="badge">Module 5 - Droits & Revenus</span>
+            <h1>Droits Voisins des Producteurs</h1>
+            <p style="color: rgba(255,255,255,0.9); font-size: 16px; margin-top: 16px;">Comprendre le système français des droits voisins et comment il génère des revenus pour les producteurs musicaux via la rémunération équitable et la copie privée.</p>
+            <div class="hero-meta">
+                <span>👤 Formateur: Tarik Hamiche</span>
+                <span>🎓 Producteur à Succès</span>
+                <span>⏱️ 30-40 min</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Table of Contents -->
+        <div class="toc">
+            <h2>📑 Sommaire</h2>
+            <ol>
+                <li><a href="#context">Contexte des droits: le système tripartite</a></li>
+                <li><a href="#concept">Qu'est-ce que les droits voisins?</a></li>
+                <li><a href="#mecanismes">Les deux mécanismes principaux</a></li>
+                <li><a href="#remuneration">La rémunération équitable</a></li>
+                <li><a href="#copie">La copie privée</a></li>
+                <li><a href="#distribution">Comment les revenus sont distribués</a></li>
+                <li><a href="#optimisation">Stratégies pour maximiser vos revenus</a></li>
+                <li><a href="#quiz">Test de compréhension</a></li>
+            </ol>
+        </div>
+
+        <!-- Section 1 -->
+        <section id="context">
+            <div class="section-header">
+                <div class="section-icon">🏛️</div>
+                <h2>Contexte des droits: le système tripartite</h2>
+            </div>
+            <p>En France, la création musicale est protégée par un système de droits sophistiqué qui reconnaît trois catégories de contributeurs. Avant de parler des droits voisins des producteurs, il est important de comprendre le système global.</p>
+
+            <h3>Les trois catégories de droits</h3>
+            <p>Le système français reconnaît et rémunère trois acteurs distincts:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Catégorie</th>
+                        <th>Acteurs</th>
+                        <th>Rôle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Droits d'auteur</strong></td>
+                        <td>Compositeurs & Paroliers</td>
+                        <td>Création musicale et textuelle</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Droits voisins (artistes)</strong></td>
+                        <td>Artistes interprètes</td>
+                        <td>Interprétation et performance</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Droits voisins (producteurs)</strong></td>
+                        <td>Producteurs phonographiques</td>
+                        <td>Production et fixation sonore</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout info">
+                <strong>Le saviez-vous?</strong> Ce système tripartite est typiquement français et européen. Aux États-Unis, le système est différent et moins favorable aux producteurs. C'est un avantage compétitif français!
+            </div>
+        </section>
+
+        <!-- Section 2 -->
+        <section id="concept">
+            <div class="section-header">
+                <div class="section-icon">⚖️</div>
+                <h2>Qu'est-ce que les droits voisins?</h2>
+            </div>
+            <p>Les droits voisins sont une catégorie de droit qui se positionne <strong>aux côtés des droits d'auteur</strong>. Ils ont été instaurés en France par la loi Lange de 1985 pour protéger et rémunérer les contributeurs qui n'ont pas écrit la musique, mais qui l'ont interprétée ou produite.</p>
+
+            <h3>Définition et raison d'être</h3>
+            <p>Les droits voisins existent parce que:</p>
+            <ul>
+                <li>Une <strong>performance artistique</strong> a une valeur commerciale (artiste qui chante)</li>
+                <li>Une <strong>production phonographique</strong> a une valeur (enregistrement, qualité, editing, mastering)</li>
+                <li>Ces contributeurs méritent d'être rémunérés pour leur travail</li>
+                <li>Lorsque la musique est exploitée commercialement, ces contributeurs devraient recevoir une part des revenus</li>
+            </ul>
+
+            <h3>Le producteur phonographique</h3>
+            <p>En tant que producteur, vous êtes celui qui:</p>
+            <ul>
+                <li><strong>Investit</strong> dans l'enregistrement et la production</li>
+                <li><strong>Fixe</strong> la musique dans un support (CD, fichier, etc.)</li>
+                <li><strong>Assume les risques</strong> commerciaux de la production</li>
+                <li><strong>Gère</strong> la distribution et la commercialisation</li>
+            </ul>
+
+            <div class="callout highlight">
+                <strong>À retenir:</strong> En tant que producteur, vous êtes légitime de recevoir des revenus quand votre production est utilisée ou exploitée. C'est reconnu légalement en France.
+            </div>
+        </section>
+
+        <!-- Section 3 -->
+        <section id="mecanismes">
+            <div class="section-header">
+                <div class="section-icon">🔧</div>
+                <h2>Les deux mécanismes principaux</h2>
+            </div>
+            <p>Le système français des droits voisins des producteurs est basé sur <strong>deux mécanismes distincts</strong> qui génèrent des revenus.</p>
+
+            <h3>Mécanisme 1: La rémunération équitable</h3>
+            <p>La rémunération équitable est le mécanisme principal. Il fonctionne comme suit:</p>
+            <ul>
+                <li>Un <strong>diffuseur</strong> (radio, plateforme streaming, etc.) diffuse votre musique</li>
+                <li>Le diffuseur doit <strong>payer une somme</strong> pour avoir le droit d'utiliser cette musique</li>
+                <li>Cette somme est <strong>collectée par un organisme</strong> (SACEM, SDRM, etc.)</li>
+                <li>L'organisme répartit ces sommes entre artistes, auteurs et producteurs</li>
+            </ul>
+
+            <h3>Mécanisme 2: La copie privée</h3>
+            <p>La copie privée est un mécanisme moins connu mais important:</p>
+            <ul>
+                <li>Quand quelqu'un <strong>achète un support vierge</strong> (CD vierge, clé USB, etc.)</li>
+                <li>Un <strong>droit est collecté</strong> pour rémunérer les créateurs</li>
+                <li>Ces droits sont <strong>partagés</strong> entre auteurs, artistes et producteurs</li>
+                <li>Cette taxe est <strong>implicite</strong> — le consommateur la paie sans le savoir souvent</li>
+            </ul>
+
+            <div class="callout info">
+                <strong>Le saviez-vous?</strong> La copie privée génère des centaines de millions d'euros en France chaque année. C'est une source de revenus souvent sous-estimée!
+            </div>
+        </section>
+
+        <!-- Section 4 -->
+        <section id="remuneration">
+            <div class="section-header">
+                <div class="section-icon">💵</div>
+                <h2>La rémunération équitable</h2>
+            </div>
+            <p>La rémunération équitable est le <strong>principal générateur de revenus</strong> pour les producteurs. C'est le mécanisme par lequel vous êtes payé quand votre musique est diffusée ou exploitée.</p>
+
+            <h3>Comment ça fonctionne?</h3>
+            <p>Exemple concret:</p>
+            <ol>
+                <li>Vous produisez et éditez un enregistrement sonore d'une chanson</li>
+                <li>Un diffuseur (France Bleu, Spotify, YouTube) utilise cet enregistrement</li>
+                <li>Le diffuseur paie un droit d'exploitation (basé sur le nombre d'écoutes, les revenus publicitaires, etc.)</li>
+                <li>Cet argent est collecté par un organisme (Peermusic, Believe, AdministerRecordings, etc.)</li>
+                <li>L'organisme répartit:
+                    <ul style="margin-left: 20px; margin-top: 8px;">
+                        <li>Une partie aux artistes interprètes (environ 45-50%)</li>
+                        <li>Une partie aux auteurs/compositeurs (environ 0-10%)</li>
+                        <li>Une partie aux producteurs (environ 50-55%)</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <div class="callout warning">
+                <strong>Attention:</strong> Les pourcentages varient selon les organismes et les accords. Il est crucial de vérifier les contrats avec votre organisme de collecte pour connaître votre exact pourcentage.
+            </div>
+
+            <h3>Où se fait la collecte?</h3>
+            <p>La rémunération équitable s'applique à plusieurs contextes:</p>
+            <ul>
+                <li><strong>Radios publiques et privées:</strong> Tous les diffuseurs radio doivent payer</li>
+                <li><strong>Plateformes de streaming:</strong> Spotify, Apple Music, Deezer, etc.</li>
+                <li><strong>Télévision:</strong> Diffusions musicales TV</li>
+                <li><strong>Lieux publics:</strong> Musique diffusée dans les magasins, restaurants, discothèques</li>
+                <li><strong>Événements:</strong> Concerts retransmis, festivals filmés</li>
+            </ul>
+
+            <div class="callout tip">
+                <strong>Astuce:</strong> Enregistrez-vous auprès d'un organisme de collecte (producteur enregistré dans les bases CISAC). Plus votre musique est diffusée, plus vous recevrez de revenus. Assurez-vous que toutes vos productions sont correctement enregistrées!
+            </div>
+        </section>
+
+        <!-- Section 5 -->
+        <section id="copie">
+            <div class="section-header">
+                <div class="section-icon">💿</div>
+                <h2>La copie privée</h2>
+            </div>
+            <p>La copie privée est un mécanisme moins visibilisé mais qui représente des sommes importantes, notamment pour les artistes et producteurs établis.</p>
+
+            <h3>Principes de la copie privée</h3>
+            <p>La copie privée fonctionne sur l'idée que:</p>
+            <ul>
+                <li>Les citoyens ont le <strong>droit de copier</strong> de la musique pour leur usage personnel</li>
+                <li>En échange, <strong>une rémunération</strong> est collectée auprès de ceux qui vendent les supports</li>
+                <li>Cette rémunération compense les auteurs, artistes et producteurs pour ce droit</li>
+            </ul>
+
+            <h3>Où est collectée la copie privée?</h3>
+            <p>La copie privée s'applique à l'achat de:</p>
+            <ul>
+                <li>CD vierges</li>
+                <li>Disques durs externes</li>
+                <li>Clés USB</li>
+                <li>Lecteurs numériques (iPhone, iPod, etc.)</li>
+                <li>Certains téléphones</li>
+            </ul>
+
+            <details>
+                <summary>💡 Pourquoi ce système?</summary>
+                <p>Le système de copie privée a été créé à l'époque où les gens copiaient légalement leurs CD d'amis sur des cassettes ou des disques vierges. C'était une perte de revenus pour les créateurs. Pour compenser, on a mis une taxe sur les supports vierges.</p>
+                <p>Aujourd'hui, c'est moins pertinent techniquement (les gens téléchargent, ne font pas de copies physiques), mais le système existe toujours et génère des revenus!</p>
+            </details>
+
+            <div class="callout info">
+                <strong>Le saviez-vous?</strong> La copie privée en France génère des centaines de millions d'euros chaque année. En Allemagne, c'est encore plus! C'est une source cachée mais substantielle de revenus.
+            </div>
+        </section>
+
+        <!-- Section 6 -->
+        <section id="distribution">
+            <div class="section-header">
+                <div class="section-icon">📊</div>
+                <h2>Comment les revenus sont distribués</h2>
+            </div>
+            <p>La distribution des revenus issus de la rémunération équitable et de la copie privée suit un schéma spécifique qui reconnaît les différents contributeurs.</p>
+
+            <h3>Répartition tripartite</h3>
+            <p>Lorsqu'une somme est collectée, elle est généralement répartie ainsi:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Bénéficiaire</th>
+                        <th>Part típique</th>
+                        <th>Rôle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Artistes interprètes</td>
+                        <td>45-50%</td>
+                        <td>Ont chanté/joué sur l'enregistrement</td>
+                    </tr>
+                    <tr>
+                        <td>Producteurs</td>
+                        <td>50-55%</td>
+                        <td>Ont produit et fixé l'enregistrement</td>
+                    </tr>
+                    <tr>
+                        <td>Auteurs/Compositeurs</td>
+                        <td>0-10%</td>
+                        <td>Ont écrit la musique et paroles (selon accord)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Facteurs affectant la distribution</h3>
+            <p>Plusieurs facteurs peuvent modifier ces pourcentages:</p>
+            <ul>
+                <li><strong>Type de source:</strong> Radio, streaming, TV, ou copie privée (formules différentes)</li>
+                <li><strong>Organisme de collecte:</strong> Chaque organisme a ses propres barèmes</li>
+                <li><strong>Accords contractuels:</strong> Si vous avez signé un accord spécial</li>
+                <li><strong>Statut des artistes:</strong> Artistes principaux vs. musiciens accompagnateurs</li>
+            </ul>
+
+            <div class="callout highlight">
+                <strong>À retenir:</strong> En tant que producteur, vous recevez la <strong>plus grande part</strong> des revenus de droits voisins. C'est le système qui reconnaît votre investissement et votre risque.
+            </div>
+        </section>
+
+        <!-- Section 7 -->
+        <section id="optimisation">
+            <div class="section-header">
+                <div class="section-icon">🚀</div>
+                <h2>Stratégies pour maximiser vos revenus</h2>
+            </div>
+            <p>Maintenant que vous comprenez comment fonctionnent les droits voisins, comment optimiser vos revenus?</p>
+
+            <h3>1. Enregistrement complet et correct</h3>
+            <p>Assurez-vous que:</p>
+            <ul>
+                <li>Tous vos enregistrements sont <strong>enregistrés auprès d'organismes</strong> de collecte internationaux</li>
+                <li>Les <strong>métadonnées</strong> (nom du producteur, artistes, compositeur) sont correctes</li>
+                <li>Les <strong>codes ISRC</strong> (International Standard Recording Code) sont assignés à chaque enregistrement</li>
+                <li>Vous êtes <strong>clairement identifié</strong> comme producteur pour recevoir votre part</li>
+            </ul>
+
+            <h3>2. Diversification des sources</h3>
+            <p>Maxim utilisez vos productions sur:</p>
+            <ul>
+                <li>Grandes plateformes (Spotify, Apple Music)</li>
+                <li>Radios (via des services comme Believe, CD Baby, etc.)</li>
+                <li>Télévision et médias audiovisuels</li>
+                <li>Événements publics (clubs, restaurations)</li>
+                <li>Synchronisation (publicités, films, séries)</li>
+            </ul>
+
+            <h3>3. Partenariat avec les bons organismes</h3>
+            <p>Choisissez un partenaire (administrateur de droits) qui:</p>
+            <ul>
+                <li>Couvre <strong>plusieurs sources</strong> (radio, streaming, TV, copie privée)</li>
+                <li>A une <strong>portée internationale</strong> (important pour les revenus étrangers)</li>
+                <li>Offre <strong>transparence</strong> et rapports détaillés</li>
+                <li>Prend en charge les <strong>enregistrements et métadonnées</strong> correctement</li>
+            </ul>
+
+            <h3>4. Suivi et optimisation</h3>
+            <p>Continuez à:</p>
+            <ul>
+                <li><strong>Monitorer vos revenus</strong> (relevés de droits réguliers)</li>
+                <li><strong>Vérifier les métadonnées</strong> sur les différentes plateformes</li>
+                <li><strong>Corriger les erreurs</strong> (nombre d'artistes, crédits manquants)</li>
+                <li><strong>Rester organisé</strong> avec une base de données de vos enregistrements</li>
+            </ul>
+
+            <div class="callout tip">
+                <strong>Astuce:</strong> Utiliser des services comme Believe, CD Baby, ou AdministerRecordings pour simplifier la gestion. Ils prennent un pourcentage, mais vous gagnez en tranquillité d'esprit et en couverture internationale.
+            </div>
+
+            <div class="callout warning">
+                <strong>Attention:</strong> Les revenus de droits voisins arrivent souvent avec 6 à 12 mois de retard (délai de collecte et d'audit). Soyez patient et vérifiez régulièrement.
+            </div>
+        </section>
+
+        <!-- Quiz -->
+        <section id="quiz">
+            <div class="quiz">
+                <h3>✅ Test de compréhension</h3>
+                <p>Vérifiez votre compréhension des droits voisins des producteurs:</p>
+
+                <form id="quizForm">
+                    <!-- Question 1 -->
+                    <div class="quiz-question">
+                        <div class="question-text">1. Quand a été instaurée la loi sur les droits voisins en France?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                <input type="radio" id="q1a" name="q1" value="a">
+                                <label for="q1a">Loi Lange de 1985</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" id="q1b" name="q1" value="b">
+                                <label for="q1b">Loi Hadopi de 2009</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" id="q1c" name="q1" value="c">
+                                <label for="q1c">Directive européenne de 1993</label>
+                            </div>
+                        </div>
+                        <div class="quiz-feedback q1-feedback"></div>
+                    </div>
+
+                    <!-- Question 2 -->
+                    <div class="quiz-question">
+                        <div class="question-text">2. Quel est le pourcentage típique reçu par les producteurs sur la rémunération équitable?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                <input type="radio" id="q2a" name="q2" value="a">
+                                <label for="q2a">10-15%</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" id="q2b" name="q2" value="b">
+                                <label for="q2b">50-55%</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" id="q2c" name="q2" value="c">
+                                <label for="q2c">100%</label>
+                            </div>
+                        </div>
+                        <div class="quiz-feedback q2-feedback"></div>
+                    </div>
+
+                    <!-- Question 3 -->
+                    <div class="quiz-question">
+                        <div class="question-text">3. Lequel est un exemple d'application de la copie privée?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                <input type="radio" id="q3a" name="q3" value="a">
+                                <label for="q3a">Vendre des enregistrements sur Bandcamp</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" id="q3b" name="q3" value="b">
+                                <label for="q3b">Taxe collectée sur les CD vierges vendus</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" id="q3c" name="q3" value="c">
+                                <label for="q3c">Paiement direct des fans sur un site personnel</label>
+                            </div>
+                        </div>
+                        <div class="quiz-feedback q3-feedback"></div>
+                    </div>
+
+                    <!-- Question 4 -->
+                    <div class="quiz-question">
+                        <div class="question-text">4. Quel est le rôle principal du producteur dans le système des droits?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                <input type="radio" id="q4a" name="q4" value="a">
+                                <label for="q4a">Avoir écrit la musique et les paroles</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" id="q4b" name="q4" value="b">
+                                <label for="q4b">Avoir interprété la musique</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" id="q4c" name="q4" value="c">
+                                <label for="q4c">Avoir produit et fixé l'enregistrement sonore</label>
+                            </div>
+                        </div>
+                        <div class="quiz-feedback q4-feedback"></div>
+                    </div>
+
+                    <!-- Question 5 -->
+                    <div class="quiz-question">
+                        <div class="question-text">5. Quels éléments sont ESSENTIELS pour optimiser vos revenus de droits voisins?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                <input type="radio" id="q5a" name="q5" value="a">
+                                <label for="q5a">Métadonnées correctes et codes ISRC assignés</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" id="q5b" name="q5" value="b">
+                                <label for="q5b">Enregistrement auprès d'un organisme de collecte</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" id="q5c" name="q5" value="c">
+                                <label for="q5c">Tous les éléments ci-dessus</label>
+                            </div>
+                        </div>
+                        <div class="quiz-feedback q5-feedback"></div>
+                    </div>
+
+                    <button type="button" class="btn-submit-quiz" onclick="checkQuiz()">Vérifier mes réponses</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="logo">🎵 Producteur à Succès</div>
+            <p class="footer-text">Formation professionnelle en gestion de carrière musicale</p>
+            <p class="footer-text">© 2024 Tarik Hamiche - Tous droits réservés</p>
+        </div>
+    </footer>
+
+    <script>
+        // Progress Bar
+        function updateProgressBar() {
+            const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+            document.getElementById('progressBar').style.transform = `scaleX(${scrolled / 100})`;
+        }
+
+        window.addEventListener('scroll', updateProgressBar);
+
+        // Smooth scroll for TOC links
+        document.querySelectorAll('.toc a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Quiz Logic
+        const quizAnswers = {
+            q1: 'a',
+            q2: 'b',
+            q3: 'b',
+            q4: 'c',
+            q5: 'c'
+        };
+
+        const feedbackMessages = {
+            q1: {
+                correct: '✓ Correct! La loi Lange de 1985 a instauré le système des droits voisins en France.',
+                incorrect: '✗ Incorrect. C\'est la loi Lange de 1985 qui a créé ce système.'
+            },
+            q2: {
+                correct: '✓ Juste! Les producteurs reçoivent environ 50-55% de la rémunération équitable.',
+                incorrect: '✗ Incorrect. Les producteurs reçoivent la part majoritaire (50-55%).'
+            },
+            q3: {
+                correct: '✓ Exactement! La copie privée s\'applique aux supports vierges.',
+                incorrect: '✗ Incorrect. La copie privée est une taxe sur les supports vierges (CD, USB, etc).'
+            },
+            q4: {
+                correct: '✓ Parfait! Le producteur produit et fixe l\'enregistrement sonore.',
+                incorrect: '✗ Incorrect. Le producteur produit et fixe l\'enregistrement sonore, pas écrit ni interprété.'
+            },
+            q5: {
+                correct: '✓ Excellent! Tous ces éléments sont essentiels pour maximiser vos revenus.',
+                incorrect: '✗ Incorrect. Vous avez besoin de tous ces éléments pour optimiser vos revenus.'
+            }
+        };
+
+        function checkQuiz() {
+            let allAnswered = true;
+            let score = 0;
+
+            for (let i = 1; i <= 5; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+
+                if (!selected) {
+                    allAnswered = false;
+                    continue;
+                }
+
+                const feedback = document.querySelector(`.q${i}-feedback`);
+                const isCorrect = selected.value === quizAnswers[`q${i}`];
+
+                if (isCorrect) {
+                    score++;
+                    feedback.classList.add('correct');
+                    feedback.classList.remove('incorrect');
+                    feedback.textContent = feedbackMessages[`q${i}`].correct;
+                } else {
+                    feedback.classList.add('incorrect');
+                    feedback.classList.remove('correct');
+                    feedback.textContent = feedbackMessages[`q${i}`].incorrect;
+                }
+
+                feedback.classList.add('show');
+            }
+
+            if (!allAnswered) {
+                alert('Veuillez répondre à toutes les questions avant de vérifier.');
+                return;
+            }
+
+            document.querySelector('.quiz').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        document.getElementById('quizForm').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkQuiz();
+            }
+        });
+    </script>
+</body>
+</html>

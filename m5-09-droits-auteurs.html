@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Droits d'Auteurs - Module 5 | Producteur à Succès</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C3AED;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --dark: #1F2937;
+            --light: #F9FAFB;
+            --border: #E5E7EB;
+        }
+
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: white;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto 24px;
+            font-weight: 300;
+        }
+
+        .metadata {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            font-size: 14px;
+            opacity: 0.9;
+            flex-wrap: wrap;
+        }
+
+        .metadata-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            padding: 16px 40px;
+        }
+
+        .nav-content {
+            display: flex;
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-item {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--dark);
+            cursor: pointer;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover {
+            color: #059669;
+            border-bottom-color: #059669;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        .toc {
+            background: var(--light);
+            border-left: 4px solid #10B981;
+            padding: 24px;
+            border-radius: 8px;
+            margin-bottom: 48px;
+        }
+
+        .toc h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            margin-bottom: 16px;
+            color: var(--dark);
+        }
+
+        .toc ol {
+            list-style-position: inside;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .toc li {
+            cursor: pointer;
+            color: #059669;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .toc li:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        section {
+            margin-bottom: 60px;
+            scroll-margin-top: 120px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .section-icon {
+            font-size: 32px;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #059669, #10B981);
+            color: white;
+            border-radius: 8px;
+        }
+
+        .section-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .section-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #374151;
+        }
+
+        .callout {
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid;
+            margin: 16px 0;
+            background: var(--light);
+        }
+
+        .callout-retenir {
+            border-left-color: #10B981;
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .callout-astuce {
+            border-left-color: var(--accent);
+            background: rgba(245, 158, 11, 0.05);
+        }
+
+        .callout-attention {
+            border-left-color: var(--danger);
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .callout-info {
+            border-left-color: var(--info);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .callout strong {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            font-size: 15px;
+        }
+
+        th {
+            background: linear-gradient(135deg, #059669, #10B981);
+            color: white;
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:hover {
+            background: var(--light);
+        }
+
+        details {
+            margin: 16px 0;
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        details summary {
+            font-weight: 600;
+            color: #059669;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        details[open] summary {
+            margin-bottom: 12px;
+        }
+
+        .quiz-section {
+            background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-top: 60px;
+        }
+
+        .quiz-section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            margin-bottom: 24px;
+        }
+
+        .quiz-question {
+            margin-bottom: 32px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 8px 0;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .quiz-button {
+            background: var(--accent);
+            color: var(--dark);
+            border: none;
+            padding: 12px 32px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 16px;
+        }
+
+        .quiz-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(245, 158, 11, 0.3);
+        }
+
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .footer-text {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .container {
+                padding: 40px 24px;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="badge">Module 5 • Formation</div>
+            <h1>Les Droits d'Auteurs</h1>
+            <p>Comprendre et optimiser vos droits d'auteur dans l'industrie musicale pour maximiser vos revenus.</p>
+            <div class="metadata">
+                <div class="metadata-item">
+                    <span>📚</span>
+                    <span><strong>Formateur:</strong> Tarik Hamiche</span>
+                </div>
+                <div class="metadata-item">
+                    <span>🎓</span>
+                    <span><strong>Organisme:</strong> Producteur à Succès</span>
+                </div>
+                <div class="metadata-item">
+                    <span>⏱️</span>
+                    <span><strong>Module:</strong> 5 - Les droits et revenus</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="sticky-nav">
+        <div class="nav-content">
+            <a class="nav-item" href="#introduction">Introduction</a>
+            <a class="nav-item" href="#types-droits">Types de droits</a>
+            <a class="nav-item" href="#gestion-droits">Gestion des droits</a>
+            <a class="nav-item" href="#monetisation">Monétisation</a>
+            <a class="nav-item" href="#quiz">Quiz</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="toc">
+            <h2>📑 Sommaire du module</h2>
+            <ol>
+                <li>Introduction aux droits d'auteur</li>
+                <li>Les différents types de droits</li>
+                <li>La gestion des droits d'auteur</li>
+                <li>Les sociétés de perception et de répartition</li>
+                <li>Monétisation des droits d'auteur</li>
+                <li>Protéger et optimiser vos droits</li>
+                <li>Cas pratiques et exemples</li>
+            </ol>
+        </div>
+
+        <section id="introduction">
+            <div class="section-header">
+                <div class="section-icon">⚖️</div>
+                <h2>Introduction aux droits d'auteur</h2>
+            </div>
+            <div class="section-content">
+                <p>Les droits d'auteur sont au cœur de votre carrière musicale. Ils vous protègent et vous permettent de monétiser votre création. Comprendre ces droits est essentiel pour vivre de votre musique.</p>
+
+                <div class="callout callout-retenir">
+                    <strong>À retenir</strong>
+                    <p>Un droit d'auteur naît automatiquement dès que vous créez une œuvre originale. Vous n'avez pas besoin de l'enregistrer pour en être propriétaire.</p>
+                </div>
+
+                <p>En tant que compositeur et/ou auteur, vous détenez automatiquement les droits d'auteur sur votre musique. C'est une ressource précieuse qui génère des revenus tout au long de la vie de la composition plus 70 ans après votre décès.</p>
+            </div>
+        </section>
+
+        <section id="types-droits">
+            <div class="section-header">
+                <div class="section-icon">📋</div>
+                <h2>Les différents types de droits</h2>
+            </div>
+            <div class="section-content">
+                <p>Il existe plusieurs types de droits d'auteur qu'il est important de comprendre:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type de droit</th>
+                            <th>Description</th>
+                            <th>Qui perçoit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Droit de reproduction</strong></td>
+                            <td>Copier ou reproduire l'œuvre</td>
+                            <td>Compositeur/Auteur</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Droit de représentation</strong></td>
+                            <td>Exécuter ou diffuser l'œuvre en public</td>
+                            <td>Compositeur/Auteur</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Droit de distribution</strong></td>
+                            <td>Distribuer des copies de l'œuvre</td>
+                            <td>Compositeur/Auteur</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Droit de synchronisation</strong></td>
+                            <td>Synchroniser avec du contenu visuel</td>
+                            <td>Compositeur/Auteur</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Droit mécanique</strong></td>
+                            <td>Reproduire la composition musicale</td>
+                            <td>Compositeur</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-astuce">
+                    <strong>Astuce</strong>
+                    <p>Différenciez bien les droits du compositeur (qui écrit la musique) et les droits de l'artiste/interprète qui enregistre la musique. Ce sont deux patrimoines différents!</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="gestion-droits">
+            <div class="section-header">
+                <div class="section-icon">🔐</div>
+                <h2>La gestion des droits d'auteur</h2>
+            </div>
+            <div class="section-content">
+                <p>Gérer vos droits d'auteur signifie connaître vos droits, les protéger, et les monétiser efficacement.</p>
+
+                <details>
+                    <summary>💡 Comment s'inscrire auprès des sociétés de gestion?</summary>
+                    <p>Vous devez vous inscrire auprès de la SACEM (Société d'Auteurs, Compositeurs et Éditeurs de Musique) en France. Cette organisation gère vos droits et collecte les royalties en votre nom auprès des utilisateurs de votre musique.</p>
+                </details>
+
+                <div class="callout callout-attention">
+                    <strong>Attention</strong>
+                    <p>Ne confondez pas les droits d'auteur avec les droits voisins. Les droits voisins appartiennent à l'artiste interprète et au producteur phonographique.</p>
+                </div>
+
+                <p>Voici les étapes essentielles pour gérer vos droits:</p>
+                <ol style="margin-left: 20px; margin-top: 16px;">
+                    <li>Enregistrez-vous auprès de la SACEM</li>
+                    <li>Déclarez vos compositions et enregistrements</li>
+                    <li>Utilisez des codes (ISWC, ISRC) pour identifier vos œuvres</li>
+                    <li>Surveillez l'utilisation de votre musique</li>
+                    <li>Collectez les royalties régulièrement</li>
+                </ol>
+            </div>
+        </section>
+
+        <section id="monetisation">
+            <div class="section-header">
+                <div class="section-icon">💰</div>
+                <h2>Monétisation des droits d'auteur</h2>
+            </div>
+            <div class="section-content">
+                <p>Vos droits d'auteur génèrent des revenus de plusieurs façons:</p>
+
+                <div class="callout callout-retenir">
+                    <strong>À retenir</strong>
+                    <p>Les droits d'auteur sont une source de revenu passive récurrente. Une composition bien gérée peut générer des revenus pendant décennies.</p>
+                </div>
+
+                <p><strong>Sources de revenus des droits d'auteur:</strong></p>
+                <ul style="margin-left: 20px; margin-top: 16px;">
+                    <li>Redevances de diffusion (radio, télévision, streaming)</li>
+                    <li>Royalties mécaniques (ventes de CD, téléchargements)</li>
+                    <li>Droits de synchronisation (films, publicités)</li>
+                    <li>Droits de représentation publique (concerts, discothèques)</li>
+                    <li>Ventes de droits à des éditeurs musicaux</li>
+                </ul>
+
+                <div class="callout callout-info">
+                    <strong>Le saviez-vous?</strong>
+                    <p>Une chanson peut être utilisée à votre insu. C'est pour cela que les sociétés de gestion collective font un travail crucial en surveilling les utilisations et en collectant les revenus en votre place.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="quiz" class="quiz-section">
+            <h2>📝 Quiz: Testez vos connaissances</h2>
+            <form id="quizForm">
+                <div class="quiz-question">
+                    <p><strong>Question 1:</strong> Quand naît un droit d'auteur?</p>
+                    <div class="quiz-option">
+                        <input type="radio" id="q1a" name="q1" value="enregistrement">
+                        <label for="q1a">Au moment de l'enregistrement légal</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q1b" name="q1" value="creation">
+                        <label for="q1b">Automatiquement à la création</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q1c" name="q1" value="publication">
+                        <label for="q1c">À la publication de l'œuvre</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <p><strong>Question 2:</strong> Qui gère les droits d'auteur en France?</p>
+                    <div class="quiz-option">
+                        <input type="radio" id="q2a" name="q2" value="sacem">
+                        <label for="q2a">La SACEM</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q2b" name="q2" value="etat">
+                        <label for="q2b">L'État français</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q2c" name="q2" value="spotify">
+                        <label for="q2c">Les plateformes de streaming</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <p><strong>Question 3:</strong> Quelle durée de protection offrent les droits d'auteur?</p>
+                    <div class="quiz-option">
+                        <input type="radio" id="q3a" name="q3" value="20ans">
+                        <label for="q3a">20 ans après publication</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q3b" name="q3" value="50ans">
+                        <label for="q3b">50 ans après création</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q3c" name="q3" value="70ans">
+                        <label for="q3c">70 ans après le décès de l'auteur</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <p><strong>Question 4:</strong> Quel code identifie une composition musicale?</p>
+                    <div class="quiz-option">
+                        <input type="radio" id="q4a" name="q4" value="isrc">
+                        <label for="q4a">ISRC</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q4b" name="q4" value="iswc">
+                        <label for="q4b">ISWC</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q4c" name="q4" value="isbn">
+                        <label for="q4c">ISBN</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <p><strong>Question 5:</strong> Quelle est la différence entre droits d'auteur et droits voisins?</p>
+                    <div class="quiz-option">
+                        <input type="radio" id="q5a" name="q5" value="same">
+                        <label for="q5a">C'est la même chose</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q5b" name="q5" value="different">
+                        <label for="q5b">Les droits d'auteur protègent la composition, les droits voisins protègent l'enregistrement</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q5c" name="q5" value="legal">
+                        <label for="q5c">Les droits voisins sont moins importants légalement</label>
+                    </div>
+                </div>
+
+                <button type="button" class="quiz-button" onclick="submitQuiz()">Vérifier mes réponses</button>
+            </form>
+            <div id="quizResult" style="margin-top: 24px;"></div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">🎵 Producteur à Succès</div>
+            <p class="footer-text">Formation complète pour réussir dans l'industrie musicale</p>
+            <p class="footer-text" style="margin-top: 24px; font-size: 12px; opacity: 0.6;">© 2026 Producteur à Succès. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('progressBar').style.width = scrollPercentage + '%';
+        });
+
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        function submitQuiz() {
+            const answers = {
+                q1: document.querySelector('input[name="q1"]:checked')?.value,
+                q2: document.querySelector('input[name="q2"]:checked')?.value,
+                q3: document.querySelector('input[name="q3"]:checked')?.value,
+                q4: document.querySelector('input[name="q4"]:checked')?.value,
+                q5: document.querySelector('input[name="q5"]:checked')?.value,
+            };
+
+            const correctAnswers = {
+                q1: 'creation',
+                q2: 'sacem',
+                q3: '70ans',
+                q4: 'iswc',
+                q5: 'different',
+            };
+
+            let score = 0;
+            for (let q in answers) {
+                if (answers[q] === correctAnswers[q]) {
+                    score++;
+                }
+            }
+
+            const resultDiv = document.getElementById('quizResult');
+            const percentage = Math.round((score / 5) * 100);
+
+            let resultHTML = `<div style="padding: 20px; background: rgba(255, 255, 255, 0.1); border-radius: 8px;">
+                <h3 style="margin-bottom: 12px;">Résultat: ${score}/5 (${percentage}%)</h3>`;
+
+            if (percentage === 100) {
+                resultHTML += '<p>🎉 Excellent! Vous maîtrisez parfaitement la gestion des droits d\'auteur!</p>';
+            } else if (percentage >= 80) {
+                resultHTML += '<p>✨ Très bien! Vous avez une bonne compréhension du module.</p>';
+            } else if (percentage >= 60) {
+                resultHTML += '<p>👍 Bien! Continuez à réviser les sections clés.</p>';
+            } else {
+                resultHTML += '<p>📖 À revoir. Lisez attentivement les sections du module.</p>';
+            }
+
+            resultHTML += '</div>';
+            resultDiv.innerHTML = resultHTML;
+        }
+    </script>
+</body>
+</html>

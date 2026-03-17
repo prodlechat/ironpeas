@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contrat Booking - Module 5 - Producteur à Succès</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            color: #1F2937;
+            background: #FAFBFC;
+        }
+
+        :root {
+            --primary: #6C3AED;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary);
+            z-index: 1000;
+            transform-origin: left;
+        }
+
+        /* Header/Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #7C3AED 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(28px, 5vw, 48px);
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .hero-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* TOC */
+        .toc {
+            background: white;
+            border-left: 4px solid var(--primary);
+            padding: 24px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .toc h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--primary);
+        }
+
+        .toc ol {
+            list-style: none;
+            counter-reset: item;
+        }
+
+        .toc li {
+            counter-increment: item;
+            margin-bottom: 10px;
+        }
+
+        .toc li:before {
+            content: counter(item);
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .toc a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .toc a:hover {
+            color: #7C3AED;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 50px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .section-icon {
+            font-size: 28px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: white;
+            border-radius: 8px;
+        }
+
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: #111827;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            line-height: 1.7;
+            margin-bottom: 16px;
+            font-size: 15px;
+        }
+
+        strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            padding: 16px;
+            border-left: 4px solid;
+            border-radius: 4px;
+            margin: 20px 0;
+            background-size: cover;
+            background-position: right;
+        }
+
+        .callout.highlight {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(108, 58, 237, 0.08) 0%, rgba(108, 58, 237, 0.02) 100%);
+        }
+
+        .callout.tip {
+            border-color: var(--success);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(16, 185, 129, 0.02) 100%);
+        }
+
+        .callout.warning {
+            border-color: var(--danger);
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(239, 68, 68, 0.02) 100%);
+        }
+
+        .callout.info {
+            border-color: var(--info);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(59, 130, 246, 0.02) 100%);
+        }
+
+        .callout strong {
+            font-weight: 600;
+        }
+
+        .callout p {
+            margin-bottom: 0;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-top: 1px solid #E5E7EB;
+        }
+
+        tr:hover {
+            background: #F9FAFB;
+        }
+
+        /* Accordion */
+        details {
+            margin: 20px 0;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+        }
+
+        summary {
+            padding: 16px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        summary::before {
+            content: '▶';
+            margin-right: 12px;
+            transition: transform 0.2s;
+        }
+
+        details[open] summary::before {
+            transform: rotate(90deg);
+        }
+
+        details[open] summary {
+            background: #F9FAFB;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        details > p, details > div {
+            padding: 0 16px 16px 16px;
+        }
+
+        /* Quiz */
+        .quiz {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        .quiz h3 {
+            margin-top: 0;
+        }
+
+        .quiz-question {
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .quiz-question:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #111827;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .quiz-option input[type="radio"] {
+            margin-top: 4px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .quiz-option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .quiz-feedback {
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            border-left: 3px solid var(--success);
+        }
+
+        .quiz-feedback.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            color: #DC2626;
+            border-left: 3px solid var(--danger);
+        }
+
+        .btn-submit-quiz {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn-submit-quiz:hover {
+            background: #7C3AED;
+        }
+
+        /* Footer */
+        footer {
+            background: #1F2937;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .footer-text {
+            font-size: 13px;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 40px 20px;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .hero-meta {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .toc {
+                margin-bottom: 30px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            h3 {
+                font-size: 18px;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .quiz {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Hero -->
+    <div class="hero">
+        <div class="hero-content">
+            <span class="badge">Module 5 - Contrats & Administratif</span>
+            <h1>Contrat Booking</h1>
+            <p style="color: rgba(255,255,255,0.9); font-size: 16px; margin-top: 16px;">Maîtriser la rédaction et l'utilisation du contrat de booking pour sécuriser vos dates de performances et optimiser vos conditions commerciales.</p>
+            <div class="hero-meta">
+                <span>👤 Formateur: Tarik Hamiche</span>
+                <span>🎓 Producteur à Succès</span>
+                <span>⏱️ 15-20 min</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Table of Contents -->
+        <div class="toc">
+            <h2>📑 Sommaire</h2>
+            <ol>
+                <li><a href="#intro">Qu'est-ce qu'un contrat de booking?</a></li>
+                <li><a href="#interface">Générer un contrat via music-cur</a></li>
+                <li><a href="#parties">Identifier les parties prenantes</a></li>
+                <li><a href="#montant">Stipulations tarifaires et conditions</a></li>
+                <li><a href="#conditions">Conditions essentielles</a></li>
+                <li><a href="#clauses">Clauses de sécurité et recours</a></li>
+                <li><a href="#quiz">Test de compréhension</a></li>
+            </ol>
+        </div>
+
+        <!-- Section 1 -->
+        <section id="intro">
+            <div class="section-header">
+                <div class="section-icon">📋</div>
+                <h2>Qu'est-ce qu'un contrat de booking?</h2>
+            </div>
+            <p>Le contrat de booking est le document fondamental qui formalise l'accord entre le <strong>producteur d'artiste</strong> (celui qui vend la prestation) et le <strong>diffuseur</strong> (celui qui organise l'événement). Ce contrat régit tous les éléments de la collaboration commerciale et artistique.</p>
+
+            <div class="callout highlight">
+                <strong>À retenir:</strong> Le contrat de booking n'est pas optionnel — c'est un document légal qui protège vos droits financiers et artistiques. Même pour une petite date, avoir un contrat écrit clarifie les attentes des deux parties.
+            </div>
+
+            <h3>Qui sont les parties?</h3>
+            <p>Le contrat implique essentiellement deux acteurs:</p>
+            <ul style="margin-left: 20px; margin-bottom: 16px;">
+                <li><strong>Producteur/Manager d'artiste:</strong> Vous ou votre représentant qui vendez la prestation</li>
+                <li><strong>Diffuseur:</strong> Festival, salle de concert, entreprise, organisme, qui achète le spectacle</li>
+            </ul>
+
+            <div class="callout info">
+                <strong>Le saviez-vous?</strong> Lorsque vous êtes producteur indépendant d'artistes, c'est vous qui jouez le rôle du vendeur/producteur. Vous représentez l'artiste et négociez les meilleures conditions possibles.
+            </div>
+        </section>
+
+        <!-- Section 2 -->
+        <section id="interface">
+            <div class="section-header">
+                <div class="section-icon">💻</div>
+                <h2>Générer un contrat via music-cur</h2>
+            </div>
+            <p>Music-cur est la plateforme qui vous permet de générer rapidement des contrats de booking professionnels et légalement valides. L'interface guide vous accompagne étape par étape.</p>
+
+            <h3>Procédure d'accès</h3>
+            <ol style="margin-left: 20px; margin-bottom: 16px;">
+                <li>Connectez-vous à votre compte music-cur</li>
+                <li>Accédez à la section <strong>Contrats et Mods</strong></li>
+                <li>Sélectionnez <strong>Créer un document</strong></li>
+                <li>Choisissez <strong>Contrat de booking</strong> parmi les modèles proposés</li>
+            </ol>
+
+            <div class="callout tip">
+                <strong>Astuce:</strong> Avant de générer votre premier contrat, assurez-vous d'avoir renseigné tous vos <strong>contacts</strong> (diffuseurs, partenaires) dans votre carnet d'adresses music-cur. Cela vous permettra de les sélectionner rapidement lors de la rédaction du contrat.
+            </div>
+
+            <h3>Prérequis pour générer</h3>
+            <p>Pour que la génération soit fluide, vous devez avoir:</p>
+            <ul style="margin-left: 20px; margin-bottom: 16px;">
+                <li>Votre profil complété (nom, coordonnées, coordonnées bancaires)</li>
+                <li>Les informations du diffuseur (contact, structure, coordonnées)</li>
+                <li>Les détails de la date/prestation (lieu, date, nombre d'artistes, durée)</li>
+            </ul>
+        </section>
+
+        <!-- Section 3 -->
+        <section id="parties">
+            <div class="section-header">
+                <div class="section-icon">👥</div>
+                <h2>Identifier les parties prenantes</h2>
+            </div>
+            <p>Lors de la génération du contrat, vous allez devoir sélectionner ou créer les informations concernant les parties au contrat. Chaque partie doit être clairement identifiée.</p>
+
+            <h3>Rôle du producteur</h3>
+            <p>En tant que producteur, vous êtes celui qui <strong>vend</strong> la prestation. Vous êtes responsable de la qualité artistique, du respect des délais et de la livraison du spectacle promis.</p>
+
+            <h3>Rôle du diffuseur</h3>
+            <p>Le diffuseur est celui qui <strong>achète</strong> la prestation. Il peut être:</p>
+            <ul style="margin-left: 20px; margin-bottom: 16px;">
+                <li>Une <strong>salle de concert</strong> ou venue</li>
+                <li>Un <strong>festival</strong> ou événement</li>
+                <li>Une <strong>entreprise</strong> (séminaire, événement corporatif)</li>
+                <li>Un <strong>organisme public</strong> (mairie, association)</li>
+            </ul>
+
+            <div class="callout warning">
+                <strong>Attention:</strong> Assurez-vous que le diffuseur a bien le pouvoir de signature pour s'engager légalement. Pour les petites structures, c'est souvent le gérant ou le responsable. Pour les plus grandes, c'est le directeur ou un responsable mandaté.
+            </div>
+        </section>
+
+        <!-- Section 4 -->
+        <section id="montant">
+            <div class="section-header">
+                <div class="section-icon">💰</div>
+                <h2>Stipulations tarifaires et conditions</h2>
+            </div>
+            <p>L'une des sections les plus importantes du contrat concerne le <strong>montant à payer</strong> et les conditions de ce paiement. Cette section doit être très claire pour éviter tout malentendu.</p>
+
+            <h3>Exemple de stipulation tarifaire</h3>
+            <p>Supposons un producteur vendant une prestation pour un montant de <strong>2 000 € HT (hors taxe)</strong>. Le contrat préciserait:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Élément</th>
+                        <th>Valeur</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Montant HT (prestation)</td>
+                        <td>2 000 €</td>
+                    </tr>
+                    <tr>
+                        <td>TVA incluse (à Paris)</td>
+                        <td>20 % soit 400 €</td>
+                    </tr>
+                    <tr>
+                        <td>Montant TTC total</td>
+                        <td>2 400 €</td>
+                    </tr>
+                    <tr>
+                        <td>Frais de transport</td>
+                        <td>À charge du diffuseur</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Frais de déplacement</h3>
+            <p>Le contrat doit clarifier que:</p>
+            <ul style="margin-left: 20px; margin-bottom: 16px;">
+                <li>Les <strong>frais de transport</strong> (aller/retour) de l'artiste et son équipe restent à la charge du diffuseur</li>
+                <li>Ces frais ne sont <strong>pas inclus</strong> dans le montant de prestation</li>
+                <li>Le diffuseur est responsable de l'organisation pratique du déplacement</li>
+            </ul>
+
+            <div class="callout highlight">
+                <strong>À retenir:</strong> Séparez toujours le tarif artistique (votre prestation) des frais opérationnels (transport, hébergement). Cela évite les négociations ultérieures et protège vos marges.
+            </div>
+        </section>
+
+        <!-- Section 5 -->
+        <section id="conditions">
+            <div class="section-header">
+                <div class="section-icon">⚙️</div>
+                <h2>Conditions essentielles</h2>
+            </div>
+            <p>Au-delà du montant, le contrat stipule plusieurs conditions qui régissent la collaboration. Ces conditions assurent que les deux parties savent exactement ce qui est attendu.</p>
+
+            <h3>Modalités de règlement</h3>
+            <p>Le contrat doit préciser <strong>quand et comment</strong> le diffuseur va vous payer:</p>
+            <ul style="margin-left: 20px; margin-bottom: 16px;">
+                <li><strong>À la signature:</strong> Un acompte (par exemple 30-50% du montant)</li>
+                <li><strong>À la date de la prestation:</strong> Le solde complet avant ou après le spectacle</li>
+                <li><strong>Mode de paiement:</strong> Virement bancaire, chèque, espèces (à spécifier)</li>
+            </ul>
+
+            <details>
+                <summary>💡 Différentes structures de paiement</summary>
+                <p>Il existe plusieurs modèles courants:</p>
+                <ul style="margin-left: 20px; margin-bottom: 16px;">
+                    <li><strong>50% à la signature, 50% le jour:</strong> Équilibré, bon pour les deux parties</li>
+                    <li><strong>30% acompte, 70% au jour:</strong> Moins de risque pour le diffuseur, plus pour vous</li>
+                    <li><strong>Entièrement le jour même:</strong> Risqué pour vous (paiement non reçu avant le spectacle)</li>
+                    <li><strong>Entièrement à l'avance:</strong> Rare mais idéal pour vous si vous avez du poids commercial</li>
+                </ul>
+            </details>
+
+            <h3>Clauses importantes</h3>
+            <p>Parmi les conditions essentielles:</p>
+            <ul style="margin-left: 20px; margin-bottom: 16px;">
+                <li><strong>Date et lieu précis:</strong> Jour, heure, adresse venue</li>
+                <li><strong>Durée et format:</strong> Combien de temps, nombre de musiciens, accès équipements</li>
+                <li><strong>Conditions d'annulation:</strong> Qui peut annuler et à quelles conditions</li>
+                <li><strong>Responsabilités respectives:</strong> Transport, assurance, sécurité, matériel</li>
+            </ul>
+
+            <div class="callout info">
+                <strong>Le saviez-vous?</strong> En France, un contrat peut être verbal, mais avoir un document écrit signé est <strong>infiniment plus utile</strong> en cas de litige. C'est votre preuve.
+            </div>
+        </section>
+
+        <!-- Section 6 -->
+        <section id="clauses">
+            <div class="section-header">
+                <div class="section-icon">🛡️</div>
+                <h2>Clauses de sécurité et recours</h2>
+            </div>
+            <p>Pour protéger vos intérêts, le contrat doit contenir des clauses de sécurité et des modalités de recours en cas de problème.</p>
+
+            <h3>La clause de délai limite de 2 semaines</h3>
+            <p>C'est une <strong>clause essentielle</strong> à inclure:</p>
+            <blockquote style="border-left: 4px solid var(--primary); padding-left: 16px; margin: 16px 0; color: #374151; font-style: italic;">
+                "Le non-respect des conditions et délais indiqués entraînera une annulation de plein droit sans préavis."
+            </blockquote>
+            <p>Concrètement, cela signifie que si le diffuseur ne vous a pas versé l'acompte convenu (ou d'autres conditions) <strong>2 semaines avant la date</strong>, vous êtes en droit d'annuler immédiatement, sans vous justifier, sans préavis.</p>
+
+            <h3>Protection financière</h3>
+            <p>Cette clause vous protège car:</p>
+            <ul style="margin-left: 20px; margin-bottom: 16px;">
+                <li>Vous avez une <strong>date limite claire</strong> pour évaluer la sériosité du diffuseur</li>
+                <li>Si le paiement n'est pas fait, vous pouvez <strong>refuser de vous déplacer</strong> légalement</li>
+                <li>Vous pouvez alors <strong>chercher une autre date</strong> avec ce créneau</li>
+                <li>Vous êtes protégé des diffuseurs qui traînent les pieds ou qui font faillite</li>
+            </ul>
+
+            <div class="callout warning">
+                <strong>Attention:</strong> Cette clause de 2 semaines doit être <strong>strictement respectée</strong>. Si vous avez reçu le paiement à 10 jours avant la date et vous annulez quand même, c'est vous qui êtes en tort contractuel.
+            </div>
+
+            <h3>Stratégies si le paiement est compromis</h3>
+            <p>Si vous vous approchez de la date limite et que le paiement n'est pas arrivé:</p>
+            <ol style="margin-left: 20px; margin-bottom: 16px;">
+                <li>Contactez le diffuseur immédiatement (mail + téléphone) pour clarifier</li>
+                <li>Demandez une date précise de paiement par écrit</li>
+                <li>Si la réponse est floue ou si vous n'êtes pas sûr, déclenchez l'annulation</li>
+                <li>Cherchez immédiatement une autre date pour remplir ce créneau</li>
+                <li>Éventuellement, accepter une réduction tarifaire plutôt que rien</li>
+            </ol>
+
+            <div class="callout highlight">
+                <strong>À retenir:</strong> Les 2 semaines avant une date représentent votre <strong>dernière fenêtre de sécurité</strong>. Passé ce délai, vous êtes trop proche de la prestation pour trouver une alternative. Utilisez ce délai strategiquement.
+            </div>
+        </section>
+
+        <!-- Quiz -->
+        <section id="quiz">
+            <div class="quiz">
+                <h3>✅ Test de compréhension</h3>
+                <p>Vérifiez votre compréhension des concepts clés du contrat de booking:</p>
+
+                <form id="quizForm">
+                    <!-- Question 1 -->
+                    <div class="quiz-question">
+                        <div class="question-text">1. Quel est le rôle principal du producteur dans un contrat de booking?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                <input type="radio" id="q1a" name="q1" value="a">
+                                <label for="q1a">Acheter la prestation artistique</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" id="q1b" name="q1" value="b">
+                                <label for="q1b">Vendre la prestation artistique</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" id="q1c" name="q1" value="c">
+                                <label for="q1c">Organiser l'événement</label>
+                            </div>
+                        </div>
+                        <div class="quiz-feedback q1-feedback"></div>
+                    </div>
+
+                    <!-- Question 2 -->
+                    <div class="quiz-question">
+                        <div class="question-text">2. Qui paie les frais de transport de l'artiste dans un contrat de booking standard?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                <input type="radio" id="q2a" name="q2" value="a">
+                                <label for="q2a">Le producteur/manager de l'artiste</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" id="q2b" name="q2" value="b">
+                                <label for="q2b">Le diffuseur/organisateur</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" id="q2c" name="q2" value="c">
+                                <label for="q2c">Moitié-moitié entre les deux</label>
+                            </div>
+                        </div>
+                        <div class="quiz-feedback q2-feedback"></div>
+                    </div>
+
+                    <!-- Question 3 -->
+                    <div class="quiz-question">
+                        <div class="question-text">3. Que signifie la clause "2 semaines avant la date"?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                <input type="radio" id="q3a" name="q3" value="a">
+                                <label for="q3a">Vous devez être payé au moins 2 semaines à l'avance</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" id="q3b" name="q3" value="b">
+                                <label for="q3b">C'est votre délai limite pour annuler si les conditions ne sont pas respectées</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" id="q3c" name="q3" value="c">
+                                <label for="q3c">Le diffuseur doit annuler 2 semaines avant sans justification</label>
+                            </div>
+                        </div>
+                        <div class="quiz-feedback q3-feedback"></div>
+                    </div>
+
+                    <!-- Question 4 -->
+                    <div class="quiz-question">
+                        <div class="question-text">4. Quel est l'avantage principal d'avoir un contrat écrit signé?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                <input type="radio" id="q4a" name="q4" value="a">
+                                <label for="q4a">C'est la preuve légale de l'accord en cas de litige</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" id="q4b" name="q4" value="b">
+                                <label for="q4b">Cela garantit que le diffuseur paiera</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" id="q4c" name="q4" value="c">
+                                <label for="q4c">C'est une formule magique pour annuler quand on veut</label>
+                            </div>
+                        </div>
+                        <div class="quiz-feedback q4-feedback"></div>
+                    </div>
+
+                    <!-- Question 5 -->
+                    <div class="quiz-question">
+                        <div class="question-text">5. Pour quelle raison est-il judicieux de séparer le tarif artistique des frais opérationnels?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                <input type="radio" id="q5a" name="q5" value="a">
+                                <label for="q5a">C'est une exigence légale en France</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" id="q5b" name="q5" value="b">
+                                <label for="q5b">Cela évite les négociations ultérieures et protège vos marges</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" id="q5c" name="q5" value="c">
+                                <label for="q5c">Cela oblige le diffuseur à payer plus</label>
+                            </div>
+                        </div>
+                        <div class="quiz-feedback q5-feedback"></div>
+                    </div>
+
+                    <button type="button" class="btn-submit-quiz" onclick="checkQuiz()">Vérifier mes réponses</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="logo">🎵 Producteur à Succès</div>
+            <p class="footer-text">Formation professionnelle en gestion de carrière musicale</p>
+            <p class="footer-text">© 2024 Tarik Hamiche - Tous droits réservés</p>
+        </div>
+    </footer>
+
+    <script>
+        // Progress Bar
+        function updateProgressBar() {
+            const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+            document.getElementById('progressBar').style.transform = `scaleX(${scrolled / 100})`;
+        }
+
+        window.addEventListener('scroll', updateProgressBar);
+
+        // Smooth scroll for TOC links
+        document.querySelectorAll('.toc a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Quiz Logic
+        const quizAnswers = {
+            q1: 'b',
+            q2: 'b',
+            q3: 'b',
+            q4: 'a',
+            q5: 'b'
+        };
+
+        const feedbackMessages = {
+            q1: {
+                correct: '✓ Exactement! Le producteur vend la prestation artistique au diffuseur.',
+                incorrect: '✗ Incorrect. Le producteur VEND la prestation, le diffuseur l\'achète.'
+            },
+            q2: {
+                correct: '✓ Correct! Le diffuseur paie les frais de transport et d\'hébergement de l\'artiste.',
+                incorrect: '✗ Incorrect. Le diffuseur est responsable du transport et des frais de déplacement.'
+            },
+            q3: {
+                correct: '✓ Juste! C\'est votre deadline pour annuler légalement si les conditions ne sont pas respectées.',
+                incorrect: '✗ Incorrect. C\'est la date limite avant laquelle vous pouvez annuler légalement.'
+            },
+            q4: {
+                correct: '✓ Parfait! Un contrat écrit est votre meilleure protection légale.',
+                incorrect: '✗ Incorrect. Le contrat écrit signé est votre preuve légale en cas de problème.'
+            },
+            q5: {
+                correct: '✓ Excellent! Cela clarifiait les termes et protège vos marges commerciales.',
+                incorrect: '✗ Incorrect. Séparer tarif et frais opérationnels évite les négociations ultérieures.'
+            }
+        };
+
+        function checkQuiz() {
+            let allAnswered = true;
+            let score = 0;
+
+            for (let i = 1; i <= 5; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+
+                if (!selected) {
+                    allAnswered = false;
+                    continue;
+                }
+
+                const feedback = document.querySelector(`.q${i}-feedback`);
+                const isCorrect = selected.value === quizAnswers[`q${i}`];
+
+                if (isCorrect) {
+                    score++;
+                    feedback.classList.add('correct');
+                    feedback.classList.remove('incorrect');
+                    feedback.textContent = feedbackMessages[`q${i}`].correct;
+                } else {
+                    feedback.classList.add('incorrect');
+                    feedback.classList.remove('correct');
+                    feedback.textContent = feedbackMessages[`q${i}`].incorrect;
+                }
+
+                feedback.classList.add('show');
+            }
+
+            if (!allAnswered) {
+                alert('Veuillez répondre à toutes les questions avant de vérifier.');
+                return;
+            }
+
+            // Scroll to results
+            document.querySelector('.quiz').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Allow Enter key to submit quiz
+        document.getElementById('quizForm').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkQuiz();
+            }
+        });
+    </script>
+</body>
+</html>

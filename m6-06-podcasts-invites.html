@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podcasts invité - Module 6 | Producteur à Succès</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            color: #1f2937;
+            background: #ffffff;
+        }
+
+        :root {
+            --primary: #6C3AED;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --light: #f9fafb;
+            --border: #e5e7eb;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: sticky;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.1s ease;
+            z-index: 999;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #5B21B6 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            opacity: 0.95;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .metadata {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .metadata-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: var(--light);
+            border-left: 4px solid var(--primary);
+            padding: 30px;
+            margin-bottom: 50px;
+            border-radius: 8px;
+        }
+
+        .toc h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .toc ul {
+            list-style: none;
+        }
+
+        .toc li {
+            margin-bottom: 12px;
+        }
+
+        .toc a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .toc a:hover {
+            color: #5B21B6;
+            text-decoration: underline;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 50px;
+            scroll-margin-top: 100px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .section-icon {
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--light);
+            border-radius: 8px;
+        }
+
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin: 25px 0 15px 0;
+            font-weight: 600;
+        }
+
+        p {
+            line-height: 1.7;
+            margin-bottom: 15px;
+            color: #374151;
+        }
+
+        strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+            border-radius: 6px;
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .callout-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .callout.retenir {
+            border-color: var(--primary);
+            background-color: rgba(108, 58, 237, 0.05);
+        }
+
+        .callout.retenir .callout-title {
+            color: var(--primary);
+        }
+
+        .callout.astuce {
+            border-color: var(--success);
+            background-color: rgba(16, 185, 129, 0.05);
+        }
+
+        .callout.astuce .callout-title {
+            color: var(--success);
+        }
+
+        .callout.attention {
+            border-color: var(--accent);
+            background-color: rgba(245, 158, 11, 0.05);
+        }
+
+        .callout.attention .callout-title {
+            color: var(--accent);
+        }
+
+        .callout.info {
+            border-color: var(--info);
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+
+        .callout.info .callout-title {
+            color: var(--info);
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: var(--light);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:hover {
+            background-color: var(--light);
+        }
+
+        /* Accordion */
+        details {
+            margin-bottom: 15px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        summary {
+            padding: 15px 20px;
+            background: var(--light);
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        summary:hover {
+            background-color: #f3f4f6;
+        }
+
+        details[open] summary {
+            background-color: var(--light);
+            border-bottom: 1px solid var(--border);
+        }
+
+        details > div {
+            padding: 20px;
+            line-height: 1.7;
+        }
+
+        summary::after {
+            content: '▼';
+            font-size: 0.8rem;
+            transition: transform 0.3s;
+        }
+
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+
+        /* Quiz */
+        .quiz-section {
+            background: var(--light);
+            padding: 40px;
+            border-radius: 8px;
+            margin-top: 50px;
+        }
+
+        .quiz-question {
+            margin-bottom: 30px;
+        }
+
+        .quiz-question h4 {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .quiz-option {
+            margin-bottom: 10px;
+        }
+
+        .quiz-option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .quiz-option label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quiz-button {
+            background: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+            margin-top: 20px;
+        }
+
+        .quiz-button:hover {
+            background: #5B21B6;
+        }
+
+        .quiz-feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            color: #065f46;
+        }
+
+        .quiz-feedback.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            color: #7f1d1d;
+        }
+
+        /* Footer */
+        footer {
+            background: #1f2937;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 80px;
+            border-top: 4px solid var(--primary);
+        }
+
+        footer .branding {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        footer .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        footer p {
+            color: #9ca3af;
+            margin-bottom: 10px;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            main {
+                padding: 30px 15px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .metadata {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .quiz-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <header>
+        <div class="badge-container">
+            <span class="badge">Module 6</span>
+            <span class="badge">Formation Music Business</span>
+        </div>
+        <h1>Podcasts invité</h1>
+        <p>Maîtriser l'art de l'interview podcastée pour augmenter votre visibilité et construire votre autorité en tant qu'artiste</p>
+        <div class="metadata">
+            <div class="metadata-item">
+                <span>🎓</span>
+                <strong>Formateur:</strong> Tarik Hamiche
+            </div>
+            <div class="metadata-item">
+                <span>🏢</span>
+                <strong>Organisme:</strong> Producteur à Succès
+            </div>
+            <div class="metadata-item">
+                <span>⏱️</span>
+                <strong>Durée:</strong> ~45 min
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <nav class="toc">
+            <h2>Sommaire</h2>
+            <ul>
+                <li><a href="#section1">Introduction : Le podcasting comme levier marketing</a></li>
+                <li><a href="#section2">L'écosystème des podcasts musicaux</a></li>
+                <li><a href="#section3">Identifier les bons podcasts pour votre musique</a></li>
+                <li><a href="#section4">Préparer votre pitch podcast</a></li>
+                <li><a href="#section5">Réussir votre interview</a></li>
+                <li><a href="#section6">Maximiser l'impact post-interview</a></li>
+                <li><a href="#section7">Construire des relations long-terme avec les podcasteurs</a></li>
+                <li><a href="#quiz">Quiz final</a></li>
+            </ul>
+        </nav>
+
+        <section id="section1">
+            <div class="section-header">
+                <div class="section-icon">🎙️</div>
+                <h2>Introduction : Le podcasting comme levier marketing</h2>
+            </div>
+            <p>Le podcasting a explosé en tant que médium au cours des 5 dernières années. Selon les données de 2025, <strong>plus de 45% des personnes écoutent au moins un podcast par mois</strong>, et cette proportion monte à 65% chez les 18-35 ans — précisément votre public cible si vous êtes musicien.</p>
+
+            <div class="callout retenir">
+                <div class="callout-title">📌 À retenir</div>
+                <p>Un épisode podcast où vous êtes invité peut générer autant ou plus d'engagement qu'une couverture presse, avec l'avantage supplémentaire d'une conversation authentique et mémorable.</p>
+            </div>
+
+            <h3>Pourquoi les podcasts sont puissants pour les musiciens</h3>
+            <ul>
+                <li><strong>Intimité :</strong> Les auditeurs écoutent en transport, sport, travail — contextes détendus propices à la connexion</li>
+                <li><strong>Durée :</strong> 30-90 minutes permettent une vraie profondeur au lieu de la surface</li>
+                <li><strong>Authenticité :</strong> Format conversationnel plutôt que scripted</li>
+                <li><strong>Audience engagée :</strong> Auditeurs très loyaux qui suivent les recommandations de l'hôte</li>
+                <li><strong>Multiformat :</strong> Episodes disponibles sur toutes les plateformes streaming</li>
+                <li><strong>Durée de vie :</strong> Un épisode reste écouté longtemps après sa publication initiale</li>
+            </ul>
+
+            <h3>Le format parfait pour un musicien</h3>
+            <p>Les podcasts invitant des musiciens se divisent généralement en quelques catégories :</p>
+            <ul>
+                <li><strong>Podcasts musique pure :</strong> Focus exclusif sur la musique et la carrière</li>
+                <li><strong>Podcasts entrepreneurship/créativité :</strong> Interview de musiciens comme créatifs/entrepreneurs</li>
+                <li><strong>Podcasts lifestyle/culture :</strong> Musiciens comme figures culturelles</li>
+                <li><strong>Podcasts interview généralistes :</strong> N'importe quel invité intéressant</li>
+            </ul>
+        </section>
+
+        <section id="section2">
+            <div class="section-header">
+                <div class="section-icon">🎧</div>
+                <h2>L'écosystème des podcasts musicaux</h2>
+            </div>
+            <p>L'écosystème podcast s'est structuré avec des niveaux clairs, similaires à la presse. Comprendre cette structure est clé pour viser les bons pods.</p>
+
+            <h3>Les 3 niveaux de podcasts</h3>
+            <table>
+                <tr>
+                    <th>Niveau</th>
+                    <th>Auditeurs par épisode</th>
+                    <th>Accès</th>
+                    <th>Impact</th>
+                </tr>
+                <tr>
+                    <td><strong>Tier 1 - Micro</strong></td>
+                    <td>500-2K</td>
+                    <td>Très facile</td>
+                    <td>Niche très engagée</td>
+                </tr>
+                <tr>
+                    <td><strong>Tier 2 - Croissance</strong></td>
+                    <td>2K-20K</td>
+                    <td>Facile</td>
+                    <td>Audience significative</td>
+                </tr>
+                <tr>
+                    <td><strong>Tier 3 - Établis</strong></td>
+                    <td>20K+</td>
+                    <td>Difficile</td>
+                    <td>Massive + SEO fort</td>
+                </tr>
+            </table>
+
+            <div class="callout astuce">
+                <div class="callout-title">💡 Astuce</div>
+                <p>Ne cherchez pas immédiatement Tier 3. Excellez dans Tier 1-2 d'abord. Les hôtes de petits podcasts avec audiences très engagées sont souvent vos meilleurs alliés pour créer du buzz authentique.</p>
+            </div>
+
+            <h3>Plateformes principales pour la découverte</h3>
+            <details>
+                <summary>Voir les plateforme où chercher des podcasts</summary>
+                <div>
+                    <ul>
+                        <li><strong>Spotify (Podcast) :</strong> Principale plateforme — cherchez par genre ou keywords</li>
+                        <li><strong>Apple Podcasts :</strong> Toujours le standard de référence</li>
+                        <li><strong>Google Podcasts :</strong> Intégré à Google — bon pour SEO</li>
+                        <li><strong>Anchor/Spotify for Podcasters :</strong> Où les podcasteurs publient</li>
+                        <li><strong>Podchaser :</strong> Directoire et données sur les podcasts</li>
+                        <li><strong>Listenotes.com :</strong> Moteur de recherche podcast super puissant</li>
+                        <li><strong>LinkedIn :</strong> Cherchez les podcasteurs de votre secteur</li>
+                    </ul>
+                </div>
+            </details>
+
+            <h3>Genres de podcasts à cibler</h3>
+            <ul>
+                <li>🎵 Podcasts musique pure (genre-spécifiques ou généraux)</li>
+                <li>🎬 Podcasts créatifs (filmmaking, design, création artistique)</li>
+                <li>💼 Podcasts entrepreneurship (affaires, projets personnels)</li>
+                <li>🌱 Podcasts lifestyle (santé mentale, productivité, développement personnel)</li>
+                <li>🗣️ Podcasts interview généralistes (accueillent tous les invités pertinents)</li>
+                <li>🌍 Podcasts locaux de votre région/ville</li>
+            </ul>
+        </section>
+
+        <section id="section3">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h2>Identifier les bons podcasts pour votre musique</h2>
+            </div>
+            <p>Comme pour la presse, la sélection est critique. Un mauvais fit de podcast peut être pire qu'aucun podcast.</p>
+
+            <h3>Critères de sélection</h3>
+            <ol>
+                <li><strong>Audience alignée :</strong> Les écouteurs du podcast ressemblent-ils à vos fans idéaux ?</li>
+                <li><strong>Qualité audio/production :</strong> Évitez les podcasts avec très mauvaise qualité</li>
+                <li><strong>Authenticité de l'hôte :</strong> L'hôte semble-t-il genuinely intéressé ou juste faire du contenu ?</li>
+                <li><strong>Engagement audience :</strong> Y a-t-il des commentaires, reviews ? Les gens écoutent-ils vraiment ?</li>
+                <li><strong>Fréquence publication :</strong> Un podcast irrégulier suggère une audience instable</li>
+                <li><strong>Réputation dans la communauté :</strong> Les musiciens parlent-ils positivement de ce podcast ?</li>
+            </ol>
+
+            <h3>Comment évaluer un podcast</h3>
+            <p><strong>Avant de proposer une interview :</strong></p>
+            <ul>
+                <li>Écoutez au minimum 3-5 épisodes complets</li>
+                <li>Repérez le style de questions et le ton de l'hôte</li>
+                <li>Vérifiez la qualité audio et la fluidité</li>
+                <li>Notez comment l'hôte traite les invités</li>
+                <li>Regardez les stats disponibles (si publiques) sur Spotify, Apple, etc.</li>
+            </ul>
+
+            <div class="callout attention">
+                <div class="callout-title">⚠️ Attention</div>
+                <p>Évitez les podcasts avec audiences très faibles ET avis négatifs dans les commentaires. Un petit podcast avec audience engagée positively vaut 100x un gros podcast avec audience toxique ou désengagée.</p>
+            </div>
+
+            <h3>Créer votre liste de podcasts à cibler</h3>
+            <p>Structurez votre recherche :</p>
+            <ul>
+                <li><strong>Tier 1 cible :</strong> 5-10 micro-podcasts parfaitement alignés</li>
+                <li><strong>Tier 2 cible :</strong> 10-15 podcasts de croissance pertinents</li>
+                <li><strong>Tier 3 cible :</strong> 3-5 grands podcasts "dream interviews"</li>
+            </ul>
+            <p>Créez une feuille de calcul avec : Nom du podcast | Hôte | Email | Auditeurs | Alignement | Notes</p>
+        </section>
+
+        <section id="section4">
+            <div class="section-header">
+                <div class="section-icon">📋</div>
+                <h2>Préparer votre pitch podcast</h2>
+            </div>
+            <p>Votre pitch podcast doit être plus engageant qu'un pitch presse. Les podcasteurs recherchent des invités intéressants, pas juste des musiciens talentueux.</p>
+
+            <h3>Ce que veut un podcasteur</h3>
+            <ul>
+                <li>Une histoire intéressante</li>
+                <li>De la personnalité et du charisme</li>
+                <li>Une vraie valeur ou perspective unique</li>
+                <li>Quelqu'un d'engageant en conversation</li>
+                <li>Pas quelqu'un qui va juste faire la promo de lui-même</li>
+            </ul>
+
+            <div class="callout retenir">
+                <div class="callout-title">📌 À retenir</div>
+                <p>Les meilleures interviews ne parlent pas juste de musique — elles parlent de créativité, de défi, de process, de failed projects, de lessons. Les podcasteurs veulent de la substance, pas un jukebox parlant.</p>
+            </div>
+
+            <h3>Structure du pitch podcast</h3>
+            <details>
+                <summary>Voir un exemple de pitch</summary>
+                <div>
+                    <p><strong>Objet :</strong> Invité potentiel pour [Podcast Name] — [Artiste Name]</p>
+                    <p><strong>Corps :</strong></p>
+                    <p>Salut [Prénom],</p>
+                    <p>J'écoute [Podcast Name] depuis quelques mois et j'ai vraiment apprécié ton épisode avec [Invité récent]. Votre discussion sur [Thème] m'a résonné.</p>
+                    <p>Je suis [Artiste Name], musicien basé à [Lieu]. Je suis spécialisé dans [Genre] et j'ai récemment [Achievement important - nombre de streams, concert, collaboration, challenge particulier].</p>
+                    <p>Ce qui pourrait être intéressant pour tes écouteurs : [Une anecdote ou insight spécifique sur : process créatif, challenge personnel, perspective unique, collaboration intéressante, ou angle différent sur la musique].</p>
+                    <p>Je serais ravi de discuter [Thème X] dans une interview. Je suis flexible sur les horaires et format.</p>
+                    <p>Voilà mes projets : [Lien vers musique / site / vidéo]</p>
+                    <p>Cheers,<br/>
+                    [Prénom]<br/>
+                    [Contact]</p>
+                </div>
+            </details>
+
+            <h3>Ce qu'il faut inclure</h3>
+            <ul>
+                <li>Preuve que vous écoutez réellement le podcast</li>
+                <li>Pourquoi SPÉCIFIQUEMENT votre histoire intéresse SES écouteurs</li>
+                <li>Qui vous êtes (brièvement) avec une proof (streams, prix, collaborations)</li>
+                <li>L'angle d'interview spécifique — pas juste "je suis musicien"</li>
+                <li>Lien vers votre musique (pas pièce jointe)</li>
+            </ul>
+
+            <h3>Angles d'interview variés selon votre situation</h3>
+            <ul>
+                <li><strong>Débutant avec vision claire :</strong> "Comment j'ai passé de 0 à 100K streams en 6 mois"</li>
+                <li><strong>Artiste établi :</strong> "Leçons après 10 ans dans l'industrie"</li>
+                <li><strong>Producteur/beatmaker :</strong> "Mon processus créatif" ou "Comment j'ai créé ce son viral"</li>
+                <li><strong>Musicien multi-disciplinaire :</strong> "Fusionner musique et [autre art/domaine]"</li>
+                <li><strong>Histoire de rebond :</strong> "Comment j'ai reconstruit ma carrière après..."</li>
+            </ul>
+        </section>
+
+        <section id="section5">
+            <div class="section-header">
+                <div class="section-icon">🎤</div>
+                <h2>Réussir votre interview</h2>
+            </div>
+            <p>Une grande interview c'est 50% préparation, 50% authenticité. Préparez vos points clés mais soyez flexible et conversationnel.</p>
+
+            <h3>Avant l'enregistrement (24h)</h3>
+            <ul>
+                <li>Écoutez minimum 2-3 épisodes récents</li>
+                <li>Notez le style de questions de l'hôte</li>
+                <li>Testez votre connexion Internet/audio</li>
+                <li>Préparez 3-4 anecdotes clés que vous voulez raconter</li>
+                <li>Préparez des données/stats si pertinent</li>
+                <li>Ayez votre bio courte (30 sec) mémorisée</li>
+            </ul>
+
+            <h3>Pendant l'enregistrement</h3>
+            <div class="callout astuce">
+                <div class="callout-title">💡 Astuce</div>
+                <p>Soyez plus engageant que vous ne l'êtes en personne. Podcasting favorise l'enthousiasme, la clarté et l'énergie. Parlez comme vous diriez à un ami passionné par le sujet.</p>
+            </div>
+
+            <ul>
+                <li><strong>Commencez par une anecdote ou histoire :</strong> Capture l'attention immédiatement</li>
+                <li><strong>Parlez distinctement :</strong> Pas trop vite, bonnes pauses pour que l'hôte puisse intervenir</li>
+                <li><strong>Soyez honnête sur les défis :</strong> Admettez les échecs, c'est plus puissant</li>
+                <li><strong>Posez des questions en retour :</strong> Faites que ça semble conversationnel</li>
+                <li><strong>Évitez de faire juste la promo :</strong> Parlez musique, créativité, pas "achetez mon album"</li>
+                <li><strong>Soyez vous-même :</strong> Les audiences sentent l'authenticité</li>
+            </ul>
+
+            <h3>Format typique d'une interview podcast</h3>
+            <ol>
+                <li><strong>Intro :</strong> L'hôte présente le concept du podcast et tease votre interview</li>
+                <li><strong>Segment 1 :</strong> Qui êtes-vous ? (10-15 min)</li>
+                <li><strong>Segment 2 :</strong> Votre plus grande anecdote/achievement (15-20 min)</li>
+                <li><strong>Segment 3 :</strong> Challenges et lessons (15-20 min)</li>
+                <li><strong>Segment 4 :</strong> Actualités / projets actuels (10-15 min)</li>
+                <li><strong>Outro :</strong> Conseils pour l'audience + appel à l'action (5 min)</li>
+            </ol>
+
+            <h3>Les questions que vous allez probablement recevoir</h3>
+            <details>
+                <summary>Se préparer aux questions classiques</summary>
+                <div>
+                    <ul>
+                        <li>"Parlez-moi de votre parcours" (Préparez une version courte - 3 min max)</li>
+                        <li>"Qu'est-ce qui vous a motivé à faire de la musique ?" (Anecdote authentique)</li>
+                        <li>"Quel est votre biggest challenge aujourd'hui ?" (Soyez honnête)</li>
+                        <li>"Quelle a été ta pire erreur ?" (Humilité + lesson apprise)</li>
+                        <li>"Qu'est-ce qu'on peut écouter de toi ?" (Soyez précis sur votre musique)</li>
+                        <li>"Quel conseil tu donnes aux artistes ?" (Utile et spécifique)</li>
+                    </ul>
+                </div>
+            </details>
+        </section>
+
+        <section id="section6">
+            <div class="section-header">
+                <div class="section-icon">📢</div>
+                <h2>Maximiser l'impact post-interview</h2>
+            </div>
+            <p>Beaucoup d'artistes gaspillent le potentiel d'une interview en ne faisant rien après la publication. C'est une erreur grave.</p>
+
+            <h3>Immédiatement après publication</h3>
+            <ul>
+                <li>Écoutez l'épisode en entier (cherchez des erreurs/moments clés)</li>
+                <li>Partagez sur tous vos réseaux sociaux avec clips vidéo courtes</li>
+                <li>Taggez le podcasteur dans tous vos partages</li>
+                <li>Remerciez l'hôte publiquement ET en privé</li>
+                <li>Encouragez vos fans à écouter et laisser des reviews</li>
+            </ul>
+
+            <h3>Contenu à créer à partir de l'épisode</h3>
+            <table>
+                <tr>
+                    <th>Format</th>
+                    <th>Plateforme</th>
+                    <th>Durée de vie</th>
+                </tr>
+                <tr>
+                    <td>Clips audio (30 sec - 2 min)</td>
+                    <td>TikTok, Instagram Reels, YouTube Shorts</td>
+                    <td>1-3 semaines</td>
+                </tr>
+                <tr>
+                    <td>Vidéo compilée (3-5 min)</td>
+                    <td>YouTube, Instagram Feed</td>
+                    <td>2-4 semaines</td>
+                </tr>
+                <tr>
+                    <td>Quotes + images</td>
+                    <td>Instagram Stories, LinkedIn</td>
+                    <td>1 jour</td>
+                </tr>
+                <tr>
+                    <td>Behind-the-scenes</td>
+                    <td>Stories & Reels</td>
+                    <td>3-7 jours</td>
+                </tr>
+                <tr>
+                    <td>Blog post (article lien)</td>
+                    <td>Site, Medium</td>
+                    <td>6+ mois</td>
+                </tr>
+            </table>
+
+            <div class="callout retenir">
+                <div class="callout-title">📌 À retenir</div>
+                <p>Les meilleurs créateurs créent 10-15 pieces de contenu d'une seule interview. C'est votre job d'amplifier le message, pas celui du podcasteur.</p>
+            </div>
+
+            <h3>Engagement long-terme avec l'audience du podcast</h3>
+            <ul>
+                <li>Répondez à CHAQUE commentaire sur les clips que vous publiez</li>
+                <li>Mentionnez le podcast dans vos prochaines sorties</li>
+                <li>Invitez le podcasteur à venir à vos concerts/événements</li>
+                <li>Proposez un suivi 6 mois plus tard si votre carrière a évolué</li>
+            </ul>
+        </section>
+
+        <section id="section7">
+            <div class="section-header">
+                <div class="section-icon">🤝</div>
+                <h2>Construire des relations long-terme avec les podcasteurs</h2>
+            </div>
+            <p>Les meilleurs musiciens ont des relations durables avec plusieurs podcasteurs. Ces relations génèrent des opportunités répétées.</p>
+
+            <h3>Comment cultiver une relation</h3>
+            <ul>
+                <li><strong>Première interview :</strong> Excellez. Soyez professionnel et passionnant.</li>
+                <li><strong>Post-interview :</strong> Envoyez un petit merci + données d'impact (stats de l'épisode si vous les avez)</li>
+                <li><strong>3-6 mois :</strong> Mentionnez-les dans votre newsletter ou socials</li>
+                <li><strong>Projet majeur :</strong> Proposez une deuxième interview ou une collaboration</li>
+                <li><strong>Continue :</strong> Écoutez et engagez-vous avec leurs autres épisodes</li>
+            </ul>
+
+            <h3>Créer un système pour les podcasts</h3>
+            <details>
+                <summary>Voir le système recommandé</summary>
+                <div>
+                    <p><strong>Spreadsheet simple :</strong></p>
+                    <ul>
+                        <li>Nom du podcast | Hôte | Email | Date interview | Épisode #? | Stats d'écoute | Follow-up date</li>
+                    </ul>
+                    <p><strong>Calendrier de relance :</strong></p>
+                    <ul>
+                        <li>3 mois après interview = proposez deuxième interview OU collaboration</li>
+                        <li>Tous les 6 mois = simple email de "vous êtes toujours awesome"</li>
+                    </ul>
+                    <p><strong>Alerte podcast :</strong> Abonnez-vous à leurs notifications pour écouter rapidement les nouveaux épisodes</p>
+                </div>
+            </details>
+
+            <h3>Red flags - Quand refuser une interview</h3>
+            <ul>
+                <li>Podcast avec très mauvaise reputation</li>
+                <li>Contenu controversé ou incompatible avec vos valeurs</li>
+                <li>Hôte impoli ou condescendant dans les communications</li>
+                <li>Trop d'exigences / contrôle éditorial excessif</li>
+                <li>Mauvaise qualité audio technique</li>
+            </ul>
+
+            <div class="callout attention">
+                <div class="callout-title">⚠️ Attention</div>
+                <p>Ne refusez pas une interview uniquement par peur ou timidité. Seules les situations réelles (réputationnelle, technique, valeurs) sont bonnes raisons. La plupart des podcasts, même petits, valent le coup.</p>
+            </div>
+        </section>
+
+        <section id="quiz" class="quiz-section">
+            <h2>Quiz : Testez vos connaissances</h2>
+            <p>Répondez à ces 5 questions pour vérifier votre compréhension du module.</p>
+
+            <form id="quizForm">
+                <div class="quiz-question">
+                    <h4>1. Quel est l'avantage principal d'une interview podcast versus une interview presse ?</h4>
+                    <div class="quiz-option">
+                        <input type="radio" id="q1a" name="q1" value="1">
+                        <label for="q1a">Durée plus longue qui permet une vraie profondeur conversationnelle</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q1b" name="q1" value="0">
+                        <label for="q1b">Moins de préparation requise</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q1c" name="q1" value="0">
+                        <label for="q1c">Moins d'audience atteinte</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q1d" name="q1" value="0">
+                        <label for="q1d">Pas de need pour un dossier de presse</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h4>2. Avant de contacter un podcast, combien d'épisodes minimum vous devriez écouter ?</h4>
+                    <div class="quiz-option">
+                        <input type="radio" id="q2a" name="q2" value="0">
+                        <label for="q2a">Aucun — contactez directement</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q2b" name="q2" value="1">
+                        <label for="q2b">3-5 épisodes pour vraiment connaître le style</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q2c" name="q2" value="0">
+                        <label for="q2c">Tous les épisodes publiés</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q2d" name="q2" value="0">
+                        <label for="q2d">Un seul épisode suffit</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h4>3. Quel est le plus gros piège lors d'une interview podcast ?</h4>
+                    <div class="quiz-option">
+                        <input type="radio" id="q3a" name="q3" value="0">
+                        <label for="q3a">Parler trop lentement</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q3b" name="q3" value="1">
+                        <label for="q3b">Faire juste la promotion de votre musique au lieu de vraie conversation</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q3c" name="q3" value="0">
+                        <label for="q3c">Poser des questions en retour</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q3d" name="q3" value="0">
+                        <label for="q3d">Trop de détails techniques sur votre process</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h4>4. Combien de pieces de contenu devriez-vous créer à partir d'une seule interview podcast ?</h4>
+                    <div class="quiz-option">
+                        <input type="radio" id="q4a" name="q4" value="0">
+                        <label for="q4a">Juste un lien vers l'épisode</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q4b" name="q4" value="1">
+                        <label for="q4b">10-15 pieces (clips, quotes, vidéos, blog posts)</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q4c" name="q4" value="0">
+                        <label for="q4c">2-3 pieces maximum</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q4d" name="q4" value="0">
+                        <label for="q4d">Le podcasteur devrait faire tout le marketing</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h4>5. Quel est le timing recommandé pour proposer une deuxième interview au même podcast ?</h4>
+                    <div class="quiz-option">
+                        <input type="radio" id="q5a" name="q5" value="0">
+                        <label for="q5a">Immédiatement après la première</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q5b" name="q5" value="1">
+                        <label for="q5b">3-6 mois plus tard, avec un nouveau projet ou achievement</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q5c" name="q5" value="0">
+                        <label for="q5c">Jamais — une interview par podcast</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q5d" name="q5" value="0">
+                        <label for="q5d">Tous les mois</label>
+                    </div>
+                </div>
+
+                <button type="button" class="quiz-button" onclick="checkQuiz()">Vérifier mes réponses</button>
+                <div id="quizFeedback" class="quiz-feedback"></div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="branding">
+            <div class="logo">Producteur à Succès</div>
+        </div>
+        <p>Module 6 - Podcasts invité</p>
+        <p>Formation Music Business par <a href="#">Tarik Hamiche</a></p>
+        <p style="font-size: 0.85rem; color: #6b7280; margin-top: 20px;">© 2026 Producteur à Succès. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', function() {
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / scrollHeight) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Quiz
+        function checkQuiz() {
+            const answers = {
+                q1: '1',
+                q2: '1',
+                q3: '1',
+                q4: '1',
+                q5: '1'
+            };
+
+            let score = 0;
+            let allAnswered = true;
+
+            for (let question in answers) {
+                const selected = document.querySelector(`input[name="${question}"]:checked`);
+                if (!selected) {
+                    allAnswered = false;
+                    break;
+                }
+                if (selected.value === answers[question]) {
+                    score++;
+                }
+            }
+
+            if (!allAnswered) {
+                alert('Veuillez répondre à toutes les questions avant de vérifier.');
+                return;
+            }
+
+            const feedback = document.getElementById('quizFeedback');
+            const percentage = Math.round((score / 5) * 100);
+
+            if (percentage >= 80) {
+                feedback.className = 'quiz-feedback show correct';
+                feedback.innerHTML = `<strong>🎉 Excellent !</strong> Vous avez obtenu ${score}/5 (${percentage}%). Vous maîtrisez bien les stratégies podcast !`;
+            } else if (percentage >= 60) {
+                feedback.className = 'quiz-feedback show correct';
+                feedback.innerHTML = `<strong>✅ Bien !</strong> Vous avez obtenu ${score}/5 (${percentage}%). Relisez les sections pour consolider vos connaissances.`;
+            } else {
+                feedback.className = 'quiz-feedback show incorrect';
+                feedback.innerHTML = `<strong>📚 Continuons !</strong> Vous avez obtenu ${score}/5 (${percentage}%). Relisez attentivement les sections pour mieux comprendre le contenu.`;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Développer une méthode de veille efficace - Producteur à Succès</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden;
+        }
+
+        :root {
+            --primary: #6C3AED;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --dark: #1F2937;
+            --light: #F9FAFB;
+            --border: #E5E7EB;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #FFFFFF;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: sticky;
+            top: 0;
+            height: 4px;
+            background-color: var(--border);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        /* Header/Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #5B28B8 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            margin-bottom: 24px;
+            opacity: 0.95;
+        }
+
+        .metadata {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            font-size: 14px;
+            opacity: 0.9;
+            flex-wrap: wrap;
+        }
+
+        .metadata-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Navigation */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .toc {
+            background-color: var(--light);
+            border-left: 4px solid var(--primary);
+            padding: 24px;
+            margin: 40px 0;
+            border-radius: 8px;
+        }
+
+        .toc h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            margin-bottom: 16px;
+            color: var(--primary);
+        }
+
+        .toc ul {
+            list-style: none;
+        }
+
+        .toc li {
+            margin: 10px 0;
+        }
+
+        .toc a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .toc a:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        /* Section Styling */
+        section {
+            margin: 50px 0;
+            scroll-margin-top: 60px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .section-icon {
+            font-size: 32px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            background-color: var(--light);
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            color: var(--dark);
+            margin-bottom: 24px;
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 22px;
+            color: var(--primary);
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
+        section p {
+            margin-bottom: 16px;
+            line-height: 1.8;
+            color: #4B5563;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            border-left: 4px solid;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            background-color: var(--light);
+        }
+
+        .callout-title {
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .callout.important {
+            border-left-color: var(--primary);
+            background-color: #F3F0FF;
+        }
+
+        .callout.important .callout-title {
+            color: var(--primary);
+        }
+
+        .callout.tip {
+            border-left-color: var(--success);
+            background-color: #F0FDF4;
+        }
+
+        .callout.tip .callout-title {
+            color: var(--success);
+        }
+
+        .callout.warning {
+            border-left-color: var(--accent);
+            background-color: #FFFBEB;
+        }
+
+        .callout.warning .callout-title {
+            color: var(--accent);
+        }
+
+        .callout.info {
+            border-left-color: var(--info);
+            background-color: #EFF6FF;
+        }
+
+        .callout.info .callout-title {
+            color: var(--info);
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background-color: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Accordions */
+        details {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            background-color: var(--light);
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        summary::before {
+            content: '▶';
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        details[open] summary::before {
+            transform: rotate(90deg);
+        }
+
+        details > *:not(summary) {
+            margin-top: 16px;
+        }
+
+        /* Quiz Section */
+        .quiz-container {
+            background: linear-gradient(135deg, #F3F0FF 0%, #FEF3F2 100%);
+            border-radius: 12px;
+            padding: 40px;
+            margin: 40px 0;
+        }
+
+        .quiz-container h2 {
+            color: var(--primary);
+            margin-bottom: 30px;
+        }
+
+        .quiz-question {
+            margin-bottom: 32px;
+        }
+
+        .quiz-question h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--dark);
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary);
+            background-color: white;
+        }
+
+        .quiz-option input[type="radio"] {
+            cursor: pointer;
+        }
+
+        .quiz-option.correct {
+            border-color: var(--success);
+            background-color: #F0FDF4;
+        }
+
+        .quiz-option.incorrect {
+            border-color: var(--danger);
+            background-color: #FEF2F2;
+        }
+
+        .feedback {
+            margin-top: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            color: var(--success);
+        }
+
+        .feedback.incorrect {
+            color: var(--danger);
+        }
+
+        .quiz-button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .quiz-button:hover {
+            background-color: #5B28B8;
+        }
+
+        .score-display {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .score-display.show {
+            display: block;
+        }
+
+        .score-display p {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+
+        footer p {
+            font-size: 14px;
+            opacity: 0.8;
+            margin: 8px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .hero-description {
+                font-size: 16px;
+            }
+
+            .metadata {
+                gap: 15px;
+                font-size: 12px;
+            }
+
+            section h2 {
+                font-size: 24px;
+            }
+
+            section h3 {
+                font-size: 18px;
+            }
+
+            .quiz-container {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- HERO/HEADER -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="badge">Module 3 • Stratégies de contenu</div>
+            <h1>Développer une méthode de veille efficace</h1>
+            <p class="hero-description">Maîtrisez la méthode des 4 C pour identifier, analyser et créer du contenu à potentiel viral</p>
+            <div class="metadata">
+                <div class="metadata-item">
+                    <span>👤</span>
+                    <span><strong>Formateur :</strong> Tarik Hamiche</span>
+                </div>
+                <div class="metadata-item">
+                    <span>🏢</span>
+                    <span><strong>Organisme :</strong> Producteur à Succès</span>
+                </div>
+                <div class="metadata-item">
+                    <span>⏱️</span>
+                    <span><strong>Durée :</strong> 28 min</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- TABLE OF CONTENTS -->
+        <section class="toc">
+            <h2>📑 Sommaire</h2>
+            <ul>
+                <li><a href="#section1">1. Introduction à la veille efficace</a></li>
+                <li><a href="#section2">2. La méthode des 4 C expliquée</a></li>
+                <li><a href="#section3">3. Comprendre (C1) : Analyser l'algorithme</a></li>
+                <li><a href="#section4">4. Confirmer (C2) : Valider vos critères</a></li>
+                <li><a href="#section5">5. Classer (C3) : Organiser le contenu</a></li>
+                <li><a href="#section6">6. Conceptualiser (C4) : Créer à partir de patterns</a></li>
+                <li><a href="#section7">7. Mise en pratique et outils</a></li>
+            </ul>
+        </section>
+
+        <!-- SECTION 1 -->
+        <section id="section1">
+            <div class="section-header">
+                <div class="section-icon">🔍</div>
+                <h2>Introduction à la veille efficace</h2>
+            </div>
+
+            <p>Le créateur de contenu moderne se pose chaque matin la même question : "Qu'est-ce que je peux créer ?". Cette approche sans méthode est inefficace. La solution : une stratégie de veille intelligente basée sur l'observation de ce que font les autres créateurs.</p>
+
+            <h3>Pourquoi une méthode est essentielle</h3>
+            <p>Au lieu de partir du principe que vous êtes excellent en marketing et en communication, il faut adopter l'humilité de dire : "Je vais regarder ce que les autres font". Cette approche transforme votre processus créatif :</p>
+
+            <ul style="margin-left: 20px; margin-bottom: 16px;">
+                <li>✓ Élimine la peur de la page blanche</li>
+                <li>✓ Basez-vous sur des contenus déjà testés et validés</li>
+                <li>✓ Identifiez les patterns de viralité</li>
+                <li>✓ Adaptez plutôt que d'inventer</li>
+            </ul>
+
+            <div class="callout important">
+                <div class="callout-title">À retenir</div>
+                <p>La veille n'est pas du copie-colle. C'est l'art d'observer les succès des autres pour comprendre les mécanismes sous-jacents et les adapter à votre univers et à votre voix.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 2 -->
+        <section id="section2">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h2>La méthode des 4 C expliquée</h2>
+            </div>
+
+            <p>La méthode DC (4 C) est un framework structuré pour transformer l'observation en création stratégique. Chaque C représente une étape du processus :</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Étape</th>
+                        <th>Objectif</th>
+                        <th>Action clé</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Comprendre</strong></td>
+                        <td>Analyser ce que veut l'algorithme</td>
+                        <td>Observer les métriques et les patterns</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Confirmer</strong></td>
+                        <td>Valider les critères de succès</td>
+                        <td>Vérifier les éléments communs</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Classer</strong></td>
+                        <td>Organiser le contenu par catégories</td>
+                        <td>Structurer votre veille en thèmes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Conceptualiser</strong></td>
+                        <td>Extraire les concepts transférables</td>
+                        <td>Créer vos propres contenus basés sur les patterns</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout tip">
+                <div class="callout-title">Astuce</div>
+                <p>Cette méthode fonctionne sur tous les réseaux sociaux. Les algorithmes varient, mais les principes restent similaires : engagement, rétention, et viralité.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 3 -->
+        <section id="section3">
+            <div class="section-header">
+                <div class="section-icon">🧠</div>
+                <h2>Comprendre (C1) : Analyser l'algorithme</h2>
+            </div>
+
+            <p>La première étape consiste à décortiquer comment fonctionne l'algorithme de la plateforme sur laquelle vous créez.</p>
+
+            <h3>Les questions à vous poser</h3>
+            <ul style="margin-left: 20px; margin-bottom: 16px;">
+                <li><strong>Quels sont les contenus les plus vus ?</strong> Regardez le top 10 du jour sur TikTok, YouTube Shorts, Instagram Reels...</li>
+                <li><strong>Quel est le ratio engagement/vues ?</strong> Un contenu avec 1M de vues et 50k likes n'a pas le même impact qu'un avec 500k vues et 150k likes</li>
+                <li><strong>Quel format gagne ?</strong> Texte, vidéo longue, Shorts, carousel...</li>
+                <li><strong>Quel est le temps de rétention ?</strong> Les gens regardent-ils jusqu'au bout ?</li>
+            </ul>
+
+            <details>
+                <summary>Exemple concret : Analyser un contenu viral</summary>
+                <p>Vous voyez une vidéo TikTok virale avec 5M de vues. Avant de la regarder, posez-vous la question : "Quel est l'hook ?" C'est généralement dans les 3 premières secondes que vous le trouverez. C'est ce qui force l'algorithme à vous suggérer la vidéo à plus de gens.</p>
+            </details>
+
+            <div class="callout info">
+                <div class="callout-title">Le saviez-vous ?</div>
+                <p>L'algorithme ne comprend pas le contenu. Il mesure uniquement les comportements : pause, replay, partage, commentaire. Votre objectif est de maximiser ces comportements.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 4 -->
+        <section id="section4">
+            <div class="section-header">
+                <div class="section-icon">✅</div>
+                <h2>Confirmer (C2) : Valider vos critères</h2>
+            </div>
+
+            <p>Une fois que vous avez identifié les patterns, il faut les confirmer. N'acceptez pas qu'un seul succès. Vous devez voir cette même mécanique se répéter plusieurs fois.</p>
+
+            <h3>Procédure de confirmation</h3>
+            <p>Avant de valider un critère de succès, posez-vous ces questions :</p>
+
+            <ul style="margin-left: 20px; margin-bottom: 16px;">
+                <li><strong>Est-ce que ça se répète ?</strong> Si vous voyez un hook similaire dans 5 vidéos virales différentes, c'est probablement un critère valide</li>
+                <li><strong>Est-ce que ça fonctionne à différentes échelles ?</strong> Le pattern marche-t-il pour les petits comptes et les gros ?</li>
+                <li><strong>Est-ce adaptable à mon univers ?</strong> Pouvez-vous le reproduire dans votre domaine spécifique ?</li>
+            </ul>
+
+            <div class="callout warning">
+                <div class="callout-title">Attention</div>
+                <p>Ne confondez pas corrélation et causalité. Si une vidéo virale a un titre avec un emoji, ce n'est pas l'emoji qui l'a rendue virale. Analyser plus profondément.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 5 -->
+        <section id="section5">
+            <div class="section-header">
+                <div class="section-icon">📊</div>
+                <h2>Classer (C3) : Organiser le contenu</h2>
+            </div>
+
+            <p>Maintenant que vous avez des critères validés, vous devez organiser votre base d'observation. Le classement vous permet de voir les patterns plus clairement.</p>
+
+            <h3>Systèmes de classement efficaces</h3>
+            <p>Voici différentes façons de structurer votre veille :</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Méthode</th>
+                        <th>Avantage</th>
+                        <th>Meilleur pour</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Par format</strong></td>
+                        <td>Repérer quel format marche le mieux</td>
+                        <td>Optimisation technique</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Par thème</strong></td>
+                        <td>Identifier les sujets populaires</td>
+                        <td>Stratégie éditoriale</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Par émotions</strong></td>
+                        <td>Comprendre les motivations de partage</td>
+                        <td>Psychologie du contenu</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Par créateur</strong></td>
+                        <td>Analyser les stratégies gagnantes</td>
+                        <td>Benchmarking</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Outils pratiques de classement</h3>
+            <ul style="margin-left: 20px; margin-bottom: 16px;">
+                <li><strong>Spreadsheet</strong> : Simple et direct, parfait pour débuter</li>
+                <li><strong>Notion</strong> : Plus puissant, avec filtres et vues</li>
+                <li><strong>Pinterest</strong> : Idéal pour la veille visuelle</li>
+                <li><strong>Airtable</strong> : Base de données avancée avec nombreuses options</li>
+            </ul>
+
+            <div class="callout tip">
+                <div class="callout-title">Astuce</div>
+                <p>Créez au minimum ces colonnes dans votre base : titre, lien, plateforme, format, hook, engagement, date, notes personnelles.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 6 -->
+        <section id="section6">
+            <div class="section-header">
+                <div class="section-icon">💡</div>
+                <h2>Conceptualiser (C4) : Créer à partir de patterns</h2>
+            </div>
+
+            <p>L'étape finale et cruciale : transformer votre veille en création. C'est ici que vous convertissez l'observation en résultats.</p>
+
+            <h3>De l'observation à la création</h3>
+            <p>Ne copiez jamais directement. Adaptez plutôt :</p>
+
+            <ul style="margin-left: 20px; margin-bottom: 16px;">
+                <li><strong>Le hook</strong> : Prenez la mécanique (suspense, curiosité, surprise) mais changez le contexte</li>
+                <li><strong>La structure</strong> : Analysez comment le contenu progresse et reproduisez ce rythme</li>
+                <li><strong>L'émotion</strong> : Comprenez pourquoi ça marche émotionnellement et appliquez-le à votre message</li>
+                <li><strong>La voix</strong> : Gardez votre authenticité et votre style personnel</li>
+            </ul>
+
+            <details>
+                <summary>Exemple : Transformer un hook TikTok</summary>
+                <p><strong>Original :</strong> "Je gagne 10k€/mois avec cette une simple astuce"</p>
+                <p><strong>Votre version :</strong> "Mon client fait 50k€/mois. Voici comment j'ai construit sa stratégie"</p>
+                <p>Même mécanique de curiosité (chiffre impressive), mais contextualisé à votre domaine et votre positionnement.</p>
+            </details>
+
+            <div class="callout important">
+                <div class="callout-title">À retenir</div>
+                <p>La créativité ne signifie pas partir de zéro. Les meilleurs créateurs du monde s'inspirent constamment. La différence : ils le font intelligemment et l'adaptent à leur voix unique.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 7 -->
+        <section id="section7">
+            <div class="section-header">
+                <div class="section-icon">🛠️</div>
+                <h2>Mise en pratique et outils</h2>
+            </div>
+
+            <h3>Votre plan d'action hebdomadaire</h3>
+            <p>Pour mettre en place cette méthode, voici ce que vous devez faire chaque semaine :</p>
+
+            <ul style="margin-left: 20px; margin-bottom: 16px;">
+                <li><strong>Jour 1-2 :</strong> Parcourez les contenus viraux de votre domaine (30-50 vidéos)</li>
+                <li><strong>Jour 3 :</strong> Classez-les dans votre système d'organisation</li>
+                <li><strong>Jour 4 :</strong> Validez les patterns que vous voyez</li>
+                <li><strong>Jour 5-6 :</strong> Créez au moins 3 contenus basés sur ces patterns</li>
+                <li><strong>Jour 7 :</strong> Analysez les résultats et ajustez votre méthode</li>
+            </ul>
+
+            <h3>Outils recommandés</h3>
+            <ul style="margin-left: 20px; margin-bottom: 16px;">
+                <li><strong>TubeBuddy / VidIQ</strong> (YouTube) : Analyse détaillée des vidéos virales</li>
+                <li><strong>TikTok Pro</strong> : Statistiques sur les contenus en tendance</li>
+                <li><strong>Social Blade</strong> : Suivi de la croissance des créateurs</li>
+                <li><strong>Google Trends</strong> : Sujets en tendance par région et période</li>
+                <li><strong>Hootsuite / Later</strong> : Planification et analyse sociale</li>
+            </ul>
+
+            <div class="callout info">
+                <div class="callout-title">Le saviez-vous ?</div>
+                <p>Les créateurs à succès passent en moyenne 20% du temps à créer et 80% du temps à analyser, apprendre et adapter. Inversez cette statistique et vous verrez vos résultats exploser.</p>
+            </div>
+        </section>
+
+        <!-- QUIZ SECTION -->
+        <section class="quiz-container">
+            <h2>🎓 Quiz interactif</h2>
+            <p>Testez votre compréhension des concepts clés de ce cours.</p>
+
+            <div class="quiz-question">
+                <h4>Question 1 : Quel est l'objectif principal de la méthode des 4 C ?</h4>
+                <div class="quiz-options">
+                    <label class="quiz-option">
+                        <input type="radio" name="q1" value="a">
+                        <span>Copier exactement ce que font les autres créateurs</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q1" value="b">
+                        <span>Identifier et adapter les patterns de contenu viral</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q1" value="c">
+                        <span>Inventer entièrement nouveau sans s'inspirer</span>
+                    </label>
+                </div>
+                <div class="feedback" id="feedback-q1"></div>
+            </div>
+
+            <div class="quiz-question">
+                <h4>Question 2 : À quoi sert l'étape "Confirmer" ?</h4>
+                <div class="quiz-options">
+                    <label class="quiz-option">
+                        <input type="radio" name="q2" value="a">
+                        <span>À valider que les patterns identifiés se répètent plusieurs fois</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q2" value="b">
+                        <span>À publier directement votre contenu</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q2" value="c">
+                        <span>À analyser uniquement un seul contenu viral</span>
+                    </label>
+                </div>
+                <div class="feedback" id="feedback-q2"></div>
+            </div>
+
+            <div class="quiz-question">
+                <h4>Question 3 : Lequel de ces systèmes de classement est idéal pour débuter ?</h4>
+                <div class="quiz-options">
+                    <label class="quiz-option">
+                        <input type="radio" name="q3" value="a">
+                        <span>Notion avec base de données avancée</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q3" value="b">
+                        <span>Une simple Spreadsheet</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q3" value="c">
+                        <span>Un système papier très complexe</span>
+                    </label>
+                </div>
+                <div class="feedback" id="feedback-q3"></div>
+            </div>
+
+            <div class="quiz-question">
+                <h4>Question 4 : Qu'est-ce qu'un bon "hook" dans un contenu viral ?</h4>
+                <div class="quiz-options">
+                    <label class="quiz-option">
+                        <input type="radio" name="q4" value="a">
+                        <span>Le moment qui force le spectateur à continuer regarder</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q4" value="b">
+                        <span>Le hashtag utilisé dans la description</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q4" value="c">
+                        <span>La musique de fond du contenu</span>
+                    </label>
+                </div>
+                <div class="feedback" id="feedback-q4"></div>
+            </div>
+
+            <div class="quiz-question">
+                <h4>Question 5 : Combien de temps un créateur à succès consacre-t-il à l'analyse vs la création ?</h4>
+                <div class="quiz-options">
+                    <label class="quiz-option">
+                        <input type="radio" name="q5" value="a">
+                        <span>20% création, 80% analyse et apprentissage</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q5" value="b">
+                        <span>90% création, 10% analyse</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q5" value="c">
+                        <span>50% chacun exactement</span>
+                    </label>
+                </div>
+                <div class="feedback" id="feedback-q5"></div>
+            </div>
+
+            <button class="quiz-button" onclick="checkAnswers()">Vérifier mes réponses</button>
+            <div class="score-display" id="scoreDisplay"></div>
+        </section>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">Producteur à Succès</div>
+            <p>Formation complète pour maîtriser les stratégies modernes de création de contenu</p>
+            <p>Formateur : <strong>Tarik Hamiche</strong></p>
+            <p style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px; font-size: 12px;">
+                © 2026 Producteur à Succès. Tous droits réservés.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Progress Bar
+        window.addEventListener('scroll', function() {
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Quiz Logic
+        const correctAnswers = {
+            q1: 'b',
+            q2: 'a',
+            q3: 'b',
+            q4: 'a',
+            q5: 'a'
+        };
+
+        const feedbackText = {
+            q1: {
+                correct: 'Exactement ! La méthode est sur l\'adaptation intelligente, pas la copie.',
+                incorrect: 'Pas tout à fait. La méthode DC est sur l\'adaptation intelligente, pas la copie brute.'
+            },
+            q2: {
+                correct: 'Parfait ! Confirmer signifie valider que le pattern se répète.',
+                incorrect: 'Non, l\'étape confirmer est pour valider que les patterns se répètent plusieurs fois.'
+            },
+            q3: {
+                correct: 'Bien sûr ! Simplifié est toujours mieux pour débuter.',
+                incorrect: 'Non, une Spreadsheet simple est idéale pour débuter et comprendre le processus.'
+            },
+            q4: {
+                correct: 'Bravo ! Le hook est le moment qui captive et force le spectateur à continuer.',
+                incorrect: 'Non, le hook est le moment qui force le spectateur à continuer regarder (généralement les 3 premières secondes).'
+            },
+            q5: {
+                correct: 'Correct ! L\'analyse est plus importante que la création brute.',
+                incorrect: 'Non, les créateurs à succès passent 80% du temps à analyser et apprendre.'
+            }
+        };
+
+        function checkAnswers() {
+            let score = 0;
+            let answered = 0;
+
+            for (let i = 1; i <= 5; i++) {
+                const questionName = 'q' + i;
+                const selectedAnswer = document.querySelector(`input[name="${questionName}"]:checked`);
+
+                if (selectedAnswer) {
+                    answered++;
+                    const isCorrect = selectedAnswer.value === correctAnswers[questionName];
+                    const feedbackEl = document.getElementById('feedback-' + questionName);
+                    const option = selectedAnswer.closest('.quiz-option');
+
+                    if (isCorrect) {
+                        score++;
+                        option.classList.add('correct');
+                        feedbackEl.textContent = '✓ ' + feedbackText[questionName].correct;
+                        feedbackEl.classList.add('correct', 'show');
+                    } else {
+                        option.classList.add('incorrect');
+                        feedbackEl.textContent = '✗ ' + feedbackText[questionName].incorrect;
+                        feedbackEl.classList.add('incorrect', 'show');
+                    }
+                }
+            }
+
+            if (answered === 5) {
+                const scoreDisplay = document.getElementById('scoreDisplay');
+                const percentage = (score / 5) * 100;
+                let message = '';
+
+                if (percentage === 100) {
+                    message = '🌟 Parfait ! Vous maîtrisez complètement cette méthode !';
+                } else if (percentage >= 80) {
+                    message = '✓ Très bien ! Quelques ajustements et vous serez expert.';
+                } else if (percentage >= 60) {
+                    message = '→ Bien ! Relisez les sections où vous avez eu du mal.';
+                } else {
+                    message = '← Recommencez la formation. Vous vous améliorerez !';
+                }
+
+                scoreDisplay.innerHTML = `<p>Score : ${score}/5 (${percentage}%)</p><p>${message}</p>`;
+                scoreDisplay.classList.add('show');
+            } else {
+                alert('Veuillez répondre à toutes les questions avant de vérifier.');
+            }
+        }
+
+        // Smooth scroll for TOC links
+        document.querySelectorAll('.toc a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMD FASTRAX V1 - Producteur à Succès</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6C3AED;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --light: #F3F4F6;
+            --dark: #1F2937;
+            --border: #E5E7EB;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #FFFFFF;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%;
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Header */
+        .hero-header {
+            background: linear-gradient(135deg, var(--primary), #7C3AED);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .hero-header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+
+        .metadata {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+        }
+
+        .metadata-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .metadata-item strong {
+            opacity: 0.8;
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: var(--light);
+            border-left: 4px solid var(--primary);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+
+        .toc h2 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .toc ul {
+            list-style: none;
+        }
+
+        .toc li {
+            margin: 8px 0;
+        }
+
+        .toc a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toc a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+
+        /* Sections */
+        .section {
+            margin: 40px 0;
+            scroll-margin-top: 20px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .section-icon {
+            font-size: 2rem;
+            min-width: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), #7C3AED);
+            color: white;
+            border-radius: 8px;
+        }
+
+        .section-header h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            flex: 1;
+        }
+
+        .section-content {
+            line-height: 1.8;
+            color: #374151;
+        }
+
+        .section-content h3 {
+            color: var(--primary);
+            margin: 20px 0 10px 0;
+            font-size: 1.2rem;
+        }
+
+        .section-content p {
+            margin-bottom: 15px;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid;
+            border-radius: 4px;
+            background-color: #FAFAFA;
+        }
+
+        .callout.success {
+            border-color: var(--success);
+            background-color: #F0FDF4;
+        }
+
+        .callout.warning {
+            border-color: var(--accent);
+            background-color: #FFFBEB;
+        }
+
+        .callout.danger {
+            border-color: var(--danger);
+            background-color: #FEF2F2;
+        }
+
+        .callout.info {
+            border-color: var(--info);
+            background-color: #EFF6FF;
+        }
+
+        .callout-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .callout.success .callout-title {
+            color: var(--success);
+        }
+
+        .callout.warning .callout-title {
+            color: var(--accent);
+        }
+
+        .callout.danger .callout-title {
+            color: var(--danger);
+        }
+
+        .callout.info .callout-title {
+            color: var(--info);
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .comparison-table thead {
+            background: linear-gradient(135deg, var(--primary), #7C3AED);
+            color: white;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table tbody tr:hover {
+            background-color: var(--light);
+        }
+
+        .comparison-table tbody tr:nth-child(even) {
+            background-color: #FAFAFA;
+        }
+
+        /* Accordion */
+        .accordion {
+            margin: 20px 0;
+        }
+
+        .accordion-item {
+            border: 1px solid var(--border);
+            margin-bottom: 10px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            background-color: #F9FAFB;
+            padding: 15px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background-color: #F3F4F6;
+        }
+
+        .accordion-header.active {
+            background: linear-gradient(135deg, var(--primary), #7C3AED);
+            color: white;
+        }
+
+        .accordion-toggle {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-header.active .accordion-toggle {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 15px;
+        }
+
+        .accordion-content.active {
+            max-height: 500px;
+            padding: 15px;
+        }
+
+        /* Quiz */
+        .quiz-section {
+            background: linear-gradient(135deg, rgba(108, 58, 237, 0.05), rgba(245, 158, 11, 0.05));
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+
+        .quiz-section h2 {
+            color: var(--primary);
+            margin-bottom: 25px;
+        }
+
+        .quiz-question {
+            margin: 25px 0;
+            padding: 20px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+
+        .quiz-question h4 {
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .quiz-option label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .quiz-button {
+            background: linear-gradient(135deg, var(--primary), #7C3AED);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(108, 58, 237, 0.3);
+        }
+
+        .quiz-result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .quiz-result.show {
+            display: block;
+        }
+
+        .quiz-result.success {
+            background-color: #F0FDF4;
+            border-left: 4px solid var(--success);
+            color: var(--success);
+        }
+
+        .quiz-result.partial {
+            background-color: #FFFBEB;
+            border-left: 4px solid var(--accent);
+            color: var(--accent);
+        }
+
+        .quiz-result.failure {
+            background-color: #FEF2F2;
+            border-left: 4px solid var(--danger);
+            color: var(--danger);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .metadata {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .comparison-table {
+                font-size: 0.9rem;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar"></div>
+
+    <div class="hero-header">
+        <div class="hero-content">
+            <h1>IMD FASTRAX V1</h1>
+            <p>Maîtrise la distribution et la monétisation de ta musique avec la plateforme IMD FASTRAX</p>
+            <div class="metadata">
+                <div class="metadata-item">
+                    <strong>👨‍🏫 Formateur:</strong> Tarik Hamiche
+                </div>
+                <div class="metadata-item">
+                    <strong>🏢 Organisme:</strong> Producteur à Succès
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="toc">
+            <h2>📚 Table des matières</h2>
+            <ul>
+                <li><a onclick="scrollToSection('section1')">Introduction à IMD FASTRAX</a></li>
+                <li><a onclick="scrollToSection('section2')">Configuration et inscription</a></li>
+                <li><a onclick="scrollToSection('section3')">Upload et gestion de ta musique</a></li>
+                <li><a onclick="scrollToSection('section4')">Distribution multi-plateformes</a></li>
+                <li><a onclick="scrollToSection('section5')">Suivi et monétisation</a></li>
+                <li><a onclick="scrollToSection('section6')">Stratégies avancées de distribution</a></li>
+                <li><a onclick="scrollToSection('section7')">Optimisation du succès musical</a></li>
+            </ul>
+        </div>
+
+        <div id="section1" class="section">
+            <div class="section-header">
+                <div class="section-icon">🚀</div>
+                <h2>Introduction à IMD FASTRAX</h2>
+            </div>
+            <div class="section-content">
+                <p>IMD FASTRAX V1 est une plateforme innovante de distribution musicale conçue spécifiquement pour les producteurs, compositeurs et musiciens qui souhaitent faire entendre leur musique à une audience mondiale. Elle simplifie le processus complexe de mise en ligne sur les grandes plateformes de streaming.</p>
+                
+                <h3>Pourquoi utiliser IMD FASTRAX?</h3>
+                <p>Dans l'industrie musicale moderne, la distribution est cruciale. IMD FASTRAX offre une solution intégrée qui te permet de:</p>
+                <ul style="margin-left: 20px; margin-bottom: 15px;">
+                    <li>Publier ta musique sur Spotify, Apple Music, YouTube Music et d'autres plateformes</li>
+                    <li>Gagner du temps en gérant une seule plateforme plutôt que plusieurs</li>
+                    <li>Suivre les statistiques de tes titres en temps réel</li>
+                    <li>Optimiser tes revenus grâce aux données détaillées</li>
+                </ul>
+
+                <div class="callout info">
+                    <div class="callout-title">💡 Le saviez-vous?</div>
+                    <p>Plus de 90% des musiciens indépendants utilisent une plateforme de distribution musicale. Sans distribution, ta musique reste invisible auprès des millions d'auditeurs potentiels.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="section2" class="section">
+            <div class="section-header">
+                <div class="section-icon">⚙️</div>
+                <h2>Configuration et inscription</h2>
+            </div>
+            <div class="section-content">
+                <p>Le processus d'inscription sur IMD FASTRAX est conçu pour être simple et rapide. Tu peux commencer à distribuer ta musique en quelques minutes.</p>
+                
+                <h3>Étapes d'inscription</h3>
+                <p>Pour commencer avec IMD FASTRAX, tu devras:</p>
+                <ol style="margin-left: 20px; margin-bottom: 15px;">
+                    <li>Accéder au site officiel d'IMD FASTRAX</li>
+                    <li>Créer un compte avec ton adresse email</li>
+                    <li>Verifier ton email</li>
+                    <li>Compléter ton profil artiste ou label</li>
+                    <li>Ajouter tes informations bancaires pour les paiements</li>
+                </ol>
+
+                <div class="callout warning">
+                    <div class="callout-title">⚠️ Attention</div>
+                    <p>Assure-toi que tu possèdes les droits d'auteur complets sur la musique que tu distribueras. Les violations de droits d'auteur peuvent entraîner la suppression de tes morceaux et des pénalités.</p>
+                </div>
+
+                <h3>Informations requises</h3>
+                <p>Prépare les documents suivants avant de t'inscrire:</p>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Information</th>
+                            <th>Description</th>
+                            <th>Format</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Identité</td>
+                            <td>Nom légal ou nom d'artiste</td>
+                            <td>Texte</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>Email valide pour la communication</td>
+                            <td>Email</td>
+                        </tr>
+                        <tr>
+                            <td>Coordonnées bancaires</td>
+                            <td>IBAN pour les paiements royalties</td>
+                            <td>IBAN</td>
+                        </tr>
+                        <tr>
+                            <td>Informations fiscales</td>
+                            <td>SIREN ou équivalent</td>
+                            <td>Numéro identifiant</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="section3" class="section">
+            <div class="section-header">
+                <div class="section-icon">🎵</div>
+                <h2>Upload et gestion de ta musique</h2>
+            </div>
+            <div class="section-content">
+                <p>Une fois inscrit, l'étape suivante est d'uploader ta musique. IMD FASTRAX accepte plusieurs formats audio et offre une interface intuitive pour gérer tes morceaux.</p>
+
+                <h3>Formats acceptés</h3>
+                <p>IMD FASTRAX accepte les formats audio suivants:</p>
+                <ul style="margin-left: 20px; margin-bottom: 15px;">
+                    <li>WAV (44.1kHz minimum, 16-bit ou 24-bit)</li>
+                    <li>MP3 (320kbps minimum)</li>
+                    <li>FLAC (lossless, idéal pour les archives)</li>
+                    <li>AAC (128kbps minimum)</li>
+                </ul>
+
+                <div class="callout success">
+                    <div class="callout-title">✅ Astuce</div>
+                    <p>Utilise toujours le format WAV non compressé pour tes uploads. Cela garantit la meilleure qualité audio sur toutes les plateformes de streaming, particulièrement pour les services hi-fi comme Tidal.</p>
+                </div>
+
+                <h3>Métadonnées essentielles</h3>
+                <p>Remplir correctement les métadonnées est crucial pour le référencement et la monétisation:</p>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Métadonnée</th>
+                            <th>Importance</th>
+                            <th>Exemple</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Titre du morceau</td>
+                            <td>Critique</td>
+                            <td>"Nuit Étoilée"</td>
+                        </tr>
+                        <tr>
+                            <td>Artiste principal</td>
+                            <td>Critique</td>
+                            <td>"DJ Luna"</td>
+                        </tr>
+                        <tr>
+                            <td>Producteur</td>
+                            <td>Important</td>
+                            <td>"Alex Producer"</td>
+                        </tr>
+                        <tr>
+                            <td>Compositeur</td>
+                            <td>Important</td>
+                            <td>"Tom Composer"</td>
+                        </tr>
+                        <tr>
+                            <td>Genre</td>
+                            <td>Important</td>
+                            <td>"Électronique/House"</td>
+                        </tr>
+                        <tr>
+                            <td>Année de sortie</td>
+                            <td>Important</td>
+                            <td>"2026"</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="section4" class="section">
+            <div class="section-header">
+                <div class="section-icon">🌍</div>
+                <h2>Distribution multi-plateformes</h2>
+            </div>
+            <div class="section-content">
+                <p>L'un des grands avantages d'IMD FASTRAX est la capacité à distribuer ta musique sur des dizaines de plateformes simultanément. Cela maximise ta portée et tes opportunités de monétisation.</p>
+
+                <h3>Plateformes disponibles</h3>
+                <p>IMD FASTRAX te permet de publier sur les principaux services de streaming:</p>
+                <ul style="margin-left: 20px; margin-bottom: 15px;">
+                    <li><strong>Spotify</strong> - Plus grand service de streaming avec 500M+ utilisateurs</li>
+                    <li><strong>Apple Music</strong> - Service premium de haute qualité</li>
+                    <li><strong>YouTube Music</strong> - Intégration avec YouTube</li>
+                    <li><strong>Amazon Music</strong> - Service d'Amazon avec streaming illimité</li>
+                    <li><strong>Tidal</strong> - Service hi-fi pour les audiophiles</li>
+                    <li><strong>Deezer</strong> - Leader européen du streaming musical</li>
+                    <li><strong>SoundCloud</strong> - Plateforme de distribution directe</li>
+                </ul>
+
+                <div class="callout info">
+                    <div class="callout-title">💡 Le saviez-vous?</div>
+                    <p>Spotify représente environ 50-60% des revenus pour la plupart des artistes indépendants, suivi d'Apple Music et YouTube Music. Cependant, distribuer largement augmente tes chances de découverte croisée.</p>
+                </div>
+
+                <h3>Délais de distribution</h3>
+                <p>Après l'upload, il faut quelques jours pour que ta musique soit disponible sur toutes les plateformes:</p>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Plateforme</th>
+                            <th>Délai typique</th>
+                            <th>Popularité</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Spotify</td>
+                            <td>2-3 jours</td>
+                            <td>⭐⭐⭐⭐⭐</td>
+                        </tr>
+                        <tr>
+                            <td>Apple Music</td>
+                            <td>1-2 jours</td>
+                            <td>⭐⭐⭐⭐⭐</td>
+                        </tr>
+                        <tr>
+                            <td>YouTube Music</td>
+                            <td>1-3 jours</td>
+                            <td>⭐⭐⭐⭐</td>
+                        </tr>
+                        <tr>
+                            <td>Amazon Music</td>
+                            <td>3-5 jours</td>
+                            <td>⭐⭐⭐⭐</td>
+                        </tr>
+                        <tr>
+                            <td>Tidal</td>
+                            <td>2-4 jours</td>
+                            <td>⭐⭐⭐</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="section5" class="section">
+            <div class="section-header">
+                <div class="section-icon">📊</div>
+                <h2>Suivi et monétisation</h2>
+            </div>
+            <div class="section-content">
+                <p>IMD FASTRAX fournit un tableau de bord détaillé pour suivre les performances de ta musique et analyser tes revenus. Ces données sont essentielles pour optimiser ta stratégie de distribution.</p>
+
+                <h3>Tableau de bord analytique</h3>
+                <p>Dans l'espace admin d'IMD FASTRAX, tu peux accéder à:</p>
+                <ul style="margin-left: 20px; margin-bottom: 15px;">
+                    <li>Nombre total d'écoutes par morceau</li>
+                    <li>Écoutes par plateforme (Spotify, Apple, etc.)</li>
+                    <li>Données géographiques (pays d'origine des écoutes)</li>
+                    <li>Données démographiques (âge, genre des auditeurs)</li>
+                    <li>Revenus générés par morceau et plateforme</li>
+                    <li>Historique des paiements</li>
+                </ul>
+
+                <div class="callout success">
+                    <div class="callout-title">✅ Astuce</div>
+                    <p>Exporte tes données analytiques chaque mois et analyse les tendances. Cela te permet d'identifier quels genres, styles ou promotions fonctionnent le mieux pour ta musique.</p>
+                </div>
+
+                <h3>Taux de rémunération</h3>
+                <p>Les revenus varient selon la plateforme et le nombre de streams:</p>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Plateforme</th>
+                            <th>Taux par 1000 streams</th>
+                            <th>Payeur principal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Spotify</td>
+                            <td>3 à 5 EUR</td>
+                            <td>Label / Distributeur</td>
+                        </tr>
+                        <tr>
+                            <td>Apple Music</td>
+                            <td>5 à 8 EUR</td>
+                            <td>Label / Distributeur</td>
+                        </tr>
+                        <tr>
+                            <td>YouTube Music</td>
+                            <td>2 à 4 EUR</td>
+                            <td>YouTube / Google</td>
+                        </tr>
+                        <tr>
+                            <td>Tidal</td>
+                            <td>6 à 10 EUR</td>
+                            <td>Label / Distributeur</td>
+                        </tr>
+                        <tr>
+                            <td>Amazon Music</td>
+                            <td>3 à 5 EUR</td>
+                            <td>Label / Distributeur</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout warning">
+                    <div class="callout-title">⚠️ Attention</div>
+                    <p>IMD FASTRAX prélève généralement une commission sur les revenus bruts (entre 15% et 30% selon le plan). Assure-toi de comprendre la structure tarifaire de ton compte avant d'uploader ta musique.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="section6" class="section">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h2>Stratégies avancées de distribution</h2>
+            </div>
+            <div class="section-content">
+                <p>Au-delà de simplement uploader et distribuer, il existe des stratégies avancées pour maximiser la visibilité et les revenus de ta musique sur IMD FASTRAX.</p>
+
+                <h3>Stratégie de sortie</h3>
+                <p>Planifie tes sorties de manière stratégique:</p>
+                <ul style="margin-left: 20px; margin-bottom: 15px;">
+                    <li>Lance des singles 6-8 semaines avant un album</li>
+                    <li>Utilise les pre-saves sur Spotify pour générer du momentum</li>
+                    <li>Coordonne tes sorties avec tes campagnes de marketing</li>
+                    <li>Évite les sorties les jours de grosse concurrence (vendredi)</li>
+                </ul>
+
+                <h3>Collaboration et featuring</h3>
+                <p>Les collaborations augmentent la portée de ta musique. IMD FASTRAX te permet d'ajouter plusieurs artistes et contributeurs:</p>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Type de contributeur</th>
+                            <th>Rôle</th>
+                            <th>Part des royalties</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Artiste featured</td>
+                            <td>Voix principale secondaire</td>
+                            <td>Négociée</td>
+                        </tr>
+                        <tr>
+                            <td>Producteur</td>
+                            <td>Production musicale</td>
+                            <td>Généralement 30-50%</td>
+                        </tr>
+                        <tr>
+                            <td>Compositeur</td>
+                            <td>Composition musicale</td>
+                            <td>Automatique via ASCAP/BMI</td>
+                        </tr>
+                        <tr>
+                            <td>Ingénieur son</td>
+                            <td>Mixage et mastering</td>
+                            <td>Travail payé d'avance</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout info">
+                    <div class="callout-title">💡 Le saviez-vous?</div>
+                    <p>Les morceaux avec featuring ont tendance à être partagés plus souvent et à générer plus de playlists. Une bonne collaboration peut doubler les revenus d'un morceau.</p>
+                </div>
+
+                <h3>Playlist pitching</h3>
+                <p>IMD FASTRAX fournit souvent des outils pour pitcher ta musique aux playlists curatoriales:</p>
+                <ul style="margin-left: 20px; margin-bottom: 15px;">
+                    <li>Cible les playlists avec ton genre musical</li>
+                    <li>Envoie des pitches 2-3 semaines avant la sortie</li>
+                    <li>Personnalise chaque message au curateur</li>
+                    <li>Fournis du contexte et des statistiques de tes morceaux précédents</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="section7" class="section">
+            <div class="section-header">
+                <div class="section-icon">🏆</div>
+                <h2>Optimisation du succès musical</h2>
+            </div>
+            <div class="section-content">
+                <p>Pour vraiment réussir avec IMD FASTRAX, tu dois penser au-delà de la distribution technique. Le succès musical dépend d'une stratégie globale et cohérente.</p>
+
+                <h3>Investissement dans la qualité</h3>
+                <p>Avant de distribuer via IMD FASTRAX, assure-toi que ta musique est de la meilleure qualité possible:</p>
+                <ul style="margin-left: 20px; margin-bottom: 15px;">
+                    <li>Investis dans un bon mastering (300-800 EUR pour un morceau)</li>
+                    <li>Assure-toi que ta composition musicale est solide</li>
+                    <li>Utilise des samples et plugins de qualité professionnelle</li>
+                    <li>Fais écouter à d'autres musiciens avant de publier</li>
+                </ul>
+
+                <div class="callout danger">
+                    <div class="callout-title">❌ À éviter</div>
+                    <p>Ne distribue pas de la musique de mauvaise qualité juste pour augmenter ton nombre de sorties. La qualité prime sur la quantité. Une mauvaise sortie peut nuire à ta réputation auprès des curateurs de playlists et des algorithmes de streaming.</p>
+                </div>
+
+                <h3>Cohérence de marque</h3>
+                <p>Développe une identité musicale cohérente:</p>
+                <ul style="margin-left: 20px; margin-bottom: 15px;">
+                    <li>Choisis des genres ou des styles qui te correspondent</li>
+                    <li>Maintiens une identité visuelle sur les réseaux sociaux</li>
+                    <li>Crée un story arc ou une progression dans ta discographie</li>
+                    <li>Interagis avec tes fans et tes communautés</li>
+                </ul>
+
+                <h3>Diversification des revenus</h3>
+                <p>Ne compte pas uniquement sur les revenus de streaming:</p>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Source de revenu</th>
+                            <th>Potentiel</th>
+                            <th>Effort</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Streaming (Spotify, etc.)</td>
+                            <td>Moyen</td>
+                            <td>Bas</td>
+                        </tr>
+                        <tr>
+                            <td>Ventes directes (Bandcamp)</td>
+                            <td>Élevé</td>
+                            <td>Moyen</td>
+                        </tr>
+                        <tr>
+                            <td>Synchronisation (films, pubs)</td>
+                            <td>Très élevé</td>
+                            <td>Élevé</td>
+                        </tr>
+                        <tr>
+                            <td>Cours ou formations</td>
+                            <td>Moyen</td>
+                            <td>Élevé</td>
+                        </tr>
+                        <tr>
+                            <td>Performances en direct</td>
+                            <td>Élevé</td>
+                            <td>Très élevé</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout success">
+                    <div class="callout-title">✅ Astuce</div>
+                    <p>Utilise IMD FASTRAX comme base de ta stratégie musicale globale, mais investis également du temps dans d'autres canaux de distribution et de monétisation comme Bandcamp, SoundCloud Pro, et les événements en direct.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="quiz-section">
+            <h2>📝 Quiz de validation</h2>
+            <p>Teste tes connaissances sur IMD FASTRAX en répondant aux questions suivantes:</p>
+
+            <div class="quiz-question">
+                <h4>1. Quels sont les trois principaux avantages d'utiliser IMD FASTRAX?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option">
+                        <input type="radio" id="q1a" name="q1" value="a">
+                        <label for="q1a">Distribution sur une seule plateforme, interface compliquée, frais bas</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q1b" name="q1" value="b">
+                        <label for="q1b">Distribution multi-plateformes, suivi analytique, monétisation simple</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q1c" name="q1" value="c">
+                        <label for="q1c">Distribution garantie n°1, royalties maximales, promotion gratuite</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q1d" name="q1" value="d">
+                        <label for="q1d">Distribution rapide uniquement sur Spotify, zéro frais, support 24/7</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <h4>2. Quel format audio offre la meilleure qualité pour l'upload?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option">
+                        <input type="radio" id="q2a" name="q2" value="a">
+                        <label for="q2a">MP3 128kbps</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q2b" name="q2" value="b">
+                        <label for="q2b">WAV 44.1kHz 16-bit ou 24-bit</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q2c" name="q2" value="c">
+                        <label for="q2c">AAC 64kbps</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q2d" name="q2" value="d">
+                        <label for="q2d">OGG Vorbis</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <h4>3. Combien de jours faut-il généralement pour que ta musique soit disponible sur Spotify après l'upload?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option">
+                        <input type="radio" id="q3a" name="q3" value="a">
+                        <label for="q3a">Instantanément (quelques secondes)</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q3b" name="q3" value="b">
+                        <label for="q3b">1 jour</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q3c" name="q3" value="c">
+                        <label for="q3c">2-3 jours</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q3d" name="q3" value="d">
+                        <label for="q3d">1-2 semaines</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <h4>4. Quel est le principal avantage des collaborations et des features sur ta musique?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option">
+                        <input type="radio" id="q4a" name="q4" value="a">
+                        <label for="q4a">Augmenter le nombre de fichiers à distribuer</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q4b" name="q4" value="b">
+                        <label for="q4b">Augmenter les partages, la portée et les revenus potentiels</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q4c" name="q4" value="c">
+                        <label for="q4c">Réduire les frais de distribution</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q4d" name="q4" value="d">
+                        <label for="q4d">Garantir une place sur les playlists Spotify</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <h4>5. Selon ce module, quelle est la recommandation principale pour réussir avec IMD FASTRAX?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option">
+                        <input type="radio" id="q5a" name="q5" value="a">
+                        <label for="q5a">Uploader autant de morceaux que possible rapidement</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q5b" name="q5" value="b">
+                        <label for="q5b">Privilégier la qualité et développer une stratégie globale cohérente</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q5c" name="q5" value="c">
+                        <label for="q5c">Compter uniquement sur les revenus de streaming</label>
+                    </div>
+                    <div class="quiz-option">
+                        <input type="radio" id="q5d" name="q5" value="d">
+                        <label for="q5d">Imiter exactement ce que font les autres artistes</label>
+                    </div>
+                </div>
+            </div>
+
+            <button class="quiz-button" onclick="submitQuiz()">Vérifier mes réponses</button>
+            <div id="quizResult" class="quiz-result"></div>
+        </div>
+
+        <div style="text-align: center; padding: 40px 0; border-top: 2px solid var(--border); margin-top: 40px;">
+            <p style="color: #6B7280;">📚 Fin du module - IMD FASTRAX V1</p>
+            <p style="color: #9CA3AF; margin-top: 10px;">Producteur à Succès © 2026</p>
+        </div>
+    </div>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / scrollHeight) * 100;
+            document.querySelector('.progress-bar').style.width = scrolled + '%';
+        });
+
+        // Smooth scroll to section
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Accordion functionality
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                header.classList.toggle('active');
+                content.classList.toggle('active');
+            });
+        });
+
+        // Quiz functionality
+        function submitQuiz() {
+            const answers = {
+                q1: 'b',
+                q2: 'b',
+                q3: 'c',
+                q4: 'b',
+                q5: 'b'
+            };
+
+            let correct = 0;
+            for (let i = 1; i <= 5; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selected && selected.value === answers[`q${i}`]) {
+                    correct++;
+                }
+            }
+
+            const resultDiv = document.getElementById('quizResult');
+            resultDiv.classList.add('show');
+
+            if (correct === 5) {
+                resultDiv.className = 'quiz-result show success';
+                resultDiv.innerHTML = `<strong>🎉 Excellent!</strong> Tu as obtenu ${correct}/5 bonnes réponses. Tu maîtrises parfaitement les concepts d'IMD FASTRAX!`;
+            } else if (correct >= 3) {
+                resultDiv.className = 'quiz-result show partial';
+                resultDiv.innerHTML = `<strong>✅ Bien!</strong> Tu as obtenu ${correct}/5 bonnes réponses. Reviens sur les sections concernant les réponses manquées.`;
+            } else {
+                resultDiv.className = 'quiz-result show failure';
+                resultDiv.innerHTML = `<strong>📖 À revoir.</strong> Tu as obtenu ${correct}/5 bonnes réponses. Relis le contenu attentivement et réessaie.`;
+            }
+        }
+    </script>
+</body>
+</html>

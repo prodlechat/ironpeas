@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les 3 Niveaux de communication - Producteur à Succès</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden;
+        }
+
+        :root {
+            --primary: #6C3AED;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --dark: #1F2937;
+            --light: #F9FAFB;
+            --border: #E5E7EB;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #FFFFFF;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: sticky;
+            top: 0;
+            height: 4px;
+            background-color: var(--border);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        /* Header/Hero */
+        .hero {
+            background: linear-gradient(135deg, #F59E0B 0%, #FF8A3D 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            margin-bottom: 24px;
+            opacity: 0.95;
+        }
+
+        .metadata {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            font-size: 14px;
+            opacity: 0.9;
+            flex-wrap: wrap;
+        }
+
+        .metadata-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Navigation */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .toc {
+            background-color: var(--light);
+            border-left: 4px solid var(--accent);
+            padding: 24px;
+            margin: 40px 0;
+            border-radius: 8px;
+        }
+
+        .toc h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            margin-bottom: 16px;
+            color: var(--accent);
+        }
+
+        .toc ul {
+            list-style: none;
+        }
+
+        .toc li {
+            margin: 10px 0;
+        }
+
+        .toc a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .toc a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* Section Styling */
+        section {
+            margin: 50px 0;
+            scroll-margin-top: 60px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .section-icon {
+            font-size: 32px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            background-color: var(--light);
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            color: var(--dark);
+            margin-bottom: 24px;
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 22px;
+            color: var(--primary);
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
+        section p {
+            margin-bottom: 16px;
+            line-height: 1.8;
+            color: #4B5563;
+        }
+
+        /* Level Cards */
+        .level-card {
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+            background-color: var(--light);
+            transition: all 0.3s ease;
+        }
+
+        .level-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 24px rgba(108, 58, 237, 0.1);
+        }
+
+        .level-card.level1 {
+            border-left: 6px solid #EF4444;
+        }
+
+        .level-card.level2 {
+            border-left: 6px solid #F59E0B;
+        }
+
+        .level-card.level3 {
+            border-left: 6px solid #10B981;
+        }
+
+        .level-card h3 {
+            margin-top: 0;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .level-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-weight: 700;
+            color: white;
+            font-size: 18px;
+        }
+
+        .level-card.level1 .level-number {
+            background-color: #EF4444;
+        }
+
+        .level-card.level2 .level-number {
+            background-color: #F59E0B;
+        }
+
+        .level-card.level3 .level-number {
+            background-color: #10B981;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            border-left: 4px solid;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            background-color: var(--light);
+        }
+
+        .callout-title {
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .callout.important {
+            border-left-color: var(--primary);
+            background-color: #F3F0FF;
+        }
+
+        .callout.important .callout-title {
+            color: var(--primary);
+        }
+
+        .callout.tip {
+            border-left-color: var(--success);
+            background-color: #F0FDF4;
+        }
+
+        .callout.tip .callout-title {
+            color: var(--success);
+        }
+
+        .callout.warning {
+            border-left-color: var(--accent);
+            background-color: #FFFBEB;
+        }
+
+        .callout.warning .callout-title {
+            color: var(--accent);
+        }
+
+        .callout.info {
+            border-left-color: var(--info);
+            background-color: #EFF6FF;
+        }
+
+        .callout.info .callout-title {
+            color: var(--info);
+        }
+
+        /* Comparison Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background-color: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Accordions */
+        details {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            background-color: var(--light);
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        summary::before {
+            content: '▶';
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        details[open] summary::before {
+            transform: rotate(90deg);
+        }
+
+        details > *:not(summary) {
+            margin-top: 16px;
+        }
+
+        /* Quiz Section */
+        .quiz-container {
+            background: linear-gradient(135deg, #FEF3F2 0%, #FFFBEB 100%);
+            border-radius: 12px;
+            padding: 40px;
+            margin: 40px 0;
+        }
+
+        .quiz-container h2 {
+            color: var(--accent);
+            margin-bottom: 30px;
+        }
+
+        .quiz-question {
+            margin-bottom: 32px;
+        }
+
+        .quiz-question h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--dark);
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--accent);
+            background-color: white;
+        }
+
+        .quiz-option input[type="radio"] {
+            cursor: pointer;
+        }
+
+        .quiz-option.correct {
+            border-color: var(--success);
+            background-color: #F0FDF4;
+        }
+
+        .quiz-option.incorrect {
+            border-color: var(--danger);
+            background-color: #FEF2F2;
+        }
+
+        .feedback {
+            margin-top: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            color: var(--success);
+        }
+
+        .feedback.incorrect {
+            color: var(--danger);
+        }
+
+        .quiz-button {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .quiz-button:hover {
+            background-color: #DCAT00;
+        }
+
+        .score-display {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .score-display.show {
+            display: block;
+        }
+
+        .score-display p {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+
+        footer p {
+            font-size: 14px;
+            opacity: 0.8;
+            margin: 8px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .hero-description {
+                font-size: 16px;
+            }
+
+            .metadata {
+                gap: 15px;
+                font-size: 12px;
+            }
+
+            section h2 {
+                font-size: 24px;
+            }
+
+            section h3 {
+                font-size: 18px;
+            }
+
+            .quiz-container {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- HERO/HEADER -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="badge">Module 3 • Stratégies de contenu</div>
+            <h1>Les 3 Niveaux de communication</h1>
+            <p class="hero-description">Maîtrisez la hiérarchie de communication pour établir une connexion authentique avec votre audience</p>
+            <div class="metadata">
+                <div class="metadata-item">
+                    <span>👤</span>
+                    <span><strong>Formateur :</strong> Tarik Hamiche</span>
+                </div>
+                <div class="metadata-item">
+                    <span>🏢</span>
+                    <span><strong>Organisme :</strong> Producteur à Succès</span>
+                </div>
+                <div class="metadata-item">
+                    <span>⏱️</span>
+                    <span><strong>Durée :</strong> 26 min</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- TABLE OF CONTENTS -->
+        <section class="toc">
+            <h2>📑 Sommaire</h2>
+            <ul>
+                <li><a href="#section1">1. Introduction : Comprendre le parcours utilisateur</a></li>
+                <li><a href="#section2">2. Niveau 1 : Communication basique (Erreur commune)</a></li>
+                <li><a href="#section3">3. Niveau 2 : Communication de engagement</a></li>
+                <li><a href="#section4">4. Niveau 3 : Communication profonde et authentique</a></li>
+                <li><a href="#section5">5. Combiner les trois niveaux</a></li>
+                <li><a href="#section6">6. Cas pratiques et applications</a></li>
+            </ul>
+        </section>
+
+        <!-- SECTION 1 -->
+        <section id="section1">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h2>Introduction : Comprendre le parcours utilisateur</h2>
+            </div>
+
+            <p>Vous avez maintenant compris comment fonctionnent les algorithmes des réseaux sociaux et comment identifier du contenu avec potentiel viral. Mais il y a un élément crucial qui va vous aider à gagner rapidement en visibilité : <strong>le parcours utilisateur</strong>.</p>
+
+            <p>Vos fans en devenir suivront un chemin spécifique avant de vous suivre vraiment. C'est dans cette optique qu'il est essentiellement important de comprendre les trois niveaux de communication.</p>
+
+            <div class="callout warning">
+                <div class="callout-title">Attention - Erreur massive</div>
+                <p>Beaucoup d'artistes pensent communiquer au niveau 1 alors qu'ils communiquent au niveau 3. Cette confusion est l'une des principales raisons pour lesquelles ils n'arrivent pas à développer leur présence sur les réseaux sociaux.</p>
+            </div>
+
+            <p>Les trois niveaux ne sont pas une hiérarchie de qualité, mais une progression de profondeur dans la relation avec votre audience. Vous devez maîtriser les trois et savoir quand les utiliser.</p>
+        </section>
+
+        <!-- SECTION 2 -->
+        <section id="section2">
+            <div class="section-header">
+                <div class="section-icon">1️⃣</div>
+                <h2>Niveau 1 : Communication basique</h2>
+            </div>
+
+            <div class="level-card level1">
+                <h3>
+                    <span class="level-number">1</span>
+                    Communication BASIQUE
+                </h3>
+                <p><strong>Objectif :</strong> Capturer l'attention initiale</p>
+                <p><strong>Essence :</strong> Le contenu qui fait stopper le scroll</p>
+            </div>
+
+            <h3>Caractéristiques du Niveau 1</h3>
+            <p>Le niveau 1 de communication, c'est le contenu qui fait s'arrêter quelqu'un dans son scroll. C'est le hook, c'est l'accroche. C'est simplement attirer l'attention.</p>
+
+            <ul style="margin-left: 20px; margin-bottom: 16px;">
+                <li><strong>Impact visuel</strong> : Une image ou vidéo frappante</li>
+                <li><strong>Curiosité</strong> : Une question ou un mystère</li>
+                <li><strong>Émotion</strong> : Surprise, joie, curiosité</li>
+                <li><strong>Urgence</strong> : "À voir absolument", "Incroyable"</li>
+            </ul>
+
+            <h3>Exemples de Niveau 1</h3>
+            <ul style="margin-left: 20px; margin-bottom: 16px;">
+                <li>"Voici 5 secrets que les musiciens pros gardent jalousement"</li>
+                <li>Une vidéo d'une performance live spectaculaire</li>
+                <li>"Ce que j'aurais aimé savoir à 18 ans"</li>
+                <li>Un thumbnail YouTube avec un visage choqué et du texte accrocheur</li>
+            </ul>
+
+            <div class="callout warning">
+                <div class="callout-title">Attention</div>
+                <p>Le Niveau 1 seul ne suffit PAS. C'est juste un point d'entrée. Si vous utilisez uniquement le Niveau 1, vous aurez beaucoup de vues mais très peu de conversion en abonnés loyaux.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 3 -->
+        <section id="section3">
+            <div class="section-header">
+                <div class="section-icon">2️⃣</div>
+                <h2>Niveau 2 : Communication d'engagement</h2>
+            </div>
+
+            <div class="level-card level2">
+                <h3>
+                    <span class="level-number">2</span>
+                    Communication D'ENGAGEMENT
+                </h3>
+                <p><strong>Objectif :</strong> Créer une interaction significative</p>
+                <p><strong>Essence :</strong> Le contenu qui fait réagir et commenter</p>
+            </div>
+
+            <h3>Caractéristiques du Niveau 2</h3>
+            <p>Une fois que vous avez capturé l'attention, vous devez créer de l'engagement. Le Niveau 2, c'est ce qui fait que les gens :
+            </p>
+
+            <ul style="margin-left: 20px; margin-bottom: 16px;">
+                <li>Regardent jusqu'à la fin</li>
+                <li>Aiment ou "likent" le contenu</li>
+                <li>Commentent et posent des questions</li>
+                <li>Partagent avec leurs amis</li>
+                <li>Rejoignent votre communauté</li>
+            </ul>
+
+            <h3>Comment créer du Niveau 2</h3>
+            <p>Le Niveau 2 fonctionne par :</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Technique</th>
+                        <th>Description</th>
+                        <th>Exemple</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>L'éducation</strong></td>
+                        <td>Enseigner quelque chose d'utile</td>
+                        <td>"3 techniques de production que tout producteur doit connaître"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>La question</strong></td>
+                        <td>Poser une question à votre audience</td>
+                        <td>"Quel est votre meilleur secret musical ?"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>La controverse légère</strong></td>
+                        <td>Présenter un point de vue intéressant</td>
+                        <td>"Les accordeurs numériques ne sont pas fiables"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>L'histoire</strong></td>
+                        <td>Raconter une anecdote pertinente</td>
+                        <td>Comment vous avez commencé votre carrière</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout tip">
+                <div class="callout-title">Astuce</div>
+                <p>Les commentaires sont l'or du Niveau 2. Chaque commentaire signifie que quelqu'un s'est arrêté, a pensé à votre contenu, et a pris du temps pour réagir. C'est un indicateur d'engagement très puissant.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 4 -->
+        <section id="section4">
+            <div class="section-header">
+                <div class="section-icon">3️⃣</div>
+                <h2>Niveau 3 : Communication profonde et authentique</h2>
+            </div>
+
+            <div class="level-card level3">
+                <h3>
+                    <span class="level-number">3</span>
+                    Communication AUTHENTIQUE
+                </h3>
+                <p><strong>Objectif :</strong> Créer une connexion émotionnelle profonde</p>
+                <p><strong>Essence :</strong> Le contenu qui crée des fans pour la vie</p>
+            </div>
+
+            <h3>Caractéristiques du Niveau 3</h3>
+            <p>Le Niveau 3, c'est quand votre audience se sent véritablement connectée à vous en tant que personne. C'est :</p>
+
+            <ul style="margin-left: 20px; margin-bottom: 16px;">
+                <li>Votre "pourquoi" personnel</li>
+                <li>Vos valeurs et votre vision</li>
+                <li>Votre vulnérabilité et votre authenticité</li>
+                <li>Les leçons apprises à travers vos expériences</li>
+                <li>Votre perspective unique sur la vie et l'art</li>
+            </ul>
+
+            <h3>Créer du Niveau 3 authentique</h3>
+            <p>Le Niveau 3 fonctionne en partageant :</p>
+
+            <details>
+                <summary>Vos rêves et ambitions personnelles</summary>
+                <p>Partagez ce qui vous motive vraiment. Pas juste "je veux être riche", mais "je veux créer de la musique qui change les gens" ou "je veux aider les jeunes artistes à réussir".</p>
+            </details>
+
+            <details>
+                <summary>Vos échecs et apprentissages</summary>
+                <p>Les histoires d'échec transformé en succès sont extrêmement puissantes. Elles montrent que vous êtes humain et que vous avez une substance.</p>
+            </details>
+
+            <details>
+                <summary>Votre perspective unique</summary>
+                <p>Ce que vous pensez que peu de gens comprennent. Votre vision du monde de la musique, de la création, de la vie.</p>
+            </details>
+
+            <div class="callout important">
+                <div class="callout-title">À retenir</div>
+                <p>Le Niveau 3 crée l'une des choses les plus puissantes en ligne : les fans inconditionnels. Ces personnes vous suivront peu importe ce que vous faites, parce qu'elles sont connectées à VOUS, pas à votre contenu.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 5 -->
+        <section id="section5">
+            <div class="section-header">
+                <div class="section-icon">🔗</div>
+                <h2>Combiner les trois niveaux</h2>
+            </div>
+
+            <p>La vraie magie arrive quand vous maîtrisez les trois niveaux ET que vous savez les combiner stratégiquement.</p>
+
+            <h3>La formule gagnante</h3>
+            <p>Voici comment structurer votre contenu :</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>Niveau</th>
+                        <th>Fonction</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Premières secondes</strong></td>
+                        <td>Niveau 1</td>
+                        <td>Hook accrocheur (fait stopper le scroll)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Corps du contenu</strong></td>
+                        <td>Niveau 2</td>
+                        <td>Engagement et valeur (éducation, interaction)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Conclusion/Appel à action</strong></td>
+                        <td>Niveau 3</td>
+                        <td>Connexion profonde et call-to-action</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Exemple concret</h3>
+            <p><strong>Vidéo YouTube complète :</strong></p>
+
+            <ul style="margin-left: 20px; margin-bottom: 16px;">
+                <li><strong>0:00-0:10 (Niveau 1) :</strong> "Vous créez de la musique depuis 3 ans et personne n'écoute. Aujourd'hui, je vais vous montrer pourquoi et comment le changer"</li>
+                <li><strong>0:10-12:00 (Niveau 2) :</strong> Analyse des erreurs courantes, astuces pratiques, avant/après</li>
+                <li><strong>12:00-15:00 (Niveau 3) :</strong> "Quand j'ai commencé, je pensais que la technique était tout. Mais ce que j'ai appris, c'est que les gens achètent votre vision, pas votre expertise"</li>
+            </ul>
+
+            <div class="callout tip">
+                <div class="callout-title">Astuce</div>
+                <p>Ne mélangez pas les niveaux au hasard. Un Niveau 3 au début peut repousser les nouvelles personnes. Un Niveau 1 à la fin paraîtra bizarre. Respectez la progression.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 6 -->
+        <section id="section6">
+            <div class="section-header">
+                <div class="section-icon">✨</div>
+                <h2>Cas pratiques et applications</h2>
+            </div>
+
+            <h3>Application par format</h3>
+
+            <details>
+                <summary>TikTok/Instagram Reels (Plateforme courte)</summary>
+                <p><strong>Niveau 1 (0-1 sec) :</strong> Un moment accrocheur ou une question provocatrice</p>
+                <p><strong>Niveau 2 (1-13 sec) :</strong> Contenu principal (conseil, astuce, story)</p>
+                <p><strong>Niveau 3 (dernier frame) :</strong> Une phrase d'authentique qui résonne</p>
+            </details>
+
+            <details>
+                <summary>YouTube (Plateforme longue)</summary>
+                <p><strong>Niveau 1 (0-30 sec) :</strong> Introduction avec hook très fort</p>
+                <p><strong>Niveau 2 (30 sec - 80% de la vidéo) :</strong> Contenu principal détaillé</p>
+                <p><strong>Niveau 3 (20% final) :</strong> Perspectives personnelles, apprentissages clés</p>
+            </details>
+
+            <details>
+                <summary>Instagram Caption (Texte)</summary>
+                <p><strong>Niveau 1 (première ligne) :</strong> Une question ou affirmation qui intrigue</p>
+                <p><strong>Niveau 2 (corps du texte) :</strong> Conseils ou insights</p>
+                <p><strong>Niveau 3 (dernière ligne) :</strong> Une affirmation de valeur personnelle</p>
+            </details>
+
+            <h3>Les pièges à éviter</h3>
+            <ul style="margin-left: 20px; margin-bottom: 16px;">
+                <li><strong>Pièges Niveau 1 :</strong> Être clickbait sans substance (Niveau 2 faible)</li>
+                <li><strong>Pièges Niveau 2 :</strong> Donner tant de contenu qu'on oublie votre personnalité</li>
+                <li><strong>Pièges Niveau 3 :</strong> Être trop personnel sans lien avec votre message</li>
+            </ul>
+
+            <div class="callout info">
+                <div class="callout-title">Le saviez-vous ?</div>
+                <p>Les trois niveaux existent même dans une simple publication Instagram de 3 lignes. La première ligne doit accrocher, la deuxième doit engager, et la troisième doit vous montrer comme une personne unique.</p>
+            </div>
+        </section>
+
+        <!-- QUIZ SECTION -->
+        <section class="quiz-container">
+            <h2>🎓 Quiz interactif</h2>
+            <p>Testez votre compréhension des trois niveaux de communication.</p>
+
+            <div class="quiz-question">
+                <h4>Question 1 : Quel est le rôle principal du Niveau 1 ?</h4>
+                <div class="quiz-options">
+                    <label class="quiz-option">
+                        <input type="radio" name="q1" value="a">
+                        <span>Créer une connexion émotionnelle profonde</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q1" value="b">
+                        <span>Capturer l'attention initiale et faire stopper le scroll</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q1" value="c">
+                        <span>Enseigner des techniques et des astuces</span>
+                    </label>
+                </div>
+                <div class="feedback" id="feedback-q1"></div>
+            </div>
+
+            <div class="quiz-question">
+                <h4>Question 2 : Comment créer du Niveau 2 efficace ?</h4>
+                <div class="quiz-options">
+                    <label class="quiz-option">
+                        <input type="radio" name="q2" value="a">
+                        <span>En parlant uniquement de vous et vos valeurs</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q2" value="b">
+                        <span>Par l'éducation, les questions, la controverse légère et les histoires</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q2" value="c">
+                        <span>En utilisant uniquement des vidéos choquantes</span>
+                    </label>
+                </div>
+                <div class="feedback" id="feedback-q2"></div>
+            </div>
+
+            <div class="quiz-question">
+                <h4>Question 3 : Que crée principalement le Niveau 3 ?</h4>
+                <div class="quiz-options">
+                    <label class="quiz-option">
+                        <input type="radio" name="q3" value="a">
+                        <span>Des vues rapides et du trafic</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q3" value="b">
+                        <span>Des fans inconditionnels connectés à votre personne</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q3" value="c">
+                        <span>Des commentaires techniques</span>
+                    </label>
+                </div>
+                <div class="feedback" id="feedback-q3"></div>
+            </div>
+
+            <div class="quiz-question">
+                <h4>Question 4 : Quelle est la progression idéale dans une vidéo ?</h4>
+                <div class="quiz-options">
+                    <label class="quiz-option">
+                        <input type="radio" name="q4" value="a">
+                        <span>Niveau 3 → Niveau 2 → Niveau 1</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q4" value="b">
+                        <span>Niveau 1 → Niveau 2 → Niveau 3</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q4" value="c">
+                        <span>Niveau 2 → Niveau 1 → Niveau 3</span>
+                    </label>
+                </div>
+                <div class="feedback" id="feedback-q4"></div>
+            </div>
+
+            <div class="quiz-question">
+                <h4>Question 5 : Pourquoi beaucoup d'artistes ne se développent-ils pas sur les réseaux ?</h4>
+                <div class="quiz-options">
+                    <label class="quiz-option">
+                        <input type="radio" name="q5" value="a">
+                        <span>Ils pensent utiliser le Niveau 1 mais utilisent le Niveau 3</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q5" value="b">
+                        <span>Ils n'ont pas assez de followers</span>
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="q5" value="c">
+                        <span>Ils créent trop de contenu</span>
+                    </label>
+                </div>
+                <div class="feedback" id="feedback-q5"></div>
+            </div>
+
+            <button class="quiz-button" onclick="checkAnswers()">Vérifier mes réponses</button>
+            <div class="score-display" id="scoreDisplay"></div>
+        </section>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">Producteur à Succès</div>
+            <p>Formation complète pour maîtriser les stratégies modernes de création de contenu</p>
+            <p>Formateur : <strong>Tarik Hamiche</strong></p>
+            <p style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px; font-size: 12px;">
+                © 2026 Producteur à Succès. Tous droits réservés.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Progress Bar
+        window.addEventListener('scroll', function() {
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Quiz Logic
+        const correctAnswers = {
+            q1: 'b',
+            q2: 'b',
+            q3: 'b',
+            q4: 'b',
+            q5: 'a'
+        };
+
+        const feedbackText = {
+            q1: {
+                correct: 'Exactement ! Le Niveau 1 arrête le scroll.',
+                incorrect: 'Non, c\'est le Niveau 1 qui doit d\'abord capturer l\'attention.'
+            },
+            q2: {
+                correct: 'Parfait ! Voilà comment créer du Niveau 2 fort.',
+                incorrect: 'Non, le Niveau 2 crée de l\'engagement par l\'éducation, les questions et les histoires.'
+            },
+            q3: {
+                correct: 'Bravo ! Le Niveau 3 crée une loyauté incomparable.',
+                incorrect: 'Non, le Niveau 3 crée des fans inconditionnels, pas juste des vues.'
+            },
+            q4: {
+                correct: 'Correct ! C\'est la progression idéale.',
+                incorrect: 'Non, la bonne progression est Niveau 1 → 2 → 3.'
+            },
+            q5: {
+                correct: 'Exact ! C\'est une erreur massive et courante.',
+                incorrect: 'Non, beaucoup d\'artistes pensent utiliser le Niveau 1 mais utilisent le Niveau 3.'
+            }
+        };
+
+        function checkAnswers() {
+            let score = 0;
+            let answered = 0;
+
+            for (let i = 1; i <= 5; i++) {
+                const questionName = 'q' + i;
+                const selectedAnswer = document.querySelector(`input[name="${questionName}"]:checked`);
+
+                if (selectedAnswer) {
+                    answered++;
+                    const isCorrect = selectedAnswer.value === correctAnswers[questionName];
+                    const feedbackEl = document.getElementById('feedback-' + questionName);
+                    const option = selectedAnswer.closest('.quiz-option');
+
+                    if (isCorrect) {
+                        score++;
+                        option.classList.add('correct');
+                        feedbackEl.textContent = '✓ ' + feedbackText[questionName].correct;
+                        feedbackEl.classList.add('correct', 'show');
+                    } else {
+                        option.classList.add('incorrect');
+                        feedbackEl.textContent = '✗ ' + feedbackText[questionName].incorrect;
+                        feedbackEl.classList.add('incorrect', 'show');
+                    }
+                }
+            }
+
+            if (answered === 5) {
+                const scoreDisplay = document.getElementById('scoreDisplay');
+                const percentage = (score / 5) * 100;
+                let message = '';
+
+                if (percentage === 100) {
+                    message = '🌟 Parfait ! Vous maîtrisez les 3 niveaux !';
+                } else if (percentage >= 80) {
+                    message = '✓ Très bien ! Vous avez compris l\'essentiel.';
+                } else if (percentage >= 60) {
+                    message = '→ Bien ! Relisez les points clés.';
+                } else {
+                    message = '← Recommencez avec attention.';
+                }
+
+                scoreDisplay.innerHTML = `<p>Score : ${score}/5 (${percentage}%)</p><p>${message}</p>`;
+                scoreDisplay.classList.add('show');
+            } else {
+                alert('Veuillez répondre à toutes les questions avant de vérifier.');
+            }
+        }
+
+        // Smooth scroll for TOC links
+        document.querySelectorAll('.toc a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

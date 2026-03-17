@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prospection - Producteur à Succès Module 6</title>
+    <style>
+        :root {
+            --primary: #6C3AED;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --light: #F9FAFB;
+            --dark: #111827;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            color: var(--dark);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            width: 0%;
+            transition: width 0.2s ease;
+            z-index: 999;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+            margin-bottom: 5px;
+        }
+
+        .metadata {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .metadata-item {
+            text-align: center;
+        }
+
+        .metadata-item label {
+            display: block;
+            font-size: 0.85em;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .metadata-item value {
+            display: block;
+            font-weight: 600;
+            font-size: 1.05em;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 2px solid var(--light);
+            padding: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            overflow-x: auto;
+            max-width: 100%;
+        }
+
+        nav li {
+            flex: 0 0 auto;
+        }
+
+        nav a {
+            display: block;
+            padding: 15px 20px;
+            color: var(--dark);
+            text-decoration: none;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            background: var(--light);
+            border-bottom-color: var(--accent);
+        }
+
+        nav a.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+        }
+
+        main {
+            padding: 40px;
+        }
+
+        section {
+            margin-bottom: 50px;
+            scroll-margin-top: 120px;
+        }
+
+        section:last-child {
+            margin-bottom: 0;
+        }
+
+        h2 {
+            font-size: 2em;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        h3 {
+            font-size: 1.5em;
+            color: var(--dark);
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        h4 {
+            font-size: 1.2em;
+            color: #374151;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .callout {
+            padding: 20px;
+            border-left: 4px solid;
+            border-radius: 8px;
+            margin: 20px 0;
+            background-color: rgba(0,0,0,0.02);
+        }
+
+        .callout-retention {
+            border-left-color: var(--primary);
+            background: linear-gradient(135deg, rgba(108, 58, 237, 0.1) 0%, rgba(108, 58, 237, 0.05) 100%);
+        }
+
+        .callout-tip {
+            border-left-color: var(--success);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+        }
+
+        .callout-warning {
+            border-left-color: var(--danger);
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+        }
+
+        .callout-info {
+            border-left-color: var(--info);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+        }
+
+        .callout p {
+            margin-bottom: 0;
+        }
+
+        details {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            cursor: pointer;
+            border: 1px solid #e5e7eb;
+        }
+
+        summary {
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            user-select: none;
+        }
+
+        summary::-webkit-details-marker {
+            color: var(--primary);
+        }
+
+        details[open] summary {
+            margin-bottom: 15px;
+        }
+
+        details > *:last-child {
+            margin-bottom: 0;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: var(--light);
+        }
+
+        .comparison-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .quiz {
+            background: linear-gradient(135deg, var(--light) 0%, #e0e7ff 100%);
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+
+        .quiz h3 {
+            color: var(--primary);
+            margin-top: 0;
+        }
+
+        .question {
+            margin: 25px 0;
+        }
+
+        .question p {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            border-color: var(--primary);
+            background: rgba(108, 58, 237, 0.05);
+        }
+
+        .option input {
+            margin-right: 12px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 12px 15px;
+            border-radius: 6px;
+            display: none;
+            font-weight: 600;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .feedback.incorrect {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .check-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .check-btn:hover {
+            background: #5a1d9e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 58, 237, 0.3);
+        }
+
+        .icon {
+            font-size: 1.3em;
+        }
+
+        footer {
+            background: var(--light);
+            padding: 30px 40px;
+            text-align: center;
+            border-top: 1px solid #e5e7eb;
+            color: #6b7280;
+        }
+
+        footer p {
+            margin: 5px 0;
+            font-size: 0.95em;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 40px 20px;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            main {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            h3 {
+                font-size: 1.2em;
+            }
+
+            .metadata {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+            }
+
+            nav a {
+                padding: 12px 15px;
+                font-size: 0.9em;
+            }
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, var(--accent) 0%, transparent 100%);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="container">
+        <header>
+            <h1>🎯 Prospection</h1>
+            <p>Stratégies pour identifier et atteindre vos prospects</p>
+            <div class="metadata">
+                <div class="metadata-item">
+                    <label>Durée</label>
+                    <value>~14 minutes</value>
+                </div>
+                <div class="metadata-item">
+                    <label>Niveau</label>
+                    <value>Intermédiaire</value>
+                </div>
+                <div class="metadata-item">
+                    <label>Formateur</label>
+                    <value>Tarik Hamiche</value>
+                </div>
+                <div class="metadata-item">
+                    <label>Organisme</label>
+                    <value>Producteur à Succès</value>
+                </div>
+            </div>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="#intro" class="nav-link active">Introduction</a></li>
+                <li><a href="#definition" class="nav-link">Définition</a></li>
+                <li><a href="#leviers" class="nav-link">Les 4 Leviers</a></li>
+                <li><a href="#trafic" class="nav-link">Trafic Organique</a></li>
+                <li><a href="#partenariats" class="nav-link">Partenariats</a></li>
+                <li><a href="#methode-secrete" class="nav-link">Ma Méthode Secrète</a></li>
+                <li><a href="#publicite" class="nav-link">Publicité en Ligne</a></li>
+                <li><a href="#quiz" class="nav-link">Quiz</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <section id="intro">
+                <h2><span class="icon">📌</span>Introduction</h2>
+                <p>La prospection est un <span class="highlight">processus fondamental</span> pour développer votre audience et vendre davantage. Une fois que vous avez créé une offre irrésistible, vous devez vous <span class="highlight">différencier de la concurrence</span> sur le marché.</p>
+                
+                <div class="callout callout-tip">
+                    <p><strong>💡 Point clé:</strong> Les concurrents se contentent de vendre un produit ou une prestation, tandis que vous présentez une <strong>offre irrésistible</strong>. C'est ce qui vous distingue et augmente votre taux de conversion jusqu'à <strong>cincq à dix fois</strong>!</p>
+                </div>
+            </section>
+
+            <section id="definition">
+                <h2><span class="icon">🎯</span>Qu'est-ce que la Prospection?</h2>
+                <p>La prospection est le processus de recherche et de contact de <strong>personnes n'ayant pas encore acheté votre offre</strong>. C'est l'étape fondamentale pour augmenter votre <span class="highlight">taux de conversion</span> et vendre davantage.</p>
+                
+                <div class="callout callout-info">
+                    <p><strong>ℹ️ À retenir:</strong> La prospection ne consiste pas juste à vendre un produit, mais à <strong>présenter votre offre</strong> de manière suffisamment attrayante pour que le prospect veuille l'acheter.</p>
+                </div>
+
+                <details>
+                    <summary>📊 Exemple de transformation majeure</summary>
+                    <p>Avant de créer une offre irrésistible, vous pouviez vendre un nombre limité de dates (ex: 50 appels pour 1 vente). Après avoir amélioré votre offre grâce aux techniques enseignées, vous pouvez vendre <strong>5 dates sur 50 appels</strong>, ce qui représente une <strong>multiplication du taux de conversion par 5</strong>!</p>
+                </details>
+            </section>
+
+            <section id="leviers">
+                <h2><span class="icon">⚙️</span>Les 4 Leviers d'Acquisition</h2>
+                <p>Il existe <strong>quatre principaux leviers</strong> pour prospecter et atteindre votre audience:</p>
+
+                <h3>1. Trafic Organique - Stratégie de Prééminence</h3>
+                <p>C'est la première et plus importante stratégie de prospection. Vous augmentez votre visibilité naturellement en créant du contenu pertinent.</p>
+
+                <h3>2. Partenariats et Deals avec des Agences</h3>
+                <p>Établissez des relations commerciales avec d'autres entreprises pour étendre votre portée.</p>
+
+                <h3>3. La Prospection Directe</h3>
+                <p>Une <span class="highlight">méthode secrète</span> pour contacter directement vos prospects et leur présenter votre offre.</p>
+
+                <h3>4. La Publicité en Ligne</h3>
+                <p>Utilisez les plateformes numériques (YouTube, Google, Facebook) pour augmenter votre visibilité et organiser votre trafic.</p>
+
+                <div class="callout callout-warning">
+                    <p><strong>⚠️ Important:</strong> Ces quatre leviers sont <strong>complémentaires</strong>, pas alternatifs. Vous devez les utiliser ensemble pour maximiser vos résultats.</p>
+                </div>
+            </section>
+
+            <section id="trafic">
+                <h2><span class="icon">📈</span>Trafic Organique & Stratégie de Prééminence</h2>
+                <p>La stratégie de prééminence consiste à devenir <strong>visible et connu</strong> dans votre secteur grâce à du contenu de qualité.</p>
+
+                <h3>Comment ça marche?</h3>
+                <ul style="margin-left: 20px; margin-bottom: 15px;">
+                    <li>Créer du contenu régulièrement</li>
+                    <li>Partager votre expertise</li>
+                    <li>Édifier une audience fidèle</li>
+                    <li>Établir votre crédibilité</li>
+                </ul>
+
+                <div class="callout callout-retention">
+                    <p><strong>🎓 Cas réel:</strong> Un artiste peut créer <strong>50 vidéos par an</strong> sur YouTube ou Google pour générer du trafic organique constant et attirer des prospects intéressés par son offre.</p>
+                </div>
+
+                <h3>Les Trois Autres Leviers</h3>
+                <p>Bien que moins évidents à mettre en place, les trois autres leviers permettent de <strong>accélérer votre croissance</strong> et de <strong>diversifier vos sources de trafic</strong>.</p>
+            </section>
+
+            <section id="partenariats">
+                <h2><span class="icon">🤝</span>Partenariats & Deals avec les Agences</h2>
+                <p>Les partenariats stratégiques vous permettent de <span class="highlight">étendre votre audience</span> sans investir massivement en publicité.</p>
+
+                <h3>Types de partenaires possibles:</h3>
+                <ul style="margin-left: 20px; margin-bottom: 15px;">
+                    <li><strong>Agences:</strong> Disposent de contraintes d'organisation, de législation, de financement</li>
+                    <li><strong>Autres artistes/entrepreneurs:</strong> Peuvent vous apporter du contenu pertinent</li>
+                    <li><strong>Festivals/Événements:</strong> Source importante de visibilité et d'audience</li>
+                </ul>
+
+                <div class="callout callout-tip">
+                    <p><strong>💡 Conseil:</strong> Les organisateurs de festivals ont souvent une <strong>liste de contraintes importantes</strong> (budgets limités, nécessité de vendre des tickets, coordination de nombreux artistes). Proposez une solution qui répond à leurs besoins, et ils seront plus enclins à vous engager.</p>
+                </div>
+            </section>
+
+            <section id="methode-secrete">
+                <h2><span class="icon">🔐</span>Ma Méthode Secrète de Prospection</h2>
+                <p>Après des années d'expérience, j'ai développé une <strong>méthode très efficace</strong> pour prospecter directement auprès de vos cibles.</p>
+
+                <h3>Les Étapes Clés</h3>
+
+                <h4>Étape 1: Bien Comprendre votre Offre</h4>
+                <p>Avant de contacter quelqu'un, vous devez <strong>connaître parfaitement</strong> les points forts de votre offre et pourquoi elle est <span class="highlight">irrésistible</span>.</p>
+
+                <h4>Étape 2: Identifier les Bons Prospects</h4>
+                <p>Ne contactez pas tout le monde! Identifiez les <strong>100 personnes clés</strong> qui auraient vraiment besoin de votre offre. Cela augmente vos chances de succès.</p>
+
+                <h4>Étape 3: Établir une Relation de Confiance</h4>
+                <p>Avant de proposer directement, <strong>créez du contenu</strong> (vidéos, articles) qui aide votre prospect. Positionnez-vous comme un <strong>conseiller de confiance</strong>.</p>
+
+                <h4>Étape 4: Faire un Appel à l'Action Clair</h4>
+                <p>Une fois que le prospect connaît votre valeur, proposez-lui de discuter. L'appel à l'action doit être simple et sans pression.</p>
+
+                <div class="callout callout-info">
+                    <p><strong>ℹ️ Stratégie de Prééminence:</strong> Lorsque vous créez du contenu, il faut que ce soit une <strong>approche à travers la stratégie de prééminence</strong>. Chaque fois que votre prospect voit votre contenu, il se rapproche de vous, et quand vous allez le rappeler, il sera prêt à acheter.</p>
+                </div>
+            </section>
+
+            <section id="publicite">
+                <h2><span class="icon">📢</span>La Publicité en Ligne - Organiser votre Trafic</h2>
+                <p>La publicité en ligne est un <strong>levier puissant</strong>, mais elle doit être organisée stratégiquement pour maximiser votre ROI.</p>
+
+                <h3>Plateformes Principales</h3>
+                <ul style="margin-left: 20px; margin-bottom: 15px;">
+                    <li><strong>YouTube:</strong> Parfait pour les vidéos et les tutoriels</li>
+                    <li><strong>Google Ads:</strong> Pour capturer les personnes cherchant déjà votre solution</li>
+                    <li><strong>Facebook/Instagram:</strong> Pour atteindre une audience spécifique</li>
+                </ul>
+
+                <div class="callout callout-warning">
+                    <p><strong>⚠️ Important:</strong> La publicité en ligne n'est <strong>pas la solution magique</strong>. Elle doit s'intégrer dans une <strong>stratégie globale</strong> qui inclut la création de contenu et les partenariats.</p>
+                </div>
+
+                <h3>Budget et Résultats</h3>
+                <p>Le <span class="highlight">taux de conversion</span> de votre publicité dépendra directement de <strong>la qualité de votre offre</strong>. Une offre irrésistible convertira 5 à 10 fois mieux qu'une offre basique.</p>
+
+                <details>
+                    <summary>📊 Optimiser votre Budget Publicité</summary>
+                    <p>Si vous avez un budget limité pour la publicité, concentrez-vous d'abord sur:</p>
+                    <ol style="margin: 10px 0 10px 20px;">
+                        <li>Créer une offre vraiment irrésistible</li>
+                        <li>Identifier vos 100 meilleures cibles</li>
+                        <li>Créer du contenu pertinent</li>
+                        <li>Puis investir en publicité ciblée</li>
+                    </ol>
+                </details>
+            </section>
+
+            <section id="tableau-complet">
+                <h2><span class="icon">📊</span>Tableau Comparatif des Méthodes de Prospection</h2>
+                
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Méthode</th>
+                            <th>Définition</th>
+                            <th>Effort Requis</th>
+                            <th>Résultats à Long Terme</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Trafic Organique</strong></td>
+                            <td>Créer du contenu pour attirer naturellement</td>
+                            <td>Élevé (mais durable)</td>
+                            <td>Très bon (audience fidèle)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Partenariats</strong></td>
+                            <td>Collaborer avec d'autres pour atteindre leur audience</td>
+                            <td>Modéré</td>
+                            <td>Bon (et complémentaire)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Prospection Directe</strong></td>
+                            <td>Contacter directement les prospects ciblés</td>
+                            <td>Modéré à Élevé</td>
+                            <td>Excellent (si bien exécutée)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Publicité en Ligne</strong></td>
+                            <td>Acheter du trafic via des plateformes</td>
+                            <td>Investissement financier</td>
+                            <td>Variable (dépend de l'offre)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="quiz" class="quiz">
+                <h3>🧠 Quiz: Testez Votre Compréhension</h3>
+                
+                <div class="question">
+                    <p>Q1: Qu'est-ce que la stratégie de prééminence?</p>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q1" value="a"> <span>A) Acheter de la publicité massive</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="b"> <span>B) Devenir visible et connu grâce au contenu</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="c"> <span>C) Vendre directement aux agences</span>
+                        </label>
+                    </div>
+                    <button class="check-btn" onclick="checkAnswer('q1', 'b')">Vérifier</button>
+                    <div class="feedback" id="feedback-q1"></div>
+                </div>
+
+                <div class="question">
+                    <p>Q2: Combien de prospects clés devrais-tu identifier pour ta prospection directe?</p>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q2" value="a"> <span>A) Environ 50</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="b"> <span>B) Environ 100</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="c"> <span>C) Autant que possible</span>
+                        </label>
+                    </div>
+                    <button class="check-btn" onclick="checkAnswer('q2', 'b')">Vérifier</button>
+                    <div class="feedback" id="feedback-q2"></div>
+                </div>
+
+                <div class="question">
+                    <p>Q3: Quel est le rôle principal de la publicité en ligne dans votre stratégie?</p>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q3" value="a"> <span>A) C'est la solution principale pour vendre</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="b"> <span>B) Organiser et cibler le trafic selon une stratégie globale</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="c"> <span>C) Remplacer la création de contenu</span>
+                        </label>
+                    </div>
+                    <button class="check-btn" onclick="checkAnswer('q3', 'b')">Vérifier</button>
+                    <div class="feedback" id="feedback-q3"></div>
+                </div>
+
+                <div class="question">
+                    <p>Q4: Comment positionner votre offre auprès des prospects?</p>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q4" value="a"> <span>A) Comme un simple produit ou service</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="b"> <span>B) Comme une offre irrésistible avec une forte valeur</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="c"> <span>C) Sans distinction particulière</span>
+                        </label>
+                    </div>
+                    <button class="check-btn" onclick="checkAnswer('q4', 'b')">Vérifier</button>
+                    <div class="feedback" id="feedback-q4"></div>
+                </div>
+
+                <div class="question">
+                    <p>Q5: Quel est le facteur clé du succès en prospection directe?</p>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q5" value="a"> <span>A) Le nombre d'appels que tu fais</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="b"> <span>B) Établir une relation de confiance avant de vendre</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="c"> <span>C) Le prix de ton offre</span>
+                        </label>
+                    </div>
+                    <button class="check-btn" onclick="checkAnswer('q5', 'b')">Vérifier</button>
+                    <div class="feedback" id="feedback-q5"></div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p><strong>Prospection</strong> - Module 6 du programme Producteur à Succès</p>
+            <p>Formateur: Tarik Hamiche | Durée: ~14 minutes | Transcription: ~14,500 caractères</p>
+            <p>© Producteur à Succès - Tous droits réservés</p>
+        </footer>
+    </div>
+
+    <script>
+        // Navigation active highlight
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Update progress bar
+            const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / scrollTotal) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Quiz answer checking
+        function checkAnswer(questionId, correctAnswer) {
+            const selectedAnswer = document.querySelector(`input[name="${questionId}"]:checked`);
+            const feedbackDiv = document.getElementById(`feedback-${questionId}`);
+
+            if (!selectedAnswer) {
+                feedbackDiv.textContent = '⚠️ Veuillez sélectionner une réponse';
+                feedbackDiv.className = 'feedback show incorrect';
+                return;
+            }
+
+            feedbackDiv.classList.add('show');
+            if (selectedAnswer.value === correctAnswer) {
+                feedbackDiv.textContent = '✅ Correct! Excellente réponse.';
+                feedbackDiv.className = 'feedback show correct';
+            } else {
+                feedbackDiv.textContent = '❌ Incorrect. Relisez la section correspondante.';
+                feedbackDiv.className = 'feedback show incorrect';
+            }
+        }
+
+        // Smooth scroll for navigation
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

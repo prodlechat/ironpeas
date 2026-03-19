@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoom Live du 19.03.26 (Partie 2) — Créer son site d'artiste avec l'IA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C3AED;
+            --primary-light: #EDE9FE;
+            --accent: #F59E0B;
+            --accent-light: #FEF3C7;
+            --success: #10B981;
+            --success-light: #D1FAE5;
+            --danger: #EF4444;
+            --danger-light: #FEE2E2;
+            --info: #3B82F6;
+            --info-light: #DBEAFE;
+            --dark: #1E1B4B;
+            --gray: #6B7280;
+            --light: #F8FAFC;
+            --white: #FFFFFF;
+        }
+        html, body { width: 100% !important; max-width: 100% !important; overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--light); color: #334155; line-height: 1.7; font-size: 16px; }
+
+        .progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 4px; background: linear-gradient(90deg, var(--primary), var(--accent)); z-index: 1000; transition: width 0.1s ease; }
+
+        .hero { background: linear-gradient(135deg, var(--primary) 0%, #4C1D95 50%, #312E81 100%); color: white; padding: 60px 20px 50px; text-align: center; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%); animation: pulse 8s ease-in-out infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+        .badge { display: inline-block; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 600; margin-bottom: 20px; letter-spacing: 0.5px; }
+        .hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; margin-bottom: 15px; line-height: 1.2; }
+        .hero p { font-size: 1.1rem; opacity: 0.9; max-width: 600px; margin: 0 auto 25px; }
+        .meta-tags { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; font-size: 0.9rem; opacity: 0.8; }
+        .meta-tags span { display: flex; align-items: center; gap: 6px; }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+        .toc { background: white; border-radius: 16px; padding: 35px; margin: -30px auto 40px; position: relative; z-index: 2; box-shadow: 0 4px 20px rgba(0,0,0,0.08); max-width: 900px; }
+        .toc h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; color: var(--dark); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .toc-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        @media (max-width: 600px) { .toc-list { grid-template-columns: 1fr; } }
+        .toc-item a { display: flex; align-items: center; gap: 12px; padding: 12px 15px; border-radius: 10px; text-decoration: none; color: #334155; font-weight: 500; transition: all 0.2s; border: 1px solid #E2E8F0; }
+        .toc-item a:hover { background: var(--primary-light); border-color: var(--primary); color: var(--primary); transform: translateX(4px); }
+        .toc-num { background: var(--primary); color: white; width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; flex-shrink: 0; }
+
+        .section { background: white; border-radius: 16px; margin-bottom: 30px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+        .section-header { padding: 25px 30px; color: white; display: flex; align-items: center; gap: 15px; }
+        .section-header h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700; }
+        .section-num { background: rgba(255,255,255,0.2); width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; flex-shrink: 0; }
+        .section-body { padding: 30px; }
+        .section-body p { margin-bottom: 15px; text-align: justify; }
+        .section-body h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; color: var(--dark); margin: 25px 0 12px; padding-left: 12px; border-left: 3px solid var(--primary); }
+
+        .bg-primary { background: linear-gradient(135deg, var(--primary), #4C1D95); }
+        .bg-accent { background: linear-gradient(135deg, #D97706, var(--accent)); }
+        .bg-success { background: linear-gradient(135deg, #059669, var(--success)); }
+        .bg-info { background: linear-gradient(135deg, #2563EB, var(--info)); }
+        .bg-danger { background: linear-gradient(135deg, #DC2626, var(--danger)); }
+        .bg-indigo { background: linear-gradient(135deg, #4338CA, #6366F1); }
+        .bg-pink { background: linear-gradient(135deg, #BE185D, #EC4899); }
+        .bg-teal { background: linear-gradient(135deg, #0D9488, #14B8A6); }
+
+        .callout { border-radius: 12px; padding: 18px 20px; margin: 20px 0; display: flex; gap: 12px; align-items: flex-start; }
+        .callout-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+        .callout-content { flex: 1; }
+        .callout-content strong { display: block; margin-bottom: 4px; font-size: 0.95rem; }
+        .callout-content p { margin: 0; font-size: 0.93rem; }
+        .callout-tip { background: var(--success-light); border-left: 4px solid var(--success); }
+        .callout-tip .callout-icon { color: var(--success); }
+        .callout-warn { background: var(--accent-light); border-left: 4px solid var(--accent); }
+        .callout-warn .callout-icon { color: var(--accent); }
+        .callout-danger { background: var(--danger-light); border-left: 4px solid var(--danger); }
+        .callout-danger .callout-icon { color: var(--danger); }
+        .callout-info { background: var(--info-light); border-left: 4px solid var(--info); }
+        .callout-info .callout-icon { color: var(--info); }
+        .callout-key { background: var(--primary-light); border-left: 4px solid var(--primary); }
+        .callout-key .callout-icon { color: var(--primary); }
+
+        table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 12px; overflow: hidden; margin: 20px 0; font-size: 0.93rem; }
+        thead th { background: var(--primary); color: white; padding: 14px 16px; text-align: left; font-weight: 600; }
+        tbody td { padding: 12px 16px; border-bottom: 1px solid #E2E8F0; }
+        tbody tr:nth-child(even) { background: #F8FAFC; }
+        tbody tr:hover { background: var(--primary-light); }
+
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin: 20px 0; }
+        .card { background: var(--light); border: 1px solid #E2E8F0; border-radius: 12px; padding: 20px; transition: all 0.2s; }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .card-icon { font-size: 1.8rem; margin-bottom: 10px; }
+        .card h4 { font-size: 0.95rem; color: var(--dark); margin-bottom: 6px; }
+        .card p { font-size: 0.85rem; color: var(--gray); margin: 0; }
+
+        details { background: var(--light); border: 1px solid #E2E8F0; border-radius: 10px; margin: 12px 0; overflow: hidden; }
+        summary { padding: 14px 18px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; color: var(--dark); font-size: 0.95rem; }
+        summary:hover { background: #F1F5F9; }
+        details[open] summary { border-bottom: 1px solid #E2E8F0; }
+        details .detail-content { padding: 18px; font-size: 0.93rem; }
+
+        .timeline { position: relative; padding-left: 30px; margin: 20px 0; }
+        .timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 3px; background: linear-gradient(180deg, var(--primary), var(--accent)); border-radius: 3px; }
+        .timeline-item { position: relative; margin-bottom: 20px; padding: 15px 18px; background: white; border: 1px solid #E2E8F0; border-radius: 10px; }
+        .timeline-item::before { content: ''; position: absolute; left: -26px; top: 20px; width: 12px; height: 12px; background: var(--primary); border-radius: 50%; border: 3px solid white; box-shadow: 0 0 0 2px var(--primary); }
+        .timeline-item h4 { font-size: 0.95rem; color: var(--dark); margin-bottom: 4px; }
+        .timeline-item p { font-size: 0.88rem; color: var(--gray); margin: 0; }
+
+        .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+        @media (max-width: 600px) { .pros-cons { grid-template-columns: 1fr; } }
+        .pros, .cons { border-radius: 12px; padding: 20px; }
+        .pros { background: var(--success-light); border: 1px solid #A7F3D0; }
+        .cons { background: var(--danger-light); border: 1px solid #FECACA; }
+        .pros h4, .cons h4 { margin-bottom: 10px; font-size: 0.95rem; }
+        .pros li, .cons li { font-size: 0.9rem; margin-bottom: 6px; list-style: none; padding-left: 20px; position: relative; }
+        .pros li::before { content: '✓'; position: absolute; left: 0; color: var(--success); font-weight: 700; }
+        .cons li::before { content: '✗'; position: absolute; left: 0; color: var(--danger); font-weight: 700; }
+
+        .step-box { background: white; border: 2px solid #E2E8F0; border-radius: 14px; padding: 20px 24px; margin: 15px 0; position: relative; }
+        .step-box.highlighted { border-color: var(--primary); background: var(--primary-light); }
+        .step-number { position: absolute; top: -12px; left: 20px; background: var(--primary); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; }
+        .step-box h4 { font-size: 1rem; color: var(--dark); margin-bottom: 8px; padding-left: 5px; }
+        .step-box p { font-size: 0.9rem; margin: 0; }
+        .step-box code { background: #1E1B4B; color: #A5F3FC; padding: 2px 8px; border-radius: 4px; font-size: 0.85rem; }
+
+        .quiz-container { margin: 20px 0; }
+        .quiz-question { background: var(--light); border: 2px solid #E2E8F0; border-radius: 14px; padding: 25px; margin-bottom: 20px; }
+        .quiz-question h4 { font-size: 1rem; color: var(--dark); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .quiz-question h4 span { background: var(--primary); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; flex-shrink: 0; }
+        .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+        .quiz-option { padding: 12px 16px; border: 2px solid #E2E8F0; border-radius: 10px; cursor: pointer; font-size: 0.93rem; transition: all 0.2s; background: white; }
+        .quiz-option:hover { border-color: var(--primary); background: var(--primary-light); }
+        .quiz-option.correct { border-color: var(--success); background: var(--success-light); color: #065F46; }
+        .quiz-option.wrong { border-color: var(--danger); background: var(--danger-light); color: #991B1B; }
+        .quiz-feedback { display: none; margin-top: 12px; padding: 12px 16px; border-radius: 8px; font-size: 0.9rem; }
+        .quiz-feedback.show { display: block; }
+        .quiz-feedback.success { background: var(--success-light); color: #065F46; }
+        .quiz-feedback.error { background: var(--danger-light); color: #991B1B; }
+
+        .footer { background: var(--dark); color: rgba(255,255,255,0.7); text-align: center; padding: 30px; margin-top: 40px; font-size: 0.85rem; }
+        .footer strong { color: white; }
+
+        @media print { .progress-bar { display: none; } .hero { padding: 30px; } .section { break-inside: avoid; } body { font-size: 12pt; } }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-content">
+            <div class="badge">🔴 ZOOM LIVE — SESSION DU 19 MARS 2026 (PARTIE 2)</div>
+            <h1>Créer un Site Web d'Artiste<br>avec l'IA — De Zéro à Online</h1>
+            <p>Démonstration complète : comment utiliser Claude pour créer un site web professionnel d'artiste, l'héberger gratuitement sur GitHub Pages, le connecter à un nom de domaine, et construire des pages de capture avec Builderall.</p>
+            <div class="meta-tags">
+                <span>⏱ Durée : ~1h40</span>
+                <span>🎤 Formateur : Tarik Hamiche</span>
+                <span>🎓 Producteur à Succès</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- SOMMAIRE -->
+    <div class="container">
+        <nav class="toc">
+            <h2>📋 Sommaire du cours</h2>
+            <ul class="toc-list">
+                <li class="toc-item"><a href="#s1"><span class="toc-num">1</span> Rappel de la session du matin</a></li>
+                <li class="toc-item"><a href="#s2"><span class="toc-num">2</span> Créer un site d'artiste avec Claude</a></li>
+                <li class="toc-item"><a href="#s3"><span class="toc-num">3</span> Héberger gratuitement sur GitHub Pages</a></li>
+                <li class="toc-item"><a href="#s4"><span class="toc-num">4</span> Connecter son nom de domaine</a></li>
+                <li class="toc-item"><a href="#s5"><span class="toc-num">5</span> Utiliser des templates (Framer)</a></li>
+                <li class="toc-item"><a href="#s6"><span class="toc-num">6</span> Pages de capture & funnels</a></li>
+                <li class="toc-item"><a href="#s7"><span class="toc-num">7</span> Connexion Builderall & outils mail</a></li>
+                <li class="toc-item"><a href="#s8"><span class="toc-num">8</span> Veille technologique & MCP</a></li>
+                <li class="toc-item"><a href="#quiz"><span class="toc-num">🧠</span> Quiz de validation</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="container">
+
+        <!-- SECTION 1 -->
+        <section class="section" id="s1">
+            <div class="section-header bg-primary">
+                <div class="section-num">1</div>
+                <h2>Rappel de la session du matin</h2>
+            </div>
+            <div class="section-body">
+                <p>Avant de plonger dans la partie pratique de l'après-midi, voici un récapitulatif des trois grands sujets abordés lors de la session du matin.</p>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">📝</div>
+                        <h4>Résumés visuels de cours</h4>
+                        <p>Des résumés interactifs au format HTML sont désormais disponibles sous chaque vidéo de la formation. Ils permettent de parcourir rapidement le contenu et de repérer les points clés sans revoir la vidéo entière.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🔴</div>
+                        <h4>Reddit comme levier GEO</h4>
+                        <p>Reddit est devenu un média incontournable pour acquérir de la visibilité et alimenter les IA génératives. Le système de karma, les posts éducatifs longs et la présence dans les subreddits sont les clés.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🤖</div>
+                        <h4>GEO — Generative Engine Optimization</h4>
+                        <p>Nouvelle discipline qui consiste à se positionner pour être recommandé par les IA (ChatGPT, Claude, Grok, Perplexity). Les 7 piliers : Wikidata, Schema.org, annuaires, LinkedIn, blog, Reddit, webzines.</p>
+                    </div>
+                </div>
+
+                <div class="callout callout-info">
+                    <div class="callout-icon">📌</div>
+                    <div class="callout-content">
+                        <strong>Lien avec cette session</strong>
+                        <p>La partie 2 est axée sur la <strong>mise en pratique</strong>. On passe du « pourquoi » au « comment » : créer un site web d'artiste avec l'IA, l'héberger gratuitement, et connecter les outils de capture et d'emailing.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2 -->
+        <section class="section" id="s2">
+            <div class="section-header bg-info">
+                <div class="section-num">2</div>
+                <h2>Créer un site d'artiste avec Claude</h2>
+            </div>
+            <div class="section-body">
+                <p>Claude (via le mode Cowork) peut créer un site web d'artiste complet en quelques minutes. Il suffit de lui donner les bonnes instructions et il génère un fichier HTML 100% autonome, prêt à être hébergé.</p>
+
+                <h3>Le processus étape par étape</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4>Étape 1 — Décrire ce que vous voulez</h4>
+                        <p>Dites à Claude : « Crée-moi un site web d'artiste pour [Nom]. C'est un artiste [genre musical] basé à [ville]. Il faut une section biographie, une section musique avec liens d'écoute (Spotify, Deezer, Apple Music), une section vidéos, une section dates de concerts, et un formulaire de contact. »</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>Étape 2 — Donner de l'inspiration visuelle</h4>
+                        <p>Envoyez des captures d'écran de sites web que vous aimez. Claude peut s'en inspirer pour le design. Vous pouvez aussi utiliser des templates de sites comme Framer pour trouver des mises en page attractives.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>Étape 3 — Claude génère le site</h4>
+                        <p>Claude crée un fichier HTML complet avec le design, les textes, les liens, et toute la structure. Le fichier est autonome : pas besoin de serveur spécial, juste un hébergement de fichiers statiques.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>Étape 4 — Itérer et corriger</h4>
+                        <p>Demandez des modifications à la voix ou par écrit : « Change la couleur de fond », « Ajoute une section FAQ », « Mets la photo de couverture en plein écran ». Claude modifie le site en temps réel.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>Étape 5 — Vérifier les liens</h4>
+                        <p>Demandez à Claude de scanner le web pour trouver les vrais profils de l'artiste (Spotify, Deezer, Apple Music, YouTube, Instagram) et de mettre les bons URL automatiquement.</p>
+                    </div>
+                </div>
+
+                <div class="callout callout-tip">
+                    <div class="callout-icon">💡</div>
+                    <div class="callout-content">
+                        <strong>Astuce : donner le code source en plus du screenshot</strong>
+                        <p>Si vous aimez le design d'un site existant, vous pouvez faire un clic droit → « Afficher le code source » et envoyer ce code à Claude en plus de la capture d'écran. Il aura ainsi à la fois la référence visuelle ET la structure technique pour reproduire le design fidèlement.</p>
+                    </div>
+                </div>
+
+                <h3>Ce que Claude peut intégrer dans votre site</h3>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">🎵</div>
+                        <h4>Lecteur musical</h4>
+                        <p>Intégration de players Spotify, Deezer, Apple Music ou SoundCloud directement dans la page.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🎬</div>
+                        <h4>Vidéos embarquées</h4>
+                        <p>Clips YouTube, teasers, making-of intégrés directement avec un design responsive.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📅</div>
+                        <h4>Dates de concerts</h4>
+                        <p>Section dynamique avec les prochaines dates, lieux, et liens de billetterie.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📸</div>
+                        <h4>Galerie photos</h4>
+                        <p>Carrousel d'images, galerie en grille, ou diaporama plein écran.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📧</div>
+                        <h4>Formulaire de contact</h4>
+                        <p>Formulaire pour les demandes de booking, presse, ou collaboration.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">❓</div>
+                        <h4>FAQ interactive</h4>
+                        <p>Section questions/réponses en accordéon avec un design professionnel.</p>
+                    </div>
+                </div>
+
+                <div class="callout callout-key">
+                    <div class="callout-icon">🔑</div>
+                    <div class="callout-content">
+                        <strong>À retenir</strong>
+                        <p>N'importe quel artiste peut aujourd'hui créer un site web hyper professionnel, hyper design, <strong>gratuitement</strong> (ou presque). On parle à Claude, il génère le site. On héberge sur GitHub Pages, c'est gratuit. On connecte un nom de domaine à quelques euros par an. C'est tout.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3 -->
+        <section class="section" id="s3">
+            <div class="section-header bg-success">
+                <div class="section-num">3</div>
+                <h2>Héberger gratuitement sur GitHub Pages</h2>
+            </div>
+            <div class="section-body">
+                <p><strong>GitHub Pages</strong> est un service d'hébergement gratuit proposé par GitHub. Il permet de publier des sites web statiques (HTML, CSS, JS) directement depuis un dépôt GitHub. C'est gratuit jusqu'à 1 000 pages et largement suffisant pour un site d'artiste.</p>
+
+                <h3>Procédure complète : de zéro à en ligne</h3>
+
+                <div class="step-box">
+                    <div class="step-number">1</div>
+                    <h4>Créer un compte GitHub</h4>
+                    <p>Rendez-vous sur <strong>github.com</strong> et créez un compte gratuit. Choisissez un nom d'utilisateur simple (idéalement le nom de votre projet ou label).</p>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-number">2</div>
+                    <h4>Créer un « repository » (dépôt)</h4>
+                    <p>Cliquez sur le bouton <strong>« New »</strong> (en vert). Donnez un nom à votre dépôt (ex : <code>monsite</code> ou <code>nom-artiste</code>). Cochez <strong>« Public »</strong> (obligatoire pour GitHub Pages gratuit). Cliquez sur <strong>« Create repository »</strong>.</p>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-number">3</div>
+                    <h4>Uploader votre fichier HTML</h4>
+                    <p>Dans votre dépôt vide, cliquez sur <strong>« uploading an existing file »</strong>. Glissez-déposez le fichier HTML que Claude a créé pour vous. Le fichier principal doit s'appeler <code>index.html</code> pour être la page d'accueil. Cliquez sur <strong>« Commit changes »</strong> (le bouton vert en bas).</p>
+                </div>
+
+                <div class="step-box highlighted">
+                    <div class="step-number">4</div>
+                    <h4>Activer GitHub Pages</h4>
+                    <p>Allez dans l'onglet <strong>« Settings »</strong> (engrenage en haut). Dans le menu de gauche, cliquez sur <strong>« Pages »</strong>. Sous « Build and deployment », dans <strong>Source</strong>, sélectionnez <strong>« Deploy from a branch »</strong>. Dans <strong>Branch</strong>, sélectionnez <strong>« main »</strong> et laissez le dossier sur <strong>« / (root) »</strong>. Cliquez sur <strong>« Save »</strong>.</p>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-number">5</div>
+                    <h4>Attendre 1 à 2 minutes</h4>
+                    <p>GitHub construit votre site. Après 1-2 minutes, un message apparaît en haut : <strong>« Your site is live at https://votre-username.github.io/nom-du-depot/ »</strong>. C'est votre site en ligne !</p>
+                </div>
+
+                <div class="callout callout-warn">
+                    <div class="callout-icon">⚡</div>
+                    <div class="callout-content">
+                        <strong>Important : le nom du fichier</strong>
+                        <p>Pour que votre page d'accueil fonctionne automatiquement, le fichier principal DOIT s'appeler <code>index.html</code>. Si votre fichier s'appelle autrement (ex : <code>site-artiste.html</code>), il faudra ajouter le nom complet dans l'URL : <code>votre-username.github.io/depot/site-artiste.html</code>.</p>
+                    </div>
+                </div>
+
+                <h3>Résultat : URL de votre site</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Élément</th>
+                            <th>Exemple</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Username GitHub</td>
+                            <td><code>monlabel</code></td>
+                        </tr>
+                        <tr>
+                            <td>Nom du dépôt</td>
+                            <td><code>site-artiste</code></td>
+                        </tr>
+                        <tr>
+                            <td>URL générée</td>
+                            <td><code>https://monlabel.github.io/site-artiste/</code></td>
+                        </tr>
+                        <tr>
+                            <td>Coût</td>
+                            <td><strong>Gratuit — 0€</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Limite</td>
+                            <td>Jusqu'à 1 000 pages par dépôt</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION 4 -->
+        <section class="section" id="s4">
+            <div class="section-header bg-accent">
+                <div class="section-num">4</div>
+                <h2>Connecter son nom de domaine</h2>
+            </div>
+            <div class="section-body">
+                <p>Si vous possédez un nom de domaine (ex : <code>www.monartiste.com</code>), vous pouvez le connecter à GitHub Pages pour que votre site soit accessible via votre propre adresse au lieu de l'URL GitHub par défaut.</p>
+
+                <h3>Procédure en 2 parties</h3>
+
+                <h3>Partie A — Configuration sur GitHub</h3>
+                <div class="step-box">
+                    <div class="step-number">1</div>
+                    <h4>Aller dans Settings → Pages</h4>
+                    <p>Dans votre dépôt GitHub, allez dans <strong>Settings</strong> (engrenage) puis <strong>Pages</strong> dans le menu de gauche.</p>
+                </div>
+                <div class="step-box">
+                    <div class="step-number">2</div>
+                    <h4>Remplir « Custom domain »</h4>
+                    <p>Descendez jusqu'à la section <strong>« Custom domain »</strong>. Tapez votre nom de domaine <strong>sans accent</strong> (ex : <code>www.monartiste.com</code>). Cliquez sur <strong>Save</strong>.</p>
+                </div>
+                <div class="step-box">
+                    <div class="step-number">3</div>
+                    <h4>Cocher « Enforce HTTPS »</h4>
+                    <p>Si la case apparaît, cochez <strong>« Enforce HTTPS »</strong> pour sécuriser votre site avec un certificat SSL gratuit (le petit cadenas dans la barre d'adresse).</p>
+                </div>
+
+                <div class="callout callout-danger">
+                    <div class="callout-icon">⚠️</div>
+                    <div class="callout-content">
+                        <strong>Attention aux accents dans les noms de domaine</strong>
+                        <p>Les noms de domaine n'acceptent pas les accents dans la configuration DNS. Si votre domaine contient des caractères accentués (è, é, à…), utilisez la version sans accent dans la configuration GitHub et DNS.</p>
+                    </div>
+                </div>
+
+                <h3>Partie B — Configuration chez votre hébergeur de domaine</h3>
+                <div class="step-box">
+                    <div class="step-number">4</div>
+                    <h4>Se connecter au panneau DNS</h4>
+                    <p>Connectez-vous chez votre registrar (OVH, Ionos, GoDaddy, Hostinger, Google Domains…). Allez dans la section <strong>DNS</strong> ou <strong>Zone DNS</strong> de votre domaine.</p>
+                </div>
+                <div class="step-box highlighted">
+                    <div class="step-number">5</div>
+                    <h4>Ajouter un enregistrement CNAME</h4>
+                    <p>Créez un nouvel enregistrement DNS avec ces valeurs exactes :</p>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Champ</th>
+                            <th>Valeur à saisir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Type</strong></td>
+                            <td>CNAME</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nom / Host</strong></td>
+                            <td><code>www</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cible / Value</strong></td>
+                            <td><code>votre-username.github.io</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>TTL</strong></td>
+                            <td>3600 (ou laisser par défaut)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="step-box">
+                    <div class="step-number">6</div>
+                    <h4>Sauvegarder et patienter</h4>
+                    <p>Sauvegardez l'enregistrement DNS. La propagation peut prendre entre <strong>10 minutes et 24 heures</strong>. Après ce délai, votre site sera accessible sur <code>www.monartiste.com</code>.</p>
+                </div>
+
+                <div class="callout callout-tip">
+                    <div class="callout-icon">💡</div>
+                    <div class="callout-content">
+                        <strong>Astuce</strong>
+                        <p>GitHub créera automatiquement un fichier <code>CNAME</code> dans votre dépôt après avoir configuré le domaine personnalisé. Ne supprimez pas ce fichier — il est nécessaire au bon fonctionnement.</p>
+                    </div>
+                </div>
+
+                <details>
+                    <summary>🌐 Rediriger aussi le domaine « nu » (sans www)</summary>
+                    <div class="detail-content">
+                        <p>Si vous voulez que <code>monartiste.com</code> (sans le www) fonctionne aussi, ajoutez des enregistrements de type <strong>A</strong> pointant vers les IP de GitHub Pages :</p>
+                        <p><code>185.199.108.153</code><br><code>185.199.109.153</code><br><code>185.199.110.153</code><br><code>185.199.111.153</code></p>
+                        <p>Ces 4 enregistrements A avec le nom <code>@</code> permettront à votre domaine sans www de fonctionner aussi.</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- SECTION 5 -->
+        <section class="section" id="s5">
+            <div class="section-header bg-pink">
+                <div class="section-num">5</div>
+                <h2>Utiliser des templates (Framer)</h2>
+            </div>
+            <div class="section-body">
+                <p>Pour obtenir un résultat visuel encore plus professionnel, vous pouvez utiliser des <strong>templates de design</strong> comme point de départ. Le site <strong>Framer</strong> propose une marketplace de templates modernes que vous pouvez utiliser comme inspiration pour Claude.</p>
+
+                <h3>La méthode template → Claude</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4>1. Parcourir la marketplace Framer</h4>
+                        <p>Allez sur <strong>framer.com/marketplace</strong> et parcourez les templates. Cherchez des designs qui correspondent à l'univers visuel de votre artiste (sombre pour le rap/metal, lumineux pour la pop, etc.).</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>2. Faire une capture d'écran</h4>
+                        <p>Quand vous trouvez un design qui vous plaît — même juste une section (header, FAQ, galerie photos…) — faites une capture d'écran de cette partie.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>3. Envoyer à Claude</h4>
+                        <p>Envoyez la capture à Claude en disant : « Je veux que tu t'inspires de ce design pour créer mon site. » Claude analysera le layout, les couleurs, la typographie et reproduira un style similaire.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>4. Bonus : envoyer le code source</h4>
+                        <p>Faites un clic droit sur la page → « Afficher le code source de la page ». Copiez-collez ce code à Claude. Combiné avec la capture d'écran, il pourra reproduire le design de manière très fidèle.</p>
+                    </div>
+                </div>
+
+                <div class="callout callout-info">
+                    <div class="callout-icon">📌</div>
+                    <div class="callout-content">
+                        <strong>Vous pouvez mixer les inspirations</strong>
+                        <p>Rien ne vous empêche de prendre le header d'un template, la section FAQ d'un autre, et le footer d'un troisième. Dites à Claude : « Pour le header, inspire-toi de ça [screenshot 1]. Pour la FAQ, fais comme ça [screenshot 2]. » Il assemblera le tout dans un design cohérent.</p>
+                    </div>
+                </div>
+
+                <h3>Autres sources d'inspiration</h3>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">🎨</div>
+                        <h4>Framer Marketplace</h4>
+                        <p>Templates modernes et minimalistes. Idéal pour les artistes qui veulent un look pro et épuré.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🌐</div>
+                        <h4>Sites d'artistes connus</h4>
+                        <p>Allez voir les sites officiels de vos artistes préférés (Taylor Swift, Adele, etc.) et capturez les sections que vous aimez.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📱</div>
+                        <h4>Dribbble / Behance</h4>
+                        <p>Plateformes de designers avec des milliers de mockups de sites web pour toutes les niches.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6 -->
+        <section class="section" id="s6">
+            <div class="section-header bg-danger">
+                <div class="section-num">6</div>
+                <h2>Pages de capture & funnels</h2>
+            </div>
+            <div class="section-body">
+                <p>Au-delà du site vitrine, Claude peut créer des <strong>pages de capture</strong> (landing pages) pour collecter des emails, des inscriptions ou des pré-commandes. C'est la base de tout funnel marketing pour un artiste ou un label.</p>
+
+                <h3>Qu'est-ce qu'une page de capture ?</h3>
+                <p>Une page de capture est une page web avec un seul objectif : récupérer l'email (ou le numéro de téléphone) d'un visiteur en échange de quelque chose de valeur (un morceau exclusif, un code promo, un accès anticipé, etc.).</p>
+
+                <h3>Ce que Claude peut créer</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type de page</th>
+                            <th>Utilité</th>
+                            <th>Exemple de contenu offert</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Pré-save</strong></td>
+                            <td>Collecter des emails avant une sortie</td>
+                            <td>Accès anticipé au single, preview exclusive</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Opt-in fan</strong></td>
+                            <td>Construire une mailing list de fans</td>
+                            <td>Morceau inédit gratuit, remix exclusif</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Événement</strong></td>
+                            <td>Inscriptions à un live, showcase</td>
+                            <td>Accès gratuit ou prioritaire à l'événement</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Formulaire multi-étapes</strong></td>
+                            <td>Qualifier les contacts (booking, presse)</td>
+                            <td>Formulaire en plusieurs étapes pour filtrer les demandes</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-key">
+                    <div class="callout-icon">🔑</div>
+                    <div class="callout-content">
+                        <strong>À retenir</strong>
+                        <p>Un site d'artiste sans page de capture, c'est comme une boutique sans caisse. Le visiteur vient, regarde, et repart. Avec une page de capture, vous récupérez son email et pouvez le recontacter pour chaque sortie, chaque date, chaque actualité.</p>
+                    </div>
+                </div>
+
+                <h3>Structure d'une page de capture efficace</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4>1. Un titre accrocheur</h4>
+                        <p>Court, direct, qui décrit immédiatement ce que le visiteur va obtenir. Ex : « Reçois mon prochain single en avant-première, avant tout le monde. »</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>2. Un visuel fort</h4>
+                        <p>Photo de l'artiste, artwork du projet, ou vidéo teaser. Le visuel doit capter l'attention en moins de 2 secondes.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>3. Un formulaire simple</h4>
+                        <p>Le minimum : un champ email + un bouton. Ne demandez pas le nom, le prénom, la date de naissance — chaque champ supplémentaire fait baisser le taux de conversion.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>4. Un appel à l'action clair</h4>
+                        <p>Le bouton doit dire exactement ce que la personne obtient : « Recevoir le single » plutôt que « Envoyer » ou « S'inscrire ».</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 7 -->
+        <section class="section" id="s7">
+            <div class="section-header bg-indigo">
+                <div class="section-num">7</div>
+                <h2>Connexion Builderall & outils mail</h2>
+            </div>
+            <div class="section-body">
+                <p>Une fois votre page de capture créée, il faut la connecter à un <strong>outil d'emailing</strong> pour stocker les emails collectés et envoyer des séquences automatisées. L'outil mentionné dans le live est <strong>Builderall</strong>, mais le principe s'applique à tous les autorépondeurs.</p>
+
+                <h3>Les 3 méthodes de connexion</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Méthode</th>
+                            <th>Difficulté</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1. Embed du formulaire</strong></td>
+                            <td>⭐ Facile</td>
+                            <td>Créez votre formulaire directement dans Builderall, copiez le code d'intégration (embed/iframe), et demandez à Claude de l'insérer dans votre page HTML. <strong>C'est la méthode recommandée.</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>2. Connexion API</strong></td>
+                            <td>⭐⭐ Intermédiaire</td>
+                            <td>Claude peut coder un formulaire qui envoie les données directement à l'API de Builderall via un webhook. Plus technique mais plus élégant visuellement.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3. Zapier / Make</strong></td>
+                            <td>⭐⭐ Intermédiaire</td>
+                            <td>Utiliser un outil d'automatisation comme Zapier ou Make pour connecter le formulaire HTML à Builderall sans toucher au code.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-tip">
+                    <div class="callout-icon">💡</div>
+                    <div class="callout-content">
+                        <strong>Demandez à Claude de vous guider</strong>
+                        <p>Vous n'avez pas besoin de savoir comment faire la connexion technique. Dites simplement à Claude : « J'utilise Builderall pour ma base mail. Est-ce que tu peux interconnecter le formulaire de capture avec mon outil Builderall ? Si oui, explique-moi comment faire. » Il vous expliquera étape par étape, adaptée à votre niveau.</p>
+                    </div>
+                </div>
+
+                <h3>Autres outils d'emailing compatibles</h3>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">📧</div>
+                        <h4>Builderall</h4>
+                        <p>Suite marketing complète avec autorépondeur, tunnels de vente, et constructeur de pages.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📨</div>
+                        <h4>Mailchimp</h4>
+                        <p>Gratuit jusqu'à 500 contacts. Idéal pour débuter. Formulaires embed faciles à intégrer.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">✉️</div>
+                        <h4>Brevo (ex-Sendinblue)</h4>
+                        <p>Solution française. Plan gratuit généreux (300 emails/jour). Bon pour les artistes francophones.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📬</div>
+                        <h4>ConvertKit</h4>
+                        <p>Spécialisé pour les créateurs de contenu. Séquences email visuelles et landing pages intégrées.</p>
+                    </div>
+                </div>
+
+                <details>
+                    <summary>🔧 Méthode pas à pas : embed Builderall dans votre site</summary>
+                    <div class="detail-content">
+                        <p><strong>1.</strong> Connectez-vous à Builderall → Section « Mailing Boss » ou « Formulaires ».<br>
+                        <strong>2.</strong> Créez un formulaire de capture avec les champs souhaités (email minimum).<br>
+                        <strong>3.</strong> Cliquez sur « Obtenir le code d'intégration » ou « Get embed code ».<br>
+                        <strong>4.</strong> Copiez le code HTML généré.<br>
+                        <strong>5.</strong> Envoyez-le à Claude en disant : « Intègre ce formulaire dans ma page de capture à l'endroit du bouton d'inscription. »<br>
+                        <strong>6.</strong> Claude remplacera le formulaire statique par le formulaire Builderall connecté. Les inscriptions arriveront directement dans votre base mail.</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- SECTION 8 -->
+        <section class="section" id="s8">
+            <div class="section-header bg-teal">
+                <div class="section-num">8</div>
+                <h2>Veille technologique & MCP</h2>
+            </div>
+            <div class="section-body">
+                <p>Le monde de l'IA évolue à une vitesse folle. Pour rester compétitif, il est essentiel de faire de la <strong>veille technologique</strong> et de surveiller les nouveaux outils et connecteurs disponibles.</p>
+
+                <h3>Les MCP : la clé de l'automatisation</h3>
+                <p>Les <strong>MCP (Model Context Protocol)</strong> sont des connecteurs qui permettent aux IA comme Claude de se connecter à des outils externes (Canva, Calendly, Google Agenda, Spotify, etc.). Plus un outil a de MCP disponibles, plus il est intéressant à utiliser avec l'IA.</p>
+
+                <div class="callout callout-warn">
+                    <div class="callout-icon">⚡</div>
+                    <div class="callout-content">
+                        <strong>Pourquoi c'est important pour vous</strong>
+                        <p>Si votre outil préféré (Builderall, LearnBox, Distrokid…) n'a pas encore de MCP, Claude ne peut pas y travailler directement à votre place. C'est dans l'intérêt de ces outils de développer leur MCP s'ils ne veulent pas se faire remplacer par des solutions compatibles IA.</p>
+                    </div>
+                </div>
+
+                <h3>Comment faire sa veille</h3>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">🔍</div>
+                        <h4>ChatGPT en mode veille</h4>
+                        <p>Configurez ChatGPT pour scanner le web chaque semaine et vous alerter sur les nouveaux MCP et connecteurs disponibles pour vos outils.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🏪</div>
+                        <h4>Marketplace OpenClaw</h4>
+                        <p>Parcourez la marketplace de skills et connecteurs communautaires. Si quelqu'un a créé exactement ce dont vous avez besoin, importez-le en un clic.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📰</div>
+                        <h4>Reddit & newsletters</h4>
+                        <p>Suivez les subreddits tech et IA pour être au courant des dernières évolutions. Les mises à jour sont souvent annoncées là en premier.</p>
+                    </div>
+                </div>
+
+                <h3>La vision : tout déléguer à l'IA</h3>
+                <p>L'objectif à terme est de pouvoir déléguer la quasi-totalité des tâches répétitives à l'IA : création de contenu, publication sur les réseaux, gestion des emails, prospection, mise à jour du site web, analyse des stats. L'artiste ou le producteur se concentre sur ce qu'il fait de mieux : <strong>créer de la musique et construire des relations humaines</strong>.</p>
+
+                <div class="callout callout-key">
+                    <div class="callout-icon">🔑</div>
+                    <div class="callout-content">
+                        <strong>À retenir</strong>
+                        <p>L'IA ne remplace pas l'humain — elle supprime les tâches chronophages pour que vous puissiez investir votre temps dans ce qui a le plus d'impact. Un site qui prenait une semaine à créer se fait en 10 minutes. Un funnel qui prenait 3 jours se monte en 1 heure. Les 7 heures de travail pour résumer un live de 4 heures deviennent 2 minutes de prompt.</p>
+                    </div>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ Ce que l'IA fait très bien</h4>
+                        <ul>
+                            <li>Créer des sites web complets en quelques minutes</li>
+                            <li>Rédiger des posts, articles, descriptions</li>
+                            <li>Extraire et structurer des bases de données</li>
+                            <li>Automatiser les tâches répétitives</li>
+                            <li>Faire de la veille et de la recherche</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ Ce que l'IA ne fait pas (encore) bien</h4>
+                        <ul>
+                            <li>Reproduire votre ton oral / familier à l'identique</li>
+                            <li>Remplacer le contact humain dans les relations</li>
+                            <li>Faire du montage vidéo avancé</li>
+                            <li>Se connecter aux outils sans MCP disponible</li>
+                            <li>Prendre des décisions artistiques à votre place</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUIZ -->
+        <section class="section" id="quiz">
+            <div class="section-header bg-primary">
+                <div class="section-num">🧠</div>
+                <h2>Quiz de validation</h2>
+            </div>
+            <div class="section-body">
+                <p>Testez vos connaissances sur les points clés de cette session.</p>
+
+                <div class="quiz-container">
+                    <div class="quiz-question" data-correct="1">
+                        <h4><span>1</span> Comment s'appelle le service gratuit pour héberger un site web sur GitHub ?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-index="0">GitHub Hosting</div>
+                            <div class="quiz-option" data-index="1">GitHub Pages</div>
+                            <div class="quiz-option" data-index="2">GitHub Sites</div>
+                            <div class="quiz-option" data-index="3">GitHub Web</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="2">
+                        <h4><span>2</span> Comment doit s'appeler le fichier principal pour être la page d'accueil ?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-index="0">home.html</div>
+                            <div class="quiz-option" data-index="1">main.html</div>
+                            <div class="quiz-option" data-index="2">index.html</div>
+                            <div class="quiz-option" data-index="3">site.html</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="0">
+                        <h4><span>3</span> Quel type d'enregistrement DNS faut-il créer pour connecter son domaine à GitHub Pages ?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-index="0">CNAME</div>
+                            <div class="quiz-option" data-index="1">MX</div>
+                            <div class="quiz-option" data-index="2">TXT</div>
+                            <div class="quiz-option" data-index="3">SRV</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="0">
+                        <h4><span>4</span> Quelle est la méthode recommandée pour connecter Builderall à un site créé par Claude ?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-index="0">Embed du formulaire — copier le code d'intégration Builderall et le donner à Claude</div>
+                            <div class="quiz-option" data-index="1">Recréer entièrement le site dans Builderall</div>
+                            <div class="quiz-option" data-index="2">Utiliser uniquement Zapier pour tout connecter</div>
+                            <div class="quiz-option" data-index="3">Envoyer les emails manuellement sans outil</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="3">
+                        <h4><span>5</span> Qu'est-ce qu'un MCP dans le contexte de l'IA ?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-index="0">Un format de fichier musical (Music Compression Protocol)</div>
+                            <div class="quiz-option" data-index="1">Un type de contrat entre artiste et label</div>
+                            <div class="quiz-option" data-index="2">Un outil de montage vidéo intégré à Claude</div>
+                            <div class="quiz-option" data-index="3">Un connecteur qui permet aux IA de se connecter à des outils externes (Model Context Protocol)</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>Support de cours généré à partir du <strong>Zoom Live du 19 mars 2026 — Partie 2</strong></p>
+        <p style="margin-top: 5px;">🎓 <strong>Producteur à Succès</strong> — Formation Music Business par Tarik Hamiche</p>
+    </footer>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        });
+
+        // Quiz logic
+        const feedbackMessages = {
+            correct: [
+                "Exact ! GitHub Pages est le service gratuit de GitHub pour héberger des sites web statiques.",
+                "Bien joué ! Le fichier index.html est automatiquement reconnu comme page d'accueil par GitHub Pages.",
+                "Parfait ! Un enregistrement CNAME permet de pointer votre domaine (www) vers votre site GitHub Pages.",
+                "Correct ! L'embed du formulaire est la méthode la plus simple : on copie le code de Builderall et on le donne à Claude pour l'intégrer.",
+                "Bravo ! Le MCP (Model Context Protocol) est un connecteur qui permet aux IA de contrôler des outils externes comme Canva, Calendly, Google Agenda, etc."
+            ],
+            wrong: [
+                "Non — le service s'appelle GitHub Pages. Il permet d'héberger gratuitement des sites statiques directement depuis un dépôt GitHub.",
+                "Non — le fichier doit s'appeler index.html pour être reconnu automatiquement comme page d'accueil par le serveur.",
+                "Non — c'est un enregistrement de type CNAME qu'il faut créer. Il permet de faire pointer votre sous-domaine www vers votre-username.github.io.",
+                "Non — la méthode la plus simple est d'utiliser le code d'intégration (embed) de Builderall et de demander à Claude de l'insérer dans votre page HTML.",
+                "Non — MCP signifie Model Context Protocol. C'est un connecteur qui permet aux IA comme Claude de se connecter à des outils externes pour travailler dedans à votre place."
+            ]
+        };
+
+        document.querySelectorAll('.quiz-question').forEach((q, qIndex) => {
+            const correct = parseInt(q.dataset.correct);
+            const options = q.querySelectorAll('.quiz-option');
+            const feedback = q.querySelector('.quiz-feedback');
+            let answered = false;
+
+            options.forEach(opt => {
+                opt.addEventListener('click', () => {
+                    if (answered) return;
+                    answered = true;
+                    const selected = parseInt(opt.dataset.index);
+
+                    if (selected === correct) {
+                        opt.classList.add('correct');
+                        feedback.className = 'quiz-feedback show success';
+                        feedback.textContent = '✅ ' + feedbackMessages.correct[qIndex];
+                    } else {
+                        opt.classList.add('wrong');
+                        options[correct].classList.add('correct');
+                        feedback.className = 'quiz-feedback show error';
+                        feedback.textContent = '❌ ' + feedbackMessages.wrong[qIndex];
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

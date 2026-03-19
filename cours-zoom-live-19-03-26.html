@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoom Live du 19.03.26 — GEO, Reddit & IA pour Artistes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C3AED;
+            --primary-light: #EDE9FE;
+            --accent: #F59E0B;
+            --accent-light: #FEF3C7;
+            --success: #10B981;
+            --success-light: #D1FAE5;
+            --danger: #EF4444;
+            --danger-light: #FEE2E2;
+            --info: #3B82F6;
+            --info-light: #DBEAFE;
+            --dark: #1E1B4B;
+            --gray: #6B7280;
+            --light: #F8FAFC;
+            --white: #FFFFFF;
+        }
+
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--light);
+            color: #334155;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            z-index: 1000;
+            transition: width 0.1s ease;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #4C1D95 50%, #312E81 100%);
+            color: white;
+            padding: 60px 20px 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 800;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 25px;
+        }
+        .meta-tags {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        .meta-tags span { display: flex; align-items: center; gap: 6px; }
+
+        /* Container */
+        .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+        /* Sommaire */
+        .toc {
+            background: white;
+            border-radius: 16px;
+            padding: 35px;
+            margin: -30px auto 40px;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            max-width: 900px;
+        }
+        .toc h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .toc-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        @media (max-width: 600px) { .toc-list { grid-template-columns: 1fr; } }
+        .toc-item a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #334155;
+            font-weight: 500;
+            transition: all 0.2s;
+            border: 1px solid #E2E8F0;
+        }
+        .toc-item a:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateX(4px);
+        }
+        .toc-num {
+            background: var(--primary);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* Sections */
+        .section {
+            background: white;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+        .section-header {
+            padding: 25px 30px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .section-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        .section-num {
+            background: rgba(255,255,255,0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+        .section-body { padding: 30px; }
+        .section-body p { margin-bottom: 15px; text-align: justify; }
+        .section-body h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.15rem;
+            color: var(--dark);
+            margin: 25px 0 12px;
+            padding-left: 12px;
+            border-left: 3px solid var(--primary);
+        }
+
+        /* Couleurs sections */
+        .bg-primary { background: linear-gradient(135deg, var(--primary), #4C1D95); }
+        .bg-accent { background: linear-gradient(135deg, #D97706, var(--accent)); }
+        .bg-success { background: linear-gradient(135deg, #059669, var(--success)); }
+        .bg-info { background: linear-gradient(135deg, #2563EB, var(--info)); }
+        .bg-danger { background: linear-gradient(135deg, #DC2626, var(--danger)); }
+        .bg-indigo { background: linear-gradient(135deg, #4338CA, #6366F1); }
+        .bg-pink { background: linear-gradient(135deg, #BE185D, #EC4899); }
+
+        /* Callout boxes */
+        .callout {
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin: 20px 0;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .callout-icon {
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .callout-content { flex: 1; }
+        .callout-content strong { display: block; margin-bottom: 4px; font-size: 0.95rem; }
+        .callout-content p { margin: 0; font-size: 0.93rem; }
+
+        .callout-tip { background: var(--success-light); border-left: 4px solid var(--success); }
+        .callout-tip .callout-icon { color: var(--success); }
+        .callout-warn { background: var(--accent-light); border-left: 4px solid var(--accent); }
+        .callout-warn .callout-icon { color: var(--accent); }
+        .callout-danger { background: var(--danger-light); border-left: 4px solid var(--danger); }
+        .callout-danger .callout-icon { color: var(--danger); }
+        .callout-info { background: var(--info-light); border-left: 4px solid var(--info); }
+        .callout-info .callout-icon { color: var(--info); }
+        .callout-key { background: var(--primary-light); border-left: 4px solid var(--primary); }
+        .callout-key .callout-icon { color: var(--primary); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 20px 0;
+            font-size: 0.93rem;
+        }
+        thead th {
+            background: var(--primary);
+            color: white;
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+        tbody td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        tbody tr:nth-child(even) { background: #F8FAFC; }
+        tbody tr:hover { background: var(--primary-light); }
+
+        /* Cards grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .card {
+            background: var(--light);
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.2s;
+        }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .card-icon { font-size: 1.8rem; margin-bottom: 10px; }
+        .card h4 { font-size: 0.95rem; color: var(--dark); margin-bottom: 6px; }
+        .card p { font-size: 0.85rem; color: var(--gray); margin: 0; }
+
+        /* Accordion */
+        details {
+            background: var(--light);
+            border: 1px solid #E2E8F0;
+            border-radius: 10px;
+            margin: 12px 0;
+            overflow: hidden;
+        }
+        summary {
+            padding: 14px 18px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+        summary:hover { background: #F1F5F9; }
+        details[open] summary { border-bottom: 1px solid #E2E8F0; }
+        details .detail-content { padding: 18px; font-size: 0.93rem; }
+
+        /* Pros/Cons */
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        @media (max-width: 600px) { .pros-cons { grid-template-columns: 1fr; } }
+        .pros, .cons {
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .pros { background: var(--success-light); border: 1px solid #A7F3D0; }
+        .cons { background: var(--danger-light); border: 1px solid #FECACA; }
+        .pros h4, .cons h4 { margin-bottom: 10px; font-size: 0.95rem; }
+        .pros li, .cons li { font-size: 0.9rem; margin-bottom: 6px; list-style: none; padding-left: 20px; position: relative; }
+        .pros li::before { content: '✓'; position: absolute; left: 0; color: var(--success); font-weight: 700; }
+        .cons li::before { content: '✗'; position: absolute; left: 0; color: var(--danger); font-weight: 700; }
+
+        /* Timeline */
+        .timeline { position: relative; padding-left: 30px; margin: 20px 0; }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--primary), var(--accent));
+            border-radius: 3px;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+            padding: 15px 18px;
+            background: white;
+            border: 1px solid #E2E8F0;
+            border-radius: 10px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 20px;
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+        .timeline-item h4 { font-size: 0.95rem; color: var(--dark); margin-bottom: 4px; }
+        .timeline-item p { font-size: 0.88rem; color: var(--gray); margin: 0; }
+
+        /* Quiz */
+        .quiz-container { margin: 20px 0; }
+        .quiz-question {
+            background: var(--light);
+            border: 2px solid #E2E8F0;
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        .quiz-question h4 {
+            font-size: 1rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .quiz-question h4 span {
+            background: var(--primary);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+        .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+        .quiz-option {
+            padding: 12px 16px;
+            border: 2px solid #E2E8F0;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.93rem;
+            transition: all 0.2s;
+            background: white;
+        }
+        .quiz-option:hover { border-color: var(--primary); background: var(--primary-light); }
+        .quiz-option.correct {
+            border-color: var(--success);
+            background: var(--success-light);
+            color: #065F46;
+        }
+        .quiz-option.wrong {
+            border-color: var(--danger);
+            background: var(--danger-light);
+            color: #991B1B;
+        }
+        .quiz-feedback {
+            display: none;
+            margin-top: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        .quiz-feedback.show { display: block; }
+        .quiz-feedback.success { background: var(--success-light); color: #065F46; }
+        .quiz-feedback.error { background: var(--danger-light); color: #991B1B; }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+            font-size: 0.85rem;
+        }
+        .footer strong { color: white; }
+
+        /* Print */
+        @media print {
+            .progress-bar { display: none; }
+            .hero { padding: 30px; }
+            .section { break-inside: avoid; }
+            body { font-size: 12pt; }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-content">
+            <div class="badge">🔴 ZOOM LIVE — SESSION DU 19 MARS 2026</div>
+            <h1>GEO, Reddit & IA :<br>Les Nouvelles Armes de Visibilité</h1>
+            <p>Comment se positionner pour être recommandé par les IA, exploiter Reddit comme levier de crédibilité, et automatiser sa communication avec Claude.</p>
+            <div class="meta-tags">
+                <span>⏱ Durée : ~3h45</span>
+                <span>🎤 Formateur : Tarik Hamiche</span>
+                <span>🎓 Producteur à Succès</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- SOMMAIRE -->
+    <div class="container">
+        <nav class="toc">
+            <h2>📋 Sommaire du cours</h2>
+            <ul class="toc-list">
+                <li class="toc-item"><a href="#s1"><span class="toc-num">1</span> Nouveautés de la formation</a></li>
+                <li class="toc-item"><a href="#s2"><span class="toc-num">2</span> Reddit : le levier sous-estimé</a></li>
+                <li class="toc-item"><a href="#s3"><span class="toc-num">3</span> GEO : être recommandé par les IA</a></li>
+                <li class="toc-item"><a href="#s4"><span class="toc-num">4</span> Le plan d'action GEO concret</a></li>
+                <li class="toc-item"><a href="#s5"><span class="toc-num">5</span> Instagram : stratégie 2026</a></li>
+                <li class="toc-item"><a href="#s6"><span class="toc-num">6</span> Claude & IA : automatiser sa com'</a></li>
+                <li class="toc-item"><a href="#s7"><span class="toc-num">7</span> Prospection & bases de données</a></li>
+                <li class="toc-item"><a href="#quiz"><span class="toc-num">🧠</span> Quiz de validation</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="container">
+
+        <!-- SECTION 1 -->
+        <section class="section" id="s1">
+            <div class="section-header bg-primary">
+                <div class="section-num">1</div>
+                <h2>Nouveautés de la formation</h2>
+            </div>
+            <div class="section-body">
+                <p>La formation Producteur à Succès évolue avec l'ajout de <strong>résumés visuels interactifs</strong> sous chaque vidéo de cours. Ces résumés permettent aux élèves de cibler rapidement le contenu d'une vidéo avant d'y investir du temps, surtout pour les replays de 2 à 3 heures.</p>
+
+                <div class="callout callout-tip">
+                    <div class="callout-icon">💡</div>
+                    <div class="callout-content">
+                        <strong>Astuce</strong>
+                        <p>Ces résumés visuels sont générés avec l'aide de l'IA (Claude) et sont au format HTML interactif. Ils permettent de parcourir le contenu d'une vidéo de formation en quelques minutes au lieu de plusieurs heures.</p>
+                    </div>
+                </div>
+
+                <p>Les modules 1 à 5 sont déjà couverts. Le module 6, qui contient des vidéos plus longues (~2h chacune), sera terminé dans les jours qui suivent. L'objectif est également de fournir ces résumés pour les replays des sessions Zoom Live.</p>
+
+                <div class="callout callout-info">
+                    <div class="callout-icon">📌</div>
+                    <div class="callout-content">
+                        <strong>Le saviez-vous ?</strong>
+                        <p>Le module sur la structuration juridique (création de label, SARL, SAS, auto-entreprise) fait partie des vidéos les plus consultées. Le résumé visuel permet d'identifier immédiatement les points clés sans revoir 2h de contenu.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2 -->
+        <section class="section" id="s2">
+            <div class="section-header bg-danger">
+                <div class="section-num">2</div>
+                <h2>Reddit : le levier sous-estimé</h2>
+            </div>
+            <div class="section-body">
+                <p>Reddit est en train de devenir un des piliers les plus importants pour la visibilité des artistes et producteurs indépendants. Ce n'est pas un réseau social classique : c'est un <strong>forum communautaire</strong> structuré autour de « subreddits » thématiques, où la crédibilité se construit sur la valeur apportée, pas sur le nombre de followers.</p>
+
+                <h3>Pourquoi Reddit devient incontournable</h3>
+                <p>Les IA génératives (ChatGPT, Claude, Grok, Perplexity) utilisent massivement Reddit comme source de données pour construire leurs réponses. Quand quelqu'un demande à une IA une recommandation musicale ou un conseil sur l'industrie, l'IA puise dans les discussions Reddit les mieux notées. Être présent et bien référencé sur Reddit, c'est augmenter ses chances d'être recommandé par les IA.</p>
+
+                <h3>Le système de karma</h3>
+                <p>Sur Reddit, chaque interaction génère des <strong>karmas</strong> (points de réputation). Plus vous avez de karmas, plus vous êtes considéré comme un membre crédible. C'est le premier élément que les modérateurs vérifient lorsque vous publiez du contenu.</p>
+
+                <div class="callout callout-danger">
+                    <div class="callout-icon">⚠️</div>
+                    <div class="callout-content">
+                        <strong>Attention</strong>
+                        <p>Si vous débarquez sur un gros subreddit (500 000+ abonnés) avec 0 karma, 0 post et 0 commentaire, le modérateur ne lira même pas votre publication. Vous serez expulsé automatiquement, même si votre contenu n'est pas promotionnel.</p>
+                    </div>
+                </div>
+
+                <h3>La stratégie en 3 étapes</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4>Étape 1 — Construire du karma</h4>
+                        <p>Commencez par répondre aux questions des autres dans les subreddits de votre niche (r/WeAreTheMusicMakers, r/MusicIndustry, r/musicproduction, etc.). Apportez de la valeur sans rien promouvoir. Accumulez au minimum 500 karmas avant de publier votre propre contenu.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>Étape 2 — Publier du contenu éducatif long</h4>
+                        <p>Reddit valorise le contenu de fond. Visez des publications de 800 à 2 000 mots qui traitent un sujet en profondeur. Les posts courts se font dégager par les modérateurs, surtout dans les gros subreddits.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>Étape 3 — Être référencé par les IA</h4>
+                        <p>Si votre post est bien noté par la communauté (upvotes), il devient une source fiable pour les modèles d'IA. Quand quelqu'un demande un conseil music business à ChatGPT, votre contenu Reddit peut apparaître dans la réponse.</p>
+                    </div>
+                </div>
+
+                <h3>Les usages multiples de Reddit</h3>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">💬</div>
+                        <h4>Forum mondial</h4>
+                        <p>Poser des questions et obtenir des réponses de la communauté sur n'importe quel sujet.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📝</div>
+                        <h4>Documentation</h4>
+                        <p>Partager des guides, des retours d'expérience et du contenu éducatif long format.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">👥</div>
+                        <h4>Communauté utilisateurs</h4>
+                        <p>Créer un subreddit dédié à votre marque pour capter les retours et interagir avec vos utilisateurs.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🔍</div>
+                        <h4>Veille & tendances</h4>
+                        <p>Suivre les discussions de votre niche pour identifier les besoins et tendances émergentes.</p>
+                    </div>
+                </div>
+
+                <div class="callout callout-key">
+                    <div class="callout-icon">🔑</div>
+                    <div class="callout-content">
+                        <strong>À retenir</strong>
+                        <p>Reddit est un marathon, pas un sprint. Construisez votre crédibilité avant de publier. La récompense : vos contenus deviennent des sources pour les IA qui recommandent des artistes et des professionnels de la musique.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3 -->
+        <section class="section" id="s3">
+            <div class="section-header bg-info">
+                <div class="section-num">3</div>
+                <h2>GEO : être recommandé par les IA</h2>
+            </div>
+            <div class="section-body">
+                <p>Le <strong>GEO (Generative Engine Optimization)</strong> est le nouveau SEO. Au lieu d'optimiser pour Google, on optimise pour les IA génératives (ChatGPT, Claude, Grok, Perplexity). L'objectif : quand quelqu'un demande à une IA « c'est quoi le rappeur indépendant du moment ? » ou « quel outil pour gérer mon label ? », c'est <strong>vous</strong> qui apparaissez dans la réponse.</p>
+
+                <h3>SEO vs GEO : le changement de paradigme</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Critère</th>
+                            <th>SEO (Google)</th>
+                            <th>GEO (IA génératives)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Classement</strong></td>
+                            <td>Page 1, 2, 3… Position 1 à 10</td>
+                            <td>Citation directe dans la réponse de l'IA</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sources</strong></td>
+                            <td>Indexation du site web</td>
+                            <td>Croisement multi-sources (Reddit, blogs, Wikidata, annuaires…)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Confiance</strong></td>
+                            <td>Backlinks, autorité de domaine</td>
+                            <td>Cohérence des données entre les sources</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Clé du succès</strong></td>
+                            <td>Mots-clés, contenu optimisé</td>
+                            <td>Données structurées + répétition cohérente partout</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Comment les IA construisent leurs réponses</h3>
+                <p>Les IA croisent plusieurs sources pour valider une information. Si 10 sources différentes (3 posts Reddit, 1 site web, 2 webzines, 3 blogs, 1 fiche Wikidata) disent toutes la même chose sur vous — votre nom, votre genre musical, votre activité — l'IA considère que l'information est fiable et vous recommande avec certitude.</p>
+
+                <div class="callout callout-key">
+                    <div class="callout-icon">🔑</div>
+                    <div class="callout-content">
+                        <strong>La règle d'or du GEO</strong>
+                        <p>Répétez votre « phrase identitaire » (qui vous êtes, ce que vous faites, dans quel genre) de manière cohérente sur un maximum de sources différentes. Plus l'IA croise la même info sur des sources variées, plus elle vous recommandera avec confiance.</p>
+                    </div>
+                </div>
+
+                <details>
+                    <summary>📖 Exemple concret : la phrase identitaire</summary>
+                    <div class="detail-content">
+                        <p>Imaginons un artiste nommé « Raye Nayman ». Sa phrase identitaire pourrait être : « <em>Raye Nayman, artiste francophone à dimension internationale qui monte son label Intel Records</em> ». Cette phrase doit apparaître, sous des formes légèrement variées mais cohérentes, sur son site web, ses posts Reddit, ses articles LinkedIn, sa fiche Wikidata, les webzines qui parlent de lui, etc. L'IA croise toutes ces sources et construit sa réponse en conséquence.</p>
+                    </div>
+                </details>
+
+                <h3>Le système de « citations » des IA</h3>
+                <p>De la même manière que Google classe les résultats en page 1, 2, 3, les IA vont développer un système de classement des sources citées. Plus vos données sont cohérentes et répétées à travers des sources fiables, plus vous apparaissez tôt dans la réponse de l'IA — et potentiellement en première citation.</p>
+
+                <div class="callout callout-warn">
+                    <div class="callout-icon">⚡</div>
+                    <div class="callout-content">
+                        <strong>Timing critique</strong>
+                        <p>Le GEO en est à ses débuts. C'est maintenant qu'il faut se positionner. Ceux qui commencent dès maintenant auront un avantage considérable quand tout le monde s'y mettra.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4 -->
+        <section class="section" id="s4">
+            <div class="section-header bg-success">
+                <div class="section-num">4</div>
+                <h2>Le plan d'action GEO concret</h2>
+            </div>
+            <div class="section-body">
+                <p>Voici le plan d'action en 7 piliers pour se positionner efficacement sur les IA génératives. C'est exactement la stratégie déployée en ce moment par Tarik pour Producteur à Succès et MuziSecur.</p>
+
+                <h3>Les 7 piliers du GEO</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Pilier</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1</strong></td>
+                            <td>Wikidata</td>
+                            <td>Créer une fiche sur wikidata.org, la base de données structurée de la fondation Wikimedia. C'est la source de référence que les IA consultent en priorité.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2</strong></td>
+                            <td>Schema.org / JSON-LD</td>
+                            <td>Intégrer des balises structurées dans votre site web (balises @context, @type, name, description, sameAs…). Elles permettent aux IA de comprendre précisément qui vous êtes.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3</strong></td>
+                            <td>Annuaires professionnels</td>
+                            <td>Se référencer sur les annuaires de la SPPF, SCPP, SNEP, annuaires de festivals, sites comme « Sortir à Paris », etc.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4</strong></td>
+                            <td>Articles LinkedIn</td>
+                            <td>Publier régulièrement des articles longs sur LinkedIn. LinkedIn est très bien indexé par les IA (et par Google).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>5</strong></td>
+                            <td>Articles de blog SEO</td>
+                            <td>Créer des articles optimisés avec des classements (Top 10, Top 5…) qui permettent de placer votre phrase identitaire de manière naturelle.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>6</strong></td>
+                            <td>Posts Reddit</td>
+                            <td>Publier du contenu éducatif long sur les subreddits pertinents. Reddit est une des sources les plus consultées par les IA.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>7</strong></td>
+                            <td>Webzines & médias</td>
+                            <td>Être mentionné dans des articles de webzines musicaux. Chaque mention crédible renforce votre présence dans les réponses des IA.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-tip">
+                    <div class="callout-icon">💡</div>
+                    <div class="callout-content">
+                        <strong>Wikidata : la priorité absolue</strong>
+                        <p>Wikidata est la base de données structurée de la fondation Wikimedia (la même que Wikipédia). Les IA consultent Wikidata en priorité pour vérifier des informations factuelles. Créez votre fiche sur wikidata.org dès maintenant — c'est gratuit et ouvert à tous.</p>
+                    </div>
+                </div>
+
+                <h3>Les balises Schema.org en pratique</h3>
+                <p>Les balises Schema.org (ou JSON-LD) sont des morceaux de code à intégrer dans votre site web. Elles disent aux moteurs de recherche et aux IA exactement qui vous êtes et ce que vous faites.</p>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">🏷️</div>
+                        <h4>@context</h4>
+                        <p>Référence schema.org comme vocabulaire de base.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📂</div>
+                        <h4>@type</h4>
+                        <p>Type d'entité : MusicGroup, Organization, Person, EducationalOrganization…</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">✍️</div>
+                        <h4>name</h4>
+                        <p>Votre nom d'artiste ou nom de marque exact.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📝</div>
+                        <h4>description</h4>
+                        <p>Votre phrase identitaire — qui vous êtes, ce que vous faites.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🔗</div>
+                        <h4>sameAs</h4>
+                        <p>Liens vers tous vos profils (Spotify, Instagram, LinkedIn, Wikidata…).</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🎵</div>
+                        <h4>genre</h4>
+                        <p>Votre genre musical principal (pour les artistes).</p>
+                    </div>
+                </div>
+
+                <div class="callout callout-info">
+                    <div class="callout-icon">📌</div>
+                    <div class="callout-content">
+                        <strong>Exemple concret</strong>
+                        <p>Pour MuziSecur, les balises indiquent : @type = éducation/formation, name = MuziSecur, description = outil qui simplifie la gestion administrative des artistes et labels, sameAs = liens vers tous les profils sociaux. Résultat : quand quelqu'un demande à une IA « c'est quoi MuziSecur ? », elle trouve immédiatement la bonne réponse.</p>
+                    </div>
+                </div>
+
+                <h3>La stratégie des articles « Top X »</h3>
+                <p>Les articles de type classement (Top 10, Top 5) sont une arme redoutable pour le GEO. Ils permettent de placer et répéter votre phrase identitaire de manière naturelle dans un contexte éditorial crédible.</p>
+
+                <details>
+                    <summary>🎯 Comment utiliser les classements pour le GEO</summary>
+                    <div class="detail-content">
+                        <p>Créez des articles de blog avec des classements thématiques. Exemple : « Top 10 des artistes rap indépendants à suivre en 2026 ». Placez-vous dans le classement avec votre phrase identitaire complète. Variez les classements (par genre, par thématique, par région) pour multiplier les occurrences. Chaque article est une nouvelle source que l'IA peut croiser avec les autres pour valider votre identité.</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- SECTION 5 -->
+        <section class="section" id="s5">
+            <div class="section-header bg-pink">
+                <div class="section-num">5</div>
+                <h2>Instagram : stratégie 2026</h2>
+            </div>
+            <div class="section-body">
+                <p>Instagram reste un canal essentiel pour les artistes, mais la stratégie évolue. Les principaux changements à intégrer concernent les <strong>séries de Reels</strong>, l'outil <strong>Instagram Edit</strong>, et l'approche authentique du contenu.</p>
+
+                <h3>Les séries de Reels : la nouvelle priorité algorithmique</h3>
+                <p>Instagram privilégie désormais les <strong>séries</strong> dans son algorithme. Au lieu de publier un seul Reel sur un sujet, déclinez-le en 5 épisodes. L'algorithme récompense les créateurs qui proposent du contenu sérialisé car cela augmente le temps passé sur la plateforme.</p>
+
+                <div class="callout callout-tip">
+                    <div class="callout-icon">💡</div>
+                    <div class="callout-content">
+                        <strong>Exemple de série</strong>
+                        <p>Au lieu d'un seul Reel « 5 choses à savoir sur Reddit », créez 5 Reels distincts : « Reddit partie 1/5 », « Reddit partie 2/5 », etc. Chaque épisode renvoie au suivant et l'algorithme pousse la série entière.</p>
+                    </div>
+                </div>
+
+                <h3>Instagram Edit : le nouvel outil</h3>
+                <p>Instagram a lancé <strong>Edit</strong>, un outil intégré qui permet de booster ses Reels. La nouveauté : contrairement aux Reels classiques où on ne peut pas ajouter de lien cliquable, les Reels passés par Edit permettent de <strong>renvoyer vers son profil</strong> avec un bouton. C'est un avantage considérable pour convertir les spectateurs en abonnés.</p>
+
+                <h3>L'approche authentique vs corporate</h3>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ Ce qui marche</h4>
+                        <ul>
+                            <li>Contenu « brouillon », authentique, spontané</li>
+                            <li>Mélange de thématiques (musique, vie perso, coulisses)</li>
+                            <li>Stories quotidiennes et interactions directes</li>
+                            <li>Séries de Reels sur un même sujet</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ Ce qui ne marche plus</h4>
+                        <ul>
+                            <li>Feed ultra-léché « corporate » sans âme</li>
+                            <li>Publications uniquement promotionnelles</li>
+                            <li>Contenu sans personnalité ni prise de position</li>
+                            <li>Ignorer les DM et commentaires</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="callout callout-key">
+                    <div class="callout-icon">🔑</div>
+                    <div class="callout-content">
+                        <strong>À retenir</strong>
+                        <p>L'authenticité bat la perfection sur Instagram en 2026. Un feed « brouillon » qui montre votre vraie vie d'artiste performe mieux qu'un feed ultra-travaillé qui manque de personnalité. Les gens veulent voir l'humain derrière la musique.</p>
+                    </div>
+                </div>
+
+                <h3>Hashtags et GEO sur Instagram</h3>
+                <p>Les hashtags restent utiles, mais leur fonction évolue. Au-delà de la découvrabilité classique, ils servent maintenant de <strong>données structurées</strong> pour les IA. Intégrez vos mots-clés identitaires dans vos descriptions de posts, pas seulement dans les hashtags. Certains créateurs intègrent même une « phrase GEO » dans chaque publication pour nourrir les IA.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 6 -->
+        <section class="section" id="s6">
+            <div class="section-header bg-indigo">
+                <div class="section-num">6</div>
+                <h2>Claude & IA : automatiser sa communication</h2>
+            </div>
+            <div class="section-body">
+                <p>L'IA Claude (Anthropic) est devenue un outil central pour automatiser une grande partie de la communication et de la gestion quotidienne. Voici comment l'utiliser concrètement dans le music business.</p>
+
+                <h3>Ce que Claude peut faire pour vous</h3>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">📱</div>
+                        <h4>Posts Instagram</h4>
+                        <p>Rédiger des descriptions de posts avec phrase GEO, call to action et hashtags structurés.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🎨</div>
+                        <h4>Carrousels</h4>
+                        <p>Créer des carrousels complets (texte + images IA) et les assembler directement dans Canva.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📅</div>
+                        <h4>Calendrier éditorial</h4>
+                        <p>Proposer 5 à 7 idées de contenu chaque matin et structurer les publications de la semaine.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📧</div>
+                        <h4>Réponses DM</h4>
+                        <p>Gérer les messages Instagram qui demandent des réponses longues ou techniques.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📊</div>
+                        <h4>Prospection</h4>
+                        <p>Extraire des bases de données de contacts (labels, médias, festivals) depuis des annuaires en ligne.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">💼</div>
+                        <h4>Offres commerciales</h4>
+                        <p>Créer des pages de vente, configurer Calendly, structurer des offres de coaching express.</p>
+                    </div>
+                </div>
+
+                <h3>Les Skills et Connecteurs de Claude</h3>
+                <p>Claude fonctionne avec un système de <strong>skills</strong> (compétences spécialisées) et de <strong>connecteurs</strong> (liens vers des outils externes). Vous pouvez créer vos propres skills ou en importer depuis la communauté.</p>
+
+                <div class="callout callout-info">
+                    <div class="callout-icon">📌</div>
+                    <div class="callout-content">
+                        <strong>Exemple de workflow automatisé</strong>
+                        <p>Chaque matin, Claude propose 5 à 7 idées de carrousels basées sur l'actualité music business. L'utilisateur en choisit une. Claude structure les hooks, les sous-titres, les paragraphes, génère les images via un script IA, les assemble dans Canva via le connecteur, et fournit le lien du design final. Temps total : quelques minutes au lieu de plusieurs heures.</p>
+                    </div>
+                </div>
+
+                <details>
+                    <summary>🔧 Créer un skill personnalisé</summary>
+                    <div class="detail-content">
+                        <p>Deux méthodes : (1) Importer un skill existant depuis la marketplace communautaire si quelqu'un a déjà créé ce dont vous avez besoin. (2) Rédiger les instructions vous-même en décrivant précisément ce que vous attendez. Par exemple, un skill « rédaction de posts Instagram » avec votre ton de voix, votre structure de post préférée, et des exemples concrets de posts qui ont bien marché.</p>
+                    </div>
+                </details>
+
+                <h3>L'idée des calls express via Claude + Calendly</h3>
+                <p>Cas d'usage réel présenté pendant le live : des abonnés Instagram posent des questions complexes par DM qui nécessitent des réponses longues. Solution : Claude crée une offre de calls express (15 minutes, ~30€), configure l'événement sur Calendly, le connecte à Google Agenda, et met tout en place. Seule la connexion Stripe (paiement) nécessite une intervention manuelle.</p>
+
+                <div class="callout callout-warn">
+                    <div class="callout-icon">⚡</div>
+                    <div class="callout-content">
+                        <strong>Limite actuelle</strong>
+                        <p>Claude reproduit un style d'écriture « propre » qui peut sonner robotique si vous avez un ton très oral et familier. Solution : utilisez Claude pour la structure et le fond, puis enregistrez le contenu à l'oral avec votre propre voix pour garder l'authenticité.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 7 -->
+        <section class="section" id="s7">
+            <div class="section-header bg-accent">
+                <div class="section-num">7</div>
+                <h2>Prospection & bases de données</h2>
+            </div>
+            <div class="section-body">
+                <p>L'IA permet désormais d'automatiser la collecte de données de prospection qui prenait auparavant des semaines de travail manuel. C'est un avantage considérable pour les artistes, labels et producteurs indépendants qui cherchent à se développer.</p>
+
+                <h3>Extraction de la base SPPF</h3>
+                <p>La SPPF (Société civile des Producteurs de Phonogrammes en France) dispose d'un répertoire public de tous ses labels associés. Claude a pu extraire l'intégralité de cette base en 24 heures grâce à un script automatisé.</p>
+
+                <h3>Données récupérées pour chaque label</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Donnée</th>
+                            <th>Utilité</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Nom du label</td>
+                            <td>Identification et ciblage</td>
+                        </tr>
+                        <tr>
+                            <td>Adresse, code postal, ville, pays</td>
+                            <td>Ciblage géographique</td>
+                        </tr>
+                        <tr>
+                            <td>Nom du contact</td>
+                            <td>Personnalisation de l'approche</td>
+                        </tr>
+                        <tr>
+                            <td>Email & téléphone</td>
+                            <td>Prise de contact directe</td>
+                        </tr>
+                        <tr>
+                            <td>Site web</td>
+                            <td>Recherche complémentaire</td>
+                        </tr>
+                        <tr>
+                            <td>Genre musical</td>
+                            <td>Filtrage par affinité artistique</td>
+                        </tr>
+                        <tr>
+                            <td>Nombre de phonogrammes</td>
+                            <td>Estimation de la taille du catalogue</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-tip">
+                    <div class="callout-icon">💡</div>
+                    <div class="callout-content">
+                        <strong>Autres bases accessibles</strong>
+                        <p>Le gouvernement a mis en place des accès publics à certaines bases de données professionnelles. D'autres sources incluent les annuaires de la SCPP, le répertoire du SNEP, les bases de webzines musicaux, et les listes de festivals. Claude peut automatiser l'extraction de toutes ces sources.</p>
+                    </div>
+                </div>
+
+                <h3>Prospection intelligente avec l'IA</h3>
+                <p>Au-delà de l'extraction, Claude peut analyser votre positionnement, identifier les labels ou médias les plus pertinents pour vous, et même rédiger des emails de prospection personnalisés. L'idée est de combiner la puissance de collecte de l'IA avec une approche humaine et personnalisée dans la prise de contact.</p>
+
+                <div class="callout callout-danger">
+                    <div class="callout-icon">⚠️</div>
+                    <div class="callout-content">
+                        <strong>Attention</strong>
+                        <p>L'IA est un outil de prospection, pas un substitut à la relation humaine. Utilisez-la pour identifier et préparer vos contacts, mais personnalisez toujours votre approche. Un email générique envoyé en masse sera toujours moins efficace qu'un message ciblé et authentique.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUIZ -->
+        <section class="section" id="quiz">
+            <div class="section-header bg-primary">
+                <div class="section-num">🧠</div>
+                <h2>Quiz de validation</h2>
+            </div>
+            <div class="section-body">
+                <p>Testez vos connaissances sur les points clés abordés dans ce Zoom Live.</p>
+
+                <div class="quiz-container">
+                    <!-- Q1 -->
+                    <div class="quiz-question" data-correct="2">
+                        <h4><span>1</span> Qu'est-ce que le GEO ?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-index="0">Une technique de géolocalisation pour cibler des fans par région</div>
+                            <div class="quiz-option" data-index="1">Un nouvel algorithme de Google pour le référencement local</div>
+                            <div class="quiz-option" data-index="2">L'optimisation pour être recommandé par les IA génératives (ChatGPT, Claude, etc.)</div>
+                            <div class="quiz-option" data-index="3">Un outil de gestion éditoriale pour les réseaux sociaux</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="quiz-question" data-correct="1">
+                        <h4><span>2</span> Pourquoi le karma est-il important sur Reddit ?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-index="0">Il permet de gagner de l'argent via le programme de monétisation Reddit</div>
+                            <div class="quiz-option" data-index="1">Il détermine votre crédibilité — sans karma, les modérateurs suppriment vos publications</div>
+                            <div class="quiz-option" data-index="2">Il augmente le nombre de caractères autorisés dans vos posts</div>
+                            <div class="quiz-option" data-index="3">Il donne accès aux subreddits premium payants</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <!-- Q3 -->
+                    <div class="quiz-question" data-correct="0">
+                        <h4><span>3</span> Quel site faut-il utiliser en priorité pour le GEO ?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-index="0">Wikidata.org — la base de données structurée consultée en priorité par les IA</div>
+                            <div class="quiz-option" data-index="1">Wikipedia.org — l'encyclopédie en ligne la plus connue</div>
+                            <div class="quiz-option" data-index="2">Google My Business — la fiche d'entreprise Google</div>
+                            <div class="quiz-option" data-index="3">LinkedIn.com — le réseau professionnel</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <!-- Q4 -->
+                    <div class="quiz-question" data-correct="3">
+                        <h4><span>4</span> Quelle est la nouvelle priorité algorithmique d'Instagram en 2026 ?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-index="0">Les photos haute résolution avec filtres professionnels</div>
+                            <div class="quiz-option" data-index="1">Les stories sponsorisées avec liens directs</div>
+                            <div class="quiz-option" data-index="2">Les lives de plus de 30 minutes</div>
+                            <div class="quiz-option" data-index="3">Les séries de Reels — du contenu décliné en plusieurs épisodes</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <!-- Q5 -->
+                    <div class="quiz-question" data-correct="2">
+                        <h4><span>5</span> Qu'est-ce que les balises Schema.org / JSON-LD permettent de faire ?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-index="0">Protéger votre site web contre le piratage</div>
+                            <div class="quiz-option" data-index="1">Accélérer le temps de chargement de votre site</div>
+                            <div class="quiz-option" data-index="2">Indiquer aux moteurs de recherche et aux IA qui vous êtes et ce que vous faites</div>
+                            <div class="quiz-option" data-index="3">Bloquer les robots d'indexation indésirables</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>Support de cours généré à partir du <strong>Zoom Live du 19 mars 2026</strong></p>
+        <p style="margin-top: 5px;">🎓 <strong>Producteur à Succès</strong> — Formation Music Business par Tarik Hamiche</p>
+    </footer>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        });
+
+        // Quiz logic
+        const feedbackMessages = {
+            correct: [
+                "Exactement ! Le GEO (Generative Engine Optimization) vise à optimiser sa présence pour être recommandé par les IA génératives.",
+                "Bien joué ! Sans karma, vous n'avez aucune crédibilité aux yeux des modérateurs et vos posts sont supprimés automatiquement.",
+                "Parfait ! Wikidata est la base de données structurée de la fondation Wikimedia, consultée en priorité par les IA pour vérifier des informations factuelles.",
+                "Correct ! Instagram privilégie désormais les séries de Reels, c'est-à-dire du contenu décliné en plusieurs épisodes sur un même sujet.",
+                "Bravo ! Les balises Schema.org sont des données structurées qui permettent aux IA de comprendre précisément votre identité et votre activité."
+            ],
+            wrong: [
+                "Non — le GEO n'a rien à voir avec la géolocalisation. C'est le Generative Engine Optimization : être référencé et recommandé par les IA.",
+                "Pas tout à fait — le karma n'a rien à voir avec la monétisation. C'est votre score de crédibilité, et il détermine si vos publications survivent à la modération.",
+                "Non — Wikipedia est utile mais Wikidata est la source structurée que les IA consultent en priorité pour des données factuelles.",
+                "Non — Instagram mise désormais sur les séries de Reels, c'est-à-dire du contenu épisodique sur un même thème.",
+                "Non — Schema.org ne concerne pas la sécurité. Ce sont des balises qui aident les moteurs de recherche et les IA à comprendre votre identité."
+            ]
+        };
+
+        document.querySelectorAll('.quiz-question').forEach((q, qIndex) => {
+            const correct = parseInt(q.dataset.correct);
+            const options = q.querySelectorAll('.quiz-option');
+            const feedback = q.querySelector('.quiz-feedback');
+            let answered = false;
+
+            options.forEach(opt => {
+                opt.addEventListener('click', () => {
+                    if (answered) return;
+                    answered = true;
+                    const selected = parseInt(opt.dataset.index);
+
+                    if (selected === correct) {
+                        opt.classList.add('correct');
+                        feedback.className = 'quiz-feedback show success';
+                        feedback.textContent = '✅ ' + feedbackMessages.correct[qIndex];
+                    } else {
+                        opt.classList.add('wrong');
+                        options[correct].classList.add('correct');
+                        feedback.className = 'quiz-feedback show error';
+                        feedback.textContent = '❌ ' + feedbackMessages.wrong[qIndex];
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

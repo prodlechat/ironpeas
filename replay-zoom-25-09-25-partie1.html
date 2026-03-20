@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Replay Zoom 25.09.25 — Partie 1 | Producteur à Succès</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{--primary:#6C3AED;--primary-light:#EDE9FE;--primary-dark:#5B21B6;--accent:#F59E0B;--accent-light:#FEF3C7;--success:#10B981;--success-light:#D1FAE5;--danger:#EF4444;--danger-light:#FEE2E2;--info:#3B82F6;--info-light:#DBEAFE;--gray-50:#F9FAFB;--gray-100:#F3F4F6;--gray-200:#E5E7EB;--gray-300:#D1D5DB;--gray-500:#6B7280;--gray-700:#374151;--gray-900:#111827}
+        html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;color:var(--gray-700);line-height:1.7;background:var(--gray-50)}
+        .progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--primary),var(--accent));z-index:1000;transition:width .2s ease}
+        .hero{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);color:#fff;padding:60px 20px 50px;text-align:center}
+        .hero .badge{display:inline-block;background:rgba(255,255,255,.2);padding:6px 16px;border-radius:20px;font-size:.85rem;font-weight:600;margin-bottom:20px;backdrop-filter:blur(4px)}
+        .hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;margin-bottom:16px;line-height:1.2}
+        .hero .subtitle{font-size:1.1rem;opacity:.9;max-width:700px;margin:0 auto 24px}
+        .hero .meta{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;font-size:.9rem;opacity:.85}
+        .hero .meta span{display:flex;align-items:center;gap:6px}
+        .container{max-width:860px;margin:0 auto;padding:0 20px}
+        .toc{background:#fff;border-radius:16px;padding:32px;margin:-30px auto 40px;position:relative;z-index:10;box-shadow:0 4px 24px rgba(0,0,0,.08)}
+        .toc h2{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;color:var(--primary);margin-bottom:20px;display:flex;align-items:center;gap:8px}
+        .toc-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+        @media(max-width:600px){.toc-list{grid-template-columns:1fr}}
+        .toc-list li a{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;text-decoration:none;color:var(--gray-700);font-size:.92rem;font-weight:500;transition:all .2s;background:var(--gray-50)}
+        .toc-list li a:hover{background:var(--primary-light);color:var(--primary);transform:translateX(4px)}
+        .toc-list .num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:var(--primary);color:#fff;font-size:.8rem;font-weight:700;flex-shrink:0}
+        .section{background:#fff;border-radius:16px;margin-bottom:32px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+        .section-header{padding:24px 32px;display:flex;align-items:center;gap:14px}
+        .section-header .icon{font-size:1.8rem}
+        .section-header h2{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;color:#fff;font-weight:700}
+        .section-body{padding:28px 32px}
+        .section-body p{margin-bottom:16px;text-align:justify}
+        .section-body h3{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;color:var(--gray-900);margin:28px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--gray-100)}
+        .callout{border-radius:12px;padding:18px 20px;margin:20px 0;border-left:4px solid;display:flex;gap:12px}
+        .callout .callout-icon{font-size:1.3rem;flex-shrink:0;margin-top:2px}
+        .callout-content{flex:1}
+        .callout-content strong{display:block;margin-bottom:4px;font-size:.95rem}
+        .callout-content p{margin-bottom:0;font-size:.93rem}
+        .callout-tip{background:var(--success-light);border-color:var(--success)}
+        .callout-tip .callout-icon{color:var(--success)}
+        .callout-warning{background:var(--accent-light);border-color:var(--accent)}
+        .callout-warning .callout-icon{color:var(--accent)}
+        .callout-danger{background:var(--danger-light);border-color:var(--danger)}
+        .callout-danger .callout-icon{color:var(--danger)}
+        .callout-info{background:var(--info-light);border-color:var(--info)}
+        .callout-info .callout-icon{color:var(--info)}
+        .table-wrapper{overflow-x:auto;margin:20px 0;border-radius:12px;border:1px solid var(--gray-200)}
+        table{width:100%;border-collapse:collapse;font-size:.9rem}
+        thead th{background:var(--primary);color:#fff;padding:12px 16px;text-align:left;font-weight:600}
+        tbody td{padding:12px 16px;border-bottom:1px solid var(--gray-100)}
+        tbody tr:nth-child(even){background:var(--gray-50)}
+        tbody tr:hover{background:var(--primary-light)}
+        .cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:20px 0}
+        .card{background:var(--gray-50);border-radius:12px;padding:20px;border:1px solid var(--gray-200);transition:transform .2s}
+        .card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
+        .card .card-icon{font-size:1.6rem;margin-bottom:10px}
+        .card h4{font-size:.95rem;color:var(--gray-900);margin-bottom:6px}
+        .card p{font-size:.85rem;color:var(--gray-500);margin:0}
+        .pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+        @media(max-width:600px){.pros-cons{grid-template-columns:1fr}}
+        .pros,.cons{border-radius:12px;padding:20px}
+        .pros{background:var(--success-light);border:1px solid #A7F3D0}
+        .cons{background:var(--danger-light);border:1px solid #FECACA}
+        .pros h4,.cons h4{font-size:.95rem;margin-bottom:10px}
+        .pros li,.cons li{font-size:.9rem;margin-bottom:6px;padding-left:4px}
+        details{background:var(--gray-50);border-radius:12px;margin:16px 0;border:1px solid var(--gray-200)}
+        details summary{padding:14px 20px;font-weight:600;cursor:pointer;color:var(--primary);font-size:.95rem;list-style:none}
+        details summary::before{content:'▸ '}
+        details[open] summary::before{content:'▾ '}
+        details .details-content{padding:0 20px 16px;font-size:.93rem}
+        .quiz-section{background:linear-gradient(135deg,#1E1B4B 0%,var(--primary-dark) 100%);border-radius:16px;padding:36px 32px;margin-bottom:32px;color:#fff}
+        .quiz-section h2{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;margin-bottom:28px;text-align:center}
+        .quiz-question{background:rgba(255,255,255,.1);border-radius:12px;padding:20px;margin-bottom:16px;backdrop-filter:blur(4px)}
+        .quiz-question p{font-weight:600;margin-bottom:12px;color:#fff}
+        .quiz-option{display:block;width:100%;text-align:left;padding:10px 16px;margin-bottom:8px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#fff;cursor:pointer;font-size:.9rem;transition:all .2s}
+        .quiz-option:hover{background:rgba(255,255,255,.15)}
+        .quiz-option.correct{background:rgba(16,185,129,.3);border-color:var(--success)}
+        .quiz-option.wrong{background:rgba(239,68,68,.3);border-color:var(--danger)}
+        .quiz-feedback{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:.88rem;display:none}
+        .quiz-feedback.show{display:block}
+        .quiz-feedback.correct{background:rgba(16,185,129,.2)}
+        .quiz-feedback.wrong{background:rgba(239,68,68,.2)}
+        .footer{text-align:center;padding:40px 20px;color:var(--gray-500);font-size:.85rem}
+        .footer .brand{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);font-size:1.1rem;margin-bottom:8px}
+        @media print{.progress-bar{display:none}.hero{padding:30px 20px}.section{break-inside:avoid;box-shadow:none;border:1px solid #ddd}.quiz-section{background:#333}}
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="hero">
+        <div class="badge">🎓 Replay Zoom — Session Coaching (25 sept.)</div>
+        <h1>Auto-production, Édition, Promotion Playlist & Aides CNM</h1>
+        <p class="subtitle">De l'auto-production en nom propre aux deals éditoriaux, en passant par les subventions CNM et la construction d'une communauté d'artistes.</p>
+        <div class="meta">
+            <span>👤 Tarik Hamiche</span>
+            <span>📅 25 septembre 2025</span>
+            <span>⏱ Replay Zoom (Partie 1)</span>
+            <span>🎯 Producteur à Succès</span>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <nav class="toc">
+            <h2>📋 Sommaire</h2>
+            <ol class="toc-list">
+                <li><a href="#s1"><span class="num">1</span> Auto-production en nom propre</a></li>
+                <li><a href="#s2"><span class="num">2</span> Édition musicale & SACEM</a></li>
+                <li><a href="#s3"><span class="num">3</span> Promotion playlist & deals éditoriaux</a></li>
+                <li><a href="#s4"><span class="num">4</span> Construire une communauté d'artistes</a></li>
+                <li><a href="#s5"><span class="num">5</span> Aides CNM : mode d'emploi détaillé</a></li>
+                <li><a href="#s6"><span class="num">6</span> Intermittence & cumul de statuts</a></li>
+                <li><a href="#s7"><span class="num">7</span> Le livre comme outil de crédibilité</a></li>
+            </ol>
+        </nav>
+
+        <!-- SECTION 1 -->
+        <section class="section" id="s1">
+            <div class="section-header" style="background:linear-gradient(135deg,var(--primary) 0%,#7C3AED 100%);">
+                <span class="icon">🎤</span>
+                <h2>1. Auto-production en nom propre</h2>
+            </div>
+            <div class="section-body">
+                <p>Un élève souhaite auto-produire son prochain projet en finançant tout sur ses fonds propres. Tarik confirme que c'est parfaitement possible et détaille les possibilités offertes par le statut d'artiste-auteur.</p>
+
+                <h3>Ce qu'on peut faire en nom propre</h3>
+                <p>En tant qu'artiste-auteur, on peut littéralement tout faire : aller en studio, payer un ingénieur du son, travailler avec des prestataires, décaisser les factures, distribuer son projet. Le seul aspect à surveiller : l'embauche de salariés, qui coûterait très cher dans ce cadre. Mieux vaut travailler avec des prestataires facturés.</p>
+
+                <div class="callout callout-info">
+                    <span class="callout-icon">📌</span>
+                    <div class="callout-content">
+                        <strong>Éligibilité à l'auto-production CNM</strong>
+                        <p>Pour bénéficier des aides à l'auto-production du CNM, ce qui compte c'est le nombre de projets sortis au nom de l'artiste. Peu importe la structure qui les a portés (association, label externe…), c'est l'artiste et sa discographie qui comptent pour la commission.</p>
+                    </div>
+                </div>
+
+                <h3>La facturation des prestataires</h3>
+                <p>Une astuce pratique : si vous avez payé un prestataire en votre nom personnel avant de créer votre structure, vous pouvez lui demander de refaire la facture au nom de votre nouvelle entité. La plupart des prestataires acceptent sans problème. Gardez les deux versions pour vos dossiers.</p>
+
+                <div class="callout callout-tip">
+                    <span class="callout-icon">💡</span>
+                    <div class="callout-content">
+                        <strong>Astuce facture</strong>
+                        <p>Appelez votre prestataire et demandez simplement de mettre la facture au nom de votre structure (association ou société). C'est courant et accepté. L'important est d'avoir une trace comptable cohérente pour vos demandes d'aides.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2 -->
+        <section class="section" id="s2">
+            <div class="section-header" style="background:linear-gradient(135deg,var(--info) 0%,#2563EB 100%);">
+                <span class="icon">📝</span>
+                <h2>2. Édition musicale & SACEM</h2>
+            </div>
+            <div class="section-body">
+                <p>Tarik clarifie un point méconnu : on peut être éditeur de ses propres œuvres à la SACEM, même en tant que personne physique — à une condition près.</p>
+
+                <h3>Devenir son propre éditeur</h3>
+                <p>La SACEM impose de créer une enseigne commerciale (un simple enregistrement au greffe du tribunal de commerce) pour distinguer le compte d'auteur et le compte d'éditeur. Le coût est modique (environ 180 à 200 €) et permet de récupérer la part éditoriale de ses œuvres sans passer par un éditeur externe.</p>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Option</th>
+                                <th>Part récupérée</th>
+                                <th>Coût</th>
+                                <th>Complexité</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Sans éditeur (auteur seul)</td>
+                                <td>Part auteur uniquement</td>
+                                <td>Gratuit</td>
+                                <td>Aucune</td>
+                            </tr>
+                            <tr>
+                                <td>Auto-édition (enseigne commerciale)</td>
+                                <td>Part auteur + part éditeur</td>
+                                <td>~200 €</td>
+                                <td>Faible</td>
+                            </tr>
+                            <tr>
+                                <td>Éditeur externe</td>
+                                <td>Part auteur (éditeur prend sa part)</td>
+                                <td>Gratuit mais perte de revenus</td>
+                                <td>Variable</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="callout callout-warning">
+                    <span class="callout-icon">⚠️</span>
+                    <div class="callout-content">
+                        <strong>Quand un éditeur externe a du sens</strong>
+                        <p>Un bon éditeur ne se contente pas de collecter sa part : il exploite activement les œuvres (placements synchro, sous-édition à l'étranger, démarchage actif). Si un éditeur ne fait que toucher ses pourcentages sans travail, autant s'auto-éditer.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3 -->
+        <section class="section" id="s3">
+            <div class="section-header" style="background:linear-gradient(135deg,var(--success) 0%,#059669 100%);">
+                <span class="icon">🎧</span>
+                <h2>3. Promotion playlist & deals éditoriaux</h2>
+            </div>
+            <div class="section-body">
+                <p>Tarik détaille les différentes approches de promotion sur les plateformes de streaming, avec un focus sur les deals entre labels/éditeurs et les curateurs de playlists.</p>
+
+                <h3>Les deals de promotion playlist</h3>
+                <p>La promotion playlist fonctionne souvent par des accords de partage de revenus. Un éditeur peut proposer un deal où il prend en charge toute la promotion playlist d'un titre en échange d'un pourcentage des revenus éditoriaux générés. C'est un pari partagé : si le titre ne marche pas, personne ne gagne.</p>
+
+                <div class="callout callout-tip">
+                    <span class="callout-icon">💡</span>
+                    <div class="callout-content">
+                        <strong>Tester avant de s'engager</strong>
+                        <p>Tarik partage son expérience : un deal avec une première radio n'a rien donné (deux semaines de diffusion puis plus rien). Un autre avec un éditeur spécialisé a explosé. C'est le jeu : il faut tester, sans tout miser sur un seul partenaire.</p>
+                    </div>
+                </div>
+
+                <h3>L'évolution de Spotify vers le SEO</h3>
+                <p>Spotify oriente de plus en plus son moteur de recommandation vers le référencement naturel (SEO). Des entrepreneurs ont anticipé cette tendance en créant des outils d'IA qui optimisent le référencement des titres sur la plateforme. C'est un virage important à surveiller pour les artistes indépendants.</p>
+
+                <h3>Créer son propre média musical</h3>
+                <p>Tarik observe que dans certaines niches (reggae, country francophone, instruments traditionnels), il n'existe pas de média spécialisé qui centralise la promotion. C'est une opportunité : créer un blog, une playlist curée ou un magazine en ligne dans une niche musicale non couverte peut devenir un levier de visibilité puissant.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 4 -->
+        <section class="section" id="s4">
+            <div class="section-header" style="background:linear-gradient(135deg,var(--accent) 0%,#D97706 100%);">
+                <span class="icon">🌐</span>
+                <h2>4. Construire une communauté d'artistes</h2>
+            </div>
+            <div class="section-body">
+                <p>Tarik dévoile un projet ambitieux : la création d'une communauté structurée d'artistes indépendants, inspirée de modèles issus du Web3, du gaming et même de la politique suisse.</p>
+
+                <h3>La vision : une communauté avec gouvernance</h3>
+                <p>L'idée est de créer un espace où les artistes de la communauté Producteur à Succès ne sont pas de simples spectateurs mais des participants actifs. Un système de gouvernance qui évite à la fois l'autocratie (une seule personne décide tout) et l'anarchie (tout le monde décide de tout). L'équilibre se situe entre les deux.</p>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">🎮</div>
+                        <h4>Inspiration Gaming</h4>
+                        <p>Les communautés de gamers excellent dans la gestion de groupes à grande échelle avec des systèmes de rangs et de contributions.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🔗</div>
+                        <h4>Inspiration Web3</h4>
+                        <p>Les DAO (organisations autonomes décentralisées) offrent des modèles de gouvernance participative intéressants.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🇨🇭</div>
+                        <h4>Inspiration Suisse</h4>
+                        <p>La démocratie directe suisse, avec ses votations et ses initiatives populaires, offre un modèle de participation citoyenne transposable.</p>
+                    </div>
+                </div>
+
+                <h3>Les partenariats possibles</h3>
+                <p>Une communauté structurée avec une audience engagée attire les partenariats avec les grandes plateformes. Amazon avait déjà approché Tarik pour diffuser un séminaire en live. Pour les artistes indépendants, ces partenariats peuvent ouvrir des portes normalement réservées aux majors.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 5 -->
+        <section class="section" id="s5">
+            <div class="section-header" style="background:linear-gradient(135deg,#8B5CF6 0%,#6D28D9 100%);">
+                <span class="icon">🏦</span>
+                <h2>5. Aides CNM : mode d'emploi détaillé</h2>
+            </div>
+            <div class="section-body">
+                <p>Tarik approfondit le sujet des aides du CNM (Centre National de la Musique) avec des cas concrets et des subtilités que peu de gens connaissent.</p>
+
+                <h3>Les aides à l'auto-production</h3>
+                <p>Les aides à l'auto-production du CNM sont accessibles dès le premier projet. La commission évalue le nombre de projets déjà sortis au nom de l'artiste (pas au nom de la structure). Un artiste qui a sorti 3 projets via une association puis passe en société reste crédité de ses 3 projets.</p>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Type d'aide CNM</th>
+                                <th>Fréquence</th>
+                                <th>Montant indicatif</th>
+                                <th>Particularité</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Aide à l'auto-production</td>
+                                <td>1 par an par projet</td>
+                                <td>Jusqu'à 3 000 € (1er projet)</td>
+                                <td>Par année civile, pas par délai de 12 mois</td>
+                            </tr>
+                            <tr>
+                                <td>Aide au vidéoclip</td>
+                                <td>Plusieurs par an</td>
+                                <td>Variable (plafond max par artiste)</td>
+                                <td>Cumulable avec d'autres aides</td>
+                            </tr>
+                            <tr>
+                                <td>Aide à l'export</td>
+                                <td>Variable</td>
+                                <td>Selon budget présenté</td>
+                                <td>Nécessite un budget détaillé</td>
+                            </tr>
+                            <tr>
+                                <td>Aides régionales (DRAC)</td>
+                                <td>Variable selon région</td>
+                                <td>Variable</td>
+                                <td>Très inégales selon les régions</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="callout callout-info">
+                    <span class="callout-icon">📌</span>
+                    <div class="callout-content">
+                        <strong>Par année civile, pas par délai de carence</strong>
+                        <p>Le CNM fonctionne par année civile. Si vous recevez une aide en octobre, vous pouvez en demander une autre dès mars de l'année suivante. Ce n'est pas un délai de 12 mois de carence. C'est une nuance qui change beaucoup de choses.</p>
+                    </div>
+                </div>
+
+                <h3>Les DRAC : une loterie régionale</h3>
+                <p>Les aides régionales via les DRAC (Directions Régionales des Affaires Culturelles) sont très inégales d'une région à l'autre. Certaines régions sont très généreuses, d'autres beaucoup moins. Si votre DRAC est peu favorable, explorez les aides départementales ou communales en complément.</p>
+
+                <details>
+                    <summary>Connaître les chiffres de vente de son genre musical</summary>
+                    <div class="details-content">
+                        <p>Pour construire un dossier de demande d'aide crédible, il est utile de connaître les tendances de vente de son genre musical. Des services professionnels comme GfK (devenu Luminate) proposent des rapports détaillés sur les ventes physiques et digitales par genre. C'est un investissement qui renforce la crédibilité de vos prévisionnels.</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- SECTION 6 -->
+        <section class="section" id="s6">
+            <div class="section-header" style="background:linear-gradient(135deg,#EC4899 0%,#DB2777 100%);">
+                <span class="icon">🎭</span>
+                <h2>6. Intermittence & cumul de statuts</h2>
+            </div>
+            <div class="section-body">
+                <p>Un élève intermittent du spectacle (musicien de tournée) souhaite développer son projet personnel en parallèle. Tarik explique comment articuler les deux activités sans perdre ses droits.</p>
+
+                <h3>Protéger son statut d'intermittent</h3>
+                <p>Le statut d'intermittent repose sur un nombre minimum de cachets (507 heures sur 12 mois). Si vous avez déjà vos cachets assurés par votre activité de tournée (comme accompagnateur d'un artiste), vous pouvez développer votre projet solo en parallèle via une autre structure sans risquer votre statut.</p>
+
+                <div class="callout callout-warning">
+                    <span class="callout-icon">⚠️</span>
+                    <div class="callout-content">
+                        <strong>SARL et intermittence : incompatibles</strong>
+                        <p>Si vous êtes gérant majoritaire d'une SARL, vous ne pouvez pas cumuler avec le statut d'intermittent. En revanche, une SAS avec un poste de président permet ce cumul. C'est un point juridique crucial à anticiper.</p>
+                    </div>
+                </div>
+
+                <h3>Stratégie de transition</h3>
+                <p>L'approche recommandée : garder son intermittence tant qu'elle est assurée par l'activité de tournée, et développer son projet solo via une structure séparée (SAS ou association). Le jour où le projet solo génère suffisamment de revenus, la transition se fait naturellement.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 7 -->
+        <section class="section" id="s7">
+            <div class="section-header" style="background:linear-gradient(135deg,var(--danger) 0%,#DC2626 100%);">
+                <span class="icon">📚</span>
+                <h2>7. Le livre comme outil de crédibilité</h2>
+            </div>
+            <div class="section-body">
+                <p>Tarik partage un levier de développement souvent sous-estimé : écrire et publier un livre dans son domaine d'expertise. Ce n'est pas tant les ventes qui comptent, mais le statut que le livre confère.</p>
+
+                <h3>Pourquoi écrire un livre ?</h3>
+                <p>Le livre fonctionne comme un "passeport de crédibilité". Quand Tarik contacte des professionnels en Afrique, en Asie ou dans les Antilles, le fait de pouvoir dire qu'il a écrit un livre sur le music business change immédiatement la perception. Il passe de "quelqu'un qui veut quelque chose" à "un expert qui a quelque chose à offrir".</p>
+
+                <div class="callout callout-tip">
+                    <span class="callout-icon">💡</span>
+                    <div class="callout-content">
+                        <strong>Le livre ouvre des portes</strong>
+                        <p>Envoyer un exemplaire de son livre à un interlocuteur potentiel (directeur de festival, organisateur de conférences, partenaire commercial) crée un prétexte de contact professionnel et légitime. C'est un investissement marketing dont le retour sur investissement dépasse largement les ventes du livre.</p>
+                    </div>
+                </div>
+
+                <h3>Le bilan annuel comme outil de promotion</h3>
+                <p>Faire un bilan annuel de ses activités (ventes, projets, évolutions) et le partager publiquement crée un support de communication puissant. Cela permet de montrer sa progression, d'attirer des partenaires et de créer un prétexte pour recontacter son réseau.</p>
+            </div>
+        </section>
+
+        <!-- QUIZ -->
+        <div class="quiz-section">
+            <h2>🧠 Quiz — Testez vos connaissances</h2>
+
+            <div class="quiz-question" id="q1">
+                <p>1. Combien coûte approximativement la création d'une enseigne commerciale pour devenir éditeur à la SACEM ?</p>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q1')">A. Gratuit</button>
+                <button class="quiz-option" onclick="checkAnswer(this,true,'q1')">B. Environ 180 à 200 €</button>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q1')">C. Environ 1 000 €</button>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q1')">D. Environ 5 000 €</button>
+                <div class="quiz-feedback correct" id="q1-correct">✅ Exact ! La création d'une enseigne commerciale au greffe du tribunal de commerce coûte entre 180 et 200 € environ.</div>
+                <div class="quiz-feedback wrong" id="q1-wrong">❌ Le coût est d'environ 180 à 200 € au greffe du tribunal de commerce. Un investissement modique pour récupérer sa part éditoriale.</div>
+            </div>
+
+            <div class="quiz-question" id="q2">
+                <p>2. Comment fonctionne le calendrier des aides CNM à l'auto-production ?</p>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q2')">A. Un délai de carence de 12 mois entre chaque demande</button>
+                <button class="quiz-option" onclick="checkAnswer(this,true,'q2')">B. Par année civile — une aide en octobre permet d'en demander une autre dès janvier</button>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q2')">C. Une seule aide par artiste à vie</button>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q2')">D. Tous les 6 mois exactement</button>
+                <div class="quiz-feedback correct" id="q2-correct">✅ Bien joué ! Le CNM fonctionne par année civile, pas par délai de carence. C'est une nuance importante qui permet de multiplier les demandes.</div>
+                <div class="quiz-feedback wrong" id="q2-wrong">❌ Le CNM fonctionne par année civile. Une aide reçue en octobre permet d'en demander une nouvelle dès le début de l'année suivante.</div>
+            </div>
+
+            <div class="quiz-question" id="q3">
+                <p>3. Pourquoi la SACEM oblige-t-elle à créer une enseigne commerciale pour être éditeur ?</p>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q3')">A. Pour payer plus d'impôts</button>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q3')">B. Pour limiter le nombre d'éditeurs</button>
+                <button class="quiz-option" onclick="checkAnswer(this,true,'q3')">C. Pour distinguer le compte d'auteur et le compte d'éditeur</button>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q3')">D. C'est une obligation européenne</button>
+                <div class="quiz-feedback correct" id="q3-correct">✅ Correct ! La SACEM ne peut pas avoir un compte auteur et un compte éditeur au même nom de personne physique. L'enseigne commerciale crée la distinction nécessaire.</div>
+                <div class="quiz-feedback wrong" id="q3-wrong">❌ C'est pour distinguer le compte d'auteur (personne physique) du compte d'éditeur (enseigne commerciale). Les deux ne peuvent pas être au même nom.</div>
+            </div>
+
+            <div class="quiz-question" id="q4">
+                <p>4. Quel est le principal intérêt d'écrire un livre dans son domaine musical ?</p>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q4')">A. Les revenus des ventes du livre</button>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q4')">B. Le référencement SEO</button>
+                <button class="quiz-option" onclick="checkAnswer(this,true,'q4')">C. Le statut de crédibilité qu'il confère pour ouvrir des portes professionnelles</button>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q4')">D. L'obligation légale pour les formateurs</button>
+                <div class="quiz-feedback correct" id="q4-correct">✅ Exactement ! Le livre est avant tout un "passeport de crédibilité" qui change la perception des interlocuteurs professionnels et ouvre des portes.</div>
+                <div class="quiz-feedback wrong" id="q4-wrong">❌ Ce n'est pas les ventes qui comptent, mais le statut que le livre confère. Il fonctionne comme un passeport de crédibilité dans les échanges professionnels.</div>
+            </div>
+
+            <div class="quiz-question" id="q5">
+                <p>5. Pourquoi un gérant majoritaire de SARL ne peut-il pas être intermittent du spectacle ?</p>
+                <button class="quiz-option" onclick="checkAnswer(this,true,'q5')">A. Le statut de gérant majoritaire est incompatible avec le régime d'intermittence</button>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q5')">B. La SARL est réservée aux commerces</button>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q5')">C. L'intermittence n'existe plus pour les SARL</button>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q5')">D. C'est possible mais très coûteux</button>
+                <div class="quiz-feedback correct" id="q5-correct">✅ Exact ! Le gérant majoritaire de SARL relève du régime des travailleurs non-salariés (TNS), incompatible avec l'intermittence. En revanche, le président d'une SAS est assimilé salarié et peut cumuler.</div>
+                <div class="quiz-feedback wrong" id="q5-wrong">❌ Le gérant majoritaire de SARL est considéré comme travailleur non-salarié (TNS), ce qui est incompatible avec le régime d'intermittence. Une SAS permet ce cumul.</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="brand">Producteur à Succès</div>
+            <p>Support de cours généré à partir du Replay Zoom du 25 septembre 2025 (Partie 1)</p>
+            <p style="margin-top:4px;">Formation dispensée par Tarik Hamiche</p>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('scroll',()=>{const s=document.documentElement.scrollTop||document.body.scrollTop;const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;document.getElementById('progressBar').style.width=(s/h)*100+'%'});
+        function checkAnswer(btn,ok,qId){const q=document.getElementById(qId);if(q.querySelector('.quiz-option.correct,.quiz-option.wrong'))return;q.querySelectorAll('.quiz-option').forEach(o=>o.style.pointerEvents='none');if(ok){btn.classList.add('correct');document.getElementById(qId+'-correct').classList.add('show')}else{btn.classList.add('wrong');document.getElementById(qId+'-wrong').classList.add('show');q.querySelectorAll('.quiz-option').forEach(o=>{if(o.onclick&&o.onclick.toString().includes('true'))o.classList.add('correct')})}}
+    </script>
+</body>
+</html>

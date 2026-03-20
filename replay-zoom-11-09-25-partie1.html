@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Replay Zoom 11.09.25 — Partie 1 | Producteur à Succès</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C3AED;
+            --primary-light: #EDE9FE;
+            --primary-dark: #5B21B6;
+            --accent: #F59E0B;
+            --accent-light: #FEF3C7;
+            --success: #10B981;
+            --success-light: #D1FAE5;
+            --danger: #EF4444;
+            --danger-light: #FEE2E2;
+            --info: #3B82F6;
+            --info-light: #DBEAFE;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-500: #6B7280;
+            --gray-700: #374151;
+            --gray-900: #111827;
+        }
+
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--gray-700);
+            line-height: 1.7;
+            background: var(--gray-50);
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            z-index: 1000;
+            transition: width 0.2s ease;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 60px 20px 50px;
+            text-align: center;
+        }
+        .hero .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            backdrop-filter: blur(4px);
+        }
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        .hero .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto 24px;
+        }
+        .hero .meta {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            opacity: 0.85;
+        }
+        .hero .meta span { display: flex; align-items: center; gap: 6px; }
+
+        /* Container */
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Sommaire */
+        .toc {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            margin: -30px auto 40px;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+        .toc h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .toc-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        @media (max-width: 600px) {
+            .toc-list { grid-template-columns: 1fr; }
+        }
+        .toc-list li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--gray-700);
+            font-size: 0.92rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            background: var(--gray-50);
+        }
+        .toc-list li a:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+            transform: translateX(4px);
+        }
+        .toc-list .num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: var(--primary);
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* Sections */
+        .section {
+            background: white;
+            border-radius: 16px;
+            margin-bottom: 32px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+        .section-header {
+            padding: 24px 32px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .section-header .icon {
+            font-size: 1.8rem;
+        }
+        .section-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            color: white;
+            font-weight: 700;
+        }
+        .section-body {
+            padding: 28px 32px;
+        }
+        .section-body p {
+            margin-bottom: 16px;
+            text-align: justify;
+        }
+        .section-body h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.15rem;
+            color: var(--gray-900);
+            margin: 28px 0 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--gray-100);
+        }
+
+        /* Callout boxes */
+        .callout {
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin: 20px 0;
+            border-left: 4px solid;
+            display: flex;
+            gap: 12px;
+        }
+        .callout .callout-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+        .callout-content { flex: 1; }
+        .callout-content strong { display: block; margin-bottom: 4px; font-size: 0.95rem; }
+        .callout-content p { margin-bottom: 0; font-size: 0.93rem; }
+
+        .callout-tip { background: var(--success-light); border-color: var(--success); }
+        .callout-tip .callout-icon { color: var(--success); }
+        .callout-warning { background: var(--accent-light); border-color: var(--accent); }
+        .callout-warning .callout-icon { color: var(--accent); }
+        .callout-danger { background: var(--danger-light); border-color: var(--danger); }
+        .callout-danger .callout-icon { color: var(--danger); }
+        .callout-info { background: var(--info-light); border-color: var(--info); }
+        .callout-info .callout-icon { color: var(--info); }
+
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 20px 0;
+            border-radius: 12px;
+            border: 1px solid var(--gray-200);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        thead th {
+            background: var(--primary);
+            color: white;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+        tbody td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        tbody tr:nth-child(even) { background: var(--gray-50); }
+        tbody tr:hover { background: var(--primary-light); }
+
+        /* Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+        .card {
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--gray-200);
+            transition: transform 0.2s;
+        }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .card .card-icon { font-size: 1.6rem; margin-bottom: 10px; }
+        .card h4 { font-size: 0.95rem; color: var(--gray-900); margin-bottom: 6px; }
+        .card p { font-size: 0.85rem; color: var(--gray-500); margin: 0; }
+
+        /* Pros/Cons */
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+        @media (max-width: 600px) { .pros-cons { grid-template-columns: 1fr; } }
+        .pros, .cons {
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .pros { background: var(--success-light); border: 1px solid #A7F3D0; }
+        .cons { background: var(--danger-light); border: 1px solid #FECACA; }
+        .pros h4, .cons h4 { font-size: 0.95rem; margin-bottom: 10px; }
+        .pros li, .cons li { font-size: 0.9rem; margin-bottom: 6px; padding-left: 4px; }
+
+        /* Accordion */
+        details {
+            background: var(--gray-50);
+            border-radius: 12px;
+            margin: 16px 0;
+            border: 1px solid var(--gray-200);
+        }
+        details summary {
+            padding: 14px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--primary);
+            font-size: 0.95rem;
+            list-style: none;
+        }
+        details summary::before {
+            content: '▸ ';
+        }
+        details[open] summary::before {
+            content: '▾ ';
+        }
+        details .details-content {
+            padding: 0 20px 16px;
+            font-size: 0.93rem;
+        }
+
+        /* Quiz */
+        .quiz-section {
+            background: linear-gradient(135deg, #1E1B4B 0%, var(--primary-dark) 100%);
+            border-radius: 16px;
+            padding: 36px 32px;
+            margin-bottom: 32px;
+            color: white;
+        }
+        .quiz-section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 28px;
+            text-align: center;
+        }
+        .quiz-question {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            backdrop-filter: blur(4px);
+        }
+        .quiz-question p { font-weight: 600; margin-bottom: 12px; color: white; }
+        .quiz-option {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 10px 16px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.05);
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .quiz-option:hover { background: rgba(255,255,255,0.15); }
+        .quiz-option.correct { background: rgba(16, 185, 129, 0.3); border-color: var(--success); }
+        .quiz-option.wrong { background: rgba(239, 68, 68, 0.3); border-color: var(--danger); }
+        .quiz-feedback {
+            margin-top: 10px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            display: none;
+        }
+        .quiz-feedback.show { display: block; }
+        .quiz-feedback.correct { background: rgba(16,185,129,0.2); }
+        .quiz-feedback.wrong { background: rgba(239,68,68,0.2); }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray-500);
+            font-size: 0.85rem;
+        }
+        .footer .brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        /* Print */
+        @media print {
+            .progress-bar { display: none; }
+            .hero { padding: 30px 20px; }
+            .section { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
+            .quiz-section { background: #333; }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="badge">🎓 Replay Zoom — Session Coaching</div>
+        <h1>Coaching Collectif : Structuration, Fiscalité & Stratégie d'Artiste</h1>
+        <p class="subtitle">Toutes les clés pour structurer juridiquement son activité musicale, optimiser sa fiscalité et développer une stratégie de contenu efficace.</p>
+        <div class="meta">
+            <span>👤 Tarik Hamiche</span>
+            <span>📅 11 septembre 2025</span>
+            <span>⏱ Replay Zoom (Partie 1)</span>
+            <span>🎯 Producteur à Succès</span>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- SOMMAIRE -->
+        <nav class="toc">
+            <h2>📋 Sommaire</h2>
+            <ol class="toc-list">
+                <li><a href="#s1"><span class="num">1</span> Optimisation fiscale pour les artistes-producteurs</a></li>
+                <li><a href="#s2"><span class="num">2</span> Autorisations et reprises de morceaux</a></li>
+                <li><a href="#s3"><span class="num">3</span> Stratégie de contenu pour artistes</a></li>
+                <li><a href="#s4"><span class="num">4</span> Choix de structure juridique</a></li>
+                <li><a href="#s5"><span class="num">5</span> Subventions & aides financières (CNM, Export)</a></li>
+                <li><a href="#s6"><span class="num">6</span> Organisation du travail & productivité</a></li>
+                <li><a href="#s7"><span class="num">7</span> Droits voisins & SPEDIDAM — déclarations rétroactives</a></li>
+            </ol>
+        </nav>
+
+        <!-- SECTION 1 -->
+        <section class="section" id="s1">
+            <div class="section-header" style="background: linear-gradient(135deg, var(--primary) 0%, #7C3AED 100%);">
+                <span class="icon">💰</span>
+                <h2>1. Optimisation fiscale pour les artistes-producteurs</h2>
+            </div>
+            <div class="section-body">
+                <p>L'un des premiers sujets abordés concerne la situation d'un élève qui cumule activité de formation musicale et activité de producteur/compositeur. Tarik détaille les mécanismes fiscaux permettant de rémunérer légalement son travail créatif au sein de sa propre structure.</p>
+
+                <h3>Se rémunérer via le statut d'artiste-auteur</h3>
+                <p>Quand on possède un organisme de formation et qu'on réalise des compositions pour ses propres cours, il est tout à fait légitime de se facturer cette prestation. Le principe : adopter un statut d'artiste-auteur en parallèle, avec une déclaration en Bénéfices Non Commerciaux (BNC) au réel. On peut alors émettre des factures à sa propre société pour le travail de composition réalisé.</p>
+
+                <div class="callout callout-warning">
+                    <span class="callout-icon">⚠️</span>
+                    <div class="callout-content">
+                        <strong>Attention : justification indispensable</strong>
+                        <p>La facturation doit être cohérente avec les prix du marché. Si votre organisme de formation génère 160 000 € de chiffre d'affaires et que vous facturez 2 000 € de composition, c'est dérisoire — et ça peut sembler suspect. À l'inverse, il ne faut pas facturer un montant disproportionné par rapport au volume d'affaires.</p>
+                    </div>
+                </div>
+
+                <h3>Le mécanisme du compte courant d'associé</h3>
+                <p>Un levier puissant pour financer son label ou sa structure au départ : le compte courant d'associé. On prête de l'argent personnel à sa propre société, et celle-ci peut ensuite rembourser ce prêt — net d'impôt — car il ne s'agit pas d'un revenu mais d'un remboursement de dette. C'est un outil de trésorerie essentiel en début d'activité.</p>
+
+                <div class="callout callout-tip">
+                    <span class="callout-icon">💡</span>
+                    <div class="callout-content">
+                        <strong>Astuce : le décalage de clôture fiscale</strong>
+                        <p>Clôturer son exercice fiscal au 30 juin plutôt qu'au 31 décembre permet d'avoir son bilan en septembre. On dispose alors d'une visibilité complète sur sa situation personnelle en fin d'année civile pour décider de se verser ou non des dividendes. Moins de surprises, plus de contrôle.</p>
+                    </div>
+                </div>
+
+                <div class="callout callout-danger">
+                    <span class="callout-icon">🚫</span>
+                    <div class="callout-content">
+                        <strong>Le piège du prête-nom</strong>
+                        <p>Certains envisagent de mettre un tiers comme dirigeant pour rester invisible. C'est risqué : ce "prête-nom" peut vous dénoncer s'il est mécontent, en montrant des échanges WhatsApp ou des mails. Et les versements en espèces répétés finissent toujours par se voir dans les comptes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2 -->
+        <section class="section" id="s2">
+            <div class="section-header" style="background: linear-gradient(135deg, var(--info) 0%, #2563EB 100%);">
+                <span class="icon">📝</span>
+                <h2>2. Autorisations et reprises de morceaux</h2>
+            </div>
+            <div class="section-body">
+                <p>Un cas concret est abordé : un groupe souhaite réenregistrer ses propres morceaux en version acoustique. Mais les bandes master originales ont été produites par un label (Wagram). Que faut-il faire ?</p>
+
+                <h3>Quand faut-il demander une autorisation ?</h3>
+                <p>Si les artistes rejouent leurs morceaux à l'identique — même notes, mêmes paroles, même tempo — et se contentent d'un son plus moderne, il n'y a théoriquement pas besoin d'autorisation du producteur original. En revanche, dès qu'il y a modification de l'œuvre (arrangement acoustique, nouvelle interprétation), il faut l'accord écrit du producteur des bandes originales.</p>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Situation</th>
+                                <th>Autorisation nécessaire ?</th>
+                                <th>Auprès de qui ?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Réenregistrement à l'identique</td>
+                                <td>Non (en principe)</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td>Version acoustique / arrangement modifié</td>
+                                <td>Oui</td>
+                                <td>Producteur original (ex: Wagram) + éditeur</td>
+                            </tr>
+                            <tr>
+                                <td>Sample d'un morceau existant</td>
+                                <td>Oui</td>
+                                <td>Producteur + éditeur de l'œuvre samplée</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>La procédure de sample (même sans sample)</h3>
+                <p>Même quand il ne s'agit pas techniquement d'un sample, la procédure est similaire. L'éditeur original peut imposer des conditions : conserver la clé de répartition d'origine et ne vous accorder qu'un pourcentage (souvent 50 %, parfois seulement 20 %) des droits de la nouvelle œuvre.</p>
+
+                <div class="callout callout-info">
+                    <span class="callout-icon">📌</span>
+                    <div class="callout-content">
+                        <strong>Le saviez-vous ?</strong>
+                        <p>Certains artistes refusent systématiquement les demandes d'autorisation (exemple connu : Jean-Jacques Goldman). Si votre interlocuteur ne vous connaît pas, le refus est fréquent. Mieux vaut établir un premier contact commercial ou artistique avant de soumettre une demande formelle.</p>
+                    </div>
+                </div>
+
+                <details>
+                    <summary>Conseil stratégique : approcher un éditeur récalcitrant</summary>
+                    <div class="details-content">
+                        <p>Plutôt que d'envoyer directement une demande d'autorisation, commencez par établir un contact commercial. Présentez votre projet, montrez votre sérieux, votre fan base et votre potentiel. Une fois le lien de confiance établi, la demande d'autorisation passera beaucoup mieux. L'éditeur verra une opportunité plutôt qu'une contrainte.</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- SECTION 3 -->
+        <section class="section" id="s3">
+            <div class="section-header" style="background: linear-gradient(135deg, var(--success) 0%, #059669 100%);">
+                <span class="icon">📱</span>
+                <h2>3. Stratégie de contenu pour artistes</h2>
+            </div>
+            <div class="section-body">
+                <p>Un élève pose une question clé : comment créer du contenu attractif sur les réseaux sociaux sans trahir son univers musical ? Tarik partage son expérience personnelle avec sa chaîne YouTube "Producteur à Succès" pour illustrer la méthode.</p>
+
+                <h3>Parler à son public, pas au public</h3>
+                <p>La première étape, c'est d'aller à la rencontre de son audience cible dans la vraie vie : concerts, premières parties, événements. Poser des questions simples sur leurs centres d'intérêt, leurs problèmes, ce qui les motive. Ces réponses deviennent la matière première de votre contenu.</p>
+
+                <div class="callout callout-tip">
+                    <span class="callout-icon">💡</span>
+                    <div class="callout-content">
+                        <strong>La méthode de Tarik pour trouver des idées</strong>
+                        <p>Au début de "Producteur à Succès", Tarik a publié 100 vidéos la première année en se basant sur les questions que les gens lui posaient en live. Résultat : chaque vidéo répondait à un vrai besoin et attirait naturellement les bonnes personnes.</p>
+                    </div>
+                </div>
+
+                <h3>Les 3 piliers du contenu d'artiste</h3>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">🎵</div>
+                        <h4>Contenu musical</h4>
+                        <p>Votre musique reste le cœur de votre identité. Clips, extraits, sessions live, making-of en studio.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📖</div>
+                        <h4>Storytelling personnel</h4>
+                        <p>Anecdotes de voyages, expériences humaines, moments en studio. Ce qui crée du lien émotionnel avec votre audience.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🎓</div>
+                        <h4>Contenu éducatif / niche</h4>
+                        <p>Parler de votre expertise (ex: le reggae, la Jamaïque). Un contenu qui peut attirer du trafic pendant 10 ans via le SEO.</p>
+                    </div>
+                </div>
+
+                <h3>Toujours raccrocher à votre musique</h3>
+                <p>Chaque contenu publié doit systématiquement rappeler qui vous êtes, ce que vous proposez, et inclure un lien vers votre musique. Vous racontez une anecdote de voyage ? Raccrochez à un titre que cette expérience a inspiré. Vous partagez un savoir ? Terminez par votre dernier projet.</p>
+
+                <div class="callout callout-warning">
+                    <span class="callout-icon">⚠️</span>
+                    <div class="callout-content">
+                        <strong>Le contenu "evergreen" est un investissement</strong>
+                        <p>Un article de blog bien rédigé sur un sujet de niche (ex: "L'histoire du reggae en Jamaïque") peut prendre 30 heures à écrire, mais il attirera du trafic qualifié pendant 10 ans. Pensez long terme.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4 -->
+        <section class="section" id="s4">
+            <div class="section-header" style="background: linear-gradient(135deg, var(--accent) 0%, #D97706 100%);">
+                <span class="icon">🏢</span>
+                <h2>4. Choix de structure juridique</h2>
+            </div>
+            <div class="section-body">
+                <p>Faut-il rester en auto-entrepreneur, créer une association, ou monter une société commerciale ? Tarik détaille les avantages et inconvénients de chaque option selon les profils.</p>
+
+                <h3>Comparatif des structures</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Critère</th>
+                                <th>Auto-entreprise</th>
+                                <th>Association</th>
+                                <th>Société (SARL/SAS)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Complexité de création</td>
+                                <td>Très simple</td>
+                                <td>Simple</td>
+                                <td>Modérée</td>
+                            </tr>
+                            <tr>
+                                <td>Accès aux subventions</td>
+                                <td>Limité</td>
+                                <td>Partiel</td>
+                                <td>Complet (CNM, export…)</td>
+                            </tr>
+                            <tr>
+                                <td>Crédit d'impôt phonographique</td>
+                                <td>Non</td>
+                                <td>Non</td>
+                                <td>Oui (40 % des dépenses)</td>
+                            </tr>
+                            <tr>
+                                <td>Optimisation fiscale</td>
+                                <td>Limitée</td>
+                                <td>Limitée</td>
+                                <td>Élevée</td>
+                            </tr>
+                            <tr>
+                                <td>Image professionnelle</td>
+                                <td>Correcte</td>
+                                <td>Variable</td>
+                                <td>Forte</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="callout callout-tip">
+                    <span class="callout-icon">💡</span>
+                    <div class="callout-content">
+                        <strong>Recommandation : la société commerciale</strong>
+                        <p>Pour un artiste basé dans les DOM-TOM avec accès aux aides départementales, régionales, et du CNM, une société commerciale peut permettre de lever entre 30 000 € et 50 000 € la première année. L'investissement initial en vaut la peine.</p>
+                    </div>
+                </div>
+
+                <h3>La démarche pour se rassurer</h3>
+                <p>Tarik recommande de rencontrer au moins 10 expert-comptables (les premiers rendez-vous sont gratuits). Poser les mêmes questions à chacun. Si les réponses convergent, vous pouvez avancer sereinement. Ensuite, revenir vérifier avec le formateur pour éliminer tout doute.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 5 -->
+        <section class="section" id="s5">
+            <div class="section-header" style="background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);">
+                <span class="icon">🏦</span>
+                <h2>5. Subventions & aides financières</h2>
+            </div>
+            <div class="section-body">
+                <p>Tarik passe en revue les principales aides disponibles pour les artistes et producteurs indépendants, en insistant sur le fait que beaucoup d'élèves sous-estiment les montants accessibles.</p>
+
+                <h3>Le crédit d'impôt phonographique</h3>
+                <p>Un dispositif permettant de récupérer 40 % de toutes les dépenses liées à un projet musical : production, enregistrement, cachets d'artistes, transport, hébergement, restauration. Pour un budget de 20 000 €, c'est 10 000 € garantis en retour. Les conditions : avoir une structure commerciale et être affilié au CNM.</p>
+
+                <h3>Les aides à l'export du CNM</h3>
+                <p>Pour les artistes qui envisagent de se développer à l'international (enregistrement à l'étranger, tournées, promotion), le CNM propose des aides à l'export. La demande repose sur un budget prévisionnel détaillé.</p>
+
+                <div class="callout callout-tip">
+                    <span class="callout-icon">💡</span>
+                    <div class="callout-content">
+                        <strong>Constituer un dossier crédible</strong>
+                        <p>Appuyez-vous sur des preuves concrètes : screenshots de votre fan base, taux d'ouverture de vos emails, historique de dates de concerts. Si vous avez 70 000 inscrits à votre mailing list avec un taux de conversion de 1 %, vous pouvez justifier 700 ventes prévisionnelles de manière crédible.</p>
+                    </div>
+                </div>
+
+                <div class="callout callout-warning">
+                    <span class="callout-icon">⚠️</span>
+                    <div class="callout-content">
+                        <strong>Cohérence avant tout</strong>
+                        <p>Si vous n'avez fait aucune date de concert l'année précédente, ne prévoyez pas 50 dates dans votre prévisionnel. Les évaluateurs repèrent immédiatement les dossiers fantaisistes. Construisez un budget basé sur des devis réels et un historique vérifiable.</p>
+                    </div>
+                </div>
+
+                <details>
+                    <summary>Étapes pour demander les aides CNM</summary>
+                    <div class="details-content">
+                        <p><strong>1.</strong> S'affilier au CNM (formulaire en ligne, basé sur du prévisionnel — se remplit en 10 minutes).</p>
+                        <p><strong>2.</strong> Préparer un budget détaillé avec des devis pour chaque poste de dépense.</p>
+                        <p><strong>3.</strong> Constituer les annexes : screenshots de fan base, historique de concerts, preuves de ventes.</p>
+                        <p><strong>4.</strong> Soumettre la demande d'aide spécifique (production, export, tournée…).</p>
+                        <p><strong>5.</strong> Même si vous doutez de votre éligibilité, tentez quand même. Le pire qu'il puisse arriver, c'est un refus.</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- SECTION 6 -->
+        <section class="section" id="s6">
+            <div class="section-header" style="background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%);">
+                <span class="icon">⏰</span>
+                <h2>6. Organisation du travail & productivité</h2>
+            </div>
+            <div class="section-body">
+                <p>Tarik partage sa méthode personnelle d'organisation qui lui permet de gérer simultanément ses formations, son label, ses coachings et sa vie personnelle.</p>
+
+                <h3>La méthode de la to-do list décomposée</h3>
+                <p>Plutôt que de noter "faire 25 vidéos YouTube" comme une seule tâche, Tarik décompose chaque projet en micro-actions séquentielles : trouver 25 idées, fixer le plan de chaque vidéo, noter les grandes lignes directrices, enregistrer, monter, publier. Chaque micro-action est réalisable en une session de travail.</p>
+
+                <h3>Structurer ses journées par blocs</h3>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">🌅</div>
+                        <h4>Bloc matin</h4>
+                        <p>Sessions de coaching individuel ou collectif (comme ce Replay Zoom).</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">☀️</div>
+                        <h4>Bloc après-midi</h4>
+                        <p>Suite des sessions ou travail de production (vidéos, contenus, gestion label).</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🌙</div>
+                        <h4>Bloc soirée</h4>
+                        <p>Co-mentorats avec des artistes ou travail stratégique.</p>
+                    </div>
+                </div>
+
+                <div class="callout callout-tip">
+                    <span class="callout-icon">💡</span>
+                    <div class="callout-content">
+                        <strong>Les "périodes sacrées"</strong>
+                        <p>Tarik bloque des périodes intouchables réservées à sa vie personnelle et familiale. Si un organisateur veut le faire venir pendant ces périodes (ex: un séminaire en Guadeloupe), la condition est non négociable : un billet d'avion supplémentaire pour sa famille. Résultat : une semaine de travail se transforme en vacances familiales.</p>
+                    </div>
+                </div>
+
+                <h3>Les modèles d'affaires à explorer</h3>
+                <p>Tarik encourage ses élèves à tester plusieurs modèles d'affaires en parallèle. Pour chaque nouvelle idée, la détailler, la soumettre à un mentor ou un pair, puis l'implémenter. Certains modèles ne s'appliqueront pas à votre activité — gardez-les en tête pour plus tard ou pour conseiller d'autres artistes.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 7 -->
+        <section class="section" id="s7">
+            <div class="section-header" style="background: linear-gradient(135deg, var(--danger) 0%, #DC2626 100%);">
+                <span class="icon">🎤</span>
+                <h2>7. Droits voisins & SPEDIDAM — Déclarations rétroactives</h2>
+            </div>
+            <div class="section-body">
+                <p>Un élève découvre qu'il a créé un compte SPEDIDAM il y a des années mais n'a jamais déclaré les œuvres auxquelles il a participé en tant qu'interprète. Tarik clarifie la marche à suivre.</p>
+
+                <h3>Le principe de la SPEDIDAM</h3>
+                <p>La SPEDIDAM gère les droits voisins des artistes-interprètes. Contrairement à la SACEM (droits d'auteur), elle ne fait pas automatiquement le lien entre les œuvres et les interprètes. Il faut déclarer manuellement chaque œuvre à laquelle on a participé.</p>
+
+                <div class="callout callout-info">
+                    <span class="callout-icon">📌</span>
+                    <div class="callout-content">
+                        <strong>Rétroactivité sur 5 ans</strong>
+                        <p>Les droits voisins générés sur les 5 dernières années peuvent être réclamés rétroactivement. Si vous avez participé à des enregistrements sans les déclarer, il est encore temps de le faire pour les œuvres des 5 dernières années.</p>
+                    </div>
+                </div>
+
+                <div class="callout callout-danger">
+                    <span class="callout-icon">🚫</span>
+                    <div class="callout-content">
+                        <strong>Erreur fréquente</strong>
+                        <p>Beaucoup d'artistes pensent que l'inscription à la SACEM suffit et que la SPEDIDAM "fera le lien". Ce n'est pas le cas. Ce sont deux organismes distincts avec des déclarations séparées. Chaque participation en tant qu'interprète doit être déclarée auprès de la SPEDIDAM.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUIZ -->
+        <div class="quiz-section">
+            <h2>🧠 Quiz — Testez vos connaissances</h2>
+
+            <div class="quiz-question" id="q1">
+                <p>1. Quel est le principal avantage de clôturer son exercice fiscal au 30 juin ?</p>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 'q1')">A. Payer moins d'impôts automatiquement</button>
+                <button class="quiz-option" onclick="checkAnswer(this, true, 'q1')">B. Avoir son bilan en septembre et une visibilité sur sa situation avant fin décembre</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 'q1')">C. Éviter le contrôle fiscal</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 'q1')">D. Simplifier la déclaration TVA</button>
+                <div class="quiz-feedback correct" id="q1-correct">✅ Exact ! Avoir le bilan en septembre permet de décider en connaissance de cause de se verser ou non des dividendes avant la fin de l'année civile.</div>
+                <div class="quiz-feedback wrong" id="q1-wrong">❌ Ce n'est pas ça. Le décalage de clôture permet d'avoir une visibilité complète sur sa situation personnelle en fin d'année pour prendre des décisions éclairées (dividendes, investissements…).</div>
+            </div>
+
+            <div class="quiz-question" id="q2">
+                <p>2. Quand faut-il demander une autorisation au producteur original pour réenregistrer ses propres morceaux ?</p>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 'q2')">A. Dans tous les cas, même pour un réenregistrement identique</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 'q2')">B. Jamais, car ce sont vos morceaux</button>
+                <button class="quiz-option" onclick="checkAnswer(this, true, 'q2')">C. Dès qu'on modifie l'œuvre (nouvel arrangement, version acoustique…)</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 'q2')">D. Uniquement si on change les paroles</button>
+                <div class="quiz-feedback correct" id="q2-correct">✅ Bien joué ! Toute modification de l'œuvre originale nécessite l'accord du producteur et de l'éditeur. Un réenregistrement à l'identique n'en nécessite pas en principe.</div>
+                <div class="quiz-feedback wrong" id="q2-wrong">❌ Pas tout à fait. L'autorisation est nécessaire dès qu'on modifie l'œuvre (arrangement, tempo, instrumentation…). Un réenregistrement strictement identique avec un son modernisé ne nécessite pas d'autorisation en principe.</div>
+            </div>
+
+            <div class="quiz-question" id="q3">
+                <p>3. Quel pourcentage des dépenses peut-on récupérer via le crédit d'impôt phonographique ?</p>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 'q3')">A. 20 %</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 'q3')">B. 30 %</button>
+                <button class="quiz-option" onclick="checkAnswer(this, true, 'q3')">C. 40 %</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 'q3')">D. 50 %</button>
+                <div class="quiz-feedback correct" id="q3-correct">✅ Exactement ! Le crédit d'impôt phonographique permet de récupérer 40 % des dépenses éligibles (production, cachets, transport, hébergement…).</div>
+                <div class="quiz-feedback wrong" id="q3-wrong">❌ Le crédit d'impôt phonographique est de 40 % des dépenses éligibles. Pour un budget de 20 000 €, c'est 10 000 € récupérés.</div>
+            </div>
+
+            <div class="quiz-question" id="q4">
+                <p>4. Pendant combien d'années peut-on réclamer rétroactivement ses droits voisins à la SPEDIDAM ?</p>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 'q4')">A. 2 ans</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 'q4')">B. 3 ans</button>
+                <button class="quiz-option" onclick="checkAnswer(this, true, 'q4')">C. 5 ans</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 'q4')">D. 10 ans</button>
+                <div class="quiz-feedback correct" id="q4-correct">✅ Correct ! La rétroactivité est de 5 ans à la SPEDIDAM. Pensez à déclarer vos participations dès que possible !</div>
+                <div class="quiz-feedback wrong" id="q4-wrong">❌ La SPEDIDAM permet de réclamer les droits voisins sur les 5 dernières années. N'attendez pas pour faire vos déclarations.</div>
+            </div>
+
+            <div class="quiz-question" id="q5">
+                <p>5. Quelle est la première étape recommandée pour créer du contenu adapté à son audience ?</p>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 'q5')">A. Copier ce que font les artistes les plus populaires</button>
+                <button class="quiz-option" onclick="checkAnswer(this, true, 'q5')">B. Aller rencontrer son public cible et lui poser des questions</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 'q5')">C. Acheter une formation en marketing digital</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 'q5')">D. Publier le plus possible et voir ce qui marche</button>
+                <div class="quiz-feedback correct" id="q5-correct">✅ C'est ça ! Tarik insiste sur l'importance d'aller à la rencontre des gens (concerts, événements) pour comprendre leurs vrais besoins et centres d'intérêt. C'est cette matière première qui alimente un contenu authentique et pertinent.</div>
+                <div class="quiz-feedback wrong" id="q5-wrong">❌ La méthode recommandée est d'aller rencontrer son public cible dans la vraie vie pour comprendre ses vrais besoins. C'est cette écoute terrain qui produit le meilleur contenu.</div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <div class="brand">Producteur à Succès</div>
+            <p>Support de cours généré à partir du Replay Zoom du 11 septembre 2025 (Partie 1)</p>
+            <p style="margin-top: 4px;">Formation dispensée par Tarik Hamiche</p>
+        </div>
+
+    </div>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        });
+
+        // Quiz
+        function checkAnswer(btn, isCorrect, qId) {
+            const question = document.getElementById(qId);
+            const options = question.querySelectorAll('.quiz-option');
+            const alreadyAnswered = question.querySelector('.quiz-option.correct, .quiz-option.wrong');
+            if (alreadyAnswered) return;
+
+            options.forEach(opt => opt.style.pointerEvents = 'none');
+
+            if (isCorrect) {
+                btn.classList.add('correct');
+                document.getElementById(qId + '-correct').classList.add('show');
+            } else {
+                btn.classList.add('wrong');
+                document.getElementById(qId + '-wrong').classList.add('show');
+                options.forEach(opt => {
+                    if (opt.onclick && opt.onclick.toString().includes('true')) {
+                        opt.classList.add('correct');
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>

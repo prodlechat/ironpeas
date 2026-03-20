@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Replay Zoom 25.09.25 — Partie 2 | Producteur à Succès</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{--primary:#6C3AED;--primary-light:#EDE9FE;--primary-dark:#5B21B6;--accent:#F59E0B;--accent-light:#FEF3C7;--success:#10B981;--success-light:#D1FAE5;--danger:#EF4444;--danger-light:#FEE2E2;--info:#3B82F6;--info-light:#DBEAFE;--gray-50:#F9FAFB;--gray-100:#F3F4F6;--gray-200:#E5E7EB;--gray-300:#D1D5DB;--gray-500:#6B7280;--gray-700:#374151;--gray-900:#111827}
+        html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;color:var(--gray-700);line-height:1.7;background:var(--gray-50)}
+        .progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--primary),var(--accent));z-index:1000;transition:width .2s ease}
+        .hero{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);color:#fff;padding:60px 20px 50px;text-align:center}
+        .hero .badge{display:inline-block;background:rgba(255,255,255,.2);padding:6px 16px;border-radius:20px;font-size:.85rem;font-weight:600;margin-bottom:20px;backdrop-filter:blur(4px)}
+        .hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;margin-bottom:16px;line-height:1.2}
+        .hero .subtitle{font-size:1.1rem;opacity:.9;max-width:700px;margin:0 auto 24px}
+        .hero .meta{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;font-size:.9rem;opacity:.85}
+        .hero .meta span{display:flex;align-items:center;gap:6px}
+        .container{max-width:860px;margin:0 auto;padding:0 20px}
+        .toc{background:#fff;border-radius:16px;padding:32px;margin:-30px auto 40px;position:relative;z-index:10;box-shadow:0 4px 24px rgba(0,0,0,.08)}
+        .toc h2{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;color:var(--primary);margin-bottom:20px;display:flex;align-items:center;gap:8px}
+        .toc-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+        @media(max-width:600px){.toc-list{grid-template-columns:1fr}}
+        .toc-list li a{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;text-decoration:none;color:var(--gray-700);font-size:.92rem;font-weight:500;transition:all .2s;background:var(--gray-50)}
+        .toc-list li a:hover{background:var(--primary-light);color:var(--primary);transform:translateX(4px)}
+        .toc-list .num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:var(--primary);color:#fff;font-size:.8rem;font-weight:700;flex-shrink:0}
+        .section{background:#fff;border-radius:16px;margin-bottom:32px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+        .section-header{padding:24px 32px;display:flex;align-items:center;gap:14px}
+        .section-header .icon{font-size:1.8rem}
+        .section-header h2{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;color:#fff;font-weight:700}
+        .section-body{padding:28px 32px}
+        .section-body p{margin-bottom:16px;text-align:justify}
+        .section-body h3{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;color:var(--gray-900);margin:28px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--gray-100)}
+        .callout{border-radius:12px;padding:18px 20px;margin:20px 0;border-left:4px solid;display:flex;gap:12px}
+        .callout .callout-icon{font-size:1.3rem;flex-shrink:0;margin-top:2px}
+        .callout-content{flex:1}
+        .callout-content strong{display:block;margin-bottom:4px;font-size:.95rem}
+        .callout-content p{margin-bottom:0;font-size:.93rem}
+        .callout-tip{background:var(--success-light);border-color:var(--success)}
+        .callout-tip .callout-icon{color:var(--success)}
+        .callout-warning{background:var(--accent-light);border-color:var(--accent)}
+        .callout-warning .callout-icon{color:var(--accent)}
+        .callout-danger{background:var(--danger-light);border-color:var(--danger)}
+        .callout-danger .callout-icon{color:var(--danger)}
+        .callout-info{background:var(--info-light);border-color:var(--info)}
+        .callout-info .callout-icon{color:var(--info)}
+        .table-wrapper{overflow-x:auto;margin:20px 0;border-radius:12px;border:1px solid var(--gray-200)}
+        table{width:100%;border-collapse:collapse;font-size:.9rem}
+        thead th{background:var(--primary);color:#fff;padding:12px 16px;text-align:left;font-weight:600}
+        tbody td{padding:12px 16px;border-bottom:1px solid var(--gray-100)}
+        tbody tr:nth-child(even){background:var(--gray-50)}
+        tbody tr:hover{background:var(--primary-light)}
+        .cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:20px 0}
+        .card{background:var(--gray-50);border-radius:12px;padding:20px;border:1px solid var(--gray-200);transition:transform .2s}
+        .card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
+        .card .card-icon{font-size:1.6rem;margin-bottom:10px}
+        .card h4{font-size:.95rem;color:var(--gray-900);margin-bottom:6px}
+        .card p{font-size:.85rem;color:var(--gray-500);margin:0}
+        .pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+        @media(max-width:600px){.pros-cons{grid-template-columns:1fr}}
+        .pros,.cons{border-radius:12px;padding:20px}
+        .pros{background:var(--success-light);border:1px solid #A7F3D0}
+        .cons{background:var(--danger-light);border:1px solid #FECACA}
+        .pros h4,.cons h4{font-size:.95rem;margin-bottom:10px}
+        .pros li,.cons li{font-size:.9rem;margin-bottom:6px;padding-left:4px}
+        details{background:var(--gray-50);border-radius:12px;margin:16px 0;border:1px solid var(--gray-200)}
+        details summary{padding:14px 20px;font-weight:600;cursor:pointer;color:var(--primary);font-size:.95rem;list-style:none}
+        details summary::before{content:'▸ '}
+        details[open] summary::before{content:'▾ '}
+        details .details-content{padding:0 20px 16px;font-size:.93rem}
+        .quiz-section{background:linear-gradient(135deg,#1E1B4B 0%,var(--primary-dark) 100%);border-radius:16px;padding:36px 32px;margin-bottom:32px;color:#fff}
+        .quiz-section h2{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;margin-bottom:28px;text-align:center}
+        .quiz-question{background:rgba(255,255,255,.1);border-radius:12px;padding:20px;margin-bottom:16px;backdrop-filter:blur(4px)}
+        .quiz-question p{font-weight:600;margin-bottom:12px;color:#fff}
+        .quiz-option{display:block;width:100%;text-align:left;padding:10px 16px;margin-bottom:8px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#fff;cursor:pointer;font-size:.9rem;transition:all .2s}
+        .quiz-option:hover{background:rgba(255,255,255,.15)}
+        .quiz-option.correct{background:rgba(16,185,129,.3);border-color:var(--success)}
+        .quiz-option.wrong{background:rgba(239,68,68,.3);border-color:var(--danger)}
+        .quiz-feedback{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:.88rem;display:none}
+        .quiz-feedback.show{display:block}
+        .quiz-feedback.correct{background:rgba(16,185,129,.2)}
+        .quiz-feedback.wrong{background:rgba(239,68,68,.2)}
+        .footer{text-align:center;padding:40px 20px;color:var(--gray-500);font-size:.85rem}
+        .footer .brand{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);font-size:1.1rem;margin-bottom:8px}
+        @media print{.progress-bar{display:none}.hero{padding:30px 20px}.section{break-inside:avoid;box-shadow:none;border:1px solid #ddd}.quiz-section{background:#333}}
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="hero">
+        <div class="badge">🎓 Replay Zoom — Session Coaching (25 sept. - Partie 2)</div>
+        <h1>Pricing, Networking, Comptabilité & Outils IA pour Artistes</h1>
+        <p class="subtitle">Fixer ses prix de concert, développer son réseau professionnel, gérer sa comptabilité efficacement et exploiter l'IA au service de sa carrière musicale.</p>
+        <div class="meta">
+            <span>👤 Tarik Hamiche</span>
+            <span>📅 25 septembre 2025</span>
+            <span>⏱ Replay Zoom (Partie 2)</span>
+            <span>🎯 Producteur à Succès</span>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <nav class="toc">
+            <h2>📋 Sommaire</h2>
+            <ol class="toc-list">
+                <li><a href="#s1"><span class="num">1</span> Crédit d'impôt éditorial & aides complémentaires</a></li>
+                <li><a href="#s2"><span class="num">2</span> L'avenir des réseaux sociaux & viralité privée</a></li>
+                <li><a href="#s3"><span class="num">3</span> Apprendre à apprendre : la posture entrepreneuriale</a></li>
+                <li><a href="#s4"><span class="num">4</span> Fixer ses prix de concert (booking)</a></li>
+                <li><a href="#s5"><span class="num">5</span> Networking & développement professionnel</a></li>
+                <li><a href="#s6"><span class="num">6</span> Comptabilité, expert-comptable & fiches de paie</a></li>
+                <li><a href="#s7"><span class="num">7</span> L'IA au service des artistes indépendants</a></li>
+            </ol>
+        </nav>
+
+        <!-- SECTION 1 -->
+        <section class="section" id="s1">
+            <div class="section-header" style="background:linear-gradient(135deg,var(--primary) 0%,#7C3AED 100%);">
+                <span class="icon">💰</span>
+                <h2>1. Crédit d'impôt éditorial & aides complémentaires</h2>
+            </div>
+            <div class="section-body">
+                <p>Tarik revient sur une découverte faite entre les deux sessions : le crédit d'impôt éditorial, un dispositif distinct du crédit d'impôt phonographique, qui peut se cumuler avec les aides du CNM.</p>
+
+                <h3>Le crédit d'impôt éditorial</h3>
+                <p>Ce crédit d'impôt permet de récupérer 30 % des dépenses liées à l'activité éditoriale. Si vous avez dépensé 10 000 € dans l'année en frais éditoriaux, vous récupérez 3 000 €. Il fonctionne de la même manière que le crédit d'impôt phonographique mais s'applique à l'édition musicale.</p>
+
+                <h3>L'aide au développement éditorial du CNM</h3>
+                <p>En plus du crédit d'impôt, le CNM propose une aide au développement éditorial qui accorde une somme forfaitaire de 150 € par œuvre déposée, dans la limite de 30 % du montant total de l'aide.</p>
+
+                <div class="callout callout-tip">
+                    <span class="callout-icon">💡</span>
+                    <div class="callout-content">
+                        <strong>Exemple chiffré : un album de 17 titres</strong>
+                        <p>Avec 10 000 € de dépenses éligibles : le crédit d'impôt rembourse 3 000 € (30 %). L'aide CNM, plafonnée à 30 % soit 3 000 €, accorde 150 € × 17 titres = 2 550 €. Total récupéré : jusqu'à 5 550 € sur 10 000 € de dépenses. Plus de la moitié !</p>
+                    </div>
+                </div>
+
+                <div class="callout callout-info">
+                    <span class="callout-icon">📌</span>
+                    <div class="callout-content">
+                        <strong>Cumul possible</strong>
+                        <p>Le crédit d'impôt éditorial et l'aide CNM au développement éditorial sont cumulables. C'est un combo puissant pour financer l'exploitation de vos œuvres en tant qu'éditeur.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2 -->
+        <section class="section" id="s2">
+            <div class="section-header" style="background:linear-gradient(135deg,var(--info) 0%,#2563EB 100%);">
+                <span class="icon">📲</span>
+                <h2>2. L'avenir des réseaux sociaux & viralité privée</h2>
+            </div>
+            <div class="section-body">
+                <p>Tarik partage sa vision prospective sur l'évolution des réseaux sociaux et son impact sur la stratégie des artistes indépendants.</p>
+
+                <h3>La fin de l'ère du "post public"</h3>
+                <p>L'époque où tout le monde postait publiquement sa vie quotidienne est révolue. Les utilisateurs se tournent de plus en plus vers les échanges privés (DM, groupes fermés, messageries). Ils continuent de consommer du contenu public, mais interagissent surtout en privé.</p>
+
+                <h3>La viralité par le partage humain</h3>
+                <p>Tarik développe un concept innovant : la viralité sans algorithme. Si 10 personnes partagent votre contenu à 10 personnes, qui partagent chacune à 10 personnes, au bout de quelques niveaux, vous touchez des centaines de milliers de personnes — uniquement par le bouche-à-oreille numérique.</p>
+
+                <div class="callout callout-tip">
+                    <span class="callout-icon">💡</span>
+                    <div class="callout-content">
+                        <strong>Créer du contenu "partageable en privé"</strong>
+                        <p>Réfléchissez à des contenus que les gens ont envie de transférer à un ami par message : une information exclusive, un conseil pratique, une histoire touchante. Ce type de contenu crée une viralité organique indépendante des algorithmes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3 -->
+        <section class="section" id="s3">
+            <div class="section-header" style="background:linear-gradient(135deg,var(--success) 0%,#059669 100%);">
+                <span class="icon">🧠</span>
+                <h2>3. Apprendre à apprendre : la posture entrepreneuriale</h2>
+            </div>
+            <div class="section-body">
+                <p>Tarik revient sur un état d'esprit fondamental : celui de l'autodidacte pragmatique. Quand on n'a pas les moyens de tout déléguer, on apprend à faire soi-même — et c'est un avantage considérable à long terme.</p>
+
+                <h3>L'avantage de tout savoir faire</h3>
+                <p>Tarik a appris seul le marketing, la communication, le montage vidéo — par nécessité, pas par choix. Mais une fois qu'il a maîtrisé ces compétences, il a pu déléguer en toute connaissance de cause : évaluer un prestataire avant de le payer, donner un cadre précis, savoir exactement ce que vaut le travail commandé.</p>
+
+                <div class="callout callout-danger">
+                    <span class="callout-icon">🚫</span>
+                    <div class="callout-content">
+                        <strong>Le piège du "pas rentré dans mes frais"</strong>
+                        <p>Un discours trop fréquent chez les artistes : "J'ai payé tant, je n'ai pas rentabilisé." C'est un piège mental. L'investissement dans une compétence, un prestataire ou un outil ne se mesure pas toujours en retour immédiat. Il faut évaluer l'impact global sur le long terme.</p>
+                    </div>
+                </div>
+
+                <h3>Le cas d'école : l'e-commerce musical</h3>
+                <p>Tarik raconte l'histoire d'un entrepreneur en e-commerce musical dont la boutique en ligne était mal conçue. Malgré des investissements importants auprès de prestataires diplômés, le site ne convertissait pas. Un diagnostic rapide a permis d'identifier tous les problèmes. Résultat : une promesse réaliste de multiplier le chiffre par 5 en trois mois, basée sur l'expérience terrain plutôt que sur les diplômes.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 4 -->
+        <section class="section" id="s4">
+            <div class="section-header" style="background:linear-gradient(135deg,var(--accent) 0%,#D97706 100%);">
+                <span class="icon">🎵</span>
+                <h2>4. Fixer ses prix de concert (booking)</h2>
+            </div>
+            <div class="section-body">
+                <p>Un des sujets les plus concrets de la session : comment un artiste doit fixer ses tarifs de concert. Tarik donne un cas réel édifiant et la méthode pour valoriser ses prestations.</p>
+
+                <h3>L'erreur classique du sous-pricing</h3>
+                <p>Tarik cite le cas d'un artiste qui faisait 3 à 4 dates par semaine à 100-150 € la prestation. Résultat : il vivait à peine de son activité malgré un volume de dates impressionnant. Le problème n'était pas le talent ou le nombre de dates, mais le prix.</p>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Gamme de prix</th>
+                                <th>Perception client</th>
+                                <th>Type de client attiré</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>50 à 150 €</td>
+                                <td>Amateur, débutant</td>
+                                <td>Petits bars, événements informels</td>
+                            </tr>
+                            <tr>
+                                <td>500 à 800 €</td>
+                                <td>Semi-professionnel</td>
+                                <td>Associations, petits festivals</td>
+                            </tr>
+                            <tr>
+                                <td>1 000 à 1 500 €</td>
+                                <td>Professionnel confirmé</td>
+                                <td>Restaurants gastronomiques, hôtels, événements corporate</td>
+                            </tr>
+                            <tr>
+                                <td>2 000 € et plus</td>
+                                <td>Expert / artiste reconnu</td>
+                                <td>Salons, mariages haut de gamme, corporate premium</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="callout callout-tip">
+                    <span class="callout-icon">💡</span>
+                    <div class="callout-content">
+                        <strong>La psychologie du prix sur un salon</strong>
+                        <p>Sur un salon professionnel, les visiteurs viennent chercher des bons plans et de l'inspiration. Tarik recommande d'afficher son prix "normal" (ex: 2 000 € HT) puis de proposer une offre spéciale salon avec un système d'option sans engagement. Cela crée l'urgence et la perception de valeur.</p>
+                    </div>
+                </div>
+
+                <h3>Résultat concret</h3>
+                <p>L'artiste qui vendait ses dates 100-150 € a, après le coaching, repositionné ses tarifs entre 1 000 et 1 500 €. Il fait moins de dates mais gagne significativement plus, tout en attirant une clientèle qui le respecte davantage en tant que professionnel.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 5 -->
+        <section class="section" id="s5">
+            <div class="section-header" style="background:linear-gradient(135deg,#8B5CF6 0%,#6D28D9 100%);">
+                <span class="icon">🤝</span>
+                <h2>5. Networking & développement professionnel</h2>
+            </div>
+            <div class="section-body">
+                <p>Le networking est un levier souvent sous-exploité par les artistes indépendants. Tarik partage ses méthodes concrètes pour développer son réseau dans l'industrie musicale.</p>
+
+                <h3>La méthode LinkedIn pour les contacts difficiles</h3>
+                <p>Pour atteindre des décideurs (directeurs de festivals, A&R de labels…), Tarik recommande d'utiliser LinkedIn de manière stratégique. Après 2-3 échanges de messages, LinkedIn considère que vous êtes des relations proches. La porte est ouverte : il devient facile de revenir, d'obtenir un numéro de téléphone et de poursuivre la relation.</p>
+
+                <h3>Les événements SACEM, ADAMI, SPEDIDAM</h3>
+                <p>Ces organismes organisent régulièrement des rencontres professionnelles dans les régions. Il faut y aller systématiquement. C'est là que Tarik a rencontré le directeur régional SACEM, qui l'invite désormais à tous les grands festivals de la région — avec des accès VIP.</p>
+
+                <div class="callout callout-tip">
+                    <span class="callout-icon">💡</span>
+                    <div class="callout-content">
+                        <strong>Le pouvoir des rencontres "improbables"</strong>
+                        <p>Lors d'un événement SACEM, vous pouvez croiser un directeur d'antenne radio, un programmateur de festival ou un éditeur influent. Ces rencontres informelles ouvrent des portes qu'aucun email froid ne pourrait ouvrir. La clé : y aller, être présent, engager la conversation.</p>
+                    </div>
+                </div>
+
+                <details>
+                    <summary>Stratégie de prise de contact avec les festivals</summary>
+                    <div class="details-content">
+                        <p>Tarik recommande de commencer par les rencontres régionales (événements SACEM, ADAMI) pour créer un premier contact humain. Ensuite, entretenir la relation via LinkedIn ou par message. Enfin, lors de la prochaine édition d'un festival, demander une invitation ou une accréditation presse. Le contact humain initial transforme un illustre inconnu en "quelqu'un qu'on connaît".</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- SECTION 6 -->
+        <section class="section" id="s6">
+            <div class="section-header" style="background:linear-gradient(135deg,#EC4899 0%,#DB2777 100%);">
+                <span class="icon">📊</span>
+                <h2>6. Comptabilité, expert-comptable & fiches de paie</h2>
+            </div>
+            <div class="section-body">
+                <p>Tarik aborde les aspects pratiques de la gestion comptable pour un label ou une structure musicale, avec des conseils concrets pour optimiser ses coûts.</p>
+
+                <h3>Expert-comptable : nécessaire ou pas ?</h3>
+                <p>Un expert-comptable n'est pas obligatoire légalement, mais il présente deux avantages : il réduit le risque de contrôle fiscal et il donne droit à un abattement fiscal de 20 % via l'adhésion à un Organisme de Gestion Agréé (OGA). Pour les petites structures, ces économies compensent largement les honoraires.</p>
+
+                <div class="callout callout-info">
+                    <span class="callout-icon">📌</span>
+                    <div class="callout-content">
+                        <strong>L'abattement OGA : 20 % d'économie</strong>
+                        <p>En adhérant à un Organisme de Gestion Agréé (via votre expert-comptable), vous bénéficiez d'un abattement de 20 % sur votre résultat fiscal. Cet avantage est particulièrement intéressant en début d'activité quand chaque euro compte.</p>
+                    </div>
+                </div>
+
+                <h3>Les fiches de paie dans la musique</h3>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">🎵</div>
+                        <h4>Culture Paie</h4>
+                        <p>Service spécialisé dans les fiches de paie du secteur musical. Adapté aux spécificités des cachets d'artistes et des intermittents.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📄</div>
+                        <h4>Le GUSO</h4>
+                        <p>Guichet Unique du Spectacle Occasionnel. Obligatoire pour les employeurs non professionnels qui embauchent ponctuellement des artistes.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">💼</div>
+                        <h4>Expert-comptable classique</h4>
+                        <p>Peut gérer les fiches de paie mais ne connaît pas toujours les spécificités du spectacle vivant. À compléter avec un service spécialisé.</p>
+                    </div>
+                </div>
+
+                <h3>Cachets vs factures : la nuance importante</h3>
+                <p>Un artiste intermittent employé sur un projet peut être rémunéré en cachet (fiche de paie). Un prestataire non-intermittent sera rémunéré sur facture. Dans un budget de production d'album, les deux modes coexistent : cachets pour les musiciens de session, factures pour le studio et l'ingénieur du son.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 7 -->
+        <section class="section" id="s7">
+            <div class="section-header" style="background:linear-gradient(135deg,var(--danger) 0%,#DC2626 100%);">
+                <span class="icon">🤖</span>
+                <h2>7. L'IA au service des artistes indépendants</h2>
+            </div>
+            <div class="section-body">
+                <p>Tarik termine la session en présentant les outils d'intelligence artificielle qu'il utilise quotidiennement et qui peuvent transformer la productivité d'un artiste indépendant.</p>
+
+                <h3>Les outils recommandés</h3>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">💬</div>
+                        <h4>ChatGPT</h4>
+                        <p>Pour structurer les idées, rédiger des articles, trouver des sujets d'actualité, créer des carrousels et générer du contenu marketing rapidement.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🎨</div>
+                        <h4>Fal.ai</h4>
+                        <p>Pour créer des visuels, des miniatures, modifier des images. Un outil qui remplace une bonne partie du travail graphique quotidien.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🔄</div>
+                        <h4>Make (ex-Integromat)</h4>
+                        <p>Pour automatiser les échanges de données entre outils. Connecter ses plateformes, automatiser les publications, synchroniser les données.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📝</div>
+                        <h4>SubMagic / Opus</h4>
+                        <p>Pour le sous-titrage automatique des vidéos. Essentiel pour maximiser l'engagement sur les réseaux sociaux où la majorité des vidéos sont regardées sans le son.</p>
+                    </div>
+                </div>
+
+                <h3>L'IA pour créer un média musical</h3>
+                <p>Tarik illustre la puissance de l'IA pour créer du contenu éditorial : demander les 10 sujets les plus chauds du reggae des dernières 48 heures, identifier les plus polémiques, puis rédiger un article ou un carrousel en quelques minutes. Ce qui prenait des heures ne prend plus que quelques minutes avec les bons prompts.</p>
+
+                <div class="callout callout-warning">
+                    <span class="callout-icon">⚠️</span>
+                    <div class="callout-content">
+                        <strong>Automatiser ≠ publier en aveugle</strong>
+                        <p>L'automatisation (via Make ou des outils similaires) permet de programmer ses publications. Mais l'erreur à éviter est de tout automatiser sans tester les formats d'abord. Commencez par publier manuellement, identifiez ce qui fonctionne, puis seulement automatisez les formats validés.</p>
+                    </div>
+                </div>
+
+                <details>
+                    <summary>Les droits SPEDIDAM rétroactifs — même sans cachets classiques</summary>
+                    <div class="details-content">
+                        <p>Un point important soulevé en fin de session : les aides SPEDIDAM ne sont pas réservées exclusivement aux intermittents. Elles sont ouvertes à tout artiste capable de prouver qu'il est artiste-interprète depuis au moins 2 ans. Si vous facturez vos dates via une association plutôt que par cachets, vous pouvez quand même tenter une demande en joignant des preuves (photos sur scène, planning de dates, factures de votre association).</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- QUIZ -->
+        <div class="quiz-section">
+            <h2>🧠 Quiz — Testez vos connaissances</h2>
+
+            <div class="quiz-question" id="q1">
+                <p>1. Combien peut-on récupérer via le crédit d'impôt éditorial ?</p>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q1')">A. 20 % des dépenses éligibles</button>
+                <button class="quiz-option" onclick="checkAnswer(this,true,'q1')">B. 30 % des dépenses éligibles</button>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q1')">C. 40 % des dépenses éligibles</button>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q1')">D. 50 % des dépenses éligibles</button>
+                <div class="quiz-feedback correct" id="q1-correct">✅ Exact ! Le crédit d'impôt éditorial permet de récupérer 30 % des dépenses liées à l'activité éditoriale.</div>
+                <div class="quiz-feedback wrong" id="q1-wrong">❌ Le crédit d'impôt éditorial est de 30 % des dépenses éligibles. À ne pas confondre avec le crédit d'impôt phonographique qui est de 40 %.</div>
+            </div>
+
+            <div class="quiz-question" id="q2">
+                <p>2. Quel montant forfaitaire le CNM accorde-t-il par œuvre déposée dans le cadre de l'aide au développement éditorial ?</p>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q2')">A. 50 € par œuvre</button>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q2')">B. 100 € par œuvre</button>
+                <button class="quiz-option" onclick="checkAnswer(this,true,'q2')">C. 150 € par œuvre</button>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q2')">D. 200 € par œuvre</button>
+                <div class="quiz-feedback correct" id="q2-correct">✅ Bien joué ! Le CNM accorde 150 € par œuvre déposée, dans la limite de 30 % du montant total de l'aide.</div>
+                <div class="quiz-feedback wrong" id="q2-wrong">❌ Le montant est de 150 € par œuvre déposée, plafonné à 30 % du montant d'aide total obtenu.</div>
+            </div>
+
+            <div class="quiz-question" id="q3">
+                <p>3. Quel abattement fiscal offre l'adhésion à un Organisme de Gestion Agréé (OGA) ?</p>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q3')">A. 10 %</button>
+                <button class="quiz-option" onclick="checkAnswer(this,true,'q3')">B. 20 %</button>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q3')">C. 30 %</button>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q3')">D. 50 %</button>
+                <div class="quiz-feedback correct" id="q3-correct">✅ Correct ! L'OGA offre un abattement de 20 % sur le résultat fiscal, un avantage non négligeable surtout en début d'activité.</div>
+                <div class="quiz-feedback wrong" id="q3-wrong">❌ L'abattement OGA est de 20 %. Il est accessible via votre expert-comptable et s'applique à votre résultat fiscal.</div>
+            </div>
+
+            <div class="quiz-question" id="q4">
+                <p>4. Quelle est la fourchette de prix recommandée pour un artiste professionnel sur le marché du booking ?</p>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q4')">A. 50 à 200 €</button>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q4')">B. 300 à 500 €</button>
+                <button class="quiz-option" onclick="checkAnswer(this,true,'q4')">C. 1 000 à 1 500 € (moyenne basse pour une qualité haute)</button>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q4')">D. 3 000 € minimum</button>
+                <div class="quiz-feedback correct" id="q4-correct">✅ Exact ! Tarik indique que pour quelque chose de qualitatif sur une moyenne basse avec une qualité haute, on tourne entre 1 000 et 1 500 €.</div>
+                <div class="quiz-feedback wrong" id="q4-wrong">❌ Pour un professionnel, la fourchette recommandée se situe entre 1 000 et 1 500 € (moyenne basse, qualité haute). En dessous, vous êtes perçu comme amateur.</div>
+            </div>
+
+            <div class="quiz-question" id="q5">
+                <p>5. Quel concept Tarik développe-t-il concernant l'avenir de la viralité sur les réseaux sociaux ?</p>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q5')">A. La viralité payante via les publicités</button>
+                <button class="quiz-option" onclick="checkAnswer(this,true,'q5')">B. La viralité privée par le partage humain, sans algorithme</button>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q5')">C. La fin définitive des réseaux sociaux</button>
+                <button class="quiz-option" onclick="checkAnswer(this,false,'q5')">D. La viralité uniquement sur TikTok</button>
+                <div class="quiz-feedback correct" id="q5-correct">✅ Bien vu ! Tarik pense que la viralité de demain passera par le partage privé (DM, groupes) plutôt que par les algorithmes publics. 10 personnes qui partagent à 10 créent une chaîne exponentielle.</div>
+                <div class="quiz-feedback wrong" id="q5-wrong">❌ Tarik développe le concept de "viralité privée" : les utilisateurs interagissent de plus en plus en privé, et un contenu partageable par message peut devenir viral sans algorithme.</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="brand">Producteur à Succès</div>
+            <p>Support de cours généré à partir du Replay Zoom du 25 septembre 2025 (Partie 2)</p>
+            <p style="margin-top:4px;">Formation dispensée par Tarik Hamiche</p>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('scroll',()=>{const s=document.documentElement.scrollTop||document.body.scrollTop;const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;document.getElementById('progressBar').style.width=(s/h)*100+'%'});
+        function checkAnswer(btn,ok,qId){const q=document.getElementById(qId);if(q.querySelector('.quiz-option.correct,.quiz-option.wrong'))return;q.querySelectorAll('.quiz-option').forEach(o=>o.style.pointerEvents='none');if(ok){btn.classList.add('correct');document.getElementById(qId+'-correct').classList.add('show')}else{btn.classList.add('wrong');document.getElementById(qId+'-wrong').classList.add('show');q.querySelectorAll('.quiz-option').forEach(o=>{if(o.onclick&&o.onclick.toString().includes('true'))o.classList.add('correct')})}}
+    </script>
+</body>
+</html>

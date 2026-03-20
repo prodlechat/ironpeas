@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Replay Session Zoom 28.10 (Partie 2) — Support de Cours</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+html, body { width: 100% !important; max-width: 100% !important; overflow-x: hidden; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: #F8F7FF; color: #1E1B4B; line-height: 1.7; }
+h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+
+.progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: linear-gradient(90deg, #6C3AED, #A78BFA); z-index: 9999; transition: width 0.2s; width: 0%; }
+
+.hero { background: linear-gradient(135deg, #6C3AED 0%, #4C1D95 100%); color: white; padding: 3rem 2rem 2.5rem; text-align: center; }
+.hero .badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 0.3rem 1rem; border-radius: 50px; font-size: 0.85rem; margin-bottom: 1rem; backdrop-filter: blur(4px); }
+.hero h1 { font-size: 2rem; margin-bottom: 0.5rem; line-height: 1.3; }
+.hero .subtitle { font-size: 1.1rem; opacity: 0.9; margin-bottom: 1.5rem; }
+.hero .meta { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; font-size: 0.9rem; opacity: 0.85; }
+.hero .meta span { display: flex; align-items: center; gap: 0.4rem; }
+
+.container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+.toc { background: white; border-radius: 16px; padding: 2rem; margin-bottom: 2.5rem; box-shadow: 0 2px 12px rgba(108,58,237,0.08); }
+.toc h2 { font-size: 1.3rem; margin-bottom: 1rem; color: #6C3AED; }
+.toc ol { list-style: none; counter-reset: toc; }
+.toc li { counter-increment: toc; margin-bottom: 0.6rem; }
+.toc li a { text-decoration: none; color: #4C1D95; display: flex; align-items: center; gap: 0.7rem; padding: 0.4rem 0.6rem; border-radius: 8px; transition: background 0.2s; }
+.toc li a:hover { background: #F3F0FF; }
+.toc li a::before { content: counter(toc); display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: #6C3AED; color: white; border-radius: 50%; font-size: 0.8rem; font-weight: 600; flex-shrink: 0; }
+
+.section { background: white; border-radius: 16px; margin-bottom: 2rem; overflow: hidden; box-shadow: 0 2px 12px rgba(108,58,237,0.06); }
+.section-header { padding: 1.5rem 2rem; color: white; display: flex; align-items: center; gap: 1rem; }
+.section-header .num { font-size: 1.8rem; font-weight: 700; opacity: 0.4; }
+.section-header h2 { font-size: 1.3rem; font-weight: 600; }
+.section-body { padding: 2rem; }
+.section-body p { margin-bottom: 1rem; text-align: justify; }
+.section-body h3 { font-size: 1.1rem; color: #4C1D95; margin: 1.5rem 0 0.8rem; padding-bottom: 0.3rem; border-bottom: 2px solid #EDE9FE; }
+
+.sec-1 .section-header { background: linear-gradient(135deg, #6C3AED, #7C3AED); }
+.sec-2 .section-header { background: linear-gradient(135deg, #2563EB, #3B82F6); }
+.sec-3 .section-header { background: linear-gradient(135deg, #059669, #10B981); }
+.sec-4 .section-header { background: linear-gradient(135deg, #D97706, #F59E0B); }
+.sec-5 .section-header { background: linear-gradient(135deg, #DC2626, #EF4444); }
+.sec-6 .section-header { background: linear-gradient(135deg, #7C3AED, #A78BFA); }
+.sec-7 .section-header { background: linear-gradient(135deg, #0891B2, #06B6D4); }
+
+.callout { border-radius: 12px; padding: 1.2rem 1.5rem; margin: 1.2rem 0; border-left: 4px solid; }
+.callout .callout-title { font-weight: 600; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem; font-family: 'Space Grotesk', sans-serif; }
+.callout-tip { background: #F0FDF4; border-color: #10B981; }
+.callout-tip .callout-title { color: #059669; }
+.callout-warning { background: #FFFBEB; border-color: #F59E0B; }
+.callout-warning .callout-title { color: #D97706; }
+.callout-danger { background: #FEF2F2; border-color: #EF4444; }
+.callout-danger .callout-title { color: #DC2626; }
+.callout-info { background: #EFF6FF; border-color: #3B82F6; }
+.callout-info .callout-title { color: #2563EB; }
+
+table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 1.2rem 0; border-radius: 12px; overflow: hidden; }
+thead th { background: #6C3AED; color: white; padding: 0.8rem 1rem; text-align: left; font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; }
+tbody td { padding: 0.7rem 1rem; border-bottom: 1px solid #EDE9FE; font-size: 0.9rem; }
+tbody tr:nth-child(even) { background: #F8F7FF; }
+tbody tr:last-child td { border-bottom: none; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1.2rem 0; }
+.card { background: #F8F7FF; border-radius: 12px; padding: 1.2rem; border: 1px solid #EDE9FE; }
+.card .card-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.card h4 { font-size: 0.95rem; color: #4C1D95; margin-bottom: 0.4rem; }
+.card p { font-size: 0.85rem; color: #64748B; margin-bottom: 0; }
+
+details { margin: 1rem 0; border: 1px solid #EDE9FE; border-radius: 10px; overflow: hidden; }
+summary { padding: 1rem 1.2rem; cursor: pointer; font-weight: 600; background: #F8F7FF; font-family: 'Space Grotesk', sans-serif; color: #4C1D95; }
+summary:hover { background: #F3F0FF; }
+details[open] summary { border-bottom: 1px solid #EDE9FE; }
+details .detail-body { padding: 1.2rem; }
+
+.quiz { background: white; border-radius: 16px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 12px rgba(108,58,237,0.08); }
+.quiz h2 { color: #6C3AED; margin-bottom: 1.5rem; text-align: center; }
+.quiz-question { margin-bottom: 1.8rem; }
+.quiz-question p { font-weight: 600; margin-bottom: 0.8rem; font-family: 'Space Grotesk', sans-serif; }
+.quiz-option { display: block; padding: 0.7rem 1rem; margin-bottom: 0.4rem; border: 2px solid #EDE9FE; border-radius: 10px; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; }
+.quiz-option:hover { border-color: #A78BFA; background: #F8F7FF; }
+.quiz-option.correct { border-color: #10B981; background: #F0FDF4; }
+.quiz-option.wrong { border-color: #EF4444; background: #FEF2F2; }
+.quiz-feedback { margin-top: 0.5rem; padding: 0.7rem 1rem; border-radius: 8px; font-size: 0.85rem; display: none; }
+.quiz-feedback.show { display: block; }
+.quiz-feedback.success { background: #F0FDF4; color: #059669; }
+.quiz-feedback.error { background: #FEF2F2; color: #DC2626; }
+
+.footer { text-align: center; padding: 2rem; color: #9CA3AF; font-size: 0.85rem; border-top: 1px solid #EDE9FE; margin-top: 2rem; }
+.footer strong { color: #6C3AED; }
+
+@media print { .progress-bar, .quiz { display: none; } .section { break-inside: avoid; } }
+@media (max-width: 640px) { .hero h1 { font-size: 1.5rem; } .section-body { padding: 1.2rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="hero">
+    <div class="badge">🎤 Replay Session Zoom — 28.10.25 (Partie 2)</div>
+    <h1>Fan Base, Prospection & Publicité Musicale</h1>
+    <p class="subtitle">Construire sa fan base à partir de zéro, maîtriser la prospection intelligente, et lancer ses premières campagnes publicitaires</p>
+    <div class="meta">
+        <span>👨‍🏫 Formateur : Tarik Hamiche</span>
+        <span>⏱ Durée : ~2h</span>
+        <span>📅 28 octobre 2025</span>
+    </div>
+</div>
+
+<div class="container">
+    <div class="toc">
+        <h2>📋 Sommaire</h2>
+        <ol>
+            <li><a href="#s1">SACEM internationale et collaborations étrangères</a></li>
+            <li><a href="#s2">Litiges, plagiat et protection juridique</a></li>
+            <li><a href="#s3">Covers & stratégie YouTube</a></li>
+            <li><a href="#s4">Outils IA pour la création de contenu</a></li>
+            <li><a href="#s5">Construire sa fan base à partir de zéro</a></li>
+            <li><a href="#s6">Prospection & relance intelligente</a></li>
+            <li><a href="#s7">Publicité musicale et analyse de performance</a></li>
+        </ol>
+    </div>
+
+    <!-- SECTION 1 -->
+    <div class="section sec-1" id="s1">
+        <div class="section-header">
+            <span class="num">01</span>
+            <h2>SACEM internationale et collaborations étrangères</h2>
+        </div>
+        <div class="section-body">
+            <p>Quand vous collaborez avec un artiste étranger (par exemple une chanteuse turque qui chante sur l'un de vos morceaux), la question des droits d'auteur à l'international se pose immédiatement. Comment cette personne peut-elle toucher ses droits si elle n'est pas inscrite à la SACEM ?</p>
+
+            <h3>Le mécanisme des accords de réciprocité</h3>
+            <p>La SACEM a des accords de réciprocité avec la quasi-totalité des sociétés d'auteurs dans le monde. L'artiste étranger doit s'inscrire à la société d'auteurs de son propre pays (en Turquie, c'est la MESAM par exemple). Ensuite, la SACEM reverse automatiquement les droits générés en France à la société étrangère, qui les redistribue à l'artiste.</p>
+
+            <div class="callout callout-info">
+                <div class="callout-title">💡 En pratique</div>
+                <p>Lors de la déclaration de l'œuvre à la SACEM, vous déclarez le co-auteur étranger avec son adresse à l'étranger et le nom de sa société d'auteurs. La SACEM gère le reste. L'artiste n'a pas besoin d'être physiquement en France ni d'avoir un compte bancaire français.</p>
+            </div>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">⚠️ Point de vigilance</div>
+                <p>La répartition des droits doit être contractualisée avant la sortie du morceau. Une fois la répartition fixée à la SACEM, vous ne pourrez ni la baisser ni l'augmenter sans l'accord de toutes les parties. Vous pouvez ajouter des clauses spécifiques dans le contrat (exploitation libre sans accord, etc.), mais tout doit être négocié et signé en amont.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="section sec-2" id="s2">
+        <div class="section-header">
+            <span class="num">02</span>
+            <h2>Litiges, plagiat et protection juridique</h2>
+        </div>
+        <div class="section-body">
+            <p>Le succès attire les litiges. Plus un morceau génère de revenus, plus il est susceptible de faire l'objet de revendications — justifiées ou non. C'est une réalité incontournable de l'industrie musicale que tout artiste à succès doit anticiper.</p>
+
+            <div class="callout callout-danger">
+                <div class="callout-title">🚨 La réalité des artistes à succès</div>
+                <p>Un producteur ami de Tarik, ayant classé un titre au Billboard Hot 100, confie que sa plus grosse dépense n'est pas les impôts mais les honoraires d'avocats. Toutes les deux semaines, il doit payer pour répondre à des « demandes de grattage » — des gens qui prétendent avoir contribué au morceau ou qui revendiquent un plagiat pour tenter de récupérer une part des revenus.</p>
+            </div>
+
+            <h3>Comment se protéger</h3>
+            <div class="cards">
+                <div class="card">
+                    <div class="card-icon">📝</div>
+                    <h4>Tout documenter</h4>
+                    <p>Gardez une trace écrite de chaque étape de la création : échanges, sessions, versions, contrats. En cas de litige, c'est la preuve qui fait loi.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⚖️</div>
+                    <h4>Contractualiser en amont</h4>
+                    <p>Signez un contrat ou un mémo-type avant chaque collaboration. Même entre amis. C'est quand il y a de l'argent en jeu que les tensions apparaissent.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🛡️</div>
+                    <h4>Anticiper le budget juridique</h4>
+                    <p>Si un de vos titres décolle, provisionnez un budget pour les frais d'avocats. C'est un coût structurel du succès, pas un accident de parcours.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="section sec-3" id="s3">
+        <div class="section-header">
+            <span class="num">03</span>
+            <h2>Covers & stratégie YouTube</h2>
+        </div>
+        <div class="section-body">
+            <p>Les covers restent l'une des stratégies les plus efficaces pour développer sa visibilité sur YouTube. Certaines reprises, même filmées au téléphone dans un canapé, accumulent des millions de vues. La différence se fait souvent sur un élément inattendu : le titre de la vidéo.</p>
+
+            <h3>Le pouvoir du titre (headline)</h3>
+            <p>Un cover qui se vend comme un titre original, c'est possible — grâce à un titre qui crée de la curiosité. La manière dont vous titrez votre vidéo peut transformer un contenu moyen en contenu viral. Certains titres ne s'épuisent jamais et continuent d'attirer des vues pendant des années.</p>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ Stratégie de titrage</div>
+                <p>Ne titrez pas votre cover « Cover de [Titre] par [Artiste] ». Créez un angle de curiosité : une histoire, une promesse, une émotion. Regardez les exemples dans la formation ARC (module vidéos) pour voir comment un simple changement de titre peut multiplier les vues par 10.</p>
+            </div>
+
+            <div class="callout callout-info">
+                <div class="callout-title">💡 Diversifiez les formats</div>
+                <p>Au-delà des covers, pensez aux formats courts (Shorts, Reels) qui touchent un public beaucoup plus large. Les algorithmes poussent massivement le format court, et un Short viral peut rediriger des milliers de personnes vers votre chaîne complète.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="section sec-4" id="s4">
+        <div class="section-header">
+            <span class="num">04</span>
+            <h2>Outils IA pour la création de contenu</h2>
+        </div>
+        <div class="section-body">
+            <p>La création de contenu régulier est indispensable mais chronophage. Les outils d'intelligence artificielle permettent désormais de gagner un temps considérable, notamment pour transformer de longues vidéos en clips courts optimisés pour les réseaux sociaux.</p>
+
+            <h3>Comparatif des outils de découpe vidéo IA</h3>
+            <table>
+                <thead><tr><th>Outil</th><th>Fonctionnalité clé</th><th>Idéal pour</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Opus Clip</strong></td><td>Découpe automatique de vidéos longues en shorts</td><td>YouTubers, créateurs de contenu vidéo</td></tr>
+                    <tr><td><strong>Vizard.ai (5)</strong></td><td>Alternative complète à Opus Clip</td><td>Gros volumes de contenu (100+ vidéos/mois)</td></tr>
+                    <tr><td><strong>Clap</strong></td><td>Montage simplifié avec sous-titres auto</td><td>Artistes et indépendants au budget limité</td></tr>
+                    <tr><td><strong>CapCut</strong></td><td>Outil gratuit de montage et sous-titrage</td><td>Débutants, format court et rapide</td></tr>
+                </tbody>
+            </table>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ Conseil économique</div>
+                <p>Avant de vous abonner à un outil payant, cherchez les alternatives gratuites. En tapant « [nom outil] free alternative » sur Google, vous trouverez souvent des solutions équivalentes. Ne négligez pas les économies de 20 euros par mois qui, cumulées sur une année, font 240 euros de budget récupéré.</p>
+            </div>
+
+            <details>
+                <summary>💡 Astuce : les offres historiques</summary>
+                <div class="detail-body">
+                    <p>Si vous êtes parmi les premiers clients d'un outil, gardez précieusement votre offre historique (early adopter). Les prix augmentent presque toujours avec le temps. Tarik bénéficie encore aujourd'hui de tarifs préférentiels sur certains outils parce qu'il s'est inscrit dès le lancement.</p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="section sec-5" id="s5">
+        <div class="section-header">
+            <span class="num">05</span>
+            <h2>Construire sa fan base à partir de zéro</h2>
+        </div>
+        <div class="section-body">
+            <p>La question la plus fréquente des artistes émergents : comment démarrer quand on a zéro abonné et que personne ne nous connaît ? La réponse repose sur une méthode structurée en plusieurs étapes.</p>
+
+            <h3>Étape 1 : Définir votre avatar (fan idéal)</h3>
+            <p>Commencez par émettre des hypothèses sur votre public cible. Par exemple : un public mixte de 35-55 ans qui aime le rock, qui va au Hellfest même sans être fan de métal, et qui joue de la guitare. Ces hypothèses vous permettent de savoir où chercher votre audience.</p>
+
+            <h3>Étape 2 : Trouver où se cache votre audience</h3>
+            <p>Une fois votre avatar défini, la question clé est : où se trouvent ces personnes sur internet ? Quand Tarik a lancé sa formation en ligne, il cherchait des producteurs de musique en devenir et des artistes en auto-production. Il a identifié les groupes Facebook, les forums, les chaînes YouTube et les hashtags où ces personnes étaient actives — et il est allé les chercher là-bas.</p>
+
+            <h3>Étape 3 : La stratégie du vinyle gratuit</h3>
+            <div class="callout callout-info">
+                <div class="callout-title">💡 Le funnel vinyle</div>
+                <p>Offrez un vinyle gratuit (le fan ne paie que les frais de port). Cela vous permet de collecter ses coordonnées, puis sur la page de confirmation, proposez une offre complémentaire : une dédicace personnalisée, un accès à un crowdfunding, un contenu exclusif. Vous transformez un simple cadeau en pipeline de monétisation.</p>
+            </div>
+
+            <h3>Étape 4 : Utiliser la publicité pour accélérer</h3>
+            <p>Une fois que vous avez constitué une base de 3 000 contacts qualifiés, vous pouvez donner cette liste à Facebook/Meta qui est capable de trouver des dizaines de milliers de profils similaires chaque mois (audience lookalike). C'est le levier qui transforme une croissance organique lente en développement exponentiel.</p>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ La règle des algorithmes</div>
+                <p>Les algorithmes travaillent pour vous : quand un contenu surperforme les autres, la plateforme l'étend automatiquement à davantage d'utilisateurs similaires. Votre travail initial est de créer assez de contenu pour que les algos identifient ce qui fonctionne et l'amplifient.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="section sec-6" id="s6">
+        <div class="section-header">
+            <span class="num">06</span>
+            <h2>Prospection & relance intelligente</h2>
+        </div>
+        <div class="section-body">
+            <p>La prospection — qu'il s'agisse de décrocher des dates de concert, des placements en playlist ou des collaborations — est un art qui demande de la méthode, de la patience et surtout de l'intelligence relationnelle. L'erreur la plus courante est d'être trop agressif.</p>
+
+            <h3>Les règles d'or de la prospection</h3>
+            <div class="cards">
+                <div class="card">
+                    <div class="card-icon">🎯</div>
+                    <h4>Apporter de la valeur d'abord</h4>
+                    <p>Ne demandez jamais quelque chose avant d'avoir donné. Commentez, partagez, aidez. Créez une connexion authentique avant de pitcher quoi que ce soit.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🤝</div>
+                    <h4>Personnaliser chaque approche</h4>
+                    <p>Un message copié-collé envoyé à 200 personnes ne marchera jamais. Prenez le temps de vous renseigner sur votre interlocuteur et de personnaliser votre message.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⏰</div>
+                    <h4>Relancer sans harceler</h4>
+                    <p>La relance est normale et nécessaire, mais elle doit être espacée et apporter un élément nouveau à chaque fois. Évitez le « Avez-vous vu mon message ? » agressif.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🚪</div>
+                    <h4>Accepter le non</h4>
+                    <p>Tout le monde ne dira pas oui, et c'est normal. Un non aujourd'hui peut devenir un oui demain si vous avez laissé une bonne impression. Ne brûlez jamais les ponts.</p>
+                </div>
+            </div>
+
+            <h3>Les objets d'email qui créent de la curiosité</h3>
+            <p>L'objet de votre email est le premier filtre. Un objet générique sera ignoré. Un objet qui pique la curiosité sera ouvert. Un contact de Tarik a un jour utilisé un objet d'email faisant croire à une connaissance commune — le destinataire a ouvert et a lu jusqu'à la troisième ligne avant de comprendre qu'ils ne se connaissaient pas. L'idée est brillante tant que le contenu derrière est pertinent.</p>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">⚠️ La limite à ne pas franchir</div>
+                <p>Utiliser la familiarité avec des gens que vous connaissez bien, c'est efficace. Le faire avec des inconnus peut vous faire passer pour un escroc. Adaptez votre ton au degré de proximité réel avec votre interlocuteur.</p>
+            </div>
+
+            <details>
+                <summary>📊 YouTube vs Instagram pour la prospection</summary>
+                <div class="detail-body">
+                    <p>D'après l'expérience de Tarik, les gros comptes sont plus réceptifs aux interactions sur YouTube que sur Instagram. Un commentaire constructif et critique sur la vidéo d'un créateur avec 300-400K abonnés peut déclencher une vraie conversation. YouTube favorise les échanges de fond, tandis qu'Instagram est plus superficiel dans les interactions.</p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- SECTION 7 -->
+    <div class="section sec-7" id="s7">
+        <div class="section-header">
+            <span class="num">07</span>
+            <h2>Publicité musicale et analyse de performance</h2>
+        </div>
+        <div class="section-body">
+            <p>La publicité en ligne (Meta Ads, YouTube Ads, etc.) est un accélérateur puissant quand elle est bien maîtrisée. Mais elle nécessite de comprendre les métriques clés pour ne pas gaspiller son budget.</p>
+
+            <h3>Les métriques essentielles</h3>
+            <table>
+                <thead><tr><th>Métrique</th><th>Définition</th><th>Benchmark indicatif</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Coût par lead (CPL)</strong></td><td>Combien coûte l'acquisition d'un contact qualifié</td><td>0,50-1€ en musique / 3-5€ en formation</td></tr>
+                    <tr><td><strong>Coût par clic (CPC)</strong></td><td>Combien coûte chaque clic sur votre publicité</td><td>0,10-0,50€ selon la niche</td></tr>
+                    <tr><td><strong>Taux de conversion</strong></td><td>% de personnes qui font l'action souhaitée</td><td>2-5% pour une landing page</td></tr>
+                    <tr><td><strong>ROAS</strong></td><td>Retour sur investissement publicitaire</td><td>3x minimum pour être rentable</td></tr>
+                </tbody>
+            </table>
+
+            <div class="callout callout-info">
+                <div class="callout-title">💡 L'expérience de Tarik</div>
+                <p>Pour ses campagnes d'acquisition pour Muzisecur et Producteur à Succès, le coût par lead qualifié tourne autour de 5 euros — contre environ 1 euro il y a cinq ans. En musique, les coûts sont bien moindres : environ 0,50 à 1 euro par lead. La différence s'explique par la niche très spécialisée de la formation music business et l'ancienneté du compte (les nouveaux contacts sont toujours plus difficiles à acquérir avec le temps).</p>
+            </div>
+
+            <h3>La création de contenu guidée par les données</h3>
+            <p>Le contenu ne se crée pas en chambre — il se crée à partir du feedback de votre audience. Analysez les commentaires sous vos posts, les questions lors de vos lives, les échanges en DM. Quand un thème revient régulièrement, c'est un signal fort pour en faire un contenu dédié. Cette approche data-driven garantit que vous produisez ce que votre audience veut réellement consommer.</p>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ La méthode de création data-driven</div>
+                <p>Ne gaspillez pas de budget publicitaire avant d'avoir identifié ce qui résonne avec votre audience en organique. Testez d'abord en organique (posts, stories, lives), identifiez les contenus qui surperforment, puis amplifiez-les avec de la publicité. C'est plus efficace et moins cher que de booster du contenu au hasard.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz">
+        <h2>🧠 Quiz — Testez vos connaissances</h2>
+
+        <div class="quiz-question" data-correct="2">
+            <p>1. Comment un artiste étranger peut-il toucher ses droits SACEM générés en France ?</p>
+            <div class="quiz-option" data-index="1">Il doit ouvrir un compte bancaire en France</div>
+            <div class="quiz-option" data-index="2">Il s'inscrit à la société d'auteurs de son pays, et la SACEM reverse via les accords de réciprocité</div>
+            <div class="quiz-option" data-index="3">Il doit venir signer physiquement à la SACEM à Paris</div>
+            <div class="quiz-option" data-index="4">C'est impossible, les droits restent en France</div>
+            <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-question" data-correct="3">
+            <p>2. Quelle est la première étape pour construire sa fan base à partir de zéro ?</p>
+            <div class="quiz-option" data-index="1">Lancer immédiatement des publicités Facebook</div>
+            <div class="quiz-option" data-index="2">Sortir un maximum de morceaux le plus vite possible</div>
+            <div class="quiz-option" data-index="3">Définir son avatar (fan idéal) et identifier où il se trouve sur internet</div>
+            <div class="quiz-option" data-index="4">Acheter des followers pour amorcer l'algorithme</div>
+            <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-question" data-correct="1">
+            <p>3. Qu'est-ce qu'une audience « lookalike » en publicité Meta ?</p>
+            <div class="quiz-option" data-index="1">Une audience de profils similaires à vos contacts existants, générée automatiquement par Meta</div>
+            <div class="quiz-option" data-index="2">Une audience qui a déjà acheté chez vos concurrents</div>
+            <div class="quiz-option" data-index="3">L'ensemble de vos abonnés Instagram</div>
+            <div class="quiz-option" data-index="4">Une liste de contacts achetée sur internet</div>
+            <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-question" data-correct="4">
+            <p>4. Quelle est la meilleure approche pour la relance en prospection ?</p>
+            <div class="quiz-option" data-index="1">Renvoyer exactement le même message tous les deux jours</div>
+            <div class="quiz-option" data-index="2">Appeler directement au téléphone après un email ignoré</div>
+            <div class="quiz-option" data-index="3">Mentionner la personne publiquement sur les réseaux pour forcer l'interaction</div>
+            <div class="quiz-option" data-index="4">Espacer les relances et apporter un élément de valeur nouveau à chaque fois</div>
+            <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-question" data-correct="2">
+            <p>5. Quel est le coût par lead approximatif pour une campagne musicale sur Meta Ads ?</p>
+            <div class="quiz-option" data-index="1">10-15 euros</div>
+            <div class="quiz-option" data-index="2">0,50 à 1 euro</div>
+            <div class="quiz-option" data-index="3">5-10 euros</div>
+            <div class="quiz-option" data-index="4">0,01 euro (quasi gratuit)</div>
+            <div class="quiz-feedback"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Support de cours généré à partir de la Replay Session Zoom du 28 octobre 2025 (Partie 2)</p>
+        <p><strong>Producteur à Succès</strong> — Formation Music Business par Tarik Hamiche</p>
+    </div>
+</div>
+
+<script>
+window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    document.getElementById('progressBar').style.width = (window.scrollY / h * 100) + '%';
+});
+document.querySelectorAll('.quiz-question').forEach(q => {
+    const correct = parseInt(q.dataset.correct);
+    const fb = q.querySelector('.quiz-feedback');
+    q.querySelectorAll('.quiz-option').forEach(opt => {
+        opt.addEventListener('click', () => {
+            if (q.classList.contains('answered')) return;
+            q.classList.add('answered');
+            const idx = parseInt(opt.dataset.index);
+            if (idx === correct) {
+                opt.classList.add('correct');
+                fb.textContent = '✅ Bonne réponse !';
+                fb.className = 'quiz-feedback show success';
+            } else {
+                opt.classList.add('wrong');
+                q.querySelector('[data-index="' + correct + '"]').classList.add('correct');
+                fb.textContent = '❌ Mauvaise réponse. Consultez la bonne réponse en vert.';
+                fb.className = 'quiz-feedback show error';
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>

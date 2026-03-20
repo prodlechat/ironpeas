@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zoom Session 28.10.25 (Partie 1) — Support de Cours</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+html, body { width: 100% !important; max-width: 100% !important; overflow-x: hidden; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: #F8F7FF; color: #1E1B4B; line-height: 1.7; }
+h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+
+.progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: linear-gradient(90deg, #6C3AED, #A78BFA); z-index: 9999; transition: width 0.2s; width: 0%; }
+
+.hero { background: linear-gradient(135deg, #6C3AED 0%, #4C1D95 100%); color: white; padding: 3rem 2rem 2.5rem; text-align: center; }
+.hero .badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 0.3rem 1rem; border-radius: 50px; font-size: 0.85rem; margin-bottom: 1rem; backdrop-filter: blur(4px); }
+.hero h1 { font-size: 2rem; margin-bottom: 0.5rem; line-height: 1.3; }
+.hero .subtitle { font-size: 1.1rem; opacity: 0.9; margin-bottom: 1.5rem; }
+.hero .meta { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; font-size: 0.9rem; opacity: 0.85; }
+.hero .meta span { display: flex; align-items: center; gap: 0.4rem; }
+
+.container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+.toc { background: white; border-radius: 16px; padding: 2rem; margin-bottom: 2.5rem; box-shadow: 0 2px 12px rgba(108,58,237,0.08); }
+.toc h2 { font-size: 1.3rem; margin-bottom: 1rem; color: #6C3AED; }
+.toc ol { list-style: none; counter-reset: toc; }
+.toc li { counter-increment: toc; margin-bottom: 0.6rem; }
+.toc li a { text-decoration: none; color: #4C1D95; display: flex; align-items: center; gap: 0.7rem; padding: 0.4rem 0.6rem; border-radius: 8px; transition: background 0.2s; }
+.toc li a:hover { background: #F3F0FF; }
+.toc li a::before { content: counter(toc); display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: #6C3AED; color: white; border-radius: 50%; font-size: 0.8rem; font-weight: 600; flex-shrink: 0; }
+
+.section { background: white; border-radius: 16px; margin-bottom: 2rem; overflow: hidden; box-shadow: 0 2px 12px rgba(108,58,237,0.06); }
+.section-header { padding: 1.5rem 2rem; color: white; display: flex; align-items: center; gap: 1rem; }
+.section-header .num { font-size: 1.8rem; font-weight: 700; opacity: 0.4; }
+.section-header h2 { font-size: 1.3rem; font-weight: 600; }
+.section-body { padding: 2rem; }
+.section-body p { margin-bottom: 1rem; text-align: justify; }
+.section-body h3 { font-size: 1.1rem; color: #4C1D95; margin: 1.5rem 0 0.8rem; padding-bottom: 0.3rem; border-bottom: 2px solid #EDE9FE; }
+
+.sec-1 .section-header { background: linear-gradient(135deg, #6C3AED, #7C3AED); }
+.sec-2 .section-header { background: linear-gradient(135deg, #2563EB, #3B82F6); }
+.sec-3 .section-header { background: linear-gradient(135deg, #059669, #10B981); }
+.sec-4 .section-header { background: linear-gradient(135deg, #D97706, #F59E0B); }
+.sec-5 .section-header { background: linear-gradient(135deg, #DC2626, #EF4444); }
+.sec-6 .section-header { background: linear-gradient(135deg, #7C3AED, #A78BFA); }
+.sec-7 .section-header { background: linear-gradient(135deg, #0891B2, #06B6D4); }
+
+.callout { border-radius: 12px; padding: 1.2rem 1.5rem; margin: 1.2rem 0; border-left: 4px solid; }
+.callout .callout-title { font-weight: 600; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem; font-family: 'Space Grotesk', sans-serif; }
+.callout-tip { background: #F0FDF4; border-color: #10B981; }
+.callout-tip .callout-title { color: #059669; }
+.callout-warning { background: #FFFBEB; border-color: #F59E0B; }
+.callout-warning .callout-title { color: #D97706; }
+.callout-danger { background: #FEF2F2; border-color: #EF4444; }
+.callout-danger .callout-title { color: #DC2626; }
+.callout-info { background: #EFF6FF; border-color: #3B82F6; }
+.callout-info .callout-title { color: #2563EB; }
+
+table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 1.2rem 0; border-radius: 12px; overflow: hidden; }
+thead th { background: #6C3AED; color: white; padding: 0.8rem 1rem; text-align: left; font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; }
+tbody td { padding: 0.7rem 1rem; border-bottom: 1px solid #EDE9FE; font-size: 0.9rem; }
+tbody tr:nth-child(even) { background: #F8F7FF; }
+tbody tr:last-child td { border-bottom: none; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1.2rem 0; }
+.card { background: #F8F7FF; border-radius: 12px; padding: 1.2rem; border: 1px solid #EDE9FE; }
+.card .card-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.card h4 { font-size: 0.95rem; color: #4C1D95; margin-bottom: 0.4rem; }
+.card p { font-size: 0.85rem; color: #64748B; margin-bottom: 0; }
+
+details { margin: 1rem 0; border: 1px solid #EDE9FE; border-radius: 10px; overflow: hidden; }
+summary { padding: 1rem 1.2rem; cursor: pointer; font-weight: 600; background: #F8F7FF; font-family: 'Space Grotesk', sans-serif; color: #4C1D95; }
+summary:hover { background: #F3F0FF; }
+details[open] summary { border-bottom: 1px solid #EDE9FE; }
+details .detail-body { padding: 1.2rem; }
+
+.quiz { background: white; border-radius: 16px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 12px rgba(108,58,237,0.08); }
+.quiz h2 { color: #6C3AED; margin-bottom: 1.5rem; text-align: center; }
+.quiz-question { margin-bottom: 1.8rem; }
+.quiz-question p { font-weight: 600; margin-bottom: 0.8rem; font-family: 'Space Grotesk', sans-serif; }
+.quiz-option { display: block; padding: 0.7rem 1rem; margin-bottom: 0.4rem; border: 2px solid #EDE9FE; border-radius: 10px; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; }
+.quiz-option:hover { border-color: #A78BFA; background: #F8F7FF; }
+.quiz-option.correct { border-color: #10B981; background: #F0FDF4; }
+.quiz-option.wrong { border-color: #EF4444; background: #FEF2F2; }
+.quiz-feedback { margin-top: 0.5rem; padding: 0.7rem 1rem; border-radius: 8px; font-size: 0.85rem; display: none; }
+.quiz-feedback.show { display: block; }
+.quiz-feedback.success { background: #F0FDF4; color: #059669; }
+.quiz-feedback.error { background: #FEF2F2; color: #DC2626; }
+
+.footer { text-align: center; padding: 2rem; color: #9CA3AF; font-size: 0.85rem; border-top: 1px solid #EDE9FE; margin-top: 2rem; }
+.footer strong { color: #6C3AED; }
+
+@media print { .progress-bar, .quiz { display: none; } .section { break-inside: avoid; } }
+@media (max-width: 640px) { .hero h1 { font-size: 1.5rem; } .section-body { padding: 1.2rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="hero">
+    <div class="badge">🎤 Zoom Session Live — 28.10.25 (Partie 1)</div>
+    <h1>Booking, Négociation & Revenus Récurrents</h1>
+    <p class="subtitle">Session Q&A complète : LinkedIn pour artistes, intermittence, EPK, prospection live, négociation de contrats et répartition des droits</p>
+    <div class="meta">
+        <span>👨‍🏫 Formateur : Tarik Hamiche</span>
+        <span>⏱ Durée : ~2h30</span>
+        <span>📅 28 octobre 2025</span>
+    </div>
+</div>
+
+<div class="container">
+    <div class="toc">
+        <h2>📋 Sommaire</h2>
+        <ol>
+            <li><a href="#s1">LinkedIn pour artistes : créer du contenu viral</a></li>
+            <li><a href="#s2">Intermittence du spectacle : optimiser ses cachets</a></li>
+            <li><a href="#s3">EPK & contrats de préférence</a></li>
+            <li><a href="#s4">Booking & prospection live : décrocher des dates</a></li>
+            <li><a href="#s5">Fixer ses prix et négocier ses cachets</a></li>
+            <li><a href="#s6">Négociation avec les labels et droits voisins</a></li>
+            <li><a href="#s7">Collaborations musicales et répartition des droits</a></li>
+        </ol>
+    </div>
+
+    <!-- SECTION 1 -->
+    <div class="section sec-1" id="s1">
+        <div class="section-header">
+            <span class="num">01</span>
+            <h2>LinkedIn pour artistes : créer du contenu viral</h2>
+        </div>
+        <div class="section-body">
+            <p>LinkedIn n'est plus réservé aux cadres en costume-cravate. De plus en plus d'artistes utilisent cette plateforme pour développer leur visibilité, décrocher des dates de concert et créer des connexions professionnelles dans l'industrie musicale. L'exemple d'une artiste de la communauté montre que c'est possible avec la bonne approche.</p>
+
+            <h3>Les leviers émotionnels qui fonctionnent</h3>
+            <p>Trois déclencheurs émotionnels principaux permettent de créer des posts viraux sur LinkedIn. La vulnérabilité assumée est le plus puissant : partager ses échecs, ses doutes et ses moments difficiles en toute transparence crée une connexion authentique avec l'audience.</p>
+
+            <div class="cards">
+                <div class="card">
+                    <div class="card-icon">💔</div>
+                    <h4>Vulnérabilité assumée</h4>
+                    <p>Partager ses échecs et ses moments de doute. Exemple : « On m'a dit qu'un artiste n'avait rien à faire sur LinkedIn » → 3 000+ likes. L'humiliation retournée en force.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔥</div>
+                    <h4>Autodérision</h4>
+                    <p>Se moquer de soi-même avec bienveillance. Exemple : « Je suis vraiment nulle en digital » → 150+ likes. L'authenticité qui attire la curiosité.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎯</div>
+                    <h4>Transformation personnelle</h4>
+                    <p>Montrer le chemin parcouru : du doute à la réussite. Le format « avant/après » est redoutablement efficace pour engager l'audience.</p>
+                </div>
+            </div>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ À retenir</div>
+                <p>Sur LinkedIn, les posts qui fonctionnent le mieux sont ceux qui racontent une histoire vraie avec une émotion forte. Ne cherchez pas à paraître parfait — montrez votre parcours réel, avec ses hauts et ses bas. C'est ce qui crée la connexion et l'engagement.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="section sec-2" id="s2">
+        <div class="section-header">
+            <span class="num">02</span>
+            <h2>Intermittence du spectacle : optimiser ses cachets</h2>
+        </div>
+        <div class="section-body">
+            <p>L'intermittence du spectacle est un statut précieux pour les artistes et techniciens du spectacle en France. Pour y accéder et le maintenir, il faut accumuler un nombre suffisant de cachets sur une période donnée. Une stratégie bien connue des musiciens de studio permet d'optimiser ce processus.</p>
+
+            <h3>La stratégie des cachets multiples</h3>
+            <p>Plutôt que de demander un seul cachet élevé pour une prestation, la stratégie consiste à négocier plusieurs cachets de montant plus faible pour le même montant total. Par exemple, au lieu d'un cachet unique à 1 500 euros, demander sept ou huit cachets dont la somme fait 1 500 euros.</p>
+
+            <div class="callout callout-info">
+                <div class="callout-title">💡 Le principe</div>
+                <p>Tant que le montant total reste identique, le producteur n'y voit aucun inconvénient. Mais pour l'artiste, la différence est énorme : au lieu de compter un seul cachet pour l'intermittence, il en comptabilise sept ou huit. C'est cette astuce que la quasi-totalité des musiciens de studio utilisent.</p>
+            </div>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">⚠️ Attention</div>
+                <p>Cette pratique est courante et acceptée dans le milieu, mais elle doit rester dans un cadre légal. Chaque cachet doit correspondre à une prestation réelle (répétition, enregistrement, session, etc.). Consultez un expert-comptable spécialisé dans le spectacle pour structurer correctement vos bulletins.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="section sec-3" id="s3">
+        <div class="section-header">
+            <span class="num">03</span>
+            <h2>EPK & contrats de préférence</h2>
+        </div>
+        <div class="section-body">
+            <h3>L'EPK (Electronic Press Kit)</h3>
+            <p>L'EPK est votre carte de visite professionnelle dans l'industrie musicale. Les programmateurs le demandent systématiquement et le jugent rapidement. Un EPK professionnel doit être simple, propre et efficace — pas besoin de faire compliqué.</p>
+
+            <div class="cards">
+                <div class="card">
+                    <div class="card-icon">📸</div>
+                    <h4>Première page visuelle</h4>
+                    <p>Une photo professionnelle, pleine page, qui incarne votre identité artistique. C'est la première impression — elle doit être impactante.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">✍️</div>
+                    <h4>Bio courte et percutante</h4>
+                    <p>Un texte scoring, efficace, sans trop de mots. Les programmateurs n'ont pas le temps de lire trois pages — allez à l'essentiel de votre parcours et de votre projet.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔗</div>
+                    <h4>Hébergement simple</h4>
+                    <p>Un lien Google Drive ou une page web suffit. L'important est que ce soit accessible en un clic. Pas besoin d'investir dans une plateforme coûteuse.</p>
+                </div>
+            </div>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ Conseil pratique</div>
+                <p>L'EPK ne va pas nécessairement « faire vendre » vos dates, mais c'est une formalité que les programmateurs attendent. Quand ils l'ouvrent et trouvent quelque chose de propre et professionnel, ça conforte leur impression positive. C'est une carte de visite — traitez-la comme telle.</p>
+            </div>
+
+            <h3>Contrats de préférence et publication minimale</h3>
+            <p>Dans les contrats de préférence disponibles sur Muzisecur, la clause de publication minimale à 100 exemplaires est un standard contractuel qui permet de protéger l'artiste. Elle garantit que le label s'engage à une exploitation effective de l'œuvre et non à une simple acquisition de droits sans mise en marché.</p>
+
+            <details>
+                <summary>📄 Qu'est-ce qu'un contrat de préférence ?</summary>
+                <div class="detail-body">
+                    <p>Un contrat de préférence est un accord par lequel un artiste s'engage à proposer en priorité ses futures œuvres à un label ou éditeur donné, pendant une durée et pour un nombre d'œuvres définis. Ce type de contrat est encadré par la loi et comporte des clauses de protection pour l'artiste, dont la publication minimale qui empêche le label de « geler » des titres sans les exploiter.</p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="section sec-4" id="s4">
+        <div class="section-header">
+            <span class="num">04</span>
+            <h2>Booking & prospection live : décrocher des dates</h2>
+        </div>
+        <div class="section-body">
+            <p>Le booking est l'une des sources de revenus les plus directes pour un artiste. Mais décrocher des dates ne se fait pas tout seul — il faut une vraie démarche de prospection, du culot et surtout une stratégie relationnelle intelligente.</p>
+
+            <h3>La stratégie d'infiltration des clubs</h3>
+            <p>Quand vous décrochez une date dans un club, le boss n'est généralement pas présent pendant les balances. C'est une opportunité en or : arrivez tôt, connectez-vous avec toute l'équipe (barman, DJ, light jockey) et créez un vrai lien humain. Ensuite, délivrez un show en béton armé.</p>
+
+            <div class="callout callout-info">
+                <div class="callout-title">💡 La mécanique du rebooking</div>
+                <p>Après le show, le boss demande naturellement à son équipe leur avis. Si toute l'équipe dit « C'était incroyable, les mecs sont top ! » et que les habitués du club ont aussi été conquis, le rebooking devient quasi automatique. C'est la puissance du bouche-à-oreille interne.</p>
+            </div>
+
+            <h3>Le réseautage sur les réseaux sociaux</h3>
+            <p>Connectez-vous via Facebook et LinkedIn avec tous les employés du lieu après votre passage. Cette démarche de mise en réseau, combinée à un show excellent, crée un effet boule de neige pour obtenir de nouvelles dates, soit au même endroit, soit par recommandation dans d'autres lieux.</p>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">⚠️ Le marché institutionnel</div>
+                <p>Certains marchés (événements d'entreprise, réceptions officielles, lieux institutionnels) ne sont accessibles que par des intermédiaires spécialisés. N'hésitez pas à faire des deals avec ces agents qui ont accès à un réseau auquel vous ne pouvez pas accéder seul. Mieux vaut 70% d'une date à 5 000 euros que 100% de rien.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="section sec-5" id="s5">
+        <div class="section-header">
+            <span class="num">05</span>
+            <h2>Fixer ses prix et négocier ses cachets</h2>
+        </div>
+        <div class="section-body">
+            <p>La question du pricing est l'une des plus fréquentes : comment fixer son prix de vente pour un concert ? La réponse dépend de votre positionnement et de votre démarche à un moment donné de votre carrière.</p>
+
+            <h3>Les facteurs qui influencent le prix</h3>
+            <table>
+                <thead><tr><th>Facteur</th><th>Impact sur le prix</th><th>Exemple</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Notoriété / fan base</strong></td><td>Plus votre audience est large, plus vous pouvez demander</td><td>Artiste avec 1M de streams/mois vs artiste émergent</td></tr>
+                    <tr><td><strong>Capacité à remplir</strong></td><td>Si vous ramenez du public, vous valez plus</td><td>Artiste qui garantit 200 entrées payantes</td></tr>
+                    <tr><td><strong>Type de lieu</strong></td><td>Club, salle, festival, événement privé — chacun a son barème</td><td>Un club paie 500-2 000€, un festival 3 000-50 000€</td></tr>
+                    <tr><td><strong>Positionnement stratégique</strong></td><td>Votre posture et votre phase de développement</td><td>Phase prospection vs phase consolidation</td></tr>
+                </tbody>
+            </table>
+
+            <div class="callout callout-danger">
+                <div class="callout-title">🚨 Le piège du prix unique</div>
+                <p>Si les bookers du marché savent que vous vous êtes vendu à 1 000 euros quelque part, il sera très difficile de demander 3 000 euros ailleurs. C'est pourquoi il est capital de contrôler la facturation : encaissez 100% de la somme vous-même et reversez la commission à l'intermédiaire. Cela vous permet de maîtriser le prix de vente affiché.</p>
+            </div>
+
+            <h3>La règle de la progression</h3>
+            <p>Fixez-vous un prix minimum en dessous duquel vous ne descendez jamais, puis augmentez progressivement à mesure que votre notoriété grandit. L'exemple de Diam's illustre bien cette logique : au début de sa carrière, elle acceptait les clubs pour se développer. Dès qu'elle a vendu un million d'albums, elle a arrêté les clubs du jour au lendemain — uniquement des salles de 2 000 personnes minimum ou des festivals.</p>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ La clé</div>
+                <p>Tout dépend de votre positionnement à l'instant T. Si vous êtes en phase de développement et avez besoin de cash, acceptez des dates à prix moyen mais livrez un show exceptionnel. Si vous êtes établi, soyez ferme sur vos tarifs et n'hésitez pas à refuser les offres en dessous de votre minimum.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="section sec-6" id="s6">
+        <div class="section-header">
+            <span class="num">06</span>
+            <h2>Négociation avec les labels et droits voisins</h2>
+        </div>
+        <div class="section-body">
+            <p>La négociation avec les labels est un art qui repose sur la connaissance des mécanismes financiers de l'industrie. Comprendre comment fonctionnent les droits voisins, les avances et les droits de tirage vous donne un avantage considérable dans toute discussion.</p>
+
+            <h3>Le mécanisme des droits voisins et des avances</h3>
+            <p>Quand un titre est en catalogue chez un label, il génère des droits voisins annuels via la SCPP ou la SPPF. Ces droits donnent ensuite accès à des « droits de tirage » — des avances financières équivalentes ou supérieures au montant des droits générés. C'est un levier puissant dans la négociation.</p>
+
+            <div class="callout callout-info">
+                <div class="callout-title">💡 Exemple concret</div>
+                <p>Un titre génère 10 000 euros de droits voisins annuels. Il donne droit à des avances financières (droits de tirage) équivalentes via la SPPF. Si vous proposez au label de garder ces avances en échange d'un nouveau projet avec avance de 10 000 euros, le deal est gagnant-gagnant : le label rentre un nouveau titre en catalogue (sur lequel il récupérera aussi des droits), et vous obtenez votre financement.</p>
+            </div>
+
+            <h3>Revenus récurrents : la puissance du streaming</h3>
+            <p>La grande force du streaming pour un artiste ou un label indépendant, c'est la prévisibilité des revenus. Contrairement au physique (où les ventes peuvent chuter brutalement), les revenus de streaming sont récurrents et prédictibles d'un mois à l'autre. C'est cette récurrence qui permet de bâtir un modèle économique stable.</p>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">⚠️ Marge vs chiffre d'affaires</div>
+                <p>Le chiffre d'affaires n'a aucune valeur en soi — c'est la marge qui compte. Un artiste qui fait 100 000 euros de CA avec 80 000 euros de charges est moins bien loti qu'un artiste qui fait 40 000 euros avec 5 000 euros de charges. Concentrez-vous sur la marge récurrente, pas sur le volume brut.</p>
+            </div>
+
+            <details>
+                <summary>📊 Revenus de streaming vs revenus live</summary>
+                <div class="detail-body">
+                    <table>
+                        <thead><tr><th>Critère</th><th>Streaming</th><th>Live / Booking</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Prévisibilité</strong></td><td>Très haute (revenus mensuels stables)</td><td>Variable (dépend des dates obtenues)</td></tr>
+                            <tr><td><strong>Effort continu</strong></td><td>Faible une fois le catalogue constitué</td><td>Élevé (prospection permanente)</td></tr>
+                            <tr><td><strong>Scalabilité</strong></td><td>Illimitée (mondiale)</td><td>Limitée (capacité physique)</td></tr>
+                            <tr><td><strong>Marge</strong></td><td>Très élevée (peu de coûts directs)</td><td>Variable (transport, technique, commission)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- SECTION 7 -->
+    <div class="section sec-7" id="s7">
+        <div class="section-header">
+            <span class="num">07</span>
+            <h2>Collaborations musicales et répartition des droits</h2>
+        </div>
+        <div class="section-body">
+            <p>La répartition des droits dans les collaborations musicales est l'un des sujets les plus sensibles de l'industrie. C'est une source permanente de tensions, de conflits et de ruptures. La clé réside dans l'honnêteté et la transparence dès le départ.</p>
+
+            <h3>Le principe de l'évaluation objective</h3>
+            <p>La méthode de Tarik repose sur un principe simple : évaluer objectivement la contribution réelle de chaque collaborateur au résultat final. Si un guitariste apporte des guitares qui deviennent l'élément central du titre, il mérite une part significative. Si ses guitares ne sont finalement gardées que sur 15 secondes en fin de morceau, la rétribution doit refléter cette réalité.</p>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ La méthode transparente</div>
+                <p>À la fin de la production, faites une écoute globale avec le collaborateur et expliquez objectivement la répartition : « On t'a garanti un minimum de 2 points. On a gardé très peu de tes guitares, donc on reste au minimum. » À l'inverse : « Tes guitares portent tout le morceau, on refait la production à partir de ta base — c'est une co-composition, on partage. » L'honnêteté désarme les conflits.</p>
+            </div>
+
+            <h3>Cachets vs points de composition</h3>
+            <p>Dans la pratique, quand on engage un musicien en session, il est payé via un cachet et il y a rarement de contrat d'enregistrement formalisé prévoyant des recettes d'exploitation futures. Le musicien est payé, point. Mais cette pratique devrait évoluer : les musiciens qui apportent une contribution créative significative devraient davantage se battre pour des parts de composition plutôt que pour des « points d'arrangeur » qui rapportent peu.</p>
+
+            <div class="callout callout-danger">
+                <div class="callout-title">🚨 L'erreur courante</div>
+                <p>Trop de musiciens se battent pour des points d'arrangeur (qui sont des droits voisins limités) alors qu'en réalité, leur contribution relève de la composition. Un riff de guitare qui devient le hook du morceau, c'est de la composition — pas de l'arrangement. Négociez des parts SACEM, pas seulement des points de master.</p>
+            </div>
+
+            <div class="callout callout-info">
+                <div class="callout-title">💡 La règle d'or de Tarik</div>
+                <p>L'industrie musicale est un jeu permanent de négociation : « Qui a fait quoi ? Qui prend combien ? Qui doit combien ? Qui peut gratter combien ? » Pour naviguer sereinement, fixez-vous un montant minimum en dessous duquel vous ne descendez jamais. Soyez patient, calme, et surtout : documentez tout par écrit dès le départ.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz">
+        <h2>🧠 Quiz — Testez vos connaissances</h2>
+
+        <div class="quiz-question" data-correct="3">
+            <p>1. Quelle stratégie les musiciens de studio utilisent-ils pour optimiser leur intermittence ?</p>
+            <div class="quiz-option" data-index="1">Demander un cachet unique le plus élevé possible</div>
+            <div class="quiz-option" data-index="2">Ne travailler qu'avec des producteurs déclarés</div>
+            <div class="quiz-option" data-index="3">Négocier plusieurs cachets plutôt qu'un seul pour le même montant total</div>
+            <div class="quiz-option" data-index="4">Cumuler des cachets dans différents pays européens</div>
+            <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-question" data-correct="2">
+            <p>2. Pourquoi est-il important de contrôler la facturation quand vous travaillez avec un intermédiaire/booker ?</p>
+            <div class="quiz-option" data-index="1">Pour payer moins de taxes</div>
+            <div class="quiz-option" data-index="2">Pour maîtriser le prix de vente affiché et éviter que le marché connaisse votre prix réel</div>
+            <div class="quiz-option" data-index="3">Pour éviter de payer une commission à l'intermédiaire</div>
+            <div class="quiz-option" data-index="4">Pour simplifier votre comptabilité</div>
+            <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-question" data-correct="1">
+            <p>3. Qu'est-ce qu'un « droit de tirage » dans le contexte des droits voisins ?</p>
+            <div class="quiz-option" data-index="1">Une avance financière basée sur les droits voisins générés par un titre en catalogue</div>
+            <div class="quiz-option" data-index="2">Le droit de reproduire un titre un certain nombre de fois</div>
+            <div class="quiz-option" data-index="3">Le pourcentage de royalties prélevé par le distributeur</div>
+            <div class="quiz-option" data-index="4">La priorité d'accès à un catalogue musical</div>
+            <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-question" data-correct="4">
+            <p>4. Quel levier émotionnel fonctionne le mieux pour des posts LinkedIn viraux en tant qu'artiste ?</p>
+            <div class="quiz-option" data-index="1">La promotion directe de ses sorties musicales</div>
+            <div class="quiz-option" data-index="2">Le partage de chiffres de streaming impressionnants</div>
+            <div class="quiz-option" data-index="3">Les conseils techniques sur la production musicale</div>
+            <div class="quiz-option" data-index="4">La vulnérabilité assumée et le partage authentique de ses difficultés</div>
+            <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-question" data-correct="2">
+            <p>5. Pourquoi les musiciens devraient-ils négocier des parts de composition plutôt que des points d'arrangeur ?</p>
+            <div class="quiz-option" data-index="1">Parce que les points d'arrangeur sont illégaux</div>
+            <div class="quiz-option" data-index="2">Parce que les parts SACEM (composition) rapportent bien plus que les points de master (arrangement)</div>
+            <div class="quiz-option" data-index="3">Parce que les labels refusent de donner des points d'arrangeur</div>
+            <div class="quiz-option" data-index="4">Parce que seuls les compositeurs peuvent toucher l'intermittence</div>
+            <div class="quiz-feedback"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Support de cours généré à partir de la Zoom Session du 28 octobre 2025 (Partie 1)</p>
+        <p><strong>Producteur à Succès</strong> — Formation Music Business par Tarik Hamiche</p>
+    </div>
+</div>
+
+<script>
+window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    document.getElementById('progressBar').style.width = (window.scrollY / h * 100) + '%';
+});
+document.querySelectorAll('.quiz-question').forEach(q => {
+    const correct = parseInt(q.dataset.correct);
+    const fb = q.querySelector('.quiz-feedback');
+    q.querySelectorAll('.quiz-option').forEach(opt => {
+        opt.addEventListener('click', () => {
+            if (q.classList.contains('answered')) return;
+            q.classList.add('answered');
+            const idx = parseInt(opt.dataset.index);
+            if (idx === correct) {
+                opt.classList.add('correct');
+                fb.textContent = '✅ Bonne réponse !';
+                fb.className = 'quiz-feedback show success';
+            } else {
+                opt.classList.add('wrong');
+                q.querySelector('[data-index="' + correct + '"]').classList.add('correct');
+                fb.textContent = '❌ Mauvaise réponse. Consultez la bonne réponse en vert.';
+                fb.className = 'quiz-feedback show error';
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>

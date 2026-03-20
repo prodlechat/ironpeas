@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Replay Jeudi 20 Nov — Matin Loïc — Support de Cours</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+html, body { width: 100% !important; max-width: 100% !important; overflow-x: hidden; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: #F8F7FF; color: #1E1B4B; line-height: 1.7; }
+h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+.progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: linear-gradient(90deg, #6C3AED, #A78BFA); z-index: 9999; transition: width 0.2s; width: 0%; }
+.hero { background: linear-gradient(135deg, #6C3AED 0%, #4C1D95 100%); color: white; padding: 3rem 2rem 2.5rem; text-align: center; }
+.hero .badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 0.3rem 1rem; border-radius: 50px; font-size: 0.85rem; margin-bottom: 1rem; }
+.hero h1 { font-size: 2rem; margin-bottom: 0.5rem; line-height: 1.3; }
+.hero .subtitle { font-size: 1.1rem; opacity: 0.9; margin-bottom: 1.5rem; }
+.hero .meta { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; font-size: 0.9rem; opacity: 0.85; }
+.hero .meta span { display: flex; align-items: center; gap: 0.4rem; }
+.container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+.toc { background: white; border-radius: 16px; padding: 2rem; margin-bottom: 2.5rem; box-shadow: 0 2px 12px rgba(108,58,237,0.08); }
+.toc h2 { font-size: 1.3rem; margin-bottom: 1rem; color: #6C3AED; }
+.toc ol { list-style: none; counter-reset: toc; }
+.toc li { counter-increment: toc; margin-bottom: 0.6rem; }
+.toc li a { text-decoration: none; color: #4C1D95; display: flex; align-items: center; gap: 0.7rem; padding: 0.4rem 0.6rem; border-radius: 8px; transition: background 0.2s; }
+.toc li a:hover { background: #F3F0FF; }
+.toc li a::before { content: counter(toc); display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: #6C3AED; color: white; border-radius: 50%; font-size: 0.8rem; font-weight: 600; flex-shrink: 0; }
+.section { background: white; border-radius: 16px; margin-bottom: 2rem; overflow: hidden; box-shadow: 0 2px 12px rgba(108,58,237,0.06); }
+.section-header { padding: 1.5rem 2rem; color: white; display: flex; align-items: center; gap: 1rem; }
+.section-header .num { font-size: 1.8rem; font-weight: 700; opacity: 0.4; }
+.section-header h2 { font-size: 1.3rem; font-weight: 600; }
+.section-body { padding: 2rem; }
+.section-body p { margin-bottom: 1rem; text-align: justify; }
+.section-body h3 { font-size: 1.1rem; color: #4C1D95; margin: 1.5rem 0 0.8rem; padding-bottom: 0.3rem; border-bottom: 2px solid #EDE9FE; }
+.sec-1 .section-header { background: linear-gradient(135deg, #6C3AED, #7C3AED); }
+.sec-2 .section-header { background: linear-gradient(135deg, #2563EB, #3B82F6); }
+.sec-3 .section-header { background: linear-gradient(135deg, #059669, #10B981); }
+.sec-4 .section-header { background: linear-gradient(135deg, #D97706, #F59E0B); }
+.sec-5 .section-header { background: linear-gradient(135deg, #DC2626, #EF4444); }
+.sec-6 .section-header { background: linear-gradient(135deg, #7C3AED, #A78BFA); }
+.sec-7 .section-header { background: linear-gradient(135deg, #0891B2, #06B6D4); }
+.callout { border-radius: 12px; padding: 1.2rem 1.5rem; margin: 1.2rem 0; border-left: 4px solid; }
+.callout .callout-title { font-weight: 600; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem; font-family: 'Space Grotesk', sans-serif; }
+.callout-tip { background: #F0FDF4; border-color: #10B981; } .callout-tip .callout-title { color: #059669; }
+.callout-warning { background: #FFFBEB; border-color: #F59E0B; } .callout-warning .callout-title { color: #D97706; }
+.callout-danger { background: #FEF2F2; border-color: #EF4444; } .callout-danger .callout-title { color: #DC2626; }
+.callout-info { background: #EFF6FF; border-color: #3B82F6; } .callout-info .callout-title { color: #2563EB; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 1.2rem 0; border-radius: 12px; overflow: hidden; }
+thead th { background: #6C3AED; color: white; padding: 0.8rem 1rem; text-align: left; font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; }
+tbody td { padding: 0.7rem 1rem; border-bottom: 1px solid #EDE9FE; font-size: 0.9rem; }
+tbody tr:nth-child(even) { background: #F8F7FF; } tbody tr:last-child td { border-bottom: none; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1.2rem 0; }
+.card { background: #F8F7FF; border-radius: 12px; padding: 1.2rem; border: 1px solid #EDE9FE; }
+.card .card-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.card h4 { font-size: 0.95rem; color: #4C1D95; margin-bottom: 0.4rem; }
+.card p { font-size: 0.85rem; color: #64748B; margin-bottom: 0; }
+details { margin: 1rem 0; border: 1px solid #EDE9FE; border-radius: 10px; overflow: hidden; }
+summary { padding: 1rem 1.2rem; cursor: pointer; font-weight: 600; background: #F8F7FF; font-family: 'Space Grotesk', sans-serif; color: #4C1D95; }
+summary:hover { background: #F3F0FF; }
+details[open] summary { border-bottom: 1px solid #EDE9FE; }
+details .detail-body { padding: 1.2rem; }
+.quiz { background: white; border-radius: 16px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 12px rgba(108,58,237,0.08); }
+.quiz h2 { color: #6C3AED; margin-bottom: 1.5rem; text-align: center; }
+.quiz-question { margin-bottom: 1.8rem; }
+.quiz-question p { font-weight: 600; margin-bottom: 0.8rem; font-family: 'Space Grotesk', sans-serif; }
+.quiz-option { display: block; padding: 0.7rem 1rem; margin-bottom: 0.4rem; border: 2px solid #EDE9FE; border-radius: 10px; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; }
+.quiz-option:hover { border-color: #A78BFA; background: #F8F7FF; }
+.quiz-option.correct { border-color: #10B981; background: #F0FDF4; }
+.quiz-option.wrong { border-color: #EF4444; background: #FEF2F2; }
+.quiz-feedback { margin-top: 0.5rem; padding: 0.7rem 1rem; border-radius: 8px; font-size: 0.85rem; display: none; }
+.quiz-feedback.show { display: block; }
+.quiz-feedback.success { background: #F0FDF4; color: #059669; }
+.quiz-feedback.error { background: #FEF2F2; color: #DC2626; }
+.footer { text-align: center; padding: 2rem; color: #9CA3AF; font-size: 0.85rem; border-top: 1px solid #EDE9FE; margin-top: 2rem; }
+.footer strong { color: #6C3AED; }
+@media print { .progress-bar, .quiz { display: none; } .section { break-inside: avoid; } }
+@media (max-width: 640px) { .hero h1 { font-size: 1.5rem; } .section-body { padding: 1.2rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="hero">
+    <div class="badge">🎤 Replay Jeudi 20 Nov 2025 — Session Matin avec Loïc</div>
+    <h1>Catalogue, Comptabilité & Obligations Légales du Label</h1>
+    <p class="subtitle">Longue traîne musicale, transfert de catalogue, comptabilité, subventions CNM, statut gérant-artiste et obligations légales des clips</p>
+    <div class="meta">
+        <span>👨‍🏫 Animateur : Loïc</span>
+        <span>⏱ Durée : ~2h30</span>
+        <span>📅 20 novembre 2025</span>
+    </div>
+</div>
+
+<div class="container">
+    <div class="toc">
+        <h2>📋 Sommaire</h2>
+        <ol>
+            <li><a href="#s1">La longue traîne : ne jamais abandonner un titre</a></li>
+            <li><a href="#s2">NFT et musique : opportunités et limites</a></li>
+            <li><a href="#s3">Transfert de catalogue à une société</a></li>
+            <li><a href="#s4">Comptabilité du label : charges vs immobilisations</a></li>
+            <li><a href="#s5">Subventions CNM : monter un dossier béton</a></li>
+            <li><a href="#s6">Statut gérant-artiste : se salarier dans sa propre société</a></li>
+            <li><a href="#s7">Obligations légales pour les clips vidéo</a></li>
+        </ol>
+    </div>
+
+    <!-- SECTION 1 -->
+    <div class="section sec-1" id="s1">
+        <div class="section-header"><span class="num">01</span><h2>La longue traîne : ne jamais abandonner un titre</h2></div>
+        <div class="section-body">
+            <p>Un des principes fondamentaux de l'industrie musicale est que la durée de vie d'un morceau est imprévisible. Des titres peuvent buzzer des années après leur sortie initiale. Il n'y a jamais de moment où un titre est « mort » — il y a toujours une possibilité de reprise, de viralité tardive ou de redécouverte.</p>
+
+            <div class="callout callout-info">
+                <div class="callout-title">💡 L'effet longue traîne</div>
+                <p>Certains artistes sortent des morceaux que « personne ne veut » et deux à cinq ans plus tard, ces mêmes titres deviennent des doubles disques de diamant. C'est pour cela qu'il faut continuer à promouvoir ses morceaux dans le temps, pas seulement lors de leur sortie initiale.</p>
+            </div>
+
+            <h3>Comment faire vivre vos anciens titres</h3>
+            <div class="cards">
+                <div class="card">
+                    <div class="card-icon">🔄</div>
+                    <h4>Remettre en avant régulièrement</h4>
+                    <p>Partagez vos anciens morceaux sur vos réseaux sociaux. Créez de nouveaux visuels, de nouveaux contenus autour de titres existants.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎬</div>
+                    <h4>Créer de nouveaux contenus</h4>
+                    <p>Un behind-the-scenes, une version acoustique, un cover par un autre artiste — autant de moyens de redonner vie à un ancien titre.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📊</div>
+                    <h4>Relancer en publicité</h4>
+                    <p>Si un ancien titre commence à reprendre de l'élan (même léger), amplifiez-le avec un budget publicitaire ciblé pour accélérer l'effet boule de neige.</p>
+                </div>
+            </div>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ La règle d'or</div>
+                <p>Vos œuvres sont là pour exister dans le temps. Le but n'est pas de sortir un titre et de passer au suivant si ça ne marche pas en deux semaines. C'est de construire un catalogue vivant que vous promouvez activement sur le long terme.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="section sec-2" id="s2">
+        <div class="section-header"><span class="num">02</span><h2>NFT et musique : opportunités et limites</h2></div>
+        <div class="section-body">
+            <p>Les NFT (Non-Fungible Tokens) ont suscité beaucoup d'engouement dans l'industrie musicale. Mais pour un artiste indépendant, la question est : est-ce un levier réaliste de monétisation ou une distraction coûteuse ?</p>
+
+            <h3>Cas d'usage pertinents</h3>
+            <table>
+                <thead><tr><th>Cas d'usage</th><th>Pertinence</th><th>Exemple</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Collections d'enregistrements inédits</strong></td><td>Très forte (si artiste connu)</td><td>Pistes inutilisées d'un artiste iconique vendues en NFT</td></tr>
+                    <tr><td><strong>Œuvres visuelles associées à la musique</strong></td><td>Moyenne</td><td>Artwork de couverture d'album en édition limitée NFT</td></tr>
+                    <tr><td><strong>Première stratégie de monétisation</strong></td><td>Faible (pour artiste émergent)</td><td>Risque de disperser ses efforts sans audience existante</td></tr>
+                </tbody>
+            </table>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">⚠️ Prudence pour les indépendants</div>
+                <p>Pour un artiste qui a déjà du mal à développer sa visibilité, les NFT ne sont probablement pas le premier levier à actionner. Concentrez-vous d'abord sur la construction de votre fan base et de votre catalogue. Les NFT fonctionnent quand vous avez déjà une communauté engagée prête à acheter.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="section sec-3" id="s3">
+        <div class="section-header"><span class="num">03</span><h2>Transfert de catalogue à une société</h2></div>
+        <div class="section-body">
+            <p>Quand vous passez d'une activité personnelle (association, auto-entreprise) à une société (SAS, SARL), la question du transfert de votre catalogue musical existant se pose. Comment transférer légalement vos masters et vos droits vers la nouvelle structure ?</p>
+
+            <h3>Les options de transfert</h3>
+            <div class="cards">
+                <div class="card">
+                    <div class="card-icon">💶</div>
+                    <h4>Cession à prix symbolique</h4>
+                    <p>Vous vendez votre catalogue à votre société pour 1 euro symbolique. Acceptable quand c'est vous qui avez tout fait seul. Si d'autres artistes sont impliqués, prévoyez au minimum un petit montant.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎁</div>
+                    <h4>Cession à titre gracieux</h4>
+                    <p>Possible quand vous êtes l'unique ayant droit. Les organismes comme la SPPF n'adorent pas cette formule, mais ils ne la refuseront pas.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📝</div>
+                    <h4>Cession avec valorisation</h4>
+                    <p>Plus professionnel : évaluez votre catalogue (revenus générés, potentiel) et fixez un prix de cession réaliste. La société vous « rachète » le catalogue.</p>
+                </div>
+            </div>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ Le point clé</div>
+                <p>Quelle que soit la méthode choisie, formalisez le transfert par écrit. Un contrat de cession, même simple, protège les deux parties et permet à la nouvelle société de justifier la propriété du catalogue auprès des distributeurs, des organismes de gestion collective et des éventuels partenaires.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="section sec-4" id="s4">
+        <div class="section-header"><span class="num">04</span><h2>Comptabilité du label : charges vs immobilisations</h2></div>
+        <div class="section-body">
+            <p>La comptabilité d'un label indépendant a ses particularités. L'une des distinctions les plus importantes à comprendre est celle entre les charges (dépenses courantes) et les immobilisations (investissements amortissables).</p>
+
+            <h3>Le seuil des 500 euros</h3>
+            <table>
+                <thead><tr><th>Montant</th><th>Traitement comptable</th><th>Impact fiscal</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Moins de 500€</strong></td><td>Charge (consommable)</td><td>Déduit intégralement l'année de l'achat</td></tr>
+                    <tr><td><strong>Plus de 500€</strong></td><td>Immobilisation</td><td>Amorti sur 3 à 5 ans (réparti sur plusieurs exercices)</td></tr>
+                </tbody>
+            </table>
+
+            <div class="callout callout-info">
+                <div class="callout-title">💡 Exemple concret</div>
+                <p>Un ordinateur à 600 euros : votre comptable va répartir le coût sur 3 ans (200€ + 200€ + 200€). Ces montants amortis peuvent générer un résultat imposable, contrairement aux charges de moins de 500€ qui sont des dépenses directes sans impact d'amortissement. C'est une nuance technique importante pour optimiser votre fiscalité.</p>
+            </div>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">⚠️ Les logiciels aussi</div>
+                <p>Un logiciel ou un abonnement annuel de plus de 500 euros passe aussi en immobilisation. Pensez-y quand vous achetez des licences de DAW, des plugins ou des abonnements professionnels coûteux.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="section sec-5" id="s5">
+        <div class="section-header"><span class="num">05</span><h2>Subventions CNM : monter un dossier béton</h2></div>
+        <div class="section-body">
+            <p>Le Centre National de la Musique (CNM) accorde des subventions aux producteurs de phonogrammes, mais les dossiers doivent être irréprochables. La moindre erreur peut entraîner un refus, même si le projet est excellent sur le plan artistique.</p>
+
+            <h3>L'erreur fatale du salariat</h3>
+            <p>L'une des causes de refus les plus fréquentes concerne le salariat des personnes apparaissant dans les clips. La règle est claire et stricte : toute personne visible et reconnaissable dans un clip vidéo doit être salariée. Cela inclut les artistes principaux, les figurants, et même une grand-mère assise sur un banc visible 30 secondes.</p>
+
+            <div class="callout callout-danger">
+                <div class="callout-title">🚨 Le cas réel qui a tout fait capoter</div>
+                <p>Un producteur a monté un dossier de subvention bétonné — tout était parfait sauf un détail : il avait rémunéré tout le monde sauf un figurant dans le clip. Résultat : dossier refusé. Le CNM vérifie scrupuleusement que chaque personne visible dans le clip a été salariée conformément à la convention collective du spectacle.</p>
+            </div>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ Checklist avant soumission</div>
+                <p>Avant de soumettre votre dossier CNM, vérifiez que chaque personne visible dans votre clip a un contrat de travail et un bulletin de paie. Pas d'exception, pas de raccourci. C'est la condition sine qua non pour que votre dossier passe.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="section sec-6" id="s6">
+        <div class="section-header"><span class="num">06</span><h2>Statut gérant-artiste : se salarier dans sa propre société</h2></div>
+        <div class="section-body">
+            <p>Quand vous êtes à la fois gérant/associé de votre label (SAS) et artiste principal, une question juridique complexe se pose : pouvez-vous être salarié dans votre propre société pour l'enregistrement de vos œuvres ?</p>
+
+            <h3>Le problème du lien de subordination</h3>
+            <p>En droit du travail, un contrat de travail nécessite un lien de subordination. Or, si vous êtes le gérant de la société, vous êtes à la fois l'employeur et l'employé — ce qui crée une contradiction juridique. Ce point est régulièrement soulevé par les experts-comptables et les juristes spécialisés.</p>
+
+            <div class="callout callout-info">
+                <div class="callout-title">💡 Les solutions possibles</div>
+                <p>Plusieurs configurations existent pour résoudre ce problème : avoir un co-associé qui signe les contrats de travail en tant qu'artiste, distinguer clairement les fonctions de direction et d'artiste, ou structurer la société de manière à ce que le lien de subordination puisse être démontré. Chaque cas nécessite un accompagnement juridique adapté.</p>
+            </div>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">⚠️ Ne pas improviser</div>
+                <p>C'est un sujet technique qui nécessite l'avis d'un expert-comptable et/ou d'un avocat spécialisé en droit du spectacle. Les erreurs de structuration peuvent avoir des conséquences fiscales et sociales lourdes, notamment en cas de contrôle URSSAF.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 7 -->
+    <div class="section sec-7" id="s7">
+        <div class="section-header"><span class="num">07</span><h2>Obligations légales pour les clips vidéo</h2></div>
+        <div class="section-body">
+            <p>La production de clips vidéo est soumise à des obligations légales strictes en France, particulièrement en matière de droit du travail. Ces obligations sont souvent méconnues des artistes indépendants et peuvent coûter cher en cas de contrôle ou de demande de subvention.</p>
+
+            <h3>La règle fondamentale</h3>
+            <div class="callout callout-danger">
+                <div class="callout-title">🚨 Obligation de salariat</div>
+                <p>Toute personne visible et reconnaissable dans un clip vidéo doit être salariée. Ce n'est pas seulement l'artiste principal — cela concerne aussi les choristes visibles, les musiciens à l'image, les danseurs, les figurants et même les passants qui apparaissent de manière identifiable.</p>
+            </div>
+
+            <table>
+                <thead><tr><th>Personne dans le clip</th><th>Visible et reconnaissable ?</th><th>Obligation</th></tr></thead>
+                <tbody>
+                    <tr><td>Artiste principal</td><td>Oui</td><td>Contrat de travail + bulletin de paie obligatoires</td></tr>
+                    <tr><td>Musiciens à l'image</td><td>Oui</td><td>Contrat de travail + bulletin de paie obligatoires</td></tr>
+                    <tr><td>Danseurs / figurants</td><td>Oui</td><td>Contrat de travail + bulletin de paie obligatoires</td></tr>
+                    <tr><td>Passant de dos, flou</td><td>Non</td><td>Pas d'obligation (mais attention au droit à l'image)</td></tr>
+                </tbody>
+            </table>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ Conseil pratique</div>
+                <p>Intégrez le coût du salariat de toutes les personnes apparaissant dans votre clip dans votre budget de production dès le départ. C'est un coût incompressible qui doit être prévu, pas une surprise à gérer après le tournage. Muzisecur propose des modèles de contrats adaptés à cette configuration.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz">
+        <h2>🧠 Quiz — Testez vos connaissances</h2>
+        <div class="quiz-question" data-correct="3">
+            <p>1. Quel est le seuil comptable qui distingue une charge d'une immobilisation ?</p>
+            <div class="quiz-option" data-index="1">100 euros</div>
+            <div class="quiz-option" data-index="2">250 euros</div>
+            <div class="quiz-option" data-index="3">500 euros</div>
+            <div class="quiz-option" data-index="4">1 000 euros</div>
+            <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-question" data-correct="1">
+            <p>2. Qui doit être salarié lors du tournage d'un clip vidéo ?</p>
+            <div class="quiz-option" data-index="1">Toute personne visible et reconnaissable à l'image</div>
+            <div class="quiz-option" data-index="2">Uniquement l'artiste principal</div>
+            <div class="quiz-option" data-index="3">Uniquement les musiciens professionnels</div>
+            <div class="quiz-option" data-index="4">Personne si le clip est autoproduit</div>
+            <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-question" data-correct="2">
+            <p>3. Comment transférer un catalogue personnel vers une SAS nouvellement créée ?</p>
+            <div class="quiz-option" data-index="1">Il suffit de changer le nom sur le distributeur</div>
+            <div class="quiz-option" data-index="2">Par un contrat de cession (à prix symbolique, gracieux ou avec valorisation)</div>
+            <div class="quiz-option" data-index="3">Le transfert est automatique lors de la création de la SAS</div>
+            <div class="quiz-option" data-index="4">Il faut repasser par la SACEM pour chaque titre</div>
+            <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-question" data-correct="4">
+            <p>4. Pourquoi les NFT ne sont-ils pas recommandés comme première stratégie pour un artiste émergent ?</p>
+            <div class="quiz-option" data-index="1">Parce que les NFT sont illégaux en France</div>
+            <div class="quiz-option" data-index="2">Parce que les plateformes NFT sont trop chères</div>
+            <div class="quiz-option" data-index="3">Parce que les NFT ne fonctionnent qu'avec de la musique classique</div>
+            <div class="quiz-option" data-index="4">Parce qu'ils nécessitent une communauté engagée déjà existante pour fonctionner</div>
+            <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-question" data-correct="1">
+            <p>5. Pourquoi faut-il continuer à promouvoir ses anciens morceaux ?</p>
+            <div class="quiz-option" data-index="1">Parce que certains titres peuvent buzzer des années après leur sortie</div>
+            <div class="quiz-option" data-index="2">Parce que la SACEM exige une promotion active</div>
+            <div class="quiz-option" data-index="3">Parce que les distributeurs suppriment les morceaux non promus</div>
+            <div class="quiz-option" data-index="4">Parce que les droits d'auteur expirent sans promotion</div>
+            <div class="quiz-feedback"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Support de cours généré à partir du Replay Jeudi 20 novembre 2025 — Session Matin avec Loïc</p>
+        <p><strong>Producteur à Succès</strong> — Formation Music Business par Tarik Hamiche</p>
+    </div>
+</div>
+
+<script>
+window.addEventListener('scroll', () => { const h = document.documentElement.scrollHeight - window.innerHeight; document.getElementById('progressBar').style.width = (window.scrollY / h * 100) + '%'; });
+document.querySelectorAll('.quiz-question').forEach(q => { const correct = parseInt(q.dataset.correct); const fb = q.querySelector('.quiz-feedback'); q.querySelectorAll('.quiz-option').forEach(opt => { opt.addEventListener('click', () => { if (q.classList.contains('answered')) return; q.classList.add('answered'); const idx = parseInt(opt.dataset.index); if (idx === correct) { opt.classList.add('correct'); fb.textContent = '✅ Bonne réponse !'; fb.className = 'quiz-feedback show success'; } else { opt.classList.add('wrong'); q.querySelector('[data-index="'+correct+'"]').classList.add('correct'); fb.textContent = '❌ Mauvaise réponse. Consultez la bonne réponse en vert.'; fb.className = 'quiz-feedback show error'; } }); }); });
+</script>
+</body>
+</html>

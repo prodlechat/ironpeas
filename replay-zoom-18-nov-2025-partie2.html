@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Replay Zoom 18 Nov 2025 (Partie 2) — Support de Cours</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+html, body { width: 100% !important; max-width: 100% !important; overflow-x: hidden; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: #F8F7FF; color: #1E1B4B; line-height: 1.7; }
+h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+.progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: linear-gradient(90deg, #6C3AED, #A78BFA); z-index: 9999; transition: width 0.2s; width: 0%; }
+.hero { background: linear-gradient(135deg, #6C3AED 0%, #4C1D95 100%); color: white; padding: 3rem 2rem 2.5rem; text-align: center; }
+.hero .badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 0.3rem 1rem; border-radius: 50px; font-size: 0.85rem; margin-bottom: 1rem; }
+.hero h1 { font-size: 2rem; margin-bottom: 0.5rem; line-height: 1.3; }
+.hero .subtitle { font-size: 1.1rem; opacity: 0.9; margin-bottom: 1.5rem; }
+.hero .meta { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; font-size: 0.9rem; opacity: 0.85; }
+.hero .meta span { display: flex; align-items: center; gap: 0.4rem; }
+.container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+.toc { background: white; border-radius: 16px; padding: 2rem; margin-bottom: 2.5rem; box-shadow: 0 2px 12px rgba(108,58,237,0.08); }
+.toc h2 { font-size: 1.3rem; margin-bottom: 1rem; color: #6C3AED; }
+.toc ol { list-style: none; counter-reset: toc; }
+.toc li { counter-increment: toc; margin-bottom: 0.6rem; }
+.toc li a { text-decoration: none; color: #4C1D95; display: flex; align-items: center; gap: 0.7rem; padding: 0.4rem 0.6rem; border-radius: 8px; transition: background 0.2s; }
+.toc li a:hover { background: #F3F0FF; }
+.toc li a::before { content: counter(toc); display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: #6C3AED; color: white; border-radius: 50%; font-size: 0.8rem; font-weight: 600; flex-shrink: 0; }
+.section { background: white; border-radius: 16px; margin-bottom: 2rem; overflow: hidden; box-shadow: 0 2px 12px rgba(108,58,237,0.06); }
+.section-header { padding: 1.5rem 2rem; color: white; display: flex; align-items: center; gap: 1rem; }
+.section-header .num { font-size: 1.8rem; font-weight: 700; opacity: 0.4; }
+.section-header h2 { font-size: 1.3rem; font-weight: 600; }
+.section-body { padding: 2rem; }
+.section-body p { margin-bottom: 1rem; text-align: justify; }
+.section-body h3 { font-size: 1.1rem; color: #4C1D95; margin: 1.5rem 0 0.8rem; padding-bottom: 0.3rem; border-bottom: 2px solid #EDE9FE; }
+.sec-1 .section-header { background: linear-gradient(135deg, #6C3AED, #7C3AED); }
+.sec-2 .section-header { background: linear-gradient(135deg, #2563EB, #3B82F6); }
+.sec-3 .section-header { background: linear-gradient(135deg, #059669, #10B981); }
+.sec-4 .section-header { background: linear-gradient(135deg, #D97706, #F59E0B); }
+.sec-5 .section-header { background: linear-gradient(135deg, #DC2626, #EF4444); }
+.sec-6 .section-header { background: linear-gradient(135deg, #7C3AED, #A78BFA); }
+.sec-7 .section-header { background: linear-gradient(135deg, #0891B2, #06B6D4); }
+.callout { border-radius: 12px; padding: 1.2rem 1.5rem; margin: 1.2rem 0; border-left: 4px solid; }
+.callout .callout-title { font-weight: 600; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem; font-family: 'Space Grotesk', sans-serif; }
+.callout-tip { background: #F0FDF4; border-color: #10B981; } .callout-tip .callout-title { color: #059669; }
+.callout-warning { background: #FFFBEB; border-color: #F59E0B; } .callout-warning .callout-title { color: #D97706; }
+.callout-danger { background: #FEF2F2; border-color: #EF4444; } .callout-danger .callout-title { color: #DC2626; }
+.callout-info { background: #EFF6FF; border-color: #3B82F6; } .callout-info .callout-title { color: #2563EB; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 1.2rem 0; border-radius: 12px; overflow: hidden; }
+thead th { background: #6C3AED; color: white; padding: 0.8rem 1rem; text-align: left; font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; }
+tbody td { padding: 0.7rem 1rem; border-bottom: 1px solid #EDE9FE; font-size: 0.9rem; }
+tbody tr:nth-child(even) { background: #F8F7FF; } tbody tr:last-child td { border-bottom: none; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1.2rem 0; }
+.card { background: #F8F7FF; border-radius: 12px; padding: 1.2rem; border: 1px solid #EDE9FE; }
+.card .card-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.card h4 { font-size: 0.95rem; color: #4C1D95; margin-bottom: 0.4rem; }
+.card p { font-size: 0.85rem; color: #64748B; margin-bottom: 0; }
+details { margin: 1rem 0; border: 1px solid #EDE9FE; border-radius: 10px; overflow: hidden; }
+summary { padding: 1rem 1.2rem; cursor: pointer; font-weight: 600; background: #F8F7FF; font-family: 'Space Grotesk', sans-serif; color: #4C1D95; }
+summary:hover { background: #F3F0FF; }
+details[open] summary { border-bottom: 1px solid #EDE9FE; }
+details .detail-body { padding: 1.2rem; }
+.quiz { background: white; border-radius: 16px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 12px rgba(108,58,237,0.08); }
+.quiz h2 { color: #6C3AED; margin-bottom: 1.5rem; text-align: center; }
+.quiz-question { margin-bottom: 1.8rem; }
+.quiz-question p { font-weight: 600; margin-bottom: 0.8rem; font-family: 'Space Grotesk', sans-serif; }
+.quiz-option { display: block; padding: 0.7rem 1rem; margin-bottom: 0.4rem; border: 2px solid #EDE9FE; border-radius: 10px; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; }
+.quiz-option:hover { border-color: #A78BFA; background: #F8F7FF; }
+.quiz-option.correct { border-color: #10B981; background: #F0FDF4; }
+.quiz-option.wrong { border-color: #EF4444; background: #FEF2F2; }
+.quiz-feedback { margin-top: 0.5rem; padding: 0.7rem 1rem; border-radius: 8px; font-size: 0.85rem; display: none; }
+.quiz-feedback.show { display: block; }
+.quiz-feedback.success { background: #F0FDF4; color: #059669; }
+.quiz-feedback.error { background: #FEF2F2; color: #DC2626; }
+.footer { text-align: center; padding: 2rem; color: #9CA3AF; font-size: 0.85rem; border-top: 1px solid #EDE9FE; margin-top: 2rem; }
+.footer strong { color: #6C3AED; }
+@media print { .progress-bar, .quiz { display: none; } .section { break-inside: avoid; } }
+@media (max-width: 640px) { .hero h1 { font-size: 1.5rem; } .section-body { padding: 1.2rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="hero">
+    <div class="badge">🎤 Replay Zoom Live — 18 Nov 2025 (Partie 2)</div>
+    <h1>Mindset, Productivité & Optimisation Financière</h1>
+    <p class="subtitle">Gestion de catalogue, méthode des 5 livres, développement personnel, bien-être entrepreneurial et optimisation de l'intermittence</p>
+    <div class="meta">
+        <span>👨‍🏫 Formateur : Tarik Hamiche</span>
+        <span>⏱ Durée : ~2h</span>
+        <span>📅 18 novembre 2025</span>
+    </div>
+</div>
+
+<div class="container">
+    <div class="toc">
+        <h2>📋 Sommaire</h2>
+        <ol>
+            <li><a href="#s1">Dépôts SPPF/SCPP : ne laissez pas traîner votre catalogue</a></li>
+            <li><a href="#s2">La méthode des 5 livres : focus et planification annuelle</a></li>
+            <li><a href="#s3">La méthode Vittoz : vaincre la procrastination</a></li>
+            <li><a href="#s4">Bien-être et routines de l'artiste-entrepreneur</a></li>
+            <li><a href="#s5">L'entourage et le mentorat : les piliers invisibles du succès</a></li>
+            <li><a href="#s6">Intermittence du spectacle : optimisation financière</a></li>
+            <li><a href="#s7">État d'esprit orienté succès et résilience</a></li>
+        </ol>
+    </div>
+
+    <!-- SECTION 1 -->
+    <div class="section sec-1" id="s1">
+        <div class="section-header"><span class="num">01</span><h2>Dépôts SPPF/SCPP : ne laissez pas traîner votre catalogue</h2></div>
+        <div class="section-body">
+            <p>L'un des sujets les plus urgents abordés dans cette session concerne les dépôts de catalogue auprès de la SPPF ou de la SCPP. Beaucoup d'artistes et de labels indépendants négligent ces dépôts, parfois pendant des années, sans réaliser l'ampleur de l'argent qu'ils laissent sur la table.</p>
+
+            <div class="callout callout-danger">
+                <div class="callout-title">🚨 L'exemple qui fait froid dans le dos</div>
+                <p>Un membre de la communauté n'avait pas fait ses dépôts SPPF depuis 2005 — soit 20 ans de retard. Plus vous traînez, plus le volume de dépôts à rattraper s'accumule. Ce qui aurait été une formalité rapide chaque trimestre devient un chantier monumental de plusieurs jours.</p>
+            </div>
+
+            <h3>Pourquoi les dépôts sont essentiels</h3>
+            <table>
+                <thead><tr><th>Sans dépôt</th><th>Avec dépôt régulier</th></tr></thead>
+                <tbody>
+                    <tr><td>Aucun droit voisin perçu</td><td>Droits voisins versés chaque année</td></tr>
+                    <tr><td>Pas d'accès aux droits de tirage</td><td>Avances financières disponibles (droits de tirage)</td></tr>
+                    <tr><td>Catalogue invisible pour les organismes</td><td>Catalogue référencé et valorisé</td></tr>
+                    <tr><td>Argent perdu définitivement après prescription</td><td>Revenus récurrents sur toute la durée de protection</td></tr>
+                </tbody>
+            </table>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ La règle : déposez à chaque sortie</div>
+                <p>Intégrez le dépôt SPPF/SCPP dans votre workflow de sortie, au même titre que l'envoi au distributeur et la déclaration SACEM. Faites-le immédiatement après la sortie, pas « plus tard ». Le « plus tard » se transforme toujours en « jamais ».</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="section sec-2" id="s2">
+        <div class="section-header"><span class="num">02</span><h2>La méthode des 5 livres : focus et planification annuelle</h2></div>
+        <div class="section-body">
+            <p>L'un des secrets de productivité les plus puissants partagés dans cette session est la « méthode des 5 livres ». L'image est simple : imaginez une étagère qui ne peut contenir que 5 livres. Si vous en mettez 6, puis 7, puis 8, puis que vous les empilez par-dessus — l'étagère finit par s'écrouler. Et il faut des années pour remonter une étagère vide et recommencer.</p>
+
+            <h3>Le principe en pratique</h3>
+            <div class="cards">
+                <div class="card">
+                    <div class="card-icon">📅</div>
+                    <h4>1. S'isoler une journée en début d'année</h4>
+                    <p>Planifiez votre année entière en identifiant exactement 5 projets majeurs. Pas 6. Pas 10. Cinq.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎯</div>
+                    <h4>2. Un projet = un focus</h4>
+                    <p>Chaque projet reçoit toute votre attention pendant sa période dédiée. Pas de multitâche entre les 5 projets simultanément.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔄</div>
+                    <h4>3. Rotation et remplacement</h4>
+                    <p>Quand un projet est terminé, vous libérez une place sur l'étagère pour un nouveau. Jamais plus de 5 en cours.</p>
+                </div>
+            </div>
+
+            <div class="callout callout-info">
+                <div class="callout-title">💡 La clé du succès</div>
+                <p>Ce n'est pas la quantité de projets qui détermine votre succès, c'est la qualité de votre focus sur chacun d'eux. Les artistes-entrepreneurs qui réussissent sont ceux qui savent dire non à de bonnes opportunités pour se concentrer sur les excellentes.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="section sec-3" id="s3">
+        <div class="section-header"><span class="num">03</span><h2>La méthode Vittoz : vaincre la procrastination</h2></div>
+        <div class="section-body">
+            <p>La méthode Vittoz, initialement développée pour traiter l'aboulie (l'incapacité d'agir malgré la volonté), offre un cadre remarquablement simple pour vaincre la procrastination. Trois questions suffisent à débloquer l'action.</p>
+
+            <h3>Les 3 questions Vittoz</h3>
+            <table>
+                <thead><tr><th>Question</th><th>Objectif</th><th>Exemple</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>1. Quel est l'objet de ma volonté ?</strong></td><td>Définir clairement ce que vous voulez faire</td><td>« Je veux soulever ce verre »</td></tr>
+                    <tr><td><strong>2. Est-ce que c'est possible ?</strong></td><td>Vérifier la faisabilité objective</td><td>« Oui, le verre est à portée de main »</td></tr>
+                    <tr><td><strong>3. Suis-je sincère ?</strong></td><td>Vérifier que vous le voulez vraiment</td><td>« Oui, j'ai soif et je veux boire »</td></tr>
+                </tbody>
+            </table>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ Application concrète</div>
+                <p>La prochaine fois que vous procrastinez sur une tâche (dépôt SPPF, envoi d'EPK, déclaration SACEM...), posez-vous ces trois questions. Si la réponse est « oui » aux trois, alors vous n'avez plus d'excuse — levez-vous et faites-le. La simplicité de cette méthode est ce qui la rend si efficace.</p>
+            </div>
+
+            <div class="callout callout-info">
+                <div class="callout-title">💡 Le saviez-vous ?</div>
+                <p>Roger Vittoz était un médecin suisse du début du XXe siècle. Sa méthode, développée pour des cas cliniques sévères d'aboulie, s'avère tout aussi puissante pour la procrastination quotidienne. Elle a été utilisée avec succès dans des cours de mnémotechnie et de développement personnel.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="section sec-4" id="s4">
+        <div class="section-header"><span class="num">04</span><h2>Bien-être et routines de l'artiste-entrepreneur</h2></div>
+        <div class="section-body">
+            <p>Le bien-être physique et mental n'est pas un luxe pour l'artiste-entrepreneur — c'est un investissement dans sa capacité à produire, créer et performer sur le long terme. Les routines quotidiennes font la différence entre ceux qui durent et ceux qui s'épuisent.</p>
+
+            <h3>La routine matinale de Tarik</h3>
+            <p>Tarik n'aime pas faire du sport — il le reconnaît ouvertement. Mais il en fait quand même, le matin, en premier, pour s'en « débarrasser ». Son astuce : s'interdire d'écouter du contenu inspirant (podcasts, audiobooks) en dehors de la salle de sport. Résultat : l'envie d'écouter ces contenus le tire hors du lit et jusqu'à la salle.</p>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ Le hack motivationnel</div>
+                <p>Associez une activité que vous aimez (écouter des podcasts inspirants) à une activité que vous n'aimez pas (sport). Vous créez un conditionnement positif : le sport devient le seul moment où vous accédez à ce contenu que vous adorez. Le désagréable devient le véhicule du plaisir.</p>
+            </div>
+
+            <h3>L'alimentation comme carburant</h3>
+            <p>La qualité de votre alimentation impacte directement votre énergie créative et votre capacité de travail. Un artiste-entrepreneur qui enchaîne les sessions de studio, les réunions et les concerts a besoin d'un corps qui fonctionne de manière optimale. Pas besoin de régimes extrêmes — juste de la conscience dans vos choix alimentaires.</p>
+        </div>
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="section sec-5" id="s5">
+        <div class="section-header"><span class="num">05</span><h2>L'entourage et le mentorat : les piliers invisibles du succès</h2></div>
+        <div class="section-body">
+            <p>Derrière chaque grand artiste, il y a souvent un « bon pote » — quelqu'un avec qui on échange franchement, qui nous renvoie une image honnête de nous-mêmes et qui nous pousse à avancer. Jacques Brel avait son ami intime, et cette dynamique d'échange authentique est un accélérateur de carrière souvent sous-estimé.</p>
+
+            <div class="cards">
+                <div class="card">
+                    <div class="card-icon">🤝</div>
+                    <h4>Le « bon pote »</h4>
+                    <p>Quelqu'un qui vous parle franc, sans filtre, avec bienveillance. Pas un flatteur — un miroir honnête qui vous dit quand c'est bien et quand ça ne l'est pas.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">💑</div>
+                    <h4>Le partenaire de vie</h4>
+                    <p>Un amoureux ou une amoureuse qui comprend votre parcours, supporte les hauts et les bas, et vous soutient dans vos ambitions sans vous freiner.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">👶</div>
+                    <h4>Les enfants</h4>
+                    <p>Même si ce ne sont pas les vôtres, les enfants renvoient une image positive et authentique. Leur émerveillement est un antidote au cynisme professionnel.</p>
+                </div>
+            </div>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">⚠️ Le piège de l'isolement</div>
+                <p>L'entrepreneuriat musical peut être très solitaire. Ne tombez pas dans le piège de tout faire seul. Trouvez votre communauté (comme les sessions Zoom Producteur à Succès), entourez-vous de gens qui comprennent votre parcours et n'hésitez pas à demander de l'aide quand vous en avez besoin.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="section sec-6" id="s6">
+        <div class="section-header"><span class="num">06</span><h2>Intermittence du spectacle : optimisation financière</h2></div>
+        <div class="section-body">
+            <p>La question de la rentabilité de l'intermittence est revenue en force lors de cette session. Plusieurs membres, intermittents du spectacle, se sont demandé si faire plus de cachets leur rapporterait réellement plus d'argent.</p>
+
+            <h3>Le calcul qui surprend</h3>
+            <p>Au-delà d'un certain seuil de cachets, les cotisations sociales et les effets de palier réduisent le gain net de chaque cachet supplémentaire. Il existe un « sweet spot » — un nombre optimal de cachets qui maximise le rapport entre le travail fourni et le revenu net perçu (allocations + cachets).</p>
+
+            <div class="callout callout-info">
+                <div class="callout-title">💡 Les deux paliers à connaître</div>
+                <p>Le système d'indemnisation de l'intermittence comporte des seuils au-delà desquels les allocations diminuent proportionnellement aux cachets perçus. Un calcul précis, tenant compte de votre situation personnelle, est indispensable pour déterminer votre stratégie optimale.</p>
+            </div>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">⚠️ Chaque cas est unique</div>
+                <p>Ne copiez pas la stratégie d'un autre intermittent. Les calculs dépendent de votre nombre de cachets, de leur montant, de votre situation familiale et de votre ancienneté dans le régime. Faites-vous accompagner par un comptable spécialisé dans le spectacle vivant.</p>
+            </div>
+
+            <details>
+                <summary>📊 Intermittence vs salariat classique</summary>
+                <div class="detail-body">
+                    <table>
+                        <thead><tr><th>Critère</th><th>Intermittence</th><th>Salariat classique</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Flexibilité</strong></td><td>Totale (vous choisissez vos dates)</td><td>Limitée (contrat de travail)</td></tr>
+                            <tr><td><strong>Sécurité</strong></td><td>Allocations entre les cachets</td><td>Salaire fixe mensuel</td></tr>
+                            <tr><td><strong>Optimisation</strong></td><td>Possible via le nombre/montant des cachets</td><td>Peu de marge de manœuvre</td></tr>
+                            <tr><td><strong>Risque</strong></td><td>Renouvellement annuel du statut</td><td>CDI = stabilité long terme</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- SECTION 7 -->
+    <div class="section sec-7" id="s7">
+        <div class="section-header"><span class="num">07</span><h2>État d'esprit orienté succès et résilience</h2></div>
+        <div class="section-body">
+            <p>Le fil rouge de cette session est l'importance de l'état d'esprit dans la réussite à long terme. Avoir un mindset orienté vers le succès ne signifie pas être naïvement optimiste — c'est une posture de combat lucide qui consiste à gagner des batailles, même petites, chaque jour.</p>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ Le fondement du bien-être entrepreneurial</div>
+                <p>Le bien-être ne vient pas du succès. Il vient du sentiment de progresser vers ses objectifs. Un artiste qui se sent bien est un artiste qui gagne des batailles — même infimes — quotidiennement. C'est cette accumulation de petites victoires qui construit la confiance et la résilience nécessaires pour le long terme.</p>
+            </div>
+
+            <h3>La patience comme stratégie</h3>
+            <p>L'industrie musicale récompense la constance plus que le talent brut. Les artistes qui durent sont ceux qui ont traversé les phases de doute, les échecs commerciaux et les périodes creuses sans abandonner. Chaque « non » vous rapproche d'un « oui ». Chaque projet qui échoue vous enseigne quelque chose pour le suivant.</p>
+
+            <div class="callout callout-info">
+                <div class="callout-title">💡 La philosophie de Tarik</div>
+                <p>« On est là aujourd'hui, on sera là demain, et on continuera. » Cette constance dans l'effort, combinée à un apprentissage continu et un entourage de qualité, est la recette la plus fiable du succès dans l'industrie musicale. Pas de raccourci, pas de formule magique — juste de la persévérance intelligente.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz">
+        <h2>🧠 Quiz — Testez vos connaissances</h2>
+        <div class="quiz-question" data-correct="2">
+            <p>1. Combien de projets maximum recommande la « méthode des 5 livres » ?</p>
+            <div class="quiz-option" data-index="1">3 projets</div>
+            <div class="quiz-option" data-index="2">5 projets</div>
+            <div class="quiz-option" data-index="3">7 projets</div>
+            <div class="quiz-option" data-index="4">10 projets</div>
+            <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-question" data-correct="3">
+            <p>2. Quelles sont les 3 questions de la méthode Vittoz pour vaincre la procrastination ?</p>
+            <div class="quiz-option" data-index="1">Quoi ? Quand ? Comment ?</div>
+            <div class="quiz-option" data-index="2">Pourquoi ? Pour qui ? Pour combien ?</div>
+            <div class="quiz-option" data-index="3">Quel est l'objet de ma volonté ? Est-ce possible ? Suis-je sincère ?</div>
+            <div class="quiz-option" data-index="4">Que faire ? Que déléguer ? Que supprimer ?</div>
+            <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-question" data-correct="1">
+            <p>3. Quel est le risque principal de ne pas faire ses dépôts SPPF/SCPP régulièrement ?</p>
+            <div class="quiz-option" data-index="1">Perdre définitivement des droits voisins et des droits de tirage accumulés</div>
+            <div class="quiz-option" data-index="2">Être radié de la SACEM</div>
+            <div class="quiz-option" data-index="3">Devoir payer une amende à la SPPF</div>
+            <div class="quiz-option" data-index="4">Ne plus pouvoir sortir de musique en streaming</div>
+            <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-question" data-correct="4">
+            <p>4. Quelle est l'astuce de Tarik pour se motiver à faire du sport le matin ?</p>
+            <div class="quiz-option" data-index="1">Il s'entraîne avec un coach personnel</div>
+            <div class="quiz-option" data-index="2">Il se fixe des objectifs physiques ambitieux</div>
+            <div class="quiz-option" data-index="3">Il fait du sport avec des amis pour la motivation sociale</div>
+            <div class="quiz-option" data-index="4">Il s'interdit d'écouter des contenus inspirants ailleurs qu'à la salle de sport</div>
+            <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-question" data-correct="2">
+            <p>5. Pourquoi faut-il être prudent avec l'optimisation de l'intermittence ?</p>
+            <div class="quiz-option" data-index="1">Parce que l'intermittence est illégale pour les artistes indépendants</div>
+            <div class="quiz-option" data-index="2">Parce que chaque situation est unique et les effets de palier réduisent le gain net au-delà de certains seuils</div>
+            <div class="quiz-option" data-index="3">Parce que France Travail interdit les optimisations</div>
+            <div class="quiz-option" data-index="4">Parce que les cachets ne comptent plus après 10 ans d'intermittence</div>
+            <div class="quiz-feedback"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Support de cours généré à partir du Replay Zoom du 18 novembre 2025 (Partie 2)</p>
+        <p><strong>Producteur à Succès</strong> — Formation Music Business par Tarik Hamiche</p>
+    </div>
+</div>
+
+<script>
+window.addEventListener('scroll', () => { const h = document.documentElement.scrollHeight - window.innerHeight; document.getElementById('progressBar').style.width = (window.scrollY / h * 100) + '%'; });
+document.querySelectorAll('.quiz-question').forEach(q => { const correct = parseInt(q.dataset.correct); const fb = q.querySelector('.quiz-feedback'); q.querySelectorAll('.quiz-option').forEach(opt => { opt.addEventListener('click', () => { if (q.classList.contains('answered')) return; q.classList.add('answered'); const idx = parseInt(opt.dataset.index); if (idx === correct) { opt.classList.add('correct'); fb.textContent = '✅ Bonne réponse !'; fb.className = 'quiz-feedback show success'; } else { opt.classList.add('wrong'); q.querySelector('[data-index="'+correct+'"]').classList.add('correct'); fb.textContent = '❌ Mauvaise réponse. Consultez la bonne réponse en vert.'; fb.className = 'quiz-feedback show error'; } }); }); });
+</script>
+</body>
+</html>

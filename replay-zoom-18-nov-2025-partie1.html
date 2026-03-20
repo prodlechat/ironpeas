@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Replay Zoom 18 Nov 2025 (Partie 1) — Support de Cours</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+html, body { width: 100% !important; max-width: 100% !important; overflow-x: hidden; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: #F8F7FF; color: #1E1B4B; line-height: 1.7; }
+h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+.progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: linear-gradient(90deg, #6C3AED, #A78BFA); z-index: 9999; transition: width 0.2s; width: 0%; }
+.hero { background: linear-gradient(135deg, #6C3AED 0%, #4C1D95 100%); color: white; padding: 3rem 2rem 2.5rem; text-align: center; }
+.hero .badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 0.3rem 1rem; border-radius: 50px; font-size: 0.85rem; margin-bottom: 1rem; }
+.hero h1 { font-size: 2rem; margin-bottom: 0.5rem; line-height: 1.3; }
+.hero .subtitle { font-size: 1.1rem; opacity: 0.9; margin-bottom: 1.5rem; }
+.hero .meta { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; font-size: 0.9rem; opacity: 0.85; }
+.hero .meta span { display: flex; align-items: center; gap: 0.4rem; }
+.container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+.toc { background: white; border-radius: 16px; padding: 2rem; margin-bottom: 2.5rem; box-shadow: 0 2px 12px rgba(108,58,237,0.08); }
+.toc h2 { font-size: 1.3rem; margin-bottom: 1rem; color: #6C3AED; }
+.toc ol { list-style: none; counter-reset: toc; }
+.toc li { counter-increment: toc; margin-bottom: 0.6rem; }
+.toc li a { text-decoration: none; color: #4C1D95; display: flex; align-items: center; gap: 0.7rem; padding: 0.4rem 0.6rem; border-radius: 8px; transition: background 0.2s; }
+.toc li a:hover { background: #F3F0FF; }
+.toc li a::before { content: counter(toc); display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: #6C3AED; color: white; border-radius: 50%; font-size: 0.8rem; font-weight: 600; flex-shrink: 0; }
+.section { background: white; border-radius: 16px; margin-bottom: 2rem; overflow: hidden; box-shadow: 0 2px 12px rgba(108,58,237,0.06); }
+.section-header { padding: 1.5rem 2rem; color: white; display: flex; align-items: center; gap: 1rem; }
+.section-header .num { font-size: 1.8rem; font-weight: 700; opacity: 0.4; }
+.section-header h2 { font-size: 1.3rem; font-weight: 600; }
+.section-body { padding: 2rem; }
+.section-body p { margin-bottom: 1rem; text-align: justify; }
+.section-body h3 { font-size: 1.1rem; color: #4C1D95; margin: 1.5rem 0 0.8rem; padding-bottom: 0.3rem; border-bottom: 2px solid #EDE9FE; }
+.sec-1 .section-header { background: linear-gradient(135deg, #6C3AED, #7C3AED); }
+.sec-2 .section-header { background: linear-gradient(135deg, #2563EB, #3B82F6); }
+.sec-3 .section-header { background: linear-gradient(135deg, #059669, #10B981); }
+.sec-4 .section-header { background: linear-gradient(135deg, #D97706, #F59E0B); }
+.sec-5 .section-header { background: linear-gradient(135deg, #DC2626, #EF4444); }
+.sec-6 .section-header { background: linear-gradient(135deg, #7C3AED, #A78BFA); }
+.sec-7 .section-header { background: linear-gradient(135deg, #0891B2, #06B6D4); }
+.callout { border-radius: 12px; padding: 1.2rem 1.5rem; margin: 1.2rem 0; border-left: 4px solid; }
+.callout .callout-title { font-weight: 600; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem; font-family: 'Space Grotesk', sans-serif; }
+.callout-tip { background: #F0FDF4; border-color: #10B981; } .callout-tip .callout-title { color: #059669; }
+.callout-warning { background: #FFFBEB; border-color: #F59E0B; } .callout-warning .callout-title { color: #D97706; }
+.callout-danger { background: #FEF2F2; border-color: #EF4444; } .callout-danger .callout-title { color: #DC2626; }
+.callout-info { background: #EFF6FF; border-color: #3B82F6; } .callout-info .callout-title { color: #2563EB; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 1.2rem 0; border-radius: 12px; overflow: hidden; }
+thead th { background: #6C3AED; color: white; padding: 0.8rem 1rem; text-align: left; font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; }
+tbody td { padding: 0.7rem 1rem; border-bottom: 1px solid #EDE9FE; font-size: 0.9rem; }
+tbody tr:nth-child(even) { background: #F8F7FF; } tbody tr:last-child td { border-bottom: none; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1.2rem 0; }
+.card { background: #F8F7FF; border-radius: 12px; padding: 1.2rem; border: 1px solid #EDE9FE; }
+.card .card-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.card h4 { font-size: 0.95rem; color: #4C1D95; margin-bottom: 0.4rem; }
+.card p { font-size: 0.85rem; color: #64748B; margin-bottom: 0; }
+details { margin: 1rem 0; border: 1px solid #EDE9FE; border-radius: 10px; overflow: hidden; }
+summary { padding: 1rem 1.2rem; cursor: pointer; font-weight: 600; background: #F8F7FF; font-family: 'Space Grotesk', sans-serif; color: #4C1D95; }
+summary:hover { background: #F3F0FF; }
+details[open] summary { border-bottom: 1px solid #EDE9FE; }
+details .detail-body { padding: 1.2rem; }
+.quiz { background: white; border-radius: 16px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 12px rgba(108,58,237,0.08); }
+.quiz h2 { color: #6C3AED; margin-bottom: 1.5rem; text-align: center; }
+.quiz-question { margin-bottom: 1.8rem; }
+.quiz-question p { font-weight: 600; margin-bottom: 0.8rem; font-family: 'Space Grotesk', sans-serif; }
+.quiz-option { display: block; padding: 0.7rem 1rem; margin-bottom: 0.4rem; border: 2px solid #EDE9FE; border-radius: 10px; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; }
+.quiz-option:hover { border-color: #A78BFA; background: #F8F7FF; }
+.quiz-option.correct { border-color: #10B981; background: #F0FDF4; }
+.quiz-option.wrong { border-color: #EF4444; background: #FEF2F2; }
+.quiz-feedback { margin-top: 0.5rem; padding: 0.7rem 1rem; border-radius: 8px; font-size: 0.85rem; display: none; }
+.quiz-feedback.show { display: block; }
+.quiz-feedback.success { background: #F0FDF4; color: #059669; }
+.quiz-feedback.error { background: #FEF2F2; color: #DC2626; }
+.footer { text-align: center; padding: 2rem; color: #9CA3AF; font-size: 0.85rem; border-top: 1px solid #EDE9FE; margin-top: 2rem; }
+.footer strong { color: #6C3AED; }
+@media print { .progress-bar, .quiz { display: none; } .section { break-inside: avoid; } }
+@media (max-width: 640px) { .hero h1 { font-size: 1.5rem; } .section-body { padding: 1.2rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="hero">
+    <div class="badge">🎤 Replay Zoom Live — 18 Nov 2025 (Partie 1)</div>
+    <h1>Productivité, Merch en Live & Édition Musicale</h1>
+    <p class="subtitle">Gestion du temps, fidélisation en tournée, salons professionnels, édition SACEM, structure juridique et branding artistique</p>
+    <div class="meta">
+        <span>👨‍🏫 Formateur : Tarik Hamiche</span>
+        <span>⏱ Durée : ~2h30</span>
+        <span>📅 18 novembre 2025</span>
+    </div>
+</div>
+
+<div class="container">
+    <div class="toc">
+        <h2>📋 Sommaire</h2>
+        <ol>
+            <li><a href="#s1">Gestion du temps et productivité entrepreneuriale</a></li>
+            <li><a href="#s2">Fidélisation et vente de merch en tournée</a></li>
+            <li><a href="#s3">Événements professionnels et networking musical</a></li>
+            <li><a href="#s4">Édition musicale et déclaration SACEM</a></li>
+            <li><a href="#s5">Structure juridique et gestion financière du label</a></li>
+            <li><a href="#s6">Branding et storytelling artistique</a></li>
+            <li><a href="#s7">IA, hologrammes et avenir de la musique live</a></li>
+        </ol>
+    </div>
+
+    <!-- SECTION 1 -->
+    <div class="section sec-1" id="s1">
+        <div class="section-header"><span class="num">01</span><h2>Gestion du temps et productivité entrepreneuriale</h2></div>
+        <div class="section-body">
+            <p>Quand on est artiste-entrepreneur, le temps est la ressource la plus précieuse. La méthode de Tarik pour gérer la surcharge repose sur un tri radical : imaginez que vous êtes mourant et qu'il ne vous reste de l'énergie que pour trois choses. Lesquelles choisissez-vous ? Cet exercice mental permet de dégager immédiatement ce qui compte vraiment.</p>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ La règle des 3 jours</div>
+                <p>Si votre comptable vous demande un document et que vous ne le faites pas dans les trois jours, et qu'elle ne vous relance pas — considérez qu'elle peut s'en passer. Supprimez le mail. Si c'est vraiment important, elle reviendra vers vous. Cette méthode permet de trier naturellement les tâches réellement urgentes des tâches qui semblent urgentes mais ne le sont pas.</p>
+            </div>
+
+            <h3>Le tri naturel des relations</h3>
+            <p>Plus vous progressez dans votre carrière et investissez de l'énergie dans votre projet, plus un tri naturel se fait dans votre entourage. Certaines personnes décrochent naturellement parce que vos vies prennent des directions différentes. Ce n'est pas de la méchanceté — c'est la conséquence naturelle de la clarté d'intention. Les gens qui restent sont ceux qui partagent votre vision et votre énergie.</p>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">⚠️ La bascule peut être violente</div>
+                <p>Acceptez que ce tri puisse être douloureux. Des amitiés de longue date peuvent s'étioler. L'important est de ne pas le prendre personnellement ni de culpabiliser. C'est le prix de la progression — et ceux qui comprennent votre parcours resteront naturellement à vos côtés.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="section sec-2" id="s2">
+        <div class="section-header"><span class="num">02</span><h2>Fidélisation et vente de merch en tournée</h2></div>
+        <div class="section-body">
+            <p>La vente de merch en concert est l'une des sources de revenus les plus directes et les plus rentables pour un artiste indépendant. Mais elle nécessite une stratégie bien pensée pour maximiser les ventes.</p>
+
+            <h3>La technique du « Express Pass »</h3>
+            <p>En festival, installez votre stand à un endroit visible et annoncez-le pendant le show. Tout le monde sait qu'après le concert, ils pourront rencontrer les artistes au stand. Mais la file d'attente pour les photos est longue — sauf si vous avez acheté un article. Comme le pass express à Disneyland : achetez un t-shirt et passez devant tout le monde pour la photo avec le groupe.</p>
+
+            <div class="callout callout-info">
+                <div class="callout-title">💡 Résultat concret</div>
+                <p>Cette technique fait « débiter » les ventes de manière spectaculaire. Les fans font un raccourci mental simple : 25 euros pour un t-shirt + photo immédiate vs 30 minutes d'attente dans la file. Le choix est vite fait pour la majorité.</p>
+            </div>
+
+            <h3>En salle vs en festival</h3>
+            <table>
+                <thead><tr><th>Contexte</th><th>Stratégie merch</th><th>Avantage clé</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Festival</strong></td><td>Stand visible, intégré au show, photo express</td><td>Gros volume, interaction directe avec les fans</td></tr>
+                    <tr><td><strong>Salle</strong></td><td>Éditions limitées, annonces pendant le set, pré-commandes</td><td>Rareté et urgence, exclusivité du lieu</td></tr>
+                    <tr><td><strong>En ligne (post-concert)</strong></td><td>Email post-concert avec offres exclusives « j'y étais »</td><td>Prolonge l'expérience, capte les indécis</td></tr>
+                </tbody>
+            </table>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ Intégrez le merch dans le show</div>
+                <p>Ne cachez pas votre stand dans un coin. Faites-en un sketch intégré au spectacle. Les artistes les plus malins annoncent leurs produits directement sur scène, avec humour et authenticité. Le public ne le vit pas comme de la vente mais comme un moment du show.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="section sec-3" id="s3">
+        <div class="section-header"><span class="num">03</span><h2>Événements professionnels et networking musical</h2></div>
+        <div class="section-body">
+            <p>Les événements professionnels organisés par des structures comme France Travail sont des opportunités de networking sous-exploitées par les artistes. Ces rencontres regroupent bookers, organisateurs d'événementiel et artistes dans un format de rendez-vous rapides.</p>
+
+            <div class="cards">
+                <div class="card">
+                    <div class="card-icon">🎪</div>
+                    <h4>Salons musicaux régionaux</h4>
+                    <p>France Travail organise des rencontres thématiques (hip-hop, jazz, urbain...) où vous pouvez enchaîner 15 rendez-vous en 4 heures avec des programmateurs et des bookers.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🤝</div>
+                    <h4>Le principe des speed meetings</h4>
+                    <p>Format court (10-15 min par rendez-vous) qui force l'efficacité. Préparez votre pitch, votre EPK et votre lien d'écoute. Allez droit au but.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📱</div>
+                    <h4>Le suivi post-événement</h4>
+                    <p>L'événement n'est que le début. Le vrai travail commence après : relancez chaque contact dans les 48h avec un message personnalisé rappelant votre échange.</p>
+                </div>
+            </div>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">⚠️ Ne boudez pas ces événements</div>
+                <p>Beaucoup d'éditeurs et de labels boudent ces rencontres « institutionnelles ». C'est une erreur : tous les bookers y sont présents, les artistes viennent en masse. Moins il y a de concurrence de votre côté, plus vous avez de chances de décrocher quelque chose.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="section sec-4" id="s4">
+        <div class="section-header"><span class="num">04</span><h2>Édition musicale et déclaration SACEM</h2></div>
+        <div class="section-body">
+            <p>L'édition musicale est un levier de revenus souvent mal compris mais extrêmement puissant. Créer sa propre structure d'édition permet de récupérer la part éditeur des droits d'auteur, qui peut représenter jusqu'à 50% des droits SACEM.</p>
+
+            <h3>Le choix du nom éditorial</h3>
+            <p>Quand vous adhérez à la SACEM en tant qu'éditeur, vous devez choisir un nom pour votre catalogue éditorial. Attention : si quelqu'un a déjà un catalogue enregistré avec le même nom, il y aura un doublon. La SACEM vérifie cela au moment de votre demande d'adhésion.</p>
+
+            <div class="callout callout-danger">
+                <div class="callout-title">🚨 Marque déposée ≠ Nom éditorial</div>
+                <p>Avoir déposé votre nom de marque à l'INPI ne vous protège pas contre un doublon de catalogue éditorial à la SACEM. Ce sont deux registres distincts. Si un gros éditeur a déjà enregistré un catalogue avec le même nom, il plaidera son antériorité. Plus simple : choisissez un nom parallèle unique pour votre structure éditoriale.</p>
+            </div>
+
+            <h3>Déclarer ses vidéos YouTube à la SACEM</h3>
+            <p>Fait méconnu : vos vidéos YouTube peuvent générer des droits SACEM si vous y intégrez de la musique que vous avez composée. Même les vidéos « face caméra » où vous parlez, si vous utilisez un habillage musical que vous avez créé, cela génère des droits. Sur une vidéo de 15 minutes qui fait 20 000 à 40 000 vues, cela représente environ 20 euros par an et par vidéo.</p>
+
+            <div class="callout callout-info">
+                <div class="callout-title">💡 Le calcul qui fait réfléchir</div>
+                <p>20 euros par vidéo par an, ça semble dérisoire. Mais avec 1 000 vidéos publiées, cela représente potentiellement 20 000 euros de droits SACEM laissés sur la table. Ces droits s'ajoutent à la monétisation YouTube classique et aux revenus de streaming.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="section sec-5" id="s5">
+        <div class="section-header"><span class="num">05</span><h2>Structure juridique et gestion financière du label</h2></div>
+        <div class="section-body">
+            <p>La question de la structure juridique revient systématiquement chez les artistes qui passent au stade professionnel. Monter une SAS ou une SARL, gérer les paiements différés, comprendre le mécanisme de dette de la société envers le dirigeant — ce sont des fondamentaux à maîtriser.</p>
+
+            <h3>Le paiement différé : la société en « dette »</h3>
+            <p>Quand vous êtes dirigeant de votre label et que vous avancez de l'argent personnel pour des dépenses professionnelles, la société contracte une dette envers vous. C'est un mécanisme courant et parfaitement légal : vous pouvez vous rembourser plus tard quand la trésorerie le permet.</p>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ Exemple concret</div>
+                <p>Un membre de la communauté a organisé une tournée de 4 dates aux États-Unis avec son groupe. Les frais ont été avancés personnellement. La société peut être en dette vis-à-vis de lui en attendant que les revenus (billetterie, merch, streaming) rentrent. C'est le fonctionnement normal d'un label indépendant en phase de lancement.</p>
+            </div>
+
+            <h3>Intermittence et structure</h3>
+            <p>Si vous êtes à la fois intermittent du spectacle et dirigeant de votre label, il est important de bien séparer les deux casquettes. Vos cachets d'intermittent sont des revenus salariaux. Les revenus de votre société sont des bénéfices d'entreprise. Les mélanger peut créer des problèmes fiscaux et sociaux considérables.</p>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">⚠️ Accompagnement indispensable</div>
+                <p>Ne structurez jamais votre label sans l'aide d'un expert-comptable spécialisé dans le spectacle vivant. Les règles fiscales et sociales sont complexes et les erreurs coûtent cher. Muzisecur propose des modèles de contrats et d'accompagnement adaptés à cette configuration.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="section sec-6" id="s6">
+        <div class="section-header"><span class="num">06</span><h2>Branding et storytelling artistique</h2></div>
+        <div class="section-body">
+            <p>Le branding artistique n'est pas un supplément optionnel — c'est le socle sur lequel tout le reste repose. Sans identité cohérente, même la meilleure musique du monde aura du mal à émerger dans l'océan de contenus disponibles.</p>
+
+            <h3>Le principe de cohérence totale</h3>
+            <p>Chaque élément de votre image doit raconter la même histoire : votre tenue vestimentaire, le choix de vos titres, vos paroles, votre attitude en interview et sur scène. Si votre storytelling est « bling bling », vous ne pouvez pas vous pointer en short avec un bracelet brésilien. Si votre personnage est sombre et mystérieux, vous ne faites pas de TikTok humoristiques.</p>
+
+            <div class="callout callout-danger">
+                <div class="callout-title">🚨 L'erreur fatale</div>
+                <p>Si vous n'avez pas pensé votre branding en amont pour l'aligner avec votre personnage, tous ces éléments vont échapper à votre contrôle. Le public construira une perception de vous — mais pas celle que vous souhaitez. Brainstormez votre identité AVANT de créer du contenu.</p>
+            </div>
+
+            <h3>Contenu vs storytelling</h3>
+            <p>Créer du contenu ne signifie pas raconter sa vie. Le storytelling est induit, pas explicite. Il s'exprime à travers vos choix visuels, vos sujets de conversation, votre manière de vous présenter. Le public capte l'univers sans que vous ayez besoin de le verbaliser. C'est la différence entre « dire » et « montrer ».</p>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ La règle d'or du branding</div>
+                <p>Travaillez d'abord votre branding, ensuite créez votre contenu. Dans cet ordre. Le contenu sans branding est du bruit. Le branding sans contenu est invisible. Les deux ensemble créent une identité mémorable et cohérente.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 7 -->
+    <div class="section sec-7" id="s7">
+        <div class="section-header"><span class="num">07</span><h2>IA, hologrammes et avenir de la musique live</h2></div>
+        <div class="section-body">
+            <p>La question de l'intelligence artificielle dans la musique suscite beaucoup d'inquiétudes. L'IA peut désormais générer des morceaux complets, mais peut-elle remplacer l'expérience humaine du concert live ? La réponse de Tarik est catégorique : non.</p>
+
+            <h3>Le synthétique vs l'humain</h3>
+            <p>Comme les images de synthèse au cinéma : elles ont beau être impressionnantes, nos yeux (surtout ceux des jeunes générations habituées à une qualité croissante) détectent instinctivement ce qui est « faux ». La musique suit le même schéma. L'IA peut produire du contenu techniquement correct, mais l'émotion humaine, l'imperfection authentique et la connexion live restent irremplaçables.</p>
+
+            <div class="callout callout-info">
+                <div class="callout-title">💡 Perspective historique</div>
+                <p>La musique existe depuis des milliers d'années. À chaque révolution technologique (synthétiseurs, sampling, auto-tune, IA), on a prédit la mort des artistes. Pourtant, personne n'a jamais remplacé un artiste sur scène. Le jour où on appuiera sur trois touches pour produire la même chose qu'un orchestre, on n'aura toujours pas remplacé l'émotion d'un concert live.</p>
+            </div>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ Votre avantage compétitif</div>
+                <p>Votre humanité est votre plus grand atout face à l'IA. Investissez dans votre présence scénique, votre authenticité et votre connexion avec le public. C'est ce que l'IA ne pourra jamais reproduire — et c'est ce pour quoi les gens continueront à payer.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz">
+        <h2>🧠 Quiz — Testez vos connaissances</h2>
+        <div class="quiz-question" data-correct="3">
+            <p>1. Quelle est la technique du « Express Pass » pour vendre du merch en festival ?</p>
+            <div class="quiz-option" data-index="1">Offrir un article gratuit aux 50 premiers arrivés</div>
+            <div class="quiz-option" data-index="2">Faire une vente flash de 10 minutes après le concert</div>
+            <div class="quiz-option" data-index="3">Les acheteurs de merch passent en priorité pour la photo avec les artistes</div>
+            <div class="quiz-option" data-index="4">Proposer un pass VIP payant avec accès backstage</div>
+            <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-question" data-correct="2">
+            <p>2. Pourquoi faut-il choisir un nom éditorial différent de son nom de marque pour la SACEM ?</p>
+            <div class="quiz-option" data-index="1">La SACEM interdit d'utiliser un nom de marque déposé</div>
+            <div class="quiz-option" data-index="2">Un autre éditeur peut déjà avoir un catalogue avec le même nom, créant un doublon</div>
+            <div class="quiz-option" data-index="3">C'est obligatoire pour des raisons fiscales</div>
+            <div class="quiz-option" data-index="4">Le nom de marque ne peut pas contenir de chiffres</div>
+            <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-question" data-correct="1">
+            <p>3. Combien peuvent rapporter les droits SACEM sur une vidéo YouTube de 15 min à 30 000 vues ?</p>
+            <div class="quiz-option" data-index="1">Environ 20 euros par an</div>
+            <div class="quiz-option" data-index="2">Environ 200 euros par an</div>
+            <div class="quiz-option" data-index="3">Environ 2 euros par an</div>
+            <div class="quiz-option" data-index="4">Aucun droit n'est généré sur YouTube</div>
+            <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-question" data-correct="4">
+            <p>4. Quel est le meilleur ordre pour construire sa présence artistique ?</p>
+            <div class="quiz-option" data-index="1">Contenu → Branding → Musique</div>
+            <div class="quiz-option" data-index="2">Musique → Contenu → Branding</div>
+            <div class="quiz-option" data-index="3">Contenu → Musique → Branding</div>
+            <div class="quiz-option" data-index="4">Branding → Contenu → Diffusion</div>
+            <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-question" data-correct="3">
+            <p>5. Pourquoi l'IA ne remplacera-t-elle pas les artistes live selon Tarik ?</p>
+            <div class="quiz-option" data-index="1">Parce que l'IA est trop chère à utiliser en concert</div>
+            <div class="quiz-option" data-index="2">Parce que les lois interdisent les concerts d'IA</div>
+            <div class="quiz-option" data-index="3">Parce que l'émotion humaine et la connexion live sont irremplaçables</div>
+            <div class="quiz-option" data-index="4">Parce que la qualité sonore de l'IA est inférieure</div>
+            <div class="quiz-feedback"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Support de cours généré à partir du Replay Zoom du 18 novembre 2025 (Partie 1)</p>
+        <p><strong>Producteur à Succès</strong> — Formation Music Business par Tarik Hamiche</p>
+    </div>
+</div>
+
+<script>
+window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    document.getElementById('progressBar').style.width = (window.scrollY / h * 100) + '%';
+});
+document.querySelectorAll('.quiz-question').forEach(q => {
+    const correct = parseInt(q.dataset.correct);
+    const fb = q.querySelector('.quiz-feedback');
+    q.querySelectorAll('.quiz-option').forEach(opt => {
+        opt.addEventListener('click', () => {
+            if (q.classList.contains('answered')) return;
+            q.classList.add('answered');
+            const idx = parseInt(opt.dataset.index);
+            if (idx === correct) { opt.classList.add('correct'); fb.textContent = '✅ Bonne réponse !'; fb.className = 'quiz-feedback show success'; }
+            else { opt.classList.add('wrong'); q.querySelector('[data-index="'+correct+'"]').classList.add('correct'); fb.textContent = '❌ Mauvaise réponse. Consultez la bonne réponse en vert.'; fb.className = 'quiz-feedback show error'; }
+        });
+    });
+});
+</script>
+</body>
+</html>

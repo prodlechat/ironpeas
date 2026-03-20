@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Artiste Entrepreneur — Replay Zoom 09.10.25 (Partie 2)</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+html, body { width: 100% !important; max-width: 100% !important; overflow-x: hidden; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: #F8F7FF; color: #1E1B4B; line-height: 1.7; }
+h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+
+/* Progress bar */
+.progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: linear-gradient(90deg, #6C3AED, #A78BFA); z-index: 9999; transition: width 0.2s; width: 0%; }
+
+/* Hero */
+.hero { background: linear-gradient(135deg, #6C3AED 0%, #4C1D95 100%); color: white; padding: 3rem 2rem 2.5rem; text-align: center; }
+.hero .badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 0.3rem 1rem; border-radius: 50px; font-size: 0.85rem; margin-bottom: 1rem; backdrop-filter: blur(4px); }
+.hero h1 { font-size: 2rem; margin-bottom: 0.5rem; line-height: 1.3; }
+.hero .subtitle { font-size: 1.1rem; opacity: 0.9; margin-bottom: 1.5rem; }
+.hero .meta { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; font-size: 0.9rem; opacity: 0.85; }
+.hero .meta span { display: flex; align-items: center; gap: 0.4rem; }
+
+/* Container */
+.container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+/* TOC */
+.toc { background: white; border-radius: 16px; padding: 2rem; margin-bottom: 2.5rem; box-shadow: 0 2px 12px rgba(108,58,237,0.08); }
+.toc h2 { font-size: 1.3rem; margin-bottom: 1rem; color: #6C3AED; }
+.toc ol { list-style: none; counter-reset: toc; }
+.toc li { counter-increment: toc; margin-bottom: 0.6rem; }
+.toc li a { text-decoration: none; color: #4C1D95; display: flex; align-items: center; gap: 0.7rem; padding: 0.4rem 0.6rem; border-radius: 8px; transition: background 0.2s; }
+.toc li a:hover { background: #F3F0FF; }
+.toc li a::before { content: counter(toc); display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: #6C3AED; color: white; border-radius: 50%; font-size: 0.8rem; font-weight: 600; flex-shrink: 0; }
+
+/* Sections */
+.section { background: white; border-radius: 16px; margin-bottom: 2rem; overflow: hidden; box-shadow: 0 2px 12px rgba(108,58,237,0.06); }
+.section-header { padding: 1.5rem 2rem; color: white; display: flex; align-items: center; gap: 1rem; }
+.section-header .num { font-size: 1.8rem; font-weight: 700; opacity: 0.4; }
+.section-header h2 { font-size: 1.3rem; font-weight: 600; }
+.section-body { padding: 2rem; }
+.section-body p { margin-bottom: 1rem; text-align: justify; }
+.section-body h3 { font-size: 1.1rem; color: #4C1D95; margin: 1.5rem 0 0.8rem; padding-bottom: 0.3rem; border-bottom: 2px solid #EDE9FE; }
+
+/* Section colors */
+.sec-1 .section-header { background: linear-gradient(135deg, #6C3AED, #7C3AED); }
+.sec-2 .section-header { background: linear-gradient(135deg, #2563EB, #3B82F6); }
+.sec-3 .section-header { background: linear-gradient(135deg, #059669, #10B981); }
+.sec-4 .section-header { background: linear-gradient(135deg, #D97706, #F59E0B); }
+.sec-5 .section-header { background: linear-gradient(135deg, #DC2626, #EF4444); }
+.sec-6 .section-header { background: linear-gradient(135deg, #7C3AED, #A78BFA); }
+.sec-7 .section-header { background: linear-gradient(135deg, #0891B2, #06B6D4); }
+
+/* Callout boxes */
+.callout { border-radius: 12px; padding: 1.2rem 1.5rem; margin: 1.2rem 0; border-left: 4px solid; }
+.callout .callout-title { font-weight: 600; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem; font-family: 'Space Grotesk', sans-serif; }
+.callout-tip { background: #F0FDF4; border-color: #10B981; }
+.callout-tip .callout-title { color: #059669; }
+.callout-warning { background: #FFFBEB; border-color: #F59E0B; }
+.callout-warning .callout-title { color: #D97706; }
+.callout-danger { background: #FEF2F2; border-color: #EF4444; }
+.callout-danger .callout-title { color: #DC2626; }
+.callout-info { background: #EFF6FF; border-color: #3B82F6; }
+.callout-info .callout-title { color: #2563EB; }
+
+/* Tables */
+table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 1.2rem 0; border-radius: 12px; overflow: hidden; }
+thead th { background: #6C3AED; color: white; padding: 0.8rem 1rem; text-align: left; font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; }
+tbody td { padding: 0.7rem 1rem; border-bottom: 1px solid #EDE9FE; font-size: 0.9rem; }
+tbody tr:nth-child(even) { background: #F8F7FF; }
+tbody tr:last-child td { border-bottom: none; }
+
+/* Cards grid */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1.2rem 0; }
+.card { background: #F8F7FF; border-radius: 12px; padding: 1.2rem; border: 1px solid #EDE9FE; }
+.card .card-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.card h4 { font-size: 0.95rem; color: #4C1D95; margin-bottom: 0.4rem; }
+.card p { font-size: 0.85rem; color: #64748B; margin-bottom: 0; }
+
+/* Accordion */
+details { margin: 1rem 0; border: 1px solid #EDE9FE; border-radius: 10px; overflow: hidden; }
+summary { padding: 1rem 1.2rem; cursor: pointer; font-weight: 600; background: #F8F7FF; font-family: 'Space Grotesk', sans-serif; color: #4C1D95; }
+summary:hover { background: #F3F0FF; }
+details[open] summary { border-bottom: 1px solid #EDE9FE; }
+details .detail-body { padding: 1.2rem; }
+
+/* Quiz */
+.quiz { background: white; border-radius: 16px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 12px rgba(108,58,237,0.08); }
+.quiz h2 { color: #6C3AED; margin-bottom: 1.5rem; text-align: center; }
+.quiz-question { margin-bottom: 1.8rem; }
+.quiz-question p { font-weight: 600; margin-bottom: 0.8rem; font-family: 'Space Grotesk', sans-serif; }
+.quiz-option { display: block; padding: 0.7rem 1rem; margin-bottom: 0.4rem; border: 2px solid #EDE9FE; border-radius: 10px; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; }
+.quiz-option:hover { border-color: #A78BFA; background: #F8F7FF; }
+.quiz-option.correct { border-color: #10B981; background: #F0FDF4; }
+.quiz-option.wrong { border-color: #EF4444; background: #FEF2F2; }
+.quiz-feedback { margin-top: 0.5rem; padding: 0.7rem 1rem; border-radius: 8px; font-size: 0.85rem; display: none; }
+.quiz-feedback.show { display: block; }
+.quiz-feedback.success { background: #F0FDF4; color: #059669; }
+.quiz-feedback.error { background: #FEF2F2; color: #DC2626; }
+
+/* Footer */
+.footer { text-align: center; padding: 2rem; color: #9CA3AF; font-size: 0.85rem; border-top: 1px solid #EDE9FE; margin-top: 2rem; }
+.footer strong { color: #6C3AED; }
+
+/* Print */
+@media print { .progress-bar, .quiz { display: none; } .section { break-inside: avoid; } }
+@media (max-width: 640px) { .hero h1 { font-size: 1.5rem; } .section-body { padding: 1.2rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="hero">
+    <div class="badge">🎤 Replay Zoom Live — 09.10.25 (Partie 2)</div>
+    <h1>L'Artiste Entrepreneur</h1>
+    <p class="subtitle">Comment passer d'artiste passionné à artiste qui vit de sa musique en développant une vraie posture entrepreneuriale</p>
+    <div class="meta">
+        <span>👨‍🏫 Formateur : Tarik Hamiche</span>
+        <span>⏱ Durée : ~2h</span>
+        <span>📅 9 octobre 2025</span>
+    </div>
+</div>
+
+<div class="container">
+    <div class="toc">
+        <h2>📋 Sommaire</h2>
+        <ol>
+            <li><a href="#s1">L'histoire du streaming : du piratage à Spotify</a></li>
+            <li><a href="#s2">L'IA et l'industrie musicale : menaces et enjeux</a></li>
+            <li><a href="#s3">L'identité artistique et le personal branding</a></li>
+            <li><a href="#s4">Créer du contenu et bâtir sa communauté</a></li>
+            <li><a href="#s5">L'argent : nerf de la guerre musicale</a></li>
+            <li><a href="#s6">L'indépendance et les licences d'exploitation</a></li>
+            <li><a href="#s7">Acquisition de fans et lead magnets</a></li>
+        </ol>
+    </div>
+
+    <!-- SECTION 1 -->
+    <div class="section sec-1" id="s1">
+        <div class="section-header">
+            <span class="num">01</span>
+            <h2>L'histoire du streaming : du piratage à Spotify</h2>
+        </div>
+        <div class="section-body">
+            <p>L'industrie musicale a connu un séisme majeur avec l'avènement du piratage numérique. Dans les années 2000, des plateformes comme The Pirate Bay ont mis à genoux les majors, et en particulier Sony Music qui a engagé des poursuites judiciaires massives. Malgré les procès et les pressions, le piratage informatique s'est avéré impossible à enrayer par la force.</p>
+
+            <div class="callout callout-info">
+                <div class="callout-title">💡 Le saviez-vous ?</div>
+                <p>C'est en Suède, le même pays qui hébergeait The Pirate Bay, qu'est née la solution : Daniel Ek, associé à l'investisseur Martin Lorentzon, a fondé Spotify en partant d'un principe simple — proposer une belle plateforme gratuite financée par la pub plutôt que de combattre le piratage.</p>
+            </div>
+
+            <p>La vision de Daniel Ek reposait sur l'idée qu'on ne peut pas arrêter le piratage, mais qu'on peut offrir une expérience utilisateur tellement agréable et accessible que les gens préféreront utiliser une plateforme légale. En restant gratuit avec un modèle publicitaire, Spotify permettait de rémunérer les artistes, les labels et les ayants droit tout en détournant les consommateurs des plateformes illégales.</p>
+
+            <h3>YouTube : la vitrine mondiale inattendue</h3>
+            <p>Parallèlement, YouTube est apparu comme une application web destinée à l'origine aux particuliers souhaitant partager leurs vidéos de vacances. À l'époque, sans la fibre optique ni les moteurs de compression actuels, uploader une vidéo relevait du parcours du combattant. YouTube a résolu ce problème. Les artistes ont immédiatement compris le potentiel : là où il fallait auparavant passer sur MTV ou M6 Musique pour être vu, n'importe qui pouvait désormais offrir ses clips au monde entier.</p>
+
+            <table>
+                <thead><tr><th>Époque</th><th>Mode de diffusion</th><th>Accessibilité</th></tr></thead>
+                <tbody>
+                    <tr><td>Avant 2005</td><td>MTV, M6 Musique, radio</td><td>Réservé aux signés en major</td></tr>
+                    <tr><td>2005-2010</td><td>YouTube, MySpace</td><td>Ouvert à tous, mais qualité limitée</td></tr>
+                    <tr><td>2010-2020</td><td>Spotify, Apple Music, Deezer</td><td>Distribution digitale accessible</td></tr>
+                    <tr><td>2020+</td><td>Multi-plateformes + réseaux sociaux</td><td>Démocratisation totale</td></tr>
+                </tbody>
+            </table>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ À retenir</div>
+                <p>La révolution du streaming n'a pas tué la musique — elle a redistribué les cartes. L'artiste qui comprend les mécanismes des plateformes et développe une vraie stratégie digitale possède aujourd'hui un avantage considérable sur ceux qui attendent qu'on vienne les chercher.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="section sec-2" id="s2">
+        <div class="section-header">
+            <span class="num">02</span>
+            <h2>L'IA et l'industrie musicale : menaces et enjeux</h2>
+        </div>
+        <div class="section-body">
+            <p>La démocratisation des outils de création musicale a apporté son lot d'avantages — n'importe qui peut désormais produire des morceaux complets en quelques minutes. Mais cette accessibilité a aussi engendré des abus massifs, notamment une surabondance de morceaux générés par intelligence artificielle qui viennent prendre des parts de marché aux créations humaines.</p>
+
+            <div class="callout callout-danger">
+                <div class="callout-title">🚨 Chiffre alarmant</div>
+                <p>Spotify a annoncé avoir supprimé plus de 75 millions de morceaux frauduleux générés par IA. Des individus qui n'ont jamais fait de musique utilisent des outils comme Suno et Udio pour inonder les plateformes de streaming avec des contenus artificiels.</p>
+            </div>
+
+            <p>L'enjeu majeur pour la filière musicale et les plateformes de streaming n'est plus simplement de limiter le flux de nouveautés quotidiennes — c'est de distinguer et limiter les morceaux qui ne sont pas des créations humaines. Car ces contenus artificiels faussent les algorithmes de recommandation, diluent les revenus des vrais artistes et perturbent l'ensemble de l'écosystème.</p>
+
+            <h3>Comment les plateformes réagissent</h3>
+            <p>Les DSP (Digital Service Providers) mettent en place des systèmes de détection de plus en plus sophistiqués. Spotify, Deezer et Apple Music travaillent activement à identifier et supprimer les contenus 100% générés par IA sans intervention humaine créative. La tendance est claire : la création humaine authentique sera de plus en plus valorisée et protégée.</p>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ À retenir</div>
+                <p>L'IA est un outil formidable quand elle assiste la création humaine, mais elle devient un problème quand elle la remplace. Votre authenticité en tant qu'artiste humain est votre plus grande force dans ce nouvel environnement.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="section sec-3" id="s3">
+        <div class="section-header">
+            <span class="num">03</span>
+            <h2>L'identité artistique et le personal branding</h2>
+        </div>
+        <div class="section-body">
+            <p>L'un des piliers fondamentaux de la réussite d'un artiste entrepreneur est sa capacité à construire une identité artistique cohérente et mémorable. Ce n'est pas seulement une question de musique — c'est un univers complet qui englobe l'esthétique visuelle, la posture, les valeurs et la manière de communiquer.</p>
+
+            <h3>Exemples d'identités artistiques fortes</h3>
+            <div class="cards">
+                <div class="card">
+                    <div class="card-icon">🖤</div>
+                    <h4>L'artiste sombre et mystérieux</h4>
+                    <p>Habillé de cuir noir, maquillage rappelant l'univers du métal. Il laisse exister des légendes autour de lui qui rendent sa communauté captive. Son identité cohérente fait vendre sa musique massivement.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎩</div>
+                    <h4>Stromae : l'élégance géométrique</h4>
+                    <p>Costumes bien structurés, asymétrie visuelle, références à l'Afrique avec les tissus wax. Humble, engagé mais jamais donneur de leçons. Il assume ses origines sans les renier ni les sur-jouer.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎯</div>
+                    <h4>Le principe de cohérence</h4>
+                    <p>Chaque élément de votre image doit raconter la même histoire : clips, photos, tenue vestimentaire, ton de communication, choix des collaborations. Tout doit être aligné.</p>
+                </div>
+            </div>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">⚠️ Attention</div>
+                <p>L'identité artistique ne signifie pas jouer un personnage faux. Il s'agit d'amplifier ce qui vous rend unique et authentique, pas de créer un masque. Les artistes qui durent sont ceux dont le personnage public est une extension naturelle de qui ils sont vraiment.</p>
+            </div>
+
+            <p>La clé est la cohérence : votre identité visuelle, votre son, votre discours et votre posture doivent former un tout harmonieux. Les fans ne s'attachent pas seulement à la musique — ils adhèrent à un univers, une histoire, des valeurs. Plus cet univers est fort et distinctif, plus votre communauté sera fidèle et engagée.</p>
+        </div>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="section sec-4" id="s4">
+        <div class="section-header">
+            <span class="num">04</span>
+            <h2>Créer du contenu et bâtir sa communauté</h2>
+        </div>
+        <div class="section-body">
+            <p>Les artistes qui percent aujourd'hui ne sont plus ceux qui attendent d'être repérés — ce sont ceux qui ont compris que les réseaux sociaux ne sont pas une option mais un levier stratégique. Il ne s'agit pas de poster pour poster, mais de nourrir sa communauté avec méthode, en comprenant le fonctionnement des algorithmes et des plateformes.</p>
+
+            <div class="callout callout-info">
+                <div class="callout-title">💡 Insight formation</div>
+                <p>Lors de sessions de formation internes chez YouTube, Instagram et Spotify, un constat revient de plus en plus fort chaque année : les artistes qui percent sont ceux qui ont nourri leur communauté avant même de leur demander d'écouter leur musique.</p>
+            </div>
+
+            <h3>La stratégie en 3 temps</h3>
+            <table>
+                <thead><tr><th>Étape</th><th>Objectif</th><th>Actions concrètes</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>1. Capter</strong></td><td>Attirer l'attention</td><td>Contenus courts et percutants (Reels, TikTok, Shorts) qui montrent votre univers</td></tr>
+                    <tr><td><strong>2. Nourrir</strong></td><td>Créer du lien</td><td>Contenu de valeur régulier (behind the scenes, processus créatif, partage humain)</td></tr>
+                    <tr><td><strong>3. Convertir</strong></td><td>Monétiser la relation</td><td>Demander l'écoute, la commande, le stream — une fois la confiance installée</td></tr>
+                </tbody>
+            </table>
+
+            <p>L'erreur la plus fréquente est de sauter directement à l'étape 3 en demandant aux gens d'écouter sa musique sans avoir d'abord capté leur attention et nourri la relation. Quand vous avez des centaines de milliers voire des millions de personnes autour de vous, il n'y a qu'un pas pour leur demander d'écouter votre musique, de la streamer, de la partager.</p>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ Règle d'or</div>
+                <p>Donnez avant de demander. Nourrissez votre communauté avec du contenu authentique et de valeur. La musique viendra naturellement ensuite, portée par une audience qui vous connaît, vous apprécie et vous fait confiance.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="section sec-5" id="s5">
+        <div class="section-header">
+            <span class="num">05</span>
+            <h2>L'argent : nerf de la guerre musicale</h2>
+        </div>
+        <div class="section-body">
+            <p>L'expression « l'argent est le nerf de la guerre » nous vient de Cicéron, homme politique romain en 43 avant J.-C., qui disait <em>« pecunia nervus belli »</em>. La métaphore est anatomique : les nerfs transmettent l'énergie et permettent au corps de bouger. Sans nerfs, le corps ne bouge pas. Sans argent, la guerre — ou la carrière musicale — ne se fait pas.</p>
+
+            <h3>Les sources de revenus de l'artiste entrepreneur</h3>
+            <div class="cards">
+                <div class="card">
+                    <div class="card-icon">🎵</div>
+                    <h4>1. Streaming & ventes</h4>
+                    <p>Les revenus de Spotify, Apple Music, Deezer et autres DSP constituent la base. Mais attention : le streaming seul ne suffit généralement pas à vivre.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎤</div>
+                    <h4>2. Booking & concerts</h4>
+                    <p>Le live reste l'une des sources les plus lucratives. La formation détaille les stratégies pour décrocher ses premières dates et négocier ses cachets.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📹</div>
+                    <h4>3. Monétisation YouTube</h4>
+                    <p>Activable dès 1 000 abonnés et 4 000 heures de visionnage. L'artiste touche 50% des revenus publicitaires sur tous ses contenus.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">👕</div>
+                    <h4>4. Merch & produits dérivés</h4>
+                    <p>T-shirts, casquettes, vinyles collectors... Les artistes qui réussissent portent eux-mêmes leurs produits — ils sont leur meilleure égérie de marque.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📝</div>
+                    <h4>5. Droits d'auteur & édition</h4>
+                    <p>SACEM, droits voisins (ADAMI, SPEDIDAM), synchros publicitaires... Des revenus récurrents qui s'accumulent dans le temps.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🤝</div>
+                    <h4>6. Licences d'exploitation</h4>
+                    <p>Concéder ses masters à des labels plus gros pour une durée et un territoire limités. Revenus récurrents pendant des années.</p>
+                </div>
+            </div>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">⚠️ Conseil crucial : le merch</div>
+                <p>Trop d'artistes — même de gros artistes — ont des produits dérivés mais ne les portent jamais. Vous êtes votre meilleure égérie ! Plus vous portez vos t-shirts et casquettes en interview, dans vos clips et sur vos réseaux sociaux, plus les gens voudront les commander.</p>
+            </div>
+
+            <details>
+                <summary>💡 La stratégie de rareté pour le merch</summary>
+                <div class="detail-body">
+                    <p>Produisez des éditions collector en quantité limitée ou disponibles pendant un court laps de temps. La rareté crée le désir et l'urgence d'achat. L'exemple de la boulangerie qui fait un pain spécial uniquement le samedi et pour lequel les gens font la queue illustre parfaitement ce principe : si c'est rare, c'est désirable.</p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="section sec-6" id="s6">
+        <div class="section-header">
+            <span class="num">06</span>
+            <h2>L'indépendance et les licences d'exploitation</h2>
+        </div>
+        <div class="section-body">
+            <p>L'une des stratégies les plus puissantes pour un artiste ou un label indépendant est de rester « master owner » — c'est-à-dire propriétaire de ses enregistrements — tout en concédant des licences d'exploitation à des structures plus importantes pour accélérer son développement.</p>
+
+            <h3>Le modèle de la licence vs la cession</h3>
+            <table>
+                <thead><tr><th>Critère</th><th>Licence d'exploitation</th><th>Contrat de cession (major)</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Propriété des masters</strong></td><td>Vous restez propriétaire</td><td>La major devient propriétaire</td></tr>
+                    <tr><td><strong>Durée</strong></td><td>Limitée (3-7 ans typiquement)</td><td>Souvent perpétuelle ou très longue</td></tr>
+                    <tr><td><strong>Territoire</strong></td><td>Limité (par pays/région)</td><td>Mondial le plus souvent</td></tr>
+                    <tr><td><strong>Contrôle créatif</strong></td><td>Total</td><td>Soumis à validation du label</td></tr>
+                    <tr><td><strong>Revenus récurrents</strong></td><td>Oui, pendant toute la durée</td><td>Avance récupérable, puis royalties</td></tr>
+                    <tr><td><strong>À l'expiration</strong></td><td>Les droits vous reviennent</td><td>Les masters restent chez la major</td></tr>
+                </tbody>
+            </table>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ L'expérience de Tarik</div>
+                <p>En signant des licences d'exploitation avec différentes structures pour des durées et territoires limités, Tarik a pu rentrer dans ses frais dès la signature, tout en conservant la propriété de ses masters. Quand un projet devient un succès, les revenus récurrents se cumulent pendant des années. Même aujourd'hui, des projets signés il y a plusieurs années continuent de générer des revenus.</p>
+            </div>
+
+            <p>L'avantage majeur de ce modèle : quand vous arrivez en négociation avec un label ou une major en ayant déjà un volume d'affaires conséquent (par exemple plus de 500 000 euros de chiffre d'affaires en indépendant), les propositions à 100 000 euros qu'on vous présente comme extraordinaires ne vous impressionnent plus. Vous négociez en position de force, parce que vous n'avez besoin de personne — vous choisissez vos partenaires.</p>
+
+            <div class="callout callout-danger">
+                <div class="callout-title">🚨 Erreur à éviter</div>
+                <p>Ne cédez jamais vos masters sous la pression ou par impatience. La propriété de vos enregistrements est votre capital le plus précieux à long terme. Mieux vaut construire lentement en indépendant que de tout céder pour un chèque rapide.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 7 -->
+    <div class="section sec-7" id="s7">
+        <div class="section-header">
+            <span class="num">07</span>
+            <h2>Acquisition de fans et lead magnets</h2>
+        </div>
+        <div class="section-body">
+            <p>La dernière compétence entrepreneuriale clé de l'artiste moderne est sa capacité à sortir ses fans du bruit des réseaux sociaux pour les amener dans un espace privé où la relation est directe et non soumise aux algorithmes. C'est le principe du « lead magnet » appliqué à la musique.</p>
+
+            <h3>Le concept du lead magnet musical</h3>
+            <p>Un lead magnet est un contenu de valeur offert gratuitement en échange des coordonnées de contact (email, WhatsApp, etc.) de votre audience. En musique, cela peut prendre plusieurs formes.</p>
+
+            <div class="cards">
+                <div class="card">
+                    <div class="card-icon">🎹</div>
+                    <h4>Sessions exclusives</h4>
+                    <p>Offrir des sessions de production, des stems ou des fichiers projet en échange de l'inscription à votre liste. Apport de valeur massif pour une cible de producteurs.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔒</div>
+                    <h4>Groupes privés</h4>
+                    <p>Créer un espace (WhatsApp, Discord, Telegram) où vos fans accèdent à du contenu exclusif. Vous sortez du bruit et êtes en contact direct avec votre communauté.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📧</div>
+                    <h4>Liste email</h4>
+                    <p>L'email reste le canal le plus puissant : vous possédez votre liste, aucun algorithme ne filtre vos messages, et les taux d'engagement sont bien supérieurs aux réseaux sociaux.</p>
+                </div>
+            </div>
+
+            <div class="callout callout-info">
+                <div class="callout-title">💡 Pourquoi sortir du bruit ?</div>
+                <p>Sur YouTube, Instagram ou TikTok, vous êtes en concurrence permanente avec des millions de créateurs. Quand quelqu'un rejoint votre groupe privé ou votre liste email, la concurrence disparaît : vous êtes en communication directe. C'est la différence entre crier dans un stade bondé et parler dans un salon avec vos vrais fans.</p>
+            </div>
+
+            <h3>Le mémo-type pour les collaborations</h3>
+            <p>Quand vous travaillez avec un producteur, beatmaker ou autre collaborateur, un mémo-type (résumé de contrat sur deux pages reprenant les points clés essentiels) est souvent plus adapté qu'un contrat complet. Il cadre la collaboration de manière claire et professionnelle sans la lourdeur administrative d'un contrat long.</p>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">✅ À retenir</div>
+                <p>Construisez votre liste email et vos espaces privés dès maintenant. N'attendez pas d'avoir des millions de followers — commencez avec 100 vrais fans engagés. Ce sont eux qui achèteront votre musique, votre merch et vos places de concert.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz">
+        <h2>🧠 Quiz — Testez vos connaissances</h2>
+
+        <div class="quiz-question" data-correct="2">
+            <p>1. Qui a fondé Spotify et quelle était sa vision initiale ?</p>
+            <div class="quiz-option" data-index="1">Steve Jobs — créer un iTunes en streaming</div>
+            <div class="quiz-option" data-index="2">Daniel Ek — proposer une plateforme gratuite et agréable pour détourner les gens du piratage</div>
+            <div class="quiz-option" data-index="3">Mark Zuckerberg — intégrer la musique dans Facebook</div>
+            <div class="quiz-option" data-index="4">Sean Parker — transformer Napster en service légal</div>
+            <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-question" data-correct="3">
+            <p>2. Combien de morceaux frauduleux générés par IA Spotify a-t-il supprimé ?</p>
+            <div class="quiz-option" data-index="1">5 millions</div>
+            <div class="quiz-option" data-index="2">25 millions</div>
+            <div class="quiz-option" data-index="3">Plus de 75 millions</div>
+            <div class="quiz-option" data-index="4">150 millions</div>
+            <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-question" data-correct="1">
+            <p>3. Quel est l'avantage principal d'une licence d'exploitation par rapport à un contrat de cession ?</p>
+            <div class="quiz-option" data-index="1">Vous restez propriétaire de vos masters et récupérez vos droits à l'expiration</div>
+            <div class="quiz-option" data-index="2">Vous recevez une avance plus importante</div>
+            <div class="quiz-option" data-index="3">La major s'occupe de toute votre communication</div>
+            <div class="quiz-option" data-index="4">Vous avez accès aux studios de la major gratuitement</div>
+            <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-question" data-correct="2">
+            <p>4. À partir de quels seuils peut-on activer la monétisation YouTube ?</p>
+            <div class="quiz-option" data-index="1">500 abonnés et 2 000 heures de visionnage</div>
+            <div class="quiz-option" data-index="2">1 000 abonnés et 4 000 heures de visionnage</div>
+            <div class="quiz-option" data-index="3">5 000 abonnés et 10 000 heures de visionnage</div>
+            <div class="quiz-option" data-index="4">10 000 abonnés et 20 000 heures de visionnage</div>
+            <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-question" data-correct="3">
+            <p>5. Pourquoi est-il essentiel de "sortir ses fans du bruit" vers un espace privé ?</p>
+            <div class="quiz-option" data-index="1">Pour éviter les commentaires négatifs sur les réseaux sociaux</div>
+            <div class="quiz-option" data-index="2">Parce que les réseaux sociaux vont bientôt disparaître</div>
+            <div class="quiz-option" data-index="3">Pour communiquer directement sans être soumis aux algorithmes et à la concurrence</div>
+            <div class="quiz-option" data-index="4">Parce que les groupes privés sont plus faciles à gérer</div>
+            <div class="quiz-feedback"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Support de cours généré à partir du Replay Zoom du 9 octobre 2025 (Partie 2)</p>
+        <p><strong>Producteur à Succès</strong> — Formation Music Business par Tarik Hamiche</p>
+    </div>
+</div>
+
+<script>
+// Progress bar
+window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    document.getElementById('progressBar').style.width = (window.scrollY / h * 100) + '%';
+});
+
+// Quiz
+document.querySelectorAll('.quiz-question').forEach(q => {
+    const correct = parseInt(q.dataset.correct);
+    const fb = q.querySelector('.quiz-feedback');
+    q.querySelectorAll('.quiz-option').forEach(opt => {
+        opt.addEventListener('click', () => {
+            if (q.classList.contains('answered')) return;
+            q.classList.add('answered');
+            const idx = parseInt(opt.dataset.index);
+            if (idx === correct) {
+                opt.classList.add('correct');
+                fb.textContent = '✅ Bonne réponse !';
+                fb.className = 'quiz-feedback show success';
+            } else {
+                opt.classList.add('wrong');
+                q.querySelector('[data-index="' + correct + '"]').classList.add('correct');
+                fb.textContent = '❌ Mauvaise réponse. Consultez la bonne réponse en vert.';
+                fb.className = 'quiz-feedback show error';
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>

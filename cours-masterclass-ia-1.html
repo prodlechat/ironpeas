@@ -6,6 +6,98 @@
     <title>Replay MasterClass IA #1 — Producteur à Succès</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* LOGIN GATE */
+        .login-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, #6C3AED 0%, #4C1D95 50%, #2E1065 100%);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+        .login-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .login-box {
+            background: white;
+            border-radius: 20px;
+            padding: 48px 40px;
+            max-width: 440px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .login-box .logo-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #6C3AED;
+            margin-bottom: 8px;
+        }
+        .login-box h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.6rem;
+            color: #1F2937;
+            margin-bottom: 8px;
+        }
+        .login-box .login-sub {
+            color: #6B7280;
+            font-size: 0.95rem;
+            margin-bottom: 28px;
+        }
+        .login-box input[type="email"] {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border-color 0.2s;
+            margin-bottom: 16px;
+        }
+        .login-box input[type="email"]:focus {
+            border-color: #6C3AED;
+        }
+        .login-box input[type="email"].error {
+            border-color: #EF4444;
+            animation: shake 0.4s;
+        }
+        .login-box button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #6C3AED, #4C1D95);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .login-box button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(108, 58, 237, 0.4);
+        }
+        .login-error {
+            color: #EF4444;
+            font-size: 0.9rem;
+            margin-top: 12px;
+            min-height: 20px;
+        }
+        .content-locked { display: none; }
+        .content-locked.unlocked { display: block; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
         :root {
             --primary: #6C3AED;
             --primary-light: #EDE9FE;
@@ -281,6 +373,58 @@
         details[open] summary::before { transform: rotate(90deg); }
         details .details-body { padding: 0 20px 16px; font-size: 0.93rem; color: var(--gray-600); }
 
+        /* Checklist */
+        .checklist {
+            margin: 20px 0;
+            padding: 24px;
+            background: linear-gradient(135deg, var(--primary-light), #F5F3FF);
+            border-radius: 14px;
+            border: 1px solid #DDD6FE;
+        }
+        .checklist h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .checklist label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 14px;
+            margin: 6px 0;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.93rem;
+            line-height: 1.5;
+        }
+        .checklist label:hover { box-shadow: 0 2px 8px rgba(108,58,237,0.12); }
+        .checklist input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary);
+            flex-shrink: 0;
+            margin-top: 2px;
+            cursor: pointer;
+        }
+        .checklist label.checked {
+            background: var(--success-light);
+            text-decoration: line-through;
+            color: var(--gray-600);
+        }
+        .checklist .progress-text {
+            text-align: right;
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-top: 12px;
+        }
+
         /* Quiz */
         .quiz-card {
             background: white;
@@ -353,6 +497,22 @@
     </style>
 </head>
 <body>
+
+<!-- LOGIN GATE -->
+<div class="login-overlay" id="loginOverlay">
+    <div class="login-box">
+        <div class="logo-text">Producteur a Succes</div>
+        <h2>MasterClass IA #1</h2>
+        <p class="login-sub">Entrez l'adresse e-mail utilisee lors de votre inscription pour acceder au support de cours.</p>
+        <form id="loginForm" onsubmit="return handleLogin(event)">
+            <input type="email" id="emailInput" placeholder="votre@email.com" autocomplete="email" required>
+            <button type="submit">Acceder au cours</button>
+        </form>
+        <div class="login-error" id="loginError"></div>
+    </div>
+</div>
+
+<div class="content-locked" id="mainContent">
 
 <div class="progress-bar" id="progressBar"></div>
 
@@ -525,6 +685,26 @@
                 <p>Wikidata est la plus grosse base de données partagée utilisée pour entraîner les grands modèles de langage. C'est un système contributif similaire à Wikipédia. Vous ne pouvez pas y arriver et créer directement votre biographie — il faut d'abord contribuer à la communauté (principe du « give first »). Traitez des sujets liés au music business, apportez des sources, participez aux vérifications. Progressivement, vous gagnerez en crédibilité et pourrez associer votre nom à vos mots-clés.</p>
             </div>
         </details>
+
+        <div class="checklist" id="geoChecklist">
+            <h3>📋 Checklist GEO — Actions essentielles</h3>
+
+            <label><input type="checkbox" onchange="updateChecklist(this)"> Creer un site web avec un nom de domaine propre (votrenom.com ou votrenom.art)</label>
+            <label><input type="checkbox" onchange="updateChecklist(this)"> Ajouter une section blog au site avec au moins 10 articles cibles sur vos mots-cles principaux</label>
+            <label><input type="checkbox" onchange="updateChecklist(this)"> Integrer une FAQ complete sur votre site (les IA adorent les FAQ)</label>
+            <label><input type="checkbox" onchange="updateChecklist(this)"> Optimiser les balises meta, les donnees structurees et le schema markup du site</label>
+            <label><input type="checkbox" onchange="updateChecklist(this)"> Publier regulierement des posts LinkedIn (articles + posts courts) lies a vos mots-cles</label>
+            <label><input type="checkbox" onchange="updateChecklist(this)"> Optimiser les descriptions de chaque post Instagram avec des mots-cles SEO/GEO</label>
+            <label><input type="checkbox" onchange="updateChecklist(this)"> Contribuer a Wikidata sur des sujets lies a votre domaine musical (give first)</label>
+            <label><input type="checkbox" onchange="updateChecklist(this)"> Creer ou enrichir votre page Wikipedia / Wikidata avec des sources verifiables</label>
+            <label><input type="checkbox" onchange="updateChecklist(this)"> Participer activement sur Reddit (r/WeAreTheMusicMakers, r/MusicIndustry) en apportant de la valeur</label>
+            <label><input type="checkbox" onchange="updateChecklist(this)"> Relier votre nom d'artiste / producteur a vos mots-cles sur un maximum de plateformes textuelles</label>
+            <label><input type="checkbox" onchange="updateChecklist(this)"> Creer un podcast (audio ou video) sur Spotify pour multiplier les points d'entree textuels</label>
+            <label><input type="checkbox" onchange="updateChecklist(this)"> Verifier regulierement votre presence en demandant aux IA (ChatGPT, Gemini, Claude, Perplexity) de vous recommander</label>
+
+            <div class="progress-text" id="checklistProgress">0 / 12 actions completees</div>
+        </div>
+
     </div>
 </div>
 
@@ -903,7 +1083,163 @@
 
 </div>
 
+</div><!-- end mainContent -->
+
 <script>
+// Authorized email hashes (SHA-256)
+const AUTHORIZED_HASHES = new Set([
+"ef0db92bf4a38b548dcf0c0fe92edcfa8f29ce1d58067681613fe4c1bb95def6",
+"fa6dd1f5e63d7b7d8552a95675aba11280b37ea34b19908dc54446a3be23f215",
+"8c767b591dcea0778a8d705aaa32207ee9554560410aac78a5979bd06603a7bd",
+"0c25566d39a1aa57d1529e4ceebb2434165c691d985ea77d8953fc6288d25f79",
+"c5d9f7e6859fa054a46b6908b5bd11fd66feef2e6497ac780b78192e8a240d72",
+"fa12f9def70fb095e343486fea25be406e0c774675878038f0c7105e4b54fd19",
+"96a31c57c3ea8b58f2c83425436e29eb9c7cb562bff440548db977d1fed36eb4",
+"32cd0639682b768319c96ea02ab7c9bf7bde737c921c860f81aa1975fbfa9352",
+"62a4055a83ca31c22856b0bfe59936257f4344076ab979931858d73076fdf7e6",
+"8a7f517c56fdbb082f1e917fa1600ec3fa89f2993e65582e8a073ee7261ed8f1",
+"623afb55ee91c83f6f0d5b1410ed17162e329464fe96ceb71480cebd4d7c2574",
+"5c52c5d8040ff11a5214a1dffefa10ee9d1d2e8e2fc9327ab8385550d717993b",
+"5a366ad1659c688a48654ef4f66d375c767abc090204dd83dfcd90fef795b3df",
+"46c596587ee635c72b048df2008c8cc77668c745b9e58099bfee1b3b64149dc9",
+"9b7709d2bfb83044c03471403cf8a80c4f7ffbe61727dc6cfca1e2f28020ea18",
+"d48b7b743bcd37fcd12be2e4713e74fd648472f07d9f896b38a21af8999ffdc9",
+"d53051e0d3322c4a323685656cf847dac380e5cc3acedcafdd94e504986b2491",
+"9d0cf141e0b499b08fc34fa19bf6fff921c35adad4c458fc6d1780e33cbbe225",
+"e6d38122e13697ac49e7abb0bdfda3f63df1ccc14fa2ec39eb124c5d801b2d06",
+"38ed41c6186ef9f0021ba1a462fbe9365b8ec7767338bb3bb83bde09a35aa08c",
+"b761ebaffd5160937508ae36b76a2e13e61e98b0737ebb72ba4f858c6c769cc6",
+"bee8990019803adc92b35379a2326e9d532a7c5254650a4dca18391c4e1b78f1",
+"cb36cbe0b9236684227977ac994a4a25458cb4581e7ee0b4100be6e80f044289",
+"903aab26d4117dd7983f4306c27fe22122c9d90068d30f901d6207da2462e524",
+"7f5d6d37256ec0d716f9ed2252c74c9b188380eacff486c18b9136b7e133cb2b",
+"334979aa9ed70de8c1054ec6238a7d8a5b59174bed480e1d6af23f62cf4a0e7e",
+"2f90d205b1bdb3aa91747399277887e4848d19d2b751782a0ff9e8af43e2249f",
+"9e4f0d940f24402472f0b9cad37dcba83d62dbd83f4a602effdba7ee7a4d28e2",
+"3cc3134be97e0a8e1eb90f08f482de745e730155134572f046bda8df09428b21",
+"62a1a2203563e88ed04e575508c66d390f2e506ab6298e9a1ce6210dc0a81837",
+"4dd08c16b6b4fbd24831d498696f36cb898eee0c090276329b61adc9e46e739f",
+"31ab1f503d0fcbf9aecd835fba1f585d47e0a59f231f0673e99c36932436adf7",
+"c196aedb3870cb55e4e21e801b3f60e9244843fafee26929070da8db57a1e6d3",
+"b1a4752ee398ecab8ba3bd27aa2606163fbd1daeadc6843561651e07adf53722",
+"35a10aad92c1a9789e261058ff0c72997e392fb3d83618b81d77d4e2bf837544",
+"8546817599d5de864204c66b66642803f30efa8bfe6f73bcc6040200b2d3dd2c",
+"e4c3b9f9f4aaf31f823219505252cdd6adb4fe8b6488dfdcc3ab6d13cefcbf9e",
+"dc00866a87c2df741c2dd7551e199cb68a84513290a84eda887e4d05f72b9c6a",
+"6fbac27e3deb07877a837fdc1959a642ab8de9decd8e0b353a44cbeca02f0124",
+"bef7c562be537a51b7105583866d7642ec40a9eac206ca3549428b8191ccf52f",
+"974e39e5e3c82e2383ea08ff45b73a0be0b567cc8bc08983584cd20156c7fadf",
+"5af2a4175934c9606b1a190c537e738e3a9bd7ff602b325baf8dcfd97435c8ae",
+"7cddfe98f906ec330e45e42a115f65483f8db2a27c8bd890de4b88ecf9366b26",
+"4cf798ced98a658257fe1b98a7bd2542d122824435dcfa80352798da439e02f6",
+"aa3ac1e26b83352809c362ae8919235b02d2fe83b4e0f3901f9abaa2a9cf88af",
+"dfc7b08a484e825235aa75f6425975169c7cb2b513e5ea3ed3c1f62962be1633",
+"519d286584331183b5e6cd0832aa0eeb778906e5a2fdfd329eb6bea6328b05de",
+"c0a4bef81b58794647d9e337e213bf702a37679fd0309f0effbf7a605160b5b5",
+"6824f52bb6897bc6b8df61db352637df9bbdddbbcf5de5d5d79a35468971d834",
+"d791a3684a0f0597f05aac2fa786d8045613367c84b903e658ac8a7034d8f63f",
+"81e4b2402d5e9016485743b9c1daae80797be22f520fe2d89b7c5b36af30c538",
+"57c638e169a2bb9abee7a01ce636f4e629df860eb606bae36af4dd5439cac69e",
+"a04245ccc31f677ae3318ea8019b6309c10866f93a1e641d81c3cd465c90c078",
+"8017eb165d160cf78c19f054169231e99a49dcd37952c28b5cb9be12b636b7ae",
+"2236842bc39155d866989ed5b4b00c962b2abf54deebe9be3587d84703cfdc04",
+"98ba45c2e61f94820f50cd8176f0f3b892997794d770bd4d09118be211790542",
+"1ab57a1c72413cc4b220399b69d13f6679611527f1bdd5c37b8e993211a23ce9",
+"d73ccda064b99dc4d4b493c1dafbfe59504d934d258a8f9a3de392821260e704",
+"eb5e709b6a59f7ce0636d11dc0b327ba43a0940bda428cdabf62b72470e1734f",
+"32c59f3808c8c0802b7c6305ff38c504742abf255b64e6e2e661641b572b8019",
+"fed0c34498a09497e9102c02f455d453b89e928c83c0fc2a97d55b2d36e77804",
+"74a6b5ca7a7bf593b503711b23130ec2cfcbc2184231438a09f991189607becd",
+"85a970c67f224d9cfb84fadf62b7e3fc47c956e5fbb2f6768afeee2a41d4ba8c",
+"49a1b413fd796dd65ce71f01a6a67becb63e31948efc0e78c4dad08f44b55d28",
+"60f7b7f0568b6503657d25d0519ef0b274478cb28a87d053b2a20f56d4259c55",
+"3d7a245e306ac61c168a443d5a21c85b1e32f3b4a6d7f8d4f189f74ea3f123b0",
+"1cba743ede322dd689050ab56bf56cbb2cdd28962d832fe478093eeca9c8e6cf",
+"643b4f9177b8c458c32166132d3b90f6e0dabc7ad198f6350d7704fde48a5db1",
+"7f1d0fa3ef209225a1fe7d0377444a85cd3788cef434e694db6cd86c5b0b8f66",
+"206d948d282a6c33ed9679ef3f84f37f0b1f6fab76be72627af38bb3e409c010",
+"3fa201e93f58634daa7cc011e5fde2c044e1567c9038b2ca381ac3895591c6fa",
+"c3d9d46423669d001e724d4c673c0c149c263fd7c3e8d11208aad0b6c8d77277",
+"16b928732a737c8ae2ebb8e92d374055c40d3c8c973b3087040ed0278d168d56",
+"012a2c2cb9600a8cb9b84cb71bebe8e037328db3f6547691733d45c0801307e9",
+"b207ca23698d113366e3ddbba30a104a66050a09080d9cf7abc5f5e74e85ae2a",
+"ce75452360a376d0154a68bc8a6dc7678627422c30ca8189a102a263d6750805",
+"d6f9338e957e6ec7622a00787dc3ce9e6b0494836ef15e0d8eba170a8d546b58",
+"4fc66df377a47be51131e11e13cea861be2bc4e980bd5a5a4bbc755e72cbeb2b",
+"2f4984d7f2a3c19a25076ac9bc5abab2878552b6c8e9ad57fa77e8e2717d40f1",
+"ff034f60ec6777e33d71ebafd32c6469bc7cd17a2edde5249ab3ac273039ad32",
+"d311a6ccdba0eb97fdd5976e1559bd9927ae7075b984fdecc69b66dc46995139",
+"63e74f88e9ac98703fee88e791f2ac642d85e3a9805ffe7af5b8496136e293e8",
+"96d220f5b97af0318fab90145caac420e98ab22607d3c9d580ef098de8ffa0db",
+"ff26146a9bb6e372054c62e884d2b14a6d5ad0d578915700ccbf1c3348c94ea2",
+"c6963a03cceeff26391aa86e1a2fac8b2f88538cd120eefc0ba423b10680fb75",
+"ebb73cb5ea269a9e673c7b6e142dab627b5797d111b02098b6dad721e7d29f8f",
+"9d8fa9706e0ca0e8aeb6c2dde7a24de1fbadc7d408c088559fc7bc6deab3c213",
+"8518a449494af46c5049b07482e3aea1e52e4c70011ebdebe7cbc35e2bb7ed37",
+"bc9add03814b08c8c5badea3dadeec2c7edf286e1ea805382790f1e01f9ae732",
+"46fa222b67d602214c279d8529bdd8851cf8d4d3349c48f855d4f2ca39cff856",
+"e64625589861f921ca0d1dc26fb37e2ed0e99ea90e5c89b8dabc25a4dbc2d616",
+"44d8c14a4f17c91b5ff2ecfdf84a3b1a1cb6a9636c792a551b634f25effe0211",
+"b5324e86909c1eb85a309406f9d15ff766793927860e1a7b6cadc16174963977",
+"f8bcfe69b48f31b50ec7b701b795760913f296610fae2ce6324c824dba6b942d",
+"962216fff677ac1d775597ca8b88786ec08c4380b9e74f56d233fc7a334ed3fa",
+"b39bb020c5f06866b8cc64d5f7462316c8fb287c3e1e5630a7a6bf80303af875",
+"dbf43a2933fc6be6cfb3ee333adfa7daf521f74ced3cec8255e3375c8124aca3",
+"5e974208a10d02ecab8276f8efc8654498e77d062708c65416e835e7ba8e68a6"
+]);
+
+// SHA-256 hash function using Web Crypto API
+async function sha256(message) {
+    const msgBuffer = new TextEncoder().encode(message);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// Check if already authenticated
+if (sessionStorage.getItem('mc_auth') === 'true') {
+    document.getElementById('loginOverlay').classList.add('hidden');
+    document.getElementById('mainContent').classList.add('unlocked');
+}
+
+async function handleLogin(e) {
+    e.preventDefault();
+    const input = document.getElementById('emailInput');
+    const errorDiv = document.getElementById('loginError');
+    const email = input.value.trim().toLowerCase();
+
+    if (!email) return false;
+
+    const hash = await sha256(email);
+
+    if (AUTHORIZED_HASHES.has(hash)) {
+        sessionStorage.setItem('mc_auth', 'true');
+        document.getElementById('loginOverlay').classList.add('hidden');
+        document.getElementById('mainContent').classList.add('unlocked');
+        errorDiv.textContent = '';
+    } else {
+        input.classList.add('error');
+        errorDiv.textContent = 'Cette adresse e-mail n\'est pas autorisee. Verifiez votre saisie ou contactez le support.';
+        setTimeout(() => input.classList.remove('error'), 400);
+    }
+    return false;
+}
+</script>
+
+<script>
+// Checklist
+function updateChecklist(checkbox) {
+    const label = checkbox.parentElement;
+    if (checkbox.checked) {
+        label.classList.add('checked');
+    } else {
+        label.classList.remove('checked');
+    }
+    const total = document.querySelectorAll('#geoChecklist input[type="checkbox"]').length;
+    const checked = document.querySelectorAll('#geoChecklist input[type="checkbox"]:checked').length;
+    document.getElementById('checklistProgress').textContent = checked + ' / ' + total + ' actions completees';
+}
+
 // Progress bar
 window.addEventListener('scroll', () => {
     const scrollTop = document.documentElement.scrollTop;

@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masterclass IA #2 — Utiliser l'IA pour analyser vos contrats musicaux</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C3AED;
+            --primary-light: #EDE9FE;
+            --primary-dark: #5B21B6;
+            --accent: #F59E0B;
+            --accent-light: #FEF3C7;
+            --success: #10B981;
+            --success-light: #D1FAE5;
+            --danger: #EF4444;
+            --danger-light: #FEE2E2;
+            --info: #3B82F6;
+            --info-light: #DBEAFE;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-500: #6B7280;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+        }
+
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--gray-800);
+            background: var(--gray-50);
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            z-index: 1000;
+            transition: width 0.1s ease;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 50%, #4C1D95 100%);
+            color: white;
+            padding: 60px 24px 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.05) 0%, transparent 50%);
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        .hero-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto 24px;
+        }
+        .hero-meta {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        .hero-meta span { display: flex; align-items: center; gap: 6px; }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* TOC */
+        .toc {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 32px;
+            margin: -30px auto 40px;
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+        }
+        .toc h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 8px;
+        }
+        .toc-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--gray-700);
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+        .toc-item:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+        .toc-num {
+            background: var(--primary-light);
+            color: var(--primary);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+        .toc-item:hover .toc-num {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Sections */
+        .section {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 32px;
+            overflow: hidden;
+        }
+        .section-header {
+            padding: 24px 32px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .section-num {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            opacity: 0.3;
+        }
+        .section-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+        }
+        .section-body { padding: 28px 32px; }
+        .section-body p { margin-bottom: 16px; text-align: justify; }
+
+        .section-purple .section-header { background: linear-gradient(135deg, #6C3AED, #7C3AED); }
+        .section-blue .section-header { background: linear-gradient(135deg, #3B82F6, #2563EB); }
+        .section-green .section-header { background: linear-gradient(135deg, #10B981, #059669); }
+        .section-amber .section-header { background: linear-gradient(135deg, #F59E0B, #D97706); }
+        .section-red .section-header { background: linear-gradient(135deg, #EF4444, #DC2626); }
+        .section-indigo .section-header { background: linear-gradient(135deg, #6366F1, #4F46E5); }
+        .section-teal .section-header { background: linear-gradient(135deg, #14B8A6, #0D9488); }
+
+        /* Callout boxes */
+        .callout {
+            border-radius: 10px;
+            padding: 18px 22px;
+            margin: 20px 0;
+            border-left: 4px solid;
+            display: flex;
+            gap: 14px;
+        }
+        .callout-icon {
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .callout-content { flex: 1; }
+        .callout-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+        }
+        .callout-text { font-size: 0.92rem; }
+
+        .callout-tip { background: var(--success-light); border-color: var(--success); }
+        .callout-tip .callout-title { color: var(--success); }
+        .callout-warning { background: var(--accent-light); border-color: var(--accent); }
+        .callout-warning .callout-title { color: #B45309; }
+        .callout-danger { background: var(--danger-light); border-color: var(--danger); }
+        .callout-danger .callout-title { color: var(--danger); }
+        .callout-info { background: var(--info-light); border-color: var(--info); }
+        .callout-info .callout-title { color: var(--info); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 14px 18px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        td {
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--gray-200);
+            font-size: 0.9rem;
+        }
+        tr:nth-child(even) td { background: var(--gray-50); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Cards grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+        .card {
+            background: var(--gray-50);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid var(--gray-200);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        .card-icon { font-size: 1.5rem; margin-bottom: 10px; }
+        .card-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            color: var(--gray-800);
+        }
+        .card-desc { font-size: 0.85rem; color: var(--gray-500); }
+
+        /* Pros/Cons */
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+        .pros, .cons {
+            border-radius: 10px;
+            padding: 18px;
+        }
+        .pros { background: var(--success-light); }
+        .cons { background: var(--danger-light); }
+        .pros h4 { color: var(--success); margin-bottom: 10px; }
+        .cons h4 { color: var(--danger); margin-bottom: 10px; }
+        .pros li, .cons li { font-size: 0.9rem; margin-bottom: 6px; margin-left: 18px; }
+
+        /* Accordion */
+        details {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+            margin: 14px 0;
+            overflow: hidden;
+        }
+        summary {
+            padding: 14px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--primary);
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        summary::before { content: '▸'; transition: transform 0.2s; }
+        details[open] summary::before { transform: rotate(90deg); }
+        summary::-webkit-details-marker { display: none; }
+        details > div { padding: 0 20px 16px; font-size: 0.92rem; }
+
+        /* Quiz */
+        .quiz-container {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 32px;
+            overflow: hidden;
+        }
+        .quiz-header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            padding: 24px 32px;
+            color: white;
+        }
+        .quiz-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+        }
+        .quiz-body { padding: 28px 32px; }
+        .quiz-question {
+            margin-bottom: 28px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .quiz-question:last-child { border-bottom: none; }
+        .quiz-q {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 14px;
+            color: var(--gray-800);
+        }
+        .quiz-option {
+            display: block;
+            padding: 12px 16px;
+            margin: 6px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid var(--gray-200);
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+        .quiz-option:hover { border-color: var(--primary); background: var(--primary-light); }
+        .quiz-option.correct {
+            border-color: var(--success);
+            background: var(--success-light);
+        }
+        .quiz-option.wrong {
+            border-color: var(--danger);
+            background: var(--danger-light);
+        }
+        .quiz-feedback {
+            display: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--gray-900);
+            color: white;
+            text-align: center;
+            padding: 40px 24px;
+            margin-top: 40px;
+        }
+        .footer-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .footer-sub { opacity: 0.6; font-size: 0.85rem; }
+
+        /* Video embed */
+        .video-wrapper {
+            max-width: 900px;
+            margin: -20px auto 0;
+            padding: 0 24px;
+            position: relative;
+            z-index: 10;
+        }
+        .video-container {
+            background: #000;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .toc-grid { grid-template-columns: 1fr; }
+            .pros-cons { grid-template-columns: 1fr; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .section-body { padding: 20px; }
+            .hero { padding: 40px 16px 36px; }
+        }
+
+        /* Print */
+        @media print {
+            .progress-bar { display: none; }
+            .gate-overlay { display: none !important; }
+            .section { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
+            .hero { background: #6C3AED !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+
+        /* Access Gate */
+        .gate-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, #1a0533 0%, #2d1450 40%, #1a0533 100%);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .gate-overlay::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(108,58,237,0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(245,158,11,0.08) 0%, transparent 40%);
+            animation: gatePulse 8s ease-in-out infinite;
+        }
+        @keyframes gatePulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+        .gate-box {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 48px 40px;
+            max-width: 460px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+        }
+        .gate-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 6px;
+        }
+        .gate-sub {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.85rem;
+            margin-bottom: 32px;
+        }
+        .gate-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+        .gate-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        .gate-desc {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            margin-bottom: 28px;
+            line-height: 1.5;
+        }
+        .gate-input-wrap {
+            position: relative;
+            margin-bottom: 16px;
+        }
+        .gate-input {
+            width: 100%;
+            padding: 14px 18px 14px 44px;
+            border-radius: 12px;
+            border: 2px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.06);
+            color: white;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .gate-input::placeholder { color: rgba(255,255,255,0.3); }
+        .gate-input:focus {
+            border-color: var(--primary);
+            background: rgba(108,58,237,0.1);
+            box-shadow: 0 0 0 4px rgba(108,58,237,0.15);
+        }
+        .gate-input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255,255,255,0.3);
+            font-size: 1rem;
+        }
+        .gate-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, var(--primary), #7C3AED);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 0.3px;
+        }
+        .gate-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(108,58,237,0.4);
+        }
+        .gate-btn:active { transform: translateY(0); }
+        .gate-error {
+            color: #F87171;
+            font-size: 0.85rem;
+            margin-top: 12px;
+            display: none;
+            padding: 10px 14px;
+            background: rgba(239,68,68,0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(239,68,68,0.2);
+        }
+        .gate-footer {
+            margin-top: 28px;
+            color: rgba(255,255,255,0.3);
+            font-size: 0.75rem;
+        }
+
+        .content-locked { display: none; }
+        .content-unlocked { display: block; }
+    </style>
+</head>
+<body>
+
+<!-- ACCESS GATE -->
+<div class="gate-overlay" id="gateOverlay">
+    <div class="gate-box">
+        <div class="gate-logo">Producteur a Succes</div>
+        <div class="gate-sub">Espace de formation reserve</div>
+        <div class="gate-badge">Masterclass IA — Session 2</div>
+        <div class="gate-title">Acces au support de cours</div>
+        <div class="gate-desc">Ce contenu est reserve aux participants de la Masterclass IA. Entrez l'email utilise lors de votre inscription.</div>
+        <div class="gate-input-wrap">
+            <span class="gate-input-icon">&#9993;</span>
+            <input type="email" class="gate-input" id="gateEmail" placeholder="votre@email.com" autocomplete="email">
+        </div>
+        <button class="gate-btn" id="gateBtn" onclick="checkAccess()">Acceder au cours</button>
+        <div class="gate-error" id="gateError">Cet email n'est pas autorise. Verifiez que vous utilisez l'adresse email liee a votre compte Producteur a Succes.</div>
+        <div class="gate-footer">En cas de probleme, contactez le support Producteur a Succes</div>
+    </div>
+</div>
+
+<div id="courseContent" class="content-locked">
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-badge">Masterclass IA — Session 2</div>
+    <h1>Utiliser l'IA pour analyser<br>vos contrats musicaux</h1>
+    <p class="hero-subtitle">Comment exploiter Claude Cowork, NotebookLM et Claude Code pour comprendre, analyser et negocier vos contrats en toute autonomie.</p>
+    <div class="hero-meta">
+        <span>&#128337; 1h45 de formation</span>
+        <span>&#127891; Tarik Hamiche</span>
+        <span>&#127925; Producteur a Succes</span>
+    </div>
+</div>
+
+<!-- VIDEO -->
+<div class="video-wrapper">
+    <div class="video-container">
+        <iframe src="https://player.vimeo.com/video/1181834349?h=6c6ee69dc3&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+    </div>
+</div>
+
+<!-- SOMMAIRE -->
+<div class="container" style="margin-top: 32px;">
+    <div class="toc">
+        <h2>&#128218; Sommaire du cours</h2>
+        <div class="toc-grid">
+            <a href="#s1" class="toc-item"><span class="toc-num">1</span>Pourquoi utiliser l'IA pour les contrats</a>
+            <a href="#s2" class="toc-item"><span class="toc-num">2</span>Presentation de Claude : les 3 modes</a>
+            <a href="#s3" class="toc-item"><span class="toc-num">3</span>Le skill Analyse de Contrat Musique</a>
+            <a href="#s4" class="toc-item"><span class="toc-num">4</span>Demo : analyser un contrat d'artiste</a>
+            <a href="#s5" class="toc-item"><span class="toc-num">5</span>Les pieges courants des contrats</a>
+            <a href="#s6" class="toc-item"><span class="toc-num">6</span>Analyser un bon contrat de licence</a>
+            <a href="#s7" class="toc-item"><span class="toc-num">7</span>Les regles d'or avant de signer</a>
+            <a href="#s8" class="toc-item"><span class="toc-num">8</span>NotebookLM : votre cerveau juridique</a>
+            <a href="#s9" class="toc-item"><span class="toc-num">9</span>Automatiser avec Claude Cowork</a>
+            <a href="#s10" class="toc-item"><span class="toc-num">10</span>Claude Code dans le terminal</a>
+            <a href="#quiz" class="toc-item"><span class="toc-num">Q</span>Quiz de validation</a>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 1 -->
+<div class="container">
+    <div class="section section-purple" id="s1">
+        <div class="section-header">
+            <span class="section-num">01</span>
+            <h2>Pourquoi utiliser l'IA pour analyser vos contrats</h2>
+        </div>
+        <div class="section-body">
+            <p>Les contrats musicaux sont rediges par des avocats pour des avocats. Meme en francais, le vocabulaire juridique, la mise en page parfois abjecte (25 pages sans mise a la ligne, sans numero d'article) et les clauses volontairement complexes rendent leur lecture extremement difficile pour un artiste ou un producteur independant. En anglais, c'est encore pire.</p>
+
+            <p>La premiere reaction de beaucoup d'artistes est de payer un avocat ou un juriste pour analyser le contrat. C'est une bonne idee, mais a 150-300 euros la consultation, multiplies par plusieurs contrats dans une annee, ca represente un budget consequent. Et surtout, personne ne fera plus attention a vos interets que vous-meme.</p>
+
+            <div class="callout callout-tip">
+                <span class="callout-icon">&#128161;</span>
+                <div class="callout-content">
+                    <div class="callout-title">A retenir</div>
+                    <div class="callout-text">L'IA ne remplace pas un avocat. Elle vous donne une premiere lecture eclairee pour comprendre les enjeux avant de consulter un professionnel. Au lieu de racler trois fois les honoraires d'un avocat, vous arrivez prepare avec les bonnes questions.</div>
+                </div>
+            </div>
+
+            <p>L'objectif de cette masterclass est de vous apprendre a utiliser l'IA (principalement Claude Cowork) pour obtenir une analyse detaillee de n'importe quel contrat musical : contrat d'artiste, contrat de licence, contrat d'edition, contrat de distribution, etc.</p>
+        </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="section section-blue" id="s2">
+        <div class="section-header">
+            <span class="section-num">02</span>
+            <h2>Presentation de Claude : Chat, Projets et Cowork</h2>
+        </div>
+        <div class="section-body">
+            <p>Claude (par Anthropic) propose trois modes d'utilisation, chacun adapte a des besoins differents. Comprendre ces modes est essentiel pour choisir le bon outil selon la tache a accomplir.</p>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">&#128172;</div>
+                    <div class="card-title">Mode Chat</div>
+                    <div class="card-desc">Le mode classique. Vous posez une question, Claude repond. Ideal pour des questions ponctuelles, de la reformulation ou du brainstorming rapide.</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">&#128194;</div>
+                    <div class="card-title">Mode Projets</div>
+                    <div class="card-desc">Un espace ou Claude conserve un contexte persistant. Vous pouvez y deposer des documents, des transcriptions, des sources. Chaque discussion est memorisee. Ideal pour accumuler de la connaissance sur un sujet precis.</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">&#128187;</div>
+                    <div class="card-title">Mode Cowork</div>
+                    <div class="card-desc">Le mode le plus puissant. Claude prend le controle de votre ordinateur, accede a vos fichiers, navigue sur le web, execute du code. C'est un veritable assistant autonome qui peut realiser des taches complexes.</div>
+                </div>
+            </div>
+
+            <div class="callout callout-info">
+                <span class="callout-icon">&#128241;</span>
+                <div class="callout-content">
+                    <div class="callout-title">Astuce : Dispatch</div>
+                    <div class="callout-text">Avec le Dispatch, vous pouvez controler Claude depuis votre smartphone. Meme malade dans votre lit, vous pouvez declencher des taches, faire du code, lancer des automatisations — tant que votre ordinateur est allume de l'autre cote.</div>
+                </div>
+            </div>
+
+            <p>C'est le mode Cowork qui sera au coeur de cette masterclass, puisqu'il permet d'uploader un contrat en PDF et de lancer une analyse automatisee complete.</p>
+        </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="section section-green" id="s3">
+        <div class="section-header">
+            <span class="section-num">03</span>
+            <h2>Le skill « Analyse de Contrat Musique »</h2>
+        </div>
+        <div class="section-body">
+            <p>Tarik a cree un skill (une competence personnalisee) specialement concu pour analyser les contrats musicaux. Ce skill peut etre uploade directement dans Claude Cowork et fonctionne egalement avec Gemini ou d'autres IA generatives.</p>
+
+            <p>Le skill propose deux modes d'analyse :</p>
+
+            <table>
+                <tr>
+                    <th>Mode</th>
+                    <th>Description</th>
+                    <th>Utilisation</th>
+                </tr>
+                <tr>
+                    <td><strong>Scan Express</strong></td>
+                    <td>Analyse rapide qui attribue un score global au contrat et identifie les alertes principales (points rouges, points verts)</td>
+                    <td>Premiere lecture pour savoir si le contrat merite une analyse approfondie</td>
+                </tr>
+                <tr>
+                    <td><strong>Analyse Complete</strong></td>
+                    <td>Analyse clause par clause avec recommandations detaillees, reformulations en langage clair et suggestions de negociation</td>
+                    <td>Avant de signer ou de negocier un contrat</td>
+                </tr>
+            </table>
+
+            <div class="callout callout-tip">
+                <span class="callout-icon">&#9989;</span>
+                <div class="callout-content">
+                    <div class="callout-title">Comment utiliser le skill</div>
+                    <div class="callout-text">Uploadez le skill dans Claude Cowork, puis deposez votre contrat en PDF. Choisissez entre Scan Express ou Analyse Complete. Le skill a ete entraine sur de nombreux contrats reels (contrats d'artiste, de licence, d'edition, de distribution) pour fournir des analyses pertinentes.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="section section-red" id="s4">
+        <div class="section-header">
+            <span class="section-num">04</span>
+            <h2>Demo : analyser un mauvais contrat d'artiste</h2>
+        </div>
+        <div class="section-body">
+            <p>Lors de la demo en direct, Tarik a soumis un vrai contrat d'artiste a l'analyse du skill. Le verdict a ete sans appel : c'etait un contrat extremement desequilibre en faveur du producteur. Voici ce que l'IA a detecte :</p>
+
+            <div class="callout callout-danger">
+                <span class="callout-icon">&#128680;</span>
+                <div class="callout-content">
+                    <div class="callout-title">Alerte : Taux de royalties a 6%</div>
+                    <div class="callout-text">Le contrat prevoyait 6% du prix de gros hors taxes. C'est deja une fourchette basse, mais derriere, des abattements cachaient une reduction quasi totale. Le taux reel etait divise par presque 3 apres application des abattements.</div>
+                </div>
+            </div>
+
+            <p>Les abattements sont le principal piege des contrats musicaux. Concretement, le producteur integre des clauses qui reduisent l'assiette de calcul de vos royalties : abattement pour packaging (sur du streaming !), pour promotion, pour casse, etc. Ce sont des mecanismes herites de l'epoque du CD qui n'ont plus aucune raison d'exister dans le numerique, mais qui persistent dans les contrats.</p>
+
+            <details>
+                <summary>Qu'est-ce qu'un abattement exactement ?</summary>
+                <div>
+                    <p>Un abattement, c'est une reduction appliquee a l'assiette sur laquelle vos royalties sont calculees. Par exemple, si le contrat prevoit un abattement de 25% pour « promotion » et un autre de 15% pour « packaging », vos 6% de royalties ne s'appliquent plus sur 100% des revenus mais sur 60%. Vos 6% deviennent en realite 3,6%.</p>
+                    <p>La regie est simple : il n'y a aucun contrat qui met des abattements et qui ne les active pas. Si les abattements sont dans le contrat, ils seront utilises.</p>
+                </div>
+            </details>
+
+            <details>
+                <summary>Les autres points rouges detectes par l'IA</summary>
+                <div>
+                    <p><strong>Duree du contrat :</strong> Le contrat courrait pour la duree des droits d'auteur du vivant de l'artiste + 70 ans apres sa mort. Pour un artiste de 18 ans qui vit jusqu'a 95 ans, ca fait potentiellement 147 ans de contrat.</p>
+                    <p><strong>Territoire :</strong> Monde entier accorde a un petit label sans moyens internationaux reels. Le territoire doit etre proportionne aux capacites du producteur.</p>
+                    <p><strong>Options de renouvellement :</strong> Des clauses d'option qui donnent la possibilite au producteur de renouveler sur 5+3+3+3 ans sans conditions reelles de performance.</p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="section section-amber" id="s5">
+        <div class="section-header">
+            <span class="section-num">05</span>
+            <h2>Les pieges courants des contrats musicaux</h2>
+        </div>
+        <div class="section-body">
+            <p>L'analyse de nombreux contrats a permis d'identifier des schemas recurrents dont il faut se mefier. Voici les principaux pieges a connaitre :</p>
+
+            <table>
+                <tr>
+                    <th>Piege</th>
+                    <th>Ce que ca signifie</th>
+                    <th>Ce qu'il faut negocier</th>
+                </tr>
+                <tr>
+                    <td><strong>Abattements multiples</strong></td>
+                    <td>Reduction progressive de l'assiette de calcul de vos royalties</td>
+                    <td>Supprimer tous les abattements ou negocier un taux net</td>
+                </tr>
+                <tr>
+                    <td><strong>Duree « vie + 70 ans »</strong></td>
+                    <td>Vous cedez vos droits pour plus d'un siecle</td>
+                    <td>Limiter a 3-5 ans avec option de renouvellement conditionnee</td>
+                </tr>
+                <tr>
+                    <td><strong>Territoire monde entier</strong></td>
+                    <td>Le producteur obtient les droits mondiaux sans moyens correspondants</td>
+                    <td>Proportionner le territoire aux moyens reels (ex: France + DOM-TOM)</td>
+                </tr>
+                <tr>
+                    <td><strong>Options automatiques</strong></td>
+                    <td>Le producteur renouvelle sans condition</td>
+                    <td>Conditionner a des objectifs de ventes et une amelioration des termes</td>
+                </tr>
+                <tr>
+                    <td><strong>Promesses vagues</strong></td>
+                    <td>« Le producteur fera ses meilleurs efforts » sans engagement precis</td>
+                    <td>Exiger des obligations concretes : budget promo, delai de sortie, plateformes</td>
+                </tr>
+            </table>
+
+            <div class="callout callout-warning">
+                <span class="callout-icon">&#9888;&#65039;</span>
+                <div class="callout-content">
+                    <div class="callout-title">Attention aux clauses IA</div>
+                    <div class="callout-text">De plus en plus de contrats incluent des clauses relatives a l'intelligence artificielle (droit d'utiliser votre voix, votre image pour generer du contenu IA). Claude est particulierement attentif a ces nouvelles clauses et les signale systematiquement.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="section section-green" id="s6">
+        <div class="section-header">
+            <span class="section-num">06</span>
+            <h2>Analyser un bon contrat de licence</h2>
+        </div>
+        <div class="section-body">
+            <p>Apres le mauvais contrat d'artiste, Tarik a presente un contrat de licence beaucoup plus equilibre. Le contraste est frappant et permet de comprendre ce qu'on est en droit d'attendre d'un bon contrat.</p>
+
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>&#9989; Points positifs detectes</h4>
+                    <ul>
+                        <li>Avance de 15 000 euros non remboursable</li>
+                        <li>Option conditionnee : le licencie ne peut renouveler que si les ventes suivent</li>
+                        <li>Amelioration obligatoire : +3 points de royalties + nouvelle avance de 8 000 euros pour renouveler</li>
+                        <li>Budget promo engage contractuellement</li>
+                        <li>Delai de sortie impose</li>
+                        <li>Distribution sur les 5 plateformes majeures</li>
+                        <li>Acces aux donnees en temps reel</li>
+                        <li>Clauses de retrait territorial</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>&#128269; Points de vigilance</h4>
+                    <ul>
+                        <li>Verifier que les clauses IA sont presentes et protectrices</li>
+                        <li>S'assurer que la clause de retrait est bien activable (delai de 12 mois sans exploitation sur un territoire = retrait automatique)</li>
+                        <li>Valider les modalites d'audit des comptes</li>
+                        <li>Confirmer les conditions de resiliation anticipee</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="callout callout-info">
+                <span class="callout-icon">&#128218;</span>
+                <div class="callout-content">
+                    <div class="callout-title">Licence vs Contrat d'artiste</div>
+                    <div class="callout-text">Dans un contrat de licence, vous restez proprietaire de vos masters et vous les « pretez » au licencie pour une duree et un territoire definis. Dans un contrat d'artiste, le producteur devient proprietaire des masters. La licence est generalement plus favorable a l'artiste independant.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 7 -->
+    <div class="section section-red" id="s7">
+        <div class="section-header">
+            <span class="section-num">07</span>
+            <h2>Les regles d'or avant de signer un contrat</h2>
+        </div>
+        <div class="section-body">
+            <p>Au-dela de l'analyse technique, Tarik partage des regles fondamentales issues de son experience de producteur certifie disque d'or et platine.</p>
+
+            <div class="callout callout-danger">
+                <span class="callout-icon">&#128293;</span>
+                <div class="callout-content">
+                    <div class="callout-title">Regle n°1 : Ne signez jamais sous pression</div>
+                    <div class="callout-text">Un contrat qui doit etre signe « aujourd'hui ou jamais » est un mauvais contrat. Un bon deal peut attendre le temps d'une analyse serieuse. Si on vous presse, c'est souvent parce que le contrat ne resisterait pas a un examen attentif.</div>
+                </div>
+            </div>
+
+            <div class="callout callout-warning">
+                <span class="callout-icon">&#9878;&#65039;</span>
+                <div class="callout-content">
+                    <div class="callout-title">Regle n°2 : Toujours faire valider par un juriste</div>
+                    <div class="callout-text">L'IA vous donne une premiere lecture, mais il faut toujours faire valider par un professionnel. L'IA peut rater des subtilites juridiques, des jurisprudences recentes ou des specificites locales. Utilisez-la pour arriver prepare chez votre avocat, pas pour le remplacer.</div>
+                </div>
+            </div>
+
+            <div class="callout callout-tip">
+                <span class="callout-icon">&#128170;</span>
+                <div class="callout-content">
+                    <div class="callout-title">Regle n°3 : Un contrat est un point de depart</div>
+                    <div class="callout-text">Si un producteur vous envoie un contrat desequilibre, ca ne veut pas dire que le deal est mort. Le contrat initial est un point de depart de negociation. N'ayez pas peur de dire non, de demander des modifications. Tarik n'a jamais vu une seule fois un contrat correspondre exactement a ce qui avait ete dit en reunion.</div>
+                </div>
+            </div>
+
+            <details>
+                <summary>L'anecdote des contrats en maison de disque</summary>
+                <div>
+                    <p>Tarik partage son experience : a chaque rendez-vous en maison de disque, ce qui est dit a l'oral ne correspond jamais a ce qui est ecrit dans le contrat. On vous dit « on va faire ca » en face a face, et le contrat dit completement autre chose. C'est systematique, pas regulier. C'est pour ca qu'il ne faut jamais se fier aux promesses orales et toujours analyser le document ecrit en detail.</p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- SECTION 8 -->
+    <div class="section section-indigo" id="s8">
+        <div class="section-header">
+            <span class="section-num">08</span>
+            <h2>NotebookLM : votre cerveau juridique permanent</h2>
+        </div>
+        <div class="section-body">
+            <p>NotebookLM (par Google) est presente comme un outil complementaire extremement puissant. L'idee : creer un « cerveau » specialise en droit de la musique qui accumule des connaissances au fil du temps et ne se fatigue jamais.</p>
+
+            <p>Le fonctionnement est simple : vous creez un notebook, vous lui donnez des sources (videos YouTube, PDF, articles, transcriptions de conferences juridiques), et il devient capable de repondre a n'importe quelle question en se basant sur l'ensemble de ces sources.</p>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">&#127909;</div>
+                    <div class="card-title">Videos YouTube</div>
+                    <div class="card-desc">Ajoutez des videos de conferences d'avocats specialises en propriete intellectuelle. NotebookLM extrait et indexe automatiquement les transcriptions.</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">&#128196;</div>
+                    <div class="card-title">Documents PDF</div>
+                    <div class="card-desc">Deposez vos anciens contrats, des modeles de reference, des articles juridiques. Plus vous alimentez le notebook, plus il devient expert.</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">&#127891;</div>
+                    <div class="card-title">Sources educatives</div>
+                    <div class="card-desc">Transcriptions de formations, cours en ligne, guides pratiques. Tout ce qui peut enrichir la base de connaissances juridiques.</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">&#128488;</div>
+                    <div class="card-title">Contexte persistant</div>
+                    <div class="card-desc">Contrairement a un chat classique, NotebookLM conserve tout en memoire. Vous pouvez revenir des mois plus tard et il se souviendra de tout.</div>
+                </div>
+            </div>
+
+            <div class="callout callout-tip">
+                <span class="callout-icon">&#128640;</span>
+                <div class="callout-content">
+                    <div class="callout-title">Cas d'usage concret</div>
+                    <div class="callout-text">Tarik utilise NotebookLM pour analyser ses posts LinkedIn : il y a depose son historique de publications et demande a l'IA d'identifier les patterns de ceux qui performent vs ceux qui font un flop. Le notebook devient un conseiller editorial base sur vos propres donnees.</div>
+                </div>
+            </div>
+
+            <details>
+                <summary>NotebookLM vs ChatGPT : quelle difference ?</summary>
+                <div>
+                    <p>NotebookLM se distingue par son systeme de sources. Il ne repond qu'a partir de ce que vous lui avez donne, ce qui le rend plus fiable et moins sujet aux « hallucinations ». ChatGPT ou Claude sont plus polyvalents mais puisent dans des connaissances generales. L'ideal est de combiner les deux : NotebookLM pour la base de connaissances, Claude/ChatGPT pour l'analyse et l'action.</p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- SECTION 9 -->
+    <div class="section section-teal" id="s9">
+        <div class="section-header">
+            <span class="section-num">09</span>
+            <h2>Automatiser avec Claude Cowork</h2>
+        </div>
+        <div class="section-body">
+            <p>Au-dela de l'analyse de contrats, Claude Cowork est un outil d'automatisation redoutable pour les artistes et producteurs. Tarik montre comment il l'utilise au quotidien pour des taches qui prenaient des heures et qui sont desormais realisees en quelques minutes.</p>
+
+            <table>
+                <tr>
+                    <th>Tache</th>
+                    <th>Avant (manuel)</th>
+                    <th>Avec Claude Cowork</th>
+                </tr>
+                <tr>
+                    <td>Articles de blog SEO</td>
+                    <td>Plusieurs heures par article</td>
+                    <td>5 minutes, Claude redige et publie</td>
+                </tr>
+                <tr>
+                    <td>Carrousels Instagram/LinkedIn</td>
+                    <td>1-2h de creation</td>
+                    <td>Automatise avec skill + generation d'images</td>
+                </tr>
+                <tr>
+                    <td>Plan d'action promotionnel</td>
+                    <td>Recherche + structuration manuelle</td>
+                    <td>Claude cree un plan complet et personnalise</td>
+                </tr>
+                <tr>
+                    <td>Prospection de salles de concert</td>
+                    <td>Des heures de recherche Google</td>
+                    <td>Claude cree un tableur Excel avec noms, adresses, contacts, reseaux sociaux</td>
+                </tr>
+                <tr>
+                    <td>Gestion des DMs Instagram</td>
+                    <td>Traitement message par message</td>
+                    <td>Claude trie, repond et filtre selon vos regles</td>
+                </tr>
+            </table>
+
+            <div class="callout callout-info">
+                <span class="callout-icon">&#128736;</span>
+                <div class="callout-content">
+                    <div class="callout-title">Les skills : la cle de l'automatisation</div>
+                    <div class="callout-text">Un skill est un ensemble d'instructions que vous enseignez a Claude. Une fois cree, il peut le reutiliser a l'infini. Par exemple, le skill « carrousel » definit la structure, le ton, le nombre de slides, les prompts pour les images. Claude applique ensuite ce skill mecaniquement, sans que vous ayez a tout reexpliquer a chaque fois.</div>
+                </div>
+            </div>
+
+            <p>Ce qui est remarquable, c'est que Claude peut enchainer les taches sans intervention. Il redige un article, le formate, genere les images, et le publie sur le blog — le tout en quelques minutes pendant que vous faites autre chose.</p>
+        </div>
+    </div>
+
+    <!-- SECTION 10 -->
+    <div class="section section-purple" id="s10">
+        <div class="section-header">
+            <span class="section-num">10</span>
+            <h2>Claude Code dans le terminal</h2>
+        </div>
+        <div class="section-body">
+            <p>Pour les plus aventuriers, Tarik presente Claude Code : l'interface en ligne de commande (terminal) de Claude. Bien que visuellement plus austere (un ecran bleu avec du texte), c'est l'outil le plus puissant de l'ecosysteme Claude.</p>
+
+            <div class="callout callout-warning">
+                <span class="callout-icon">&#128187;</span>
+                <div class="callout-content">
+                    <div class="callout-title">Pas de panique !</div>
+                    <div class="callout-text">Le terminal peut sembler intimidant, mais Tarik a personnalise le sien (fond bleu au lieu de noir) et l'utilisation est simple : vous tapez « Claude » pour l'ouvrir, puis vous lui parlez en langage naturel comme dans un chat classique.</div>
+                </div>
+            </div>
+
+            <p>Les avantages de Claude Code dans le terminal :</p>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">&#9889;</div>
+                    <div class="card-title">Vitesse d'execution</div>
+                    <div class="card-desc">Le terminal est beaucoup plus rapide que l'interface web. Les taches s'executent sans delai d'affichage graphique.</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">&#128295;</div>
+                    <div class="card-title">Mode Yolo</div>
+                    <div class="card-desc">Un mode qui permet a Claude d'enchainer les actions sans demander votre accord a chaque etape. Ideal quand vous lui faites confiance sur une tache repetitive.</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">&#128202;</div>
+                    <div class="card-title">Acces fichiers complet</div>
+                    <div class="card-desc">Claude Code accede directement a tous vos fichiers, votre Google Drive, votre boite mail — et peut agir dessus sans passer par l'interface graphique.</div>
+                </div>
+            </div>
+
+            <details>
+                <summary>Obsidian + NotebookLM : une combinaison avancee</summary>
+                <div>
+                    <p>Tarik mentionne que certains utilisateurs avances combinent Obsidian (un logiciel de prise de notes) avec NotebookLM pour creer un systeme de gestion des connaissances ultra-performant. Obsidian relie a un notebook permet de structurer et d'interroger ses notes de maniere intelligente. C'est une piste a explorer pour ceux qui veulent aller plus loin.</p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-container" id="quiz">
+        <div class="quiz-header">
+            <h2>&#127942; Quiz de validation</h2>
+        </div>
+        <div class="quiz-body">
+
+            <div class="quiz-question">
+                <div class="quiz-q">1. Quel est le principal piege des contrats musicaux selon cette masterclass ?</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">A. Le taux de royalties trop bas</div>
+                <div class="quiz-option" onclick="checkAnswer(this, true)">B. Les abattements qui reduisent l'assiette de calcul des royalties</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">C. La duree du contrat</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">D. Le territoire trop restreint</div>
+                <div class="quiz-feedback" style="background: var(--success-light);">&#9989; Correct ! Les abattements sont le piege numero un. Ils peuvent diviser votre taux de royalties reel par 2 ou 3 par rapport au taux affiche dans le contrat.</div>
+                <div class="quiz-feedback" style="background: var(--danger-light);">&#10060; Le principal piege, ce sont les abattements. Un taux a 6% peut devenir 2% apres application des abattements. C'est le mecanisme le plus pernicieux car il est souvent cache dans des clauses techniques.</div>
+            </div>
+
+            <div class="quiz-question">
+                <div class="quiz-q">2. Quel mode de Claude est utilise pour analyser les contrats avec le skill dedie ?</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">A. Mode Chat</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">B. Mode Projets</div>
+                <div class="quiz-option" onclick="checkAnswer(this, true)">C. Mode Cowork</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">D. Mode Terminal</div>
+                <div class="quiz-feedback" style="background: var(--success-light);">&#9989; Correct ! Le mode Cowork permet d'uploader un contrat en PDF et de lancer le skill d'analyse automatisee.</div>
+                <div class="quiz-feedback" style="background: var(--danger-light);">&#10060; C'est le mode Cowork qui est utilise. Il permet a Claude de prendre le controle de votre ordinateur, d'acceder a vos fichiers et d'executer des taches complexes comme l'analyse de contrats.</div>
+            </div>
+
+            <div class="quiz-question">
+                <div class="quiz-q">3. Dans un contrat de licence equilibre, que se passe-t-il si le licencie veut renouveler ?</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">A. Il renouvelle automatiquement sans condition</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">B. Il doit juste en informer l'artiste</div>
+                <div class="quiz-option" onclick="checkAnswer(this, true)">C. Il doit justifier des ventes, verser une nouvelle avance et ameliorer les royalties</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">D. Il negocie de zero un nouveau contrat</div>
+                <div class="quiz-feedback" style="background: var(--success-light);">&#9989; Correct ! Dans l'exemple de bon contrat presente, le renouvellement etait conditionne a des performances de vente, au versement de 8 000 euros supplementaires et a une amelioration de 3 points de royalties.</div>
+                <div class="quiz-feedback" style="background: var(--danger-light);">&#10060; Dans un bon contrat, le renouvellement est conditionne : le licencie doit prouver ses resultats, verser une nouvelle avance et ameliorer les conditions. Sinon, l'artiste est libere.</div>
+            </div>
+
+            <div class="quiz-question">
+                <div class="quiz-q">4. Quel est le role de NotebookLM dans la strategie juridique ?</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">A. Il remplace l'avocat</div>
+                <div class="quiz-option" onclick="checkAnswer(this, true)">B. Il sert de base de connaissances juridiques persistante alimentee par vos sources</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">C. Il genere des contrats automatiquement</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">D. Il envoie les contrats a des avocats partenaires</div>
+                <div class="quiz-feedback" style="background: var(--success-light);">&#9989; Correct ! NotebookLM accumule des connaissances a partir de vos sources (videos, PDF, articles) et devient un cerveau juridique permanent que vous pouvez interroger a tout moment.</div>
+                <div class="quiz-feedback" style="background: var(--danger-light);">&#10060; NotebookLM est un cerveau dynamique : vous lui donnez des sources (videos, documents, articles juridiques) et il devient capable de repondre a toutes vos questions en se basant exclusivement sur ces sources.</div>
+            </div>
+
+            <div class="quiz-question">
+                <div class="quiz-q">5. Quelle est la regie d'or numero 1 avant de signer un contrat ?</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">A. Toujours demander un taux de royalties superieur a 15%</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">B. Consulter trois avocats differents</div>
+                <div class="quiz-option" onclick="checkAnswer(this, true)">C. Ne jamais signer sous la pression</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">D. Toujours exiger un contrat de licence plutot qu'un contrat d'artiste</div>
+                <div class="quiz-feedback" style="background: var(--success-light);">&#9989; Correct ! Un bon deal peut toujours attendre. Si on vous met la pression pour signer rapidement, c'est generalement parce que le contrat ne resisterait pas a un examen serieux.</div>
+                <div class="quiz-feedback" style="background: var(--danger-light);">&#10060; La regie d'or numero 1 est de ne jamais signer sous la pression. Un contrat « maintenant ou jamais » est presque toujours un mauvais contrat. Prenez le temps d'analyser, de faire verifier par un professionnel.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <div class="footer-brand">Producteur a Succes</div>
+    <div class="footer-sub">Formation Music Business par Tarik Hamiche — masterclass-ia-session-2</div>
+</div>
+
+</div><!-- /courseContent -->
+
+<script>
+    // Allowed emails (hashed for basic obfuscation)
+    const allowedEmails = [
+        "zemourgerard@gmail.com",
+        "ysaeunity@gmail.com",
+        "yaelmendelmusic@gmail.com",
+        "wyldzdissimilitudemusik@gmail.com",
+        "vincent_baudrillart@yahoo.fr",
+        "vanillacontactpro@gmail.com",
+        "unitedmusiclab@gmail.com",
+        "tim.rault@gmail.com",
+        "tibautpezzo@gmail.com",
+        "thomas.jugan56@gmail.com",
+        "tchookmusic@gmail.com",
+        "tayo06@gmail.com",
+        "stv.baudin@gmail.com",
+        "stephane.histoiresmusicales@gmail.com",
+        "sofianeouchekh@gmail.com",
+        "smm.selfmademusic@gmail.com",
+        "smaziade@me.com",
+        "sjazede@gmail.com",
+        "seodney@gmail.com",
+        "sarahpro.al@gmail.com",
+        "safiazimouche@yahoo.fr",
+        "sachou.cohen@gmail.com",
+        "s.plagnol@gmail.com",
+        "s.nola.contact@gmail.com",
+        "s.duermael@gmail.com",
+        "rubentobaly@gmail.com",
+        "roman.delperier@gmail.com",
+        "rihuel13@gmail.com",
+        "rigaudiere@gmail.com",
+        "quentin-rieux@hotmail.fr",
+        "pupucecaius@hotmail.fr",
+        "polarispulselabel@gmail.com",
+        "pignolsylvain@gmail.com",
+        "phj.contactpro@gmail.com",
+        "philippe.fagnoni@wanadoo.fr",
+        "philippe.bar@gmail.com",
+        "perrotfrancois995@gmail.com",
+        "paillardmari@gmail.com",
+        "o.navarro.conseil@gmail.com",
+        "nininejulia@gmail.com",
+        "mazarguesproductions@gmail.com",
+        "mayouma974@gmail.com",
+        "massingosylvain07@gmail.com",
+        "mariettesalam@gmail.com",
+        "margauxsadoun@gmail.com",
+        "manenthomas@orange.fr",
+        "maeva.fourez@gmail.com",
+        "ludivinecmk@hotmail.fr",
+        "llouvel@hicetnunc.fr",
+        "levofficiel28@gmail.com",
+        "lea.mezemate@gmail.com",
+        "laurent@lueurdusoir.art",
+        "laurenclosing@gmail.com",
+        "l.gastine@live.fr",
+        "konsyantizik@gmail.com",
+        "katialaurent_auteur@yahoo.fr",
+        "jp.roblin@gmail.com",
+        "jordy_blanc@outlook.fr",
+        "joelcollet1@gmail.com",
+        "jl1th2b@gmail.com",
+        "jhr.prod@gmail.com",
+        "jeandeversailles@jdv.one",
+        "jeanandreu@me.com",
+        "jaglebruno@hotmail.fr",
+        "imbautistamateo@gmail.com",
+        "honoriofbpro@gmail.com",
+        "hamiche.t@gmail.com",
+        "gagacohen@gmail.com",
+        "francois.verger@outlook.com",
+        "felavaud@gmail.com",
+        "ericlouet-seizair@orange.fr",
+        "emilien.mozon@outlook.fr",
+        "elina.rx@icloud.com",
+        "eganav@orange.fr",
+        "doodoo.jmj@gmail.com",
+        "diagramusic@gmail.com",
+        "denisvouters@gmail.com",
+        "davidswann@live.fr",
+        "david.aknin@gmail.com",
+        "dadiembenza25@gmail.com",
+        "crobu.anthony@gmail.com",
+        "contactercesar@gmail.com",
+        "contact@jerrywallis.com",
+        "contact.assosdme@gmail.com",
+        "compos@adel-france.fr",
+        "clairedeloffre@yahoo.fr",
+        "chrisvitorinoalmeida@gmail.com",
+        "christophejpoizat@gmail.com",
+        "catherinemoste@gmail.com",
+        "catalajpaul@gmail.com",
+        "camille@lueurdusoir.art",
+        "beafrikart236@gmail.com",
+        "bar-kays@hotmail.com",
+        "banquedesons@gmail.com",
+        "arthurlipskyy@gmail.com",
+        "arthurlipskymusic@gmail.com",
+        "anaismusicproduction@gmail.com",
+        "alkys.muzik@gmail.com",
+        "alban.gautier@yahoo.fr"
+    ];
+
+    // Access control
+    function checkAccess() {
+        const email = document.getElementById('gateEmail').value.trim().toLowerCase();
+        if (!email) {
+            showError("Veuillez entrer votre adresse email.");
+            return;
+        }
+        if (allowedEmails.includes(email)) {
+            document.getElementById('gateOverlay').style.opacity = '0';
+            document.getElementById('gateOverlay').style.transition = 'opacity 0.5s ease';
+            setTimeout(() => {
+                document.getElementById('gateOverlay').style.display = 'none';
+                document.getElementById('courseContent').classList.remove('content-locked');
+                document.getElementById('courseContent').classList.add('content-unlocked');
+                document.body.style.overflow = 'auto';
+            }, 500);
+        } else {
+            showError("Cet email n'est pas autorise. Verifiez que vous utilisez l'adresse email liee a votre compte Producteur a Succes.");
+            document.getElementById('gateEmail').style.borderColor = '#EF4444';
+            document.getElementById('gateEmail').style.background = 'rgba(239,68,68,0.1)';
+        }
+    }
+
+    function showError(msg) {
+        const err = document.getElementById('gateError');
+        err.textContent = msg;
+        err.style.display = 'block';
+    }
+
+    // Enter key support
+    document.getElementById('gateEmail').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') checkAccess();
+        // Reset style on typing
+        this.style.borderColor = '';
+        this.style.background = '';
+        document.getElementById('gateError').style.display = 'none';
+    });
+
+    // Lock body scroll when gate is visible
+    document.body.style.overflow = 'hidden';
+
+    // Progress bar
+    window.addEventListener('scroll', () => {
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const progress = (scrollTop / scrollHeight) * 100;
+        document.getElementById('progressBar').style.width = progress + '%';
+    });
+
+    // Quiz
+    function checkAnswer(el, isCorrect) {
+        const question = el.closest('.quiz-question');
+        if (question.dataset.answered) return;
+        question.dataset.answered = 'true';
+
+        const options = question.querySelectorAll('.quiz-option');
+        options.forEach(opt => {
+            opt.style.pointerEvents = 'none';
+            opt.style.opacity = '0.6';
+        });
+
+        if (isCorrect) {
+            el.classList.add('correct');
+            el.style.opacity = '1';
+            question.querySelectorAll('.quiz-feedback')[0].style.display = 'block';
+        } else {
+            el.classList.add('wrong');
+            el.style.opacity = '1';
+            options.forEach(opt => {
+                if (opt.onclick && opt.onclick.toString().includes('true')) {
+                    opt.classList.add('correct');
+                    opt.style.opacity = '1';
+                }
+            });
+            question.querySelectorAll('.quiz-feedback')[1].style.display = 'block';
+        }
+    }
+
+    // Smooth scroll for TOC
+    document.querySelectorAll('.toc-item').forEach(link => {
+        link.addEventListener('click', e => {
+            e.preventDefault();
+            const target = document.querySelector(link.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

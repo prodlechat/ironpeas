@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Replay MasterClass #3 — Andromeda, Meta & Cité par les IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED;
+  --primary-dark:#4F1FB8;
+  --accent:#F59E0B;
+  --success:#10B981;
+  --danger:#EF4444;
+  --info:#3B82F6;
+  --bg:#FAFAFC;
+  --surface:#FFFFFF;
+  --text:#1A1A2E;
+  --text-soft:#4A4A68;
+  --border:#E5E7EB;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100% !important;max-width:100% !important;overflow-x:hidden}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.7;
+  font-size:16px;
+}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;line-height:1.3}
+
+/* PROGRESS BAR */
+.progress-bar{
+  position:fixed;top:0;left:0;height:4px;
+  background:linear-gradient(90deg,var(--primary),var(--accent));
+  z-index:1000;width:0;transition:width .1s ease;
+}
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,#6C3AED 0%,#3B1F8B 60%,#1A1A2E 100%);
+  color:#fff;padding:60px 24px 80px;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:"";position:absolute;top:-50%;right:-10%;width:600px;height:600px;
+  background:radial-gradient(circle,rgba(245,158,11,.18) 0%,transparent 70%);
+  border-radius:50%;
+}
+.hero-inner{max-width:960px;margin:0 auto;position:relative;z-index:1}
+.badge{
+  display:inline-block;background:rgba(245,158,11,.18);color:#FFD580;
+  padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;
+  letter-spacing:.5px;border:1px solid rgba(245,158,11,.4);margin-bottom:20px;
+}
+.hero h1{font-size:clamp(28px,4.5vw,44px);font-weight:800;margin-bottom:18px}
+.hero p.subtitle{font-size:18px;opacity:.92;max-width:720px;margin-bottom:28px}
+.meta{display:flex;flex-wrap:wrap;gap:20px;font-size:14px;opacity:.85}
+.meta span{display:flex;align-items:center;gap:6px}
+
+/* CONTAINER */
+.container{max-width:960px;margin:0 auto;padding:0 24px}
+
+/* VIDEO PLAYER */
+.video-wrap{
+  max-width:912px;margin:-40px auto 30px;position:relative;z-index:2;
+  border-radius:16px;overflow:hidden;
+  box-shadow:0 20px 50px rgba(26,26,46,.35);
+  background:#000;
+  border:1px solid var(--border);
+}
+.video-aspect{position:relative;width:100%;padding-top:56.25%}
+.video-aspect iframe{
+  position:absolute;top:0;left:0;width:100%;height:100%;border:0;
+}
+
+/* TOC */
+.toc{
+  background:var(--surface);border-radius:16px;padding:30px;
+  margin:0 auto 50px;position:relative;z-index:2;
+  box-shadow:0 10px 40px rgba(108,58,237,.12);max-width:912px;
+  border:1px solid var(--border);
+}
+.toc h2{font-size:18px;color:var(--primary);margin-bottom:18px;text-transform:uppercase;letter-spacing:1px}
+.toc ol{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px}
+.toc ol li{counter-increment:tocnum}
+.toc a{
+  display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;
+  color:var(--text);text-decoration:none;font-weight:500;font-size:14px;
+  transition:all .2s;
+}
+.toc a::before{
+  content:counter(tocnum,decimal-leading-zero);
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  color:#fff;font-weight:700;font-size:12px;
+  width:28px;height:28px;display:flex;align-items:center;justify-content:center;
+  border-radius:6px;flex-shrink:0;
+}
+.toc a:hover{background:rgba(108,58,237,.06);color:var(--primary);transform:translateX(2px)}
+.toc ol{counter-reset:tocnum}
+
+/* SECTIONS */
+.section{
+  background:var(--surface);border-radius:16px;margin-bottom:30px;
+  overflow:hidden;border:1px solid var(--border);
+  box-shadow:0 4px 20px rgba(0,0,0,.04);
+}
+.section-header{
+  padding:28px 32px 24px;display:flex;align-items:center;gap:16px;
+  border-bottom:1px solid var(--border);position:relative;
+}
+.section-header::after{
+  content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--primary);
+}
+.section:nth-child(2n) .section-header::after{background:var(--accent)}
+.section:nth-child(3n) .section-header::after{background:var(--success)}
+.section:nth-child(4n) .section-header::after{background:var(--info)}
+.section:nth-child(5n) .section-header::after{background:var(--danger)}
+.section-num{
+  font-family:'Space Grotesk',sans-serif;font-size:36px;font-weight:800;
+  color:var(--primary);opacity:.9;line-height:1;
+}
+.section-icon{font-size:32px}
+.section-title{flex:1}
+.section-title h2{font-size:22px;font-weight:700;margin-bottom:4px}
+.section-title .timecode{font-size:13px;color:var(--text-soft);font-weight:500}
+.section-body{padding:28px 32px}
+.section-body p{margin-bottom:16px;color:var(--text-soft)}
+.section-body p strong{color:var(--text)}
+
+/* CALLOUTS */
+.callout{
+  border-left:4px solid var(--info);background:rgba(59,130,246,.06);
+  padding:18px 22px;border-radius:8px;margin:20px 0;display:flex;gap:14px;
+}
+.callout-icon{font-size:24px;flex-shrink:0}
+.callout-content{flex:1}
+.callout-title{font-weight:700;color:var(--info);margin-bottom:6px;font-size:14px;text-transform:uppercase;letter-spacing:.5px}
+.callout p{margin:0;color:var(--text);line-height:1.6}
+.callout.success{border-color:var(--success);background:rgba(16,185,129,.06)}
+.callout.success .callout-title{color:var(--success)}
+.callout.warning{border-color:var(--accent);background:rgba(245,158,11,.08)}
+.callout.warning .callout-title{color:#B45309}
+.callout.danger{border-color:var(--danger);background:rgba(239,68,68,.06)}
+.callout.danger .callout-title{color:var(--danger)}
+.callout.tip{border-color:var(--primary);background:rgba(108,58,237,.06)}
+.callout.tip .callout-title{color:var(--primary)}
+
+/* TABLES */
+.table-wrap{overflow-x:auto;margin:20px 0;border-radius:10px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+thead{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff}
+th{padding:14px 16px;text-align:left;font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.5px}
+td{padding:14px 16px;border-bottom:1px solid var(--border);color:var(--text-soft)}
+tbody tr:nth-child(even){background:#FAFAFC}
+tbody tr:last-child td{border-bottom:none}
+td strong{color:var(--text)}
+
+/* CARD GRID */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:20px 0}
+.card{
+  background:linear-gradient(135deg,#fff,#FAFAFC);
+  border:1px solid var(--border);border-radius:12px;padding:20px;
+  transition:all .2s;
+}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(108,58,237,.12)}
+.card-num{
+  display:inline-block;width:32px;height:32px;line-height:32px;text-align:center;
+  background:var(--primary);color:#fff;border-radius:8px;font-weight:700;
+  font-family:'Space Grotesk',sans-serif;margin-bottom:10px;
+}
+.card h4{font-size:15px;margin-bottom:8px}
+.card p{font-size:13px;color:var(--text-soft);margin:0}
+
+/* PROS CONS */
+.proscons{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
+.pros,.cons{padding:18px 20px;border-radius:10px}
+.pros{background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.25)}
+.cons{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.22)}
+.pros h4{color:var(--success);margin-bottom:10px;font-size:15px}
+.cons h4{color:var(--danger);margin-bottom:10px;font-size:15px}
+.pros ul,.cons ul{padding-left:20px;font-size:14px;color:var(--text-soft)}
+.pros li,.cons li{margin-bottom:6px}
+
+/* DETAILS */
+details{
+  background:#F5F4FA;border:1px solid var(--border);border-radius:10px;
+  padding:14px 18px;margin:14px 0;cursor:pointer;
+}
+details summary{font-weight:600;color:var(--primary);outline:none}
+details[open]{background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.04)}
+details > *:not(summary){margin-top:12px;color:var(--text-soft);font-size:14px}
+
+/* QUIZ */
+.quiz{
+  background:linear-gradient(135deg,#1A1A2E 0%,#3B1F8B 100%);
+  color:#fff;padding:40px 30px;border-radius:20px;margin:50px 0 30px;
+}
+.quiz h2{color:#fff;margin-bottom:24px;font-size:26px}
+.quiz-q{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;padding:22px;margin-bottom:18px;
+}
+.quiz-q h4{color:#fff;margin-bottom:14px;font-size:16px}
+.quiz-options{display:flex;flex-direction:column;gap:8px}
+.quiz-options label{
+  display:flex;align-items:center;gap:10px;padding:11px 14px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+  border-radius:8px;cursor:pointer;transition:all .2s;font-size:14px;
+}
+.quiz-options label:hover{background:rgba(255,255,255,.1)}
+.quiz-options input{accent-color:var(--accent)}
+.quiz-options label.correct{background:rgba(16,185,129,.2);border-color:var(--success)}
+.quiz-options label.wrong{background:rgba(239,68,68,.2);border-color:var(--danger)}
+.quiz-feedback{
+  margin-top:12px;padding:12px 16px;border-radius:8px;font-size:14px;
+  display:none;
+}
+.quiz-feedback.ok{display:block;background:rgba(16,185,129,.15);border:1px solid var(--success);color:#A7F3D0}
+.quiz-feedback.ko{display:block;background:rgba(239,68,68,.15);border:1px solid var(--danger);color:#FECACA}
+
+/* FOOTER */
+.footer{
+  text-align:center;padding:50px 24px 30px;color:var(--text-soft);font-size:14px;
+  border-top:1px solid var(--border);margin-top:60px;
+}
+.footer .brand{
+  font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);
+  font-size:18px;margin-bottom:6px;
+}
+
+/* RESPONSIVE */
+@media (max-width:600px){
+  .section-header{padding:22px}
+  .section-body{padding:22px}
+  .toc{padding:22px;margin-top:-30px}
+  .proscons{grid-template-columns:1fr}
+  .section-num{font-size:28px}
+}
+@media print{
+  .progress-bar,.quiz{display:none}
+  body{background:#fff}
+  .section{break-inside:avoid;box-shadow:none;border:1px solid #ccc}
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="badge">MASTERCLASS #3 — REPLAY LIVE</span>
+    <h1>Andromeda, copywriting & contenu cité par les IA</h1>
+    <p class="subtitle">La nouvelle donne de la pub Meta pour les artistes : pourquoi l'IA d'Andromeda change tout, comment construire des creative ads qui performent, et présentation du programme « Cité par les IA ».</p>
+    <div class="meta">
+      <span>⏱️ Durée : 1h38</span>
+      <span>👤 Formateur : Tarik Hamiche</span>
+      <span>🏷️ Producteur à Succès</span>
+      <span>📅 Session live</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+<div class="video-wrap">
+  <div class="video-aspect">
+    <iframe src="https://player.vimeo.com/video/1187595118?h=28a50147a8&badge=0&autopause=0&player_id=0&app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" allowfullscreen title="Replay MasterClass #3"></iframe>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Sommaire de la session</h2>
+  <ol>
+    <li><a href="#s1">Andromeda : la nouvelle donne Meta</a></li>
+    <li><a href="#s2">Les 3 piliers de la creative ad</a></li>
+    <li><a href="#s3">Scripter les 10 premières secondes</a></li>
+    <li><a href="#s4">Outils IA : Fal, Runway & Co</a></li>
+    <li><a href="#s5">Copywriting : varier les angles</a></li>
+    <li><a href="#s6">Programme « Cité par les IA »</a></li>
+    <li><a href="#s7">Formats de pub & découvertes</a></li>
+    <li><a href="#s8">Q&A & stratégies pour artistes</a></li>
+  </ol>
+</nav>
+
+<!-- SECTION 1 -->
+<section class="section" id="s1">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <span class="section-icon">🤖</span>
+    <div class="section-title">
+      <h2>Andromeda : la nouvelle donne Meta</h2>
+      <span class="timecode">⏱ 01:30 → 09:30</span>
+    </div>
+  </div>
+  <div class="section-body">
+    <p>Depuis un an et demi environ, la régie publicitaire Meta est pilotée par un nouvel algorithme nommé <strong>Andromeda</strong>. Pensez-le comme un agent IA avant l'heure : il indexe vos pubs, met en avant les meilleures et enterre les autres. C'est lui qui décide pourquoi vos pubs coûtent plus ou moins cher.</p>
+
+    <div class="callout tip">
+      <span class="callout-icon">💡</span>
+      <div class="callout-content">
+        <div class="callout-title">À retenir</div>
+        <p>Pour la première fois, Andromeda est capable de battre tout le monde. Cela signifie deux choses : <strong>n'importe qui peut désormais lancer des publicités efficaces</strong>, et <strong>tout se joue maintenant au niveau de la creative ad</strong>.</p>
+      </div>
+    </div>
+
+    <p>Andromeda a aussi une particularité : si vous lui demandez du <strong>trafic</strong>, il vous donnera du trafic — mais pas forcément des résultats commerciaux. Il faut donc choisir l'objectif de campagne avec lucidité, en fonction de ce que vous cherchez vraiment.</p>
+
+    <div class="callout warning">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-content">
+        <div class="callout-title">Attention</div>
+        <p>Le travail d'avant — comparer 50 audiences, micro-segmenter, A/B tester des centaines d'ensembles — ne sert plus à grand-chose. Andromeda gère mieux ça que vous. Concentrez votre énergie sur la création, pas sur la mécanique.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2 -->
+<section class="section" id="s2">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <span class="section-icon">🎯</span>
+    <div class="section-title">
+      <h2>Les 3 piliers de la creative ad</h2>
+      <span class="timecode">⏱ 09:30 → 15:00</span>
+    </div>
+  </div>
+  <div class="section-body">
+    <p>À partir du moment où on accepte que tout se passe au niveau de la creative, il y a exactement <strong>trois leviers à travailler</strong>. Ces trois leviers n'ont pas changé, mais leur poids relatif a explosé avec Andromeda.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-num">1</span>
+        <h4>Le format</h4>
+        <p>Vidéo verticale, vidéo carrée, image, carrousel. Le bon format dépend de l'emplacement et du message.</p>
+      </div>
+      <div class="card">
+        <span class="card-num">2</span>
+        <h4>Le hook</h4>
+        <p>L'accroche : ce qui se passe dans les 3 à 10 premières secondes. Tout se joue ici.</p>
+      </div>
+      <div class="card">
+        <span class="card-num">3</span>
+        <h4>Le copywriting</h4>
+        <p>Le texte qui accompagne la pub. Andromeda ne lit que ça pour comprendre de quoi parle votre creative.</p>
+      </div>
+    </div>
+
+    <div class="callout success">
+      <span class="callout-icon">✅</span>
+      <div class="callout-content">
+        <div class="callout-title">Le saviez-vous ?</div>
+        <p>Andromeda ne sait <strong>pas regarder</strong> votre vidéo. Il ne voit pas que vous êtes déguisé en magicien ou en Sangoku. Il n'écoute pas non plus ce que vous dites. Il s'appuie sur la transcription quand elle existe, et surtout sur le copywriting. Tout part de là.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3 -->
+<section class="section" id="s3">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <span class="section-icon">🪝</span>
+    <div class="section-title">
+      <h2>Scripter les 10 premières secondes</h2>
+      <span class="timecode">⏱ 15:00 → 20:00</span>
+    </div>
+  </div>
+  <div class="section-body">
+    <p>Le hook, c'est le moment de vérité. Vous devez scripter <strong>a minima les 10 premières secondes</strong> de chaque pub. Demandez-vous : « qu'est-ce qui se passe dans les 3 à 10 premières secondes qui est suffisamment sensationnel ou anormal pour capter l'attention ? »</p>
+
+    <p>Le hook se travaille sur trois dimensions simultanément :</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Dimension</th><th>Question à se poser</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Ce que vous montrez</strong></td><td>Quelle image, quel décor, quel costume coupe le scroll ?</td></tr>
+          <tr><td><strong>Ce que vous dites</strong></td><td>Quelle phrase d'attaque crée une rupture cognitive ?</td></tr>
+          <tr><td><strong>Ce que le public voit</strong></td><td>Quel sous-titre, quelle accroche en surimpression apparaît ?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <span class="callout-icon">🎯</span>
+      <div class="callout-content">
+        <div class="callout-title">Exemple concret</div>
+        <p>« <em>Si tu sors tes morceaux au hasard en espérant que ça marche comme par magie, arrête tout de suite parce que…</em> » — c'est tout bête à scripter, et ça fonctionne très bien. La structure : pattern interrupt + promesse de révélation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4 -->
+<section class="section" id="s4">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <span class="section-icon">🛠️</span>
+    <div class="section-title">
+      <h2>Outils IA : Fal, Runway & Co</h2>
+      <span class="timecode">⏱ 20:00 → 25:20</span>
+    </div>
+  </div>
+  <div class="section-body">
+    <p>Pour produire des creative ads à effet « waouh » sans budget de production cinématographique, deux outils sortent du lot. Le choix dépend de votre niveau d'exigence et de votre budget.</p>
+
+    <div class="proscons">
+      <div class="pros">
+        <h4>✅ Fal.ai</h4>
+        <ul>
+          <li>Accès à plein d'outils différents en un seul endroit</li>
+          <li>Coût ultra-bas : moins d'1 dollar par génération</li>
+          <li>Idéal pour tester rapidement plusieurs visuels</li>
+          <li>Parfait pour les budgets serrés et l'expérimentation</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <h4>⚠️ Runway</h4>
+        <ul>
+          <li>Beaucoup plus pro, qualité premium</li>
+          <li>Coût bien plus élevé</li>
+          <li>Pertinent pour des productions « finales »</li>
+          <li>Surtout utile quand l'angle a déjà été validé</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <span class="callout-icon">📝</span>
+      <div class="callout-content">
+        <div class="callout-title">La méthode de Tarik</div>
+        <p>« Je structure mes accroches, puis je précise en commentaire les effets que j'aimerais voir. Je ne suis pas garanti d'obtenir exactement ça, mais ça oriente fortement la génération. » L'IA est un copilote, pas un magicien autonome.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5 -->
+<section class="section" id="s5">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <span class="section-icon">✍️</span>
+    <div class="section-title">
+      <h2>Copywriting : varier les angles marketing</h2>
+      <span class="timecode">⏱ 25:20 → 27:15 et 44:30 → 55:00</span>
+    </div>
+  </div>
+  <div class="section-body">
+    <p>Voici probablement <strong>le levier le plus sous-estimé</strong> de la pub Meta moderne. Andromeda lit le texte. Si votre copywriting est identique sur 25 pubs, il considère que 24 sont inutiles. Il en testera une, gardera la meilleure, et laissera les 24 autres dépenser de l'argent en roue libre sur des emplacements pourris.</p>
+
+    <div class="callout danger">
+      <span class="callout-icon">🔥</span>
+      <div class="callout-content">
+        <div class="callout-title">L'erreur fatale</div>
+        <p>Lancer 5 pubs avec le même texte « <em>Clique ici pour aller regarder mon clip</em> ». Vous mettez vos propres pubs en concurrence entre elles. Andromeda en garde une, brûle votre budget sur les autres.</p>
+      </div>
+    </div>
+
+    <p>La meilleure stratégie : exploiter la possibilité que Meta vous offre de mettre <strong>5 textes différents</strong> par publicité. Cinq angles marketing complètement différents.</p>
+
+    <div class="callout success">
+      <span class="callout-icon">🎤</span>
+      <div class="callout-content">
+        <div class="callout-title">Exemple : vendre une place de concert</div>
+        <p>Angle 1 : la performance scénique. Angle 2 : l'émotion live. Angle 3 : la grosse soirée after avec invitation VIP. Angle 4 : c'est complet partout sauf ici. Angle 5 : ton artiste fétiche annonce une surprise. <strong>Cinq textes, cinq portes d'entrée différentes</strong> dans le cerveau de cinq segments d'audience.</p>
+      </div>
+    </div>
+
+    <p>En faisant ça, Andromeda ne mettra plus vos pubs en concurrence entre elles. Il les laissera vivre, parce qu'il considérera qu'elles parlent à des intentions différentes. <strong>Lancer une pub sans travailler le copywriting, c'est littéralement jeter de l'argent par les fenêtres.</strong></p>
+  </div>
+</section>
+
+<!-- SECTION 6 -->
+<section class="section" id="s6">
+  <div class="section-header">
+    <span class="section-num">06</span>
+    <span class="section-icon">🎓</span>
+    <div class="section-title">
+      <h2>Programme « Cité par les IA »</h2>
+      <span class="timecode">⏱ 27:15 → 44:30</span>
+    </div>
+  </div>
+  <div class="section-body">
+    <p>Présentation rapide du programme qui ouvre vendredi. <strong>6 modules</strong> pour apprendre à se faire repérer par les IA génératives (ChatGPT, Gemini, Perplexity, AI Overviews) au lieu de continuer à se battre sur Google.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Module</th><th>Sujet</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1</strong></td><td>Comprendre comment fonctionnent les recommandations IA</td></tr>
+          <tr><td><strong>2</strong></td><td>Construire une présence en ligne lisible par les IA</td></tr>
+          <tr><td><strong>3</strong></td><td>Création de votre site (bonus inclus dans le programme)</td></tr>
+          <tr><td><strong>4</strong></td><td>Produire du contenu citable — la mécanique du chunking</td></tr>
+          <tr><td><strong>5</strong></td><td>Reddit : règles, subreddits, comment ne pas se faire griller</td></tr>
+          <tr><td><strong>6</strong></td><td>Stratégies avancées de visibilité IA</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout tip">
+      <span class="callout-icon">📚</span>
+      <div class="callout-content">
+        <div class="callout-title">Le module 4 — la pépite</div>
+        <p>Les IA fonctionnent par <strong>mécanisme de chunking</strong>. Avant, un article de blog SEO te faisait gagner des rangs Google. Aujourd'hui, ça ne suffit pas pour les IA. Il faut une structure d'articles en piliers, avec dénivellations de sous-articles, dans la manière dont les IA lisent l'information. C'est la meilleure méthodologie pour produire du contenu qui sera cité.</p>
+      </div>
+    </div>
+
+    <details>
+      <summary>Les 3 bonus offerts dans le programme</summary>
+      <p><strong>Bonus 1 — Création du site :</strong> on te crée directement ton site optimisé pour la lecture IA.</p>
+      <p><strong>Bonus 2 — Base presse :</strong> nom, prénom, magazine/journal/web/radio, email, téléphone, WhatsApp, LinkedIn — tout ce que Tarik a accumulé est dedans.</p>
+      <p><strong>Bonus 3 — Skill clé en main :</strong> un assistant IA prêt à l'emploi pour automatiser la production de contenu citable.</p>
+    </details>
+
+    <div class="callout warning">
+      <span class="callout-icon">⏳</span>
+      <div class="callout-content">
+        <div class="callout-title">Mécanique d'inscription</div>
+        <p>Si vous voulez votre place, vous êtes redirigés vers la possibilité de réserver d'avance. Sinon, c'est liste d'attente. Le format est volontairement intime pour pouvoir accompagner sérieusement chaque participant.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 7 -->
+<section class="section" id="s7">
+  <div class="section-header">
+    <span class="section-num">07</span>
+    <span class="section-icon">🎨</span>
+    <div class="section-title">
+      <h2>Formats de pub & découvertes terrain</h2>
+      <span class="timecode">⏱ 55:00 → 70:10</span>
+    </div>
+  </div>
+  <div class="section-body">
+    <p>Tarik utilise <strong>les 4 formats</strong> en parallèle : vidéo verticale, vidéo carrée, image avec texte, carrousel. Pas de photo classique pour lui (« ma tête ne doit pas revenir aux gens »). Et deux découvertes qui vont à contre-courant de ce que disent la plupart des « experts Meta ».</p>
+
+    <div class="callout success">
+      <span class="callout-icon">💎</span>
+      <div class="callout-content">
+        <div class="callout-title">Découverte #1 — Ne pas adapter le format à l'emplacement</div>
+        <p>Contre-intuitif : laisser une même vidéo tourner sur deux formats différents (vertical + carré) plutôt que de tout adapter manuellement. Andromeda considère les deux formats comme distincts et les fait vivre en parallèle. Quand une vidéo est bonne, elle marche sur les deux.</p>
+      </div>
+    </div>
+
+    <div class="callout success">
+      <span class="callout-icon">📰</span>
+      <div class="callout-content">
+        <div class="callout-title">Découverte #2 — Les images texte battent les images photo</div>
+        <p>Fond blanc + texte noir, ou fond noir + texte blanc : ces visuels « façon une de magazine » performent largement mieux qu'une photo. Pour promouvoir un clip notamment, c'est l'un des trucs qui marche le mieux. Une phrase d'accroche journalistique qui attise la curiosité = clic.</p>
+      </div>
+    </div>
+
+    <p>Conclusion : il faut tester soi-même, sur son propre compte, avec ses propres données. Ce qui marche pour les experts e-commerce ne marche pas forcément pour un projet artistique.</p>
+  </div>
+</section>
+
+<!-- SECTION 8 -->
+<section class="section" id="s8">
+  <div class="section-header">
+    <span class="section-num">08</span>
+    <span class="section-icon">💬</span>
+    <div class="section-title">
+      <h2>Q&A & stratégies pour artistes</h2>
+      <span class="timecode">⏱ 70:10 → fin</span>
+    </div>
+  </div>
+  <div class="section-body">
+    <p>La fin de session est consacrée aux questions des élèves. Plusieurs points clés ressortent.</p>
+
+    <h3 style="margin:20px 0 10px;color:var(--primary)">Vidéo longue vs vidéo courte</h3>
+    <p>« Vidéo longue » et « vidéo courte » sont une mauvaise traduction d'un anglicisme. Cela ne renvoie pas à une durée fixe en secondes, mais au <strong>format de consommation</strong> : verticale (TikTok/Reels) vs horizontale/carrée (feed classique).</p>
+
+    <h3 style="margin:20px 0 10px;color:var(--primary)">Comment savoir quelle vidéo marche le mieux</h3>
+    <p>On ne fait pas varier le contenu vidéo : on fait varier le copywriting (vidéo 1 + textes A, B, C, D). Les <strong>métriques d'Andromeda</strong> vous diront laquelle apporte le plus de résultats au coût le plus bas.</p>
+
+    <div class="callout warning">
+      <span class="callout-icon">🎵</span>
+      <div class="callout-content">
+        <div class="callout-title">Particularité des artistes : audiences restreintes</div>
+        <p>Andromeda gère les audiences artistes de façon plus serrée. Avec 50 000 abonnés Instagram, il considère peut-être 350 000 personnes intéressantes en France. Si vous mettez plus de budget que la fenêtre journalière qu'il arrive à toucher, il dépense au hasard. Vous targetez « mamie Yvette de 82 ans » au lieu de votre coeur de cible. <strong>Allez doucement sur les budgets et visez le long terme</strong>, ou segmentez par territoire.</p>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <span class="callout-icon">📺</span>
+      <div class="callout-content">
+        <div class="callout-title">Le seul moment où il faut investir lourdement</div>
+        <p>Quand vous êtes invité sur une chaîne YouTube à forte audience. C'est là que la stratégie « pub massive sur un point chaud » paie réellement. Le reste du temps : régularité, faible ticket, optimisation du copywriting.</p>
+      </div>
+    </div>
+
+    <h3 style="margin:20px 0 10px;color:var(--primary)">Lecture des résultats</h3>
+    <p>Quand une pub vous donne <strong>48 résultats à 2,89 € le résultat</strong> contre <strong>une autre à 7,38 € pour 2 résultats</strong> seulement : on coupe la mauvaise et on laisse vivre la bonne. C'est la mécanique de pilotage à appliquer en continu.</p>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section class="quiz">
+  <h2>🧠 Quiz : avez-vous bien capté les fondamentaux ?</h2>
+
+  <div class="quiz-q" data-correct="2">
+    <h4>1. Sur quoi Andromeda s'appuie-t-il pour comprendre le sujet de votre pub ?</h4>
+    <div class="quiz-options">
+      <label><input type="radio" name="q1" value="0"> Sur l'analyse vidéo en temps réel</label>
+      <label><input type="radio" name="q1" value="1"> Sur la musique et le rythme du clip</label>
+      <label><input type="radio" name="q1" value="2"> Sur le copywriting (texte de la pub)</label>
+      <label><input type="radio" name="q1" value="3"> Sur les hashtags et le titre de votre profil</label>
+    </div>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <div class="quiz-q" data-correct="1">
+    <h4>2. Combien de textes différents Meta vous laisse-t-il mettre par publicité ?</h4>
+    <div class="quiz-options">
+      <label><input type="radio" name="q2" value="0"> 3</label>
+      <label><input type="radio" name="q2" value="1"> 5</label>
+      <label><input type="radio" name="q2" value="2"> 10</label>
+      <label><input type="radio" name="q2" value="3"> Illimité</label>
+    </div>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <div class="quiz-q" data-correct="0">
+    <h4>3. Que se passe-t-il si vos 25 pubs ont le même copywriting ?</h4>
+    <div class="quiz-options">
+      <label><input type="radio" name="q3" value="0"> Andromeda en garde 1 et les 24 autres dépensent en pure perte</label>
+      <label><input type="radio" name="q3" value="1"> Meta multiplie l'audience par 25</label>
+      <label><input type="radio" name="q3" value="2"> Le coût par résultat baisse mécaniquement</label>
+      <label><input type="radio" name="q3" value="3"> Les pubs se renforcent mutuellement</label>
+    </div>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <div class="quiz-q" data-correct="3">
+    <h4>4. Quel format d'image performe particulièrement bien sur Meta selon Tarik ?</h4>
+    <div class="quiz-options">
+      <label><input type="radio" name="q4" value="0"> Photo de profil de l'artiste</label>
+      <label><input type="radio" name="q4" value="1"> Capture d'écran de stats Spotify</label>
+      <label><input type="radio" name="q4" value="2"> Pochette d'album HD</label>
+      <label><input type="radio" name="q4" value="3"> Image type « une de magazine » avec texte sur fond contrasté</label>
+    </div>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <div class="quiz-q" data-correct="1">
+    <h4>5. Quel module du programme « Cité par les IA » traite du chunking ?</h4>
+    <div class="quiz-options">
+      <label><input type="radio" name="q5" value="0"> Module 2</label>
+      <label><input type="radio" name="q5" value="1"> Module 4</label>
+      <label><input type="radio" name="q5" value="2"> Module 5 (Reddit)</label>
+      <label><input type="radio" name="q5" value="3"> Module 6</label>
+    </div>
+    <div class="quiz-feedback"></div>
+  </div>
+</section>
+
+</div>
+
+<footer class="footer">
+  <div class="brand">PRODUCTEUR À SUCCÈS</div>
+  <p>Replay MasterClass #3 — Andromeda, copywriting & contenu cité par les IA</p>
+  <p style="margin-top:8px;font-size:12px;opacity:.7">Support de cours généré à partir du replay vidéo · Tarik Hamiche</p>
+</footer>
+
+<script>
+// Progress bar
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  const p=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100;
+  document.getElementById('progress').style.width=p+'%';
+});
+
+// Quiz logic
+document.querySelectorAll('.quiz-q').forEach(q=>{
+  const correct=parseInt(q.dataset.correct);
+  q.querySelectorAll('input').forEach(input=>{
+    input.addEventListener('change',()=>{
+      const labels=q.querySelectorAll('label');
+      const fb=q.querySelector('.quiz-feedback');
+      labels.forEach(l=>l.classList.remove('correct','wrong'));
+      const v=parseInt(input.value);
+      if(v===correct){
+        input.closest('label').classList.add('correct');
+        fb.className='quiz-feedback ok';
+        fb.innerHTML='✅ Bonne réponse !';
+      }else{
+        input.closest('label').classList.add('wrong');
+        labels[correct].classList.add('correct');
+        fb.className='quiz-feedback ko';
+        fb.innerHTML='❌ Pas tout à fait. La bonne réponse est en vert.';
+      }
+    });
+  });
+});
+
+// Smooth scroll
+document.querySelectorAll('.toc a').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+</script>
+
+</body>
+</html>

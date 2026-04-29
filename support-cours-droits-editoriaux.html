@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Droits éditoriaux dans la musique — Support de cours</title>
+<style>
+  :root {
+    --bg-1: #0b0b1a;
+    --bg-2: #141432;
+    --card: #1a1a3a;
+    --card-2: #20204a;
+    --accent: #ffcc33;
+    --accent-2: #ff5c8a;
+    --accent-3: #6fffe9;
+    --accent-4: #9d4edd;
+    --text: #f5f5fa;
+    --text-dim: #b8b8d1;
+    --border: rgba(255,255,255,0.08);
+    --shadow: 0 20px 50px rgba(0,0,0,0.45);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(157,78,221,0.18), transparent 40%),
+      radial-gradient(circle at 90% 30%, rgba(111,255,233,0.12), transparent 40%),
+      radial-gradient(circle at 50% 100%, rgba(255,92,138,0.12), transparent 50%),
+      linear-gradient(180deg, var(--bg-1), var(--bg-2));
+    color: var(--text);
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+  .wrapper { max-width: 1180px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    border-radius: 28px;
+    padding: 64px 48px;
+    background:
+      linear-gradient(135deg, rgba(157,78,221,0.5), rgba(255,92,138,0.4)),
+      linear-gradient(135deg, #1a1a3a, #0b0b1a);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 48px;
+    border: 1px solid var(--border);
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: -50%;
+    background: radial-gradient(circle, rgba(255,204,51,0.18), transparent 60%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    backdrop-filter: blur(10px);
+  }
+  .hero h1 {
+    font-size: clamp(34px, 5vw, 58px);
+    line-height: 1.05;
+    font-weight: 800;
+    margin-bottom: 16px;
+    background: linear-gradient(90deg, #fff, #ffcc33);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero p.lead {
+    font-size: 19px;
+    max-width: 760px;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 32px;
+  }
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .pill {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 14px;
+    color: #fff;
+    backdrop-filter: blur(10px);
+  }
+  .pill strong { color: var(--accent); }
+
+  /* ---------- SOMMAIRE ---------- */
+  .toc {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 32px;
+    margin-bottom: 48px;
+    box-shadow: var(--shadow);
+  }
+  .toc h2 {
+    font-size: 20px;
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+  }
+  .toc a {
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid transparent;
+    transition: all 0.2s;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 14px;
+  }
+  .toc a:hover {
+    color: var(--text);
+    background: rgba(255,204,51,0.08);
+    border-color: rgba(255,204,51,0.3);
+    transform: translateX(4px);
+  }
+  .toc-num {
+    color: var(--accent);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section.chapter {
+    background: var(--card);
+    border-radius: 24px;
+    padding: 40px;
+    margin-bottom: 32px;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    position: relative;
+    overflow: hidden;
+  }
+  section.chapter::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-4));
+  }
+  .chapter-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 28px;
+  }
+  .chapter-num {
+    width: 56px; height: 56px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 22px;
+    color: #1a1a3a;
+    flex-shrink: 0;
+    box-shadow: 0 8px 20px rgba(255,92,138,0.3);
+  }
+  .chapter-header h2 {
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .chapter p, .chapter li {
+    color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+  .chapter h3 {
+    margin: 24px 0 14px;
+    font-size: 20px;
+    color: var(--accent);
+  }
+  .chapter ul, .chapter ol {
+    padding-left: 22px;
+    margin-bottom: 16px;
+  }
+  .chapter li { margin-bottom: 8px; }
+  .chapter a {
+    color: var(--accent-3);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(111,255,233,0.4);
+  }
+  .chapter a:hover { border-bottom-style: solid; }
+  .chapter strong { color: #fff; }
+
+  /* ---------- CALLOUT BOXES ---------- */
+  .callout {
+    border-radius: 16px;
+    padding: 22px 26px;
+    margin: 22px 0;
+    border-left: 4px solid;
+    background: rgba(255,255,255,0.03);
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .callout-icon {
+    font-size: 26px;
+    flex-shrink: 0;
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 12px;
+  }
+  .callout-info { border-left-color: var(--accent-3); }
+  .callout-info .callout-icon { background: rgba(111,255,233,0.15); }
+  .callout-warn { border-left-color: var(--accent-2); }
+  .callout-warn .callout-icon { background: rgba(255,92,138,0.15); }
+  .callout-key { border-left-color: var(--accent); }
+  .callout-key .callout-icon { background: rgba(255,204,51,0.15); }
+  .callout-tip { border-left-color: var(--accent-4); }
+  .callout-tip .callout-icon { background: rgba(157,78,221,0.18); }
+  .callout-title {
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  /* ---------- 3 LAYERS DIAGRAM ---------- */
+  .layers-diagram {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin: 28px 0;
+  }
+  .layer {
+    background: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 26px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+  .layer:hover { transform: translateY(-4px); }
+  .layer-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+  .layer-A .layer-tag { background: rgba(255,204,51,0.2); color: var(--accent); }
+  .layer-B .layer-tag { background: rgba(111,255,233,0.18); color: var(--accent-3); }
+  .layer-C .layer-tag { background: rgba(255,92,138,0.2); color: var(--accent-2); }
+  .layer h4 { font-size: 18px; margin-bottom: 10px; color: #fff; }
+  .layer p { font-size: 14px; color: var(--text-dim); }
+  .layer-emoji {
+    position: absolute;
+    bottom: -10px; right: -10px;
+    font-size: 90px;
+    opacity: 0.07;
+    transform: rotate(-15deg);
+  }
+
+  /* ---------- PIE CHARTS ---------- */
+  .pie-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin: 28px 0;
+  }
+  .pie-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 26px;
+    text-align: center;
+  }
+  .pie-card h4 {
+    color: var(--accent);
+    font-size: 15px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .pie-card .subtitle {
+    color: var(--text-dim);
+    font-size: 13px;
+    margin-bottom: 18px;
+  }
+  .pie-svg { width: 180px; height: 180px; margin: 0 auto 18px; display:block; }
+  .pie-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text);
+  }
+  .legend-color {
+    width: 14px; height: 14px; border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .legend-value {
+    margin-left: auto;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  /* ---------- TABLE ---------- */
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    margin: 22px 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255,255,255,0.02);
+  }
+  th, td {
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  th {
+    background: rgba(255,204,51,0.08);
+    color: var(--accent);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 12px;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.03); }
+
+  /* ---------- ÉDITEUR MISSIONS ---------- */
+  .missions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin: 22px 0;
+  }
+  .mission {
+    background: linear-gradient(135deg, rgba(157,78,221,0.15), rgba(255,92,138,0.1));
+    border: 1px solid rgba(157,78,221,0.3);
+    border-radius: 14px;
+    padding: 18px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    transition: all 0.2s;
+  }
+  .mission:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .mission-icon {
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .mission-text {
+    font-size: 14px;
+    color: #fff;
+    font-weight: 500;
+  }
+
+  /* ---------- 4 QUESTIONS CONTRAT ---------- */
+  .four-questions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin: 22px 0;
+  }
+  .question-card {
+    text-align: center;
+    padding: 24px 18px;
+    border-radius: 16px;
+    background: linear-gradient(160deg, rgba(255,204,51,0.12), rgba(255,92,138,0.08));
+    border: 1px solid rgba(255,204,51,0.25);
+  }
+  .q-icon {
+    font-size: 36px;
+    margin-bottom: 8px;
+  }
+  .q-label {
+    color: var(--accent);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+  .q-text {
+    font-size: 16px;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline {
+    position: relative;
+    padding: 20px 0;
+    margin: 28px 0;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 24px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--accent), var(--accent-2), var(--accent-4));
+  }
+  .timeline-item {
+    position: relative;
+    padding-left: 64px;
+    padding-bottom: 22px;
+  }
+  .timeline-dot {
+    position: absolute;
+    left: 12px; top: 4px;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    box-shadow: 0 0 0 6px rgba(255,204,51,0.15);
+    color: #1a1a3a;
+    font-weight: 800;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .timeline-item h4 { color: #fff; margin-bottom: 4px; font-size: 16px; }
+  .timeline-item .timeline-time { color: var(--accent); font-size: 12px; font-weight: 700; }
+
+  /* ---------- KEY-IDEAS ---------- */
+  .key-ideas {
+    counter-reset: ideacount;
+    display: grid;
+    gap: 14px;
+    margin: 22px 0;
+  }
+  .key-idea {
+    counter-increment: ideacount;
+    display: flex;
+    gap: 18px;
+    padding: 20px 22px;
+    background: rgba(255,255,255,0.03);
+    border-left: 4px solid var(--accent);
+    border-radius: 14px;
+    align-items: center;
+  }
+  .key-idea::before {
+    content: counter(ideacount);
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #1a1a3a;
+    font-weight: 800;
+    font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* ---------- ERREURS ---------- */
+  .errors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+    margin: 22px 0;
+  }
+  .error-card {
+    background: linear-gradient(135deg, rgba(255,92,138,0.1), rgba(255,92,138,0.04));
+    border: 1px solid rgba(255,92,138,0.3);
+    padding: 18px 20px;
+    border-radius: 14px;
+    display: flex;
+    gap: 12px;
+  }
+  .error-icon {
+    color: var(--accent-2);
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  /* ---------- CAS PRATIQUE ---------- */
+  .case-study {
+    background: linear-gradient(135deg, rgba(111,255,233,0.08), rgba(157,78,221,0.08));
+    border: 1px solid rgba(111,255,233,0.25);
+    border-radius: 18px;
+    padding: 28px;
+    margin: 22px 0;
+  }
+  .case-study h3 {
+    color: var(--accent-3);
+    margin-top: 0;
+  }
+  .case-flow {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .flow-step {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+  .flow-icon { font-size: 30px; margin-bottom: 6px; }
+  .flow-step h5 { color: #fff; font-size: 14px; margin-bottom: 4px; }
+  .flow-step .flow-tag {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .tag-rep { background: rgba(255,204,51,0.2); color: var(--accent); }
+  .tag-rep-mech { background: rgba(111,255,233,0.18); color: var(--accent-3); }
+  .tag-sync { background: rgba(255,92,138,0.2); color: var(--accent-2); }
+
+  /* ---------- GLOSSAIRE ---------- */
+  .glossary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+    margin: 22px 0;
+  }
+  .gloss-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    transition: all 0.2s;
+  }
+  .gloss-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .gloss-term {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .gloss-def { font-size: 14px; color: var(--text-dim); }
+
+  /* ---------- QUIZ ---------- */
+  .quiz {
+    background: linear-gradient(135deg, rgba(255,204,51,0.08), rgba(255,92,138,0.08));
+    border: 1px solid rgba(255,204,51,0.25);
+    border-radius: 18px;
+    padding: 28px;
+    margin: 22px 0;
+  }
+  .quiz-question {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 14px;
+  }
+  .quiz-q {
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .quiz-q::before {
+    content: "Q" counter(qcount) ".";
+    color: var(--accent);
+    font-weight: 800;
+    margin-right: 8px;
+  }
+  .quiz { counter-reset: qcount; }
+  .quiz-question { counter-increment: qcount; }
+  .quiz-options { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+  .quiz-opt {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .quiz-opt:hover {
+    background: rgba(255,204,51,0.1);
+    border-color: var(--accent);
+  }
+  .quiz-opt.correct {
+    background: rgba(111,255,233,0.18);
+    border-color: var(--accent-3);
+    color: var(--accent-3);
+  }
+  .quiz-opt.wrong {
+    background: rgba(255,92,138,0.18);
+    border-color: var(--accent-2);
+    color: var(--accent-2);
+  }
+  .quiz-feedback {
+    display: none;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.ok {
+    background: rgba(111,255,233,0.1);
+    color: var(--accent-3);
+    border: 1px solid rgba(111,255,233,0.3);
+  }
+
+  /* ---------- CONCLUSION ---------- */
+  .conclusion {
+    background: linear-gradient(135deg, var(--accent-4), var(--accent-2));
+    border-radius: 28px;
+    padding: 50px 44px;
+    text-align: center;
+    margin: 40px 0;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .conclusion::before {
+    content: """;
+    position: absolute;
+    top: -40px; left: 20px;
+    font-size: 250px;
+    color: rgba(255,255,255,0.1);
+    font-family: Georgia, serif;
+  }
+  .conclusion h2 {
+    font-size: clamp(22px, 3vw, 32px);
+    color: #fff;
+    line-height: 1.3;
+    max-width: 800px;
+    margin: 0 auto 16px;
+    font-weight: 700;
+  }
+  .conclusion p { color: rgba(255,255,255,0.85); }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 13px;
+    padding: 30px 0 0;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  /* ---------- PROGRESS BAR ---------- */
+  .progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-4));
+    width: 0%;
+    z-index: 100;
+    transition: width 0.1s;
+  }
+
+  /* ---------- BACK TO TOP ---------- */
+  .back-top {
+    position: fixed;
+    bottom: 30px; right: 30px;
+    width: 50px; height: 50px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #1a1a3a;
+    border: none;
+    border-radius: 50%;
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s;
+    z-index: 50;
+  }
+  .back-top.show { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    .layers-diagram { grid-template-columns: 1fr; }
+    .hero { padding: 40px 24px; }
+    section.chapter { padding: 26px 22px; }
+    .chapter-header { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="wrapper">
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="hero-eyebrow">Support de cours • Music Business</span>
+    <h1>Les droits éditoriaux dans la musique</h1>
+    <p class="lead">Comprendre comment l'œuvre musicale est protégée, administrée, exploitée et valorisée — du droit d'auteur au contrat d'édition, jusqu'à la sous-édition internationale.</p>
+    <div class="hero-meta">
+      <span class="pill">⏱ Durée : <strong>60 à 90 min</strong></span>
+      <span class="pill">📚 Niveau : <strong>Initié → Pro</strong></span>
+      <span class="pill">🎯 21 sections</span>
+      <span class="pill">✅ Quiz interactif</span>
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <nav class="toc">
+    <h2>📖 Sommaire du cours</h2>
+    <div class="toc-grid">
+      <a href="#s1"><span class="toc-num">01</span>Objectifs pédagogiques</a>
+      <a href="#s2"><span class="toc-num">02</span>Idée clé du cours</a>
+      <a href="#s3"><span class="toc-num">03</span>Définition simple</a>
+      <a href="#s4"><span class="toc-num">04</span>Les 3 grandes couches</a>
+      <a href="#s5"><span class="toc-num">05</span>Les titulaires des droits</a>
+      <a href="#s6"><span class="toc-num">06</span>Droit moral & patrimoniaux</a>
+      <a href="#s7"><span class="toc-num">07</span>Ce que recouvrent les droits</a>
+      <a href="#s8"><span class="toc-num">08</span>Le rôle de l'éditeur</a>
+      <a href="#s9"><span class="toc-num">09</span>Contrat d'édition</a>
+      <a href="#s10"><span class="toc-num">10</span>Répartition Sacem</a>
+      <a href="#s11"><span class="toc-num">11</span>Reproduction mécanique</a>
+      <a href="#s12"><span class="toc-num">12</span>Synchronisation</a>
+      <a href="#s13"><span class="toc-num">13</span>Sous-édition internationale</a>
+      <a href="#s14"><span class="toc-num">14</span>Durée de protection</a>
+      <a href="#s15"><span class="toc-num">15</span>À retenir absolument</a>
+      <a href="#s16"><span class="toc-num">16</span>Erreurs fréquentes</a>
+      <a href="#s17"><span class="toc-num">17</span>Cas pratique</a>
+      <a href="#s18"><span class="toc-num">18</span>Mini-glossaire</a>
+      <a href="#s19"><span class="toc-num">19</span>Plan de séance</a>
+      <a href="#s20"><span class="toc-num">20</span>Quiz de fin</a>
+      <a href="#s21"><span class="toc-num">21</span>Conclusion</a>
+    </div>
+  </nav>
+
+  <!-- 01 -->
+  <section class="chapter" id="s1">
+    <div class="chapter-header">
+      <div class="chapter-num">01</div>
+      <h2>Objectifs pédagogiques</h2>
+    </div>
+    <p>À la fin de ce cours, l'apprenant doit être capable de :</p>
+    <div class="missions-grid">
+      <div class="mission"><span class="mission-icon">🎯</span><div class="mission-text">Distinguer droit d'auteur, droits voisins et droits éditoriaux</div></div>
+      <div class="mission"><span class="mission-icon">🧑‍💼</span><div class="mission-text">Comprendre le rôle de l'éditeur musical</div></div>
+      <div class="mission"><span class="mission-icon">🔍</span><div class="mission-text">Identifier les principales exploitations d'une œuvre</div></div>
+      <div class="mission"><span class="mission-icon">💰</span><div class="mission-text">Saisir les logiques de collecte et de répartition</div></div>
+      <div class="mission"><span class="mission-icon">⚠️</span><div class="mission-text">Repérer les clauses sensibles d'un contrat d'édition</div></div>
+      <div class="mission"><span class="mission-icon">🌍</span><div class="mission-text">Comprendre la sous-édition à l'international</div></div>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section class="chapter" id="s2">
+    <div class="chapter-header">
+      <div class="chapter-num">02</div>
+      <h2>Idée clé du cours</h2>
+    </div>
+    <div class="callout callout-key">
+      <div class="callout-icon">💡</div>
+      <div>
+        <div class="callout-title">L'œuvre, pas le master</div>
+        Les droits éditoriaux concernent <strong>l'œuvre musicale elle-même</strong> — la chanson en tant que création intellectuelle : texte, mélodie, composition, parfois adaptation. Ils ne portent <strong>pas d'abord sur l'enregistrement sonore</strong>. Ils relèvent du droit d'auteur appliqué à l'œuvre, et de la manière dont cette œuvre est administrée, exploitée et valorisée par les auteurs, compositeurs et éditeurs.
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section class="chapter" id="s3">
+    <div class="chapter-header">
+      <div class="chapter-num">03</div>
+      <h2>Définition simple des droits éditoriaux</h2>
+    </div>
+    <p>Dans la pratique musicale, on parle de droits éditoriaux pour désigner les droits liés à <strong>l'édition musicale</strong>, donc à l'exploitation de l'œuvre par un éditeur musical pour le compte, en partenariat ou par cession/mandat avec les créateurs.</p>
+    <p>L'éditeur est le <strong>partenaire privilégié des auteurs</strong>, garant du respect du droit d'auteur des œuvres qu'il édite. Ses missions incluent :</p>
+    <div class="missions-grid">
+      <div class="mission"><span class="mission-icon">📣</span><div class="mission-text">Promotion des œuvres</div></div>
+      <div class="mission"><span class="mission-icon">🚀</span><div class="mission-text">Exploitation</div></div>
+      <div class="mission"><span class="mission-icon">📝</span><div class="mission-text">Dépôt à la Sacem</div></div>
+      <div class="mission"><span class="mission-icon">📊</span><div class="mission-text">Suivi des exploitations</div></div>
+      <div class="mission"><span class="mission-icon">🤝</span><div class="mission-text">Négociation des autorisations</div></div>
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section class="chapter" id="s4">
+    <div class="chapter-header">
+      <div class="chapter-num">04</div>
+      <h2>Les trois grandes couches de droits</h2>
+    </div>
+    <p>Pour comprendre le droit musical, il faut visualiser <strong>3 univers distincts</strong> qui cohabitent autour d'un même morceau :</p>
+    <div class="layers-diagram">
+      <div class="layer layer-A">
+        <div class="layer-emoji">✍️</div>
+        <span class="layer-tag">Couche A</span>
+        <h4>Droit d'auteur</h4>
+        <p>Protège <strong>l'œuvre de l'esprit</strong> : la composition, les paroles. L'auteur jouit d'un droit de propriété incorporelle exclusif et opposable à tous, du seul fait de la création.</p>
+      </div>
+      <div class="layer layer-B">
+        <div class="layer-emoji">🎤</div>
+        <span class="layer-tag">Couche B</span>
+        <h4>Droits voisins</h4>
+        <p>Protègent <strong>l'interprétation et la fixation</strong> : artistes-interprètes, producteurs de phonogrammes. Distincts des droits éditoriaux : ils concernent le master, pas l'œuvre écrite.</p>
+      </div>
+      <div class="layer layer-C">
+        <div class="layer-emoji">📚</div>
+        <span class="layer-tag">Couche C</span>
+        <h4>Droits éditoriaux</h4>
+        <p>Traduction <strong>économique et contractuelle</strong> du droit d'auteur : administration, perception, autorisations, valorisation, synchro, sous-édition, suivi international.</p>
+      </div>
+    </div>
+    <div class="callout callout-tip">
+      <div class="callout-icon">🧠</div>
+      <div>
+        <div class="callout-title">Mémo visuel</div>
+        Auteur écrit → <strong>droit d'auteur</strong>. Artiste/producteur enregistre → <strong>droits voisins</strong>. Éditeur exploite l'œuvre → <strong>droits éditoriaux</strong>.
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section class="chapter" id="s5">
+    <div class="chapter-header">
+      <div class="chapter-num">05</div>
+      <h2>Les titulaires des droits sur l'œuvre</h2>
+    </div>
+    <p>Sur une œuvre musicale, on retrouve généralement plusieurs ayants droit :</p>
+    <div class="missions-grid">
+      <div class="mission"><span class="mission-icon">✍️</span><div class="mission-text"><strong>Auteur·rice</strong> des paroles</div></div>
+      <div class="mission"><span class="mission-icon">🎼</span><div class="mission-text"><strong>Compositeur·rice</strong> de la musique</div></div>
+      <div class="mission"><span class="mission-icon">🎛️</span><div class="mission-text"><strong>Adaptateur / arrangeur</strong> selon contribution</div></div>
+      <div class="mission"><span class="mission-icon">📚</span><div class="mission-text"><strong>Éditeur·rice</strong> si contrat conclu</div></div>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section class="chapter" id="s6">
+    <div class="chapter-header">
+      <div class="chapter-num">06</div>
+      <h2>Les deux grandes familles du droit d'auteur</h2>
+    </div>
+    <div class="layers-diagram" style="grid-template-columns: 1fr 1fr;">
+      <div class="layer layer-A">
+        <div class="layer-emoji">❤️</div>
+        <span class="layer-tag">Droit moral</span>
+        <h4>Personnel & perpétuel</h4>
+        <p>Protège le lien personnel entre l'auteur et son œuvre : <strong>respect du nom, de la qualité et de l'œuvre</strong>. Il est attaché à la personne, <strong>perpétuel, inaliénable et imprescriptible</strong>.</p>
+      </div>
+      <div class="layer layer-C">
+        <div class="layer-emoji">💰</div>
+        <span class="layer-tag">Droits patrimoniaux</span>
+        <h4>Économique & cessible</h4>
+        <p>Permettent l'exploitation économique de l'œuvre. Le Code distingue notamment : <strong>droit de représentation</strong>, <strong>droit de reproduction</strong>, et l'autorisation des adaptations / transformations.</p>
+      </div>
+    </div>
+    <div class="callout callout-warn">
+      <div class="callout-icon">⛔</div>
+      <div>
+        <div class="callout-title">Règle d'or</div>
+        Toute représentation ou reproduction, intégrale ou partielle, faite sans le consentement de l'auteur ou de ses ayants droit est <strong>illicite</strong>. Idem pour la traduction, l'adaptation ou la transformation.
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 -->
+  <section class="chapter" id="s7">
+    <div class="chapter-header">
+      <div class="chapter-num">07</div>
+      <h2>Ce que recouvrent les droits éditoriaux</h2>
+    </div>
+    <p>Les droits éditoriaux touchent <strong>plusieurs usages</strong> de l'œuvre musicale :</p>
+    <div class="missions-grid">
+      <div class="mission"><span class="mission-icon">📻</span><div class="mission-text"><strong>Diffusion publique</strong> : concert, radio, TV, lieux sonorisés</div></div>
+      <div class="mission"><span class="mission-icon">💿</span><div class="mission-text"><strong>Reproduction</strong> : pressage, supports, numérique</div></div>
+      <div class="mission"><span class="mission-icon">🎬</span><div class="mission-text"><strong>Synchronisation</strong> : film, pub, série, jeu vidéo</div></div>
+      <div class="mission"><span class="mission-icon">📄</span><div class="mission-text"><strong>Impression</strong> de partitions</div></div>
+      <div class="mission"><span class="mission-icon">🔄</span><div class="mission-text"><strong>Adaptation</strong> ou exploitation dérivée</div></div>
+      <div class="mission"><span class="mission-icon">🌐</span><div class="mission-text"><strong>Gestion internationale</strong> via sous-éditeurs</div></div>
+    </div>
+  </section>
+
+  <!-- 08 -->
+  <section class="chapter" id="s8">
+    <div class="chapter-header">
+      <div class="chapter-num">08</div>
+      <h2>Le rôle de l'éditeur musical</h2>
+    </div>
+    <p>Selon le CNM, la société d'édition musicale a notamment pour missions :</p>
+    <div class="missions-grid">
+      <div class="mission"><span class="mission-icon">💼</span><div class="mission-text">Donner aux créateurs les <strong>moyens de créer</strong></div></div>
+      <div class="mission"><span class="mission-icon">📈</span><div class="mission-text">Faire vivre, <strong>promouvoir et exploiter</strong> les œuvres</div></div>
+      <div class="mission"><span class="mission-icon">📋</span><div class="mission-text">Gérer le <strong>dépôt à la Sacem</strong></div></div>
+      <div class="mission"><span class="mission-icon">🔎</span><div class="mission-text">Assurer le <strong>tracking des exploitations</strong> et paiements</div></div>
+      <div class="mission"><span class="mission-icon">✍️</span><div class="mission-text">Négocier les <strong>autorisations d'exploitation</strong></div></div>
+    </div>
+    <div class="callout callout-key">
+      <div class="callout-icon">🎯</div>
+      <div>
+        <div class="callout-title">Formulation pédagogique</div>
+        L'éditeur musical <strong>transforme une œuvre en actif exploitable et suivi dans le temps</strong>. Il ne « possède » pas automatiquement toute la musique d'un artiste : il intervient sur l'œuvre, dans le cadre d'un contrat, pour organiser sa circulation économique et juridique.
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 -->
+  <section class="chapter" id="s9">
+    <div class="chapter-header">
+      <div class="chapter-num">09</div>
+      <h2>Contrat d'édition : logique générale</h2>
+    </div>
+    <p>Le <strong>Code de la propriété intellectuelle</strong> définit le contrat d'édition comme le contrat par lequel l'auteur cède à un éditeur le droit de fabriquer en nombre des exemplaires de l'œuvre, à charge pour lui d'en assurer la <strong>publication et la diffusion</strong>.</p>
+    <p>En musique, un contrat d'édition peut porter sur une œuvre, plusieurs œuvres, un catalogue, des territoires donnés, une durée déterminée, ou seulement certaines exploitations.</p>
+
+    <h3>Les 4 questions à se poser avant de signer</h3>
+    <div class="four-questions">
+      <div class="question-card">
+        <div class="q-icon">📜</div>
+        <div class="q-label">Question 1</div>
+        <div class="q-text">Quels droits sont confiés ?</div>
+      </div>
+      <div class="question-card">
+        <div class="q-icon">⏳</div>
+        <div class="q-label">Question 2</div>
+        <div class="q-text">Pour combien de temps ?</div>
+      </div>
+      <div class="question-card">
+        <div class="q-icon">🌍</div>
+        <div class="q-label">Question 3</div>
+        <div class="q-text">Sur quels territoires ?</div>
+      </div>
+      <div class="question-card">
+        <div class="q-icon">💶</div>
+        <div class="q-label">Question 4</div>
+        <div class="q-text">Avec quelle rémunération ?</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="chapter" id="s10">
+    <div class="chapter-header">
+      <div class="chapter-num">10</div>
+      <h2>Répartition des droits — exemple Sacem</h2>
+    </div>
+    <p>La Sacem indique des <strong>clés statutaires</strong> qui varient selon le type d'exploitation. Visualisons les 3 cas principaux :</p>
+
+    <div class="pie-row">
+      <!-- Pie 1 : Représentation - œuvre éditée -->
+      <div class="pie-card">
+        <h4>Représentation</h4>
+        <div class="subtitle">Œuvre éditée — clé statutaire</div>
+        <svg class="pie-svg" viewBox="0 0 100 100">
+          <!-- 3 slices à 33.33% chacune -->
+          <circle cx="50" cy="50" r="40" fill="transparent" stroke="#ffcc33" stroke-width="20" stroke-dasharray="83.78 251.33" transform="rotate(-90 50 50)"/>
+          <circle cx="50" cy="50" r="40" fill="transparent" stroke="#6fffe9" stroke-width="20" stroke-dasharray="83.78 251.33" stroke-dashoffset="-83.78" transform="rotate(-90 50 50)"/>
+          <circle cx="50" cy="50" r="40" fill="transparent" stroke="#ff5c8a" stroke-width="20" stroke-dasharray="83.78 251.33" stroke-dashoffset="-167.56" transform="rotate(-90 50 50)"/>
+          <text x="50" y="55" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">3 × ⅓</text>
+        </svg>
+        <div class="pie-legend">
+          <div class="legend-item"><span class="legend-color" style="background:#ffcc33"></span>Auteur <span class="legend-value">⅓</span></div>
+          <div class="legend-item"><span class="legend-color" style="background:#6fffe9"></span>Compositeur <span class="legend-value">⅓</span></div>
+          <div class="legend-item"><span class="legend-color" style="background:#ff5c8a"></span>Éditeur <span class="legend-value">⅓</span></div>
+        </div>
+      </div>
+
+      <!-- Pie 2 : Reproduction (supports enregistrés) - œuvre éditée -->
+      <div class="pie-card">
+        <h4>Reproduction</h4>
+        <div class="subtitle">Diffusion sur supports enregistrés (œuvre éditée)</div>
+        <svg class="pie-svg" viewBox="0 0 100 100">
+          <!-- 25 / 25 / 50 -->
+          <circle cx="50" cy="50" r="40" fill="transparent" stroke="#ffcc33" stroke-width="20" stroke-dasharray="62.83 251.33" transform="rotate(-90 50 50)"/>
+          <circle cx="50" cy="50" r="40" fill="transparent" stroke="#6fffe9" stroke-width="20" stroke-dasharray="62.83 251.33" stroke-dashoffset="-62.83" transform="rotate(-90 50 50)"/>
+          <circle cx="50" cy="50" r="40" fill="transparent" stroke="#ff5c8a" stroke-width="20" stroke-dasharray="125.66 251.33" stroke-dashoffset="-125.66" transform="rotate(-90 50 50)"/>
+          <text x="50" y="55" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">25/25/50</text>
+        </svg>
+        <div class="pie-legend">
+          <div class="legend-item"><span class="legend-color" style="background:#ffcc33"></span>Auteur <span class="legend-value">25%</span></div>
+          <div class="legend-item"><span class="legend-color" style="background:#6fffe9"></span>Compositeur <span class="legend-value">25%</span></div>
+          <div class="legend-item"><span class="legend-color" style="background:#ff5c8a"></span>Éditeur <span class="legend-value">50%</span></div>
+        </div>
+      </div>
+
+      <!-- Pie 3 : Œuvre inédite -->
+      <div class="pie-card">
+        <h4>Œuvre inédite</h4>
+        <div class="subtitle">Aucun éditeur — clé Sacem</div>
+        <svg class="pie-svg" viewBox="0 0 100 100">
+          <!-- 50 / 50 -->
+          <circle cx="50" cy="50" r="40" fill="transparent" stroke="#ffcc33" stroke-width="20" stroke-dasharray="125.66 251.33" transform="rotate(-90 50 50)"/>
+          <circle cx="50" cy="50" r="40" fill="transparent" stroke="#6fffe9" stroke-width="20" stroke-dasharray="125.66 251.33" stroke-dashoffset="-125.66" transform="rotate(-90 50 50)"/>
+          <text x="50" y="55" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">50/50</text>
+        </svg>
+        <div class="pie-legend">
+          <div class="legend-item"><span class="legend-color" style="background:#ffcc33"></span>Auteur <span class="legend-value">50%</span></div>
+          <div class="legend-item"><span class="legend-color" style="background:#6fffe9"></span>Compositeur <span class="legend-value">50%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout callout-warn">
+      <div class="callout-icon">⚠️</div>
+      <div>
+        <div class="callout-title">Nuance essentielle à enseigner</div>
+        Pour les <strong>droits de reproduction mécanique</strong> sur supports enregistrés (phonogrammes, vidéogrammes), la Sacem précise que la clé est <strong>contractuelle</strong> : elle dépend de l'accord entre créateurs et éditeur. Toutes les répartitions ne sont donc <strong>pas automatiques</strong>.
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 -->
+  <section class="chapter" id="s11">
+    <div class="chapter-header">
+      <div class="chapter-num">11</div>
+      <h2>La reproduction mécanique : notion essentielle</h2>
+    </div>
+    <p>La <strong>SDRM</strong>, liée à l'écosystème Sacem, est la société chargée de l'<strong>administration du droit de reproduction mécanique</strong>. Elle autorise la reproduction mécanique des œuvres, fixe les conditions, collecte et répartit les redevances.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Notion</th>
+            <th>Définition</th>
+            <th>Exemple concret</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Représentation</strong></td>
+            <td>Communication au public</td>
+            <td>Concert, radio, TV, café sonorisé</td>
+          </tr>
+          <tr>
+            <td><strong>Reproduction</strong></td>
+            <td>Fixation sur un support</td>
+            <td>CD, vinyle, DVD, support multimédia</td>
+          </tr>
+          <tr>
+            <td><strong>Synchronisation</strong></td>
+            <td>Intégration audiovisuelle</td>
+            <td>Pub TV, BO de film, bande-annonce</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 12 -->
+  <section class="chapter" id="s12">
+    <div class="chapter-header">
+      <div class="chapter-num">12</div>
+      <h2>La synchronisation : un point éditorial stratégique</h2>
+    </div>
+    <p>La synchronisation est l'autorisation d'<strong>associer une œuvre musicale à une image</strong> ou à un contenu audiovisuel : film, série, publicité, jeu vidéo, bande-annonce, contenu de marque, créateur web, etc.</p>
+    <div class="callout callout-tip">
+      <div class="callout-icon">💎</div>
+      <div>
+        <div class="callout-title">Levier de valorisation #1</div>
+        Dans la pratique, c'est souvent <strong>l'éditeur qui négocie ces usages</strong> ou participe à leur négociation, car ils touchent directement à l'exploitation de l'œuvre. C'est <strong>l'un des leviers majeurs de valorisation éditoriale</strong> d'un catalogue.
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 -->
+  <section class="chapter" id="s13">
+    <div class="chapter-header">
+      <div class="chapter-num">13</div>
+      <h2>La sous-édition internationale</h2>
+    </div>
+    <p>La sous-édition permet à un éditeur de confier l'exploitation d'un catalogue ou d'œuvres à un <strong>partenaire dans un autre territoire</strong>. Le CNM insiste sur les points suivants :</p>
+    <div class="missions-grid">
+      <div class="mission"><span class="mission-icon">🎯</span><div class="mission-text">Rôle du <strong>sous-éditeur</strong></div></div>
+      <div class="mission"><span class="mission-icon">📑</span><div class="mission-text">Différents <strong>contrats</strong> de sous-édition</div></div>
+      <div class="mission"><span class="mission-icon">📋</span><div class="mission-text"><strong>Enregistrement</strong> des contrats et œuvres</div></div>
+      <div class="mission"><span class="mission-icon">🛤️</span><div class="mission-text"><strong>Cheminement</strong> des droits</div></div>
+      <div class="mission"><span class="mission-icon">📊</span><div class="mission-text"><strong>Suivi</strong> des flux</div></div>
+      <div class="mission"><span class="mission-icon">🔍</span><div class="mission-text"><strong>Tracking</strong> et contrôle des paiements</div></div>
+    </div>
+    <div class="callout callout-info">
+      <div class="callout-icon">🌍</div>
+      <div>
+        <div class="callout-title">Définition pédagogique</div>
+        La sous-édition, c'est <strong>l'extension territoriale de la gestion éditoriale</strong>. Elle sert à mieux documenter, déclarer, suivre et collecter les droits dans des marchés étrangers où l'éditeur d'origine n'est pas directement implanté.
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 -->
+  <section class="chapter" id="s14">
+    <div class="chapter-header">
+      <div class="chapter-num">14</div>
+      <h2>Durée de protection</h2>
+    </div>
+    <div class="layers-diagram" style="grid-template-columns: 1fr 1fr;">
+      <div class="layer layer-A">
+        <div class="layer-emoji">⏳</div>
+        <span class="layer-tag">Patrimonial</span>
+        <h4>Vie + 70 ans</h4>
+        <p>En droit français, les droits patrimoniaux durent <strong>pendant la vie de l'auteur puis 70 ans après son décès</strong>, au bénéfice des ayants droit. C'est le repère fondamental de la <strong>valeur longue durée</strong> d'un catalogue éditorial.</p>
+      </div>
+      <div class="layer layer-C">
+        <div class="layer-emoji">∞</div>
+        <span class="layer-tag">Moral</span>
+        <h4>Perpétuel</h4>
+        <p>Le droit moral ne suit <strong>pas la même logique d'extinction</strong>. Le Code le présente comme <strong>perpétuel, inaliénable et imprescriptible</strong>. Il survit donc à l'extinction des droits patrimoniaux.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15 -->
+  <section class="chapter" id="s15">
+    <div class="chapter-header">
+      <div class="chapter-num">15</div>
+      <h2>Les 5 idées clés à absolument retenir</h2>
+    </div>
+    <div class="key-ideas">
+      <div class="key-idea">Les droits éditoriaux portent sur <strong style="color:var(--accent)">l'œuvre, pas d'abord sur le master</strong>.</div>
+      <div class="key-idea">L'éditeur musical <strong style="color:var(--accent)">gère, développe, administre et valorise</strong> l'œuvre.</div>
+      <div class="key-idea">Les revenus varient selon <strong style="color:var(--accent)">le type d'exploitation</strong> : représentation, reproduction, synchro, etc.</div>
+      <div class="key-idea">La répartition n'est <strong style="color:var(--accent)">pas identique</strong> dans tous les cas : certaines clés sont statutaires, d'autres contractuelles.</div>
+      <div class="key-idea">Un bon contrat d'édition se lit en <strong style="color:var(--accent)">4 questions</strong> : droits, durée, territoires, rémunération.</div>
+    </div>
+  </section>
+
+  <!-- 16 -->
+  <section class="chapter" id="s16">
+    <div class="chapter-header">
+      <div class="chapter-num">16</div>
+      <h2>Erreurs fréquentes à corriger en classe</h2>
+    </div>
+    <div class="errors-grid">
+      <div class="error-card"><span class="error-icon">❌</span><div>Confondre <strong>éditeur musical</strong> et <strong>producteur phonographique</strong>.</div></div>
+      <div class="error-card"><span class="error-icon">❌</span><div>Croire que l'éditeur possède automatiquement <strong>« toute la chanson »</strong>.</div></div>
+      <div class="error-card"><span class="error-icon">❌</span><div>Oublier que le <strong>droit moral</strong> reste attaché à l'auteur.</div></div>
+      <div class="error-card"><span class="error-icon">❌</span><div>Penser que tous les revenus sont partagés selon <strong>une seule clé fixe</strong>.</div></div>
+      <div class="error-card"><span class="error-icon">❌</span><div>Négliger l'importance des <strong>déclarations, du tracking et des territoires</strong>.</div></div>
+    </div>
+  </section>
+
+  <!-- 17 -->
+  <section class="chapter" id="s17">
+    <div class="chapter-header">
+      <div class="chapter-num">17</div>
+      <h2>Cas pratique : « Une chanson en 4 exploitations »</h2>
+    </div>
+    <div class="case-study">
+      <h3>📝 Énoncé</h3>
+      <p>Une chanson est écrite par une autrice et composée par un compositeur. Elle est signée chez un éditeur. Ensuite :</p>
+
+      <div class="case-flow">
+        <div class="flow-step">
+          <div class="flow-icon">📻</div>
+          <h5>Passage radio</h5>
+          <span class="flow-tag tag-rep">Représentation</span>
+        </div>
+        <div class="flow-step">
+          <div class="flow-icon">🎤</div>
+          <h5>Concert live</h5>
+          <span class="flow-tag tag-rep">Représentation</span>
+        </div>
+        <div class="flow-step">
+          <div class="flow-icon">💿</div>
+          <h5>Pressage support</h5>
+          <span class="flow-tag tag-rep-mech">Reproduction</span>
+        </div>
+        <div class="flow-step">
+          <div class="flow-icon">🎬</div>
+          <h5>Pub TV</h5>
+          <span class="flow-tag tag-sync">Synchronisation</span>
+        </div>
+      </div>
+
+      <h3>🎯 Questions à poser aux étudiants</h3>
+      <ol>
+        <li>Quels droits sont concernés à chaque étape ?</li>
+        <li>Qu'est-ce qui relève de la représentation ?</li>
+        <li>Qu'est-ce qui relève de la reproduction ?</li>
+        <li>Quel est le rôle éventuel de l'éditeur ?</li>
+        <li>À quel moment une autorisation spécifique est-elle nécessaire ?</li>
+      </ol>
+
+      <h3>✅ Correction attendue</h3>
+      <ul>
+        <li><strong>Radio / concert</strong> → <span style="color:var(--accent)">représentation</span>.</li>
+        <li><strong>Support enregistré</strong> → <span style="color:var(--accent-3)">reproduction</span>.</li>
+        <li><strong>Publicité</strong> → <span style="color:var(--accent-2)">usage synchro</span> + enjeux contractuels d'autorisation.</li>
+        <li><strong>Éditeur</strong> → administration, autorisations, suivi, négociation, perception/valorisation selon contrat.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 18 -->
+  <section class="chapter" id="s18">
+    <div class="chapter-header">
+      <div class="chapter-num">18</div>
+      <h2>Mini-glossaire</h2>
+    </div>
+    <div class="glossary-grid">
+      <div class="gloss-card"><div class="gloss-term">🎵 Œuvre musicale</div><div class="gloss-def">La création intellectuelle, paroles et/ou musique.</div></div>
+      <div class="gloss-card"><div class="gloss-term">💿 Master</div><div class="gloss-def">L'enregistrement sonore exploité par le producteur.</div></div>
+      <div class="gloss-card"><div class="gloss-term">📚 Éditeur musical</div><div class="gloss-def">Partenaire chargé de développer et gérer l'exploitation de l'œuvre.</div></div>
+      <div class="gloss-card"><div class="gloss-term">❤️ Droit moral</div><div class="gloss-def">Droit au respect du nom, de la qualité et de l'œuvre.</div></div>
+      <div class="gloss-card"><div class="gloss-term">📻 Représentation</div><div class="gloss-def">Communication de l'œuvre au public.</div></div>
+      <div class="gloss-card"><div class="gloss-term">💽 Reproduction</div><div class="gloss-def">Fixation de l'œuvre sur un support.</div></div>
+      <div class="gloss-card"><div class="gloss-term">🎬 Synchronisation</div><div class="gloss-def">Association d'une musique à des images.</div></div>
+      <div class="gloss-card"><div class="gloss-term">🌍 Sous-édition</div><div class="gloss-def">Gestion éditoriale confiée à un partenaire sur un territoire donné.</div></div>
+    </div>
+  </section>
+
+  <!-- 19 -->
+  <section class="chapter" id="s19">
+    <div class="chapter-header">
+      <div class="chapter-num">19</div>
+      <h2>Plan de séance — 60 à 90 minutes</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot">1</div>
+        <div class="timeline-time">10 min</div>
+        <h4>Introduction</h4>
+        <p>Définir les droits éditoriaux et distinguer œuvre / enregistrement.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">2</div>
+        <div class="timeline-time">15 min</div>
+        <h4>Bases juridiques</h4>
+        <p>Droit moral, droits patrimoniaux, autorisation préalable.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">3</div>
+        <div class="timeline-time">15 min</div>
+        <h4>Métier d'éditeur</h4>
+        <p>Rôle, missions, valorisation, dépôt, tracking.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">4</div>
+        <div class="timeline-time">15 min</div>
+        <h4>Revenus et répartition</h4>
+        <p>Sacem, représentation, reproduction, mécanique.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">5</div>
+        <div class="timeline-time">10 min</div>
+        <h4>International & sous-édition</h4>
+        <p>Territoires, flux, suivi.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">6</div>
+        <div class="timeline-time">15-20 min</div>
+        <h4>Cas pratique + quiz</h4>
+        <p>Application concrète et test des acquis.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20 -->
+  <section class="chapter" id="s20">
+    <div class="chapter-header">
+      <div class="chapter-num">20</div>
+      <h2>Quiz interactif de fin de cours</h2>
+    </div>
+    <p>Clique sur la réponse qui te semble correcte pour vérifier tes acquis.</p>
+    <div class="quiz">
+      <div class="quiz-question">
+        <div class="quiz-q">Les droits éditoriaux portent-ils principalement sur le master ou sur l'œuvre ?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-correct="false">Sur le master</button>
+          <button class="quiz-opt" data-correct="true">Sur l'œuvre</button>
+        </div>
+        <div class="quiz-feedback ok">✅ Exact. Les droits éditoriaux concernent l'œuvre — paroles, mélodie, composition — pas l'enregistrement sonore.</div>
+      </div>
+
+      <div class="quiz-question">
+        <div class="quiz-q">Le droit moral peut-il être librement cédé comme un simple actif commercial ?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-correct="false">Oui, comme tout droit patrimonial</button>
+          <button class="quiz-opt" data-correct="true">Non, il est inaliénable</button>
+        </div>
+        <div class="quiz-feedback ok">✅ Exact. Le droit moral est attaché à la personne, perpétuel, inaliénable et imprescriptible (art. L121-1 CPI).</div>
+      </div>
+
+      <div class="quiz-question">
+        <div class="quiz-q">La diffusion en concert relève-t-elle de la représentation ou de la reproduction ?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-correct="true">Représentation</button>
+          <button class="quiz-opt" data-correct="false">Reproduction</button>
+        </div>
+        <div class="quiz-feedback ok">✅ Exact. Le concert est une communication directe au public = représentation.</div>
+      </div>
+
+      <div class="quiz-question">
+        <div class="quiz-q">La fixation sur CD relève-t-elle de la représentation ou de la reproduction ?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-correct="false">Représentation</button>
+          <button class="quiz-opt" data-correct="true">Reproduction</button>
+        </div>
+        <div class="quiz-feedback ok">✅ Exact. Toute fixation de l'œuvre sur un support physique ou numérique = reproduction.</div>
+      </div>
+
+      <div class="quiz-question">
+        <div class="quiz-q">La sous-édition sert-elle uniquement à la France ou aussi à l'international ?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-correct="false">Uniquement France</button>
+          <button class="quiz-opt" data-correct="true">Surtout international</button>
+        </div>
+        <div class="quiz-feedback ok">✅ Exact. La sous-édition est l'extension territoriale de la gestion éditoriale, principalement pour l'international.</div>
+      </div>
+
+      <div class="quiz-question">
+        <div class="quiz-q">Toutes les clés de répartition sont-elles nécessairement identiques selon les exploitations ?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-correct="false">Oui, c'est toujours la même clé</button>
+          <button class="quiz-opt" data-correct="true">Non, elles varient (statutaire / contractuelle)</button>
+        </div>
+        <div class="quiz-feedback ok">✅ Exact. Selon le type d'exploitation, la clé est statutaire (Sacem) ou contractuelle (entre créateurs et éditeur).</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21 -->
+  <section class="chapter" id="s21">
+    <div class="chapter-header">
+      <div class="chapter-num">21</div>
+      <h2>Conclusion — Phrase à dire en cours</h2>
+    </div>
+    <div class="conclusion">
+      <h2>L'édition musicale ne consiste pas seulement à « encaisser des droits ». Elle consiste à organiser <em>juridiquement, économiquement et stratégiquement</em> la vie d'une œuvre musicale.</h2>
+      <p>— CNM, <em>Premiers pas — Édition musicale</em></p>
+    </div>
+  </section>
+
+  <!-- SOURCES -->
+  <section class="chapter">
+    <div class="chapter-header">
+      <div class="chapter-num">📚</div>
+      <h2>Sources principales</h2>
+    </div>
+    <ul>
+      <li><a href="https://cnm.fr/wp-content/uploads/2025/07/Premiers-pas_Edition-musicale.pdf" target="_blank" rel="noopener">CNM — Comprendre l'édition musicale (PDF)</a></li>
+      <li><a href="https://www.createursediteurs.sacem.fr/sacem-et-moi/repartition-droits-auteur" target="_blank" rel="noopener">Sacem — Répartition des droits d'auteur</a></li>
+      <li><a href="https://clients.sacem.fr/atouts-de-notre-repertoire/sdrm" target="_blank" rel="noopener">Sacem / SDRM — Rôle et missions de la SDRM</a></li>
+      <li><a href="https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006069414/LEGISCTA000006114031/" target="_blank" rel="noopener">Légifrance — Propriété littéraire et artistique</a></li>
+      <li><a href="https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006069414/LEGISCTA000006161637/" target="_blank" rel="noopener">Légifrance — Chapitre II : droits patrimoniaux</a></li>
+      <li><a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006278891/" target="_blank" rel="noopener">Légifrance — Article L121-1 (droit moral)</a></li>
+      <li><a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006278911" target="_blank" rel="noopener">Légifrance — Article L122-4</a></li>
+      <li><a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006278937/" target="_blank" rel="noopener">Légifrance — Article L123-1 (durée)</a></li>
+      <li><a href="https://cnm.fr/wp-content/uploads/2024/05/281123-INTERNATIONAL%20LES%20CLES%20DE%20LA%20SOUS%20EDITION.pdf" target="_blank" rel="noopener">CNM — Les clés de la sous-édition (PDF)</a></li>
+    </ul>
+  </section>
+
+  <footer>
+    Support de cours produit pour <strong style="color:var(--accent)">Producteur à Succès</strong> · Tarik Hamiche · Tous droits réservés.
+  </footer>
+</div>
+
+<button class="back-top" id="backTop" aria-label="Retour en haut">↑</button>
+
+<script>
+  // Progress bar
+  const progress = document.getElementById('progress');
+  const backTop = document.getElementById('backTop');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    progress.style.width = pct + '%';
+    backTop.classList.toggle('show', h.scrollTop > 600);
+  });
+  backTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+  // Quiz
+  document.querySelectorAll('.quiz-question').forEach(q => {
+    const opts = q.querySelectorAll('.quiz-opt');
+    const fb = q.querySelector('.quiz-feedback');
+    opts.forEach(opt => {
+      opt.addEventListener('click', () => {
+        if (q.dataset.answered) return;
+        q.dataset.answered = 'true';
+        const correct = opt.dataset.correct === 'true';
+        opt.classList.add(correct ? 'correct' : 'wrong');
+        // Reveal correct answer too
+        opts.forEach(o => {
+          if (o.dataset.correct === 'true') o.classList.add('correct');
+        });
+        fb.classList.add('show');
+      });
+    });
+  });
+</script>
+</body>
+</html>

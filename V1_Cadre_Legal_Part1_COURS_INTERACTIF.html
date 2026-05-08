@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vidéo 1 — Cadre Légal (partie 1) | Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED;
+  --primary-dark:#5B2FD6;
+  --primary-light:#EDE6FE;
+  --accent:#F59E0B;
+  --accent-light:#FEF3C7;
+  --success:#10B981;
+  --success-light:#D1FAE5;
+  --danger:#EF4444;
+  --danger-light:#FEE2E2;
+  --info:#3B82F6;
+  --info-light:#DBEAFE;
+  --dark:#0F172A;
+  --gray-900:#1F2937;
+  --gray-700:#374151;
+  --gray-500:#6B7280;
+  --gray-300:#D1D5DB;
+  --gray-100:#F3F4F6;
+  --gray-50:#F9FAFB;
+  --white:#FFFFFF;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html, body{width:100% !important;max-width:100% !important;overflow-x:hidden}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:#F8F7FB;
+  color:var(--dark);
+  line-height:1.65;
+  font-size:16px;
+}
+
+/* === Progress bar === */
+.progress-bar{
+  position:fixed;top:0;left:0;height:4px;
+  background:linear-gradient(90deg,var(--primary),var(--accent));
+  width:0;z-index:1000;transition:width .15s ease-out;
+}
+
+/* === Layout === */
+.container{max-width:920px;margin:0 auto;padding:0 1.25rem}
+
+/* === Hero === */
+.hero{
+  background:linear-gradient(135deg,#6C3AED 0%,#8B5CF6 50%,#A78BFA 100%);
+  color:white;padding:3.5rem 0 4rem;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;
+  background:radial-gradient(circle,rgba(255,255,255,.18) 0%,transparent 70%);
+  border-radius:50%;
+}
+.hero::after{
+  content:'';position:absolute;bottom:-80px;left:-80px;width:300px;height:300px;
+  background:radial-gradient(circle,rgba(245,158,11,.18) 0%,transparent 70%);
+  border-radius:50%;
+}
+.hero-content{position:relative;z-index:2}
+.badge{
+  display:inline-block;background:rgba(255,255,255,.16);backdrop-filter:blur(10px);
+  padding:.45rem 1.05rem;border-radius:999px;font-size:.78rem;font-weight:600;
+  text-transform:uppercase;letter-spacing:1px;margin-bottom:1.2rem;
+  border:1px solid rgba(255,255,255,.2);
+}
+.badge.amber{background:rgba(245,158,11,.95);color:#1F2937;border:none}
+.hero h1{
+  font-family:'Space Grotesk','Inter',sans-serif;
+  font-size:clamp(2rem,5vw,3.4rem);font-weight:700;margin-bottom:1rem;line-height:1.1;
+}
+.hero p.subtitle{font-size:1.18rem;font-weight:400;opacity:.95;max-width:640px;line-height:1.55}
+.meta{
+  margin-top:2rem;display:flex;flex-wrap:wrap;gap:.6rem 1.6rem;
+  font-size:.92rem;opacity:.92;
+}
+.meta span{display:inline-flex;align-items:center;gap:.45rem}
+
+/* === Sommaire === */
+.toc{
+  background:white;border-radius:18px;padding:2rem 1.8rem;margin:-2rem auto 3rem;
+  box-shadow:0 8px 32px rgba(108,58,237,.10);position:relative;z-index:5;
+  max-width:880px;
+}
+.toc h2{
+  font-family:'Space Grotesk',sans-serif;font-size:1.3rem;color:var(--primary);
+  margin-bottom:1.2rem;display:flex;align-items:center;gap:.6rem;
+}
+.toc-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.4rem}
+.toc-list a{
+  display:flex;align-items:center;gap:.7rem;padding:.7rem .8rem;border-radius:8px;
+  text-decoration:none;color:var(--gray-700);font-size:.97rem;font-weight:500;
+  transition:all .2s;border-left:3px solid transparent;
+}
+.toc-list a:hover{background:var(--primary-light);color:var(--primary);border-left-color:var(--primary);transform:translateX(2px)}
+.toc-num{
+  background:var(--primary);color:white;width:26px;height:26px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;font-size:.78rem;
+  font-weight:700;flex-shrink:0;
+}
+
+/* === Sections === */
+.section{
+  background:white;border-radius:18px;padding:2.4rem 2rem;margin-bottom:2rem;
+  box-shadow:0 4px 16px rgba(15,23,42,.06);position:relative;overflow:hidden;
+}
+.section::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:5px;
+  background:var(--primary);
+}
+.section[data-color="amber"]::before{background:var(--accent)}
+.section[data-color="green"]::before{background:var(--success)}
+.section[data-color="blue"]::before{background:var(--info)}
+.section[data-color="red"]::before{background:var(--danger)}
+
+.section-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.4rem}
+.section-num{
+  background:var(--primary);color:white;width:48px;height:48px;border-radius:14px;
+  display:inline-flex;align-items:center;justify-content:center;font-size:1.3rem;
+  font-weight:700;flex-shrink:0;font-family:'Space Grotesk',sans-serif;
+}
+.section[data-color="amber"] .section-num{background:var(--accent)}
+.section[data-color="green"] .section-num{background:var(--success)}
+.section[data-color="blue"] .section-num{background:var(--info)}
+.section[data-color="red"] .section-num{background:var(--danger)}
+
+.section h2{
+  font-family:'Space Grotesk',sans-serif;font-size:1.7rem;color:var(--dark);
+  font-weight:700;line-height:1.25;
+}
+.section h3{
+  font-family:'Space Grotesk',sans-serif;font-size:1.22rem;color:var(--primary);
+  margin-top:1.8rem;margin-bottom:.9rem;font-weight:600;
+}
+.section p{margin-bottom:1rem;color:var(--gray-700);line-height:1.7}
+.section strong{color:var(--dark);font-weight:600}
+
+/* === Callouts === */
+.callout{
+  background:var(--gray-50);border-left:4px solid var(--primary);
+  padding:1.1rem 1.3rem;margin:1.2rem 0;border-radius:0 12px 12px 0;
+  display:flex;gap:.9rem;align-items:flex-start;
+}
+.callout.amber{background:var(--accent-light);border-left-color:var(--accent)}
+.callout.green{background:var(--success-light);border-left-color:var(--success)}
+.callout.red{background:var(--danger-light);border-left-color:var(--danger)}
+.callout.blue{background:var(--info-light);border-left-color:var(--info)}
+.callout.purple{background:var(--primary-light);border-left-color:var(--primary)}
+.callout-icon{font-size:1.4rem;flex-shrink:0;line-height:1}
+.callout-body strong{display:block;margin-bottom:.3rem;color:var(--dark);font-size:1.02rem}
+.callout-body{font-size:.96rem;color:var(--gray-700);line-height:1.55}
+
+/* === Cartes (sources de revenus) === */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin:1.4rem 0}
+.card{
+  background:linear-gradient(135deg,#FFFFFF 0%,#FAFAFC 100%);
+  border:1px solid var(--gray-300);border-radius:14px;padding:1.3rem;
+  position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;
+}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 25px rgba(108,58,237,.12)}
+.card-num{
+  position:absolute;top:.7rem;right:.9rem;font-family:'Space Grotesk',sans-serif;
+  font-size:2.4rem;font-weight:700;color:var(--primary-light);line-height:1;
+}
+.card-icon{font-size:1.8rem;margin-bottom:.5rem;display:block}
+.card h4{
+  font-family:'Space Grotesk',sans-serif;font-size:1.05rem;color:var(--primary);
+  margin-bottom:.4rem;font-weight:600;line-height:1.3;
+}
+.card p{font-size:.88rem;color:var(--gray-700);line-height:1.55;margin:0}
+
+/* === Tableau comparatif === */
+.table-wrap{overflow-x:auto;margin:1.4rem -.3rem;border-radius:12px}
+table.comparatif{
+  width:100%;border-collapse:separate;border-spacing:0;
+  background:white;border-radius:12px;overflow:hidden;
+  box-shadow:0 2px 8px rgba(0,0,0,.04);min-width:560px;
+}
+table.comparatif th{
+  background:var(--primary);color:white;padding:.95rem 1rem;text-align:left;
+  font-weight:600;font-size:.95rem;
+}
+table.comparatif td{
+  padding:.85rem 1rem;border-top:1px solid var(--gray-100);font-size:.9rem;
+  color:var(--gray-700);vertical-align:top;
+}
+table.comparatif tr:nth-child(even) td{background:var(--gray-50)}
+table.comparatif td:first-child{font-weight:600;color:var(--dark);width:30%}
+
+/* === Acteurs filière === */
+.actors{display:grid;grid-template-columns:1fr;gap:.65rem;margin:1.2rem 0}
+.actor{
+  background:white;border:1px solid var(--gray-300);border-radius:10px;
+  padding:.85rem 1.1rem;display:flex;gap:.9rem;align-items:flex-start;
+  transition:border-color .2s;
+}
+.actor:hover{border-color:var(--primary)}
+.actor-icon{
+  font-size:1.3rem;background:var(--primary-light);color:var(--primary);
+  width:38px;height:38px;border-radius:10px;display:inline-flex;align-items:center;
+  justify-content:center;flex-shrink:0;
+}
+.actor strong{color:var(--primary);font-weight:600}
+.actor p{margin:0;font-size:.9rem;color:var(--gray-700)}
+
+/* === Pros/Cons === */
+.pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.4rem 0}
+@media (max-width:600px){.pros-cons{grid-template-columns:1fr}}
+.pros-cons > div{padding:1.2rem;border-radius:12px}
+.pros{background:var(--success-light);border:1px solid var(--success)}
+.cons{background:var(--danger-light);border:1px solid var(--danger)}
+.pros h4,.cons h4{margin-bottom:.7rem;font-size:1.02rem;font-weight:700}
+.pros h4{color:var(--success)}
+.cons h4{color:var(--danger)}
+.pros ul,.cons ul{padding-left:1.3rem;font-size:.92rem;color:var(--gray-700);line-height:1.6}
+.pros li,.cons li{margin-bottom:.35rem}
+
+/* === Accordéon === */
+details{
+  background:var(--gray-50);border-radius:10px;margin:1rem 0;padding:.95rem 1.2rem;
+  cursor:pointer;border:1px solid var(--gray-300);
+}
+details[open]{background:white;box-shadow:0 4px 12px rgba(0,0,0,.05)}
+details summary{
+  font-weight:600;color:var(--primary);font-size:1rem;
+  display:flex;align-items:center;gap:.5rem;list-style:none;
+}
+details summary::after{content:'+';margin-left:auto;font-size:1.4rem;color:var(--primary);transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details summary::-webkit-details-marker{display:none}
+details > p, details > ul{margin-top:.85rem;font-size:.93rem;color:var(--gray-700)}
+
+/* === Quiz === */
+.quiz{
+  background:linear-gradient(135deg,#6C3AED 0%,#8B5CF6 100%);
+  color:white;border-radius:18px;padding:2.4rem 2rem;margin:2.5rem 0;
+  position:relative;overflow:hidden;
+}
+.quiz::before{
+  content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;
+  background:radial-gradient(circle,rgba(245,158,11,.4) 0%,transparent 70%);
+  border-radius:50%;
+}
+.quiz h2{
+  font-family:'Space Grotesk',sans-serif;color:white;font-size:1.7rem;
+  margin-bottom:.4rem;position:relative;
+}
+.quiz > p.intro{opacity:.9;margin-bottom:1.6rem;font-size:1rem;position:relative}
+.quiz-question{
+  background:rgba(255,255,255,.1);backdrop-filter:blur(10px);
+  border-radius:14px;padding:1.4rem 1.3rem;margin-bottom:1.1rem;
+  border:1px solid rgba(255,255,255,.18);position:relative;
+}
+.quiz-question .qnum{
+  display:inline-block;background:var(--accent);color:var(--dark);
+  padding:.18rem .55rem;border-radius:6px;font-size:.78rem;font-weight:700;
+  margin-bottom:.5rem;
+}
+.quiz-question h4{font-size:1.08rem;margin-bottom:1rem;font-weight:600}
+.quiz-options{display:grid;gap:.45rem}
+.quiz-option{
+  background:rgba(255,255,255,.92);color:var(--dark);padding:.75rem 1rem;border-radius:9px;
+  cursor:pointer;font-weight:500;text-align:left;border:none;width:100%;
+  transition:all .15s;font-size:.93rem;font-family:inherit;
+}
+.quiz-option:hover{background:white;transform:translateX(3px)}
+.quiz-option.correct{background:#10B981 !important;color:white;animation:pulse .3s}
+.quiz-option.wrong{background:#EF4444 !important;color:white;animation:shake .35s}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.quiz-feedback{
+  margin-top:.75rem;padding:.7rem .9rem;background:rgba(255,255,255,.16);
+  border-radius:8px;font-size:.88rem;display:none;
+}
+.quiz-feedback.show{display:block;animation:fadeIn .35s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+
+/* === Footer === */
+footer{
+  background:var(--dark);color:white;padding:2.5rem 0;text-align:center;margin-top:3rem;
+}
+footer p{margin-bottom:.4rem;opacity:.85;font-size:.9rem}
+footer .brand{
+  font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;
+  background:linear-gradient(90deg,#A78BFA,#F59E0B);-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;margin-bottom:.5rem;
+}
+
+/* === Print === */
+@media print{
+  .progress-bar,.toc,.quiz{display:none}
+  .section{page-break-inside:avoid;box-shadow:none;border:1px solid #ddd}
+  body{background:white}
+}
+
+/* === Responsive === */
+@media (max-width:640px){
+  .hero{padding:2.5rem 0 3rem}
+  .section{padding:1.7rem 1.3rem}
+  .toc{padding:1.4rem 1.2rem;margin:-1.5rem auto 2rem}
+  .toc-list{grid-template-columns:1fr}
+  .section-num{width:40px;height:40px;font-size:1.1rem}
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<header class="hero">
+  <div class="container hero-content">
+    <span class="badge">⚖️ Module 1 — Vidéo 1</span>
+    <h1>Cadre Légal<br><span style="color:#FCD34D">de l'industrie musicale</span></h1>
+    <p class="subtitle">Comprendre la filière musicale, identifier les 10 sources de revenus à activer, et choisir la bonne structure juridique pour son projet de label, d'artiste indépendant ou de producteur.</p>
+    <div class="meta">
+      <span>👤 Tarik Hamiche</span>
+      <span>⏱️ ~50 min</span>
+      <span>📚 Chapitre 1 — Structuration Juridique</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- SOMMAIRE -->
+<nav class="toc">
+  <h2>📚 Sommaire</h2>
+  <ul class="toc-list">
+    <li><a href="#s1"><span class="toc-num">1</span>Pourquoi le cadre légal est la clé</a></li>
+    <li><a href="#s2"><span class="toc-num">2</span>La filière musicale &amp; ses acteurs</a></li>
+    <li><a href="#s3"><span class="toc-num">3</span>Les 10 sources de revenus</a></li>
+    <li><a href="#s4"><span class="toc-num">4</span>Les 5 formes juridiques</a></li>
+    <li><a href="#s5"><span class="toc-num">5</span>Synthèse &amp; recommandations</a></li>
+    <li><a href="#quiz"><span class="toc-num" style="background:#F59E0B;color:#1F2937">?</span>Quiz d'auto-évaluation</a></li>
+  </ul>
+</nav>
+
+<!-- SECTION 1 -->
+<section class="section" id="s1">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <h2>Pourquoi le cadre légal est la clé</h2>
+  </div>
+
+  <p>Trois questions structurent ce premier module : le <strong>cadre légal</strong>, les <strong>formalités administratives</strong>, et les <strong>obligations fiscales et sociales</strong>. Tous les projets musicaux qui se développent durablement passent par ces trois étapes — peu importe leur taille.</p>
+
+  <p>Quand on dit « créer son label », on parle en réalité de <strong>se structurer</strong>. Trois options principales : une société commerciale (SARL, EURL, SAS, SASU), une association loi 1901, ou rester en nom propre via la micro-entreprise ou le statut artiste-auteur.</p>
+
+  <div class="callout purple">
+    <div class="callout-icon">⭐</div>
+    <div class="callout-body">
+      <strong>L'idée centrale</strong>
+      Ce n'est pas une question de budget ou de contacts. <em>« Ceux qui en savent plus que les autres réussissent mieux. »</em> On choisit d'abord le bon véhicule, puis on monte les bonnes personnes dedans. Pas l'inverse.
+    </div>
+  </div>
+
+  <div class="callout blue">
+    <div class="callout-icon">🚀</div>
+    <div class="callout-body">
+      <strong>La métaphore du véhicule</strong>
+      On ne fait pas la même chose en trottinette, en vélo, en voiture de sport ou en fusée. Ton véhicule juridique doit correspondre à <strong>tes ambitions réelles</strong>, ni plus, ni moins.
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2 -->
+<section class="section" id="s2" data-color="blue">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <h2>Comprendre le fonctionnement de la filière musicale</h2>
+  </div>
+
+  <p>Au centre : <strong>la musique</strong>. C'est la matière première qui fait vivre toute l'industrie. Le vrai pouvoir est entre les mains de ceux qui créent. Autour, gravitent <strong>9 grands groupes d'acteurs</strong>.</p>
+
+  <div class="actors">
+    <div class="actor">
+      <span class="actor-icon">🎤</span>
+      <div><strong>Les artistes</strong><p>Auteurs, compositeurs, interprètes, musiciens, choristes, chefs d'orchestre, directeurs artistiques. Les créateurs de la matière première.</p></div>
+    </div>
+    <div class="actor">
+      <span class="actor-icon">🎚️</span>
+      <div><strong>Les techniciens</strong><p>Ingénieurs du son, régisseurs, chefs de plateau. Sans eux, pas de fixation sur support et donc pas de diffusion à grande échelle.</p></div>
+    </div>
+    <div class="actor">
+      <span class="actor-icon">💼</span>
+      <div><strong>Les producteurs</strong><p>Ceux qui financent la fixation sur support. Sans financement, ni le matos ni l'expertise des techniciens ne pourraient être rémunérés.</p></div>
+    </div>
+    <div class="actor">
+      <span class="actor-icon">🏢</span>
+      <div><strong>Les maisons de disques (labels)</strong><p>Quand le producteur arrive à sec après l'enregistrement, le label investit dans la promo, les clips, les attachés de presse — et partage les recettes.</p></div>
+    </div>
+    <div class="actor">
+      <span class="actor-icon">📰</span>
+      <div><strong>Les attachés de presse</strong><p>« Les VRP des maisons de disques. » Spécialisés par canal : radio, TV, presse, web, clubs. Ils maîtrisent leur réseau et obtiennent la visibilité médiatique.</p></div>
+    </div>
+    <div class="actor">
+      <span class="actor-icon">🚚</span>
+      <div><strong>Les distributeurs</strong><p>Hier : transporteurs et gestionnaires de stock pour les magasins (Fnac, Virgin). Aujourd'hui : intermédiaires entre les créateurs et les DSP (Spotify, Deezer, Apple Music).</p></div>
+    </div>
+    <div class="actor">
+      <span class="actor-icon">📜</span>
+      <div><strong>Les éditeurs</strong><p>Historiquement des banques pour la fabrication des supports. Aujourd'hui : administrateurs de droits — tracker, gérer le juridique, collecter.</p></div>
+    </div>
+    <div class="actor">
+      <span class="actor-icon">🎫</span>
+      <div><strong>Les tourneurs &amp; bookers</strong><p>Vente de prestations scéniques, intermédiaires entre artistes/producteurs et festivals/salles/organisateurs.</p></div>
+    </div>
+    <div class="actor">
+      <span class="actor-icon">🛡️</span>
+      <div><strong>Les managers</strong><p>Tampon, bouclier, intermédiaire entre l'artiste et tout le reste. Rémunérés au pourcentage des recettes — leur sort est lié à celui de l'artiste.</p></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-icon">🧠</div>
+    <div class="callout-body">
+      <strong>Pourquoi cette cartographie est essentielle</strong>
+      Connaître chaque rôle, c'est savoir quel contrat signer avec qui, comment se positionner dans la chaîne de valeur, et quelles sources de revenus réclamer. C'est aussi savoir <em>quand</em> avoir besoin d'un éditeur, d'un distributeur ou d'un manager — et ne pas s'engager prématurément.
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3 -->
+<section class="section" id="s3" data-color="green">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <h2>Les 10 sources de revenus à activer</h2>
+  </div>
+
+  <p>Toutes ces sources sont <strong>conditionnées au cadre légal</strong>. Sans structure, impossible d'encaisser légalement la majorité d'entre elles.</p>
+
+  <div class="cards-grid">
+    <div class="card">
+      <span class="card-num">01</span>
+      <span class="card-icon">🎵</span>
+      <h4>Recettes d'exploitation</h4>
+      <p>Streaming, ventes digitales, ventes physiques, placements compilations, monétisation YouTube. La crise du disque (2000-2014) a été compensée par la croissance du streaming.</p>
+    </div>
+    <div class="card">
+      <span class="card-num">02</span>
+      <span class="card-icon">🎤</span>
+      <h4>Booking (scène)</h4>
+      <p>Vente de dates et prestations scéniques. À actionner le plus vite possible. Les cachets minimum sont des planchers, pas des plafonds.</p>
+    </div>
+    <div class="card">
+      <span class="card-num">03</span>
+      <span class="card-icon">📝</span>
+      <h4>Licences</h4>
+      <p>Collaborer avec un tiers (label, éditeur, média) en partageant les résultats. Tarik plaçait des morceaux entre 2 000 € et 8 000 €. 10 placements/an = 100 K€ de marge.</p>
+    </div>
+    <div class="card">
+      <span class="card-num">04</span>
+      <span class="card-icon">📜</span>
+      <h4>Droits d'auteur</h4>
+      <p>Collectés par la SACEM à chaque diffusion publique. Concernent l'auteur, le compositeur, l'arrangeur et l'éditeur de l'œuvre.</p>
+    </div>
+    <div class="card">
+      <span class="card-num">05</span>
+      <span class="card-icon">💿</span>
+      <h4>Droits voisins producteurs</h4>
+      <p>Loi Lang (1985). SCPP (majors) ~60-70 M€/an, SPPF (indés) ~32 M€/an pour 2 500 membres. Tu finances un master → tu touches.</p>
+    </div>
+    <div class="card">
+      <span class="card-num">06</span>
+      <span class="card-icon">🎧</span>
+      <h4>Droits voisins interprètes</h4>
+      <p>ADAMI (~90 M€ en 2023), SPEDIDAM (50-60 M€). Concerne aussi beatmakers, choristes, chefs d'orchestre, directeurs artistiques. <em>Attention aux interprètes qui s'ignorent.</em></p>
+    </div>
+    <div class="card">
+      <span class="card-num">07</span>
+      <span class="card-icon">👕</span>
+      <h4>Merchandising</h4>
+      <p>Plus de 13% du CA mondial de la musique (~3 Md$ en 2020). KISS : >5 000 produits dérivés, plus d'1 Md$ généré. BTS : menu McDo dans 50 pays.</p>
+    </div>
+    <div class="card">
+      <span class="card-num">08</span>
+      <span class="card-icon">🎬</span>
+      <h4>Synchronisation</h4>
+      <p>Pubs, films, séries, jeux. Cas Moby (album <em>Play</em>, 1999) : 12 M+ d'exemplaires vendus, tous les titres synchronisés. La synchro peut lancer ou relancer une carrière.</p>
+    </div>
+    <div class="card">
+      <span class="card-num">09</span>
+      <span class="card-icon">🤝</span>
+      <h4>Partenariats &amp; placements</h4>
+      <p>Ariana Grande dans Fortnite (2021), placements dans clips, contrats d'ambassadeur. Snoop Dogg, Eminem, et beaucoup d'autres ont suivi.</p>
+    </div>
+    <div class="card">
+      <span class="card-num">10</span>
+      <span class="card-icon">💰</span>
+      <h4>Aides &amp; subventions</h4>
+      <p>Plus de 30 dispositifs en France (CNM, FCM, régions). Quasi tout le monde est éligible à 1-3 aides minimum — il suffit en général d'avoir produit un EP.</p>
+    </div>
+  </div>
+
+  <div class="callout red">
+    <div class="callout-icon">⚠️</div>
+    <div class="callout-body">
+      <strong>Sans cadre légal, pas d'encaissement</strong>
+      Salles de concert, labels, plateformes de streaming, organismes de droits, aides et subventions : tous exigent une structure juridique pour pouvoir te verser de l'argent. Sans véhicule, ces sources te sont inaccessibles ou très limitées.
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4 -->
+<section class="section" id="s4">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <h2>Les 5 formes de structure juridique</h2>
+  </div>
+
+  <p>Aucune forme n'est figée : on peut passer de l'une à l'autre, transformer une structure, ou en créer une nouvelle au fil de l'évolution. L'enjeu : choisir la forme qui colle à <strong>tes ambitions du moment</strong>.</p>
+
+  <!-- 4.1 Micro -->
+  <h3>4.1 — La micro-entreprise (auto-entrepreneur)</h3>
+  <p>Statut créé en 2009 par <strong>Hervé Novelli</strong>. Plus d'1 million d'inscriptions dès les premières années. À l'origine : exonération de TVA, simplicité déclarative, tremplin entrepreneurial.</p>
+
+  <div class="pros-cons">
+    <div class="pros">
+      <h4>✓ Avantages</h4>
+      <ul>
+        <li>Création en quelques minutes (autoentrepreneur.urssaf.fr)</li>
+        <li>Pas de capital minimum, pas de statuts à rédiger</li>
+        <li>Exonération de TVA sous seuils</li>
+        <li>Idéal pour de la <strong>prestation de service sans investissement</strong> (graphiste, DJ, formateur ponctuel)</li>
+      </ul>
+    </div>
+    <div class="cons">
+      <h4>✗ Inconvénients</h4>
+      <ul>
+        <li><strong>Pas de déduction des charges</strong> (matériel, loyers, déplacements, etc.)</li>
+        <li>Impôt et cotisations calculés sur le brut, pas sur la marge</li>
+        <li>Plafonds de CA contraignants (et menacés à 25 K€)</li>
+        <li>Pas de crédit d'impôt, pas de crédibilité face aux subventions</li>
+        <li>Embauche techniquement possible mais inadaptée</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout red">
+    <div class="callout-icon">🚫</div>
+    <div class="callout-body">
+      <strong>3 raisons de NE PAS créer son label en micro-entreprise</strong>
+      <strong>1.</strong> Pas de déduction des investissements (10 K€ de prod + 10 K€ de vente = vous êtes dans le rouge à cause des charges qui s'ajoutent au chiffre brut).<br>
+      <strong>2.</strong> Véhicule inadapté à un label : plafond de CA, pas de crédit d'impôt, manque de crédibilité face à la filière.<br>
+      <strong>3.</strong> 1 500 € net de salaire à un attaché de presse = 2 500 € de coût non déductible. Ingérable.
+    </div>
+  </div>
+
+  <!-- 4.2 Asso -->
+  <h3>4.2 — L'association loi 1901</h3>
+  <p>Loi du 1<sup>er</sup> juillet 1901, portée par <strong>Pierre Waldeck-Rousseau</strong>. Permet aux citoyens de se regrouper sans autorisation préalable. La FFF est une association loi 1901 et brasse plus de 300 M€/an.</p>
+
+  <p>En France : ~5 millions d'assos actives, 20 M de bénévoles, 2 M de salariés. Le pays d'Europe au tissu associatif le plus développé.</p>
+
+  <details>
+    <summary>Voir les limites pour un projet musical pro</summary>
+    <ul>
+      <li><strong>Rémunération du président cappée</strong> (~¾ SMIC à 1⅓ SMIC selon la jurisprudence)</li>
+      <li><strong>Bureau obligatoire</strong> : président + secrétaire général + trésorier (besoin de 2-3 personnes minimum dans le projet)</li>
+      <li><strong>Incompatibilité</strong> : longtemps impossible d'être éditeur de musique en asso, accès très limité aux aides spécifiques de la filière</li>
+      <li><strong>Risque de requalification</strong> en entreprise par l'administration fiscale si fonctionnement trop commercial</li>
+    </ul>
+  </details>
+
+  <div class="callout blue">
+    <div class="callout-icon">ℹ️</div>
+    <div class="callout-body">
+      <strong>Pour qui c'est adapté</strong>
+      Artistes ou collectifs avec dimension <strong>sociale ou culturelle</strong> (cours, studio partagé, animation locale), sans visée d'enrichissement personnel. Possible de capter cachets, droits voisins, droits d'auteur et merch en nom perso à côté.
+    </div>
+  </div>
+
+  <!-- 4.3 / 4.4 SARL/SAS -->
+  <h3>4.3 / 4.4 — Les sociétés commerciales (SARL/EURL et SAS/SASU)</h3>
+  <p>Le point commun de tous les labels les plus influents du monde, peu importe la taille ou l'esthétique : ce sont des <strong>sociétés commerciales</strong>. Sur societe.com avec le code APE 59.20 (production / édition phono), tu vois quasi exclusivement des SARL et des SAS.</p>
+
+  <div class="table-wrap">
+  <table class="comparatif">
+    <thead>
+      <tr><th>Critère</th><th>SAS / SASU</th><th>SARL / EURL</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Nombre d'associés</td><td>1 (SASU) ou plusieurs, sans limite</td><td>1 (EURL) à 100 max</td></tr>
+      <tr><td>Responsabilité</td><td>Limitée aux apports*</td><td>Limitée aux apports*</td></tr>
+      <tr><td>Capital social</td><td>Libre, fixe ou variable, dès 1 €</td><td>Libre, fixe ou variable, dès 1 €</td></tr>
+      <tr><td>Régime social du dirigeant</td><td>Président = <strong>assimilé salarié</strong>. 1 000 € net ≈ 2 000 € de coût.</td><td>Gérant majoritaire = <strong>TNS</strong>. 1 000 € net ≈ 1 500 € de coût.</td></tr>
+      <tr><td>Imposition</td><td>IS par défaut, IR sur option</td><td>IS par défaut, IR sur option</td></tr>
+      <tr><td>Souplesse statutaire</td><td>Très flexible (adapté à tes statuts)</td><td>Encadrée par la loi</td></tr>
+      <tr><td>Transmission des parts</td><td>Libre par défaut</td><td>Encadrée (droit de préemption)</td></tr>
+      <tr><td>Dividendes</td><td>Pas de cotisations sociales (flat tax 30%)</td><td>Cotisations sauf &lt; 10 % du capital</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p style="font-size:.85rem;color:var(--gray-500);margin-top:.5rem"><em>* La responsabilité « limitée » ne protège pas des dettes d'État (TVA, URSSAF, impôts) ni des prêts contractés en caution personnelle.</em></p>
+
+  <div class="callout purple">
+    <div class="callout-icon">🎯</div>
+    <div class="callout-body">
+      <strong>5 fausses croyances à déconstruire</strong>
+      <strong>1.</strong> « La SAS est toujours mieux que la SARL. » → Faux. La SARL/EURL peut être plus avantageuse fiscalement selon ta situation.<br>
+      <strong>2.</strong> « Le dirigeant d'une SAS paye moins de charges. » → Faux, c'est l'inverse (président = quasi double).<br>
+      <strong>3.</strong> « Les statuts d'une SAS sont compliqués. » → Faux. Tu peux les rédiger simples.<br>
+      <strong>4.</strong> « Pas d'investisseurs en SARL. » → Si, mais la SAS est mieux adaptée.<br>
+      <strong>5.</strong> « Il faut beaucoup de capital. » → Faux. Capital libre dès 1 €.
+    </div>
+  </div>
+
+  <div class="callout green">
+    <div class="callout-icon">✅</div>
+    <div class="callout-body">
+      <strong>Recommandation Tarik</strong>
+      Pour 95 % des projets de label / production / édition / booking / merch : <strong>SAS / SASU</strong>. La SARL / EURL est intéressante si tu te verses une rémunération dès les premiers mois (économie ~500 €/an de charges en gérant majoritaire TNS).
+    </div>
+  </div>
+
+  <!-- 4.5 Artiste-auteur -->
+  <h3>4.5 — Le statut d'artiste-auteur (BNC au réel)</h3>
+  <p>Héritage de <strong>Beaumarchais</strong> (1777, première société de gestion collective). Lois fondatrices : 11 mars 1957 et 3 juillet 1985. Couverture sociale spécifique aux créateurs.</p>
+
+  <p>La spécificité clé : le régime <strong>BNC au réel</strong> (Bénéfices Non Commerciaux). Permet d'avoir un SIRET, de facturer, et d'être imposé uniquement sur la marge réelle (recettes – dépenses). C'est probablement <strong>l'idéal pour se lancer</strong>, bien plus adapté que la micro-entreprise.</p>
+
+  <div class="pros-cons">
+    <div class="pros">
+      <h4>✓ Atouts du BNC au réel</h4>
+      <ul>
+        <li>SIRET + facturation possible</li>
+        <li>Imposition sur la marge réelle</li>
+        <li>Cotisations réduites vs. travailleur indépendant classique</li>
+        <li>Cumulable avec salarié, intermittent, auto-entrepreneur</li>
+        <li>Exonération TVA jusqu'à 50 K€ (tolérance 55 K€)</li>
+        <li>Accès aux aides et subventions (CNM, etc.)</li>
+        <li>Couverture maternité, retraite, allocations familiales</li>
+        <li>AFDAS : jusqu'à 5 600 € HT/an de formation pro</li>
+      </ul>
+    </div>
+    <div class="cons">
+      <h4>✗ Limites</h4>
+      <ul>
+        <li>Plafonné dans la durée (jusqu'à ~50 K€ confortablement)</li>
+        <li>Inadapté pour grosses activités de production-édition à long terme</li>
+        <li>Moins crédible qu'une société pour de très gros deals</li>
+        <li>Frais comptables ~500 €/an (mais flexible)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout green">
+    <div class="callout-icon">👤</div>
+    <div class="callout-body">
+      <strong>L'expérience de Tarik</strong>
+      Avant la SAS, Tarik était serveur saisonnier à Bénodet et vendait des comps en parallèle (jusqu'à 3-5 K€/mois). Le statut artiste-auteur en BNC réel lui a permis : facturation, distribution Believe, encaissement SPPF, déclaration des droits d'auteur, et même une <strong>niche fiscale qui réduit fortement les impôts</strong> (à voir plus tard dans la formation).
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5 -->
+<section class="section" id="s5" data-color="amber">
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <h2>Synthèse &amp; recommandations par profil</h2>
+  </div>
+
+  <div class="actors">
+    <div class="actor" style="border-left:4px solid var(--accent)">
+      <span class="actor-icon" style="background:var(--accent-light);color:var(--accent)">🛠️</span>
+      <div><strong>Prestataire pur, sans investissement</strong><p>Micro-entreprise pour 6-12 mois max, puis bascule.</p></div>
+    </div>
+    <div class="actor" style="border-left:4px solid var(--info)">
+      <span class="actor-icon" style="background:var(--info-light);color:var(--info)">🎭</span>
+      <div><strong>Artiste / collectif culturel-social</strong><p>Association loi 1901 + captage perso des cachets, droits, merch.</p></div>
+    </div>
+    <div class="actor" style="border-left:4px solid var(--success)">
+      <span class="actor-icon" style="background:var(--success-light);color:var(--success)">🎯</span>
+      <div><strong>Démarrage label, &lt; 50 K€/an, peur de la société</strong><p>Statut artiste-auteur en <strong>BNC au réel</strong>. L'option idéale pour commencer.</p></div>
+    </div>
+    <div class="actor" style="border-left:4px solid var(--primary)">
+      <span class="actor-icon" style="background:var(--primary-light);color:var(--primary)">💼</span>
+      <div><strong>Activité ambitieuse + rémunération mensuelle</strong><p>EURL / SARL — gérant majoritaire TNS (charges sociales optimisées).</p></div>
+    </div>
+    <div class="actor" style="border-left:4px solid var(--primary);background:linear-gradient(135deg,#FAF7FF,#FFF)">
+      <span class="actor-icon" style="background:var(--primary-light);color:var(--primary)">🚀</span>
+      <div><strong>95 % des projets label / prod / édition / booking</strong><p><strong>SAS / SASU</strong> : souplesse, dividendes sans cotisations, transmission libre.</p></div>
+    </div>
+  </div>
+
+  <div class="callout red">
+    <div class="callout-icon">⚠️</div>
+    <div class="callout-body">
+      <strong>Le piège à éviter absolument</strong>
+      Choisir son statut « pour faire simple » au lieu de « pour faire bien ». Un mauvais véhicule limite tes ambitions, te coûte de l'argent en charges inadaptées, et te ferme des portes (subventions, crédibilité, embauche, dividendes).
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-icon">📚</div>
+    <div class="callout-body">
+      <strong>Ressources complémentaires (sous la vidéo)</strong>
+      📺 Replay conférence de Delphine Guennec (experte-comptable spécialisée filière musicale, 15 ans d'expérience).<br>
+      📋 Questionnaire d'auto-diagnostic pour identifier la meilleure structure adaptée à ta situation.
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section class="quiz" id="quiz">
+  <h2>🎯 Quiz d'auto-évaluation</h2>
+  <p class="intro">Vérifie ta compréhension des points clés en répondant aux 5 questions suivantes.</p>
+
+  <div class="quiz-question">
+    <span class="qnum">Q1</span>
+    <h4>Selon Tarik, qu'est-ce qui sépare ceux qui réussissent dans la musique de ceux qui galèrent ?</h4>
+    <div class="quiz-options">
+      <button class="quiz-option" data-correct="false">Le budget de départ disponible</button>
+      <button class="quiz-option" data-correct="false">Le réseau de contacts dans la filière</button>
+      <button class="quiz-option" data-correct="true">Le cadre légal et la connaissance de l'industrie</button>
+      <button class="quiz-option" data-correct="false">Le talent artistique pur</button>
+    </div>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <div class="quiz-question">
+    <span class="qnum">Q2</span>
+    <h4>Combien de sources de revenus principales sont identifiées dans l'industrie musicale ?</h4>
+    <div class="quiz-options">
+      <button class="quiz-option" data-correct="false">5 sources</button>
+      <button class="quiz-option" data-correct="false">7 sources</button>
+      <button class="quiz-option" data-correct="true">10 sources</button>
+      <button class="quiz-option" data-correct="false">12 sources</button>
+    </div>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <div class="quiz-question">
+    <span class="qnum">Q3</span>
+    <h4>Pourquoi la micro-entreprise est-elle déconseillée pour créer un label ?</h4>
+    <div class="quiz-options">
+      <button class="quiz-option" data-correct="false">Parce qu'elle est trop chère à créer</button>
+      <button class="quiz-option" data-correct="true">Parce qu'on ne peut pas déduire les charges et investissements</button>
+      <button class="quiz-option" data-correct="false">Parce qu'elle nécessite un capital minimum important</button>
+      <button class="quiz-option" data-correct="false">Parce qu'elle interdit la facturation</button>
+    </div>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <div class="quiz-question">
+    <span class="qnum">Q4</span>
+    <h4>Pour 1 000 € net versés au dirigeant, quel est l'écart de coût total entre une SAS et une EURL (gérant majoritaire) ?</h4>
+    <div class="quiz-options">
+      <button class="quiz-option" data-correct="false">Coût identique dans les deux cas</button>
+      <button class="quiz-option" data-correct="true">≈ 2 000 € en SAS vs ≈ 1 500 € en EURL (TNS)</button>
+      <button class="quiz-option" data-correct="false">≈ 1 500 € en SAS vs ≈ 2 000 € en EURL</button>
+      <button class="quiz-option" data-correct="false">Moins de 1 200 € dans les deux cas</button>
+    </div>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <div class="quiz-question">
+    <span class="qnum">Q5</span>
+    <h4>Quel statut est recommandé pour démarrer un projet de label avec moins de 50 K€/an de revenus ?</h4>
+    <div class="quiz-options">
+      <button class="quiz-option" data-correct="false">La micro-entreprise</button>
+      <button class="quiz-option" data-correct="false">L'association loi 1901</button>
+      <button class="quiz-option" data-correct="true">Le statut d'artiste-auteur en BNC au réel</button>
+      <button class="quiz-option" data-correct="false">La SARL avec capital de 10 000 €</button>
+    </div>
+    <div class="quiz-feedback"></div>
+  </div>
+</section>
+
+</div><!-- /container -->
+
+<footer>
+  <div class="container">
+    <div class="brand">MUZIFORMA</div>
+    <p>Tarik Hamiche · Chapitre 1 — Vidéo 1 : Cadre Légal (partie 1)</p>
+    <p>Support de cours interactif généré à partir de la transcription vidéo</p>
+  </div>
+</footer>
+
+<script>
+// === Progress bar ===
+const progressBar = document.getElementById('progressBar');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const total = h.scrollHeight - h.clientHeight;
+  const scrolled = (h.scrollTop / total) * 100;
+  progressBar.style.width = scrolled + '%';
+});
+
+// === Quiz interactif ===
+document.querySelectorAll('.quiz-question').forEach(q => {
+  const buttons = q.querySelectorAll('.quiz-option');
+  const feedback = q.querySelector('.quiz-feedback');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (q.dataset.answered) return;
+      q.dataset.answered = '1';
+      const isCorrect = btn.dataset.correct === 'true';
+      buttons.forEach(b => {
+        b.disabled = true;
+        if (b.dataset.correct === 'true') b.classList.add('correct');
+        else if (b === btn && !isCorrect) b.classList.add('wrong');
+      });
+      feedback.textContent = isCorrect
+        ? '✅ Bonne réponse ! Tu as bien capté ce point clé.'
+        : '❌ Pas tout à fait. La bonne réponse est en vert — relis la section concernée pour clarifier.';
+      feedback.classList.add('show');
+    });
+  });
+});
+
+// === Smooth scroll TOC ===
+document.querySelectorAll('.toc-list a').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+</script>
+
+</body>
+</html>

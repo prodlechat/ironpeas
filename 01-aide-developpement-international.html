@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aides CNM — Développement International (Musiques Actuelles)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#6C3AED;--primary-dark:#5325c4;--accent:#F59E0B;--success:#10B981;--danger:#EF4444;--info:#3B82F6;--bg:#FAFAFB;--ink:#1A1A2E;--ink-soft:#4A4A6A;--line:#E8E8F0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:16px}
+.progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--primary),var(--accent));z-index:1000;width:0;transition:width .1s}
+.hero{background:linear-gradient(135deg,#6C3AED 0%,#5325c4 50%,#3a1690 100%);color:#fff;padding:60px 24px 80px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-50%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(245,158,11,.15) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:2}
+.badge{display:inline-block;background:rgba(245,158,11,.2);color:#FCD34D;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:20px;border:1px solid rgba(245,158,11,.3)}
+h1{font-family:'Space Grotesk',sans-serif;font-size:2.8rem;font-weight:700;line-height:1.15;margin-bottom:20px;letter-spacing:-.02em}
+.hero p.lead{font-size:1.15rem;opacity:.92;max-width:780px;margin-bottom:30px}
+.meta{display:flex;flex-wrap:wrap;gap:20px;font-size:.92rem;opacity:.88}
+.meta-item{display:flex;align-items:center;gap:8px}
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+.toc{background:#fff;border-radius:16px;padding:28px;margin:-40px auto 40px;box-shadow:0 12px 40px rgba(108,58,237,.12);position:relative;z-index:5;max-width:1052px}
+.toc h3{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;margin-bottom:18px;color:var(--primary);text-transform:uppercase;letter-spacing:.5px}
+.toc-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px}
+.toc-list a{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;color:var(--ink);text-decoration:none;transition:all .2s;font-weight:500;font-size:.95rem}
+.toc-list a:hover{background:#F3EEFF;color:var(--primary);transform:translateX(4px)}
+.toc-num{background:var(--primary);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
+section.module{background:#fff;border-radius:16px;margin-bottom:32px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.04);border:1px solid var(--line)}
+.module-header{padding:30px 32px 24px;border-bottom:4px solid var(--primary);position:relative}
+.module-header.accent{border-bottom-color:var(--accent)}
+.module-header.success{border-bottom-color:var(--success)}
+.module-header.danger{border-bottom-color:var(--danger)}
+.module-header.info{border-bottom-color:var(--info)}
+.module-num{font-family:'Space Grotesk',sans-serif;font-size:.85rem;color:var(--primary);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.module-header h2{font-family:'Space Grotesk',sans-serif;font-size:1.85rem;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.module-body{padding:28px 32px 36px}
+.module-body p{margin-bottom:16px;color:var(--ink-soft)}
+.module-body p strong{color:var(--ink);font-weight:600}
+.callout{margin:24px 0;padding:20px 22px;border-radius:12px;border-left:4px solid;display:flex;gap:14px;align-items:flex-start}
+.callout-icon{font-size:1.5rem;flex-shrink:0;line-height:1}
+.callout-content{flex:1}
+.callout h4{font-weight:700;margin-bottom:6px;font-size:1rem}
+.callout p{margin:0;color:inherit;font-size:.95rem}
+.callout.tip{background:#ECFDF5;border-color:var(--success);color:#065f46}
+.callout.warn{background:#FEF3C7;border-color:var(--accent);color:#78350f}
+.callout.danger{background:#FEE2E2;border-color:var(--danger);color:#7f1d1d}
+.callout.info{background:#DBEAFE;border-color:var(--info);color:#1e3a8a}
+.callout.key{background:#F3EEFF;border-color:var(--primary);color:#3a1690}
+table.cmp{width:100%;border-collapse:collapse;margin:24px 0;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);font-size:.92rem}
+table.cmp thead th{background:var(--primary);color:#fff;padding:14px 16px;text-align:left;font-weight:600;font-family:'Space Grotesk',sans-serif}
+table.cmp tbody td{padding:14px 16px;border-bottom:1px solid var(--line);color:var(--ink-soft)}
+table.cmp tbody tr:nth-child(even){background:#FAFAFB}
+table.cmp tbody tr:last-child td{border-bottom:none}
+table.cmp tbody td:first-child{font-weight:600;color:var(--ink)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:24px 0}
+.card{background:#FAFAFB;border:1px solid var(--line);border-radius:12px;padding:20px;transition:all .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(108,58,237,.08)}
+.card-icon{font-size:1.8rem;margin-bottom:10px}
+.card h5{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;margin-bottom:8px;color:var(--ink)}
+.card p{font-size:.9rem;color:var(--ink-soft);margin:0}
+details{background:#FAFAFB;border-radius:10px;padding:14px 18px;margin:14px 0;border:1px solid var(--line);cursor:pointer}
+details summary{font-weight:600;color:var(--primary);outline:none;list-style:none;position:relative;padding-left:22px}
+details summary::before{content:"▶";position:absolute;left:0;font-size:.7rem;transition:transform .2s}
+details[open] summary::before{transform:rotate(90deg)}
+details p{margin-top:12px;color:var(--ink-soft);font-size:.95rem}
+.quiz{background:linear-gradient(135deg,#F3EEFF 0%,#FEF3C7 100%);border-radius:16px;padding:36px 32px;margin:48px 0}
+.quiz h2{font-family:'Space Grotesk',sans-serif;color:var(--primary);font-size:1.7rem;margin-bottom:8px}
+.quiz>p{color:var(--ink-soft);margin-bottom:24px}
+.question{background:#fff;border-radius:12px;padding:22px 24px;margin-bottom:18px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.question h4{margin-bottom:14px;color:var(--ink);font-size:1.05rem}
+.options{display:flex;flex-direction:column;gap:8px}
+.options label{display:flex;align-items:center;gap:10px;padding:10px 14px;border:2px solid var(--line);border-radius:8px;cursor:pointer;transition:all .15s;font-size:.93rem}
+.options label:hover{border-color:var(--primary);background:#FAFAFB}
+.options input[type="radio"]{accent-color:var(--primary)}
+.feedback{margin-top:14px;padding:12px 16px;border-radius:8px;font-size:.92rem;display:none}
+.feedback.show{display:block}
+.feedback.correct{background:#ECFDF5;color:#065f46;border-left:3px solid var(--success)}
+.feedback.wrong{background:#FEE2E2;color:#7f1d1d;border-left:3px solid var(--danger)}
+.footer{text-align:center;padding:40px 24px;color:var(--ink-soft);font-size:.9rem;border-top:1px solid var(--line);margin-top:60px}
+.footer strong{color:var(--primary);font-family:'Space Grotesk',sans-serif}
+ul.cks{list-style:none;margin:14px 0 20px}
+ul.cks li{padding:8px 0 8px 28px;position:relative;color:var(--ink-soft)}
+ul.cks li::before{content:"✓";position:absolute;left:0;top:8px;color:var(--success);font-weight:700;font-size:1.1rem}
+ul.xks li::before{content:"✗";color:var(--danger)}
+@media (max-width:680px){h1{font-size:2rem}.hero{padding:40px 20px 60px}.module-body,.module-header{padding:22px}.toc{margin:-30px 16px 30px}}
+@media print{.progress-bar,.quiz{display:none}body{background:#fff}section.module{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<header class="hero">
+<div class="hero-inner">
+<span class="badge">Webinaire CNM • Module 1</span>
+<h1>Aides au développement international — Musiques Actuelles</h1>
+<p class="lead">Le webinaire officiel du Centre National de la Musique pour comprendre et déposer une demande sur les 3 programmes d'aide à l'international en 2025 : Programme 1, Programme 2 et Mobilité individuelle.</p>
+<div class="meta">
+<span class="meta-item">🎓 Formatrice : Camille Hiron (CNM)</span>
+<span class="meta-item">⏱️ Durée : ~50 min</span>
+<span class="meta-item">🌍 Niveau : Tous</span>
+</div>
+</div>
+</header>
+
+<div class="container">
+<nav class="toc">
+<h3>📚 Sommaire du cours</h3>
+<ul class="toc-list">
+<li><a href="#s1"><span class="toc-num">1</span>Architecture des programmes</a></li>
+<li><a href="#s2"><span class="toc-num">2</span>Bénéficiaires & actions soutenues</a></li>
+<li><a href="#s3"><span class="toc-num">3</span>Programme 1 (400 € – 25 000 €)</a></li>
+<li><a href="#s4"><span class="toc-num">4</span>Programme 2 (30 000 € – 80 000 €)</a></li>
+<li><a href="#s5"><span class="toc-num">5</span>Mobilité individuelle</a></li>
+<li><a href="#s6"><span class="toc-num">6</span>Dépenses éligibles</a></li>
+<li><a href="#s7"><span class="toc-num">7</span>Critères d'appréciation</a></li>
+<li><a href="#s8"><span class="toc-num">8</span>Bonification 2025 & Calendrier</a></li>
+</ul>
+</nav>
+
+<section class="module" id="s1">
+<div class="module-header"><div class="module-num">Module 1</div><h2>L'architecture des programmes d'aide</h2></div>
+<div class="module-body">
+<p>Le dispositif d'aide au développement international du CNM est <strong>réparti sur trois esthétiques</strong> : musiques actuelles, classique et jazz. Pour les musiques actuelles, l'accompagnement se décline sur <strong>trois programmes cumulatifs</strong>, distingués par le type d'actions présentables.</p>
+
+<div class="cards">
+<div class="card"><div class="card-icon">🎯</div><h5>Programme 1</h5><p>Actions ponctuelles, premières étapes de développement. 5 commissions par an.</p></div>
+<div class="card"><div class="card-icon">🚀</div><h5>Programme 2</h5><p>Projets plus ambitieux, plusieurs partenaires cosignataires, marchés ciblés. 2 commissions par an.</p></div>
+<div class="card"><div class="card-icon">✈️</div><h5>Mobilité individuelle</h5><p>Salons professionnels uniquement. Aide limitée, 2 dépôts par an.</p></div>
+</div>
+
+<div class="callout key"><div class="callout-icon">🔑</div><div class="callout-content"><h4>L'équipe Développement International</h4><p>Une équipe de chefs de projet pour l'aide non financière : Benjamin Domelle-Meister (Paris), Daniel Winkel et Ben Lingg (Berlin). La partie aide financière est portée par Camille Hiron.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s2">
+<div class="module-header accent"><div class="module-num">Module 2</div><h2>Bénéficiaires & actions soutenues</h2></div>
+<div class="module-body">
+<p>Les programmes s'adressent à <strong>5 types de bénéficiaires</strong>. La genèse de ces dispositifs : les projets les plus pertinents à l'international sont ceux qui mobilisent l'ensemble des partenaires tout au long du développement.</p>
+
+<div class="cards">
+<div class="card"><div class="card-icon">💿</div><h5>Producteurs phonographiques</h5></div>
+<div class="card"><div class="card-icon">🎤</div><h5>Producteurs de spectacles</h5></div>
+<div class="card"><div class="card-icon">📝</div><h5>Éditeurs musicaux</h5></div>
+<div class="card"><div class="card-icon">🧑‍💼</div><h5>Managers</h5></div>
+<div class="card"><div class="card-icon">🎵</div><h5>Artistes</h5></div>
+</div>
+
+<p>Dans <strong>une seule et même demande</strong>, vous pouvez présenter des actions liées au développement live <em>et</em> au développement phono. Voici les actions soutenues :</p>
+
+<table class="cmp">
+<thead><tr><th>Type d'action</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>Déplacement professionnel de prospection</td><td>Une personne de votre structure rencontre des partenaires (pas l'artiste).</td></tr>
+<tr><td>Promotion & marketing</td><td>Campagnes presse, radio, télé, marketing digital, achat d'espaces.</td></tr>
+<tr><td>Voyage promotionnel</td><td>L'artiste rencontre des médias locaux.</td></tr>
+<tr><td>Diffusion à l'international</td><td>Ancienne "aide à la tournée" — performances publiques ou showcases pros.</td></tr>
+<tr><td>Sessions d'écriture</td><td>Collaboration avec des artistes locaux, ciblée sur un territoire spécifique.</td></tr>
+<tr><td>Création de contenu</td><td>Audio, vidéo ou scénique, inscrite dans la stratégie de développement.</td></tr>
+</tbody>
+</table>
+
+<div class="callout info"><div class="callout-icon">💡</div><div class="callout-content"><h4>Pourquoi "diffusion" et plus "tournée" ?</h4><p>Pour des questions de réglementation européenne (RGPD, concurrence européenne), on ne parle plus d'aide à la tournée mais de <strong>diffusion à l'international</strong> : performances publiques ou à destination professionnelle (showcases).</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s3">
+<div class="module-header success"><div class="module-num">Module 3</div><h2>Programme 1 — Aides de 400 € à 25 000 €</h2></div>
+<div class="module-body">
+<p>Le Programme 1 vise les actions ponctuelles et premières étapes de développement.</p>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">Critères d'éligibilité projet</h4>
+<ul class="cks">
+<li>Un phonogramme distribué sur <strong>2 plateformes de stream commercial</strong></li>
+<li><strong>1 000 abonnés</strong> minimum sur un réseau social (Facebook, Instagram…)</li>
+<li><strong>1 000 abonnés</strong> minimum sur au moins 2 plateformes de stream (donc 2 000 abonnés total, mais 1 000 par plateforme)</li>
+<li>Si collaboration avec un artiste local : il doit justifier des <strong>mêmes données artistes</strong></li>
+</ul>
+
+<div class="callout tip"><div class="callout-icon">🆕</div><div class="callout-content"><h4>Nouveauté 2025 — Spectacle musical éligible</h4><p>Le Programme 1 est désormais ouvert aux spectacles musicaux ou de variété, à partir de <strong>10 000 followers</strong> sur un réseau social.</p></div></div>
+
+<div class="callout danger"><div class="callout-icon">⚠️</div><div class="callout-content"><h4>Les données artistes à l'international deviennent OBLIGATOIRES</h4><p>Un onglet spécifique vous demande les données par territoire visé. <strong>Si la demande ne précise pas ces données, elle sera jugée irrecevable</strong> et ne passera jamais en commission. C'est désormais un véritable critère de recevabilité, plus une simple information.</p></div></div>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">Territoires éligibles</h4>
+<p>Tous les territoires étrangers sont éligibles. <strong>Cas particulier Belgique / Suisse / Luxembourg</strong> : auparavant exclus, ces pays limitrophes sont désormais éligibles à condition que la demande concerne aussi 3 autres territoires (Angleterre, Allemagne, Autriche, etc.).</p>
+
+<div class="callout warn"><div class="callout-icon">📋</div><div class="callout-content"><h4>Aide à la diffusion : minimum 3 représentations</h4><p>Vous devez fournir au moment du dépôt tous les justificatifs (contrats, deals mémos ou échanges mail) permettant de vérifier <strong>le lieu, la date et les montants</strong> de chaque session.</p></div></div>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">Période d'éligibilité</h4>
+<p>Au plus tôt <strong>5 mois avant la date de dépôt</strong>. Vous pouvez présenter des opérations à venir si vous fournissez les justificatifs préparatoires (devis, liste de rendez-vous, liste des professionnels).</p>
+</div>
+</section>
+
+<section class="module" id="s4">
+<div class="module-header danger"><div class="module-num">Module 4</div><h2>Programme 2 — Aides de 30 000 € à 80 000 €</h2></div>
+<div class="module-body">
+<p>Le Programme 2 cible les <strong>projets plus ambitieux</strong>, avec une typologie différente et un niveau d'aide supérieur. Le mécanisme clé : les <strong>cosignataires</strong>.</p>
+
+<table class="cmp">
+<thead><tr><th>Fourchette</th><th>Cosignataires requis</th><th>Logique</th></tr></thead>
+<tbody>
+<tr><td>30 000 € – 50 000 €</td><td>1 cosignataire</td><td>Ex. : producteur de spectacle + producteur phono</td></tr>
+<tr><td>50 000 € – 80 000 €</td><td>2 cosignataires</td><td>Ajout de l'éditeur cosignataire</td></tr>
+</tbody>
+</table>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">Critères d'éligibilité projet (un seul des 3 suffit)</h4>
+<ul class="cks">
+<li><strong>500 000 streams</strong> sur les plateformes commerciales, OU</li>
+<li><strong>10 000 followers</strong> sur un réseau social, OU</li>
+<li><strong>100 000 auditeurs mensuels</strong> sur une plateforme de streaming</li>
+</ul>
+
+<div class="callout info"><div class="callout-icon">🔍</div><div class="callout-content"><h4>Auditeurs mensuels ≠ abonnés ≠ streams</h4><p>Trois données artistes <strong>différentes</strong>. Spotify indique le nombre d'auditeurs mensuels. Ne pas confondre avec les abonnés (followers) ou le total cumulé de streams.</p></div></div>
+
+<div class="callout tip"><div class="callout-icon">🆕</div><div class="callout-content"><h4>Nouveauté 2025 — Spectacle musical sans producteur phono</h4><p>Le Programme 2 est désormais ouvert aux spectacles musicaux/de variété justifiant de <strong>25 000 followers</strong>, même <strong>sans producteur phonographique</strong>. Les deux fourchettes (30-50k et 50-80k) restent accessibles.</p></div></div>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">Période d'éligibilité</h4>
+<p>Plus large : <strong>1 an avant et 1 an après</strong> la date de dépôt. Aide à la diffusion à partir de 3 représentations, pas de maximum.</p>
+</div>
+</section>
+
+<section class="module" id="s5">
+<div class="module-header info"><div class="module-num">Module 5</div><h2>Mobilité individuelle — Salons professionnels</h2></div>
+<div class="module-body">
+<p>Programme créé en <strong>2025</strong> pour simplifier les demandes liées aux <strong>salons professionnels</strong> uniquement. Formulaire spécifique dans votre espace CNM.</p>
+
+<table class="cmp">
+<thead><tr><th>Critère</th><th>Mobilité Individuelle</th></tr></thead>
+<tbody>
+<tr><td>Type de déplacement</td><td>Salons professionnels uniquement</td></tr>
+<tr><td>Critère artiste</td><td>Phonogramme sur 2 plateformes de stream (PAS de seuil d'abonnés)</td></tr>
+<tr><td>Portée</td><td>Un artiste OU votre catalogue entier</td></tr>
+<tr><td>Période</td><td>Uniquement déplacements <strong>déjà effectués</strong></td></tr>
+<tr><td>Dépenses éligibles</td><td>Voyage, hébergement, restauration, accréditations</td></tr>
+<tr><td>Couverture</td><td>50 % des dépenses éligibles</td></tr>
+<tr><td>Plafond Europe</td><td>800 € / personne</td></tr>
+<tr><td>Plafond hors Europe</td><td>1 400 € / personne</td></tr>
+<tr><td>Nb de personnes valorisables</td><td>2 par déplacement</td></tr>
+<tr><td>Fréquence</td><td>2 fois par an maximum</td></tr>
+<tr><td>Bilan</td><td>❌ Aucun bilan exigé</td></tr>
+<tr><td>Versement</td><td>Unique, dès signature du PV par la direction CNM</td></tr>
+</tbody>
+</table>
+
+<div class="callout tip"><div class="callout-icon">⚡</div><div class="callout-content"><h4>Pourquoi c'est un gros plus en 2025</h4><p>Pas de bilan, justificatifs fournis au dépôt → vous touchez votre subvention <strong>directement</strong> après la commission. Beaucoup plus rapide que le P1 ou le P2.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s6">
+<div class="module-header"><div class="module-num">Module 6</div><h2>Les dépenses éligibles (et ce qui ne l'est pas)</h2></div>
+<div class="module-body">
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:8px 0 10px">✅ Déplacement & logistique</h4>
+<ul class="cks">
+<li>Transport (tarif économique)</li>
+<li>Hébergement (éviter 4-5 étoiles)</li>
+<li>Visas et démarches associées</li>
+<li>Accréditations & location de stands</li>
+</ul>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">✅ Performances live</h4>
+<ul class="cks">
+<li>Salaires de l'équipe artistique et technique (artistes, musiciens, techniciens)</li>
+<li>Performances <strong>et</strong> répétitions (uniquement liées aux dates à l'international — sinon, faire un prorata)</li>
+<li>Commissions d'agent</li>
+<li>Transport / location d'instruments et de matériel</li>
+</ul>
+
+<div class="callout warn"><div class="callout-icon">🆕</div><div class="callout-content"><h4>Plafond rémunération artistes — Nouveauté 2025</h4><p>La couverture est plafonnée à <strong>5 fois les tarifs conventionnels en vigueur</strong>. Au-delà, le projet n'est pas éligible — la partie supplémentaire doit être indiquée en non-éligible.</p></div></div>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">✅ Promotion & marketing</h4>
+<ul class="cks">
+<li>Agences de promotion</li>
+<li>Achat d'espaces publicitaires (réseaux sociaux inclus)</li>
+<li>Vidéos promotionnelles, teasers, EPK, capsules</li>
+<li>Sous-titrage, traduction</li>
+</ul>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--danger);margin:18px 0 10px">❌ Dépenses NON éligibles</h4>
+<ul class="cks xks">
+<li>Frais de structure (à retirer ou indiquer en non-éligible)</li>
+<li>Taxes étrangères imposées sur les tournées</li>
+<li>Hébergements 4-5 étoiles</li>
+</ul>
+
+<div class="callout info"><div class="callout-icon">⚖️</div><div class="callout-content"><h4>Cas particulier : récupération de taxes via cabinets d'avocats</h4><p>Les <strong>honoraires d'avocats</strong> pour récupérer une partie d'une taxe étrangère sont éligibles dans le cadre des Programmes Musiques Actuelles. La taxe elle-même reste non éligible.</p></div></div>
+
+<div class="callout danger"><div class="callout-icon">🚨</div><div class="callout-content"><h4>Justificatifs OBLIGATOIRES au dépôt</h4><p>Aucun délai supplémentaire ne sera accordé. <strong>Si les justificatifs ne sont pas fournis au moment du dépôt, la demande n'est pas recevable.</strong> Chaque type d'aide a son annexe obligatoire (contrats pour la diffusion, planning pour le voyage promo, factures/devis pour le contenu, liste des pros pour les showcases).</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s7">
+<div class="module-header accent"><div class="module-num">Module 7</div><h2>Critères d'appréciation en commission</h2></div>
+<div class="module-body">
+<p>La commission étudie votre dossier à travers <strong>plusieurs angles complémentaires</strong>. Le but : comprendre la cohérence globale de votre projet.</p>
+
+<div class="cards">
+<div class="card"><div class="card-icon">💰</div><h5>Cohérence économique</h5><p>Rapport montant demandé / budget global présenté.</p></div>
+<div class="card"><div class="card-icon">🎯</div><h5>Cohérence stratégique</h5><p>Logique de votre stratégie de développement par territoire.</p></div>
+<div class="card"><div class="card-icon">🏢</div><h5>Professionnalisme</h5><p>Solidité de votre structure et de votre équipe.</p></div>
+<div class="card"><div class="card-icon">♀️♂️</div><h5>Égalité F/H</h5><p>Mesures concrètes prises au sein du projet.</p></div>
+<div class="card"><div class="card-icon">🌱</div><h5>Impact environnemental</h5><p>Dispositions prises pour réduire l'empreinte du projet.</p></div>
+</div>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">Données artistes (étudiées par territoire)</h4>
+<ul class="cks">
+<li>Chiffres de vente</li>
+<li>Chiffres streaming</li>
+<li>Chiffres réseaux sociaux</li>
+<li><strong>Répartition par territoire visé</strong> — qu'est-ce qui justifie ce déplacement ?</li>
+</ul>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">Objectifs et stratégie</h4>
+<ul class="cks">
+<li>Historique sur le territoire (déjà venu ? à quelle jauge ?)</li>
+<li>Partenaires locaux (nouveaux / historiques ?)</li>
+<li>Rétro-planning + perspectives court / moyen terme</li>
+<li>Présentation des partenaires locaux (promoteurs, médias…)</li>
+<li>Implication des partenaires locaux dans le budget</li>
+<li>Historique des aides CNM déjà obtenues + bilan d'efficacité</li>
+</ul>
+
+<div class="callout key"><div class="callout-icon">📞</div><div class="callout-content"><h4>Le conseil-clé de Camille Hiron</h4><p>Prenez contact avec l'équipe CNM <strong>en amont du dépôt</strong> pour qu'on puisse identifier ensemble les zones d'ombre qui pourraient susciter des questions en commission.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s8">
+<div class="module-header success"><div class="module-num">Module 8</div><h2>Bonification 2025 + Calendrier des commissions</h2></div>
+<div class="module-body">
+<p>Le CNM introduit en 2025 des <strong>critères de transformation</strong> qui ouvrent une bonification sur les programmes.</p>
+
+<table class="cmp">
+<thead><tr><th>Programme</th><th>Bonus disponible</th></tr></thead>
+<tbody>
+<tr><td>Programme 1</td><td>+ 5 %</td></tr>
+<tr><td>Programme 2</td><td>+ 2 %</td></tr>
+</tbody>
+</table>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">Comment l'obtenir ?</h4>
+<p>Cocher <strong>plus de la moitié des critères</strong>, avec un <strong>minimum d'un critère par catégorie</strong> (égalité/inclusion + transition écologique).</p>
+
+<div class="cards">
+<div class="card"><div class="card-icon">⚖️</div><h5>Égalité & inclusion</h5><p>Parité du plateau artistique, rémunération égale F/H, actions de sensibilisation, partenariats, conférences.</p></div>
+<div class="card"><div class="card-icon">🌍</div><h5>Transition écologique</h5><p>Usage du train pour trajets < 4h, outils comme SEED (mesure d'impact), actions de sensibilisation significatives.</p></div>
+</div>
+
+<div class="callout tip"><div class="callout-icon">🎁</div><div class="callout-content"><h4>C'est un BONUS, pas un malus</h4><p>Si vous ne cochez pas ces critères, votre demande reste éligible. La bonification a été pensée pour ne pas pénaliser les structures plus modestes — les critères portent sur le <strong>projet</strong> et non sur la structure.</p></div></div>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">📅 Calendrier 2025</h4>
+
+<table class="cmp">
+<thead><tr><th>Programme</th><th>Dates de dépôt restantes 2025</th></tr></thead>
+<tbody>
+<tr><td>Programme 1 (et Mobilité Individuelle)</td><td>2 avril • 23 mai • 3 juillet • 17 octobre</td></tr>
+<tr><td>Programme 2</td><td>9 septembre</td></tr>
+</tbody>
+</table>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">Modalités de versement</h4>
+<table class="cmp">
+<thead><tr><th>Programme</th><th>Versement</th><th>Bilan</th></tr></thead>
+<tbody>
+<tr><td>Mobilité individuelle</td><td>Versement unique post-décision</td><td>Aucun</td></tr>
+<tr><td>Programme 1</td><td>Versement unique après validation bilan</td><td>Délai 18 mois</td></tr>
+<tr><td>Programme 2</td><td>Acompte 50 % possible sur justificatifs<br>+ solde après bilan</td><td>Justificatifs nécessaires</td></tr>
+</tbody>
+</table>
+
+<div class="callout danger"><div class="callout-icon">🚨</div><div class="callout-content"><h4>Pas d'avance sans justificatif</h4><p>Quel que soit le programme : <strong>aucun versement sans pièces justificatives</strong>. Pour 50 % d'un dossier P2 à 30 000 €, il faut déjà fournir 30 000 € de justificatifs (= 50 % des 60 000 € totaux nécessaires pour solder).</p></div></div>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">Composition de la commission</h4>
+<p>7 titulaires et 16 suppléants, paritaire F/H, mandats de 3 ans. La commission représente tous les métiers : producteurs de spectacles, éditeurs, producteurs phonographiques, managers et artistes. La liste complète est publiée sur le site du CNM.</p>
+</div>
+</section>
+
+<div class="quiz" id="quiz">
+<h2>🎓 Quiz récapitulatif</h2>
+<p>Vérifiez votre maîtrise des 3 programmes avant de déposer votre dossier.</p>
+
+<div class="question">
+<h4>1. Pour le Programme 1, combien d'abonnés un artiste doit-il justifier sur les plateformes de stream ?</h4>
+<div class="options">
+<label><input type="radio" name="q1" data-c="0"> 2 000 abonnés cumulés sur une seule plateforme</label>
+<label><input type="radio" name="q1" data-c="1"> 1 000 abonnés minimum par plateforme, sur au moins 2 plateformes</label>
+<label><input type="radio" name="q1" data-c="0"> 500 000 streams cumulés</label>
+<label><input type="radio" name="q1" data-c="0"> Aucun critère d'abonnés sur le Programme 1</label>
+</div>
+<div class="feedback" id="f1"></div>
+</div>
+
+<div class="question">
+<h4>2. À partir de quelle fourchette d'aide le Programme 2 exige-t-il 2 cosignataires ?</h4>
+<div class="options">
+<label><input type="radio" name="q2" data-c="0"> Dès 30 000 €</label>
+<label><input type="radio" name="q2" data-c="1"> Entre 50 000 € et 80 000 €</label>
+<label><input type="radio" name="q2" data-c="0"> Uniquement au-delà de 80 000 €</label>
+<label><input type="radio" name="q2" data-c="0"> Aucun cosignataire n'est requis sur le P2</label>
+</div>
+<div class="feedback" id="f2"></div>
+</div>
+
+<div class="question">
+<h4>3. La Mobilité Individuelle couvre quel type de dépenses ?</h4>
+<div class="options">
+<label><input type="radio" name="q3" data-c="0"> Tournées internationales avec showcases</label>
+<label><input type="radio" name="q3" data-c="1"> Salons professionnels uniquement</label>
+<label><input type="radio" name="q3" data-c="0"> Création de contenu et marketing digital</label>
+<label><input type="radio" name="q3" data-c="0"> Sessions d'écriture avec des artistes locaux</label>
+</div>
+<div class="feedback" id="f3"></div>
+</div>
+
+<div class="question">
+<h4>4. Que se passe-t-il si vous omettez les données artistes par territoire visé ?</h4>
+<div class="options">
+<label><input type="radio" name="q4" data-c="0"> La commission demande un complément d'information</label>
+<label><input type="radio" name="q4" data-c="0"> Le dossier passe quand même mais sans bonification</label>
+<label><input type="radio" name="q4" data-c="1"> La demande est jugée irrecevable et ne passe pas en commission</label>
+<label><input type="radio" name="q4" data-c="0"> Le dossier est reporté à la commission suivante</label>
+</div>
+<div class="feedback" id="f4"></div>
+</div>
+
+<div class="question">
+<h4>5. La bonification 2025 sur le Programme 1 représente quel pourcentage ?</h4>
+<div class="options">
+<label><input type="radio" name="q5" data-c="0"> + 2 %</label>
+<label><input type="radio" name="q5" data-c="1"> + 5 %</label>
+<label><input type="radio" name="q5" data-c="0"> + 10 %</label>
+<label><input type="radio" name="q5" data-c="0"> Aucune bonification — uniquement sur le P2</label>
+</div>
+<div class="feedback" id="f5"></div>
+</div>
+</div>
+</div>
+
+<footer class="footer">
+<p>📚 Support de cours généré à partir du webinaire CNM 2025</p>
+<p style="margin-top:8px"><strong>Producteur à Succès</strong> — Formation Music Business</p>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-window.innerHeight;document.getElementById('progressBar').style.width=(window.scrollY/h*100)+'%'});
+document.querySelectorAll('.options input').forEach(r=>{r.addEventListener('change',e=>{const q=e.target.closest('.question');const fb=q.querySelector('.feedback');const correct=e.target.dataset.c==='1';fb.className='feedback show '+(correct?'correct':'wrong');fb.textContent=correct?'✓ Bonne réponse !':'✗ Mauvaise réponse — relisez la section concernée.'})});
+document.querySelectorAll('.toc-list a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth',block:'start'})}));
+</script>
+</body>
+</html>

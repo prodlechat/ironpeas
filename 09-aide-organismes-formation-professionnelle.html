@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aides CNM — Organismes de Formation Professionnelle</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#6C3AED;--primary-dark:#5325c4;--accent:#F59E0B;--success:#10B981;--danger:#EF4444;--info:#3B82F6;--bg:#FAFAFB;--ink:#1A1A2E;--ink-soft:#4A4A6A;--line:#E8E8F0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:16px}
+.progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--primary),var(--accent));z-index:1000;width:0;transition:width .1s}
+.hero{background:linear-gradient(135deg,#6C3AED 0%,#5325c4 50%,#3a1690 100%);color:#fff;padding:60px 24px 80px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-50%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(245,158,11,.15) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:2}
+.badge{display:inline-block;background:rgba(245,158,11,.2);color:#FCD34D;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:20px;border:1px solid rgba(245,158,11,.3)}
+h1{font-family:'Space Grotesk',sans-serif;font-size:2.8rem;font-weight:700;line-height:1.15;margin-bottom:20px;letter-spacing:-.02em}
+.hero p.lead{font-size:1.15rem;opacity:.92;max-width:780px;margin-bottom:30px}
+.meta{display:flex;flex-wrap:wrap;gap:20px;font-size:.92rem;opacity:.88}
+.meta-item{display:flex;align-items:center;gap:8px}
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+.toc{background:#fff;border-radius:16px;padding:28px;margin:-40px auto 40px;box-shadow:0 12px 40px rgba(108,58,237,.12);position:relative;z-index:5;max-width:1052px}
+.toc h3{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;margin-bottom:18px;color:var(--primary);text-transform:uppercase;letter-spacing:.5px}
+.toc-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px}
+.toc-list a{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;color:var(--ink);text-decoration:none;transition:all .2s;font-weight:500;font-size:.95rem}
+.toc-list a:hover{background:#F3EEFF;color:var(--primary);transform:translateX(4px)}
+.toc-num{background:var(--primary);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
+section.module{background:#fff;border-radius:16px;margin-bottom:32px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.04);border:1px solid var(--line)}
+.module-header{padding:30px 32px 24px;border-bottom:4px solid var(--primary)}
+.module-header.accent{border-bottom-color:var(--accent)}
+.module-header.success{border-bottom-color:var(--success)}
+.module-header.danger{border-bottom-color:var(--danger)}
+.module-header.info{border-bottom-color:var(--info)}
+.module-num{font-family:'Space Grotesk',sans-serif;font-size:.85rem;color:var(--primary);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.module-header h2{font-family:'Space Grotesk',sans-serif;font-size:1.85rem;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.module-body{padding:28px 32px 36px}
+.module-body p{margin-bottom:16px;color:var(--ink-soft)}
+.module-body p strong{color:var(--ink);font-weight:600}
+.callout{margin:24px 0;padding:20px 22px;border-radius:12px;border-left:4px solid;display:flex;gap:14px;align-items:flex-start}
+.callout-icon{font-size:1.5rem;flex-shrink:0;line-height:1}
+.callout-content{flex:1}
+.callout h4{font-weight:700;margin-bottom:6px;font-size:1rem}
+.callout p{margin:0;color:inherit;font-size:.95rem}
+.callout.tip{background:#ECFDF5;border-color:var(--success);color:#065f46}
+.callout.warn{background:#FEF3C7;border-color:var(--accent);color:#78350f}
+.callout.danger{background:#FEE2E2;border-color:var(--danger);color:#7f1d1d}
+.callout.info{background:#DBEAFE;border-color:var(--info);color:#1e3a8a}
+.callout.key{background:#F3EEFF;border-color:var(--primary);color:#3a1690}
+table.cmp{width:100%;border-collapse:collapse;margin:24px 0;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);font-size:.92rem}
+table.cmp thead th{background:var(--primary);color:#fff;padding:14px 16px;text-align:left;font-weight:600;font-family:'Space Grotesk',sans-serif}
+table.cmp tbody td{padding:14px 16px;border-bottom:1px solid var(--line);color:var(--ink-soft)}
+table.cmp tbody tr:nth-child(even){background:#FAFAFB}
+table.cmp tbody tr:last-child td{border-bottom:none}
+table.cmp tbody td:first-child{font-weight:600;color:var(--ink)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:24px 0}
+.card{background:#FAFAFB;border:1px solid var(--line);border-radius:12px;padding:20px;transition:all .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(108,58,237,.08)}
+.card-icon{font-size:1.8rem;margin-bottom:10px}
+.card h5{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;margin-bottom:8px;color:var(--ink)}
+.card p{font-size:.9rem;color:var(--ink-soft);margin:0}
+details{background:#FAFAFB;border-radius:10px;padding:14px 18px;margin:14px 0;border:1px solid var(--line);cursor:pointer}
+details summary{font-weight:600;color:var(--primary);outline:none;list-style:none;position:relative;padding-left:22px}
+details summary::before{content:"▶";position:absolute;left:0;font-size:.7rem;transition:transform .2s}
+details[open] summary::before{transform:rotate(90deg)}
+details p{margin-top:12px;color:var(--ink-soft);font-size:.95rem}
+.quiz{background:linear-gradient(135deg,#F3EEFF 0%,#FEF3C7 100%);border-radius:16px;padding:36px 32px;margin:48px 0}
+.quiz h2{font-family:'Space Grotesk',sans-serif;color:var(--primary);font-size:1.7rem;margin-bottom:8px}
+.quiz>p{color:var(--ink-soft);margin-bottom:24px}
+.question{background:#fff;border-radius:12px;padding:22px 24px;margin-bottom:18px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.question h4{margin-bottom:14px;color:var(--ink);font-size:1.05rem}
+.options{display:flex;flex-direction:column;gap:8px}
+.options label{display:flex;align-items:center;gap:10px;padding:10px 14px;border:2px solid var(--line);border-radius:8px;cursor:pointer;transition:all .15s;font-size:.93rem}
+.options label:hover{border-color:var(--primary);background:#FAFAFB}
+.options input[type="radio"]{accent-color:var(--primary)}
+.feedback{margin-top:14px;padding:12px 16px;border-radius:8px;font-size:.92rem;display:none}
+.feedback.show{display:block}
+.feedback.correct{background:#ECFDF5;color:#065f46;border-left:3px solid var(--success)}
+.feedback.wrong{background:#FEE2E2;color:#7f1d1d;border-left:3px solid var(--danger)}
+.footer{text-align:center;padding:40px 24px;color:var(--ink-soft);font-size:.9rem;border-top:1px solid var(--line);margin-top:60px}
+.footer strong{color:var(--primary);font-family:'Space Grotesk',sans-serif}
+ul.cks{list-style:none;margin:14px 0 20px}
+ul.cks li{padding:8px 0 8px 28px;position:relative;color:var(--ink-soft)}
+ul.cks li::before{content:"✓";position:absolute;left:0;top:8px;color:var(--success);font-weight:700;font-size:1.1rem}
+ul.xks li::before{content:"✗";color:var(--danger)}
+@media (max-width:680px){h1{font-size:2rem}.hero{padding:40px 20px 60px}.module-body,.module-header{padding:22px}.toc{margin:-30px 16px 30px}}
+@media print{.progress-bar,.quiz{display:none}body{background:#fff}section.module{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<header class="hero">
+<div class="hero-inner">
+<span class="badge">Webinaire CNM • Commission Structuration</span>
+<h1>Aide aux Organismes de Formation Professionnelle</h1>
+<p class="lead">Le programme CNM 2025 destiné aux organismes de formation professionnelle certifiante portant des cursus annuels pour auteurs, compositeurs et artistes-interprètes du champ CNM. Plafond 30 %, exclusivement formations artistiques certifiantes ≥ 350 h.</p>
+<div class="meta">
+<span class="meta-item">🎓 Intervenants : Chloé Météro + Maxime Andréa (CNM Structuration)</span>
+<span class="meta-item">⏱️ Durée : ~1h30</span>
+</div>
+</div>
+</header>
+
+<div class="container">
+<nav class="toc">
+<h3>📚 Sommaire du cours</h3>
+<ul class="toc-list">
+<li><a href="#s1"><span class="toc-num">1</span>Périmètre du programme</a></li>
+<li><a href="#s2"><span class="toc-num">2</span>Affiliation & Qualiopi obligatoires</a></li>
+<li><a href="#s3"><span class="toc-num">3</span>Critères structure (6 critères)</a></li>
+<li><a href="#s4"><span class="toc-num">4</span>Critères projet (350 h + 10 stagiaires)</a></li>
+<li><a href="#s5"><span class="toc-num">5</span>Ce qui N'EST PAS éligible</a></li>
+<li><a href="#s6"><span class="toc-num">6</span>Plafond 30 % + charges 20 %</a></li>
+<li><a href="#s7"><span class="toc-num">7</span>Cycle dossier & versements</a></li>
+<li><a href="#s8"><span class="toc-num">8</span>Pistes de réforme 2026</a></li>
+</ul>
+</nav>
+
+<section class="module" id="s1">
+<div class="module-header"><div class="module-num">Module 1</div><h2>Périmètre du programme</h2></div>
+<div class="module-body">
+<p>Ce programme soutient les <strong>projets de formation professionnelle certifiante</strong> portés par des organismes dont l'objet premier est la formation professionnelle, et qui proposent des <strong>cursus annuels</strong> à destination des auteurs, autrices, compositeurs, compositrices et artistes-interprètes du champ du CNM.</p>
+
+<div class="callout key"><div class="callout-icon">🎯</div><div class="callout-content"><h4>Volume horaire conséquent exigé</h4><p>Le programme cible des cursus longs. Pas de prise en charge de formations courtes ou ponctuelles (le CNM a hérité de l'ancien IRMA, mais la loi de création du CNM ne permet pas de financer la formation amateur ou courte).</p></div></div>
+
+<div class="callout info"><div class="callout-icon">📊</div><div class="callout-content"><h4>Place dans la Commission Structuration</h4><p>Représente <strong>~17 % des dossiers soutenus</strong> par la Commission Structuration en 2023. Commission portant 4 programmes (accompagnement, associations, OF, transition écologique).</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s2">
+<div class="module-header danger"><div class="module-num">Module 2</div><h2>Affiliation CNM & Qualiopi — Les deux préalables</h2></div>
+<div class="module-body">
+<p>Avant toute demande, deux prérequis absolus :</p>
+
+<div class="cards">
+<div class="card"><div class="card-icon">🏛️</div><h5>Affiliation CNM</h5><p>Création de compte mon CNM → réception login + mot de passe par <strong>2 courriers postaux</strong>. Constitution du dossier d'affiliation. Délai 20 jours après dossier complet. Statut "en cours d'affiliation" = vous pouvez déjà déposer.</p></div>
+<div class="card"><div class="card-icon">✅</div><h5>Certification Qualiopi</h5><p>Obligatoire <strong>au moment du dépôt</strong>. Sans Qualiopi, dossier irrecevable d'office.</p></div>
+</div>
+
+<div class="callout danger"><div class="callout-icon">⏰</div><div class="callout-content"><h4>Affiliation à jour à la date de COMMISSION (pas de dépôt)</h4><p>Si votre affiliation expire entre le dépôt et la commission, votre dossier est <strong>informatiquement bloqué</strong>. Anticipez le renouvellement à date anniversaire — 3 mois avant.</p></div></div>
+
+<div class="callout info"><div class="callout-icon">📝</div><div class="callout-content"><h4>Bilan ≠ Affiliation obligatoire</h4><p>Au moment de remettre le <strong>bilan</strong> d'une aide précédente, l'affiliation n'est pas exigée. Vous pouvez clôturer un bilan sans être affilié à ce moment-là.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s3">
+<div class="module-header"><div class="module-num">Module 3</div><h2>Les 6 critères d'éligibilité de la structure</h2></div>
+<div class="module-body">
+
+<ul class="cks">
+<li><strong>Affiliation CNM</strong> à jour</li>
+<li><strong>Certification Qualiopi</strong> au moment du dépôt</li>
+<li>Être un <strong>OF de droit privé</strong> dont l'<strong>objet premier est la formation professionnelle</strong> (vérifié dans les statuts juridiques)</li>
+<li>Proposer des <strong>cursus annuels</strong></li>
+<li><strong>Plan de financement ≤ 80 % d'aides publiques</strong> (CNM compris, OGC distincts)</li>
+<li>Bilan de la précédente aide attribuée remis (<strong>nouveau critère 2025</strong>)</li>
+</ul>
+
+<div class="callout warn"><div class="callout-icon">⚠️</div><div class="callout-content"><h4>Non-cumul avec l'aide aux associations</h4><p>Si vous bénéficiez de l'<strong>aide aux associations contribuant nationalement à la structuration</strong>, vous ne pouvez pas en plus solliciter ce programme OF — il faut choisir.</p></div></div>
+
+<div class="callout key"><div class="callout-icon">📜</div><div class="callout-content"><h4>L'objet social compte</h4><p>Si votre structure est à l'origine un label ou un diffuseur ayant développé une activité de formation, attention : la <strong>formation pro doit être inscrite comme premier objet dans les statuts</strong>. Si ce n'est pas le cas, modification de statuts à envisager (ou la demande sera refusée).</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s4">
+<div class="module-header accent"><div class="module-num">Module 4</div><h2>Les 2 critères projet : 350 h + 10 stagiaires</h2></div>
+<div class="module-body">
+
+<table class="cmp">
+<thead><tr><th>Critère projet</th><th>Détail</th></tr></thead>
+<tbody>
+<tr><td>Volume horaire</td><td>Au moins <strong>350 heures par formation</strong> certifiante</td></tr>
+<tr><td>Inscriptions</td><td>≥ <strong>10 inscriptions confirmées</strong> au moment du dépôt — <strong>toutes formations éligibles confondues</strong></td></tr>
+</tbody>
+</table>
+
+<div class="callout danger"><div class="callout-icon">🚨</div><div class="callout-content"><h4>Si 9 inscrits au bilan = remboursement intégral</h4><p>Si vous déposez en prévisionnel en garantissant 10 inscriptions et qu'au bilan vous n'en avez que 9 → <strong>l'aide doit être intégralement remboursée</strong>, le projet n'est plus éligible. Soyez prudents sur les estimations.</p></div></div>
+
+<div class="callout warn"><div class="callout-icon">📉</div><div class="callout-content"><h4>Petites structures (<10 stagiaires) exclues</h4><p>Les structures sans 10 inscrits cumulés sur leurs formations éligibles sont mécaniquement exclues. Une piste de réflexion pour la réforme 2026.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s5">
+<div class="module-header danger"><div class="module-num">Module 5</div><h2>Ce qui N'EST PAS éligible (souvent oublié)</h2></div>
+<div class="module-body">
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--danger);margin:8px 0 10px">❌ Formation amateur</h4>
+<p>Exclue par la <strong>loi de création du CNM</strong>. Si votre école fait 60 % amateur / 40 % pro, seuls les 40 % pro sont éligibles. Le CNM s'attend à ce que le bilan corresponde uniquement aux formations professionnelles certifiantes.</p>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--danger);margin:18px 0 10px">❌ Formations courtes</h4>
+<p>Même si certaines formations courtes peuvent être professionnelles, elles sont exclues par la règle des 350 heures minimum.</p>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--danger);margin:18px 0 10px">❌ Formations pour des professionnels en activité (administration, production…)</h4>
+<p>Problème de <strong>loi anti-concurrence</strong> : le CNM propose lui-même des formations pour les pros. Donc il ne peut pas financer les OF qui proposent des formations à destination des pros déjà actifs. Le CNM expertise une possible évolution juridique, mais "ce n'est pas bien parti".</p>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--danger);margin:18px 0 10px">❌ Cycles bi-annuels (au sens "tous les 2 ans")</h4>
+<p>Le CNM travaille sur l'exercice comptable annuel (liasse fiscale N-1 demandée). Une formation qui n'existe qu'une année sur deux pose problème — à discuter en RDV individuel.</p>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--danger);margin:18px 0 10px">❌ Cible exclusivement non-artistique</h4>
+<p>À ce jour, le programme cible <strong>artistes / auteurs / compositeurs / interprètes</strong>. Les formations à l'administration de la production, au management ou au management artistique ne sont pas explicitement couvertes. Piste de réforme 2026.</p>
+
+<div class="callout key"><div class="callout-icon">💭</div><div class="callout-content"><h4>Pourquoi ces restrictions ?</h4><p>"Au moment où l'IRMA a été récupéré par le CNV puis par le CNM, on s'est aperçu que certaines écoles utilisaient l'aide pour financer de la formation amateur. Plutôt que d'entrer dans un rapport de contrôle, on a resserré sans baisser le niveau d'aide" — Chloé Météro.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s6">
+<div class="module-header success"><div class="module-num">Module 6</div><h2>Plafonds — Aide 30 % + Charges fonctionnement 20 %</h2></div>
+<div class="module-body">
+
+<table class="cmp">
+<thead><tr><th>Élément</th><th>Plafond</th></tr></thead>
+<tbody>
+<tr><td>Aide CNM par projet</td><td><strong>30 % des dépenses éligibles</strong></td></tr>
+<tr><td>Charges de fonctionnement (dans les dépenses éligibles)</td><td><strong>20 %</strong> max (nouveauté 2025)</td></tr>
+<tr><td>Total aides publiques (CNM compris)</td><td>≤ <strong>80 %</strong> du plan de financement</td></tr>
+</tbody>
+</table>
+
+<div class="callout warn"><div class="callout-icon">🆕</div><div class="callout-content"><h4>Charges de fonctionnement plafonnées à 20 % — NOUVEAU 2025</h4><p>Critère <strong>déployé sur plusieurs dispositifs CNM</strong> dans le cadre de la réforme. Calcul automatique dans le formulaire. Au-delà de 20 % de charges de fonctionnement dans les dépenses éligibles, l'excédent est exclu de l'assiette de calcul de l'aide.</p></div></div>
+
+<div class="callout info"><div class="callout-icon">💡</div><div class="callout-content"><h4>OGC ne comptent pas comme aides publiques</h4><p>Les aides SACEM, ADAMI, SPEDIDAM (Organismes de Gestion Collective) ne sont pas considérées comme des aides publiques pour le calcul du plafond de 80 %. Elles proviennent de la collecte du droit d'auteur.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s7">
+<div class="module-header info"><div class="module-num">Module 7</div><h2>Cycle d'un dossier & versements</h2></div>
+<div class="module-body">
+
+<table class="cmp">
+<thead><tr><th>Étape</th><th>Détail</th></tr></thead>
+<tbody>
+<tr><td>1. Dépôt</td><td>Avant la date limite (sur espace mon CNM)</td></tr>
+<tr><td>2. Recevabilité</td><td>Vérification administrative</td></tr>
+<tr><td>3. Instruction</td><td>Échanges via l'espace CNM uniquement</td></tr>
+<tr><td>4. Commission</td><td>~8 semaines après date limite</td></tr>
+<tr><td>5. PV signé</td><td>Par le président du CNM (Jean-Baptiste Gourdin)</td></tr>
+<tr><td>6. Notification</td><td>Sur espace mon CNM</td></tr>
+<tr><td>7. Acompte</td><td><strong>80 %</strong> après attribution</td></tr>
+<tr><td>8. Solde</td><td><strong>20 %</strong> après validation du bilan</td></tr>
+</tbody>
+</table>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">📋 Pièces obligatoires</h4>
+<ul class="cks">
+<li>Statuts juridiques de l'association / structure</li>
+<li>Certification Qualiopi en cours de validité</li>
+<li>Budget prévisionnel <strong>sous votre propre forme</strong> (pas de CERFA)</li>
+<li>Liasse fiscale N-1 (prévisionnelle acceptée, pas besoin des comptes signés clôturés)</li>
+<li>Formulaire CNM dûment complété</li>
+<li>Notifications d'obtention d'autres subventions (optionnel mais conseillé)</li>
+</ul>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">Onglet "Diplômes & formations"</h4>
+<p>Pour chaque diplôme certifiant inscrit dans la demande :</p>
+<ul class="cks">
+<li>Date du dernier renouvellement <strong>RNCP</strong></li>
+<li>Volume horaire annuel (≥ 350 h)</li>
+<li>Durée du diplôme</li>
+<li>Niveau d'homologation</li>
+<li>Nombre d'hommes et de femmes inscrits</li>
+</ul>
+</div>
+</section>
+
+<section class="module" id="s8">
+<div class="module-header"><div class="module-num">Module 8</div><h2>Pistes de réforme 2026 & contacts</h2></div>
+<div class="module-body">
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:8px 0 10px">🔮 Pistes annoncées par le CNM pour 2026</h4>
+
+<div class="cards">
+<div class="card"><div class="card-icon">📈</div><h5>Élargir aux formations pour pros</h5><p>Dépend de l'expertise juridique sur la loi anti-concurrence ("pas bien parti" selon les services juridiques).</p></div>
+<div class="card"><div class="card-icon">🎯</div><h5>Cible non-artistique</h5><p>Possibilité d'inclure formations admin / production / management — en réflexion.</p></div>
+<div class="card"><div class="card-icon">📊</div><h5>Seuil 10 inscrits</h5><p>Petites structures pénalisées — sujet à discuter avec la commission.</p></div>
+<div class="card"><div class="card-icon">🤝</div><h5>Consultations en cours</h5><p>FNAGEMA, AFDAS, FNECMA, SDAS, OGC, ministère, régions, DRAC, conseil pro et CA.</p></div>
+</div>
+
+<div class="callout info"><div class="callout-icon">⏳</div><div class="callout-content"><h4>Délai de réforme long</h4><p>Toute réforme nécessite consultation ministère + professionnels + régions + DRAC + OGC + membres de commission, puis validation par conseil pro et CA. Comptez plusieurs mois.</p></div></div>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">📞 Contacts</h4>
+<ul class="cks">
+<li><strong>Avant dépôt</strong> : exposition de votre situation <strong>par écrit</strong> à structuration@cnm.fr → réponse par mail ou RDV (visio/présentiel)</li>
+<li><strong>Après dépôt</strong> : échanges via l'espace mon CNM uniquement</li>
+<li>Pour les contrats de filière (régions DOM-TOM) : Fabrice Borie</li>
+</ul>
+
+<div class="callout tip"><div class="callout-icon">💡</div><div class="callout-content"><h4>Bonnes pratiques</h4><p>Posez vos questions par mail <strong>en amont</strong> du dépôt. Cas spécifiques (cycle bi-annuel, structure mixte production/formation, contrat de filière) : demandez un RDV dédié pour ne pas faire un dossier pour rien.</p></div></div>
+</div>
+</section>
+
+<div class="quiz" id="quiz">
+<h2>🎓 Quiz récapitulatif</h2>
+<p>Vérifiez votre maîtrise du programme OF.</p>
+
+<div class="question">
+<h4>1. Quel volume horaire minimum exige le programme par formation ?</h4>
+<div class="options">
+<label><input type="radio" name="q1" data-c="0"> 100 heures</label>
+<label><input type="radio" name="q1" data-c="0"> 200 heures</label>
+<label><input type="radio" name="q1" data-c="1"> 350 heures</label>
+<label><input type="radio" name="q1" data-c="0"> 500 heures</label>
+</div>
+<div class="feedback" id="f1"></div>
+</div>
+
+<div class="question">
+<h4>2. Combien d'inscriptions confirmées sont exigées au dépôt ?</h4>
+<div class="options">
+<label><input type="radio" name="q2" data-c="0"> 5</label>
+<label><input type="radio" name="q2" data-c="1"> 10 (toutes formations éligibles confondues)</label>
+<label><input type="radio" name="q2" data-c="0"> 15 par formation</label>
+<label><input type="radio" name="q2" data-c="0"> 20 minimum sur l'année</label>
+</div>
+<div class="feedback" id="f2"></div>
+</div>
+
+<div class="question">
+<h4>3. Quelle certification est obligatoire au moment du dépôt ?</h4>
+<div class="options">
+<label><input type="radio" name="q3" data-c="0"> ISO 9001</label>
+<label><input type="radio" name="q3" data-c="0"> EduQua</label>
+<label><input type="radio" name="q3" data-c="1"> Qualiopi</label>
+<label><input type="radio" name="q3" data-c="0"> Aucune certification exigée</label>
+</div>
+<div class="feedback" id="f3"></div>
+</div>
+
+<div class="question">
+<h4>4. Quel est le plafond d'aide CNM par projet ?</h4>
+<div class="options">
+<label><input type="radio" name="q4" data-c="0"> 20 % des dépenses éligibles</label>
+<label><input type="radio" name="q4" data-c="1"> 30 % des dépenses éligibles</label>
+<label><input type="radio" name="q4" data-c="0"> 40 % des dépenses éligibles</label>
+<label><input type="radio" name="q4" data-c="0"> 50 % des dépenses éligibles</label>
+</div>
+<div class="feedback" id="f4"></div>
+</div>
+
+<div class="question">
+<h4>5. La formation amateur peut-elle être financée ?</h4>
+<div class="options">
+<label><input type="radio" name="q5" data-c="0"> Oui, à hauteur de 50 %</label>
+<label><input type="radio" name="q5" data-c="0"> Oui, si elle représente moins de 30 % de l'activité</label>
+<label><input type="radio" name="q5" data-c="1"> Non — exclue par la loi de création du CNM</label>
+<label><input type="radio" name="q5" data-c="0"> Oui, sans restriction</label>
+</div>
+<div class="feedback" id="f5"></div>
+</div>
+</div>
+</div>
+
+<footer class="footer">
+<p>📚 Support de cours généré à partir du webinaire CNM OF 2025</p>
+<p style="margin-top:8px"><strong>Producteur à Succès</strong> — Formation Music Business</p>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-window.innerHeight;document.getElementById('progressBar').style.width=(window.scrollY/h*100)+'%'});
+document.querySelectorAll('.options input').forEach(r=>{r.addEventListener('change',e=>{const q=e.target.closest('.question');const fb=q.querySelector('.feedback');const correct=e.target.dataset.c==='1';fb.className='feedback show '+(correct?'correct':'wrong');fb.textContent=correct?'✓ Bonne réponse !':'✗ Mauvaise réponse — relisez la section concernée.'})});
+document.querySelectorAll('.toc-list a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth',block:'start'})}));
+</script>
+</body>
+</html>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aides CNM — Égalité & Inclusion</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#6C3AED;--primary-dark:#5325c4;--accent:#F59E0B;--success:#10B981;--danger:#EF4444;--info:#3B82F6;--bg:#FAFAFB;--ink:#1A1A2E;--ink-soft:#4A4A6A;--line:#E8E8F0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:16px}
+.progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--primary),var(--accent));z-index:1000;width:0;transition:width .1s}
+.hero{background:linear-gradient(135deg,#6C3AED 0%,#5325c4 50%,#3a1690 100%);color:#fff;padding:60px 24px 80px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-50%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(245,158,11,.15) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:2}
+.badge{display:inline-block;background:rgba(245,158,11,.2);color:#FCD34D;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:20px;border:1px solid rgba(245,158,11,.3)}
+h1{font-family:'Space Grotesk',sans-serif;font-size:2.8rem;font-weight:700;line-height:1.15;margin-bottom:20px;letter-spacing:-.02em}
+.hero p.lead{font-size:1.15rem;opacity:.92;max-width:780px;margin-bottom:30px}
+.meta{display:flex;flex-wrap:wrap;gap:20px;font-size:.92rem;opacity:.88}
+.meta-item{display:flex;align-items:center;gap:8px}
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+.toc{background:#fff;border-radius:16px;padding:28px;margin:-40px auto 40px;box-shadow:0 12px 40px rgba(108,58,237,.12);position:relative;z-index:5;max-width:1052px}
+.toc h3{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;margin-bottom:18px;color:var(--primary);text-transform:uppercase;letter-spacing:.5px}
+.toc-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px}
+.toc-list a{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;color:var(--ink);text-decoration:none;transition:all .2s;font-weight:500;font-size:.95rem}
+.toc-list a:hover{background:#F3EEFF;color:var(--primary);transform:translateX(4px)}
+.toc-num{background:var(--primary);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
+section.module{background:#fff;border-radius:16px;margin-bottom:32px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.04);border:1px solid var(--line)}
+.module-header{padding:30px 32px 24px;border-bottom:4px solid var(--primary)}
+.module-header.accent{border-bottom-color:var(--accent)}
+.module-header.success{border-bottom-color:var(--success)}
+.module-header.danger{border-bottom-color:var(--danger)}
+.module-header.info{border-bottom-color:var(--info)}
+.module-num{font-family:'Space Grotesk',sans-serif;font-size:.85rem;color:var(--primary);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.module-header h2{font-family:'Space Grotesk',sans-serif;font-size:1.85rem;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.module-body{padding:28px 32px 36px}
+.module-body p{margin-bottom:16px;color:var(--ink-soft)}
+.module-body p strong{color:var(--ink);font-weight:600}
+.callout{margin:24px 0;padding:20px 22px;border-radius:12px;border-left:4px solid;display:flex;gap:14px;align-items:flex-start}
+.callout-icon{font-size:1.5rem;flex-shrink:0;line-height:1}
+.callout-content{flex:1}
+.callout h4{font-weight:700;margin-bottom:6px;font-size:1rem}
+.callout p{margin:0;color:inherit;font-size:.95rem}
+.callout.tip{background:#ECFDF5;border-color:var(--success);color:#065f46}
+.callout.warn{background:#FEF3C7;border-color:var(--accent);color:#78350f}
+.callout.danger{background:#FEE2E2;border-color:var(--danger);color:#7f1d1d}
+.callout.info{background:#DBEAFE;border-color:var(--info);color:#1e3a8a}
+.callout.key{background:#F3EEFF;border-color:var(--primary);color:#3a1690}
+table.cmp{width:100%;border-collapse:collapse;margin:24px 0;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);font-size:.92rem}
+table.cmp thead th{background:var(--primary);color:#fff;padding:14px 16px;text-align:left;font-weight:600;font-family:'Space Grotesk',sans-serif}
+table.cmp tbody td{padding:14px 16px;border-bottom:1px solid var(--line);color:var(--ink-soft)}
+table.cmp tbody tr:nth-child(even){background:#FAFAFB}
+table.cmp tbody tr:last-child td{border-bottom:none}
+table.cmp tbody td:first-child{font-weight:600;color:var(--ink)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:24px 0}
+.card{background:#FAFAFB;border:1px solid var(--line);border-radius:12px;padding:20px;transition:all .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(108,58,237,.08)}
+.card-icon{font-size:1.8rem;margin-bottom:10px}
+.card h5{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;margin-bottom:8px;color:var(--ink)}
+.card p{font-size:.9rem;color:var(--ink-soft);margin:0}
+details{background:#FAFAFB;border-radius:10px;padding:14px 18px;margin:14px 0;border:1px solid var(--line);cursor:pointer}
+details summary{font-weight:600;color:var(--primary);outline:none;list-style:none;position:relative;padding-left:22px}
+details summary::before{content:"▶";position:absolute;left:0;font-size:.7rem;transition:transform .2s}
+details[open] summary::before{transform:rotate(90deg)}
+details p{margin-top:12px;color:var(--ink-soft);font-size:.95rem}
+.quiz{background:linear-gradient(135deg,#F3EEFF 0%,#FEF3C7 100%);border-radius:16px;padding:36px 32px;margin:48px 0}
+.quiz h2{font-family:'Space Grotesk',sans-serif;color:var(--primary);font-size:1.7rem;margin-bottom:8px}
+.quiz>p{color:var(--ink-soft);margin-bottom:24px}
+.question{background:#fff;border-radius:12px;padding:22px 24px;margin-bottom:18px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.question h4{margin-bottom:14px;color:var(--ink);font-size:1.05rem}
+.options{display:flex;flex-direction:column;gap:8px}
+.options label{display:flex;align-items:center;gap:10px;padding:10px 14px;border:2px solid var(--line);border-radius:8px;cursor:pointer;transition:all .15s;font-size:.93rem}
+.options label:hover{border-color:var(--primary);background:#FAFAFB}
+.options input[type="radio"]{accent-color:var(--primary)}
+.feedback{margin-top:14px;padding:12px 16px;border-radius:8px;font-size:.92rem;display:none}
+.feedback.show{display:block}
+.feedback.correct{background:#ECFDF5;color:#065f46;border-left:3px solid var(--success)}
+.feedback.wrong{background:#FEE2E2;color:#7f1d1d;border-left:3px solid var(--danger)}
+.footer{text-align:center;padding:40px 24px;color:var(--ink-soft);font-size:.9rem;border-top:1px solid var(--line);margin-top:60px}
+.footer strong{color:var(--primary);font-family:'Space Grotesk',sans-serif}
+ul.cks{list-style:none;margin:14px 0 20px}
+ul.cks li{padding:8px 0 8px 28px;position:relative;color:var(--ink-soft)}
+ul.cks li::before{content:"✓";position:absolute;left:0;top:8px;color:var(--success);font-weight:700;font-size:1.1rem}
+ul.xks li::before{content:"✗";color:var(--danger)}
+@media (max-width:680px){h1{font-size:2rem}.hero{padding:40px 20px 60px}.module-body,.module-header{padding:22px}.toc{margin:-30px 16px 30px}}
+@media print{.progress-bar,.quiz{display:none}body{background:#fff}section.module{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<header class="hero">
+<div class="hero-inner">
+<span class="badge">Webinaire CNM • Module 3</span>
+<h1>Aide aux projets — Égalité & Inclusion</h1>
+<p class="lead">Le programme CNM dédié aux projets structurants en faveur de l'égalité, de l'inclusion, de la prévention des VHSS et de la lutte contre toutes les discriminations dans le secteur de la musique et des variétés.</p>
+<div class="meta">
+<span class="meta-item">🎓 Webinaire CNM 2025</span>
+<span class="meta-item">⏱️ Durée : ~50 min</span>
+<span class="meta-item">💶 Aide max : 80 000 €</span>
+</div>
+</div>
+</header>
+
+<div class="container">
+<nav class="toc">
+<h3>📚 Sommaire du cours</h3>
+<ul class="toc-list">
+<li><a href="#s1"><span class="toc-num">1</span>Objectif & nouvelle feuille de route 2024</a></li>
+<li><a href="#s2"><span class="toc-num">2</span>Actions soutenues</a></li>
+<li><a href="#s3"><span class="toc-num">3</span>Critères d'éligibilité structure</a></li>
+<li><a href="#s4"><span class="toc-num">4</span>Critères d'éligibilité projet</a></li>
+<li><a href="#s5"><span class="toc-num">5</span>Dépenses & plafonds</a></li>
+<li><a href="#s6"><span class="toc-num">6</span>Critères d'appréciation (4 blocs)</a></li>
+<li><a href="#s7"><span class="toc-num">7</span>Cycle d'un dossier</a></li>
+<li><a href="#s8"><span class="toc-num">8</span>Le formulaire Excel</a></li>
+</ul>
+</nav>
+
+<section class="module" id="s1">
+<div class="module-header"><div class="module-num">Module 1</div><h2>L'objectif du programme et son évolution en 2024</h2></div>
+<div class="module-body">
+<p>Cette aide soutient les projets qui œuvrent pour <strong>l'intérêt général</strong> et qui sont structurants sur les sujets de l'égalité, de l'inclusion, de la prévention des VHSS (Violences et Harcèlements Sexistes et Sexuels) et de la lutte contre toute forme de discrimination définie dans le Code pénal.</p>
+
+<div class="callout key"><div class="callout-icon">🆕</div><div class="callout-content"><h4>L'élargissement de juin 2024</h4><p>Avant juin 2024, le CNM se concentrait surtout sur l'égalité femmes-hommes. <strong>Depuis juin 2024, le périmètre s'élargit</strong> à toutes les formes de discrimination définies par le Code pénal (25 au total) : racisme, âgisme, etc. La commission ne s'adresse plus uniquement aux projets égalité F/H.</p></div></div>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">Les 3 priorités définies au règlement</h4>
+<ul class="cks">
+<li><strong>Accès à l'emploi</strong> dans le secteur musical</li>
+<li><strong>Égalité et équité salariale</strong></li>
+<li><strong>Prévention des VHSS et discriminations</strong> en milieu professionnel</li>
+</ul>
+
+<div class="callout info"><div class="callout-icon">ℹ️</div><div class="callout-content"><h4>Hors priorités, c'est possible</h4><p>Votre projet peut porter sur d'autres thématiques. Les priorités servent à <strong>arbitrer en cas de pression budgétaire</strong> — si le nombre de dossiers est élevé, la commission peut reclasser en fonction de ces priorités.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s2">
+<div class="module-header accent"><div class="module-num">Module 2</div><h2>Les 6 types d'actions soutenues</h2></div>
+<div class="module-body">
+<p>Le programme vise prioritairement <strong>les personnes professionnelles du secteur</strong>. Voici les 6 catégories d'actions éligibles.</p>
+
+<div class="cards">
+<div class="card"><div class="card-icon">📚</div><h5>Ressources mutualisables</h5><p>Production de ressources mutualisables ou libres d'accès.</p></div>
+<div class="card"><div class="card-icon">🤝</div><h5>Programmes d'accompagnement</h5><p>Mentorat, accompagnement professionnel structuré.</p></div>
+<div class="card"><div class="card-icon">📊</div><h5>Études</h5><p>Production d'études sectorielles, analyses de fond.</p></div>
+<div class="card"><div class="card-icon">🛠️</div><h5>Outils ou guides duplicables</h5><p>Outils méthodologiques transférables au secteur.</p></div>
+<div class="card"><div class="card-icon">🎤</div><h5>Événements professionnels</h5><p>Rencontres, masterclass, journées d'études pour pros.</p></div>
+<div class="card"><div class="card-icon">🌐</div><h5>Actions mutualisées</h5><p>Projets portés conjointement par plusieurs structures.</p></div>
+</div>
+
+<div class="callout warn"><div class="callout-icon">📍</div><div class="callout-content"><h4>Projets grand public : seulement si impact national</h4><p>Si votre projet ne vise pas exclusivement des pros, il doit avoir un <strong>rayonnement national</strong> et produire des <strong>livrables partageables</strong> à toutes et tous.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s3">
+<div class="module-header danger"><div class="module-num">Module 3</div><h2>Critères d'éligibilité de la structure</h2></div>
+<div class="module-body">
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:8px 0 10px">Conditions de base</h4>
+<ul class="cks">
+<li><strong>Affiliation CNM</strong> à jour (anticiper ~20 jours de traitement). Si elle expire entre dépôt et commission → dossier non examiné</li>
+<li><strong>Personne morale</strong> (les personnes physiques / entreprises individuelles sont exclues)</li>
+<li><strong>1 an d'existence minimum</strong> au jour du dépôt</li>
+<li><strong>Objet social</strong> favorisant l'égalité et l'inclusion OU projet structurant clairement orienté</li>
+</ul>
+
+<div class="callout danger"><div class="callout-icon">⏰</div><div class="callout-content"><h4>Affiliation expirée = dossier impossible à présenter</h4><p>Si votre affiliation expire entre le dépôt et la commission, le dossier ne peut pas passer. <strong>Anticipez votre réaffiliation</strong> bien avant la date limite de dépôt.</p></div></div>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">Conditions supplémentaires si demande &gt; 30 000 €</h4>
+<ul class="cks">
+<li>Au moins <strong>1 personne en CDI à 1/3 temps</strong> dans la structure</li>
+<li><strong>Bilans des précédentes aides</strong> soldés (ou bilans provisoires détaillés acceptés en première année)</li>
+</ul>
+</div>
+</section>
+
+<section class="module" id="s4">
+<div class="module-header info"><div class="module-num">Module 4</div><h2>Critères d'éligibilité du projet (obligatoires)</h2></div>
+<div class="module-body">
+<p>Si l'un de ces critères manque, le dossier est <strong>irrecevable de fait</strong>. Pas d'échange possible pour combler l'absence.</p>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:8px 0 10px">Les 4 critères projet</h4>
+
+<table class="cmp">
+<thead><tr><th>Critère</th><th>Détail</th></tr></thead>
+<tbody>
+<tr><td>Thématique</td><td>Sensibilisation, mise en visibilité, analyse, accès à l'emploi, lutte VHSS dans le champ CNM (musique, variétés, humour)</td></tr>
+<tr><td>Cible</td><td>Pros ou personnes en voie de professionnalisation avancée. Si grand public, impact national + livrables partageables exigés.</td></tr>
+<tr><td>Stratégie</td><td>Stratégie de développement à moyen / long terme. <strong>Pas de one-shot</strong>.</td></tr>
+<tr><td>Évaluation</td><td>Mesures précises d'évaluation, quantitatives <strong>et</strong> qualitatives.</td></tr>
+</tbody>
+</table>
+
+<div class="callout key"><div class="callout-icon">📈</div><div class="callout-content"><h4>L'impact ≠ seulement des chiffres</h4><p>Un projet plus niche, qui touche peu de monde mais transforme réellement les bénéficiaires, peut avoir un impact aussi important qu'un projet de masse. Vous pouvez et devez <strong>argumenter qualitativement</strong>.</p></div></div>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--danger);margin:18px 0 10px">❌ Projets NON éligibles</h4>
+<ul class="cks xks">
+<li>Programmation artistique (programmation paritaire, programmation 100% féminine, spectacle thématique sur les discriminations) — relève d'autres dispositifs</li>
+<li>Activités éditoriales régulières d'un média (articles, podcasts égalité)</li>
+<li>Activités habituelles déjà inscrites dans le fonctionnement courant de la structure</li>
+</ul>
+
+<div class="callout info"><div class="callout-icon">📅</div><div class="callout-content"><h4>Période d'amorçage des actions</h4><p>Les premières actions doivent commencer dans les <strong>6 mois précédant la date limite de dépôt</strong> OU dans les <strong>6 mois suivant la date de commission</strong>.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s5">
+<div class="module-header success"><div class="module-num">Module 5</div><h2>Dépenses, taux & plafonds</h2></div>
+<div class="module-body">
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:8px 0 10px">✅ Dépenses éligibles</h4>
+<ul class="cks">
+<li>Personnel directement affecté au projet (au prorata du temps passé)</li>
+<li>Transport, hébergement, repas</li>
+<li>Location d'espaces</li>
+<li>Création de supports et d'outils</li>
+<li>Frais de communication</li>
+<li>Restitutions artistiques <strong>sans billetterie</strong> (intégrées au projet d'accompagnement)</li>
+</ul>
+
+<div class="callout warn"><div class="callout-icon">⚙️</div><div class="callout-content"><h4>Charges fixes : éligibles uniquement pour les structures dédiées</h4><p>Les charges fixes (coûts récurrents de structure) ne sont éligibles que pour les <strong>structures dont c'est l'activité principale</strong> (égalité / inclusion dans le secteur). Pour les autres, seules les dépenses directes affectées au projet sont éligibles.</p></div></div>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">💶 Taux et plafonds</h4>
+
+<table class="cmp">
+<thead><tr><th>Élément</th><th>Plafond</th></tr></thead>
+<tbody>
+<tr><td>Total aides publiques sur le projet</td><td>80 % maximum</td></tr>
+<tr><td>Taux d'intervention CNM</td><td>50 % du budget éligible</td></tr>
+<tr><td>Plafond aide CNM</td><td>80 000 € par projet</td></tr>
+</tbody>
+</table>
+
+<div class="callout info"><div class="callout-icon">💡</div><div class="callout-content"><h4>OGC ≠ aides publiques</h4><p>Les aides des Organismes de Gestion Collective (SACEM, ADAMI, SPEDIDAM…) <strong>ne comptent pas</strong> comme aides publiques dans le plafond des 80 %. Les aides publiques = subventions du ministère, des régions, villes, départements, etc.</p></div></div>
+
+<div class="callout danger"><div class="callout-icon">📉</div><div class="callout-content"><h4>Le piège du budget revu à la baisse</h4><p>Le plafond de 50 % s'applique aussi <strong>au bilan</strong>. Exemple : si le projet prévu à 100 000 € (CNM = 50 000 €) tombe à 70 000 € réalisé → le CNM ne paiera plus que 35 000 €. <strong>Prévenez-nous tôt</strong> en cas d'ajustement pour ne pas mettre le projet en difficulté.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s6">
+<div class="module-header"><div class="module-num">Module 6</div><h2>Les 4 blocs de critères d'appréciation</h2></div>
+<div class="module-body">
+<p>Une fois l'éligibilité validée, la commission émet un avis sur la base de ces 4 blocs.</p>
+
+<div class="cards">
+<div class="card"><div class="card-icon">🏢</div><h5>1. Professionnalisme</h5><p>Rigueur, sincérité des informations, bonnes pratiques pros, respect des conventions collectives nationales.</p></div>
+<div class="card"><div class="card-icon">💰</div><h5>2. Lisibilité économique</h5><p>Viabilité du budget, capacité à l'analyser séparément du projet général.</p></div>
+<div class="card"><div class="card-icon">🎯</div><h5>3. Stratégie du projet</h5><p>Argumentation court/moyen/long terme, caractère structurant, transférabilité / reproductibilité.</p></div>
+<div class="card"><div class="card-icon">🌟</div><h5>4. Exemplarité de l'entité</h5><p>Pratiques d'égalité internes, accessibilité, gestion de l'impact environnemental.</p></div>
+</div>
+
+<div class="callout key"><div class="callout-icon">🪞</div><div class="callout-content"><h4>L'exemplarité est centrale</h4><p>Avant de soutenir des projets d'égalité portés par une structure, la commission regarde les pratiques d'égalité au sein de cette structure. <strong>Vous prêchez ce que vous faites</strong>.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s7">
+<div class="module-header accent"><div class="module-num">Module 7</div><h2>Le cycle de vie d'un dossier</h2></div>
+<div class="module-body">
+
+<table class="cmp">
+<thead><tr><th>Étape</th><th>Détail</th></tr></thead>
+<tbody>
+<tr><td>1. Avant dépôt</td><td>Webinaire de présentation + RDV de conseil possibles (à anticiper, pas dans la semaine du dépôt)</td></tr>
+<tr><td>2. Date de dépôt 2025</td><td><strong>26 juin</strong> (date fixe, ne changera pas)</td></tr>
+<tr><td>3. Instruction</td><td>Le service échange par mail si questions complémentaires (mais pas sur l'éligibilité)</td></tr>
+<tr><td>4. Commission</td><td><strong>30 septembre</strong> (susceptible de changer). 18 personnes, paritaire, représentant tous les métiers</td></tr>
+<tr><td>5. PV signé</td><td>Procès-verbal validé par Jean-Baptiste Gourdin, président du CNM</td></tr>
+<tr><td>6. Notification</td><td>Vous recevez la décision (avant PV signé : aucune communication possible — confidentialité des débats)</td></tr>
+<tr><td>7. Versement</td><td>Service comptable déclenche le paiement</td></tr>
+<tr><td>8. Bilan</td><td>Obligatoire — sans bilan, demande de remboursement possible</td></tr>
+</tbody>
+</table>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">Modalités de versement</h4>
+<table class="cmp">
+<thead><tr><th>Montant</th><th>Modalité</th></tr></thead>
+<tbody>
+<tr><td>≤ 5 000 €</td><td>Versement en <strong>une fois</strong> (bilan tout de même obligatoire)</td></tr>
+<tr><td>&gt; 5 000 €</td><td>70 % à la décision + 30 % au bilan</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section class="module" id="s8">
+<div class="module-header success"><div class="module-num">Module 8</div><h2>Le formulaire Excel — Mode d'emploi</h2></div>
+<div class="module-body">
+<p>Le formulaire de demande est un fichier Excel. <strong>Les cases en ocre orange sont à remplir</strong> ; les autres sont verrouillées ou calculées automatiquement.</p>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:8px 0 10px">Architecture du fichier</h4>
+
+<table class="cmp">
+<thead><tr><th>Onglet</th><th>Type</th><th>À remplir ?</th></tr></thead>
+<tbody>
+<tr><td>Règlement</td><td>Info</td><td>Non — à lire absolument</td></tr>
+<tr><td>Lisez-moi</td><td>Info</td><td>Non — tuto de remplissage</td></tr>
+<tr><td>Synthèse</td><td>Info</td><td>Non — calculée auto</td></tr>
+<tr><td>Formulaire</td><td>Violet</td><td><strong>Oui</strong> — info structure</td></tr>
+<tr><td>Argumentaire</td><td>Violet</td><td><strong>Oui</strong> — argumentaire projet</td></tr>
+<tr><td>Coûts prévisionnels</td><td>Violet</td><td><strong>Oui</strong> — budget par action</td></tr>
+<tr><td>Équipe & valorisation</td><td>Violet</td><td><strong>Oui</strong> — équipe + valorisations en nature</td></tr>
+<tr><td>Budget prévisionnel</td><td>Violet</td><td><strong>Oui</strong> — budget global structure + projet</td></tr>
+</tbody>
+</table>
+
+<details><summary>Onglet Formulaire — Quoi remplir ?</summary><p>Raison sociale, date de création, contacts du dossier. <strong>Utilisez le même contact</strong> que sur votre espace pro pour éviter les confusions. Objet et activités principales. Emploi de la structure (visible aussi sur les écarts de rémunération — critère d'appréciation).</p></details>
+
+<details><summary>Onglet Argumentaire — La pièce maîtresse</summary><p>Dates début/fin du projet, thématique prioritaire ou non, historique de soutiens CNM antérieurs, objectifs, actions, impact territorial (local / régional / interrégional / national), cibles précises, description, livrables, partenaires (le travail en réseau est très observé), communication, transférabilité, mesures d'évaluation, planning prévisionnel.</p></details>
+
+<details><summary>Onglet Coûts prévisionnels — Action par action</summary><p>Pour chaque action : budget détaillé, types de dépenses (achats, services extérieurs, charges de personnel au prorata, dépenses non éligibles isolées). <strong>Devis ou calculs justificatifs obligatoires</strong>.</p></details>
+
+<details><summary>Onglet Équipe & valorisation</summary><p>Équipes affectées au projet (CDI obligatoire si demande &gt; 30k€), stagiaires, prestataires (privilégier ceux liés à l'administration du projet). Valorisations en nature (prêts de salle, mise à disposition de services) à estimer pour donner un aperçu global au CNM.</p></details>
+
+<details><summary>Onglet Budget prévisionnel — Budget global</summary><p>Budget de la structure ET du projet — pas uniquement du projet comme dans les anciennes versions. Charges fixes + variables (report automatique de l'onglet Coûts). Produits prévisionnels : fonds propres, apports en numéraire, subventions. <strong>Préciser si la subvention est acquise ou en cours, et si elle est fléchée sur le projet</strong>.</p></details>
+
+<div class="callout warn"><div class="callout-icon">📝</div><div class="callout-content"><h4>Pensez à cliquer partout</h4><p>Des menus déroulants peuvent ne pas être visibles sur certaines cases. Vérifiez chaque case ocre — il suffit qu'une seule soit oubliée pour bloquer l'instruction.</p></div></div>
+
+<div class="callout info"><div class="callout-icon">📎</div><div class="callout-content"><h4>Documents annexes acceptés</h4><p>Le CNM accepte les présentations PDF complémentaires. Mais le <strong>cœur de l'instruction se fait sur l'Excel</strong> — les membres de la commission le consultent en priorité. Soyez clair et synthétique dans le formulaire.</p></div></div>
+
+<div class="callout key"><div class="callout-icon">📋</div><div class="callout-content"><h4>Bilan : reprendre la même structure</h4><p>Le bilan obligatoire reprend les éléments du dossier prévisionnel : bilan moral, budget réalisé. L'objectif : avoir un réalisé au plus proche du prévisionnel. Si <strong>modifications importantes en cours de projet, signalez-les au CNM</strong> avant le bilan.</p></div></div>
+</div>
+</section>
+
+<div class="quiz" id="quiz">
+<h2>🎓 Quiz récapitulatif</h2>
+<p>Vérifiez votre maîtrise du programme Égalité & Inclusion.</p>
+
+<div class="question">
+<h4>1. Quel est le plafond d'aide CNM par projet ?</h4>
+<div class="options">
+<label><input type="radio" name="q1" data-c="0"> 30 000 €</label>
+<label><input type="radio" name="q1" data-c="0"> 50 000 €</label>
+<label><input type="radio" name="q1" data-c="1"> 80 000 €</label>
+<label><input type="radio" name="q1" data-c="0"> 100 000 €</label>
+</div>
+<div class="feedback" id="f1"></div>
+</div>
+
+<div class="question">
+<h4>2. Pour une demande supérieure à 30 000 €, quelle condition supplémentaire la structure doit-elle remplir ?</h4>
+<div class="options">
+<label><input type="radio" name="q2" data-c="0"> 5 ans d'existence minimum</label>
+<label><input type="radio" name="q2" data-c="1"> Au moins 1 CDI à un tiers temps + bilans précédents soldés</label>
+<label><input type="radio" name="q2" data-c="0"> Avoir déjà obtenu une aide CNM les 3 années précédentes</label>
+<label><input type="radio" name="q2" data-c="0"> Avoir au moins 5 salariés</label>
+</div>
+<div class="feedback" id="f2"></div>
+</div>
+
+<div class="question">
+<h4>3. Quel projet est NON éligible à ce programme ?</h4>
+<div class="options">
+<label><input type="radio" name="q3" data-c="0"> Un programme de mentorat pour productrices émergentes</label>
+<label><input type="radio" name="q3" data-c="1"> Un festival à programmation 100 % féminine</label>
+<label><input type="radio" name="q3" data-c="0"> Une étude sectorielle sur l'âgisme dans l'industrie</label>
+<label><input type="radio" name="q3" data-c="0"> Un guide pratique sur la prévention des VHSS</label>
+</div>
+<div class="feedback" id="f3"></div>
+</div>
+
+<div class="question">
+<h4>4. Quel est le plafond du total des aides publiques sur le projet ?</h4>
+<div class="options">
+<label><input type="radio" name="q4" data-c="0"> 50 %</label>
+<label><input type="radio" name="q4" data-c="0"> 70 %</label>
+<label><input type="radio" name="q4" data-c="1"> 80 %</label>
+<label><input type="radio" name="q4" data-c="0"> 100 %</label>
+</div>
+<div class="feedback" id="f4"></div>
+</div>
+
+<div class="question">
+<h4>5. Quand débute la période d'amorçage acceptée des premières actions ?</h4>
+<div class="options">
+<label><input type="radio" name="q5" data-c="0"> 12 mois avant le dépôt</label>
+<label><input type="radio" name="q5" data-c="1"> 6 mois avant la date de dépôt OU 6 mois après la commission</label>
+<label><input type="radio" name="q5" data-c="0"> Uniquement après la commission</label>
+<label><input type="radio" name="q5" data-c="0"> 3 mois avant la commission</label>
+</div>
+<div class="feedback" id="f5"></div>
+</div>
+</div>
+</div>
+
+<footer class="footer">
+<p>📚 Support de cours généré à partir du webinaire CNM 2025</p>
+<p style="margin-top:8px"><strong>Producteur à Succès</strong> — Formation Music Business</p>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-window.innerHeight;document.getElementById('progressBar').style.width=(window.scrollY/h*100)+'%'});
+document.querySelectorAll('.options input').forEach(r=>{r.addEventListener('change',e=>{const q=e.target.closest('.question');const fb=q.querySelector('.feedback');const correct=e.target.dataset.c==='1';fb.className='feedback show '+(correct?'correct':'wrong');fb.textContent=correct?'✓ Bonne réponse !':'✗ Mauvaise réponse — relisez la section concernée.'})});
+document.querySelectorAll('.toc-list a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth',block:'start'})}));
+</script>
+</body>
+</html>

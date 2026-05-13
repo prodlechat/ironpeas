@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aides CNM — Production & Diffusion Spectacle Vivant</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#6C3AED;--primary-dark:#5325c4;--accent:#F59E0B;--success:#10B981;--danger:#EF4444;--info:#3B82F6;--bg:#FAFAFB;--ink:#1A1A2E;--ink-soft:#4A4A6A;--line:#E8E8F0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:16px}
+.progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--primary),var(--accent));z-index:1000;width:0;transition:width .1s}
+.hero{background:linear-gradient(135deg,#6C3AED 0%,#5325c4 50%,#3a1690 100%);color:#fff;padding:60px 24px 80px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-50%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(245,158,11,.15) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:2}
+.badge{display:inline-block;background:rgba(245,158,11,.2);color:#FCD34D;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:20px;border:1px solid rgba(245,158,11,.3)}
+h1{font-family:'Space Grotesk',sans-serif;font-size:2.8rem;font-weight:700;line-height:1.15;margin-bottom:20px;letter-spacing:-.02em}
+.hero p.lead{font-size:1.15rem;opacity:.92;max-width:780px;margin-bottom:30px}
+.meta{display:flex;flex-wrap:wrap;gap:20px;font-size:.92rem;opacity:.88}
+.meta-item{display:flex;align-items:center;gap:8px}
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+.toc{background:#fff;border-radius:16px;padding:28px;margin:-40px auto 40px;box-shadow:0 12px 40px rgba(108,58,237,.12);position:relative;z-index:5;max-width:1052px}
+.toc h3{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;margin-bottom:18px;color:var(--primary);text-transform:uppercase;letter-spacing:.5px}
+.toc-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px}
+.toc-list a{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;color:var(--ink);text-decoration:none;transition:all .2s;font-weight:500;font-size:.95rem}
+.toc-list a:hover{background:#F3EEFF;color:var(--primary);transform:translateX(4px)}
+.toc-num{background:var(--primary);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
+section.module{background:#fff;border-radius:16px;margin-bottom:32px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.04);border:1px solid var(--line)}
+.module-header{padding:30px 32px 24px;border-bottom:4px solid var(--primary);position:relative}
+.module-header.accent{border-bottom-color:var(--accent)}
+.module-header.success{border-bottom-color:var(--success)}
+.module-header.danger{border-bottom-color:var(--danger)}
+.module-header.info{border-bottom-color:var(--info)}
+.module-num{font-family:'Space Grotesk',sans-serif;font-size:.85rem;color:var(--primary);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.module-header h2{font-family:'Space Grotesk',sans-serif;font-size:1.85rem;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.module-body{padding:28px 32px 36px}
+.module-body p{margin-bottom:16px;color:var(--ink-soft)}
+.module-body p strong{color:var(--ink);font-weight:600}
+.callout{margin:24px 0;padding:20px 22px;border-radius:12px;border-left:4px solid;display:flex;gap:14px;align-items:flex-start}
+.callout-icon{font-size:1.5rem;flex-shrink:0;line-height:1}
+.callout-content{flex:1}
+.callout h4{font-weight:700;margin-bottom:6px;font-size:1rem}
+.callout p{margin:0;color:inherit;font-size:.95rem}
+.callout.tip{background:#ECFDF5;border-color:var(--success);color:#065f46}
+.callout.warn{background:#FEF3C7;border-color:var(--accent);color:#78350f}
+.callout.danger{background:#FEE2E2;border-color:var(--danger);color:#7f1d1d}
+.callout.info{background:#DBEAFE;border-color:var(--info);color:#1e3a8a}
+.callout.key{background:#F3EEFF;border-color:var(--primary);color:#3a1690}
+table.cmp{width:100%;border-collapse:collapse;margin:24px 0;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);font-size:.92rem}
+table.cmp thead th{background:var(--primary);color:#fff;padding:14px 16px;text-align:left;font-weight:600;font-family:'Space Grotesk',sans-serif}
+table.cmp tbody td{padding:14px 16px;border-bottom:1px solid var(--line);color:var(--ink-soft)}
+table.cmp tbody tr:nth-child(even){background:#FAFAFB}
+table.cmp tbody tr:last-child td{border-bottom:none}
+table.cmp tbody td:first-child{font-weight:600;color:var(--ink)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:24px 0}
+.card{background:#FAFAFB;border:1px solid var(--line);border-radius:12px;padding:20px;transition:all .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(108,58,237,.08)}
+.card-icon{font-size:1.8rem;margin-bottom:10px}
+.card h5{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;margin-bottom:8px;color:var(--ink)}
+.card p{font-size:.9rem;color:var(--ink-soft);margin:0}
+details{background:#FAFAFB;border-radius:10px;padding:14px 18px;margin:14px 0;border:1px solid var(--line);cursor:pointer}
+details summary{font-weight:600;color:var(--primary);outline:none;list-style:none;position:relative;padding-left:22px}
+details summary::before{content:"▶";position:absolute;left:0;font-size:.7rem;transition:transform .2s}
+details[open] summary::before{transform:rotate(90deg)}
+details p{margin-top:12px;color:var(--ink-soft);font-size:.95rem}
+.quiz{background:linear-gradient(135deg,#F3EEFF 0%,#FEF3C7 100%);border-radius:16px;padding:36px 32px;margin:48px 0}
+.quiz h2{font-family:'Space Grotesk',sans-serif;color:var(--primary);font-size:1.7rem;margin-bottom:8px}
+.quiz>p{color:var(--ink-soft);margin-bottom:24px}
+.question{background:#fff;border-radius:12px;padding:22px 24px;margin-bottom:18px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.question h4{margin-bottom:14px;color:var(--ink);font-size:1.05rem}
+.options{display:flex;flex-direction:column;gap:8px}
+.options label{display:flex;align-items:center;gap:10px;padding:10px 14px;border:2px solid var(--line);border-radius:8px;cursor:pointer;transition:all .15s;font-size:.93rem}
+.options label:hover{border-color:var(--primary);background:#FAFAFB}
+.options input[type="radio"]{accent-color:var(--primary)}
+.feedback{margin-top:14px;padding:12px 16px;border-radius:8px;font-size:.92rem;display:none}
+.feedback.show{display:block}
+.feedback.correct{background:#ECFDF5;color:#065f46;border-left:3px solid var(--success)}
+.feedback.wrong{background:#FEE2E2;color:#7f1d1d;border-left:3px solid var(--danger)}
+.footer{text-align:center;padding:40px 24px;color:var(--ink-soft);font-size:.9rem;border-top:1px solid var(--line);margin-top:60px}
+.footer strong{color:var(--primary);font-family:'Space Grotesk',sans-serif}
+ul.cks{list-style:none;margin:14px 0 20px}
+ul.cks li{padding:8px 0 8px 28px;position:relative;color:var(--ink-soft)}
+ul.cks li::before{content:"✓";position:absolute;left:0;top:8px;color:var(--success);font-weight:700;font-size:1.1rem}
+ul.xks li::before{content:"✗";color:var(--danger)}
+@media (max-width:680px){h1{font-size:2rem}.hero{padding:40px 20px 60px}.module-body,.module-header{padding:22px}.toc{margin:-30px 16px 30px}}
+@media print{.progress-bar,.quiz{display:none}body{background:#fff}section.module{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<header class="hero">
+<div class="hero-inner">
+<span class="badge">Webinaire CNM • Module 2</span>
+<h1>Aide à la production & diffusion — Spectacle Vivant</h1>
+<p class="lead">Le programme CNM dédié aux producteurs de spectacles (Licence 2) : éligibilité, dates, budget, bonifications 2025. Tout ce qu'il faut savoir avant de déposer une demande au titre du programme Production & Diffusion.</p>
+<div class="meta">
+<span class="meta-item">🎓 Intervenants : Marie Vercoutre-Aine, Thomas Estivalès, Chloé Paciani, Benjamin Portier Kaltenbach (CNM)</span>
+<span class="meta-item">⏱️ Durée : ~35 min</span>
+</div>
+</div>
+</header>
+
+<div class="container">
+<nav class="toc">
+<h3>📚 Sommaire du cours</h3>
+<ul class="toc-list">
+<li><a href="#s1"><span class="toc-num">1</span>Place du programme dans le schéma CNM</a></li>
+<li><a href="#s2"><span class="toc-num">2</span>Critères structure (Licence 2)</a></li>
+<li><a href="#s3"><span class="toc-num">3</span>Critères projet & dates</a></li>
+<li><a href="#s4"><span class="toc-num">4</span>3 familles de critères d'appréciation</a></li>
+<li><a href="#s5"><span class="toc-num">5</span>Bonifications 2025 (jusqu'à +10 %)</a></li>
+<li><a href="#s6"><span class="toc-num">6</span>Le formulaire de demande</a></li>
+<li><a href="#s7"><span class="toc-num">7</span>Montants, versements & bilans</a></li>
+<li><a href="#s8"><span class="toc-num">8</span>Calendrier & chiffres 2024</a></li>
+</ul>
+</nav>
+
+<section class="module" id="s1">
+<div class="module-header"><div class="module-num">Module 1</div><h2>La place du programme dans le schéma CNM</h2></div>
+<div class="module-body">
+<p>Le CNM articule son soutien autour de deux grands axes <strong>automatiques</strong> (compte automatique phono + droit de tirage spectacle vivant) <em>et</em> de programmes d'aides sélectives, dont fait partie le programme <strong>Production & Diffusion</strong>.</p>
+
+<div class="cards">
+<div class="card"><div class="card-icon">💿</div><h5>Côté édition / phono</h5><p>Aides à l'édition musicale et à la production phonographique.</p></div>
+<div class="card"><div class="card-icon">🎤</div><h5>Côté spectacle vivant</h5><p>Production, diffusion, salles, festivals, promoteurs-diffuseurs.</p></div>
+</div>
+
+<div class="callout key"><div class="callout-icon">🎯</div><div class="callout-content"><h4>Pour qui ?</h4><p>Producteur de spectacle au titre de la <strong>Licence 2</strong>, qui sollicite le CNM pour une production / tournée (avec ou sans répétitions et résidences).</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s2">
+<div class="module-header accent"><div class="module-num">Module 2</div><h2>Les 4 critères structure (à valider AVANT le dépôt)</h2></div>
+<div class="module-body">
+<p>Avant même de penser à votre projet, votre <strong>structure</strong> doit cocher 4 conditions. Une seule absente = dossier irrecevable.</p>
+
+<ul class="cks">
+<li><strong>Affiliation CNM</strong> à jour (procédure annuelle, justificatifs administratifs à fournir)</li>
+<li><strong>Licence 2</strong> en cours de validité</li>
+<li><strong>Déclaration de la taxe</strong> sur les spectacles de variétés effectuée si vous rentrez dans le champ de perception</li>
+<li><strong>1 an d'activité minimum</strong> (Kbis qui le justifie)</li>
+</ul>
+
+<div class="callout danger"><div class="callout-icon">🚨</div><div class="callout-content"><h4>Pas d'affiliation, pas de taxe payée = irrecevable</h4><p>Le service d'instruction vérifie ces éléments en priorité. Une demande déposée sans affiliation à jour ou sans taxe payée (pour les structures concernées) est <strong>directement classée irrecevable</strong>, sans passage en commission. Vérifiez avant de commencer le formulaire.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s3">
+<div class="module-header danger"><div class="module-num">Module 3</div><h2>Critères projet — dates, territoires, billetterie, fonds propres</h2></div>
+<div class="module-body">
+<p>Une demande = une tournée. Le projet doit respecter <strong>5 critères stricts</strong> pour passer en commission.</p>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">1️⃣ Conventions collectives respectées</h4>
+<p>Rigueur exigée sur les minima conventionnels <strong>SVP</strong> (Syndicat National des Producteurs) et <strong>EAC</strong> (Entreprises Artistiques et Culturelles). Le CNM est strict sur ce point — indiquez clairement les barèmes dans votre document.</p>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">2️⃣ Nombre de représentations</h4>
+
+<table class="cmp">
+<thead><tr><th>Type d'esthétique</th><th>Dates min. sur 24 mois</th></tr></thead>
+<tbody>
+<tr><td>Musiques dans le champ de perception taxe (variétés)</td><td><strong>8 représentations</strong> fermement confirmées</td></tr>
+<tr><td>Musiques classique & contemporaine (hors champ taxe)</td><td><strong>6 représentations</strong> fermement confirmées</td></tr>
+</tbody>
+</table>
+
+<div class="callout info"><div class="callout-icon">📅</div><div class="callout-content"><h4>Comment fonctionne la rétroactivité</h4><p>La période de 24 mois <strong>est centrée sur la date limite de dépôt</strong> (qui figure sur le site CNM). Jusqu'à <strong>la moitié des dates</strong> peut avoir eu lieu dans les 12 mois précédant cette date limite, le reste dans les 12 mois suivants.</p></div></div>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">3️⃣ Territoires éligibles</h4>
+<ul class="cks">
+<li>France métropolitaine et outre-mer (cœur du dispositif)</li>
+<li>Pays transfrontaliers francophones : <strong>Belgique, Suisse, Luxembourg</strong></li>
+<li>+ Jusqu'à 2 dates supplémentaires dans d'autres pays européens (<strong>Royaume-Uni inclus</strong>)</li>
+</ul>
+
+<div class="callout warn"><div class="callout-icon">⚠️</div><div class="callout-content"><h4>Les dates hors France ≤ 50 % du total</h4><p>Sur 16 dates par exemple, vous pouvez avoir 8 en France + 8 en Belgique/Suisse + autres. <strong>Les dates européennes ne doivent pas avoir fait l'objet d'une demande à l'Aide au Développement International</strong> (évite les doublons). Les festivals prescripteurs (Reeperbahn, Great Escape…) ne sont pas éligibles ici.</p></div></div>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">4️⃣ Plafond de dates non-billetterie</h4>
+<p>Jusqu'à <strong>1/3 des dates</strong> peuvent être non soumises à billetterie (donc sans bordereau payant). Le CNM <em>arrondit</em> : sur 9 dates, 3 max peuvent être gratuites.</p>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">5️⃣ Apport en fonds propres minimal</h4>
+<p>Le budget doit faire apparaître une proportion minimale d'<strong>apport en fonds propres</strong> de la structure — hors quote-part publique, hors coproduction ou mécénat. C'est la matérialisation de votre prise de risque.</p>
+</div>
+</section>
+
+<section class="module" id="s4">
+<div class="module-header success"><div class="module-num">Module 4</div><h2>Les 3 familles de critères d'appréciation en commission</h2></div>
+<div class="module-body">
+<p>Une fois recevable, votre dossier est examiné par les membres de la commission selon 3 grandes familles. Avis favorable ou défavorable sur chacune.</p>
+
+<div class="cards">
+<div class="card"><div class="card-icon">💰</div><h5>Famille 1 — Économique</h5><p>Lisibilité et cohérence économique du projet : prise de risque, moyens de communication adéquats, cohérence coût plateau / cachets / jauges, recettes propres en cohérence avec le budget.</p></div>
+<div class="card"><div class="card-icon">🎯</div><h5>Famille 2 — Stratégie diffusion</h5><p>Lisibilité et cohérence de la stratégie de diffusion : nombre de dates en fonction de la durée, typologie des lieux, actualité dans la carrière de l'artiste, perspectives d'évolution.</p></div>
+<div class="card"><div class="card-icon">🏢</div><h5>Famille 3 — Professionnalisme</h5><p>Égalité femmes-hommes, gestion de l'impact environnemental, bonnes pratiques professionnelles.</p></div>
+</div>
+
+<div class="callout key"><div class="callout-icon">🆕</div><div class="callout-content"><h4>Nouveauté 2025 — Frais de structure devient critère d'appréciation</h4><p>Jusque-là, le pourcentage de frais de structure était un critère d'<em>éligibilité</em>. Désormais, c'est un critère d'<strong>appréciation</strong>. L'usage reste sous les <strong>15 %</strong>. Au-dessus, votre dossier peut être minoré ou refusé.</p></div></div>
+
+<div class="callout danger"><div class="callout-icon">⚠️</div><div class="callout-content"><h4>Toutes les dates doivent être au dépôt</h4><p>L'intégration de l'ensemble des dates de la tournée dès le dépôt est essentielle : c'est un critère sur la stratégie de diffusion ET sur le professionnalisme. Une tournée incomplète au dépôt peut entraîner un refus.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s5">
+<div class="module-header info"><div class="module-num">Module 5</div><h2>Bonifications 2025 — jusqu'à + 10 % cumulables</h2></div>
+<div class="module-body">
+<p>Nouveauté intégrée dans la plupart des aides sélectives CNM en 2025 : deux jeux de critères <strong>cumulables</strong> peuvent bonifier l'aide.</p>
+
+<table class="cmp">
+<thead><tr><th>Catégorie</th><th>Bonus max</th><th>Condition</th></tr></thead>
+<tbody>
+<tr><td>Transition écologique</td><td>+ 5 %</td><td>≥ 50 % des 6 critères cochés</td></tr>
+<tr><td>Égalité femmes-hommes</td><td>+ 5 %</td><td>≥ 50 % des 4 critères cochés (donc 2/4)</td></tr>
+<tr><td><strong>Cumul possible</strong></td><td><strong>+ 10 %</strong></td><td>Les deux conditions remplies</td></tr>
+</tbody>
+</table>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">🌱 6 critères transition écologique</h4>
+<ul class="cks">
+<li>Renseigner le <strong>tonnage / poids</strong> du matériel technique et décors</li>
+<li>Location auprès d'un prestataire spécialisé ou d'une <strong>ressourcerie</strong> (acquis si pas d'équipement son/lumière/vidéo)</li>
+<li>Partenariat sur la <strong>réutilisation, recyclage ou réemploi</strong> du décor</li>
+<li>Capacité à <strong>estimer l'impact environnemental</strong> des dates</li>
+<li><strong>Transports collectifs décarbonés</strong> (train, mobilités douces)</li>
+<li>Actions en faveur d'une <strong>alimentation responsable</strong></li>
+</ul>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">♀️♂️ 4 critères égalité femmes-hommes</h4>
+<ul class="cks">
+<li>Artiste principal = <strong>femme</strong> ou personne d'une minorité de genre</li>
+<li><strong>30 %</strong> du plateau artistique = femmes/minorités</li>
+<li><strong>30 %</strong> du plateau technique = femmes/minorités</li>
+<li>Direction technique ou régie générale = femme/minorité</li>
+</ul>
+
+<div class="callout tip"><div class="callout-icon">🎁</div><div class="callout-content"><h4>Bonus, pas malus</h4><p>Ne pas atteindre ces critères n'empêche pas votre demande d'être acceptée. Le CNM met à disposition des <strong>fiches pratiques</strong> et des liens vers des sites spécialisés pour aider les structures plus modestes à viser ces bonifications.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s6">
+<div class="module-header"><div class="module-num">Module 6</div><h2>Le formulaire de demande — Mode d'emploi</h2></div>
+<div class="module-body">
+<p>Le formulaire CNM est exhaustif et structuré. <strong>Commencez par les critères de bonification</strong> : ils modifient automatiquement le montant proposé.</p>
+
+<details><summary>Présentation du projet (structure + artistique)</summary><p>Pourquoi telle période de répétition ? Quels objectifs de création ? Quelles perspectives de diffusion futures ? Cette dernière est un vrai critère décisionnel.</p></details>
+
+<details><summary>Argumentaire budgétaire</summary><p>Présenter et justifier les coûts. Toutes les dépenses qui sortent de l'ordinaire doivent être expliquées ici. <strong>Un argumentaire bien rempli évite les allers-retours</strong> avec le service d'instruction.</p></details>
+
+<details><summary>Planning des répétitions et représentations</summary><p>Prix moyen (pour vérifier la billetterie), type de contrat (cession ou production = prise de risque), jauge des salles, type de lieu.</p></details>
+
+<details><summary>Estimation des recettes</summary><p>Billetterie cession et production. C'est un prévisionnel — estimez au plus proche de la réalité.</p></details>
+
+<details><summary>Rémunérations</summary><p>Cachets prévus pour musiciens ET plateau technique (vérification conventions collectives). Attachés de presse, metteur en scène, prestations techniques ou artistiques : tout doit y être avec le nom de la personne ou de la prestation.</p></details>
+
+<div class="callout warn"><div class="callout-icon">⚖️</div><div class="callout-content"><h4>Le budget doit être à l'équilibre</h4><p>Produits = Charges. Sans équilibre, la demande sera refusée. Tous les coûts liés au projet sont éligibles (artistique, technique, VHR, communication, frais de structure) <strong>à condition d'être justifiés</strong>.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s7">
+<div class="module-header accent"><div class="module-num">Module 7</div><h2>Montants, versements & bilan</h2></div>
+<div class="module-body">
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:8px 0 10px">Plafonds</h4>
+
+<table class="cmp">
+<thead><tr><th>Élément</th><th>Plafond</th></tr></thead>
+<tbody>
+<tr><td>Par projet (par dossier)</td><td>75 000 €</td></tr>
+<tr><td>Plafond financement public (CNM compris)</td><td>50 % du budget</td></tr>
+<tr><td>Par bénéficiaire / an (cumul tous dossiers)</td><td>300 000 €</td></tr>
+<tr><td>Nombre de dossiers / an</td><td>Aucune limite</td></tr>
+</tbody>
+</table>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">Modalités de versement</h4>
+
+<table class="cmp">
+<thead><tr><th>Montant aide</th><th>Modalité</th></tr></thead>
+<tbody>
+<tr><td>≤ 5 000 €</td><td><strong>Versement intégral</strong> dans les semaines suivant la commission</td></tr>
+<tr><td>5 001 € → 75 000 €</td><td>70 % à l'attribution + <strong>30 % au solde</strong> (après bilan)</td></tr>
+</tbody>
+</table>
+
+<div class="callout info"><div class="callout-icon">📄</div><div class="callout-content"><h4>Le bilan : 6 mois après la dernière date</h4><p>Le solde est conditionné à l'envoi du <strong>formulaire de bilan</strong> (téléchargeable depuis l'espace pro) + l'ensemble des <strong>fiches de paye</strong> de l'emploi du plateau (artistique + technique), de préférence regroupées en un seul PDF par catégorie. Délai : 6 mois après la dernière date du planning prévisionnel.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s8">
+<div class="module-header success"><div class="module-num">Module 8</div><h2>Calendrier, chiffres-clés & contact</h2></div>
+<div class="module-body">
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:8px 0 10px">📅 Calendrier</h4>
+<p>1<sup>re</sup> date de dépôt : <strong>28 janvier</strong>. Puis dépôts tout au long de l'année (calendrier complet sur le site CNM). Délai d'instruction : <strong>~8 semaines</strong>. Notifications d'attribution ou de refus : <strong>jusqu'à 3 semaines après la commission</strong>.</p>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">📊 Chiffres-clés 2024</h4>
+
+<div class="cards">
+<div class="card"><div class="card-icon">📥</div><h5>1 300+</h5><p>Dossiers déposés</p></div>
+<div class="card"><div class="card-icon">⚠️</div><h5>Taux irrecevable élevé</h5><p>Souvent lié au non-respect des critères d'éligibilité — d'où l'importance de bien les lire avant.</p></div>
+<div class="card"><div class="card-icon">💶</div><h5>~13 000 €</h5><p>Montant moyen octroyé par dossier accepté</p></div>
+</div>
+
+<div class="callout key"><div class="callout-icon">📞</div><div class="callout-content"><h4>Contactez l'équipe avant le dépôt</h4><p>Prise de rendez-vous via l'agenda du site CNM, ou par mail à <strong>proddif@cnm.fr</strong>. L'équipe insiste : posez vos questions en amont. Toutes les zones d'ombre identifiées avant le dépôt = un dossier plus solide.</p></div></div>
+</div>
+</section>
+
+<div class="quiz" id="quiz">
+<h2>🎓 Quiz récapitulatif</h2>
+<p>Vérifiez votre maîtrise du programme Production & Diffusion avant de déposer.</p>
+
+<div class="question">
+<h4>1. Combien de représentations minimum (champ de perception taxe) sur 24 mois ?</h4>
+<div class="options">
+<label><input type="radio" name="q1" data-c="0"> 6 dates</label>
+<label><input type="radio" name="q1" data-c="1"> 8 dates fermement confirmées</label>
+<label><input type="radio" name="q1" data-c="0"> 10 dates</label>
+<label><input type="radio" name="q1" data-c="0"> 12 dates dont 6 en France</label>
+</div>
+<div class="feedback" id="f1"></div>
+</div>
+
+<div class="question">
+<h4>2. Quel pourcentage maximum de dates hors France est autorisé ?</h4>
+<div class="options">
+<label><input type="radio" name="q2" data-c="0"> 30 %</label>
+<label><input type="radio" name="q2" data-c="1"> 50 %</label>
+<label><input type="radio" name="q2" data-c="0"> 70 %</label>
+<label><input type="radio" name="q2" data-c="0"> Aucune limite tant qu'il y a au moins 1 date en France</label>
+</div>
+<div class="feedback" id="f2"></div>
+</div>
+
+<div class="question">
+<h4>3. Quel est le plafond d'aide par projet ?</h4>
+<div class="options">
+<label><input type="radio" name="q3" data-c="0"> 25 000 €</label>
+<label><input type="radio" name="q3" data-c="0"> 50 000 €</label>
+<label><input type="radio" name="q3" data-c="1"> 75 000 €</label>
+<label><input type="radio" name="q3" data-c="0"> 300 000 €</label>
+</div>
+<div class="feedback" id="f3"></div>
+</div>
+
+<div class="question">
+<h4>4. Pour une aide de 12 000 €, comment se passe le versement ?</h4>
+<div class="options">
+<label><input type="radio" name="q4" data-c="0"> Intégral dans les semaines suivant la commission</label>
+<label><input type="radio" name="q4" data-c="1"> 70 % à l'attribution + 30 % au solde après bilan</label>
+<label><input type="radio" name="q4" data-c="0"> 50 % à l'attribution + 50 % au solde</label>
+<label><input type="radio" name="q4" data-c="0"> Versement intégral 6 mois après la dernière date</label>
+</div>
+<div class="feedback" id="f4"></div>
+</div>
+
+<div class="question">
+<h4>5. Quelle bonification totale est possible en cumulant éco + égalité ?</h4>
+<div class="options">
+<label><input type="radio" name="q5" data-c="0"> + 5 %</label>
+<label><input type="radio" name="q5" data-c="1"> + 10 %</label>
+<label><input type="radio" name="q5" data-c="0"> + 15 %</label>
+<label><input type="radio" name="q5" data-c="0"> Pas de cumul possible — un seul bonus à la fois</label>
+</div>
+<div class="feedback" id="f5"></div>
+</div>
+</div>
+</div>
+
+<footer class="footer">
+<p>📚 Support de cours généré à partir du webinaire CNM 2025</p>
+<p style="margin-top:8px"><strong>Producteur à Succès</strong> — Formation Music Business</p>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-window.innerHeight;document.getElementById('progressBar').style.width=(window.scrollY/h*100)+'%'});
+document.querySelectorAll('.options input').forEach(r=>{r.addEventListener('change',e=>{const q=e.target.closest('.question');const fb=q.querySelector('.feedback');const correct=e.target.dataset.c==='1';fb.className='feedback show '+(correct?'correct':'wrong');fb.textContent=correct?'✓ Bonne réponse !':'✗ Mauvaise réponse — relisez la section concernée.'})});
+document.querySelectorAll('.toc-list a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth',block:'start'})}));
+</script>
+</body>
+</html>

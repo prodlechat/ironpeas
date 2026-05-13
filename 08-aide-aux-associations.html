@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aides CNM — Aide aux associations (Structuration)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#6C3AED;--primary-dark:#5325c4;--accent:#F59E0B;--success:#10B981;--danger:#EF4444;--info:#3B82F6;--bg:#FAFAFB;--ink:#1A1A2E;--ink-soft:#4A4A6A;--line:#E8E8F0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:16px}
+.progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--primary),var(--accent));z-index:1000;width:0;transition:width .1s}
+.hero{background:linear-gradient(135deg,#6C3AED 0%,#5325c4 50%,#3a1690 100%);color:#fff;padding:60px 24px 80px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-50%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(245,158,11,.15) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:2}
+.badge{display:inline-block;background:rgba(245,158,11,.2);color:#FCD34D;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:20px;border:1px solid rgba(245,158,11,.3)}
+h1{font-family:'Space Grotesk',sans-serif;font-size:2.8rem;font-weight:700;line-height:1.15;margin-bottom:20px;letter-spacing:-.02em}
+.hero p.lead{font-size:1.15rem;opacity:.92;max-width:780px;margin-bottom:30px}
+.meta{display:flex;flex-wrap:wrap;gap:20px;font-size:.92rem;opacity:.88}
+.meta-item{display:flex;align-items:center;gap:8px}
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+.toc{background:#fff;border-radius:16px;padding:28px;margin:-40px auto 40px;box-shadow:0 12px 40px rgba(108,58,237,.12);position:relative;z-index:5;max-width:1052px}
+.toc h3{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;margin-bottom:18px;color:var(--primary);text-transform:uppercase;letter-spacing:.5px}
+.toc-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px}
+.toc-list a{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;color:var(--ink);text-decoration:none;transition:all .2s;font-weight:500;font-size:.95rem}
+.toc-list a:hover{background:#F3EEFF;color:var(--primary);transform:translateX(4px)}
+.toc-num{background:var(--primary);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
+section.module{background:#fff;border-radius:16px;margin-bottom:32px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.04);border:1px solid var(--line)}
+.module-header{padding:30px 32px 24px;border-bottom:4px solid var(--primary)}
+.module-header.accent{border-bottom-color:var(--accent)}
+.module-header.success{border-bottom-color:var(--success)}
+.module-header.danger{border-bottom-color:var(--danger)}
+.module-header.info{border-bottom-color:var(--info)}
+.module-num{font-family:'Space Grotesk',sans-serif;font-size:.85rem;color:var(--primary);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.module-header h2{font-family:'Space Grotesk',sans-serif;font-size:1.85rem;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.module-body{padding:28px 32px 36px}
+.module-body p{margin-bottom:16px;color:var(--ink-soft)}
+.module-body p strong{color:var(--ink);font-weight:600}
+.callout{margin:24px 0;padding:20px 22px;border-radius:12px;border-left:4px solid;display:flex;gap:14px;align-items:flex-start}
+.callout-icon{font-size:1.5rem;flex-shrink:0;line-height:1}
+.callout-content{flex:1}
+.callout h4{font-weight:700;margin-bottom:6px;font-size:1rem}
+.callout p{margin:0;color:inherit;font-size:.95rem}
+.callout.tip{background:#ECFDF5;border-color:var(--success);color:#065f46}
+.callout.warn{background:#FEF3C7;border-color:var(--accent);color:#78350f}
+.callout.danger{background:#FEE2E2;border-color:var(--danger);color:#7f1d1d}
+.callout.info{background:#DBEAFE;border-color:var(--info);color:#1e3a8a}
+.callout.key{background:#F3EEFF;border-color:var(--primary);color:#3a1690}
+table.cmp{width:100%;border-collapse:collapse;margin:24px 0;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);font-size:.92rem}
+table.cmp thead th{background:var(--primary);color:#fff;padding:14px 16px;text-align:left;font-weight:600;font-family:'Space Grotesk',sans-serif}
+table.cmp tbody td{padding:14px 16px;border-bottom:1px solid var(--line);color:var(--ink-soft)}
+table.cmp tbody tr:nth-child(even){background:#FAFAFB}
+table.cmp tbody tr:last-child td{border-bottom:none}
+table.cmp tbody td:first-child{font-weight:600;color:var(--ink)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:24px 0}
+.card{background:#FAFAFB;border:1px solid var(--line);border-radius:12px;padding:20px;transition:all .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(108,58,237,.08)}
+.card-icon{font-size:1.8rem;margin-bottom:10px}
+.card h5{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;margin-bottom:8px;color:var(--ink)}
+.card p{font-size:.9rem;color:var(--ink-soft);margin:0}
+.stat{text-align:center;padding:24px 16px;background:linear-gradient(135deg,#F3EEFF,#fff);border-radius:12px;border:1px solid var(--line)}
+.stat-value{font-family:'Space Grotesk',sans-serif;font-size:2.2rem;font-weight:700;color:var(--primary);line-height:1}
+.stat-label{margin-top:6px;color:var(--ink-soft);font-size:.9rem}
+details{background:#FAFAFB;border-radius:10px;padding:14px 18px;margin:14px 0;border:1px solid var(--line);cursor:pointer}
+details summary{font-weight:600;color:var(--primary);outline:none;list-style:none;position:relative;padding-left:22px}
+details summary::before{content:"▶";position:absolute;left:0;font-size:.7rem;transition:transform .2s}
+details[open] summary::before{transform:rotate(90deg)}
+details p{margin-top:12px;color:var(--ink-soft);font-size:.95rem}
+.quiz{background:linear-gradient(135deg,#F3EEFF 0%,#FEF3C7 100%);border-radius:16px;padding:36px 32px;margin:48px 0}
+.quiz h2{font-family:'Space Grotesk',sans-serif;color:var(--primary);font-size:1.7rem;margin-bottom:8px}
+.quiz>p{color:var(--ink-soft);margin-bottom:24px}
+.question{background:#fff;border-radius:12px;padding:22px 24px;margin-bottom:18px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.question h4{margin-bottom:14px;color:var(--ink);font-size:1.05rem}
+.options{display:flex;flex-direction:column;gap:8px}
+.options label{display:flex;align-items:center;gap:10px;padding:10px 14px;border:2px solid var(--line);border-radius:8px;cursor:pointer;transition:all .15s;font-size:.93rem}
+.options label:hover{border-color:var(--primary);background:#FAFAFB}
+.options input[type="radio"]{accent-color:var(--primary)}
+.feedback{margin-top:14px;padding:12px 16px;border-radius:8px;font-size:.92rem;display:none}
+.feedback.show{display:block}
+.feedback.correct{background:#ECFDF5;color:#065f46;border-left:3px solid var(--success)}
+.feedback.wrong{background:#FEE2E2;color:#7f1d1d;border-left:3px solid var(--danger)}
+.footer{text-align:center;padding:40px 24px;color:var(--ink-soft);font-size:.9rem;border-top:1px solid var(--line);margin-top:60px}
+.footer strong{color:var(--primary);font-family:'Space Grotesk',sans-serif}
+ul.cks{list-style:none;margin:14px 0 20px}
+ul.cks li{padding:8px 0 8px 28px;position:relative;color:var(--ink-soft)}
+ul.cks li::before{content:"✓";position:absolute;left:0;top:8px;color:var(--success);font-weight:700;font-size:1.1rem}
+ul.xks li::before{content:"✗";color:var(--danger)}
+@media (max-width:680px){h1{font-size:2rem}.hero{padding:40px 20px 60px}.module-body,.module-header{padding:22px}.toc{margin:-30px 16px 30px}}
+@media print{.progress-bar,.quiz{display:none}body{background:#fff}section.module{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<header class="hero">
+<div class="hero-inner">
+<span class="badge">Webinaire CNM • Commission Structuration</span>
+<h1>Aide aux associations — Structuration, développement, intérêt général</h1>
+<p class="lead">Le programme CNM 2025 destiné aux associations nationales qui structurent et professionnalisent la filière musicale et des variétés. Critères stricts d'éligibilité, plafond 40 %, et la nouvelle règle "1 aide CNM par exercice".</p>
+<div class="meta">
+<span class="meta-item">🎓 Intervenants : Chloé Metayereau (responsable aides structuration) + Maxime Andréa (CNM)</span>
+<span class="meta-item">⏱️ Durée : ~1h10</span>
+</div>
+</div>
+</header>
+
+<div class="container">
+<nav class="toc">
+<h3>📚 Sommaire du cours</h3>
+<ul class="toc-list">
+<li><a href="#s1"><span class="toc-num">1</span>La Commission Structuration</a></li>
+<li><a href="#s2"><span class="toc-num">2</span>Affiliation : ne ratez pas la fenêtre</a></li>
+<li><a href="#s3"><span class="toc-num">3</span>Les 7 critères de recevabilité</a></li>
+<li><a href="#s4"><span class="toc-num">4</span>Critères d'appréciation</a></li>
+<li><a href="#s5"><span class="toc-num">5</span>NOUVEAU 2025 — Plafond "1 aide CNM"</a></li>
+<li><a href="#s6"><span class="toc-num">6</span>Cycle dossier & versements</a></li>
+<li><a href="#s7"><span class="toc-num">7</span>Formulaire — Onglets clés</a></li>
+<li><a href="#s8"><span class="toc-num">8</span>Calendrier 2025 & contacts</a></li>
+</ul>
+</nav>
+
+<section class="module" id="s1">
+<div class="module-header"><div class="module-num">Module 1</div><h2>La Commission Structuration & ses 4 programmes</h2></div>
+<div class="module-body">
+<p>La Commission Structuration du CNM porte 4 programmes complémentaires. L'aide aux associations dont nous parlons ici en représente <strong>35 % des dossiers soutenus</strong>.</p>
+
+<div class="cards">
+<div class="card"><div class="card-icon">🚀</div><h5>Dispositifs d'accompagnement</h5><p>Professionnalisation, rencontres pros, accompagnement, salons, prix.</p></div>
+<div class="card"><div class="card-icon">🤝</div><h5>Aide aux associations</h5><p><strong>Le programme du présent cours.</strong></p></div>
+<div class="card"><div class="card-icon">🎓</div><h5>Organismes de formation pro</h5><p>Soutien aux OF de la filière.</p></div>
+<div class="card"><div class="card-icon">🌱</div><h5>Transition écologique</h5><p>Volet structure + volet projet.</p></div>
+</div>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">📊 Chiffres clés 2023</h4>
+
+<div class="cards" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
+<div class="stat"><div class="stat-value">100</div><div class="stat-label">Dossiers instruits</div></div>
+<div class="stat"><div class="stat-value">3,5 M€</div><div class="stat-label">Aides octroyées</div></div>
+<div class="stat"><div class="stat-value">90 %</div><div class="stat-label">Dossiers soutenus</div></div>
+<div class="stat"><div class="stat-value">35 %</div><div class="stat-label">Part "Associations"</div></div>
+</div>
+
+<div class="callout key"><div class="callout-icon">⚖️</div><div class="callout-content"><h4>Fonctionnement de la commission</h4><p><strong>18 membres</strong> nommés par le président du CNM + <strong>4 observateurs</strong> du ministère de la Culture qui émettent un avis. PV signé par le président, notification d'attribution sur décision. La commission est <strong>consultative</strong>.</p></div></div>
+
+<div class="callout info"><div class="callout-icon">🌿</div><div class="callout-content"><h4>Ce programme n'a pas (encore) été touché par la réforme transformation</h4><p>La commission est déjà très RSE par nature — donc pas de critères de bonification ajoutés en 2025. <strong>Réforme prévue en 2026</strong>.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s2">
+<div class="module-header danger"><div class="module-num">Module 2</div><h2>Affiliation CNM — Le piège du calendrier</h2></div>
+<div class="module-body">
+<p>Vous devez être <strong>affilié à la date de la commission</strong> (pas la date de dépôt). C'est le piège le plus fréquent.</p>
+
+<div class="callout danger"><div class="callout-icon">🚫</div><div class="callout-content"><h4>Affiliation expirée le jour de la commission = dossier bloqué</h4><p>Si votre affiliation expire entre dépôt et commission, le système <strong>bloque informatiquement</strong> votre dossier de l'ordre du jour. Anticipez le renouvellement.</p></div></div>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">Le parcours affiliation</h4>
+
+<table class="cmp">
+<thead><tr><th>Étape</th><th>Détail</th></tr></thead>
+<tbody>
+<tr><td>1. Création de compte</td><td>Sur cnm.fr → "Mon espace" → "Créer un compte"</td></tr>
+<tr><td>2. Réception login/mot de passe</td><td>Par <strong>courrier postal</strong> (comme une carte bleue, 2 envois séparés)</td></tr>
+<tr><td>3. Demande d'affiliation</td><td>Réunir toutes les pièces — sinon retard</td></tr>
+<tr><td>4. Délai de traitement CNM</td><td><strong>~20 jours</strong> une fois toutes les pièces réunies</td></tr>
+<tr><td>5. "En cours d'affiliation"</td><td>Vous pouvez d'ores et déjà déposer vos demandes d'aide</td></tr>
+<tr><td>6. Régularisation de la taxe</td><td>Indispensable le cas échéant</td></tr>
+</tbody>
+</table>
+
+<div class="callout warn"><div class="callout-icon">📬</div><div class="callout-content"><h4>Anticipez bien le délai postal</h4><p>Le login et le mot de passe arrivent par 2 courriers séparés. Pour les nouvelles structures, prévoyez largement votre planning.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s3">
+<div class="module-header"><div class="module-num">Module 3</div><h2>Les 7 critères de recevabilité</h2></div>
+<div class="module-body">
+<p>Critères <strong>non négociables</strong>, encadrés par le règlement européen des aides (RGEC). Tous doivent être validés.</p>
+
+<ul class="cks">
+<li><strong>Affiliation CNM</strong> à jour à la date de la commission</li>
+<li><strong>Association loi 1901</strong> (les syndicats ne sont PAS éligibles à ce programme — voir focus ci-dessous)</li>
+<li><strong>1 an d'existence minimum</strong> au jour du dépôt</li>
+<li><strong>Objet social</strong> : contribuer à <strong>l'échelle nationale</strong> à la structuration, au développement et à l'intérêt général des pros de la musique et des variétés</li>
+<li><strong>1 CDI à temps plein</strong> avec ≥ 3 mois d'ancienneté à la date du dépôt</li>
+<li><strong>Plan de financement ≤ 80 % d'aides publiques</strong> (incluant l'aide CNM)</li>
+<li><strong>Bilan de l'aide N-1 soldé</strong> avant nouveau dépôt (nouveau critère 2025)</li>
+</ul>
+
+<div class="callout key"><div class="callout-icon">🔍</div><div class="callout-content"><h4>L'objet social — pas besoin de copier-coller</h4><p>Pas besoin de réécrire l'intitulé du programme dans vos statuts. La commission <strong>sait décrypter</strong> l'esprit d'un objet social. Évitez les copier-coller suspects — au contraire, ça peut nuire au dossier.</p></div></div>
+
+<div class="callout warn"><div class="callout-icon">👥</div><div class="callout-content"><h4>2 mi-temps ≠ 1 temps plein</h4><p>La règle "1 CDI temps plein" est <strong>stricte</strong>. Deux salariés à mi-temps ne sont pas équivalents à un temps plein. Les contrats d'apprentissage ne comptent pas non plus.</p></div></div>
+
+<div class="callout info"><div class="callout-icon">⚖️</div><div class="callout-content"><h4>Pourquoi 80 % max d'aides publiques ?</h4><p>Critère encadré par le <strong>Règlement Général d'Exemption par Catégorie (RGEC)</strong> européen. <strong>Non négociable</strong>. Les aides OGC (SACEM, ADAMI, SPEDIDAM) ne comptent pas comme aides publiques — elles proviennent de la collecte du droit d'auteur, pas de la trésorerie publique.</p></div></div>
+
+<details><summary>Cas des syndicats professionnels</summary><p>Les syndicats ne sont <strong>PAS éligibles</strong> à ce programme (constitution juridique différente d'une association 1901). Mais ils peuvent déposer des aides <strong>au projet</strong> (égalité, transition écologique, etc.) — pas au projet d'activité annuelle. Pourquoi ? Le paritarisme syndical est considéré comme de l'argent public.</p></details>
+</div>
+</section>
+
+<section class="module" id="s4">
+<div class="module-header accent"><div class="module-num">Module 4</div><h2>Critères d'appréciation en commission</h2></div>
+<div class="module-body">
+<p>Une fois recevable, la commission émet un avis : abonder, minorer, ou refuser. Cet avis s'appuie sur :</p>
+
+<div class="cards">
+<div class="card"><div class="card-icon">📊</div><h5>Lisibilité & cohérence</h5><p>Formulaire complet, budget cohérent, rigueur des informations transmises.</p></div>
+<div class="card"><div class="card-icon">💰</div><h5>Cohérence budgétaire</h5><p>Total charges = total produits, montant demandé en cohérence avec le budget global.</p></div>
+<div class="card"><div class="card-icon">🌟</div><h5>Exemplarité RSE</h5><p>Parité interne, prévention VHSS, transition écologique. Structures attendues comme <strong>exemplaires pour la filière</strong>.</p></div>
+<div class="card"><div class="card-icon">🎯</div><h5>Caractère national & structurant</h5><p>L'activité doit fédérer une majorité d'acteurs du champ CNM.</p></div>
+</div>
+
+<div class="callout danger"><div class="callout-icon">🚨</div><div class="callout-content"><h4>Plus de délai de modification après dépôt</h4><p>Si formulaire et budget ne correspondent pas (totaux différents), <strong>ils sont présentés tels quels à la commission</strong>. Risque de <strong>minoration au titre de la lisibilité</strong>. Aucun délai supplémentaire ne sera accordé.</p></div></div>
+
+<div class="callout info"><div class="callout-icon">📋</div><div class="callout-content"><h4>Le budget prévisionnel à fournir à votre format</h4><p>Vous fournissez votre budget prévisionnel sous votre <strong>propre forme</strong> — pas le CERFA. Le CNM le croise avec son formulaire pour comprendre votre structure et expliquer les écarts.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s5">
+<div class="module-header danger"><div class="module-num">Module 5</div><h2>NOUVEAU 2025 — La règle "1 aide CNM par exercice"</h2></div>
+<div class="module-body">
+
+<div class="callout danger"><div class="callout-icon">🆕</div><div class="callout-content"><h4>Une structure financée à 100 % de son activité = pas d'autres aides CNM</h4><p>"Une même entité ne peut bénéficier que d'<strong>une seule aide du CNM par exercice comptable</strong>, tous dispositifs confondus." Si vous demandez à ce programme l'aide à la structuration globale, vous ne pouvez plus solliciter aide à la diffusion, aide égalité, aide transition écologique, etc., sur le même exercice.</p></div></div>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">Pourquoi cette règle ?</h4>
+<p>Jusqu'en 2024, les associations pouvaient cumuler aide structuration + aides projets ponctuelles. Le CNM a constaté que cela créait des problèmes de <strong>lisibilité budgétaire</strong> et de <strong>gestion des bilans multiples</strong> (impossibilité d'ouvrir un dossier tant qu'un bilan précédent était en retard).</p>
+
+<div class="callout key"><div class="callout-icon">🎯</div><div class="callout-content"><h4>L'alternative : intégrer vos projets dans l'aide structuration</h4><p>Si vous portez un programme d'activité égalité ou transition depuis 3 ans, intégrez-le dans votre plan de financement de l'aide structuration. Votre demande peut augmenter, <strong>c'est OK</strong>. Le CNM s'attend à récupérer un peu de budget grâce à cette règle pour réabonder les demandes en hausse.</p></div></div>
+
+<details><summary>Mon dossier peut-il contenir des sous-parties projets ?</summary><p>Oui. Dans l'aide générale à la structuration, vous pouvez détailler des sous-parties qui correspondent à des projets (jusqu'à 6 grands projets dans le budget). Mais c'est <strong>une seule demande, une seule aide</strong>, pas un cumul de dispositifs.</p></details>
+</div>
+</section>
+
+<section class="module" id="s6">
+<div class="module-header info"><div class="module-num">Module 6</div><h2>Cycle d'un dossier & versements</h2></div>
+<div class="module-body">
+
+<table class="cmp">
+<thead><tr><th>Étape</th><th>Détail</th></tr></thead>
+<tbody>
+<tr><td>1. Dépôt</td><td>Avant la date limite, sur l'espace mon CNM</td></tr>
+<tr><td>2. Recevabilité administrative</td><td>Vérification des critères de recevabilité</td></tr>
+<tr><td>3. Instruction</td><td>Échanges via l'espace CNM (pas par mail direct)</td></tr>
+<tr><td>4. Commission</td><td>~8 semaines après la date limite de dépôt</td></tr>
+<tr><td>5. Avis + PV</td><td>PV signé par le président du CNM</td></tr>
+<tr><td>6. Notification</td><td>Le CNM ne peut pas communiquer le résultat avant signature du PV</td></tr>
+<tr><td>7. Versement acompte</td><td><strong>80 %</strong> à l'attribution</td></tr>
+<tr><td>8. Bilan + solde</td><td>Bilan à fournir avant la demande de renouvellement → solde <strong>20 %</strong></td></tr>
+</tbody>
+</table>
+
+<div class="callout key"><div class="callout-icon">💶</div><div class="callout-content"><h4>Plafond aide CNM = 40 % des dépenses éligibles</h4><p>Le montant de l'aide ne peut pas dépasser <strong>40 % des dépenses éligibles</strong> telles qu'inscrites dans le budget du formulaire.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s7">
+<div class="module-header success"><div class="module-num">Module 7</div><h2>Le formulaire — Onglets clés à remplir</h2></div>
+<div class="module-body">
+
+<table class="cmp">
+<thead><tr><th>Onglet</th><th>Contenu</th></tr></thead>
+<tbody>
+<tr><td>Règlement</td><td>Reprend les critères et rappelle les règles d'instruction (non-transmission = irrecevabilité)</td></tr>
+<tr><td>Lisez-moi</td><td>FAQ détaillée + consignes de remplissage</td></tr>
+<tr><td>Synthèse</td><td>Vérification automatique de l'éligibilité (bloqué — ne pas modifier)</td></tr>
+<tr><td>Formulaire</td><td>Identité, statut, objet, <strong>CDI obligatoire</strong>, parité effectifs + instances</td></tr>
+<tr><td>Argumentaire</td><td>Présentation structure, bilan N-1, calendrier, nouvelles actions 2025, partenaires, bénéficiaires (plus "adhérents")</td></tr>
+<tr><td>Budget</td><td>Charges fixes + variables (6 projets max), produits par type</td></tr>
+<tr><td>Bilan</td><td>À compléter au renouvellement — explique les variations prévi/réalisé</td></tr>
+</tbody>
+</table>
+
+<details><summary>Calcul "champ CNM" — comment justifier ?</summary><p>Si une partie de vos bénéficiaires sont hors champ CNM (champ : musique + variétés + humour), précisez le nombre de bénéficiaires <strong>dans le champ</strong> sur le total. Si vous êtes limite, le CNM vous demandera comment vous avez estimé ce chiffre.</p></details>
+
+<details><summary>Proratisation des charges fixes</summary><p>Si un projet utilise X % du temps de votre équipe, vous pouvez répartir les charges fixes (RH, prestations) au prorata. <strong>Détaillez le calcul à chaque fois</strong>, sinon la commission ne pourra pas vérifier la cohérence.</p></details>
+
+<details><summary>"CNM autres" dans les produits — ATTENTION</summary><p>Si vous indiquez avoir reçu une <strong>autre aide CNM dans l'année en cours</strong>, votre demande sera <strong>irrecevable de facto</strong> (règle "1 seule aide CNM par exercice"). Ce champ existe pour des aides reçues l'année précédente.</p></details>
+
+<div class="callout warn"><div class="callout-icon">⚠️</div><div class="callout-content"><h4>RSE — Dispositions internes & externes</h4><p>La section RSE du formulaire est attentivement étudiée pour les associations d'intérêt général : parité, prévention VHSS, transition écologique. Vous devez être <strong>exemplaires pour la filière</strong>.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s8">
+<div class="module-header"><div class="module-num">Module 8</div><h2>Calendrier 2025 & contacts</h2></div>
+<div class="module-body">
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:8px 0 10px">📅 Dates de dépôt 2025</h4>
+
+<table class="cmp">
+<thead><tr><th>Date limite dépôt</th><th>Commission (~ 8 semaines après)</th></tr></thead>
+<tbody>
+<tr><td>28 avril 2025</td><td>Fin juin 2025</td></tr>
+<tr><td>12 septembre 2025</td><td>Fin novembre 2025</td></tr>
+</tbody>
+</table>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">📞 Bonnes pratiques de contact</h4>
+<ul class="cks">
+<li><strong>Avant dépôt</strong> : exposez votre situation <strong>par écrit</strong> à structuration@cnm.fr → réponse par mail ou RDV (visio / présentiel)</li>
+<li><strong>Après dépôt</strong> : tous les échanges via l'espace mon CNM (pas par mail direct)</li>
+<li><strong>Ressources</strong> : règlement général des aides + pages programme + 2 onglets ressources dans chaque formulaire</li>
+</ul>
+
+<div class="callout tip"><div class="callout-icon">💡</div><div class="callout-content"><h4>Le bon réflexe</h4><p>Préférez poser une question par mail avant le dépôt plutôt que de découvrir un dossier irrecevable à la fin de l'instruction. <strong>Tous les échanges écrits laissent trace</strong> et facilitent l'analyse de votre situation.</p></div></div>
+</div>
+</section>
+
+<div class="quiz" id="quiz">
+<h2>🎓 Quiz récapitulatif</h2>
+<p>Vérifiez votre maîtrise du programme Aide aux associations.</p>
+
+<div class="question">
+<h4>1. Quelle est la part maximale d'aides publiques dans votre plan de financement ?</h4>
+<div class="options">
+<label><input type="radio" name="q1" data-c="0"> 50 %</label>
+<label><input type="radio" name="q1" data-c="0"> 65 %</label>
+<label><input type="radio" name="q1" data-c="1"> 80 % (CNM compris)</label>
+<label><input type="radio" name="q1" data-c="0"> 100 %</label>
+</div>
+<div class="feedback" id="f1"></div>
+</div>
+
+<div class="question">
+<h4>2. Combien de CDI à temps plein faut-il (et depuis combien de temps) ?</h4>
+<div class="options">
+<label><input type="radio" name="q2" data-c="0"> Aucun salarié exigé</label>
+<label><input type="radio" name="q2" data-c="1"> 1 CDI temps plein avec ≥ 3 mois d'ancienneté</label>
+<label><input type="radio" name="q2" data-c="0"> 2 mi-temps OK</label>
+<label><input type="radio" name="q2" data-c="0"> 1 contrat d'apprentissage suffit</label>
+</div>
+<div class="feedback" id="f2"></div>
+</div>
+
+<div class="question">
+<h4>3. Quel est le plafond de l'aide CNM par rapport aux dépenses éligibles ?</h4>
+<div class="options">
+<label><input type="radio" name="q3" data-c="0"> 25 %</label>
+<label><input type="radio" name="q3" data-c="1"> 40 %</label>
+<label><input type="radio" name="q3" data-c="0"> 50 %</label>
+<label><input type="radio" name="q3" data-c="0"> 80 %</label>
+</div>
+<div class="feedback" id="f3"></div>
+</div>
+
+<div class="question">
+<h4>4. Nouveauté 2025 : si vous demandez à ce programme, pouvez-vous aussi solliciter une aide à la transition écologique la même année ?</h4>
+<div class="options">
+<label><input type="radio" name="q4" data-c="0"> Oui, sans aucune limite</label>
+<label><input type="radio" name="q4" data-c="1"> Non — 1 seule aide CNM par exercice tous dispositifs confondus</label>
+<label><input type="radio" name="q4" data-c="0"> Oui, mais avec une majoration de dossier</label>
+<label><input type="radio" name="q4" data-c="0"> Oui, à condition que l'autre aide ne dépasse pas 10 000 €</label>
+</div>
+<div class="feedback" id="f4"></div>
+</div>
+
+<div class="question">
+<h4>5. Modalités de versement ?</h4>
+<div class="options">
+<label><input type="radio" name="q5" data-c="0"> 100 % à l'attribution</label>
+<label><input type="radio" name="q5" data-c="1"> 80 % acompte + 20 % après bilan</label>
+<label><input type="radio" name="q5" data-c="0"> 50 % + 50 %</label>
+<label><input type="radio" name="q5" data-c="0"> 100 % après bilan</label>
+</div>
+<div class="feedback" id="f5"></div>
+</div>
+</div>
+</div>
+
+<footer class="footer">
+<p>📚 Support de cours généré à partir du webinaire CNM Associations 2025</p>
+<p style="margin-top:8px"><strong>Producteur à Succès</strong> — Formation Music Business</p>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-window.innerHeight;document.getElementById('progressBar').style.width=(window.scrollY/h*100)+'%'});
+document.querySelectorAll('.options input').forEach(r=>{r.addEventListener('change',e=>{const q=e.target.closest('.question');const fb=q.querySelector('.feedback');const correct=e.target.dataset.c==='1';fb.className='feedback show '+(correct?'correct':'wrong');fb.textContent=correct?'✓ Bonne réponse !':'✗ Mauvaise réponse — relisez la section concernée.'})});
+document.querySelectorAll('.toc-list a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth',block:'start'})}));
+</script>
+</body>
+</html>

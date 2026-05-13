@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aides CNM — Écriture & Composition d'œuvres musicales</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#6C3AED;--primary-dark:#5325c4;--accent:#F59E0B;--success:#10B981;--danger:#EF4444;--info:#3B82F6;--bg:#FAFAFB;--ink:#1A1A2E;--ink-soft:#4A4A6A;--line:#E8E8F0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:16px}
+.progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--primary),var(--accent));z-index:1000;width:0;transition:width .1s}
+.hero{background:linear-gradient(135deg,#6C3AED 0%,#5325c4 50%,#3a1690 100%);color:#fff;padding:60px 24px 80px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-50%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(245,158,11,.15) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:2}
+.badge{display:inline-block;background:rgba(245,158,11,.2);color:#FCD34D;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:20px;border:1px solid rgba(245,158,11,.3)}
+h1{font-family:'Space Grotesk',sans-serif;font-size:2.8rem;font-weight:700;line-height:1.15;margin-bottom:20px;letter-spacing:-.02em}
+.hero p.lead{font-size:1.15rem;opacity:.92;max-width:780px;margin-bottom:30px}
+.meta{display:flex;flex-wrap:wrap;gap:20px;font-size:.92rem;opacity:.88}
+.meta-item{display:flex;align-items:center;gap:8px}
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+.toc{background:#fff;border-radius:16px;padding:28px;margin:-40px auto 40px;box-shadow:0 12px 40px rgba(108,58,237,.12);position:relative;z-index:5;max-width:1052px}
+.toc h3{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;margin-bottom:18px;color:var(--primary);text-transform:uppercase;letter-spacing:.5px}
+.toc-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px}
+.toc-list a{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;color:var(--ink);text-decoration:none;transition:all .2s;font-weight:500;font-size:.95rem}
+.toc-list a:hover{background:#F3EEFF;color:var(--primary);transform:translateX(4px)}
+.toc-num{background:var(--primary);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
+section.module{background:#fff;border-radius:16px;margin-bottom:32px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.04);border:1px solid var(--line)}
+.module-header{padding:30px 32px 24px;border-bottom:4px solid var(--primary)}
+.module-header.accent{border-bottom-color:var(--accent)}
+.module-header.success{border-bottom-color:var(--success)}
+.module-header.danger{border-bottom-color:var(--danger)}
+.module-header.info{border-bottom-color:var(--info)}
+.module-num{font-family:'Space Grotesk',sans-serif;font-size:.85rem;color:var(--primary);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.module-header h2{font-family:'Space Grotesk',sans-serif;font-size:1.85rem;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.module-body{padding:28px 32px 36px}
+.module-body p{margin-bottom:16px;color:var(--ink-soft)}
+.module-body p strong{color:var(--ink);font-weight:600}
+.callout{margin:24px 0;padding:20px 22px;border-radius:12px;border-left:4px solid;display:flex;gap:14px;align-items:flex-start}
+.callout-icon{font-size:1.5rem;flex-shrink:0;line-height:1}
+.callout-content{flex:1}
+.callout h4{font-weight:700;margin-bottom:6px;font-size:1rem}
+.callout p{margin:0;color:inherit;font-size:.95rem}
+.callout.tip{background:#ECFDF5;border-color:var(--success);color:#065f46}
+.callout.warn{background:#FEF3C7;border-color:var(--accent);color:#78350f}
+.callout.danger{background:#FEE2E2;border-color:var(--danger);color:#7f1d1d}
+.callout.info{background:#DBEAFE;border-color:var(--info);color:#1e3a8a}
+.callout.key{background:#F3EEFF;border-color:var(--primary);color:#3a1690}
+table.cmp{width:100%;border-collapse:collapse;margin:24px 0;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);font-size:.92rem}
+table.cmp thead th{background:var(--primary);color:#fff;padding:14px 16px;text-align:left;font-weight:600;font-family:'Space Grotesk',sans-serif}
+table.cmp tbody td{padding:14px 16px;border-bottom:1px solid var(--line);color:var(--ink-soft)}
+table.cmp tbody tr:nth-child(even){background:#FAFAFB}
+table.cmp tbody tr:last-child td{border-bottom:none}
+table.cmp tbody td:first-child{font-weight:600;color:var(--ink)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:24px 0}
+.card{background:#FAFAFB;border:1px solid var(--line);border-radius:12px;padding:20px;transition:all .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(108,58,237,.08)}
+.card-icon{font-size:1.8rem;margin-bottom:10px}
+.card h5{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;margin-bottom:8px;color:var(--ink)}
+.card p{font-size:.9rem;color:var(--ink-soft);margin:0}
+.steps{counter-reset:step;margin:24px 0}
+.step{display:flex;gap:18px;margin-bottom:18px;padding:18px 20px;background:#FAFAFB;border-radius:12px;border:1px solid var(--line)}
+.step::before{counter-increment:step;content:counter(step);background:var(--primary);color:#fff;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.step-content h5{font-family:'Space Grotesk',sans-serif;margin-bottom:6px;color:var(--ink)}
+.step-content p{margin:0;font-size:.92rem;color:var(--ink-soft)}
+.quiz{background:linear-gradient(135deg,#F3EEFF 0%,#FEF3C7 100%);border-radius:16px;padding:36px 32px;margin:48px 0}
+.quiz h2{font-family:'Space Grotesk',sans-serif;color:var(--primary);font-size:1.7rem;margin-bottom:8px}
+.quiz>p{color:var(--ink-soft);margin-bottom:24px}
+.question{background:#fff;border-radius:12px;padding:22px 24px;margin-bottom:18px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.question h4{margin-bottom:14px;color:var(--ink);font-size:1.05rem}
+.options{display:flex;flex-direction:column;gap:8px}
+.options label{display:flex;align-items:center;gap:10px;padding:10px 14px;border:2px solid var(--line);border-radius:8px;cursor:pointer;transition:all .15s;font-size:.93rem}
+.options label:hover{border-color:var(--primary);background:#FAFAFB}
+.options input[type="radio"]{accent-color:var(--primary)}
+.feedback{margin-top:14px;padding:12px 16px;border-radius:8px;font-size:.92rem;display:none}
+.feedback.show{display:block}
+.feedback.correct{background:#ECFDF5;color:#065f46;border-left:3px solid var(--success)}
+.feedback.wrong{background:#FEE2E2;color:#7f1d1d;border-left:3px solid var(--danger)}
+.footer{text-align:center;padding:40px 24px;color:var(--ink-soft);font-size:.9rem;border-top:1px solid var(--line);margin-top:60px}
+.footer strong{color:var(--primary);font-family:'Space Grotesk',sans-serif}
+ul.cks{list-style:none;margin:14px 0 20px}
+ul.cks li{padding:8px 0 8px 28px;position:relative;color:var(--ink-soft)}
+ul.cks li::before{content:"✓";position:absolute;left:0;top:8px;color:var(--success);font-weight:700;font-size:1.1rem}
+ul.xks li::before{content:"✗";color:var(--danger)}
+@media (max-width:680px){h1{font-size:2rem}.hero{padding:40px 20px 60px}.module-body,.module-header{padding:22px}.toc{margin:-30px 16px 30px}}
+@media print{.progress-bar,.quiz{display:none}body{background:#fff}section.module{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<header class="hero">
+<div class="hero-inner">
+<span class="badge">Webinaire CNM • Auteurs / Compositeurs</span>
+<h1>Aide à l'écriture & à la composition d'œuvres musicales</h1>
+<p class="lead">Le programme CNM 2025 destiné aux auteurs, autrices, compositeurs et compositrices : une aide forfaitaire de 5 000 € pour soutenir vos temps de création. Anciennement appelée "bourse auteur".</p>
+<div class="meta">
+<span class="meta-item">🎓 Intervenantes : Hortense Toublan, Barbara Bright (CNM DSAEP)</span>
+<span class="meta-item">⏱️ Durée : ~22 min</span>
+<span class="meta-item">💰 Forfait : 5 000 €</span>
+</div>
+</div>
+</header>
+
+<div class="container">
+<nav class="toc">
+<h3>📚 Sommaire du cours</h3>
+<ul class="toc-list">
+<li><a href="#s1"><span class="toc-num">1</span>Esprit du programme & réforme 2024</a></li>
+<li><a href="#s2"><span class="toc-num">2</span>Qui est éligible ? (critères personne)</a></li>
+<li><a href="#s3"><span class="toc-num">3</span>Montant, fréquence & bilan</a></li>
+<li><a href="#s4"><span class="toc-num">4</span>Étape 1 — Créer / réaffilier votre compte</a></li>
+<li><a href="#s5"><span class="toc-num">5</span>Étape 2 — Déposer le dossier</a></li>
+<li><a href="#s6"><span class="toc-num">6</span>Pièces obligatoires</a></li>
+<li><a href="#s7"><span class="toc-num">7</span>Calendrier 2025</a></li>
+</ul>
+</nav>
+
+<section class="module" id="s1">
+<div class="module-header"><div class="module-num">Module 1</div><h2>L'esprit du programme et la réforme 2024</h2></div>
+<div class="module-body">
+<p>En 2024, le CNM a déployé une grande concertation (une trentaine de groupes de travail) pour réformer tous ses dispositifs, y compris l'aide à l'écriture et à la composition.</p>
+
+<div class="cards">
+<div class="card"><div class="card-icon">🔧</div><h5>Simplifier</h5><p>Réduire la complexité pour les porteurs de projets ET pour les équipes CNM.</p></div>
+<div class="card"><div class="card-icon">🎯</div><h5>Adapter</h5><p>Aligner les aides aux typologies d'entreprises et de projets.</p></div>
+<div class="card"><div class="card-icon">🌱</div><h5>Critères de transformation</h5><p>Transition écologique, innovation, égalité F/H, inclusion (intégrés ailleurs — pas sur ce programme spécifiquement).</p></div>
+</div>
+
+<div class="callout key"><div class="callout-icon">🎨</div><div class="callout-content"><h4>L'objectif de cette aide</h4><p>Soutenir <strong>directement</strong> les auteurs/autrices et compositeurs/compositrices d'œuvres musicales dans leur activité d'écriture et/ou de composition. L'aide couvre les <strong>temps de réflexion, d'inspiration, d'expérimentation, de recherche, d'écriture et/ou de composition musicale</strong>.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s2">
+<div class="module-header danger"><div class="module-num">Module 2</div><h2>Critères d'éligibilité de la personne</h2></div>
+<div class="module-body">
+<p>L'aide est <strong>strictement individuelle</strong> et financière. Vérifiez chaque critère — un seul manquant rend le dossier irrecevable.</p>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:8px 0 10px">Critères de base</h4>
+<ul class="cks">
+<li><strong>Affiliation CNM</strong> à jour (procédure annuelle, dépôt en nom propre)</li>
+<li><strong>Personne physique</strong> uniquement</li>
+<li>Dépôt d'œuvres auprès de la <strong>SACEM et/ou SACD</strong> chaque année en 2021, 2022 et 2023</li>
+</ul>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">Critères de revenus (sur 3 années)</h4>
+
+<table class="cmp">
+<thead><tr><th>Critère</th><th>Seuil sur 2021, 2022 ET 2023</th></tr></thead>
+<tbody>
+<tr><td>Revenus artistiques principaux</td><td>≥ <strong>7 000 € bruts HT / an</strong> (hors cette aide + droits perçus en tant qu'héritier)</td></tr>
+<tr><td>Part des revenus artistiques</td><td>≥ <strong>50 %</strong> du revenu brut global annuel</td></tr>
+<tr><td>Revenu brut global annuel</td><td><strong>&lt; 80 000 € / an</strong> (strictement)</td></tr>
+</tbody>
+</table>
+
+<div class="callout warn"><div class="callout-icon">📊</div><div class="callout-content"><h4>Pourquoi 3 années consécutives ?</h4><p>Le CNM veut vérifier que vous êtes effectivement un professionnel de l'écriture / composition <strong>sur la durée</strong>, pas seulement ponctuellement. Les seuils s'appliquent à <strong>chacune</strong> des 3 années — pas en moyenne.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s3">
+<div class="module-header success"><div class="module-num">Module 3</div><h2>Montant, fréquence & bilan</h2></div>
+<div class="module-body">
+
+<table class="cmp">
+<thead><tr><th>Élément</th><th>Détail</th></tr></thead>
+<tbody>
+<tr><td>Montant</td><td><strong>5 000 € forfaitaire</strong> (peut être ajusté selon budget disponible et nombre de dossiers reçus)</td></tr>
+<tr><td>Fréquence</td><td><strong>1 seule fois tous les 2 ans</strong> par bénéficiaire</td></tr>
+<tr><td>Contrepartie diffusion</td><td>Aucune — <strong>versement sans contrepartie</strong> de diffusion ou d'exploitation commerciale</td></tr>
+<tr><td>Bilan</td><td>Obligatoire dans les <strong>18 mois</strong> suivant l'attribution</td></tr>
+</tbody>
+</table>
+
+<div class="callout info"><div class="callout-icon">📝</div><div class="callout-content"><h4>Que doit contenir le bilan ?</h4><p>Un <strong>bilan écrit restituant ce qui a été rendu possible</strong> grâce à l'aide + la <strong>liste des œuvres écrites grâce à cette aide</strong> et déposées auprès de la SACEM ou de la SACD.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s4">
+<div class="module-header info"><div class="module-num">Module 4</div><h2>Étape 1 — Créer ou réaffilier votre compte</h2></div>
+<div class="module-body">
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:8px 0 10px">Premier dépôt : créer un compte</h4>
+
+<div class="steps">
+<div class="step"><div class="step-content"><h5>Compte individuel</h5><p>Sur <strong>cnm.fr</strong> → "Mon espace" → "Créer un compte". Renseigner nom, prénom, mail, mot de passe + validation.</p></div></div>
+<div class="step"><div class="step-content"><h5>Demander l'accès à l'espace pro</h5><p>"Mon espace" → "Demander mon accès". Valider la demande en tant que <strong>personne physique</strong>, valider votre adresse, cocher <strong>"Je certifie sur l'honneur être résident fiscal en France"</strong>. Cocher cette case affilie automatiquement au CNM pour 1 an.</p></div></div>
+</div>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">Compte existant : renouveler l'affiliation</h4>
+
+<div class="steps">
+<div class="step"><div class="step-content"><h5>Connexion + Renouveler</h5><p>Connectez-vous → "Renouveler votre affiliation". Remplissez tous les onglets demandés.</p></div></div>
+<div class="step"><div class="step-content"><h5>Informations personnelles</h5><p>Date de naissance, fonction = <strong>"Auteur-compositeur"</strong>. <strong>Confirmer chaque volet</strong> (badge vert "Information confirmée").</p></div></div>
+<div class="step"><div class="step-content"><h5>Activité et esthétique</h5><p>Activité principale = "auteur-compositeur". Renseigner le genre principal + genres complémentaires.</p></div></div>
+<div class="step"><div class="step-content"><h5>Activité internationale</h5><p>Mentionnez si vous avez des activités à l'international. Confirmez, puis "Envoyer la demande".</p></div></div>
+<div class="step"><div class="step-content"><h5>Tableau final</h5><p>Un tableau récap apparaît — <strong>remplissez-le aussi</strong>, confirmez l'envoi.</p></div></div>
+</div>
+
+<div class="callout warn"><div class="callout-icon">📅</div><div class="callout-content"><h4>L'affiliation est annuelle</h4><p>Vous devez la <strong>renouveler chaque année</strong> avant tout dépôt.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s5">
+<div class="module-header accent"><div class="module-num">Module 5</div><h2>Étape 2 — Déposer le dossier d'aide</h2></div>
+<div class="module-body">
+
+<div class="steps">
+<div class="step"><div class="step-content"><h5>Connexion espace pro → "Demander une aide"</h5><p>Page d'accueil de votre espace pro.</p></div></div>
+<div class="step"><div class="step-content"><h5>Domaine d'intervention</h5><p>Menu déroulant → cliquer sur <strong>"Auteur-compositeur"</strong>. Le programme d'aide unique apparaît.</p></div></div>
+<div class="step"><div class="step-content"><h5>Sélection de la commission</h5><p>Date de commission : <strong>30 novembre 2025</strong>. Cliquer "Créer ma demande d'aide".</p></div></div>
+<div class="step"><div class="step-content"><h5>Page principale</h5><p>Sélectionner IBAN (déjà déposé à la création de l'espace). Contact prérempli. Montant demandé = <strong>5 000 €</strong>.</p></div></div>
+<div class="step"><div class="step-content"><h5>Onglet "Informations"</h5><p>Prénom, région, esthétique (style de composition), département.</p></div></div>
+<div class="step"><div class="step-content"><h5>Onglet "Fonctions"</h5><p>Cocher 1 sur chaque case applicable : compositeur, auteur, compositrice, autrice.</p></div></div>
+<div class="step"><div class="step-content"><h5>Téléversement des pièces</h5><p>Toutes les pièces marquées <strong>astérisque rouge</strong> sont obligatoires (voir module suivant).</p></div></div>
+<div class="step"><div class="step-content"><h5>Validation finale</h5><p>Cocher "Je reconnais avoir pris connaissance du règlement intérieur" + "Envoyer".</p></div></div>
+</div>
+
+<div class="callout tip"><div class="callout-icon">💾</div><div class="callout-content"><h4>Sauvegarde possible à chaque étape</h4><p>"Enregistrer et mettre en attente" permet de reprendre plus tard sans perdre votre saisie.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s6">
+<div class="module-header danger"><div class="module-num">Module 6</div><h2>Liste des pièces obligatoires</h2></div>
+<div class="module-body">
+<p>Toutes les pièces marquées d'un <strong>astérisque rouge</strong> dans le formulaire en ligne sont obligatoires. Un dossier incomplet est <strong>irrecevable</strong>.</p>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">📋 Formulaire principal</h4>
+<ul class="cks">
+<li><strong>Formulaire Excel</strong> à télécharger, remplir, enregistrer en <strong>format .xlsx</strong> (PDF refusé), puis téléverser</li>
+</ul>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">🧾 Justificatifs fiscaux (avis d'imposition)</h4>
+<ul class="cks">
+<li>Avis d'imposition <strong>2022</strong> (basé sur revenus 2021)</li>
+<li>Avis d'imposition <strong>2023</strong> (basé sur revenus 2022)</li>
+<li>Avis d'imposition <strong>2024</strong> (basé sur revenus 2023)</li>
+</ul>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">📑 Déclarations URSSAF Limousin Artistes-Auteurs</h4>
+<ul class="cks">
+<li>Déclaration de revenus et d'activités <strong>2021</strong></li>
+<li>Déclaration de revenus et d'activités <strong>2022</strong></li>
+<li>Déclaration de revenus et d'activités <strong>2023</strong></li>
+</ul>
+
+<h4 style="font-family:'Space Grotesk',sans-serif;color:var(--primary);margin:18px 0 10px">🎵 Justificatifs SACEM / SACD</h4>
+
+<table class="cmp">
+<thead><tr><th>Organisme</th><th>Comment obtenir le justificatif ?</th></tr></thead>
+<tbody>
+<tr><td>SACEM</td><td>Notice fournie par le CNM : captures d'écran de l'espace SACEM (catalogue d'œuvres). Une capture par année (2021, 2022, 2023)</td></tr>
+<tr><td>SACD</td><td><strong>Demander une attestation directement à la SACD</strong></td></tr>
+</tbody>
+</table>
+
+<div class="callout key"><div class="callout-icon">📖</div><div class="callout-content"><h4>Le "Lisez-moi" / FAQ</h4><p>Le formulaire Excel contient un onglet "Lisez-moi" qui répond aux questions fréquentes. Disponible aussi sur la page programme du site CNM.</p></div></div>
+
+<div class="callout danger"><div class="callout-icon">🚨</div><div class="callout-content"><h4>Dossier incomplet = Irrecevable</h4><p>Aucune relance ni délai supplémentaire. Vérifiez deux fois la liste avant d'envoyer.</p></div></div>
+</div>
+</section>
+
+<section class="module" id="s7">
+<div class="module-header success"><div class="module-num">Module 7</div><h2>Calendrier 2025</h2></div>
+<div class="module-body">
+
+<table class="cmp">
+<thead><tr><th>Étape</th><th>Date</th></tr></thead>
+<tbody>
+<tr><td>Date limite de dépôt</td><td><strong>31 mars 2025</strong></td></tr>
+<tr><td>Commission</td><td>30 novembre 2025</td></tr>
+<tr><td>Versement</td><td>Après PV signé</td></tr>
+<tr><td>Délai bilan post-attribution</td><td>18 mois</td></tr>
+</tbody>
+</table>
+
+<div class="callout key"><div class="callout-icon">⏰</div><div class="callout-content"><h4>Une seule date de dépôt par an</h4><p>Contrairement à d'autres programmes CNM, l'aide à l'écriture & composition a <strong>une seule fenêtre de dépôt</strong> dans l'année. Ne ratez pas le 31 mars.</p></div></div>
+</div>
+</section>
+
+<div class="quiz" id="quiz">
+<h2>🎓 Quiz récapitulatif</h2>
+<p>Vérifiez votre éligibilité et votre maîtrise du dispositif.</p>
+
+<div class="question">
+<h4>1. Quel est le montant forfaitaire de l'aide ?</h4>
+<div class="options">
+<label><input type="radio" name="q1" data-c="0"> 2 000 €</label>
+<label><input type="radio" name="q1" data-c="0"> 3 500 €</label>
+<label><input type="radio" name="q1" data-c="1"> 5 000 €</label>
+<label><input type="radio" name="q1" data-c="0"> 10 000 €</label>
+</div>
+<div class="feedback" id="f1"></div>
+</div>
+
+<div class="question">
+<h4>2. À quelle fréquence un même auteur peut-il bénéficier de cette aide ?</h4>
+<div class="options">
+<label><input type="radio" name="q2" data-c="0"> Chaque année</label>
+<label><input type="radio" name="q2" data-c="1"> Une fois tous les 2 ans</label>
+<label><input type="radio" name="q2" data-c="0"> Une fois tous les 5 ans</label>
+<label><input type="radio" name="q2" data-c="0"> Une seule fois dans sa vie</label>
+</div>
+<div class="feedback" id="f2"></div>
+</div>
+
+<div class="question">
+<h4>3. Quel revenu brut global maximum par année autorise l'aide ?</h4>
+<div class="options">
+<label><input type="radio" name="q3" data-c="0"> 30 000 €</label>
+<label><input type="radio" name="q3" data-c="0"> 50 000 €</label>
+<label><input type="radio" name="q3" data-c="1"> Strictement inférieur à 80 000 €</label>
+<label><input type="radio" name="q3" data-c="0"> Aucun plafond</label>
+</div>
+<div class="feedback" id="f3"></div>
+</div>
+
+<div class="question">
+<h4>4. Quel revenu artistique minimum par année est exigé sur 3 ans (2021-2023) ?</h4>
+<div class="options">
+<label><input type="radio" name="q4" data-c="0"> 3 000 €</label>
+<label><input type="radio" name="q4" data-c="0"> 5 000 €</label>
+<label><input type="radio" name="q4" data-c="1"> 7 000 € bruts HT et ≥ 50 % du revenu global</label>
+<label><input type="radio" name="q4" data-c="0"> 12 000 € bruts HT</label>
+</div>
+<div class="feedback" id="f4"></div>
+</div>
+
+<div class="question">
+<h4>5. Quand est la date limite de dépôt 2025 ?</h4>
+<div class="options">
+<label><input type="radio" name="q5" data-c="0"> 26 juin 2025</label>
+<label><input type="radio" name="q5" data-c="0"> 30 septembre 2025</label>
+<label><input type="radio" name="q5" data-c="1"> 31 mars 2025</label>
+<label><input type="radio" name="q5" data-c="0"> 31 décembre 2025</label>
+</div>
+<div class="feedback" id="f5"></div>
+</div>
+</div>
+</div>
+
+<footer class="footer">
+<p>📚 Support de cours généré à partir du webinaire CNM 2025</p>
+<p style="margin-top:8px"><strong>Producteur à Succès</strong> — Formation Music Business</p>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-window.innerHeight;document.getElementById('progressBar').style.width=(window.scrollY/h*100)+'%'});
+document.querySelectorAll('.options input').forEach(r=>{r.addEventListener('change',e=>{const q=e.target.closest('.question');const fb=q.querySelector('.feedback');const correct=e.target.dataset.c==='1';fb.className='feedback show '+(correct?'correct':'wrong');fb.textContent=correct?'✓ Bonne réponse !':'✗ Mauvaise réponse — relisez la section concernée.'})});
+document.querySelectorAll('.toc-list a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth',block:'start'})}));
+</script>
+</body>
+</html>

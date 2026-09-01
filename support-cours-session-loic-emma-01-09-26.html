@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lancer une activité de formation — Session Loïc &amp; Emma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED; --primary-dark:#4C1D95; --primary-light:#F3EEFF;
+  --accent:#F59E0B; --accent-light:#FEF3C7;
+  --success:#10B981; --success-light:#D1FAE5;
+  --danger:#EF4444; --danger-light:#FEE2E2;
+  --info:#3B82F6; --info-light:#DBEAFE;
+  --ink:#111827; --muted:#4B5563; --line:#E5E7EB; --bg:#FAFAFB; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg);line-height:1.7;font-size:16px}
+h1,h2,h3,h4{font-family:'Space Grotesk','Inter',sans-serif;line-height:1.25}
+
+/* Progress bar */
+#progress-wrap{position:fixed;top:0;left:0;width:100%;height:5px;background:rgba(108,58,237,.12);z-index:999}
+#progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--primary),#A78BFA);transition:width .1s linear}
+
+.wrap{max-width:920px;margin:0 auto;padding:0 20px}
+
+/* Hero */
+.hero{background:linear-gradient(135deg,var(--primary-dark) 0%,var(--primary) 55%,#8B5CF6 100%);color:#fff;padding:64px 0 56px;margin-bottom:40px}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-size:2.5rem;margin-bottom:16px;font-weight:700}
+.hero p.lede{font-size:1.1rem;opacity:.94;max-width:700px}
+.meta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.meta span{background:rgba(255,255,255,.13);padding:8px 14px;border-radius:10px;font-size:.86rem;font-weight:500}
+
+/* TOC */
+.toc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px;margin-bottom:44px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.toc h2{font-size:1.15rem;margin-bottom:18px;color:var(--primary-dark)}
+.toc ol{list-style:none;counter-reset:toc}
+.toc li{counter-increment:toc;border-bottom:1px solid var(--line)}
+.toc li:last-child{border-bottom:none}
+.toc a{display:flex;align-items:baseline;gap:14px;padding:11px 6px;text-decoration:none;color:var(--ink);border-radius:8px;transition:background .15s,color .15s}
+.toc a:hover{background:var(--primary-light);color:var(--primary-dark)}
+.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'Space Grotesk';font-weight:700;color:var(--primary);font-size:.85rem;min-width:26px}
+.toc .tc{margin-left:auto;font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* Sections */
+section.chap{background:var(--card);border:1px solid var(--line);border-radius:16px;margin-bottom:32px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+section.chap>.bar{height:5px}
+.c1>.bar{background:var(--primary)} .c2>.bar{background:var(--accent)}
+.c3>.bar{background:var(--info)} .c4>.bar{background:var(--success)}
+.c5>.bar{background:#EC4899} .c6>.bar{background:#0EA5E9}
+.c7>.bar{background:var(--danger)} .c8>.bar{background:#14B8A6}
+.chead{padding:28px 30px 0}
+.chead .num{display:inline-flex;align-items:center;gap:9px;font-family:'Space Grotesk';font-weight:700;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);margin-bottom:10px}
+.chead h2{font-size:1.6rem;margin-bottom:8px}
+.chead .tcs{font-size:.82rem;color:var(--muted);font-weight:500}
+.cbody{padding:20px 30px 32px}
+.cbody p{margin-bottom:16px;color:#1F2937}
+.cbody h3{font-size:1.1rem;margin:26px 0 12px;color:var(--primary-dark)}
+.cbody ul,.cbody ol{margin:0 0 18px 22px}
+.cbody li{margin-bottom:8px}
+strong{font-weight:600;color:var(--ink)}
+
+/* Callouts */
+.box{border-radius:12px;padding:18px 20px;margin:22px 0;border-left:4px solid}
+.box .t{font-family:'Space Grotesk';font-weight:700;font-size:.92rem;margin-bottom:7px;display:flex;align-items:center;gap:8px}
+.box p:last-child{margin-bottom:0}
+.b-key{background:var(--primary-light);border-color:var(--primary)} .b-key .t{color:var(--primary-dark)}
+.b-tip{background:var(--success-light);border-color:var(--success)} .b-tip .t{color:#065F46}
+.b-warn{background:var(--accent-light);border-color:var(--accent)} .b-warn .t{color:#92400E}
+.b-danger{background:var(--danger-light);border-color:var(--danger)} .b-danger .t{color:#991B1B}
+.b-info{background:var(--info-light);border-color:var(--info)} .b-info .t{color:#1E40AF}
+
+/* Tables */
+.tw{overflow-x:auto;margin:22px 0;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:.93rem;min-width:520px}
+thead th{background:var(--primary);color:#fff;padding:13px 15px;text-align:left;font-family:'Space Grotesk';font-weight:600;font-size:.86rem}
+tbody td{padding:12px 15px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#FAFAFB}
+
+/* Cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin:22px 0}
+.card{background:#FAFAFB;border:1px solid var(--line);border-radius:12px;padding:18px}
+.card h4{font-size:.98rem;margin-bottom:7px;color:var(--primary-dark)}
+.card p{font-size:.9rem;color:var(--muted);margin:0}
+
+/* Pros / cons */
+.pc{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:22px 0}
+.pc>div{border-radius:12px;padding:18px}
+.pros{background:var(--success-light);border:1px solid #A7F3D0}
+.cons{background:var(--danger-light);border:1px solid #FECACA}
+.pc h4{font-size:.95rem;margin-bottom:10px}
+.pros h4{color:#065F46} .cons h4{color:#991B1B}
+.pc ul{margin:0 0 0 18px} .pc li{font-size:.9rem;margin-bottom:6px}
+
+/* Timeline */
+.tl{position:relative;margin:24px 0 24px 8px;padding-left:26px;border-left:2px solid var(--primary-light)}
+.tl .step{position:relative;margin-bottom:22px}
+.tl .step:last-child{margin-bottom:0}
+.tl .step::before{content:'';position:absolute;left:-33px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light)}
+.tl h4{font-size:1rem;margin-bottom:4px;color:var(--primary-dark)}
+.tl p{font-size:.93rem;margin:0;color:var(--muted)}
+
+/* Accordion */
+details{background:#FAFAFB;border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:16px 0}
+details[open]{background:#fff}
+summary{cursor:pointer;font-weight:600;font-family:'Space Grotesk';font-size:.95rem;color:var(--primary-dark);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:'▸ ';color:var(--primary)}
+details[open] summary::before{content:'▾ '}
+details .dc{padding-top:12px;font-size:.94rem;color:var(--muted)}
+details .dc p{color:var(--muted)}
+
+/* Quote */
+.quote{border-left:4px solid var(--primary);background:var(--primary-light);padding:16px 20px;border-radius:0 12px 12px 0;margin:22px 0;font-style:italic;color:var(--primary-dark)}
+
+/* Quiz */
+.quiz{background:linear-gradient(135deg,#1E1B4B,#312E81);color:#fff;border-radius:18px;padding:36px 30px;margin:44px 0}
+.quiz h2{font-size:1.6rem;margin-bottom:6px}
+.quiz>p.sub{opacity:.8;margin-bottom:26px;font-size:.95rem}
+.q{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:12px;padding:20px;margin-bottom:18px}
+.q .qt{font-family:'Space Grotesk';font-weight:600;margin-bottom:14px;font-size:1.02rem}
+.opt{display:block;width:100%;text-align:left;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);color:#fff;padding:11px 15px;border-radius:9px;margin-bottom:8px;cursor:pointer;font-family:inherit;font-size:.93rem;transition:background .15s,border-color .15s}
+.opt:hover:not(.done){background:rgba(255,255,255,.16)}
+.opt.ok{background:rgba(16,185,129,.28);border-color:#10B981}
+.opt.no{background:rgba(239,68,68,.26);border-color:#EF4444}
+.fb{margin-top:10px;font-size:.9rem;padding:11px 14px;border-radius:9px;display:none;background:rgba(255,255,255,.1);border-left:3px solid #A78BFA}
+.score{text-align:center;font-family:'Space Grotesk';font-weight:700;font-size:1.15rem;margin-top:22px;padding:16px;background:rgba(255,255,255,.1);border-radius:12px}
+
+footer{text-align:center;padding:40px 20px 60px;color:var(--muted);font-size:.88rem}
+footer .brand{font-family:'Space Grotesk';font-weight:700;color:var(--primary);font-size:1.02rem;margin-bottom:6px}
+
+@media(max-width:640px){
+  .hero h1{font-size:1.85rem}.hero{padding:44px 0 38px}
+  .chead,.cbody{padding-left:20px;padding-right:20px}
+  .chead h2{font-size:1.3rem}
+  .toc .tc{display:none}
+}
+@media print{
+  #progress-wrap,.quiz{display:none}
+  body{background:#fff}
+  section.chap{break-inside:avoid;box-shadow:none}
+  .hero{background:var(--primary)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-wrap"><div id="progress-bar"></div></div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="badge">Mentorat Hic &amp; Nunc · Session 1</span>
+    <h1>Lancer une activité de formation : trouver, convertir, fidéliser</h1>
+    <p class="lede">Session de cadrage stratégique avec Loïc et Emma (Kazar Studio). Comment structurer l'acquisition d'un organisme de formation qui démarre de zéro, à partir d'un cas concret : la formation au montage de scènes mobiles Stagecar.</p>
+    <div class="meta">
+      <span>⏱ 2 h 07</span>
+      <span>🎓 Formateur : Tarik Hamiche</span>
+      <span>📅 1er septembre 2026</span>
+      <span>📌 18 chapitres</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <nav class="toc">
+    <h2>Sommaire</h2>
+    <ol>
+      <li><a href="#s1">Comprendre le besoin avant de vendre<span class="tc">05:22 → 12:19</span></a></li>
+      <li><a href="#s2">Créer les contraintes : le vrai levier de conversion<span class="tc">12:19 → 25:35</span></a></li>
+      <li><a href="#s3">Push marketing vs pull marketing<span class="tc">25:35 → 29:22</span></a></li>
+      <li><a href="#s4">Le blog : pourquoi le SEO redevient prioritaire<span class="tc">29:22 → 35:44</span></a></li>
+      <li><a href="#s5">Les partenariats : le levier le plus rapide<span class="tc">35:44 → 58:15</span></a></li>
+      <li><a href="#s6">Le webinaire : faire rentrer du cash vite<span class="tc">59:50 → 1:24:06</span></a></li>
+      <li><a href="#s7">LinkedIn et la prospection téléphonique<span class="tc">1:24:06 → 1:40:35</span></a></li>
+      <li><a href="#s8">Plan d'action, outils et organisation<span class="tc">1:40:35 → fin</span></a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="chap c1" id="s1">
+    <div class="bar"></div>
+    <div class="chead">
+      <div class="num">Section 01</div>
+      <h2>Comprendre le besoin avant de vendre</h2>
+      <div class="tcs">Chapitres Vimeo · 05:22 — 12:19</div>
+    </div>
+    <div class="cbody">
+      <p>La session s'ouvre sur une démonstration plutôt que sur un cours : avant de proposer la moindre stratégie, Tarik interroge Loïc. Quelle cible ? Quel besoin ? Quel prix ? Quelle durée ? Ce n'est pas de la politesse, c'est la première étape méthodologique.</p>
+
+      <div class="quote">« On ne peut rien vendre à personne du moment qu'on ne comprend pas le besoin de ce qu'on vend et la cible. »</div>
+
+      <h3>Le cas de départ : la formation Stagecar</h3>
+      <p>Le premier produit à lancer est une formation au <strong>montage et démontage de scènes mobiles</strong> (appelées <em>Stagecar</em> : des plateaux repliables tractés par camion), en partenariat avec Rémi Sagot, président de la société Fast 76. Le besoin n'a pas été inventé : il remonte du terrain, parce que les scènes louées reviennent mal montées, abîmées, ou installées hors des règles de sécurité.</p>
+
+      <div class="grid">
+        <div class="card"><h4>Cible</h4><p>Municipalités et agents des services techniques, à l'échelle nationale.</p></div>
+        <div class="card"><h4>Durée</h4><p>4 jours, dont une demi-journée de battement pour les trajets.</p></div>
+        <div class="card"><h4>Prix</h4><p>500 € HT par jour et par stagiaire, soit environ 2 000 € HT.</p></div>
+        <div class="card"><h4>Format</h4><p>Théorie (normes, charges, hauteurs, barrières) puis montage/démontage réels, jusqu'à l'autonomie complète le dernier jour.</p></div>
+      </div>
+
+      <div class="box b-key">
+        <div class="t">🎯 À retenir</div>
+        <p>Le programme administratif d'une formation est volontairement large. Le travail commercial, lui, doit être étroit : trouver des clients, les convertir, les fidéliser, puis répliquer le processus le plus vite possible. Tout ce qui ne sert pas ces quatre verbes est du remplissage.</p>
+      </div>
+
+      <div class="box b-info">
+        <div class="t">💡 Le saviez-vous ?</div>
+        <p>Kazar Studio n'a pas qu'un seul terrain de jeu : la même méthode devra ensuite s'appliquer aux formations post-production (écriture, voix off, montage sur Avid / Premiere Pro / DaVinci, colorimétrie, mixage stéréo, 5.1 et Dolby Atmos) et à l'agence de publicité Kazar. Le raisonnement change de sujet, pas de structure.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="chap c2" id="s2">
+    <div class="bar"></div>
+    <div class="chead">
+      <div class="num">Section 02</div>
+      <h2>Créer les contraintes : le vrai levier de conversion</h2>
+      <div class="tcs">Chapitres Vimeo · 12:19 — 25:35</div>
+    </div>
+    <div class="cbody">
+      <p>Le besoin existe déjà. Ce qui manque, c'est la <strong>perception du besoin</strong> chez l'interlocuteur. Un agent municipal qui monte une scène sans formation le fait parce qu'il pense en être capable — un tableau de bord, des boutons, des vérins hydrauliques : ça paraît simple. Le rôle du commercial est de changer le cadre de sa vision.</p>
+
+      <div class="box b-key">
+        <div class="t">🎯 À retenir</div>
+        <p>On ne crée pas le besoin, on crée les <strong>contraintes</strong>. Les trois plus efficaces auprès d'une mairie : la contrainte légale (la plus puissante), la contrainte de temps, et la contrainte de coût. Sans elles, la prospection ne sert à rien : 10 000 prospects qui ne convertissent pas valent zéro.</p>
+      </div>
+
+      <h3>Le travail de recherche préalable</h3>
+      <p>Avant le premier appel, il faut se mettre dans la psychologie de l'acheteur et lister tout ce qu'il pourra objecter. Trois chantiers ont été identifiés en direct pendant la session.</p>
+
+      <div class="tl">
+        <div class="step">
+          <h4>1. Le cadre réglementaire</h4>
+          <p>Les grandes scènes exigent une attestation de bon montage et une vérification par un organisme accrédité (Cofrac). Reste à savoir si les Stagecar y sont soumises — peut-être un seuil de dimension leur permet d'y échapper. Question à poser directement à Rémi.</p>
+        </div>
+        <div class="step">
+          <h4>2. La concurrence gratuite : le CNFPT</h4>
+          <p>Les collectivités cotisent au CNFPT et peuvent s'y former sans frais. Vérification faite pendant la session : une formation existe bel et bien, intitulée « <strong>Montage démontage de structures mobiles de spectacle</strong> », code stage <strong>IPSMS</strong>. C'est à creuser en priorité — soit elle ne couvre que des structures d'intérieur et l'offre est différenciante, soit elle couvre tout et il faudra un autre angle.</p>
+        </div>
+        <div class="step">
+          <h4>3. Les budgets et les financements</h4>
+          <p>2 000 €, ce n'est rien pour certaines mairies et beaucoup pour d'autres. Les budgets sont publics et souvent consultables ; ils sont répartis par commission (travaux, environnement, communication, culture). Selon le statut des personnes à former — agents titulaires ou intermittents en CDDU — la prise en charge relèvera d'un OPCO, de l'Afdas, ou de la métropole, du département, de la région.</p>
+        </div>
+      </div>
+
+      <div class="box b-tip">
+        <div class="t">✅ L'argument imparable</div>
+        <p>« Foncièrement, ça ne vous coûte rien. Il y a des fonds à aller chercher, on monte les dossiers avec vous, et ce n'est pas vous qui payez. » Combiné à une contrainte légale récente, cet argument transforme la vente : « Il y a une norme en place, vous ne la respectez pas, on vous met en conformité en quatre jours, et en plus ce n'est pas vous qui payez. »</p>
+      </div>
+
+      <div class="box b-warn">
+        <div class="t">⚠️ Le réflexe à anticiper</div>
+        <p>Face à une sollicitation, les agents répondent presque toujours : « Nous, on se forme uniquement avec le CNFPT, c'est gratuit. » Il faut donc avoir vérifié leur catalogue avant d'appeler, et pouvoir répondre précisément. À terme, mieux vaut d'ailleurs envisager un partenariat avec eux plutôt qu'un affrontement.</p>
+      </div>
+
+      <h3>Quelle cible en priorité ?</h3>
+      <p>L'hypothèse retenue : les <strong>municipalités qui possèdent déjà leur propre scène</strong>. Elles sont déjà sensibilisées au besoin, elles ont forcément quelqu'un qui la monte — même mal — et elles sont soumises à des obligations d'amélioration des compétences de leurs agents. Le filtre suggéré : des communes de 10 000 à 50 000 habitants environ, en dessous les budgets sont trop serrés.</p>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="chap c3" id="s3">
+    <div class="bar"></div>
+    <div class="chead">
+      <div class="num">Section 03</div>
+      <h2>Push marketing vs pull marketing</h2>
+      <div class="tcs">Chapitre Vimeo · 25:35 — 29:22</div>
+    </div>
+    <div class="cbody">
+      <p>Deux logiques opposées, complémentaires, qu'il faut savoir nommer avant de choisir ses actions.</p>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>&nbsp;</th><th>Push marketing</th><th>Pull marketing</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Principe</strong></td><td>Vous amenez la proposition devant quelqu'un qui ne l'attendait pas</td><td>La cible prend l'habitude de venir à vous parce que ce que vous produisez l'intéresse</td></tr>
+            <tr><td><strong>Exemples</strong></td><td>Appel téléphonique à froid, e-mailing, publicité en prospection froide</td><td>Blog de veille réglementaire et technique, contenus de conseil, newsletter</td></tr>
+            <tr><td><strong>Rythme</strong></td><td>Résultat immédiat mais taux de refus élevé</td><td>Montée en puissance progressive, effet cumulatif</td></tr>
+            <tr><td><strong>Coût</strong></td><td>Élevé au clic en prospection froide</td><td>Faible, puis très rentable une fois l'audience constituée</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="box b-key">
+        <div class="t">🎯 Le vrai mécanisme : combiner les deux</div>
+        <p>Le pull nourrit le push. Une fois que le blog attire du trafic qualifié, un pixel de suivi permet de faire du <strong>retargeting</strong> sur LinkedIn, Facebook et Google auprès de gens qui vous connaissent déjà et dont vous savez exactement ce qui les intéresse. C'est là que la publicité devient rentable.</p>
+      </div>
+
+      <div class="box b-info">
+        <div class="t">💡 Sur la prospection dans le dur</div>
+        <p>Elle reste indispensable, malgré son inconfort. Sur 100 appels : une majorité de refus secs, environ cinq « je ne sais pas trop, je vais voir », et environ cinq « c'est exactement ce dont on a besoin, on en parlait ce matin ». C'est là que se font les premières ventes — et surtout, c'est là que se construit l'argumentaire.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="chap c4" id="s4">
+    <div class="bar"></div>
+    <div class="chead">
+      <div class="num">Section 04</div>
+      <h2>Le blog : pourquoi le SEO redevient prioritaire</h2>
+      <div class="tcs">Chapitres Vimeo · 29:22 — 35:44</div>
+    </div>
+    <div class="cbody">
+      <p>La recommandation la plus insistante de la session : créer un site dédié à la formation Stagecar, avec un onglet blog. Non pas comme une vitrine, mais comme une machine à capter des requêtes.</p>
+
+      <h3>La stratégie éditoriale</h3>
+      <p>Le principe : aller voir un praticien du métier et lui demander ses contraintes concrètes. « J'ai besoin d'un écrou X et je n'ai qu'un écrou Y, je fais quoi ? » « Ce geste demande deux personnes et je suis seul, comment je m'en sors ? » Il y en a probablement <strong>plus de 150</strong>. Chaque contrainte devient un article.</p>
+
+      <div class="grid">
+        <div class="card"><h4>Les comparatifs</h4><p>Le format qui convertit le mieux : « formation structure mobile vs formation spécialisée Stagecar », « formation CNFPT vs formation privée ».</p></div>
+        <div class="card"><h4>Les requêtes périphériques</h4><p>« Avis Fast 76 », « BOAMP », « délibération conseil municipal » : au départ ce n'est pas vous qu'ils cherchaient, mais c'est vous qu'ils trouvent.</p></div>
+        <div class="card"><h4>Les dates récurrentes</h4><p>Un article calé sur une échéance connue explose au bon moment — l'exemple cité : « date répartition SACEM », avec un pic de trafic deux semaines avant chaque échéance.</p></div>
+      </div>
+
+      <div class="box b-tip">
+        <div class="t">✅ Le temps réel à y consacrer</div>
+        <p>Créer le site : une journée, voire moins. La préparation structurelle du code pour le référencement : rapide. Ensuite, <strong>trois articles par semaine</strong>, soit environ une heure hebdomadaire avec l'aide de l'IA. Le déploiement du référencement, lui, prend trois à six mois — d'où la nécessité d'actionner d'autres leviers en parallèle.</p>
+      </div>
+
+      <h3>Pourquoi maintenant, et pas il y a un an</h3>
+      <ul>
+        <li><strong>Google AI Overview</strong> : le résumé généré s'affiche en premier et cite ses sources avec des liens cliquables. Bien classé, vous êtes cité.</li>
+        <li><strong>Les LLM</strong> (ChatGPT, Claude, Perplexity) s'appuient sur les mêmes sources et renvoient vers les contenus qui font autorité.</li>
+        <li><strong>L'intention de recherche</strong> : quelqu'un qui tape une requête sur Google exprime un besoin précis. C'est le trafic le plus qualifié qui existe.</li>
+        <li><strong>Le coût publicitaire</strong> : Google fonctionne aux enchères et facture plus cher les domaines qu'il connaît mal. Un domaine régulièrement exploré et conforme aux recommandations peut se classer devant des sites bien plus gros.</li>
+      </ul>
+
+      <div class="box b-warn">
+        <div class="t">⚠️ Sur la publicité Google Ads</div>
+        <p>Enchérir sur un mot-clé commercial comme « formation scène mobile » est très peu fructueux : environ 0,5 % de clics par impression, et un clic n'est pas une vente. En revanche, cibler une requête-problème (« comment obtenir la délivrance d'une attestation… ») et envoyer vers un article de blog coûte environ dix fois moins cher, amène un visiteur très qualifié, et l'inscrit dans vos campagnes de retargeting.</p>
+      </div>
+
+      <details>
+        <summary>Objectif de positionnement : pourquoi viser une moyenne de 6-7 et non la première place</summary>
+        <div class="dc"><p>Sur un gros volume d'articles, tous ne peuvent pas être en tête. L'objectif réaliste est une <strong>position moyenne entre 6 et 7</strong> : les meilleurs articles rankent 1, 2 ou 3, les moins bons tirent la moyenne vers le bas, et l'ensemble progresse ensuite. Corollaire important : il ne faut pas produire trop d'articles, ni les écrire uniquement avec l'IA. Chaque texte doit être ultra-personnalisé pour tenir la distance.</p></div>
+      </details>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="chap c5" id="s5">
+    <div class="bar"></div>
+    <div class="chead">
+      <div class="num">Section 05</div>
+      <h2>Les partenariats : le levier le plus rapide</h2>
+      <div class="tcs">Chapitres Vimeo · 35:44 — 58:15</div>
+    </div>
+    <div class="cbody">
+      <p>C'est l'axe que Tarik aurait presque cité en premier : celui qui permet d'aller le plus vite. Une bonne promotion ciblée sur le fichier client d'un partenaire peut déclencher des signatures immédiatement.</p>
+
+      <div class="box b-key">
+        <div class="t">🎯 La définition d'un bon partenaire</div>
+        <p>Quelqu'un qui <strong>s'adresse à la même cible que vous, mais ne vend pas la même chose</strong>. Un fournisseur de plateaux artistiques pour les mairies, une société d'événementiel dans une autre région, une école, un autre organisme de formation qui a la clientèle mais pas l'offre.</p>
+      </div>
+
+      <div class="box b-danger">
+        <div class="t">🔥 Le point qui a fait débat : la rémunération à 50 %</div>
+        <p>Sur une formation vendue 2 000 €, il faut donner au moins la moitié au partenaire, sans tergiverser. Deux raisons : c'est une marque de respect, et c'est très convaincant. Un partenaire assez gros pour amener du volume ne bougera pas en dessous de 50 % — les propositions à 10 % ne retiennent l'attention de personne. La vraie valeur se fait de toute façon sur la deuxième vente : l'upsell, le besoin qui réapparaît six mois plus tard.</p>
+      </div>
+
+      <div class="pc">
+        <div class="pros">
+          <h4>Ce que le partenariat apporte</h4>
+          <ul>
+            <li>Du trafic très qualifié, très vite</li>
+            <li>Un tiers de confiance qui vous recommande</li>
+            <li>Pas de coût d'acquisition en amont</li>
+            <li>Un effet de levier immédiat : dix clients suffisent à lancer l'activité</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>Ce qu'il faut accepter</h4>
+          <ul>
+            <li>Une marge réduite de moitié sur la première vente</li>
+            <li>Sur dix partenaires, un seul apportera l'essentiel du chiffre</li>
+            <li>Les autres seront bancals — il faut essayer quand même</li>
+            <li>Un temps de recherche à budgéter : environ 20 % du temps marketing</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Par où commencer concrètement</h3>
+      <ol>
+        <li><strong>Rémi Sagot / Fast 76</strong> — son fichier client. S'il a remonté le besoin, c'est qu'il a déjà loué ou vendu des scènes et que le problème est ressorti. Ensuite, lui demander : « qui as-tu comme partenaire qui n'est pas ton client, mais vers qui je peux aller ? »</li>
+            <li><strong>Les groupements, associations et fédérations</strong> — des endroits où on a besoin de vous sans savoir que vous existez.</li>
+        <li><strong>Les écoles et les autres organismes de formation</strong> — souvent ils ont la cible et les stagiaires, mais pas l'offre.</li>
+        <li><strong>Le Carif-Oref régional</strong> (Ophélie en Normandie) — l'organisme qui centralise les offres de formation et alimente France Travail. Un conseiller face à un demandeur d'emploi y cherche en premier. La manière de s'y référencer détermine si l'offre est visible ou invisible de l'autre côté.</li>
+      </ol>
+
+      <h3>Décliner un article de blog partout ailleurs</h3>
+      <p>Un contenu bien fait ne sert jamais une seule fois.</p>
+      <div class="grid">
+        <div class="card"><h4>→ Article LinkedIn</h4><p>Copie du blog, puis publicité LinkedIn vers l'article plutôt qu'en prospection froide : dix fois moins cher, trafic bien plus qualifié.</p></div>
+        <div class="card"><h4>→ Newsletter</h4><p>Le même texte dans un outil comme Substack. Chaque prospect qui dit « pas cette année » y entre et reste en contact.</p></div>
+        <div class="card"><h4>→ Vidéo</h4><p>Lire et commenter son propre article, face caméra ou en filmant l'écran. Exemple cité : une vidéo de 30 minutes sur l'IA et les droits d'auteur, environ 10 000 vues, majoritairement des non-abonnés.</p></div>
+      </div>
+
+      <details>
+        <summary>Remises et offres spéciales : la nuance à ne pas rater</summary>
+        <div class="dc"><p>Partager 50 % avec un partenaire n'est pas une remise : le prix de vente reste identique, quelqu'un est simplement rémunéré pour vous avoir recommandé. Les remises, elles, ne se font que quand elles sont <strong>justifiées</strong> — une offre de rentrée limitée au 15 septembre, une opération Black Friday. C'est temporaire, c'est motivé, et ça ne remet en cause ni la qualité du travail ni la déontologie du métier. Sur le papier, ce n'est pas une réduction : c'est une offre spéciale, à prendre ou à laisser.</p></div>
+      </details>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="chap c6" id="s6">
+    <div class="bar"></div>
+    <div class="chead">
+      <div class="num">Section 06</div>
+      <h2>Le webinaire : faire rentrer du cash rapidement</h2>
+      <div class="tcs">Chapitres Vimeo · 59:50 — 1:24:06</div>
+    </div>
+    <div class="cbody">
+      <p>La publicité en lien direct est déconseillée au démarrage : coûteuse, peu convertissante, démotivante. En revanche, la publicité <em>vers un webinaire</em> peut être franchement rentable.</p>
+
+      <h3>La mécanique en deux temps</h3>
+      <div class="tl">
+        <div class="step">
+          <h4>Webinaire 1 — le sujet « feu allumé »</h4>
+          <p>Identifier un sujet brûlant chez les décideurs en mairie, idéalement réglementaire : « Nouveau décret applicable au 1<sup>er</sup> septembre : la checklist de ce que vous devez faire pour être en conformité ». 45 minutes, un temps de questions, et <strong>rien à vendre</strong>. Le sujet peut même être adjacent à votre offre.</p>
+        </div>
+        <div class="step">
+          <h4>L'annonce du second</h4>
+          <p>Pendant ce premier live, avant le temps de questions, annoncer la session suivante — cette fois sur le montage/démontage de scènes mobiles. Gratuite elle aussi, inscription immédiate, même jour, même heure la semaine suivante.</p>
+        </div>
+        <div class="step">
+          <h4>Webinaire 2 — la conversion</h4>
+          <p>Ceux qui ont reçu beaucoup de valeur au premier reviennent. C'est là que la vente se fait.</p>
+        </div>
+      </div>
+
+      <div class="box b-info">
+        <div class="t">💡 Les ordres de grandeur cités</div>
+        <p>Sur 100 personnes présentes au premier webinaire, environ <strong>70 reviennent</strong> au second. Sur ces 70, on peut espérer entre <strong>10 et 12 % de ventes directes</strong> — des gens qui demandent d'eux-mêmes comment on fait.</p>
+      </div>
+
+      <div class="box b-key">
+        <div class="t">🎯 Ne jamais laisser repartir un lead</div>
+        <p>Celui qui se déconnecte en disant « ça ne m'intéresse pas » doit recevoir un e-mail dès le lendemain : merci pour ta présence, visiblement ce sujet n'était pas le tien, voici la newsletter et le blog — et surtout : <strong>quelles sont tes préoccupations du moment ?</strong> Ils répondent, et ils vous disent exactement ce qui les gêne. Ça alimente les thématiques des sessions suivantes.</p>
+      </div>
+
+      <h3>La séquence de vente de Tarik, en pratique</h3>
+      <p>Un webinaire tourne en continu avec de la publicité. Le seul appel à l'action : « je n'ai rien à vous vendre, mais ceux qui veulent intégrer une formation peuvent réserver un appel ». Les questions du formulaire de réservation font le tri en amont : statut (intermittent, dirigeant, salarié), solde de CPF, et surtout — en champ libre — <strong>« qu'est-ce qui vous pousse à réserver cet appel pour fixer votre démarrage en formation ? »</strong>. La personne sait exactement dans quoi elle met les pieds.</p>
+
+      <p>L'appel lui-même se tient en deux temps : d'abord la personne parle d'elle et de son projet ; ensuite, ce qui l'a amenée à réserver — et là, toutes ses contraintes sortent. Le second temps porte sur les possibilités de prise en charge, et à défaut sur l'autofinancement.</p>
+
+      <div class="box b-tip">
+        <div class="t">✅ Le principe transposable au studio</div>
+        <p>Sur un fichier de 100 clients dont 10 seulement reviennent régulièrement, les 90 autres ne sont pas partis parce qu'ils ne vous aiment pas : ils sont occupés ailleurs. Leur envoyer de l'information utile — une évolution réglementaire, une nouveauté technique — les fait repenser à vous. Automatiser 95 % du processus (contenus, envois, suivis) et garder l'humain sur la prise de contact commerciale.</p>
+      </div>
+
+      <details>
+        <summary>Le réflexe à avoir avec un ancien client qui reprend contact</summary>
+        <div class="dc"><p>Même quand il n'achète pas, il a presque toujours un plan pour vous. La question à poser : « as-tu un contact dans ton réseau, quelqu'un à qui tu penses là tout de suite, qui pourrait être intéressé ? Je l'appelle de ta part, ça n'engage à rien — et si le deal se fait, j'aurai un geste pour toi. »</p></div>
+      </details>
+
+      <details>
+        <summary>Développer le studio : blog bilingue, international et événementiel</summary>
+        <div class="dc">
+          <p>Pour Kazar Studio, la même logique s'applique mais avec deux angles supplémentaires. <strong>Un blog en français et en anglais</strong> dès le départ, pour capter des demandes internationales — les exemples cités vont d'un ingénieur normand installé au Cambodge à un producteur basé à Alger formé au Dolby Atmos aux États-Unis. Beaucoup de néophytes ne savent même pas que le Dolby Atmos existe pour eux : autant d'articles à écrire (« à quoi ça sert ? », « différence entre un mastering classique et un mastering Dolby Atmos ? »).</p>
+          <p>Et un levier événementiel : organiser une journée portes ouvertes en faisant venir une figure qui attire — un cadre de maison de disques, un éditeur, un tourneur, ou dans l'audiovisuel quelqu'un du CNC qui parle financements. Publicité locale, inscription obligatoire, places limitées, questions de qualification pour ne retenir que les 50 ou 100 profils sérieux, visite du studio, essais, et une offre claire valable uniquement ce jour-là. Au bout de deux ou trois éditions, tout le monde sait que vous existez.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="chap c7" id="s7">
+    <div class="bar"></div>
+    <div class="chead">
+      <div class="num">Section 07</div>
+      <h2>LinkedIn et la prospection téléphonique</h2>
+      <div class="tcs">Chapitres Vimeo · 1:24:06 — 1:40:35</div>
+    </div>
+    <div class="cbody">
+      <h3>LinkedIn : deux pratiques qui marchent</h3>
+      <p>La première : republier systématiquement ses articles de blog en articles LinkedIn, et tenir une newsletter. La seconde, plus surprenante et plus efficace : <strong>commenter les publications des autres</strong>.</p>
+
+      <div class="box b-info">
+        <div class="t">💡 L'exemple donné</div>
+        <p>Une publication affirmait qu'une garantie minimale obligatoire s'appliquait aux contrats de licence. Tarik a corrigé publiquement, poliment, en citant le texte de loi et en précisant que l'obligation ne visait que les contrats d'artistes. Résultat : environ <strong>6 000 impressions</strong> sur le seul commentaire, et un afflux d'abonnés qualifiés.</p>
+      </div>
+
+      <p>Le mécanisme : vous vous servez du trafic des autres pour acquérir le vôtre. Sans appel à l'action, sans « cliquez ici » — c'est précisément l'absence de vente qui intrigue et fait cliquer sur le profil. La même logique permet aussi d'étudier ses concurrents : sous leurs publications, ceux qui likent le plus sont généralement leurs clients.</p>
+
+      <div class="quote">« La vente, c'est de la PNL. Si tu arrives à changer la vision du monde de la personne, tu peux l'amener à avoir la vision que tu as. » — Avant ce changement de regard, vous pouvez montrer 10 000 publicités : personne ne cliquera.</div>
+
+      <h3>La prospection téléphonique : la trame</h3>
+      <p>Pas un script — Tarik n'aime pas les scripts — mais une trame en trois temps.</p>
+
+      <div class="tl">
+        <div class="step">
+          <h4>1. L'accroche</h4>
+          <p>Que dire pour ne pas se faire raccrocher au nez ? « Bonjour, je m'appelle X, je travaille pour la société Y, et je vous appelle parce qu'on a identifié que de nombreuses mairies ont des difficultés pour Z. Je voulais savoir si c'était votre cas. »</p>
+        </div>
+        <div class="step">
+          <h4>2. La détection du problème</h4>
+          <p>Décliner le problème en une dizaine de questions : « avez-vous votre propre scène mobile ? », « quelle est sa nature ? ». S'il n'y a pas de problème : « merci pour les dix secondes, bonne journée » et on passe au suivant.</p>
+        </div>
+        <div class="step">
+          <h4>3. Le traitement des objections</h4>
+          <p>Les désamorcer avant qu'elles n'arrivent : « j'imagine que vous travaillez déjà avec untel — c'est très bien, ils font du bon boulot ; ce que nous faisons est différent, ils ne le proposent pas. » On coupe l'herbe sous le pied et on obtient deux minutes d'écoute.</p>
+        </div>
+      </div>
+
+      <div class="box b-key">
+        <div class="t">🎯 L'objectif de l'appel n'est pas de vendre</div>
+        <p>« Je n'ai rien à vous vendre aujourd'hui, je veux juste savoir si vous avez le problème. » L'objectif est d'obtenir une adresse e-mail pour envoyer une plaquette, en laissant l'initiative du retour à l'interlocuteur : « vous prenez le temps de regarder, et si vous avez des questions, c'est vous qui revenez vers moi ». Les gens adorent — ils comprennent qu'ils ne seront pas harcelés. Vous relancerez quand même, mais vous vous êtes positionné comme conseiller de confiance.</p>
+      </div>
+
+      <div class="box b-danger">
+        <div class="t">🚫 Ce qu'il ne faut pas faire</div>
+        <p>Envoyer une présentation avant d'avoir identifié le problème. « Ça ne sert à rien de présenter quelque chose à quelqu'un qui n'a pas le problème. » Et attention à la réputation du nom de domaine : trop d'envois à froid la dégradent durablement.</p>
+      </div>
+
+      <details>
+        <summary>Passer le standard d'une mairie</summary>
+        <div class="dc"><p>Identifier d'abord la <strong>dénomination exacte de la fonction</strong> du décideur (elle varie d'une mairie à l'autre), et si possible enrichir la base avec le nom de la personne. « Bonjour, je voudrais joindre Bruno untel, du service X — non, mais je devais l'appeler ce matin. » Dans les mairies de taille moyenne, les secrétariats laissent généralement passer dès lors que la démarche est pertinente. Autre voie : les forums et événements municipaux, où tous les services sont présents et où on identifie la bonne personne en une question.</p></div>
+      </details>
+
+      <div class="box b-tip">
+        <div class="t">✅ La discipline avant le talent</div>
+        <p>Bloquer des créneaux d'appel fixes et s'y tenir (par exemple une heure tous les jours à 11 h), identifier progressivement les horaires où l'on joint le plus facilement les décideurs, et ne pas s'éterniser sur chaque appel. Anecdote citée : des commerciaux formés en boutique chez Bouygues, à qui plus de 1 000 appels ont été imposés — première tentative, petite voix ; dernière, confiance pleine. Le pire ayant été fait à l'entraînement, tout le reste devient facile.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="chap c8" id="s8">
+    <div class="bar"></div>
+    <div class="chead">
+      <div class="num">Section 08</div>
+      <h2>Plan d'action, outils et organisation</h2>
+      <div class="tcs">Chapitres Vimeo · 1:40:35 — fin</div>
+    </div>
+    <div class="cbody">
+      <h3>Le plan en quatre points</h3>
+      <div class="tw">
+        <table>
+          <thead><tr><th>#</th><th>Chantier</th><th>Ce que ça implique concrètement</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td><strong>Base de prospection mairies</strong></td><td>Données publiques, scrapées par une IA vers un tableur ou Airtable. Critères : taille de commune, possession d'une scène, budget. Puis créneaux d'appel planifiés.</td></tr>
+            <tr><td>2</td><td><strong>Blog et référencement</strong></td><td>Site créé en une session, structure de code pensée pour Google, puis rédaction régulière selon une vraie stratégie éditoriale.</td></tr>
+            <tr><td>3</td><td><strong>Déclinaisons</strong></td><td>Chaque article devient un article LinkedIn et une newsletter. Process à industrialiser.</td></tr>
+            <tr><td>4</td><td><strong>Partenariats</strong></td><td>Fast 76 et son réseau direct en priorité, puis fédérations, écoles, autres organismes, Carif-Oref.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Les outils à installer</h3>
+      <div class="grid">
+        <div class="card"><h4>Claude</h4><p>Abonnement à environ 20 €/mois suffisant pour démarrer. Meilleur que les alternatives sur le code, selon Tarik.</p></div>
+        <div class="card"><h4>Claude Code</h4><p>Claude utilisé directement dans le terminal, avec permissions enregistrées et automatisations récurrentes.</p></div>
+        <div class="card"><h4>Antigravity</h4><p>L'environnement de développement utilisé pour construire et mettre à jour le site.</p></div>
+        <div class="card"><h4>Ghostty</h4><p>Terminal gratuit, rapide et sécurisé. Attention : disponible sur Mac et Linux, pas sur Windows.</p></div>
+      </div>
+
+      <div class="box b-danger">
+        <div class="t">🔐 Sécurité : la règle non négociable</div>
+        <p>Certains éléments ne doivent <strong>jamais</strong> être confiés à une IA — les clés privées en premier lieu. Les permissions se donnent une fois, de manière délimitée, puis sont enregistrées. Et les automatisations ne tournent que si l'ordinateur est allumé à l'heure prévue.</p>
+      </div>
+
+      <h3>Où héberger le blog</h3>
+      <p>Pour la formation, pas de site totalement séparé : le blog sera rattaché au domaine existant (type <code>/blog</code> ou <code>blog.</code>) afin de <strong>bénéficier de l'autorité de domaine déjà acquise</strong> par le site en place. Cela suppose un accès aux DNS chez l'hébergeur (Infomaniak dans ce cas) — accès dont dispose la personne qui gère déjà le site.</p>
+
+      <div class="box b-info">
+        <div class="t">💡 « Ranker », c'est quoi ?</div>
+        <p>De l'anglais <em>rank</em>, le rang. Être « ranké numéro 1 » sur un mot-clé, c'est apparaître en première position dans les résultats Google. Moins bien classé, on tombe en page 2, 3 ou 4 — et on disparaît.</p>
+      </div>
+
+      <h3>L'organisation retenue</h3>
+      <ul>
+        <li>Sessions de <strong>2 h 30</strong>, matin (9 h) et après-midi (14 h) — au-delà, l'attention décroche.</li>
+        <li>Trois journées bloquées la première semaine, puis mardi, mercredi et jeudi la suivante.</li>
+        <li>Un <strong>groupe WhatsApp à trois</strong> pour ne jamais rester bloqué entre deux sessions.</li>
+        <li>Ordre des travaux : le blog en premier (l'après-midi même), puis la préparation des appels avec simulations avant les vrais appels.</li>
+        <li>Rendez-vous à caler avec Rémi (Fast 76) en fin d'après-midi.</li>
+      </ul>
+
+      <div class="box b-key">
+        <div class="t">🎯 Le mot de la fin</div>
+        <p>Ce qui a marqué Loïc dans cette session : la stratégie avant l'exécution. « Si on prend la mauvaise direction, on va faire tout ça pour rien. » Le réflexe inverse — foncer sur la forme avant d'avoir traité le fond — est le piège classique des métiers-passion.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="quiz" id="quiz">
+    <h2>Testez votre compréhension</h2>
+    <p class="sub">5 questions sur les points clés de la session.</p>
+    <div id="quiz-body"></div>
+    <div class="score" id="score" style="display:none"></div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="brand">Producteur à Succès</div>
+  <div>Support de cours généré à partir de la session du 1<sup>er</sup> septembre 2026 · Mentorat Hic &amp; Nunc</div>
+</footer>
+
+<script>
+// Progress bar
+var bar = document.getElementById('progress-bar');
+window.addEventListener('scroll', function(){
+  var h = document.documentElement.scrollHeight - window.innerHeight;
+  bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+}, {passive:true});
+
+// Smooth scroll
+document.querySelectorAll('.toc a').forEach(function(a){
+  a.addEventListener('click', function(e){
+    e.preventDefault();
+    var el = document.querySelector(a.getAttribute('href'));
+    if (el) window.scrollTo({top: el.offsetTop - 20, behavior:'smooth'});
+  });
+});
+
+// Quiz
+var QUESTIONS = [
+  {
+    q: "Selon Tarik, quelle est la toute première chose à faire avant de construire une offre commerciale ?",
+    o: [
+      "Créer un site web et une plaquette de présentation",
+      "Interroger la cible pour comprendre précisément son besoin",
+      "Fixer un prix compétitif par rapport à la concurrence",
+      "Lancer une campagne publicitaire pour tester le marché"
+    ],
+    a: 1,
+    f: "« On ne peut rien vendre à personne du moment qu'on ne comprend pas le besoin de ce qu'on vend et la cible. » C'est exactement ce que Tarik a démontré en interrogeant Loïc avant de proposer quoi que ce soit."
+  },
+  {
+    q: "Le besoin de formation au montage de scènes mobiles existe déjà chez les municipalités. Quel est alors le vrai travail commercial ?",
+    o: [
+      "Baisser le prix pour lever le frein budgétaire",
+      "Créer les contraintes — légale, de temps, de coût — pour changer le cadre de vision",
+      "Multiplier le nombre de prospects contactés",
+      "Attendre que les mairies fassent la démarche d'elles-mêmes"
+    ],
+    a: 1,
+    f: "Un agent qui monte une scène sans formation pense en être capable. Sans contrainte pour changer ce regard, même 10 000 prospects ne convertiront pas."
+  },
+  {
+    q: "Quelle part de chiffre d'affaires Tarik recommande-t-il d'accorder à un partenaire qui apporte des ventes ?",
+    o: ["10 %", "20 %", "Au moins 50 %", "Rien : un partenariat doit être gratuit"],
+    a: 2,
+    f: "Au moins 50 %, sans tergiverser. C'est une marque de respect et c'est très convaincant : un partenaire capable d'apporter du volume ne bouge pas en dessous. La vraie valeur se fait de toute façon sur la deuxième vente."
+  },
+  {
+    q: "Pourquoi le référencement naturel redevient-il prioritaire, alors qu'il ne l'était plus depuis des années ?",
+    o: [
+      "Parce que la publicité en ligne est devenue impossible",
+      "Parce que Google AI Overview et les LLM citent et renvoient vers les contenus bien classés",
+      "Parce que les réseaux sociaux ne fonctionnent plus du tout",
+      "Parce que WordPress est redevenu performant"
+    ],
+    a: 1,
+    f: "Le résumé IA de Google s'affiche en premier avec des liens cliquables, et les LLM s'appuient sur les mêmes sources. À cela s'ajoute la qualité d'intention : quelqu'un qui tape une requête exprime un besoin précis."
+  },
+  {
+    q: "Quel est l'objectif réel d'un appel de prospection à froid, selon la trame proposée ?",
+    o: [
+      "Conclure la vente pendant l'appel",
+      "Présenter en détail le programme de la formation",
+      "Identifier si le problème existe, puis obtenir une adresse e-mail pour envoyer une plaquette",
+      "Obtenir un rendez-vous physique dans les 48 heures"
+    ],
+    a: 2,
+    f: "« Je n'ai rien à vous vendre aujourd'hui, je veux juste savoir si vous avez le problème. » On laisse ensuite l'initiative du retour à l'interlocuteur — ce qui le rassure et vous positionne en conseiller de confiance."
+  }
+];
+
+var answered = 0, correct = 0;
+var body = document.getElementById('quiz-body');
+
+QUESTIONS.forEach(function(item, qi){
+  var d = document.createElement('div');
+  d.className = 'q';
+  var t = document.createElement('div');
+  t.className = 'qt';
+  t.textContent = (qi+1) + '. ' + item.q;
+  d.appendChild(t);
+  var fb = document.createElement('div');
+  fb.className = 'fb';
+  item.o.forEach(function(opt, oi){
+    var b = document.createElement('button');
+    b.className = 'opt';
+    b.type = 'button';
+    b.textContent = String.fromCharCode(65+oi) + '. ' + opt;
+    b.addEventListener('click', function(){
+      if (d.dataset.done) return;
+      d.dataset.done = '1';
+      answered++;
+      var btns = d.querySelectorAll('.opt');
+      btns.forEach(function(x, xi){
+        x.classList.add('done');
+        if (xi === item.a) x.classList.add('ok');
+        else if (xi === oi) x.classList.add('no');
+      });
+      if (oi === item.a) correct++;
+      fb.textContent = (oi === item.a ? '✅ Correct — ' : '❌ ') + item.f;
+      fb.style.display = 'block';
+      if (answered === QUESTIONS.length) {
+        var s = document.getElementById('score');
+        var msg = correct === QUESTIONS.length ? 'Parfait, tout est acquis.' :
+                  correct >= 3 ? 'Bien joué — une relecture des sections concernées et c\'est bouclé.' :
+                  'À revoir : reprends le sommaire section par section.';
+        s.textContent = 'Score : ' + correct + ' / ' + QUESTIONS.length + ' — ' + msg;
+        s.style.display = 'block';
+      }
+    });
+    d.appendChild(b);
+  });
+  d.appendChild(fb);
+  body.appendChild(d);
+});
+</script>
+</body>
+</html>

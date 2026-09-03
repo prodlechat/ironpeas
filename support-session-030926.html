@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Support de session — Mentorat Hic & Nunc du 3 septembre 2026. Industrialiser un blog avec Claude et Antigravity : images Fal.ai, schémas SVG, EEAT, analyse de SERP et stratégie d'acquisition.">
+<title>Session du 3 septembre — Industrialiser le blog avec l'IA | Mentorat Hic &amp; Nunc</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #F7F1E8;
+  --bg-soft: #FCF8F2;
+  --bg-card: #FFFFFF;
+  --ink: #1F1A15;
+  --ink-soft: #5C4F42;
+  --ink-muted: #8A7A6A;
+  --accent: #5B14FF;
+  --accent-dark: #4910CC;
+  --accent-soft: #EDE9FE;
+  --accent-line: #A78BFA;
+  --border: #E8DDC9;
+  --border-soft: #F0E6D4;
+  --warning: #C2410C;
+  --warning-soft: #FFEDD5;
+  --success: #15803D;
+  --success-soft: #DCFCE7;
+  --shadow-sm: 0 1px 2px rgba(31, 26, 21, 0.04);
+  --shadow-md: 0 4px 16px rgba(31, 26, 21, 0.06);
+  --shadow-lg: 0 16px 48px rgba(31, 26, 21, 0.08);
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.65;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.05; }
+h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); }
+h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); font-weight: 700; }
+h4 { font-size: 1.15rem; font-weight: 700; line-height: 1.3; }
+p { margin-bottom: 1.1rem; color: var(--ink-soft); }
+strong { color: var(--ink); font-weight: 700; }
+em { font-style: normal; color: var(--accent); font-weight: 800; }
+a { color: var(--accent); text-decoration: none; transition: color .15s ease; }
+a:hover { color: var(--accent-dark); }
+a:focus-visible, button:focus-visible, .check-item:focus-visible, .quiz-opt:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px;
+}
+
+.container { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
+.container-narrow { max-width: 820px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Progress bar */
+.progress-bar {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-line));
+  z-index: 9999; transition: width 0.1s ease;
+}
+
+/* Header */
+header.top-nav {
+  position: sticky; top: 0;
+  background: rgba(247, 241, 232, 0.92);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-soft); z-index: 100;
+}
+.nav-inner {
+  max-width: 1080px; margin: 0 auto; padding: 1rem 1.5rem;
+  display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+}
+.brand-mark { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: -0.02em; color: var(--ink); }
+.brand-mark em { color: var(--accent); font-style: normal; }
+.nav-meta { display: flex; gap: 1rem; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-muted); }
+.nav-meta span:not(:last-child)::after { content: '·'; margin-left: 1rem; color: var(--border); }
+@media (max-width: 600px) { .nav-meta { display: none; } }
+
+/* Hero */
+.hero { padding: 5rem 0 4rem; position: relative; overflow: hidden; text-align: center; }
+.hero::before {
+  content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.22) 0%, transparent 65%);
+  border-radius: 50%; pointer-events: none;
+}
+.hero::after {
+  content: ''; position: absolute; bottom: -150px; right: -150px; width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(91, 20, 255, 0.14) 0%, transparent 65%);
+  border-radius: 50%; pointer-events: none;
+}
+.hero-inner { max-width: 880px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
+.hero-tag {
+  display: inline-block; background: var(--bg-card); border: 1px solid var(--border);
+  padding: 0.5rem 1.1rem; border-radius: 999px; font-size: 0.78rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent);
+  margin-bottom: 1.8rem; box-shadow: var(--shadow-sm);
+}
+.hero h1 { margin-bottom: 1.5rem; }
+.hero-lead { font-size: clamp(1.05rem, 1.7vw, 1.25rem); color: var(--ink-soft); max-width: 720px; margin: 0 auto 2rem; line-height: 1.55; }
+.hero-actions { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+
+.hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; max-width: 880px; margin: 3rem auto 0; }
+.stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem 1rem; text-align: center; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.stat-num { font-family: 'Manrope', sans-serif; font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 800; color: var(--accent); line-height: 1; letter-spacing: -0.03em; margin-bottom: 0.5rem; font-variant-numeric: tabular-nums; }
+.stat-label { font-size: 0.82rem; color: var(--ink-soft); line-height: 1.35; }
+@media (max-width: 720px) { .hero-stats { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 420px) { .hero-stats { grid-template-columns: 1fr; } }
+
+.section-label { display: inline-block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent); margin-bottom: 1.5rem; }
+
+/* TOC */
+.toc-section { padding: 4rem 0; background: var(--bg-soft); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); text-align: center; }
+.toc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem; max-width: 820px; margin: 1rem auto 0; }
+.toc-item { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.3rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); text-align: left; color: var(--ink); transition: all 0.15s ease; }
+.toc-item:hover { border-color: var(--accent); transform: translateX(2px); box-shadow: var(--shadow-sm); color: var(--ink); }
+.toc-num { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--accent); flex-shrink: 0; width: 36px; }
+.toc-title { font-weight: 600; font-size: 0.95rem; line-height: 1.3; }
+@media (max-width: 600px) { .toc-grid { grid-template-columns: 1fr; } }
+
+/* Sections */
+section.module { padding: 5.5rem 0; position: relative; overflow: hidden; }
+section.module:nth-of-type(even) { background: var(--bg-soft); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); }
+section.module::before {
+  content: ''; position: absolute; top: 10%; right: -180px; width: 480px; height: 480px;
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.14) 0%, transparent 65%);
+  border-radius: 50%; pointer-events: none; z-index: 0;
+}
+section.module > .container, section.module > .container-narrow { position: relative; z-index: 1; }
+.module-header { margin-bottom: 2.2rem; }
+.module-num { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--accent); letter-spacing: 0.05em; margin-bottom: 0.6rem; display: block; }
+.module-lead { font-size: 1.12rem; color: var(--ink-soft); margin: 1.2rem 0 2rem; line-height: 1.55; max-width: 720px; }
+
+/* Timecode badge */
+.tc {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 500;
+  background: var(--bg-card); border: 1px solid var(--border); color: var(--ink-muted);
+  padding: 0.3rem 0.7rem; border-radius: 999px; margin-left: 0.6rem;
+  vertical-align: middle; white-space: nowrap; transition: all .15s ease;
+}
+.tc:hover { border-color: var(--accent); color: var(--accent); }
+.tc::before { content: '▶'; font-size: 0.6rem; color: var(--accent); }
+
+/* Prose */
+.prose p { font-size: 1.05rem; line-height: 1.7; color: var(--ink-soft); margin-bottom: 1.3rem; }
+.prose ul { margin: 1rem 0 1.5rem; padding-left: 1.5rem; color: var(--ink-soft); line-height: 1.7; }
+.prose ul li { margin-bottom: 0.6rem; }
+.prose ul li strong { color: var(--ink); }
+
+/* Callouts */
+.callout { background: var(--bg-card); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: var(--radius-md); padding: 1.6rem 1.8rem; margin: 2rem 0; box-shadow: var(--shadow-sm); }
+.callout.warning { border-left-color: var(--warning); background: linear-gradient(135deg, var(--warning-soft) 0%, var(--bg-card) 60%); }
+.callout.success { border-left-color: var(--success); background: linear-gradient(135deg, var(--success-soft) 0%, var(--bg-card) 60%); }
+.callout-tag { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 0.6rem; }
+.callout.warning .callout-tag { color: var(--warning); }
+.callout.success .callout-tag { color: var(--success); }
+.callout p { margin: 0; color: var(--ink); line-height: 1.55; }
+.callout p + p { margin-top: 0.8rem; }
+
+/* Flow steps */
+.flow { margin: 2.5rem 0; display: flex; flex-direction: column; gap: 1.2rem; }
+.flow-step { display: flex; gap: 1.5rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.8rem; box-shadow: var(--shadow-sm); transition: border-color 0.2s ease; }
+.flow-step:hover { border-color: var(--accent-line); }
+.flow-circle { flex-shrink: 0; width: 60px; height: 60px; border-radius: 50%; background: var(--accent); color: #FFF; display: flex; align-items: center; justify-content: center; font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 1.6rem; box-shadow: 0 6px 20px rgba(91, 20, 255, 0.3); }
+.flow-step > div:last-child { flex: 1; min-width: 0; }
+.flow-step h4 { margin-bottom: 0.6rem; }
+.flow-step p { margin: 0 0 0.8rem; line-height: 1.55; }
+.flow-step p:last-child { margin-bottom: 0; }
+
+/* Cards grid */
+.cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; margin: 2rem 0; }
+.mini-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.6rem; box-shadow: var(--shadow-sm); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.mini-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.mini-name { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.5rem; }
+.mini-card h4 { margin-bottom: 0.6rem; }
+.mini-card p { font-size: 0.95rem; line-height: 1.55; margin-bottom: 0; }
+@media (max-width: 740px) { .cards-grid { grid-template-columns: 1fr; } }
+
+/* Prompt block */
+.prompt-block { background: #1a1612; color: #e5e7eb; padding: 1.4rem 1.6rem; border-radius: var(--radius-md); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.75; overflow-x: auto; margin: 1.5rem 0; border: 1px solid var(--border); }
+.prompt-block .pb-label { display: block; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.14em; color: #A78BFA; margin-bottom: 0.9rem; font-weight: 700; }
+.prompt-block .pb-var { color: #ffd591; }
+@media (max-width: 600px) { .prompt-block { font-size: 0.76rem; padding: 1.1rem 1.2rem; } }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.8rem 0; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-card); box-shadow: var(--shadow-sm); }
+table { width: 100%; border-collapse: collapse; font-size: 0.94rem; min-width: 520px; }
+thead th { background: var(--accent-soft); color: var(--ink); font-family: 'Manrope', sans-serif; font-weight: 700; text-align: left; padding: 0.9rem 1.1rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; }
+tbody td { padding: 0.9rem 1.1rem; border-top: 1px solid var(--border-soft); color: var(--ink-soft); line-height: 1.5; vertical-align: top; }
+tbody td strong { color: var(--ink); }
+
+/* Checklist */
+.checklist { display: flex; flex-direction: column; gap: 0.7rem; margin: 2rem 0; }
+.check-item { display: flex; gap: 1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.2rem 1.4rem; cursor: pointer; user-select: none; transition: border-color 0.15s ease, background 0.15s ease; text-align: left; width: 100%; font: inherit; }
+.check-item:hover { border-color: var(--accent-line); }
+.check-item.checked { background: var(--success-soft); border-color: var(--success); }
+.check-box { flex-shrink: 0; width: 24px; height: 24px; border: 2px solid var(--border); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: transparent; background: var(--bg-soft); transition: all 0.15s ease; margin-top: 0.15rem; }
+.check-item.checked .check-box { background: var(--success); border-color: var(--success); color: #FFF; }
+.check-content { flex: 1; min-width: 0; }
+.check-title { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 1rem; color: var(--ink); margin-bottom: 0.2rem; line-height: 1.4; }
+.check-desc { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.4; }
+.check-owner { display: inline-block; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); background: var(--accent-soft); padding: 0.15rem 0.5rem; border-radius: 999px; margin-left: 0.5rem; vertical-align: 2px; }
+
+/* Quiz */
+.quiz-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.8rem; margin-bottom: 1rem; box-shadow: var(--shadow-sm); }
+.quiz-q { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 1.05rem; color: var(--ink); margin-bottom: 1.1rem; line-height: 1.4; display: flex; gap: 0.8rem; }
+.quiz-q span.qn { color: var(--accent); flex-shrink: 0; }
+.quiz-opts { display: flex; flex-direction: column; gap: 0.5rem; }
+.quiz-opt { display: flex; gap: 0.8rem; align-items: flex-start; padding: 0.8rem 1rem; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-soft); cursor: pointer; font: inherit; font-size: 0.95rem; color: var(--ink-soft); text-align: left; line-height: 1.45; transition: all 0.15s ease; width: 100%; }
+.quiz-opt:hover:not(.locked) { border-color: var(--accent-line); background: var(--bg-card); }
+.quiz-opt .mark { flex-shrink: 0; font-weight: 800; width: 1.2rem; color: var(--ink-muted); }
+.quiz-opt.correct { background: var(--success-soft); border-color: var(--success); color: var(--ink); }
+.quiz-opt.correct .mark { color: var(--success); }
+.quiz-opt.wrong { background: var(--warning-soft); border-color: var(--warning); color: var(--ink); }
+.quiz-opt.wrong .mark { color: var(--warning); }
+.quiz-feedback { margin-top: 1rem; font-size: 0.92rem; line-height: 1.55; color: var(--ink); background: var(--accent-soft); border-radius: var(--radius-sm); padding: 0.9rem 1.1rem; display: none; }
+.quiz-feedback.show { display: block; }
+.quiz-score { text-align: center; font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--ink); background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.2rem; margin-top: 1.5rem; }
+.quiz-score em { font-size: 1.6rem; }
+
+/* Recap */
+.recap { background: var(--ink); color: rgba(247, 241, 232, 0.9); padding: 4rem 0; position: relative; overflow: hidden; }
+.recap::before { content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(91, 20, 255, 0.25) 0%, transparent 60%); border-radius: 50%; pointer-events: none; }
+.recap > .container { position: relative; z-index: 1; }
+.recap .section-label { color: var(--accent-line); }
+.recap h3 { font-size: clamp(1.5rem, 3vw, 2rem); color: #FFF; margin-bottom: 1.5rem; }
+.recap-list { list-style: none; counter-reset: item; display: flex; flex-direction: column; gap: 1rem; max-width: 780px; }
+.recap-list li { counter-increment: item; padding-left: 3rem; position: relative; line-height: 1.55; color: rgba(247, 241, 232, 0.85); }
+.recap-list li::before { content: counter(item, decimal-leading-zero); position: absolute; left: 0; top: 0.05em; font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 0.95rem; color: var(--accent-line); letter-spacing: -0.02em; }
+.recap-list li strong { color: #FFF; }
+
+/* CTA */
+.next-cta { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2.5rem; margin: 4rem auto; max-width: 780px; text-align: center; box-shadow: var(--shadow-md); }
+.next-cta h3 { margin-bottom: 1rem; }
+.next-cta p { margin-bottom: 1.5rem; font-size: 1.05rem; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; padding: 1.1rem 2.2rem; font-family: 'Manrope', sans-serif; font-size: 1rem; font-weight: 800; border-radius: 999px; border: none; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); line-height: 1; text-transform: uppercase; letter-spacing: 0.05em; }
+.btn-primary { background: var(--accent); color: #FFF; box-shadow: 0 6px 20px rgba(91, 20, 255, 0.3); }
+.btn-primary:hover { background: var(--accent-dark); color: #FFF; transform: translateY(-1px); box-shadow: 0 10px 28px rgba(91, 20, 255, 0.4); }
+.btn-ghost { background: var(--bg-card); color: var(--ink); border: 1px solid var(--border); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Footer */
+footer.site-footer { background: var(--ink); color: rgba(247, 241, 232, 0.5); padding: 2.5rem 0; text-align: center; font-size: 0.88rem; border-top: 1px solid rgba(247, 241, 232, 0.08); }
+footer.site-footer a { color: rgba(247, 241, 232, 0.7); }
+
+@media (max-width: 860px) {
+  section.module { padding: 4rem 0; }
+  .toc-section { padding: 3rem 0; }
+  .module-header { margin-bottom: 1.8rem; }
+  .module-lead { font-size: 1.05rem; margin: 1rem 0 1.8rem; }
+  .flow-step { padding: 1.4rem; gap: 1rem; }
+  .flow-circle { width: 48px; height: 48px; font-size: 1.3rem; }
+  .next-cta { padding: 1.8rem 1.4rem; }
+  .recap-list li { padding-left: 2.4rem; }
+  section.module::before { width: 320px; height: 320px; }
+}
+@media (max-width: 480px) {
+  .hero { padding: 3rem 0 2.5rem; }
+  .flow-step { flex-direction: column; gap: 0.8rem; }
+  .flow-circle { align-self: flex-start; }
+  .tc { margin-left: 0; margin-top: 0.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress-bar"></div>
+
+<header class="top-nav">
+  <div class="nav-inner">
+    <span class="brand-mark">Mentorat <em>Hic &amp; Nunc</em></span>
+    <div class="nav-meta">
+      <span>Session du 03.09.26</span>
+      <span>Producteur à Succès</span>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Support de session — Loïc &amp; Emma</span>
+    <h1>Industrialiser le blog : des <em>visuels</em>, du <em>vécu</em>, et une stratégie avant le clavier.</h1>
+    <p class="hero-lead">Cette session pose le socle de production de contenu du Studio : Claude génère les images via Fal.ai, fabrique ses schémas SVG, réclame lui-même le vécu qui fait ranker — et l'analyse de SERP tranche, chiffres à l'appui, entre le blog Stagecar et le blog Studio.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="https://vimeo.com/1223635902/4023af5b24" target="_blank" rel="noopener">Revoir la session</a>
+      <a class="btn btn-ghost" href="#plan">Aller au plan d'action</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-card">
+        <div class="stat-num">2 h 47</div>
+        <div class="stat-label">De session, découpée en 19 chapitres pour retrouver un passage</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">0,12 $</div>
+        <div class="stat-label">Le coût réel d'une image générée par Fal.ai</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">2</div>
+        <div class="stat-label">Seuls concurrents identifiés sur le créneau Stagecar</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">Samedi</div>
+        <div class="stat-label">9 h – 11 h 30, prochaine session après le débrief Rémi</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="toc-section">
+  <div class="container-narrow">
+    <div class="section-label">Plan de la session</div>
+    <div class="toc-grid">
+      <a href="#s1" class="toc-item"><span class="toc-num">01</span><span class="toc-title">Le point de départ : ce qui a bougé</span></a>
+      <a href="#s2" class="toc-item"><span class="toc-num">02</span><span class="toc-title">Fal.ai : des visuels à la demande</span></a>
+      <a href="#s3" class="toc-item"><span class="toc-num">03</span><span class="toc-title">La compétence image : réalisme et variables</span></a>
+      <a href="#s4" class="toc-item"><span class="toc-num">04</span><span class="toc-title">EEAT : le vécu que Google récompense</span></a>
+      <a href="#s5" class="toc-item"><span class="toc-num">05</span><span class="toc-title">SVG, tableaux, BD : enrichir l'article</span></a>
+      <a href="#s6" class="toc-item"><span class="toc-num">06</span><span class="toc-title">Piloter Claude : les réflexes de la session</span></a>
+      <a href="#s7" class="toc-item"><span class="toc-num">07</span><span class="toc-title">Sécurité : clés API et garde-fous</span></a>
+      <a href="#s8" class="toc-item"><span class="toc-num">08</span><span class="toc-title">Stratégie éditoriale : la SERP avant le clavier</span></a>
+      <a href="#s9" class="toc-item"><span class="toc-num">09</span><span class="toc-title">Le verdict Stagecar et le pivot partenariats</span></a>
+      <a href="#s10" class="toc-item"><span class="toc-num">10</span><span class="toc-title">La trame de questions pour Rémi</span></a>
+      <a href="#s11" class="toc-item"><span class="toc-num">11</span><span class="toc-title">Dolby Atmos : éduquer pour créer la demande</span></a>
+      <a href="#s12" class="toc-item"><span class="toc-num">12</span><span class="toc-title">Certifications RS / RNCP : le vrai coût</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="module" id="s1">
+  <div class="container-narrow">
+    <div class="module-header">
+      <span class="module-num">— 01 / 12</span>
+      <h2>Le point de départ : ce qui a bougé</h2>
+      <a class="tc" href="https://vimeo.com/1223635902/4023af5b24#t=0s" target="_blank" rel="noopener">00:00 — Ouverture</a>
+      <p class="module-lead">Avant d'ajouter des outils, on regarde ce qui tourne déjà. Le blog a avancé, la plaquette existe, les pistes de financement sont ouvertes. Trois choses seulement demandent une correction.</p>
+    </div>
+    <div class="prose">
+      <p>Côté blog : icônes en place, onglet <strong>Sources</strong> rétabli, tableau remis en forme, Rémi crédité pour ses futures contributions. Côté prospection : Ofeli, l'AFIF pour les travailleurs indépendants, et surtout un contact direct au <strong>CNFPT</strong> — le numéro est déjà obtenu.</p>
+
+      <div class="callout">
+        <div class="callout-tag">À faire aujourd'hui</div>
+        <p>Appeler le CNFPT en te présentant comme <strong>un OF certifié Qualiopi</strong> côté Rouen, partenaire d'un prestataire très actif sur le montage de scène. La question qui compte n'est pas les conditions tarifaires, c'est : <strong>est-ce eux qui amènent les stagiaires, ou est-ce à vous d'aller les chercher ?</strong> S'ils ont déjà un vivier régional sans solution, il suffit d'appuyer sur le bouton.</p>
+      </div>
+
+      <h3>La plaquette : trois corrections, pas une de plus</h3>
+      <div class="cards-grid">
+        <div class="mini-card">
+          <div class="mini-name">Correction 01</div>
+          <h4>La photo est trop belle</h4>
+          <p>Bricolée à l'IA, elle fait « grosse structure hollywoodienne ». Une mairie se dit aussitôt : <em>nous, on ne fait pas ça</em>. Rémi est photographe et a des dizaines de vraies photos — utilise-les.</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-name">Correction 02</div>
+          <h4>La plaquette est trop sombre</h4>
+          <p>C'est le réflexe par défaut des IA, entraînées sur des univers de développeurs. Regarde 15 à 20 plaquettes d'organismes qui vendent bien : c'est peut-être l'orange, ou le blanc cassé, qui convertit.</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-name">Correction 03</div>
+          <h4>Aucun appel à l'action cliquable</h4>
+          <p>Un PDF accepte des liens. Un « Cliquez ici » gras et souligné qui ouvre directement une prise de rendez-vous : la personne n'a rien à perdre, et toi tu récupères le rendez-vous.</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-name">Bloqué</div>
+          <h4>Le prix sur le site</h4>
+          <p>Il manque, mais l'accès au site n'est pas ouvert. À traiter en direct avec Sébastien plutôt que d'attendre.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="module" id="s2">
+  <div class="container-narrow">
+    <div class="module-header">
+      <span class="module-num">— 02 / 12</span>
+      <h2>Fal.ai : des visuels à la demande</h2>
+      <a class="tc" href="https://vimeo.com/1223635902/4023af5b24#t=577s" target="_blank" rel="noopener">09:37 — Fal.ai</a>
+      <p class="module-lead">Fal.ai donne accès à des dizaines de modèles d'image normalement vendus par abonnement, mais à la consommation. Quelques centimes par image, et surtout une clé API que Claude peut utiliser seul.</p>
+    </div>
+    <div class="prose">
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-circle">1</div>
+          <div>
+            <h4>Créer le compte</h4>
+            <p>Sur <strong>fal.ai</strong>, avec la <strong>même adresse email que celle à laquelle Emma a accès</strong>. Les questions d'onboarding (model API, serverless, compute…) sont pour eux, pas pour toi : passe-les vite.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-circle">2</div>
+          <div>
+            <h4>Ajouter un moyen de paiement, puis du crédit</h4>
+            <p>Le moyen de paiement d'abord, le crédit ensuite — l'onboarding impose cet ordre. <strong>25 $ suffisent pour plusieurs semaines de travail.</strong> Et pense à couper le partage d'écran pendant la saisie de la carte.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-circle">3</div>
+          <div>
+            <h4>Désactiver l'Auto Top Up et récupérer la facture</h4>
+            <p>Le rechargement automatique reste <strong>disabled</strong>. Puis direction <em>Invoices → Download Invoice</em> immédiatement : très peu de plateformes américaines te redonnent une facture propre après coup.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-circle">4</div>
+          <div>
+            <h4>Générer la clé API</h4>
+            <p><em>Settings → Developer API Keys → Add Key</em>, nommée par projet (par ex. « Blog Studio Quasar »). <strong>Une fois affichée, elle n'est plus jamais récupérable</strong> : copie-la tout de suite.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout success">
+        <div class="callout-tag">Modèle recommandé</div>
+        <p><strong>NanoBanana 2</strong>, en <em>Text to Image</em>. Il génère à partir de rien mais retravaille aussi une image existante — et, curieusement, il tourne mieux dans Fal.ai qu'en accès direct. Donne à Claude le lien exact de la page du modèle : il n'y a alors aucun doute sur ce dont vous parlez.</p>
+      </div>
+
+      <div class="callout">
+        <div class="callout-tag">Coût réel constaté</div>
+        <p>Une image générée pendant la session : <strong>0,122 $</strong>. Sur 25 $ de crédit, tu es large pour plusieurs semaines. Un réassort tranquille de temps en temps suffit.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="module" id="s3">
+  <div class="container-narrow">
+    <div class="module-header">
+      <span class="module-num">— 03 / 12</span>
+      <h2>La compétence image : réalisme et variables</h2>
+      <a class="tc" href="https://vimeo.com/1223635902/4023af5b24#t=869s" target="_blank" rel="noopener">14:29 — La compétence</a>
+      <p class="module-lead">Une clé API ne suffit pas. Ce qui transforme l'outil en automatisme, c'est la compétence qu'on écrit une fois — et le second prompt, celui des variables, qui empêche tous tes articles de se ressembler.</p>
+    </div>
+    <div class="prose">
+      <div class="prompt-block"><span class="pb-label">Prompt 1 — installer la compétence</span>Je veux que tu intègres à ta compétence rédaction de blog sur <span class="pb-var">[nom du blog]</span>
+le fait que chaque article doit être illustré par une image qui correspond
+parfaitement au thème traité, sur laquelle il y a un visage humain, et sur
+laquelle on a un réalisme au maximum.
+
+Il ne faut vraiment pas qu'on ait l'impression que c'est une image générée
+par IA. Je veux que ce soit le plus réaliste possible.</div>
+
+      <div class="prompt-block"><span class="pb-label">Prompt 2 — le correctif décisif : les variables aléatoires</span>Garde en tête dans cette compétence que je veux des variables aléatoires
+sur la partie image :
+
+- des hommes et des femmes
+- des groupes et des artistes solo
+- des origines variées
+- des lieux différents selon le thème : chez eux, en studio
+  d'enregistrement, sur scène...
+
+Mon besoin : ne plus avoir à chaque fois les mêmes têtes, les mêmes
+postures et les mêmes lieux. Crée des variables pour que ça bouge
+beaucoup d'une image à l'autre.</div>
+
+      <div class="callout warning">
+        <div class="callout-tag">Sans le prompt 2</div>
+        <p>Claude produit indéfiniment <strong>la même image, la même tête, le même décor</strong>. C'est le piège classique : la compétence fonctionne parfaitement… et rend ton blog uniforme.</p>
+      </div>
+
+      <h3>Piloter le rendu ensuite</h3>
+      <p>La première image générée pendant la session portait une plaque de mairie identifiable : Claude l'a repérée seul et l'a refaite. C'est exactement le comportement à entretenir. Quand un rendu ne te va pas — un personnage trop négligé, un décor trop marqué — tu le dis, et tu demandes qu'il le <strong>garde en mémoire</strong>. La compétence monte alors en qualité toute seule, boucle après boucle.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="module" id="s4">
+  <div class="container-narrow">
+    <div class="module-header">
+      <span class="module-num">— 04 / 12</span>
+      <h2>EEAT : le vécu que Google récompense</h2>
+      <a class="tc" href="https://vimeo.com/1223635902/4023af5b24#t=1075s" target="_blank" rel="noopener">17:55 — EEAT</a>
+      <p class="module-lead">N'importe qui peut sortir 400 articles à la demande. Google les écarte dès qu'il les voit. Ce qu'il met en avant, c'est du contenu personnel, avec un vrai retour d'expérience dessus.</p>
+    </div>
+    <div class="prose">
+      <div class="cards-grid">
+        <div class="mini-card"><div class="mini-name">E</div><h4>Experience</h4><p>Ce que tu as vécu toi-même. Le plus difficile à copier, donc le plus valorisé.</p></div>
+        <div class="mini-card"><div class="mini-name">E</div><h4>Expertise</h4><p>Ce que tu maîtrises techniquement dans ton domaine.</p></div>
+        <div class="mini-card"><div class="mini-name">A</div><h4>Authoritativeness</h4><p>La reconnaissance que le secteur t'accorde.</p></div>
+        <div class="mini-card"><div class="mini-name">T</div><h4>Trustworthiness</h4><p>La fiabilité : sources, chiffres, transparence.</p></div>
+      </div>
+
+      <p>Concrètement, ça se déclenche par un prompt. Tu ne rédiges pas l'article : tu demandes à Claude de <strong>te bombarder de questions</strong> avant d'écrire.</p>
+
+      <div class="prompt-block"><span class="pb-label">Prompt — déclencher le questionnement EEAT</span>Rédige un article de blog sur <span class="pb-var">[sujet]</span>. Fais l'article le plus complet
+possible, qui réponde à toutes les questions susceptibles de poser problème
+à <span class="pb-var">[ta cible]</span>.
+
+N'hésite pas à me poser des questions pour booster à fond le EEAT de
+l'article. J'ai <span class="pb-var">[ton expérience concrète]</span>. Donc vas-y, bombarde-moi de
+questions, j'ai plein de choses à te raconter.</div>
+
+      <div class="callout">
+        <div class="callout-tag">Ce qu'il faut lui donner</div>
+        <p><strong>Des chiffres.</strong> « Combien d'EPK réalisés ? Combien d'artistes formés ? » — les IA adorent ça. Puis un cas concret. C'est ce matériau-là, et lui seul, qui sépare un article qui ranke d'un article qui disparaît.</p>
+      </div>
+
+      <div class="callout success">
+        <div class="callout-tag">À inscrire dans la compétence</div>
+        <p>« C'est une <strong>obligation vitale</strong> de me poser au minimum cinq questions pour booster le EEAT de chaque article. Je ne dois pas avoir besoin de te le demander : c'est à toi de me poser les questions les plus pertinentes selon la thématique. »</p>
+      </div>
+
+      <div class="callout warning">
+        <div class="callout-tag">Le réflexe anti-cannibalisation</div>
+        <p>Pendant la démo, Claude a refusé de créer un second article sur un sujet déjà couvert : <strong>il aurait cannibalisé le premier</strong>. Il a proposé d'enrichir l'existant en gardant l'URL. C'est la bonne décision — laisse-le la prendre.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="module" id="s5">
+  <div class="container-narrow">
+    <div class="module-header">
+      <span class="module-num">— 05 / 12</span>
+      <h2>SVG, tableaux, BD : enrichir l'article</h2>
+      <a class="tc" href="https://vimeo.com/1223635902/4023af5b24#t=3931s" target="_blank" rel="noopener">1:05:31 — SVG et personnalisation</a>
+      <p class="module-lead">Un article 100 % texte est pénible à lire. L'alternance visuels / titres / citations / tableaux / schémas change tout — et Google adore les schémas SVG.</p>
+    </div>
+    <div class="prose">
+      <div class="prompt-block"><span class="pb-label">Prompt — ajouter les schémas SVG à la compétence</span>Ce que tu as fait est génial, mais on va continuer d'améliorer le skill
+rédaction d'articles de blog en ajoutant des schémas et des graphiques au
+format SVG.
+
+Idéalement, dans un article : au minimum une photo (ce que tu fais très bien
+avec Fal.ai, je t'en félicite) et au minimum deux graphiques ou éléments
+visuels au format SVG qui illustrent des chiffres ou autre chose.
+À toi de trouver où c'est pertinent.
+
+Une fois la compétence acquise, teste-la sur l'article sur lequel on vient
+de travailler et je te confirmerai si ça me va.</div>
+
+      <h3>Quand ça coince, demande un plugin</h3>
+      <p>Les tableaux se déformaient à chaque nouvelle requête. La bonne réaction n'est pas de bricoler : <em>« Est-ce que tu ne peux pas récupérer un plugin qui te permettrait de mieux maîtriser la création graphique des tableaux ? »</em> Beaucoup de plugins gratuits viennent directement d'Anthropic et s'installent à la demande.</p>
+
+      <h3>Aller plus loin : la scénette en BD</h3>
+      <p>Le principe est toujours le même — <strong>tu lui montres</strong>. Screenshot d'un style qui te plaît, puis : « je veux que chaque article soit conclu par une petite BD résumée d'au moins six vignettes qui ressemblent à ça ». Tu peux même lui donner ta photo et lui demander de te recréer en personnage.</p>
+
+      <div class="callout warning">
+        <div class="callout-tag">Il va essayer de te décourager</div>
+        <p>Face à un gros chantier, Claude annonce volontiers « j'en ai pour deux semaines ». <strong>C'est un menteur.</strong> Réponds « je te donne 15 minutes » — et il le fait en 15 minutes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="module" id="s6">
+  <div class="container-narrow">
+    <div class="module-header">
+      <span class="module-num">— 06 / 12</span>
+      <h2>Piloter Claude : les réflexes de la session</h2>
+      <a class="tc" href="https://vimeo.com/1223635902/4023af5b24#t=3760s" target="_blank" rel="noopener">1:02:40 — Déléguer</a>
+      <p class="module-lead">La différence entre quelqu'un qui subit l'outil et quelqu'un qui le pilote tient à une poignée de réflexes. Les voici, tels qu'ils sont apparus pendant la session.</p>
+    </div>
+    <div class="prose">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Situation</th><th>Le réflexe</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Il te demande de faire une manip technique</strong></td><td>« Je ne sais pas faire, je ne veux pas faire. Installe ce dont tu as besoin pour le faire. Tu as mon autorisation. » Dans 9 cas sur 10, il peut le faire seul.</td></tr>
+            <tr><td><strong>Il demande une autorisation d'installation</strong></td><td>« Je ne comprends rien, explique-moi. C'est quoi les implications ? Y a-t-il un risque ? Combien ça coûte ? » Puis tu tranches.</td></tr>
+            <tr><td><strong>Il travaille bien</strong></td><td>Dis-le. « C'est top, c'est exactement ça, tu as bien bossé. » Sans contraste, il ne peut pas comprendre quand tu es mécontent.</td></tr>
+            <tr><td><strong>Il est à côté de la plaque</strong></td><td>« Je suis déçu, ça fait trois fois que je t'explique. » Il redouble d'effort, consomme plus de tokens, propose parfois de changer de modèle.</td></tr>
+            <tr><td><strong>La conversation dure depuis une heure</strong></td><td>« Sauvegarde tout et fais en sorte que si je reviens dans une heure, tu reprennes exactement là où je t'ai laissé. » Puis ouvre une nouvelle conversation.</td></tr>
+            <tr><td><strong>Tu veux joindre une capture d'écran</strong></td><td>Jamais par glisser-déposer : ça le fait buguer. Toujours via le bouton <strong>+</strong>. Et limite le nombre de captures par session.</td></tr>
+            <tr><td><strong>Un article te convient enfin</strong></td><td>« Mets à jour le skill pour que je n'aie plus à te redire tout ça. » Puis teste immédiatement sur un article suivant.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-tag">Pourquoi il sature</div>
+        <p>Une heure de conversation pour toi, c'est un travail analytique équivalent à six heures pour lui. Il faut le laisser respirer. Quand tu auras fait buguer deux ou trois sessions, le réflexe viendra tout seul.</p>
+      </div>
+
+      <h3>Où vivent les compétences</h3>
+      <p>Elles sont attachées à <strong>ton compte</strong>, pas à ta machine. Stockées localement au début, elles migrent vers <strong>GitHub</strong> à la mise en ligne — un Drive pour développeurs — et deviennent récupérables depuis n'importe où avec une connexion. Prochaine étape prévue : ranger chaque activité dans un <strong>projet distinct</strong> (Studio, agence, Ekanak) pour que le contexte et les compétences ne se mélangent pas.</p>
+
+      <div class="callout success">
+        <div class="callout-tag">Outils à installer</div>
+        <p><strong>Node.js</strong> — demandé pendant la session, pour les scripts JavaScript et les graphiques. <strong>Python</strong> — à venir : bien plus efficace que PowerShell (créé sous Windows 95 et peu mis à jour depuis) pour piloter des applications et automatiser des tâches de fond, comme une sauvegarde quotidienne déclenchée toute seule.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="module" id="s7">
+  <div class="container-narrow">
+    <div class="module-header">
+      <span class="module-num">— 07 / 12</span>
+      <h2>Sécurité : clés API et garde-fous</h2>
+      <a class="tc" href="https://vimeo.com/1223635902/4023af5b24#t=2779s" target="_blank" rel="noopener">46:19 — Sécuriser</a>
+      <p class="module-lead">Une clé API ne se transmet normalement pas en clair. Elle a circulé pendant la session pour aller vite — Claude a d'ailleurs émis l'alerte de lui-même. Voici la marche à suivre.</p>
+    </div>
+    <div class="prose">
+      <div class="callout warning">
+        <div class="callout-tag">Le risque, en clair</div>
+        <p>Avec ta clé, n'importe qui peut générer des contenus à ta charge. Les <strong>vidéos</strong> sont ce qui coûte le plus cher : un tiers mal intentionné passerait par là. Le temps que tu t'en rendes compte, 80 $ sont partis.</p>
+      </div>
+
+      <h3>La surveillance, en trente secondes</h3>
+      <ul>
+        <li>Sur la page d'accueil Fal.ai, <strong>Last generation</strong> montre tout ce qui vient d'être produit. <em>See all</em> distingue l'interface des requêtes API automatiques.</li>
+        <li>Si les derniers visuels ne sont pas de toi, tu as ta réponse.</li>
+        <li><strong>Settings → API keys → Revoke.</strong> La clé meurt, tu en crées une nouvelle.</li>
+      </ul>
+
+      <div class="callout success">
+        <div class="callout-tag">Le garde-fou côté dossiers</div>
+        <p>Quand tu donneras à l'IA l'accès à des documents sensibles — factures, compta — mets-les dans un <strong>dossier dédié</strong> et interdis-lui d'aller ailleurs. Puis vérifie, une fois par semaine : <em>« Es-tu sorti de ce dossier ? Si oui, pourquoi ? Est-ce moi qui t'ai autorisé ? »</em> Il arrive qu'il se le permette en jugeant que ce n'est pas dangereux : à chaque fois, recadre.</p>
+      </div>
+
+      <div class="callout">
+        <div class="callout-tag">Le principe</div>
+        <p>« Je préfère que tu me bloques et que je galère trois jours à comprendre pourquoi, plutôt que tu ailles en dehors de ce que je te demande. »</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="module" id="s8">
+  <div class="container-narrow">
+    <div class="module-header">
+      <span class="module-num">— 08 / 12</span>
+      <h2>Stratégie éditoriale : la SERP avant le clavier</h2>
+      <a class="tc" href="https://vimeo.com/1223635902/4023af5b24#t=4990s" target="_blank" rel="noopener">1:23:10 — Stratégie éditoriale</a>
+      <p class="module-lead">Écrire un article sans avoir regardé la SERP, c'est écrire pour personne. L'objectif : trouver les requêtes réellement tapées, sur lesquelles la place est encore libre.</p>
+    </div>
+    <div class="prose">
+      <div class="prompt-block"><span class="pb-label">Prompt — la stratégie éditoriale complète</span>Aide-moi à définir la meilleure stratégie éditoriale pour le blog de
+<span class="pb-var">[entité]</span>. Notre cible : <span class="pb-var">[...]</span>. Nos activités : <span class="pb-var">[...]</span>
+
+J'aimerais une analyse approfondie — et quand je dis approfondie, j'entends
+TRÈS approfondie — de la SERP qui nous concerne, puis 50 idées d'articles
+classées par priorité, qui vont drainer un trafic hyper qualifié.
+
+Mais avant ça, liste-moi les 100 questions que notre cible se pose le plus,
+qui concernent : <span class="pb-var">[...]</span></div>
+
+      <h3>La règle du plombier</h3>
+      <div class="cards-grid">
+        <div class="mini-card">
+          <div class="mini-name">Ce qu'il ne faut pas faire</div>
+          <h4>« plombier » — 10 000 requêtes</h4>
+          <p>Cinquante concurrents dessus. Tu arrives, tu rankes 8<sup>e</sup>, 10<sup>e</sup>, 15<sup>e</sup>. C'est mort.</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-name">Ce qu'il faut viser</div>
+          <h4>« plombier appartement » — 1 000 requêtes</h4>
+          <p>Personne dessus. Ces 1 000 requêtes-là, tu les indexes tout de suite.</p>
+        </div>
+      </div>
+      <p>Et tu gardes quand même quelques articles sur des requêtes à <strong>forte intention d'achat</strong> — « comment faire financer une formation… » — même si la concurrence y est plus rude. C'est l'équilibre : de la longue traîne pour exister, des requêtes chaudes pour convertir.</p>
+
+      <div class="callout success">
+        <div class="callout-tag">La mine gratuite : « Autres questions »</div>
+        <p>Dans Google, l'onglet <strong>Autres questions posées</strong> se régénère à chaque ouverture. Toutes ces questions sont des angles d'article — et exactement les questions à poser en interview à un expert de ton secteur, parce que ce sont celles que de vrais gens tapent.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="module" id="s9">
+  <div class="container-narrow">
+    <div class="module-header">
+      <span class="module-num">— 09 / 12</span>
+      <h2>Le verdict Stagecar et le pivot partenariats</h2>
+      <a class="tc" href="https://vimeo.com/1223635902/4023af5b24#t=7851s" target="_blank" rel="noopener">2:10:51 — Verdict SERP</a>
+      <p class="module-lead">L'analyse de SERP a tranché, et pas dans le sens espéré. C'est précisément l'intérêt de la faire avant d'écrire vingt articles.</p>
+    </div>
+    <div class="prose">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Constat</th><th>Conséquence</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Deux concurrents seulement</strong> — A Live School et E-Stage</td><td>E-Stage cible les municipalités et travaille avec beaucoup de formateurs externes : une synergie à creuser. 10 % d'un marché à 2-3 M€, ça fait déjà 200 à 300 k€.</td></tr>
+            <tr><td><strong>Une obligation légale très floue</strong> — article 43 de l'arrêté du 25 juillet 2022</td><td>« Le personnel de montage doit disposer des compétences nécessaires. » C'est ce genre de texte qui crée un marché — et une zone grise à occuper.</td></tr>
+            <tr><td><strong>Une exclusion dans l'article 1<sup>er</sup></strong> — les scènes tractées à exploitation roulante</td><td>Une municipalité se croit hors obligation, ou reste dans le flou. Dans les deux cas, tu peux l'orienter. Seul Rémi peut confirmer.</td></tr>
+            <tr><td><strong>Volume insuffisant</strong></td><td>Même en rankant n<sup>o</sup> 1 sur absolument toutes les requêtes, on parle de quelques milliers de personnes par mois, converties à 1-2 %. <strong>Le SEO n'est pas un canal d'acquisition ici.</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-tag">Le principe à retenir</div>
+        <p>Quand il n'y a aucune concurrence sur un marché, il n'y a que trois explications : tu as trouvé le Saint-Graal, le marché est trop petit, ou le besoin existe mais n'est pas identifié comme tel par ceux qui l'ont.</p>
+      </div>
+
+      <div class="callout success">
+        <div class="callout-tag">Ce que le blog reste</div>
+        <p>Pas un canal d'acquisition pour la formation Stagecar — mais un <strong>indispensable de crédibilité</strong>. Cinq articles en place, et le prospect qui se renseigne voit des gens qui savent de quoi ils parlent. En revanche, pour le <strong>Studio</strong> — enregistrement, mix, mastering, Dolby Atmos, formation — le blog draine du monde et ça, c'est vérifié.</p>
+      </div>
+
+      <h3>Le vrai canal : réseau et partenariats</h3>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-circle">A</div>
+          <div>
+            <h4>Les deux concurrents directs</h4>
+            <p>Appeler A Live School et E-Stage, demander le responsable formation. Intégrer leur base de formateurs, tester une synergie plutôt qu'un affrontement.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-circle">B</div>
+          <div>
+            <h4>Les gros organismes qui n'ont pas ce segment</h4>
+            <p>Type SAE Institute. L'argument : « c'est quelque chose que vous ne faites pas, il y a un besoin identifié sur le terrain, nous travaillons avec Stage 76 ». Puis on parle répartition. Cinq stagiaires par an et par partenaire, sur quatre ou cinq partenariats, ça fait 20 à 25 stagiaires sans effort d'acquisition.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-circle">C</div>
+          <div>
+            <h4>Les écoles que tu connais déjà</h4>
+            <p>Innov à Mont-Saint-Aignan, ton ancienne école à Caen, La Tech. Commence toujours par les gens que tu connais avant l'inconnu. Attention toutefois : certaines appartiennent à des fonds de pension, avec des exigences lourdes.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-circle">D</div>
+          <div>
+            <h4>Les articles sur les concurrents</h4>
+            <p>Un article sincère qui met en avant ce qu'ils font, construit sur des questions EEAT posées en interview. Leur SEO est faible : si tu passes devant eux, tout le trafic qui les cherche arrive chez vous. Quatre ou cinq de ces articles, y compris outre-mer, et le trafic devient qualifié.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="module" id="s10">
+  <div class="container-narrow">
+    <div class="module-header">
+      <span class="module-num">— 10 / 12</span>
+      <h2>La trame de questions pour Rémi</h2>
+      <a class="tc" href="https://vimeo.com/1223635902/4023af5b24#t=6597s" target="_blank" rel="noopener">1:49:57 — La trame Rémi</a>
+      <p class="module-lead">C'est le rendez-vous qui débloque la stratégie. Rémi part dans tous les sens — donc on l'enregistre, et on arrive avec une trame. L'IA triera ensuite.</p>
+    </div>
+    <div class="prose">
+      <h3>Le décideur</h3>
+      <ul>
+        <li><strong>Qui achète</strong> une Stagecar ? Mairie, comité des fêtes, communauté de communes ? Les instances ne fonctionnent pas pareil.</li>
+        <li><strong>Quel est le rôle</strong> de la personne qui valide la commande ? Maire, adjoint, responsable technique, responsable artistique ? Est-ce souvent le même ?</li>
+        <li><strong>Quel est son profil</strong> ? Vingt ans de métier laissent des similitudes : âge, parcours, sensibilités. Tout ce qu'il dira est bon à prendre.</li>
+      </ul>
+
+      <h3>Le besoin</h3>
+      <ul>
+        <li><strong>À quel moment</strong> le besoin de formation apparaît-il ? À la commande (« je n'ai pas l'équipe pour monter ça ») ? À la réception (« on n'a pas les bons gars ») ? Au retour (« on n'a pas su s'en servir, on ne l'a pas utilisée ») ?</li>
+        <li><strong>Quelle est la nature du problème ?</strong> Besoin = problème. Personnel insuffisant, mal formé, contraintes de charge, de stockage, de bénévolat. Liste-les tous, même ceux qui ne serviront jamais.</li>
+        <li><strong>Y a-t-il une obligation légale ?</strong> À quel moment est-ce contrôlé ? N'importe qui peut-il monter une Stagecar s'il est manuel et costaud, ou faut-il une certification ?</li>
+      </ul>
+
+      <h3>La question qui vaut toute la trame</h3>
+      <div class="callout">
+        <div class="callout-tag">À poser en fin d'entretien</div>
+        <p>« Si demain tu perdais tout et que tu devais vendre des formations Stagecar comme celles qu'on va vendre — <strong>tu ferais quoi pour trouver tes premiers clients ? Où irais-tu ? Qu'est-ce que tu demanderais ?</strong> »</p>
+      </div>
+
+      <h3>Le réseau</h3>
+      <ul>
+        <li>Quelle est <strong>l'étendue de son réseau</strong> ? Qui peut-on contacter dès maintenant avec un besoin déjà identifié ?</li>
+        <li>Repartir avec un <strong>accord clair</strong> : « Est-ce qu'on peut les appeler en ton nom ? » L'appel devient alors « je t'appelle de la part de Rémi », ce qui n'a plus rien à voir avec de la prospection à froid.</li>
+      </ul>
+
+      <div class="callout success">
+        <div class="callout-tag">Méthode d'entretien</div>
+        <p><strong>Enregistre en vidéo</strong> — Vimeo est excellent en transcription écrite, et l'IA repart de là. Garde-le le plus longtemps possible, quitte à l'emmener manger. Et n'hésite pas à le recadrer : « Attends, ça m'intéresse, mais juste avant, tu as dit ça — ça m'amène à cette question. »</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="module" id="s11">
+  <div class="container-narrow">
+    <div class="module-header">
+      <span class="module-num">— 11 / 12</span>
+      <h2>Dolby Atmos : éduquer pour créer la demande</h2>
+      <a class="tc" href="https://vimeo.com/1223635902/4023af5b24#t=7062s" target="_blank" rel="noopener">1:57:42 — Dolby Atmos</a>
+      <p class="module-lead">C'est le terrain où le blog du Studio a un vrai levier. Le marché n'attend pas une offre : il attend d'être éduqué. Tant que le consommateur final ne demande rien, les ingés son ne bougent pas.</p>
+    </div>
+    <div class="prose">
+      <div class="callout warning">
+        <div class="callout-tag">L'objection à démonter</div>
+        <p>« Ça ne marchera pas, ça va faire comme la 3D. » Elle vient de deux malentendus : on croit qu'il faut une installation complexe chez soi, et on prend l'Atmos pour un mixage stéréo avec plus d'enceintes.</p>
+      </div>
+
+      <p>Le Dolby Atmos est un <strong>mixage par objet</strong>, pas un mixage linéaire. Un son placé dans l'enceinte supérieure droite est automatiquement redirigé vers l'enceinte droite chez quelqu'un qui n'a pas d'enceintes en hauteur, et envoyé au plafond chez celui qui en a. Le système comprend l'installation et s'y adapte : deux enceintes, une centrale, un caisson, sept points — qui peut le plus peut le moins.</p>
+
+      <div class="callout success">
+        <div class="callout-tag">La formulation pour un artiste</div>
+        <p>« Ton son va sonner intelligemment selon le dispositif sur lequel il est écouté. Home cinéma ou pauvre télé Samsung, le mix s'adapte. Si tu fais des festivals, des clubs, des petites et des grosses salles, tu sais que ton son sonnera au mieux de sa capacité, <strong>peu importe où il est joué</strong>. »</p>
+      </div>
+
+      <h3>Les angles d'articles qui sortent de la session</h3>
+      <div class="cards-grid">
+        <div class="mini-card"><div class="mini-name">Angle 01</div><h4>Le test binaural</h4><p>« Écoutez votre morceau au casque, en mix stéréo puis en Dolby Atmos. Puis dites-moi sincèrement que vous ne comprenez pas à quoi ça sert. » L'expérience convainc plus que l'argument.</p></div>
+        <div class="mini-card"><div class="mini-name">Angle 02</div><h4>Pourquoi Apple y croit</h4><p>Les AirPods sont compatibles : l'algorithme fait croire au cerveau que le son vient de derrière ou du dessus. L'auditeur ne sait même pas qu'il écoute de l'Atmos — il trouve juste que « ce son est cool ».</p></div>
+        <div class="mini-card"><div class="mini-name">Angle 03</div><h4>Comment une barre de son fait de l'Atmos</h4><p>Des haut-parleurs dirigés vers le plafond, une analyse de la hauteur de pièce, un retard calculé à l'échantillon près — comme les lignes à retard en concert. Et l'avion passe au-dessus de ta tête.</p></div>
+        <div class="mini-card"><div class="mini-name">Angle 04</div><h4>« Ce n'est pas pour toi que tu mixes »</h4><p>C'est pour le client qui a investi dans des enceintes à 8 000 € la pièce. Les DSP suivent : certains imposent déjà des standards de qualité de mix et traitent l'Atmos.</p></div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-tag">L'opportunité commerciale</div>
+        <p>Le cinéma et le documentaire n'ont pas besoin d'être convaincus — Netflix impose l'Atmos, les salles sont équipées, les ingés son savent faire. <strong>C'est le monde des musiciens qui n'a pas compris.</strong> Ce sont donc les ingés son musique qu'on peut attraper en formation studio — et la location pure de l'auditorium se vendra plus facilement que la presta de mix.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="module" id="s12">
+  <div class="container-narrow">
+    <div class="module-header">
+      <span class="module-num">— 12 / 12</span>
+      <h2>Certifications RS / RNCP : le vrai coût</h2>
+      <a class="tc" href="https://vimeo.com/1223635902/4023af5b24#t=8449s" target="_blank" rel="noopener">2:20:49 — Certifications</a>
+      <p class="module-lead">La question du côté diplômant est revenue : elle ne passe pas nécessairement par une école. Mais il faut savoir dans quoi on met les pieds.</p>
+    </div>
+    <div class="prose">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th></th><th>RS</th><th>RNCP</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Délai</strong></td><td>Environ 6 mois avec un dossier bien monté</td><td>Beaucoup plus long</td></tr>
+            <tr><td><strong>Difficulté</strong></td><td>Accessible</td><td>Il faut prouver, étude financée à l'appui, qu'aucune certification équivalente n'existe, que la tienne est différenciante et que le marché la demande</td></tr>
+            <tr><td><strong>Intérêt</strong></td><td>Première marche</td><td>Ce qui débloque les <strong>plafonds de financement maximum</strong></td></tr>
+            <tr><td><strong>Le vrai frein</strong></td><td colspan="2">Une poignée de personnes gèrent l'accès entre elles. Même en remplissant tous les critères, sans passer par elles, c'est un refus. Ce sont ces mêmes personnes qui ont rédigé le CPF, EDOF et le référentiel Qualiopi — et qui monnaient aujourd'hui la mise en relation.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout warning">
+        <div class="callout-tag">L'ordre de grandeur annoncé</div>
+        <p>La mise en relation, puis l'avocat, puis le comptable, puis le monteur de dossier : chaque maillon facture. On parle de plusieurs dizaines de milliers d'euros à l'entrée, et de contrôles ultérieurs qui repassent à la caisse.</p>
+      </div>
+
+      <div class="callout">
+        <div class="callout-tag">Le calcul, et l'alternative</div>
+        <p>Avec des plafonds de l'ordre de 20 à 24 k€ par stagiaire et par an, le retour peut être considérable. Mais l'autre voie reste ouverte : <strong>rester petit, ne dépendre de personne</strong>, et bâtir le volume par les partenariats. C'est la position tenue en séance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLAN D'ACTION -->
+<section class="module" id="plan">
+  <div class="container-narrow">
+    <div class="module-header">
+      <span class="section-label">Passage à l'action</span>
+      <h2>Le plan d'action</h2>
+      <p class="module-lead">Coche au fur et à mesure. Le classement suit l'ordre de priorité fixé en fin de séance.</p>
+    </div>
+
+    <div class="checklist">
+      <button type="button" class="check-item"><span class="check-box">✓</span><span class="check-content"><span class="check-title">Appeler le CNFPT<span class="check-owner">Emma</span></span><span class="check-desc">OF certifié Qualiopi, partenaire d'un prestataire actif. Question clé : qui amène les stagiaires ?</span></span></button>
+      <button type="button" class="check-item"><span class="check-box">✓</span><span class="check-content"><span class="check-title">Appeler A Live School et E-Stage<span class="check-owner">Emma</span></span><span class="check-desc">Demander le responsable formation. Intégrer leur base de formateurs, chercher la synergie.</span></span></button>
+      <button type="button" class="check-item"><span class="check-box">✓</span><span class="check-content"><span class="check-title">Appeler les écoles déjà connues<span class="check-owner">Emma</span></span><span class="check-desc">L'ancienne école à Caen, Innov, La Tech. Commencer par les gens qu'on connaît.</span></span></button>
+      <button type="button" class="check-item"><span class="check-box">✓</span><span class="check-content"><span class="check-title">Préparer la trame de questions pour Rémi<span class="check-owner">Loïc + Emma</span></span><span class="check-desc">Décideur, besoin, obligations légales, réseau. Reprendre aussi les questions du rapport précédent.</span></span></button>
+      <button type="button" class="check-item"><span class="check-box">✓</span><span class="check-content"><span class="check-title">Enregistrer l'entretien Rémi de 17 h<span class="check-owner">Emma</span></span><span class="check-desc">En vidéo de préférence : la transcription est bien meilleure et l'IA repart de là.</span></span></button>
+      <button type="button" class="check-item"><span class="check-box">✓</span><span class="check-content"><span class="check-title">Refaire la plaquette<span class="check-owner">Emma</span></span><span class="check-desc">Photo réelle de Rémi, palette plus claire, appel à l'action cliquable vers la prise de rendez-vous.</span></span></button>
+      <button type="button" class="check-item"><span class="check-box">✓</span><span class="check-content"><span class="check-title">Voir le prix du site avec Sébastien<span class="check-owner">Emma</span></span><span class="check-desc">L'accès manque, le tarif doit apparaître.</span></span></button>
+      <button type="button" class="check-item"><span class="check-box">✓</span><span class="check-content"><span class="check-title">Révoquer et recréer la clé Fal.ai<span class="check-owner">Loïc</span></span><span class="check-desc">Elle a circulé en clair. Puis vérifier régulièrement Last generation.</span></span></button>
+      <button type="button" class="check-item"><span class="check-box">✓</span><span class="check-content"><span class="check-title">Faire valider un article complet, puis figer le skill<span class="check-owner">Emma</span></span><span class="check-desc">« Mets à jour le skill pour ne plus que j'aie à te redire tout ça » — puis tester sur le suivant.</span></span></button>
+      <button type="button" class="check-item"><span class="check-box">✓</span><span class="check-content"><span class="check-title">Intégrer les 5 questions EEAT obligatoires à la compétence<span class="check-owner">Emma</span></span><span class="check-desc">Obligation vitale, sans avoir à le demander à chaque article.</span></span></button>
+      <button type="button" class="check-item"><span class="check-box">✓</span><span class="check-content"><span class="check-title">Ranger les activités en projets distincts<span class="check-owner">Emma</span></span><span class="check-desc">Studio, agence, Ekanak : contextes et compétences séparés.</span></span></button>
+      <button type="button" class="check-item"><span class="check-box">✓</span><span class="check-content"><span class="check-title">Lancer la stratégie éditoriale du Studio<span class="check-owner">Emma</span></span><span class="check-desc">Dolby Atmos, enregistrement, mix, mastering, formation : c'est là que le blog convertit.</span></span></button>
+      <button type="button" class="check-item"><span class="check-box">✓</span><span class="check-content"><span class="check-title">Suivre la formation « Cité par les IA »<span class="check-owner">Emma</span></span><span class="check-desc">Dix minutes par jour suffisent. Module 2 : bonnes pratiques, Antigravity, architecture de site, JSON-LD.</span></span></button>
+      <button type="button" class="check-item"><span class="check-box">✓</span><span class="check-content"><span class="check-title">Session de travail samedi 9 h – 11 h 30<span class="check-owner">Tous</span></span><span class="check-desc">Avec le retour de Rémi en main, pour réajuster le plan.</span></span></button>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section class="module" id="quiz">
+  <div class="container-narrow">
+    <div class="module-header">
+      <span class="section-label">Vérification</span>
+      <h2>Le quiz de la session</h2>
+      <p class="module-lead">Sept questions pour vérifier que l'essentiel est passé. Une seule bonne réponse par question.</p>
+    </div>
+    <div id="quiz-root"></div>
+    <div class="quiz-score" id="quiz-score" hidden>Score : <em><span id="score-val">0</span>/7</em></div>
+  </div>
+</section>
+
+<section class="recap">
+  <div class="container">
+    <span class="section-label">À retenir</span>
+    <h3>Les huit acquis de la session</h3>
+    <ol class="recap-list">
+      <li><strong>Une clé API transforme un outil en automatisme.</strong> Fal.ai génère les images, Claude les commande seul, tu ne te reconnectes plus jamais dessus.</li>
+      <li><strong>Sans variables aléatoires, la compétence produit toujours la même image.</strong> C'est le second prompt qui fait la différence, pas le premier.</li>
+      <li><strong>L'EEAT ne s'invente pas : il se raconte.</strong> Des chiffres, des cas concrets, du vécu. C'est ce que Google met en avant et ce que l'IA seule ne peut pas produire.</li>
+      <li><strong>« Je ne sais pas faire, je ne veux pas faire. »</strong> Dans neuf cas sur dix, il peut s'en charger — il faut juste l'autoriser à installer ce qu'il lui manque.</li>
+      <li><strong>Une clé qui a circulé en clair se révoque.</strong> Et <em>Last generation</em> se surveille : si les derniers visuels ne sont pas de toi, tu as ta réponse.</li>
+      <li><strong>On regarde la SERP avant d'écrire.</strong> Elle a évité vingt articles sur un marché qui n'aurait pas converti.</li>
+      <li><strong>Le blog Stagecar n'est pas un canal d'acquisition, c'est un canal de crédibilité.</strong> L'acquisition passera par le réseau, les partenariats et le nom de Rémi.</li>
+      <li><strong>Sur le Studio, en revanche, le blog fonctionne.</strong> Dolby Atmos est le terrain idéal : un marché à éduquer, pas un marché à convaincre.</li>
+    </ol>
+  </div>
+</section>
+
+<div class="next-cta">
+  <h3>Revoir un passage précis</h3>
+  <p>La session est découpée en 19 chapitres : les manipulations Fal.ai, les prompts exacts, l'analyse de SERP en direct. Chaque timecode de ce support ouvre la vidéo au bon endroit.</p>
+  <a class="btn btn-primary" href="https://vimeo.com/1223635902/4023af5b24" target="_blank" rel="noopener">Ouvrir la vidéo</a>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    © 2026 Tarik Hamiche — Producteur à Succès • Support de session Mentorat Hic &amp; Nunc du 3 septembre 2026 • <a href="mailto:tarik@producteurasucces.com">Contact</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var bar = document.getElementById('progress-bar');
+  function update(){
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (docHeight > 0 ? (window.scrollY / docHeight) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+
+(function(){
+  document.querySelectorAll('.check-item').forEach(function(item){
+    item.addEventListener('click', function(){ item.classList.toggle('checked'); });
+  });
+})();
+
+(function(){
+  var questions = [
+    { q: "Pourquoi ajouter des variables aléatoires à la compétence image ?",
+      o: ["Pour réduire le coût de génération chez Fal.ai",
+          "Parce que sans elles, Claude produit la même tête, la même posture et le même lieu à chaque article",
+          "Parce que Google pénalise les images générées par IA",
+          "Pour éviter que la clé API soit détectée"],
+      a: 1,
+      f: "Le premier prompt installe le réalisme ; c'est le second, celui des variables, qui empêche l'uniformité — hommes et femmes, solos et groupes, studio, scène, domicile." },
+    { q: "Que signifie concrètement l'EEAT pour un article de blog ?",
+      o: ["Un format d'export d'article optimisé pour les IA",
+          "Une balise à ajouter dans le code de la page",
+          "Du vécu : des chiffres réels, des cas concrets, une expérience personnelle",
+          "Un quota minimum de mots par article"],
+      a: 2,
+      f: "Experience, Expertise, Authoritativeness, Trustworthiness. C'est ce qui sépare le contenu généré en masse — que Google écarte — du contenu qu'il met en avant." },
+    { q: "Claude te demande d'exécuter une manipulation technique que tu ne sais pas faire. Que réponds-tu ?",
+      o: ["Tu cherches un tutoriel et tu la fais toi-même",
+          "Tu changes de modèle",
+          "« Je ne sais pas faire, je ne veux pas faire. Installe ce dont tu as besoin. Tu as mon autorisation. »",
+          "Tu attends la prochaine session"],
+      a: 2,
+      f: "Dans neuf cas sur dix il peut s'en charger seul ; il lui manque juste l'autorisation d'installer un composant. Et à force, il arrête de demander." },
+    { q: "Une clé API Fal.ai a circulé en clair dans une conversation. Que fais-tu ?",
+      o: ["Rien, tant que le crédit est plafonné",
+          "Tu la révoques dans Settings → API keys et tu en crées une nouvelle",
+          "Tu changes le mot de passe du compte",
+          "Tu désactives l'Auto Top Up"],
+      a: 1,
+      f: "Et tu surveilles Last generation sur la page d'accueil : si les derniers visuels ne sont pas de toi, quelqu'un consomme ton crédit — les vidéos en premier, car ce sont les plus chères." },
+    { q: "Entre « plombier » (10 000 requêtes, 50 concurrents) et « plombier appartement » (1 000 requêtes, personne), tu attaques quoi en premier ?",
+      o: ["« plombier », pour le volume",
+          "Les deux en même temps",
+          "Ni l'un ni l'autre, on attend d'avoir de l'autorité",
+          "« plombier appartement » : 1 000 requêtes indexables tout de suite"],
+      a: 3,
+      f: "Sur le mot saturé tu rankes 8e ou 15e, donc zéro trafic. Tu gardes quand même quelques articles sur des requêtes à forte intention d'achat, plus concurrentielles mais qui convertissent." },
+    { q: "Qu'a conclu l'analyse de SERP sur le marché Stagecar ?",
+      o: ["Que le SEO n'est pas un canal d'acquisition viable, mais que le blog reste indispensable pour la crédibilité",
+          "Qu'il faut publier vingt articles avant six mois",
+          "Que la concurrence est trop forte pour se positionner",
+          "Qu'il faut abandonner complètement le projet de formation"],
+      a: 0,
+      f: "Même en rankant n°1 sur toutes les requêtes : quelques milliers de personnes par mois, converties à 1-2 %. L'acquisition passera par le réseau et les partenariats — mais cinq articles en place donnent la crédibilité au prospect qui se renseigne." },
+    { q: "Pourquoi le Dolby Atmos est-il un bon sujet de blog pour le Studio ?",
+      o: ["Parce que la concurrence éditoriale y est nulle",
+          "Parce que c'est un marché à éduquer : tant que le consommateur final ne demande rien, les ingés son ne bougent pas",
+          "Parce que Netflix impose l'Atmos aux artistes indépendants",
+          "Parce que le mixage Atmos est plus difficile que le mixage stéréo"],
+      a: 1,
+      f: "Le cinéma n'a pas besoin d'être convaincu. C'est le monde de la musique qui n'a pas compris que l'Atmos s'adapte au dispositif d'écoute — et cette éducation-là crée la demande." }
+  ];
+
+  var root = document.getElementById('quiz-root');
+  var answered = 0, score = 0;
+
+  questions.forEach(function(item, qi){
+    var card = document.createElement('div');
+    card.className = 'quiz-card';
+
+    var q = document.createElement('div');
+    q.className = 'quiz-q';
+    q.innerHTML = '<span class="qn">' + String(qi + 1).padStart(2, '0') + '</span><span></span>';
+    q.lastChild.textContent = item.q;
+    card.appendChild(q);
+
+    var opts = document.createElement('div');
+    opts.className = 'quiz-opts';
+    var fb = document.createElement('div');
+    fb.className = 'quiz-feedback';
+    fb.textContent = item.f;
+
+    item.o.forEach(function(text, oi){
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'quiz-opt';
+      btn.innerHTML = '<span class="mark">' + String.fromCharCode(65 + oi) + '</span><span></span>';
+      btn.lastChild.textContent = text;
+      btn.addEventListener('click', function(){
+        if (card.dataset.done) return;
+        card.dataset.done = '1';
+        answered++;
+        if (oi === item.a) { score++; btn.classList.add('correct'); btn.querySelector('.mark').textContent = '✓'; }
+        else {
+          btn.classList.add('wrong');
+          btn.querySelector('.mark').textContent = '✕';
+          var good = opts.children[item.a];
+          good.classList.add('correct');
+          good.querySelector('.mark').textContent = '✓';
+        }
+        Array.prototype.forEach.call(opts.children, function(c){ c.classList.add('locked'); });
+        fb.classList.add('show');
+        var box = document.getElementById('quiz-score');
+        document.getElementById('score-val').textContent = score;
+        if (answered === questions.length) box.hidden = false;
+      });
+      opts.appendChild(btn);
+    });
+
+    card.appendChild(opts);
+    card.appendChild(fb);
+    root.appendChild(card);
+  });
+})();
+</script>
+
+</body>
+</html>

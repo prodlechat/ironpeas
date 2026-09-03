@@ -1,0 +1,1181 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mentorat TidyMess — 2 septembre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --primary:#6C3AED; --primary-dark:#5327C4; --primary-soft:#F1EAFE;
+  --accent:#F59E0B;  --accent-soft:#FEF3D8;
+  --success:#10B981; --success-soft:#DCFAEE;
+  --danger:#EF4444;  --danger-soft:#FDE5E5;
+  --info:#3B82F6;    --info-soft:#E3EDFE;
+  --bg:#F5F5F7; --card:#FFFFFF; --card-2:#FAFAFC;
+  --text:#1A1A22; --text-2:#4B4B58; --muted:#83838F; --line:#E4E4EA;
+  --shadow:0 1px 2px rgba(20,20,30,.05), 0 12px 32px -20px rgba(20,20,30,.30);
+  --radius:14px;
+  --display:"Space Grotesk","Trebuchet MS",system-ui,sans-serif;
+  --body:"Inter","Helvetica Neue",Arial,sans-serif;
+}
+
+*{box-sizing:border-box}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);
+  font-size:16.5px;line-height:1.68;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--display);margin:0;line-height:1.2;text-wrap:balance;letter-spacing:-.02em}
+p{margin:0 0 14px}
+a{color:var(--primary-dark)}
+:focus-visible{outline:3px solid var(--primary);outline-offset:3px;border-radius:6px}
+
+#progress{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--primary),var(--info));z-index:80;transition:width .1s linear}
+
+.wrap{max-width:940px;margin:0 auto;padding:0 20px}
+
+/* ---------- HERO ---------- */
+.hero{
+  margin:26px 0 30px;border-radius:var(--radius);overflow:hidden;
+  background:linear-gradient(135deg,var(--primary) 0%,#4C1FB0 100%);color:#fff;box-shadow:var(--shadow)
+}
+.hero .inner{padding:38px 34px 34px}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);
+  border-radius:100px;padding:6px 15px;font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-size:clamp(28px,4.6vw,42px);font-weight:700;color:#fff}
+.hero .sub{margin-top:16px;font-size:17.5px;line-height:1.6;color:rgba(255,255,255,.9);max-width:64ch}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.hero-meta span{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);
+  border-radius:9px;padding:9px 14px;font-size:14px;font-weight:500}
+.hero-meta a{color:#fff;text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- SOMMAIRE ---------- */
+.toc{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:24px 26px;margin-bottom:34px}
+.toc h2{font-size:17px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:9px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px;grid-template-columns:1fr}
+@media(min-width:660px){.toc ol{grid-template-columns:1fr 1fr;gap:2px 26px}}
+.toc a{display:flex;gap:11px;align-items:baseline;padding:7px 8px;border-radius:8px;
+  color:var(--text-2);text-decoration:none;font-size:15.3px}
+.toc a:hover{background:var(--primary-soft);color:var(--primary-dark)}
+.toc .n{font-family:var(--display);font-weight:700;font-size:13px;color:var(--primary);min-width:20px}
+
+/* ---------- SECTIONS ---------- */
+.section{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);margin-bottom:26px;overflow:hidden;scroll-margin-top:20px}
+.section > .top{height:5px;background:var(--primary)}
+.section.c-info > .top{background:var(--info)}
+.section.c-success > .top{background:var(--success)}
+.section.c-accent > .top{background:var(--accent)}
+.section.c-danger > .top{background:var(--danger)}
+.s-head{display:flex;align-items:center;gap:15px;padding:24px 30px 18px}
+.s-head .ico{width:46px;height:46px;flex:none;border-radius:12px;display:grid;place-items:center;
+  font-size:23px;background:var(--primary-soft)}
+.section.c-info .s-head .ico{background:var(--info-soft)}
+.section.c-success .s-head .ico{background:var(--success-soft)}
+.section.c-accent .s-head .ico{background:var(--accent-soft)}
+.section.c-danger .s-head .ico{background:var(--danger-soft)}
+.s-head .num{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--primary);display:block;margin-bottom:3px}
+.section.c-info .s-head .num{color:var(--info)}
+.section.c-success .s-head .num{color:var(--success)}
+.section.c-accent .s-head .num{color:var(--accent)}
+.section.c-danger .s-head .num{color:var(--danger)}
+.s-head h2{font-size:clamp(21px,3vw,27px);font-weight:700}
+.s-body{padding:6px 30px 30px}
+.s-body > p, .s-body > ul, .s-body > ol{max-width:68ch}
+.s-body h3{font-size:18.5px;font-weight:600;margin:26px 0 10px;color:var(--text)}
+.s-body h3:first-child{margin-top:6px}
+.s-body ul,.s-body ol{padding-left:22px;margin:0 0 14px}
+.s-body li{margin-bottom:7px}
+code{font-family:ui-monospace,"SFMono-Regular",Consolas,monospace;font-size:.88em;
+  background:var(--card-2);border:1px solid var(--line);border-radius:5px;padding:1px 6px}
+
+/* ---------- CALLOUTS ---------- */
+.box{border-left:4px solid var(--primary);background:var(--primary-soft);
+  border-radius:0 11px 11px 0;padding:16px 20px;margin:20px 0;max-width:70ch}
+.box .lbl{font-family:var(--display);font-weight:700;font-size:14px;color:var(--primary-dark);
+  margin-bottom:7px;display:flex;align-items:center;gap:8px}
+.box p:last-child{margin-bottom:0}
+.box.tip{border-left-color:var(--success);background:var(--success-soft)}
+.box.tip .lbl{color:var(--success)}
+.box.warn{border-left-color:var(--accent);background:var(--accent-soft)}
+.box.warn .lbl{color:#9A6508}
+.box.stop{border-left-color:var(--danger);background:var(--danger-soft)}
+.box.stop .lbl{color:var(--danger)}
+.box.info{border-left-color:var(--info);background:var(--info-soft)}
+.box.info .lbl{color:var(--info)}
+
+/* ---------- PROMPT ---------- */
+.prompt{background:var(--card-2);border:1px solid var(--line);border-left:4px solid var(--success);
+  border-radius:0 11px 11px 0;padding:16px 20px;margin:20px 0;max-width:72ch}
+.prompt .lbl{font-family:var(--display);font-weight:700;font-size:13.5px;color:var(--success);margin-bottom:9px;
+  display:flex;align-items:center;gap:8px}
+.prompt q{display:block;font-size:15px;line-height:1.66;color:var(--text-2);font-style:italic}
+
+/* ---------- TABLES ---------- */
+.tw{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:11px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:460px;font-size:15px}
+th{background:var(--primary);color:#fff;text-align:left;padding:12px 16px;font-family:var(--display);
+  font-size:13.5px;font-weight:600;white-space:nowrap}
+td{padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:var(--card-2)}
+tbody tr:last-child td{border-bottom:0}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+
+/* ---------- PROS / CONS ---------- */
+.pc{display:grid;gap:14px;margin:20px 0}
+@media(min-width:640px){.pc{grid-template-columns:1fr 1fr}}
+.pc > div{border:1px solid var(--line);border-radius:11px;padding:16px 18px;background:var(--card-2)}
+.pc h4{font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.pc .yes h4{color:var(--success)} .pc .no h4{color:var(--danger)}
+.pc ul{margin:0;padding-left:20px;font-size:15px}
+.pc li{margin-bottom:6px}
+
+/* ---------- CARDS ---------- */
+.cards{display:grid;gap:14px;margin:20px 0}
+@media(min-width:640px){.cards{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}}
+.cards .c{border:1px solid var(--line);border-radius:11px;padding:17px 18px;background:var(--card-2)}
+.cards .c .t{font-family:var(--display);font-weight:700;font-size:16px;margin-bottom:6px;display:flex;gap:8px;align-items:baseline}
+.cards .c p{font-size:14.8px;color:var(--text-2);margin:0}
+
+/* ---------- ACCORDION (générique) ---------- */
+details.acc{border:1px solid var(--line);border-radius:11px;background:var(--card-2);margin:12px 0;overflow:hidden}
+details.acc summary{cursor:pointer;list-style:none;padding:14px 46px 14px 18px;position:relative;
+  font-family:var(--display);font-weight:600;font-size:16px}
+details.acc summary::-webkit-details-marker{display:none}
+details.acc summary::after{content:"＋";position:absolute;right:18px;top:13px;color:var(--primary);font-size:17px}
+details.acc[open] summary::after{content:"−"}
+details.acc summary:hover{background:var(--primary-soft)}
+details.acc .in{padding:0 18px 16px;color:var(--text-2);font-size:15.4px;max-width:70ch}
+details.acc .in p:last-child{margin-bottom:0}
+
+/* ---------- CHAPITRES ---------- */
+.chaps{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:11px;overflow:hidden}
+.chaps li{border-bottom:1px solid var(--line);background:var(--card)}
+.chaps li:nth-child(even){background:var(--card-2)}
+.chaps li:last-child{border-bottom:0}
+.chaps a{display:grid;grid-template-columns:78px 1fr;gap:14px;align-items:center;
+  padding:11px 18px;text-decoration:none;color:var(--text);font-size:15.4px}
+.chaps a:hover{background:var(--primary-soft);color:var(--primary-dark)}
+.chaps time{font-weight:700;font-size:13.5px;color:var(--primary);font-variant-numeric:tabular-nums}
+
+/* ---------- PLAN D'ACTION ---------- */
+.tracker{display:flex;flex-wrap:wrap;gap:16px;align-items:center;background:var(--primary-soft);
+  border:1px solid var(--line);border-radius:11px;padding:16px 20px;margin:6px 0 22px}
+.tracker .cnt{font-family:var(--display);font-size:27px;font-weight:700;color:var(--primary-dark);
+  font-variant-numeric:tabular-nums;line-height:1}
+.tracker .lab{font-size:14.6px;color:var(--text-2)}
+.tbar{flex:1 1 190px;height:9px;border-radius:20px;background:var(--card);border:1px solid var(--line);overflow:hidden}
+.tbar i{display:block;height:100%;width:0;background:var(--primary);transition:width .25s ease}
+.tracker button{font-family:var(--body);font-size:13.5px;font-weight:600;padding:8px 14px;border-radius:8px;
+  border:1px solid var(--line);background:var(--card);color:var(--text-2);cursor:pointer}
+.tracker button:hover{color:var(--primary-dark);border-color:var(--primary)}
+
+.phase{border:1px solid var(--line);border-radius:11px;overflow:hidden;margin-bottom:18px;background:var(--card)}
+.phase-h{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:baseline;
+  padding:14px 20px;background:var(--card-2);border-bottom:1px solid var(--line)}
+.phase-h h3{margin:0;font-size:17px;font-weight:700}
+.phase-h .when{font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--primary)}
+.task{display:grid;grid-template-columns:22px 1fr;gap:14px;padding:15px 20px;
+  border-bottom:1px solid var(--line);align-items:start;cursor:pointer}
+.task:last-child{border-bottom:0}
+.task:hover{background:var(--card-2)}
+.task input{width:18px;height:18px;margin:4px 0 0;accent-color:var(--primary);cursor:pointer}
+.task .t{display:block;font-weight:600;font-size:16px;margin-bottom:3px}
+.task .d{color:var(--text-2);font-size:15px}
+.task.done .t,.task.done .d{opacity:.42;text-decoration:line-through}
+.who{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:2px 8px;border-radius:20px;margin-left:8px;vertical-align:2px}
+.who.th{background:var(--info-soft);color:var(--info)}
+.who.ne{background:var(--success-soft);color:var(--success)}
+.who.du{background:var(--accent-soft);color:#9A6508}
+
+/* ---------- FAQ ---------- */
+.faq-tools{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 20px;align-items:center}
+.faq-tools input[type=search]{flex:1 1 220px;min-width:0;font-family:var(--body);font-size:15px;
+  padding:10px 14px;border:1px solid var(--line);border-radius:9px;background:var(--card-2);color:var(--text)}
+.chip{font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:100px;border:1px solid var(--line);
+  background:var(--card-2);color:var(--text-2);cursor:pointer;font-family:var(--body)}
+.chip:hover{border-color:var(--primary);color:var(--primary-dark)}
+.chip.on{background:var(--primary);color:#fff;border-color:var(--primary)}
+.fgroup{margin-bottom:22px}
+.fgroup > h3{font-size:15px;font-weight:700;margin:0 0 10px;display:flex;align-items:center;gap:9px;color:var(--primary-dark)}
+.noresult{display:none;padding:16px;color:var(--muted);font-size:15px}
+
+/* ---------- QUIZ ---------- */
+.quiz{margin-top:6px}
+.q{border:1px solid var(--line);border-radius:11px;background:var(--card-2);padding:18px 20px;margin-bottom:14px}
+.q .qt{font-family:var(--display);font-weight:600;font-size:16.5px;margin-bottom:12px}
+.q .qt b{color:var(--primary);margin-right:6px}
+.opt{display:flex;gap:11px;align-items:flex-start;padding:10px 13px;border:1px solid var(--line);
+  border-radius:9px;background:var(--card);margin-bottom:8px;cursor:pointer;font-size:15.3px}
+.opt:hover{border-color:var(--primary)}
+.opt input{margin:4px 0 0;accent-color:var(--primary)}
+.opt.ok{border-color:var(--success);background:var(--success-soft)}
+.opt.ko{border-color:var(--danger);background:var(--danger-soft)}
+.fb{display:none;margin-top:10px;padding:12px 15px;border-radius:9px;font-size:15px;
+  background:var(--info-soft);color:var(--text-2);border-left:4px solid var(--info)}
+.fb.show{display:block}
+.score{text-align:center;padding:22px;border:1px solid var(--line);border-radius:11px;background:var(--primary-soft);
+  font-family:var(--display);font-weight:700;font-size:19px;color:var(--primary-dark);display:none}
+.score.show{display:block}
+
+/* ---------- FOOTER ---------- */
+footer{text-align:center;padding:34px 20px 54px;color:var(--muted);font-size:14px}
+footer .brand{font-family:var(--display);font-weight:700;font-size:16px;color:var(--primary);margin-bottom:8px}
+footer p{max-width:62ch;margin:0 auto 8px}
+
+@media print{
+  #progress,.faq-tools,.tracker button,.toc{display:none}
+  .section,.phase{break-inside:avoid;box-shadow:none}
+  details.acc .in{display:block!important}
+  body{background:#fff;font-size:11pt}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+</head>
+<body>
+<div id="progress"></div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="inner">
+      <span class="badge">Mentorat privé · Session du 2 septembre 2026</span>
+      <h1>Se rendre visible quand ce sont les IA qui répondent</h1>
+      <p class="sub">Instagram est débloqué. Le vrai chantier commence maintenant : construire une autorité
+        que Google et les IA reconnaissent — parce que 60 % du trafic de recherche passe déjà par une réponse
+        générée, et que presque personne, dans la musique, ne fait encore ce travail.</p>
+      <div class="hero-meta">
+        <span>⏱ 2 h 20</span>
+        <span>🎓 Tarik Hamiche</span>
+        <span>👥 Nelly &amp; Thomas — TidyMess</span>
+        <span>▶ <a href="https://vimeo.com/1223569438/e5b7a62f53" target="_blank" rel="noopener">Replay Vimeo · 19 chapitres</a></span>
+      </div>
+    </div>
+  </header>
+
+  <div class="toc">
+    <h2>📑 Sommaire</h2>
+    <ol>
+      <li><a href="#s1"><span class="n">01</span> Le blocage Instagram : diagnostic</a></li>
+      <li><a href="#s2"><span class="n">02</span> Vos deux réflexes IA</a></li>
+      <li><a href="#s3"><span class="n">03</span> Réseaux, republication et viralité</a></li>
+      <li><a href="#s4"><span class="n">04</span> Le site : FAQ, JSON-LD, PageSpeed</a></li>
+      <li><a href="#s5"><span class="n">05</span> Construire votre autorité</a></li>
+      <li><a href="#s6"><span class="n">06</span> Comment une IA choisit ce qu'elle cite</a></li>
+      <li><a href="#s7"><span class="n">07</span> La stratégie du blog et les ads</a></li>
+      <li><a href="#s8"><span class="n">08</span> Argent, contrôles et distribution</a></li>
+      <li><a href="#chapitres"><span class="n">09</span> Les 19 chapitres du replay</a></li>
+      <li><a href="#plan"><span class="n">10</span> Votre plan d'action</a></li>
+      <li><a href="#faq"><span class="n">11</span> La FAQ complète</a></li>
+      <li><a href="#quiz"><span class="n">12</span> Quiz : avez-vous tout retenu ?</a></li>
+    </ol>
+  </div>
+
+  <!-- ================= 1 ================= -->
+  <section class="section c-danger" id="s1">
+    <div class="top"></div>
+    <div class="s-head">
+      <div class="ico">🚫</div>
+      <div><span class="num">Section 01</span><h2>Le blocage Instagram : ce qui s'est réellement passé</h2></div>
+    </div>
+    <div class="s-body">
+      <p>La restriction est tombée d'elle-même la veille au soir, sans explication de Meta. Deux enquêtes ont été
+        menées en parallèle pour comprendre — et surtout pour ne pas recommencer.</p>
+
+      <h3>L'audit des contenus : rien à signaler</h3>
+      <p>Philippe, un ancien de chez Meta qui débloque régulièrement des comptes publicitaires, a passé une vingtaine
+        de vos plus grosses vidéos au crible avec sa checklist complète : pas de tabac, pas de sexe, pas de bagarre,
+        pas de violence, pas de publicité déguisée.</p>
+      <div class="box tip">
+        <div class="lbl">✅ À retenir</div>
+        <p><strong>Aucune restriction dans les contenus. Rien à changer dans la ligne éditoriale.</strong>
+          Votre problème n'est pas ce que vous publiez, c'est la manière dont vous avez fait grandir le compte.</p>
+      </div>
+
+      <h3>La cause probable : un cumul de trois signaux</h3>
+      <div class="cards">
+        <div class="c"><div class="t">🔁 Follow / unfollow</div><p>100 à 150 actions par jour, plusieurs jours d'affilée. C'est la piste principale.</p></div>
+        <div class="c"><div class="t">📈 Croissance anormale</div><p>7 à 8 millions de vues sur une vidéo, au même moment. L'algorithme s'alarme.</p></div>
+        <div class="c"><div class="t">🚩 Signalements</div><p>Peut-être deux ou trois le même jour, dans le lot de commentaires négatifs.</p></div>
+      </div>
+      <div class="box warn">
+        <div class="lbl">⚠️ Attention au décalage</div>
+        <p>Une sanction peut tomber jusqu'à <strong>15 jours après</strong> l'action qui l'a déclenchée.
+          Nelly avait arrêté depuis une semaine quand la restriction est arrivée : c'est parfaitement cohérent.</p>
+      </div>
+
+      <h3>Les vraies limites d'Instagram</h3>
+      <p>Chiffres issus du croisement d'environ 200 sources via NotebookLM — et non d'une réponse d'IA prise au mot.</p>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Règle</th><th>Limite réelle</th><th>Ce qu'il faut viser</th></tr></thead>
+          <tbody>
+            <tr><td>Abonnements par jour</td><td class="n">100</td><td>10 → 15 → 20 → 25 en montée progressive</td></tr>
+            <tr><td>Actions par heure</td><td class="n">20</td><td>La vraie limite, inscrite dans le code</td></tr>
+            <tr><td>Désabonnements par jour</td><td class="n">Très surveillés</td><td>5 par jour maximum</td></tr>
+            <tr><td>Fenêtre d'évaluation</td><td class="n">24 h</td><td>Ne jamais follow et unfollow le même jour</td></tr>
+            <tr><td>Gain d'abonnés</td><td class="n">7 500</td><td>Plafond absolu, fenêtre non documentée</td></tr>
+            <tr><td>Ancienneté « compte neuf »</td><td class="n">6 mois</td><td>Ou activité devenue soudainement régulière</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="box info">
+        <div class="lbl">💡 Le saviez-vous ?</div>
+        <p>L'algorithme ne regarde pas seulement la date de création du compte. Un compte qui publiait de temps en temps
+          et qui se met d'un coup à publier tous les jours — votre cas depuis début juin — est traité comme un
+          <strong>compte neuf</strong>, donc scruté beaucoup plus étroitement.</p>
+      </div>
+
+      <h3>La bonne pratique : espacer</h3>
+      <p>Ne jamais faire ses actions en rafale. Huit le matin au café, six à la pause déjeuner, dix au goûter,
+        trois le soir : c'est plus contraignant, mais c'est ce qui ressemble à une activité humaine normale.</p>
+
+      <div class="pc">
+        <div class="yes"><h4>👍 Sans risque</h4><ul>
+          <li>Le widget qui affiche vos 6 dernières publications sur le site — il ne fait que lire</li>
+          <li>Publier manuellement depuis l'application</li>
+          <li>Passer par le Meta Business Manager</li>
+        </ul></div>
+        <div class="no"><h4>👎 À éviter</h4><ul>
+          <li>ManyChat et les robots de réponse automatique</li>
+          <li>Les planificateurs de publication tiers</li>
+          <li>Répondre du tac au tac à un commentaire insultant</li>
+        </ul></div>
+      </div>
+      <div class="box stop">
+        <div class="lbl">🛑 Le piège oublié</div>
+        <p>En tant que créateur, <strong>vos réponses aussi</strong> sont soumises aux règles de la communauté.
+          Une répartie cinglante à une insulte peut se retourner contre le compte. On masque, on signale quand c'est
+          violent, et on rééquilibre son temps vers les commentaires positifs.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 2 ================= -->
+  <section class="section c-info" id="s2">
+    <div class="top"></div>
+    <div class="s-head">
+      <div class="ico">🤖</div>
+      <div><span class="num">Section 02</span><h2>Vos deux réflexes IA</h2></div>
+    </div>
+    <div class="s-body">
+      <p>C'est une recommandation de Claude — « jusqu'à 100 follows par jour » — qui a coûté cher. Non pas parce
+        qu'elle était fausse, mais parce qu'elle donnait un plafond sans préciser que c'en était un.</p>
+
+      <h3>Réflexe 1 — Ne jamais le croire sur parole</h3>
+      <div class="prompt">
+        <div class="lbl">🧪 À coller systématiquement</div>
+        <q>Je pense que ça fait beaucoup. Vérifie les sources à jour du [date du jour] et confirme-moi ça à partir
+          d'au moins cinq sources différentes de grande autorité.</q>
+      </div>
+      <p>Sur des statistiques, neuf réponses sur dix sont fausses ou approximatives au premier jet.
+        Faire recouper les sources doit devenir un automatisme.</p>
+
+      <h3>Réflexe 2 — Passer par NotebookLM en deep research</h3>
+      <p>NotebookLM (rebaptisé Notebook Gemini) sert à constituer un dossier de sources <em>avant</em> de trancher.
+        En mode <code>deep research</code>, jamais en <code>fast research</code>.</p>
+      <div class="prompt">
+        <div class="lbl">🔍 Requête type</div>
+        <q>Trouve-moi des interviews ou publications récentes, fiables et certifiées, provenant de Meta, d'ingénieurs
+          ou de dirigeants de Meta, datant de moins de 3 mois, qui expliquent comment fonctionnent les restrictions
+          et les blocages de comptes.</q>
+      </div>
+      <p>On importe les sources, on ajoute manuellement ce qu'on trouve soi-même (vidéos YouTube, interviews),
+        puis on renvoie les réponses à Claude : « Voilà ce que j'ai trouvé ailleurs. Revois ta copie. »
+        Dans neuf cas sur dix, il révise son estimation.</p>
+
+      <div class="box tip">
+        <div class="lbl">✅ Le skill qui a produit ce document</div>
+        <p>« Acquiers la compétence suivante : à chaque fois que je te donne un lien Vimeo d'un échange qu'on a eu,
+          tu récupères la transcription écrite, tu me fais un résumé très simple à reprendre en main, et une checklist
+          très détaillée de toutes les étapes les plus simples à mettre en place pour commencer dès maintenant. »</p>
+      </div>
+      <div class="box">
+        <div class="lbl">🧠 Une méthode de travail</div>
+        <p>Quand Claude s'emballe et sort une liste de vingt tâches : « Je n'ai pas ton cerveau. Donne-moi la tâche
+          numéro un, résume-la comme si j'étais un abruti fini, et attends que je te dise que je l'ai faite avant de
+          me donner la deux. » C'est exactement comme ça que toute l'architecture technique de Muzisecur a été reprise
+          en main en une soirée, après le départ du développeur.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 3 ================= -->
+  <section class="section c-accent" id="s3">
+    <div class="top"></div>
+    <div class="s-head">
+      <div class="ico">🎬</div>
+      <div><span class="num">Section 03</span><h2>Réseaux, republication et viralité</h2></div>
+    </div>
+    <div class="s-body">
+      <h3>Où vous en êtes</h3>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Plateforme</th><th>Situation</th><th>Lecture</th></tr></thead>
+          <tbody>
+            <tr><td>Facebook</td><td class="n">18 000</td><td>Sans doute le réseau le plus aligné avec votre cible ; regain de viralité anticipé par beaucoup d'experts</td></tr>
+            <tr><td>Instagram</td><td class="n">3 800</td><td>Débloqué — la dynamique devrait repartir</td></tr>
+            <tr><td>YouTube</td><td class="n">66 k / 458 k</td><td>Une percée récente, et la vidéo « foot » autour de 500 k</td></tr>
+            <tr><td>TikTok</td><td>Sursaturé</td><td>Algorithme mimétique : il récompense la reprise des formats du moment</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="box info">
+        <div class="lbl">💡 Meta Verified</div>
+        <p>Trois utilités réelles : garantir l'unicité de votre identité, obtenir un support théoriquement plus réactif
+          en cas d'usurpation (dans les faits, très décevant), et surtout apporter de la <strong>preuve sociale</strong>.
+          L'offre à 169 € par mois est inutile : celle à environ <strong>17 €</strong> suffit, et le changement d'abonnement est libre.</p>
+      </div>
+
+      <h3>Republier les anciens contenus</h3>
+      <ul>
+        <li>Toutes les vidéos passées sous <strong>10 000 à 20 000 vues</strong> méritent un second passage.</li>
+        <li>Il faut <strong>réuploader intégralement</strong> : il n'existe pas de passerelle d'un reel existant vers un
+          reel d'essai — et ce serait contre-productif, le contenu garde sa data en mémoire, ceux qui ont déjà liké ne
+          peuvent pas reliker.</li>
+        <li>Au réupload, changer la <strong>description</strong> et tester une autre <strong>miniature</strong>.</li>
+        <li>Une vidéo qui n'a rien donné il y a six semaines peut exploser aujourd'hui. L'inverse est vrai aussi.</li>
+      </ul>
+      <div class="box tip">
+        <div class="lbl">🎯 La technique de la fenêtre de tir</div>
+        <p>Prenez une vidéo qui a très bien marché ailleurs et publiez-la <strong>5 à 10 fois dans la même journée</strong>,
+          à des heures différentes. Personne ne sait vraiment pourquoi, mais ça fonctionne : la même vidéo qui faisait
+          43 vues à 15 h en fait 11 000 en quatre minutes à 18 h. Quand un contenu a déjà accroché humainement ailleurs,
+          ce n'est pas le contenu le problème — c'est le flux algorithmique. Et ça, ça se force.</p>
+      </div>
+
+      <h3>Le twist : votre marque de fabrique</h3>
+      <p>Les vidéos qui ont explosé partagent toutes la même mécanique. On emmène le cerveau du spectateur dans une
+        direction, il construit une interprétation — puis tout se retourne.</p>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Vidéo</th><th>Ce qu'on croit</th><th>Le retournement</th></tr></thead>
+          <tbody>
+            <tr><td>La voiture</td><td>Il est jaloux, il interroge sa femme</td><td>La révélation : ce n'est pas du tout ça</td></tr>
+            <tr><td>« Quand je te débranche »</td><td>On parle de maladie, de fin de vie</td><td>Il parle de la console de jeux</td></tr>
+            <tr><td>Le macho</td><td>« Je gagne l'argent, tu gardes les enfants »</td><td>Il enfile le tablier</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Ce qui rend l'effet jubilatoire : le public ne connaît pas Thomas, il joue vraiment bien, on croit sincèrement
+        que ça va mal tourner. Cette <strong>humiliation vécue puis retournée</strong> crée un lien direct avec le contenu.</p>
+      <div class="box">
+        <div class="lbl">🔎 Comment en trouver d'autres</div>
+        <p>Ne cherchez pas des « idées de vidéos », cherchez des <strong>situations de retournement de position dans une
+          dualité</strong>. Testez la version inversée, avec Nelly dans le rôle. Sortez votre téléphone dès qu'une scène
+          de film ou de spectacle produit cet effet sur vous, et notez-la. Et souvenez-vous du modèle historique :
+          le canular du 1<sup>er</sup> avril, joué parfaitement au sérieux, dont la chute n'arrive parfois qu'en commentaire.</p>
+      </div>
+      <div class="box warn">
+        <div class="lbl">⚠️ Sur les commentaires « c'est copié »</div>
+        <p>Tout le monde tire sa créativité de quelque chose qu'il a vu, consciemment ou non — dans la musique,
+          l'écriture, le cinéma. La grille d'accords de <em>Lay Lady Lay</em> se retrouve sur des dizaines de milliers
+          de morceaux. Ce reproche ne mérite pas de réponse.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 4 ================= -->
+  <section class="section" id="s4">
+    <div class="top"></div>
+    <div class="s-head">
+      <div class="ico">🌐</div>
+      <div><span class="num">Section 04</span><h2>Le site : FAQ, JSON-LD et PageSpeed</h2></div>
+    </div>
+    <div class="s-body">
+      <p>Le site est réussi — au point de servir d'exemple de site d'artiste construit avec Claude. Restent trois chantiers,
+        par ordre d'importance.</p>
+
+      <h3>1. La section FAQ de la page d'accueil</h3>
+      <p>Elle n'existe pas, et c'est le manque le plus coûteux. Il faut <strong>20 à 30 questions</strong> : « Qui est
+        TidyMess ? », « D'où vient TidyMess ? », « Quel style de musique ? », « Depuis quand ? ». Chaque réponse doit
+        contenir explicitement le style, la région, le département, la formation.</p>
+      <div class="box info">
+        <div class="lbl">💡 Pourquoi c'est décisif</div>
+        <p>Aujourd'hui, si on tape « c'est qui TidyMess ? », l'IA de Google répond correctement à partir de votre site.
+          Mais si on demande « c'est quoi les groupes du 64 ? », elle ne vous connaît pas. La FAQ est exactement le
+          levier qui corrige ça.</p>
+      </div>
+
+      <h3>2. Le JSON-LD</h3>
+      <div class="prompt">
+        <div class="lbl">⚙️ Requête à donner à Claude, telle quelle</div>
+        <q>J'aimerais que tu fasses une recherche approfondie, à jour de septembre 2026, de toute la méthodologie
+          utilisée par Google et par les différents LLM — ChatGPT, Claude, Gemini, Grok et tous les LLM utilisés
+          aujourd'hui dans le monde — pour identifier, analyser, lire et crawler une page web. Mon objectif est d'avoir
+          directement dans la structure du code un JSON-LD de qualité, pour que n'importe quel bot IA puisse très
+          facilement trouver mon contenu, le lire et l'utiliser pour répondre aux requêtes de ses utilisateurs.</q>
+      </div>
+      <p>Le JSON-LD est le bout de code qui <strong>crée l'autorité du site</strong>. Sans lui, pour Google, vous êtes
+        un inconnu qui donne un avis. Avec lui bien rempli, il comprend qui vous êtes, recoupe avec ses autres sources,
+        valide votre niveau d'autorité — et accepte alors d'analyser votre contenu.</p>
+      <div class="prompt">
+        <div class="lbl">🔁 Puis relancer deux ou trois fois</div>
+        <q>Maintenant que tout est en place, revérifie en profondeur les bonnes pratiques recommandées par Google
+          au jour de septembre 2026. On n'a rien oublié ?</q>
+      </div>
+
+      <h3>3. Les scores PageSpeed Insights</h3>
+      <p>Ils fluctuent d'un test à l'autre et le mobile passe devant le desktop, ce qui est inhabituel. Deux pistes :</p>
+      <ul>
+        <li>Le <strong>pixel Meta</strong> fait mécaniquement baisser la note. On ne peut pas l'enlever, on l'accepte.</li>
+        <li>Surtout, un <strong>élément instable dans le code</strong> — typiquement le widget Instagram gratuit qui compte
+          chaque visite comme une vue de son quota et se bloque au-delà de 100. La note fluctue alors selon le trafic.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= 5 ================= -->
+  <section class="section c-success" id="s5">
+    <div class="top"></div>
+    <div class="s-head">
+      <div class="ico">🏛️</div>
+      <div><span class="num">Section 05</span><h2>Construire votre autorité : l'ordre exact</h2></div>
+    </div>
+    <div class="s-body">
+      <p>Pour Google, il n'y a que deux situations : soit il ne sait pas qui vous êtes, soit il le sait et accorde du
+        crédit à ce que vous dites. Tout le travail consiste à passer de la première à la seconde.</p>
+      <div class="box">
+        <div class="lbl">🧭 Le principe</div>
+        <p>Google recoupe. Si vous êtes présents dans les bases de données de référence, que de vrais médias vous citent,
+          et que les informations concordent partout, il en conclut que c'est vrai — et il vous fait passer devant.
+          Aujourd'hui, dans la musique, presque personne ne fait ce travail. <strong>Les premiers à le faire dans une
+          discipline gardent plusieurs mois d'avance</strong> sur ceux qui voudront prendre leur place.</p>
+      </div>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>Étape</th><th>Quoi</th><th>Charge</th></tr></thead>
+          <tbody>
+            <tr><td class="n">1</td><td><strong>Wikidata</strong> — le point d'entrée. La plus grosse base de données au monde, désormais contrôlée et utilisée par Google, et lue par tous les LLM. TidyMess n'y figure pas aujourd'hui.</td><td class="n">2 à 3 h</td></tr>
+            <tr><td class="n">2</td><td><strong>MusicBrainz</strong> — la référence absolue pour la musique : albums, titres, participations, parutions, œuvres, concerts. Nomenclature déroutante, site vieillissant : à faire impérativement avec Claude.</td><td class="n">Long</td></tr>
+            <tr><td class="n">3</td><td><strong>Retour sur Wikidata</strong> — beaucoup de champs ne peuvent être remplis qu'une fois les autres bases alimentées, dont Discogs, que Google adore pour la musique.</td><td class="n">1 h</td></tr>
+            <tr><td class="n">4</td><td><strong>Knowledge Panel Google</strong> — « Revendiquer cette chaîne info », puis validation par pièce d'identité et lien réseau social.</td><td class="n">1 h + délai</td></tr>
+            <tr><td class="n">5</td><td><strong>Presse</strong> — un attaché de presse pour obtenir des articles : pas <em>Le Monde</em>, mais <em>Rock &amp; Folk</em>, <em>Les Inrocks</em>, la presse régionale, des chroniques musicales.</td><td class="n">Budget</td></tr>
+            <tr><td class="n">6</td><td><strong>Wikipédia</strong> — l'étape ultime, impossible sans les cinq précédentes. Sans relais d'autorité, l'article serait supprimé.</td><td class="n">Plus tard</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="box tip">
+        <div class="lbl">✅ Ce que change le Knowledge Panel</div>
+        <p>Aujourd'hui, Google affiche pour vous trois photos que vous n'avez pas choisies, le site et deux vidéos.
+          Une fois revendiqué, vous choisissez les photos, l'article mis en avant, la biographie, les informations
+          personnelles pertinentes, les profils sociaux et l'entourage. Comparez avec la fiche d'une Beyoncé :
+          c'est exactement la même mécanique, à une autre échelle.</p>
+      </div>
+      <div class="box warn">
+        <div class="lbl">⚠️ Une remarque importante</div>
+        <p>Toutes ces bases sont influençables — on pourrait y créer un personnage de toutes pièces, et tant que
+          personne ne vient contredire, ça passe. C'est précisément pour ça qu'acheter de la couverture médiatique
+          n'est pas une mauvaise idée : les médias traditionnels servent de figures d'autorité qui valident tout le reste.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 6 ================= -->
+  <section class="section c-info" id="s6">
+    <div class="top"></div>
+    <div class="s-head">
+      <div class="ico">🧩</div>
+      <div><span class="num">Section 06</span><h2>Comment une IA choisit ce qu'elle cite</h2></div>
+    </div>
+    <div class="s-body">
+      <p>Trois notions expliquent tout le reste. Une fois qu'on comprend la mécanique, on comprend comment l'influencer.</p>
+
+      <div class="cards">
+        <div class="c"><div class="t">1️⃣ Le chunking</div><p>L'IA ne lit jamais une source en entier. Elle en extrait des morceaux de texte — des <em>chunks</em>.</p></div>
+        <div class="c"><div class="t">2️⃣ Le RAG</div><p>Elle va chercher ces chunks dans 8 à 10 sources d'autorité, les fusionne dans un prompt interne, puis rédige.</p></div>
+        <div class="c"><div class="t">3️⃣ L'EEAT</div><p>Expérience, Expertise, Autorité, Fiabilité : ce qui décide si vous faites partie de ces 8 à 10 sources.</p></div>
+      </div>
+
+      <h3>Le chunking, et pourquoi la FAQ compte tant</h3>
+      <p>Une FAQ, c'est du contenu <strong>déjà découpé</strong> : question, réponse, question, réponse. C'est le format
+        le plus facile à chunker qui existe, et c'est pour ça que c'est le premier endroit qu'un bot regarde en arrivant
+        sur votre site. Vingt questions bien écrites, et il n'a plus besoin d'aller chercher ailleurs —
+        <strong>vous contrôlez le récit</strong> qu'on fera de vous.</p>
+
+      <h3>Le RAG en pratique</h3>
+      <p><code>Retrieval Augmented Generation</code>. L'IA n'a pas la réponse : elle est entraînée à la découvrir très vite.
+        Sur une requête comme « c'est quoi les droits voisins en musique ? », elle sélectionne huit sources, en extrait
+        des chunks, les mélange dans un prompt interne non public qui élimine, refusionne, contrôle — et rédige.
+        Le tout en une fraction de seconde.</p>
+      <div class="box info">
+        <div class="lbl">💡 Le saviez-vous ?</div>
+        <p>Les IA ne savent pas grand-chose. Ce qu'elles savent faire, c'est aller chercher l'information, la concentrer
+          très vite et la ressortir avec intelligence. Toute la bataille se joue donc en amont : être dans les sources
+          qu'elles sélectionnent.</p>
+      </div>
+
+      <h3>L'EEAT, et la mise à jour qui change tout</h3>
+      <div class="box stop">
+        <div class="lbl">🛑 Mise à jour Google du 1<sup>er</sup> août 2026</div>
+        <p>Le contenu purement génératif est désormais <strong>déclassé sans appel</strong>. Un article écrit par Claude
+          et publié tel quel peut ranker au fond de la classe. Ce n'est pas l'usage de l'IA qui pose problème —
+          c'est l'absence d'expérience humaine dedans.</p>
+      </div>
+      <p>D'où la méthode : ne jamais demander un article, demander <strong>un interrogatoire avant l'article</strong>.</p>
+      <div class="prompt">
+        <div class="lbl">🎓 La compétence à apprendre à Claude</div>
+        <q>Tu vas rédiger l'article, il n'y a pas de souci. Mais avant de rédiger, je veux absolument que tu me poses
+          toutes les questions possibles et imaginables sur mon expérience personnelle, mon expertise et mon autorité
+          sur le sujet, de manière à booster notre note EEAT.</q>
+      </div>
+      <p>Il proposera un plan à valider, puis une dizaine de questions. Et là, il faut <strong>raconter sa vie</strong> :
+        la première fois qu'on est allé à ce festival, à douze ans, avec ses parents ; le sandwich au poulet infâme ;
+        la première partie où le son n'était pas terrible. Ce sont ces détails qui rendent un article inimitable —
+        et donc irremplaçable pour une IA qui cherche une source.</p>
+      <div class="box tip">
+        <div class="lbl">✅ Les quatre piliers, concrètement</div>
+        <p><strong>Expérience</strong> : ce que vous racontez à Claude. <strong>Expertise</strong> : la manière dont vous
+          en parlez. <strong>Autorité</strong> : les relais médiatiques et les bases de données.
+          <strong>Fiabilité</strong> : Wikidata, MusicBrainz, une bio qu'on retrouve partout à l'identique.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 7 ================= -->
+  <section class="section c-accent" id="s7">
+    <div class="top"></div>
+    <div class="s-head">
+      <div class="ico">✍️</div>
+      <div><span class="num">Section 07</span><h2>La stratégie éditoriale du blog — et les ads</h2></div>
+    </div>
+    <div class="s-body">
+      <div class="box stop">
+        <div class="lbl">🛑 L'erreur à ne pas commettre</div>
+        <p>Créer un blog qui parle de vous. Les gens qui vous connaissent vous connaissent déjà. Ce qui vous intéresse,
+          ce sont les 1 000, 5 000, 15 000 personnes qui <strong>ne vous connaissent pas</strong> et qui vont arriver
+          sur votre site, vous découvrir, et décider — ou pas — d'aimer ce que vous faites.</p>
+      </div>
+      <p>Le nom de la rubrique n'a aucune importance : blog, actualités, carnet de bord. Pour Google, c'est traité
+        exactement de la même manière. Ce qui compte, ce sont les piliers.</p>
+
+      <div class="cards">
+        <div class="c"><div class="t">🎤 Pilier 1 — Les autres artistes</div><p>Au moins la moitié des articles. Des artistes que votre avatar connaît, aime ou respecte.</p></div>
+        <div class="c"><div class="t">📍 Pilier 2 — Le local et les lieux</div><p>Bayonne, Pau, Saint-Jean-de-Luz. Les salles qui vous ont programmés, ou qui pourraient le faire.</p></div>
+        <div class="c"><div class="t">🎥 Pilier 3 — Le behind the scenes</div><p>L'histoire d'un morceau, pourquoi il existe. Le pilier le plus riche en EEAT.</p></div>
+      </div>
+
+      <h3>Pilier 1 — Deux angles possibles</h3>
+      <ul>
+        <li><strong>L'actualité chaude.</strong> Un pic de recherches sur un artiste, un article entre l'actu et ce que
+          vous proposez, un titre volontairement accrocheur qui amène du monde jusqu'à votre morceau.</li>
+        <li><strong>L'influence profonde.</strong> Un artiste qui vous a marqués, sa vie, et beaucoup d'EEAT sur ce que
+          ça a changé chez vous. Le jour où quelqu'un demande « j'aime Julien Doré, tu me recommandes quoi ? »,
+          l'IA a de quoi vous citer.</li>
+      </ul>
+      <p>Autres formats qui fonctionnent : « douze chansons françaises dont tout le monde chante le refrain sans en
+        comprendre le sens », « pourquoi les textes de Cabrel vieillissent mieux que… ».</p>
+
+      <h3>Pilier 2 — Commencer par le local</h3>
+      <p>Ne visez pas le national. L'objectif de départ : que tout le monde à <strong>100 kilomètres à la ronde</strong>
+        sache que vous existez et ait une irrésistible envie de vous programmer. « Quoi faire à Saint-Jean-de-Luz la
+        deuxième semaine de juillet ? », « Où écouter de la musique live à Bayonne ? » — en citant les lieux.
+        On étend ensuite progressivement.</p>
+
+      <div class="box tip">
+        <div class="lbl">🎯 La technique du confrère</div>
+        <p>Repérez un artiste d'une autre région qui vise le même public que vous. Écrivez un article sur lui, envoyez-le-lui :
+          « on est là-bas, mais on adore ce que tu fais, on a chroniqué ça, n'hésite pas à le repartager ».
+          Si son public clique, il entre dans <strong>votre pixel</strong> et devient reciblable. Puis on recommence avec
+          Marseille, Lyon, Quimper, Paris. Au bout d'un moment, vous avez 20 000 personnes déjà fans d'artistes proches
+          de vous, prêtes pour une campagne le jour d'un clip.</p>
+      </div>
+
+      <div class="box info">
+        <div class="lbl">💡 L'ordre de grandeur</div>
+        <p>Sur le blog Muzisecur, dans la niche d'une niche : de <strong>zéro visiteur à près de 10 000 par mois en
+          moins de six mois</strong>. L'article le plus lu ? « Date de répartition SACEM » — une idée qui semblait sans
+          intérêt au moment de l'écrire, très saisonnière, qui provoque une explosion de trafic deux semaines avant la
+          date, et qui remplit le pixel exclusivement d'auteurs et de compositeurs.</p>
+      </div>
+      <p>Vous pouvez sortir un article par jour si ça vous chante. Sur 350 idées, il y en aura bien une qui cartonne.
+        Ou deux, ou trois.</p>
+
+      <h3>Les campagnes ads : plus tard, mais pas au hasard</h3>
+      <p>À lancer une fois le site structuré et le blog en place. Deux raisons de s'y préparer dès maintenant :</p>
+      <ul>
+        <li><strong>Tester les formats à twist en publicité.</strong> On commence par le réseau où vous êtes le
+          <em>plus faible</em> — YouTube ou TikTok — pour ne pas casser le cycle viral d'Instagram. On observe la
+          visibilité, le temps de visionnage, l'engagement, puis on remonte vers les plateformes fortes.
+          La régie Meta, avec Andromeda, a justement besoin de contenus offrant beaucoup de contextes différents : vous en avez.</li>
+        <li><strong>Utiliser les articles comme destinations de pub.</strong> C'est la stratégie subtile.</li>
+      </ul>
+      <div class="box">
+        <div class="lbl">🎯 Une petite opération chirurgicale</div>
+        <p>Un programmateur du 64 cherche des artistes émergents : pas trop chers, locaux, dans son esthétique.
+          Vous écrivez « Le top 10 des artistes émergents du 64 à suivre de très près en 2027 » — en commençant par le
+          n° 10, et en vous plaçant n° 1 ou n° 2. Vous identifiez la requête via la <strong>SERP</strong>, et vous faites
+          de la publicité <strong>uniquement pour l'article</strong>, sans rien vendre. S'ils sont 43 à taper ça dans la
+          semaine, être en première position devant eux coûte environ <strong>2,80 €</strong>. Une date vendue 2 000 €
+          et l'opération est rentabilisée des centaines de fois.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 8 ================= -->
+  <section class="section c-danger" id="s8">
+    <div class="top"></div>
+    <div class="s-head">
+      <div class="ico">💶</div>
+      <div><span class="num">Section 08</span><h2>Argent, contrôles et distribution</h2></div>
+    </div>
+    <div class="s-body">
+      <h3>La priorité absolue : le crédit d'impôt</h3>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Dispositif</th><th>Taux</th><th>Condition</th></tr></thead>
+          <tbody>
+            <tr><td>CIPP — production phonographique</td><td class="n">40 %</td><td>Société de plus d'un an, agrément CNM, délai ≈ 15 jours</td></tr>
+            <tr><td>CISV — spectacle vivant</td><td class="n">30 %</td><td>L'option retenue de votre côté</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Le mécanisme est simple : une fois l'agrément obtenu, vous enregistrez un projet — un nouvel album, une tournée —
+        et <strong>toutes les dépenses rattachées à ce projet deviennent éligibles</strong>. Une campagne renommée
+        « Acquisition — [nom du projet] » dans Meta, une facture de graphiste qui porte le nom du projet : éligibles.
+        Celles qui ne le sont pas naturellement, on les fait entrer dans le moule.</p>
+      <div class="box tip">
+        <div class="lbl">✅ L'effet sur le budget publicitaire</div>
+        <p>Si une campagne est rentable et que vous pouvez dépenser 8 000 € par mois, environ <strong>3 000 € sont pris
+          en charge</strong>. Votre retour sur investissement change de nature — et permet d'investir davantage.</p>
+      </div>
+
+      <h3>Les aides et subventions : ne plus s'y épuiser</h3>
+      <p>Ce n'est pas qu'il n'y a plus d'argent — il y en a plus qu'avant — mais il est fléché ailleurs. Le ministère de
+        la Culture a dû orienter une partie de son budget vers la défense, l'IA et la cybersécurité. L'AFDAS a vu 30 % de
+        son budget réaffecté à des dispositifs que personne ne demande. Et les conditions se durcissent :</p>
+      <ul>
+        <li>La sensibilisation <strong>VHSS</strong> devient <strong>obligatoire en janvier 2027</strong> :
+          sans elle, impossible même de déposer une demande sur la plateforme.</li>
+        <li>Une <strong>formation certifiante</strong> dans son domaine devrait bientôt être exigée des porteurs de projet,
+          sous peine de perte d'éligibilité.</li>
+      </ul>
+
+      <h3>Contrôles : la documentation est la seule protection</h3>
+      <p>Le contrôle arrive toujours après coup — souvent deux à trois ans plus tard — et en dessous de 100 000 €,
+        il est rare. Mais quand il arrive, ce n'est pas l'argumentation qui sauve, c'est le dossier.</p>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Situation vécue</th><th>Issue</th></tr></thead>
+          <tbody>
+            <tr><td>Une tablette achetée en urgence pour servir de prompteur sur un tournage, 200 €</td><td>Rejetée, faute de trace écrite de la décision</td></tr>
+            <tr><td>Une nuit d'hôtel à Santorin, seul moyen d'accéder à un producteur qui a ouvert l'Europe de l'Est</td><td>Rejetée : plafond à 300 € la nuit, quelles que soient les retombées</td></tr>
+            <tr><td>Un team building à Dubaï offert à toute l'équipe</td><td>Requalifié en avantage en nature déguisé, majoration de 100 %</td></tr>
+            <tr><td>Un tournage documentaire aux Maldives, entièrement documenté en amont</td><td>Accepté — synopsis, justification du lieu, factures nominatives</td></tr>
+            <tr><td>Des clients étrangers facturés sans TVA pendant quatre ans</td><td>68 000 € à rembourser : nul n'est censé ignorer la loi</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="box tip">
+        <div class="lbl">✅ La méthode : étaler la décision</div>
+        <p>Vous êtes deux associés, servez-vous-en. Pour l'achat de deux iPhone destinés à créer du contenu :<br>
+          <strong>3 février</strong> — compte rendu de réunion : l'idée est évoquée.<br>
+          <strong>3 mars</strong> — étude comparative : une caméra coûte 3 000 € pièce, deux iPhone reviennent à 2 000 €
+          et servent aussi aux réseaux et à la prospection.<br>
+          <strong>3 avril</strong> — décision actée d'un commun accord.<br>
+          L'achat devient justifié. Claude rédige les comptes rendus.</p>
+      </div>
+      <div class="box warn">
+        <div class="lbl">⚠️ En contrôle</div>
+        <p>Ils n'examinent jamais tout : ils échantillonnent. Le vrai danger, c'est une réponse mal formulée qui les
+          pousse à aller creuser ailleurs — et quand ils reniflent quelque chose, ils creusent partout.
+          Ne jamais paniquer, toujours avoir une réponse, si possible écrite d'avance.</p>
+      </div>
+
+      <h3>Strikes YouTube, sons et distribution</h3>
+      <p>Votre contrat de distribution est une licence : aux yeux de YouTube, c'est le distributeur qui est propriétaire
+        de l'enregistrement. Déclarer « c'est nous qui détenons les droits » ne fonctionnera pas.</p>
+      <div class="box info">
+        <div class="lbl">🔗 Le chemin à remonter</div>
+        <p>Vous → <strong>Aurélie Cabrol</strong> (sous-distributrice) → <strong>Curonico</strong> → <strong>Virgin</strong>.
+          Si Virgin décide de striker, personne en dessous ne peut rien faire. Il faut que la demande remonte jusqu'à
+          Virgin : <strong>ne pas bloquer, seulement revendiquer la monétisation</strong>. C'est la limite structurelle
+          de la sous-distribution — plus il y a d'étages, moins vous contrôlez.</p>
+      </div>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Plateforme</th><th>Règle à appliquer</th></tr></thead>
+          <tbody>
+            <tr><td>YouTube</td><td>Pas de whitelist nécessaire : le claim permet de monétiser et améliore même le référencement. Une vidéo bloquée relève d'une erreur à faire corriger par le distributeur.</td></tr>
+            <tr><td>Instagram / Facebook</td><td>Utiliser la musique depuis le catalogue de sons disponible dans l'application.</td></tr>
+            <tr><td>TikTok</td><td>Même règle. Extrait <strong>plafonné à 1 minute</strong> — vérifié en direct sur le catalogue. Si vous gardez le son original au montage : <strong>59 secondes maximum</strong>. La vidéo, elle, peut durer plus longtemps.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="box info">
+        <div class="lbl">💡 Tendance TikTok</div>
+        <p>Selon un formateur TikTok, les vidéos de <strong>plus de trois minutes</strong> auraient aujourd'hui un
+          potentiel viral nettement supérieur aux formats courts. C'est en apparence contradictoire avec la limite d'une
+          minute sur les sons — le point reste à éclaircir.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CHAPITRES ================= -->
+  <section class="section c-info" id="chapitres">
+    <div class="top"></div>
+    <div class="s-head">
+      <div class="ico">🎞️</div>
+      <div><span class="num">Section 09</span><h2>Les 19 chapitres du replay</h2></div>
+    </div>
+    <div class="s-body">
+      <p>Chaque titre ouvre le replay Vimeo directement au bon endroit. L'idéal : suivre la vidéo avec ce support ouvert à côté.</p>
+      <ol class="chaps" id="chapList"></ol>
+    </div>
+  </section>
+
+  <!-- ================= PLAN ================= -->
+  <section class="section c-success" id="plan">
+    <div class="top"></div>
+    <div class="s-head">
+      <div class="ico">🚀</div>
+      <div><span class="num">Section 10</span><h2>Votre plan d'action</h2></div>
+    </div>
+    <div class="s-body">
+      <p>Une chose à la fois, sans chercher à regarder les résultats : c'est fait, ce n'est plus à faire.
+        Les rôles indiqués sont ceux qui se sont dessinés pendant la session — Thomas sur la technique et le site,
+        Nelly sur l'éditorial et les réseaux.</p>
+
+      <div class="tracker">
+        <span class="cnt" id="cnt">0/24</span>
+        <span class="lab">étapes cochées</span>
+        <span class="tbar"><i id="fill"></i></span>
+        <button type="button" id="reset">Tout décocher</button>
+      </div>
+
+      <div class="phase">
+        <div class="phase-h"><h3>Phase 1 — Reprendre la main</h3><span class="when">Cette semaine</span></div>
+        <label class="task"><input type="checkbox"><span><span class="t">Relancer les abonnements Instagram en douceur<span class="who ne">Nelly</span></span>
+          <span class="d">10 par jour la première semaine, puis 15, 20, 25 maximum. Par blocs espacés dans la journée, jamais plus de <code>20 actions/heure</code>.</span></span></label>
+        <label class="task"><input type="checkbox"><span><span class="t">Séparer follow et unfollow<span class="who ne">Nelly</span></span>
+          <span class="d">Maximum <code>5 désabonnements/jour</code>, et jamais le même jour que les abonnements — Instagram évalue sur une fenêtre de 24 h.</span></span></label>
+        <label class="task"><input type="checkbox"><span><span class="t">Passer l'abonnement Meta Verified à l'offre basse<span class="who du">À deux</span></span>
+          <span class="d">De 169 € à environ 17 € par mois. Le changement d'abonnement est libre et sans conséquence.</span></span></label>
+        <label class="task"><input type="checkbox"><span><span class="t">Lancer la requête JSON-LD dans Claude<span class="who th">Thomas</span></span>
+          <span class="d">Le prompt complet est en section 04. Laisser tourner, puis challenger le résultat pour être certain que tout est béton.</span></span></label>
+        <label class="task"><input type="checkbox"><span><span class="t">Créer la section FAQ de la page d'accueil<span class="who th">Thomas</span></span>
+          <span class="d">20 à 30 questions. Chaque réponse doit contenir le style, la région, le département — c'est ce que les IA vont chunker.</span></span></label>
+        <label class="task"><input type="checkbox"><span><span class="t">Créer et remplir la fiche Wikidata<span class="who th">Thomas</span></span>
+          <span class="d">Bloquer deux à trois heures. C'est le point d'entrée de tout le reste ; TidyMess n'y figure pas aujourd'hui.</span></span></label>
+      </div>
+
+      <div class="phase">
+        <div class="phase-h"><h3>Phase 2 — Installer l'autorité</h3><span class="when">Semaine 2</span></div>
+        <label class="task"><input type="checkbox"><span><span class="t">Alimenter MusicBrainz<span class="who th">Thomas</span></span>
+          <span class="d">La nomenclature est déroutante et le site est vieux : à faire impérativement avec Claude, étape par étape.</span></span></label>
+        <label class="task"><input type="checkbox"><span><span class="t">Revenir compléter Wikidata<span class="who th">Thomas</span></span>
+          <span class="d">Relier les identifiants MusicBrainz et Discogs. Google adore Discogs pour tout ce qui touche à la musique.</span></span></label>
+        <label class="task"><input type="checkbox"><span><span class="t">Revendiquer le Knowledge Panel Google<span class="who th">Thomas</span></span>
+          <span class="d">« Revendiquer cette chaîne info » → pièce d'identité et lien réseau social. Ensuite : photos, biographie, profils sociaux, entourage.</span></span></label>
+        <label class="task"><input type="checkbox"><span><span class="t">Faire revérifier les bonnes pratiques Google<span class="who th">Thomas</span></span>
+          <span class="d">Deux ou trois passes de relecture par Claude, à jour de septembre 2026, une fois le code structuré.</span></span></label>
+        <label class="task"><input type="checkbox"><span><span class="t">Identifier l'élément instable du PageSpeed<span class="who th">Thomas</span></span>
+          <span class="d">Piste principale : le widget qui affiche les six dernières publications Instagram et son quota de vues. Le pixel Meta pèse aussi, mais on l'accepte.</span></span></label>
+      </div>
+
+      <div class="phase">
+        <div class="phase-h"><h3>Phase 3 — Lancer le blog</h3><span class="when">Semaines 3 et 4</span></div>
+        <label class="task"><input type="checkbox"><span><span class="t">Créer la page blog<span class="who ne">Nelly</span></span>
+          <span class="d">S'inspirer d'un blog existant qui vous plaît graphiquement. Le nom importe peu — blog, actualités, carnet : Google traite tout pareil.</span></span></label>
+        <label class="task"><input type="checkbox"><span><span class="t">Apprendre la compétence de rédaction à Claude<span class="who ne">Nelly</span></span>
+          <span class="d">Interrogatoire EEAT obligatoire avant toute rédaction. Sans expérience vécue dedans, l'article ne rankera pas depuis la mise à jour du 1<sup>er</sup> août.</span></span></label>
+        <label class="task"><input type="checkbox"><span><span class="t">Lister 30 idées d'articles sur les 3 piliers<span class="who ne">Nelly</span></span>
+          <span class="d">Moitié « autres artistes », un tiers « local et lieux », le reste « behind the scenes ». Brainstormer avec Claude.</span></span></label>
+        <label class="task"><input type="checkbox"><span><span class="t">Publier les trois premiers articles, en commençant par le local<span class="who ne">Nelly</span></span>
+          <span class="d">Objectif de départ : que tout le monde à 100 km à la ronde sache que vous existez et ait envie de vous programmer.</span></span></label>
+        <label class="task"><input type="checkbox"><span><span class="t">Chroniquer un artiste confrère et lui envoyer l'article<span class="who ne">Nelly</span></span>
+          <span class="d">Même public que vous, autre région. S'il repartage, son audience entre dans votre pixel.</span></span></label>
+      </div>
+
+      <div class="phase">
+        <div class="phase-h"><h3>Phase 4 — Relancer les contenus</h3><span class="when">En parallèle</span></div>
+        <label class="task"><input type="checkbox"><span><span class="t">Republier les anciennes vidéos sous 10 000 vues<span class="who du">À deux</span></span>
+          <span class="d">Réupload intégral, nouvelle description, autre miniature. Pas de passerelle depuis un reel existant — ce serait contre-productif.</span></span></label>
+        <label class="task"><input type="checkbox"><span><span class="t">Tester la publication multiple d'une vidéo qui a marché<span class="who du">À deux</span></span>
+          <span class="d">La même vidéo 5 à 10 fois dans la journée, à des heures différentes, sur YouTube et TikTok. Comparer aussi semaine et week-end.</span></span></label>
+        <label class="task"><input type="checkbox"><span><span class="t">Écrire trois nouveaux scénarios à twist<span class="who du">À deux</span></span>
+          <span class="d">Chercher des situations de retournement de position dans une dualité. Tester la version inversée avec Nelly dans le rôle.</span></span></label>
+      </div>
+
+      <div class="phase">
+        <div class="phase-h"><h3>Phase 5 — Administratif</h3><span class="when">Dès que possible</span></div>
+        <label class="task"><input type="checkbox"><span><span class="t">Appeler l'Urssaf pour l'attestation de cotisation FAF<span class="who ne">Nelly</span></span>
+          <span class="d">Le document n'a pas pu être obtenu cet été. Nécessaire pour la prise en charge de la formation.</span></span></label>
+        <label class="task"><input type="checkbox"><span><span class="t">Déposer la demande d'agrément au CNM<span class="who du">À deux</span></span>
+          <span class="d">Dès que la société a plus d'un an. Environ 15 jours de délai, puis chaque projet enregistré ouvre le crédit d'impôt.</span></span></label>
+        <label class="task"><input type="checkbox"><span><span class="t">Nommer factures et campagnes au nom du projet<span class="who du">À deux</span></span>
+          <span class="d">Une campagne Meta renommée, une facture de graphiste qui porte le nom du projet : la dépense devient éligible.</span></span></label>
+        <label class="task"><input type="checkbox"><span><span class="t">Mettre en place les comptes rendus de décision<span class="who du">À deux</span></span>
+          <span class="d">Formaliser chaque achat significatif sur trois réunions datées. Claude rédige.</span></span></label>
+        <label class="task"><input type="checkbox"><span><span class="t">Relancer le distributeur sur les strikes YouTube<span class="who du">À deux</span></span>
+          <span class="d">Demander que la requête remonte jusqu'à Virgin : revendication de la monétisation, pas blocage.</span></span></label>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section class="section" id="faq">
+    <div class="top"></div>
+    <div class="s-head">
+      <div class="ico">❓</div>
+      <div><span class="num">Section 11</span><h2>La FAQ complète</h2></div>
+    </div>
+    <div class="s-body">
+      <p>Soixante-deux questions issues de la session, classées par thème. Tapez un mot pour filtrer.</p>
+      <div class="faq-tools">
+        <input type="search" id="q" placeholder="Chercher : unfollow, EEAT, Wikidata, crédit d'impôt…" aria-label="Filtrer les questions">
+        <button class="chip on" data-f="all" type="button">Tout</button>
+        <button class="chip" data-f="insta" type="button">Instagram</button>
+        <button class="chip" data-f="contenu" type="button">Contenus</button>
+        <button class="chip" data-f="seo" type="button">Site &amp; IA</button>
+        <button class="chip" data-f="blog" type="button">Blog</button>
+        <button class="chip" data-f="argent" type="button">Argent</button>
+        <button class="chip" data-f="droits" type="button">Droits</button>
+      </div>
+      <div id="faqZone"></div>
+      <p class="noresult" id="noresult">Aucune question ne correspond à cette recherche.</p>
+    </div>
+  </section>
+
+  <!-- ================= QUIZ ================= -->
+  <section class="section c-accent" id="quiz">
+    <div class="top"></div>
+    <div class="s-head">
+      <div class="ico">🎯</div>
+      <div><span class="num">Section 12</span><h2>Quiz : avez-vous tout retenu ?</h2></div>
+    </div>
+    <div class="s-body">
+      <p>Cinq questions sur les points les plus décisifs de la session.</p>
+      <div class="quiz" id="quizZone"></div>
+      <div class="score" id="score"></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="brand">Producteur à Succès</div>
+    <p>Mentorat TidyMess — session du 2 septembre 2026, animée par Tarik Hamiche.
+      Support établi à partir de la transcription intégrale du replay.</p>
+    <p>Les chiffres et procédures cités reflètent l'état du sujet au 2 septembre 2026 ;
+      les règles des plateformes et les dispositifs d'aide évoluent vite.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- CHAPITRES ---------- */
+  var VID="https://vimeo.com/1223569438/e5b7a62f53";
+  var CH=[[0,"Introduction et rentrée"],[125,"Blocage Instagram : c'est levé"],
+    [250,"Follow/unfollow : l'origine du blocage"],[621,"Challenger l'IA et utiliser NotebookLM"],
+    [806,"Les vraies limites Instagram"],[1112,"Outils tiers, Meta Verified et réseaux"],
+    [1613,"Republier ses anciens contenus"],[1795,"Le twist : votre marque de fabrique virale"],
+    [2349,"Le site web : PageSpeed et section FAQ"],[2781,"JSON-LD et lisibilité par les bots IA"],
+    [2909,"Construire son autorité aux yeux de Google"],[3036,"Wikidata, MusicBrainz et Knowledge Panel"],
+    [3911,"Chunking, RAG et EEAT expliqués"],[4469,"Stratégie éditoriale du blog"],
+    [5524,"Par où commencer : le plan semaine par semaine"],[6024,"Campagnes ads : quand et comment démarrer"],
+    [6344,"Crédit d'impôt CIPP et aides"],[6720,"Contrôles fiscaux : tout documenter"],
+    [7910,"Strikes YouTube, whitelist et limite TikTok"]];
+  function fmt(s){var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),x=s%60;
+    return (h>0?h+":":"")+((m<10&&h>0?"0":"")+m)+":"+((x<10?"0":"")+x);}
+  var cl=document.getElementById("chapList");
+  CH.forEach(function(c){
+    var li=document.createElement("li"),a=document.createElement("a");
+    a.href=VID+"#t="+c[0]+"s";a.target="_blank";a.rel="noopener";
+    var t=document.createElement("time");t.textContent=fmt(c[0]);
+    var s=document.createElement("span");s.textContent=c[1];
+    a.appendChild(t);a.appendChild(s);li.appendChild(a);cl.appendChild(li);
+  });
+
+  /* ---------- FAQ ---------- */
+  var FAQ=[
+   ["insta","📱 Instagram et le blocage",[
+    ["Le blocage venait-il de nos contenus ?","<p>Non. Un ancien de chez Meta a passé une vingtaine de vos plus grosses vidéos au crible avec sa checklist complète : pas de tabac, pas de sexe, pas de violence, pas de publicité déguisée. Sa conclusion est formelle — <b>aucune restriction dans les contenus, rien à changer dans la ligne éditoriale</b>.</p>"],
+    ["Alors d'où venait-il ?","<p>Très probablement d'un cumul : un volume de follow/unfollow à 100–150 actions par jour, une croissance de visibilité inhabituelle après une vidéo à plusieurs millions de vues, et peut-être deux ou trois signalements le même jour. Chez Meta, tout est automatisé : on ne sait jamais avec certitude.</p>"],
+    ["J'avais arrêté depuis une semaine, ça ne colle pas ?","<p>Si. Le décalage entre l'action et la sanction peut aller jusqu'à <b>15 jours</b>. Une semaine d'écart est parfaitement cohérent.</p>"],
+    ["Combien de personnes puis-je suivre par jour sans risque ?","<p>100 est le plafond toléré par Instagram, pas un objectif. Visez une montée progressive : 10 par jour, puis 15, 20, et 25 au maximum. Et surtout, ne dépassez jamais <b>20 actions par heure</b> — c'est la limite réellement inscrite dans le code.</p>"],
+    ["Et les désabonnements ?","<p>Ils sont <b>beaucoup plus surveillés</b> que les abonnements par l'algorithme anti-spam. Cinq par jour suffisent. L'apurement prendra plus de temps, mais le risque de sanction s'effondre.</p>"],
+    ["Puis-je faire mes abonnements et désabonnements le même jour ?","<p>Non. Instagram évalue l'activité d'un compte sur une <b>fenêtre glissante de 24 heures</b>. Le jour où vous suivez, vous ne vous désabonnez pas, et inversement : ça divise par deux le nombre d'actions visibles.</p>"],
+    ["Pourquoi notre compte est-il considéré comme « nouveau » ?","<p>L'algorithme ne regarde pas que la date de création. Un compte qui publiait de temps en temps et qui se met soudain à publier tous les jours — votre cas depuis début juin — est traité comme récent, donc surveillé de plus près, pendant une période qui peut aller jusqu'à six mois.</p>"],
+    ["Y a-t-il une limite au nombre d'abonnés qu'on peut gagner ?","<p>Oui : <b>7 500</b>. La fenêtre de temps n'est pas documentée — probablement 24 heures, mais l'information reste à confirmer. Statistiquement, c'est une limite censée ne jamais être atteinte ; en cas de buzz massif, elle peut déclencher un blocage.</p>"],
+    ["Le widget Instagram sur notre site pose-t-il problème ?","<p>Non. Il ne réalise aucune action sur Instagram, il ne fait que récupérer de l'information. Ce que Meta déteste, ce sont les outils qui agissent à votre place : ManyChat, les planificateurs de publication. Là, soit vous passez par le Business Manager, soit vous publiez à la main.</p>"],
+    ["Faut-il répondre aux commentaires négatifs ?","<p>Non, pour deux raisons. La première est pratique : ça éparpille et ça épuise. La seconde est réglementaire — en tant que créateur, vos <b>réponses</b> sont soumises aux règles de la communauté. Une répartie cinglante à une insulte peut se retourner contre le compte. Masquez, signalez si c'est violent, et rééquilibrez votre temps vers les commentaires positifs.</p>"],
+    ["Meta Verified sert-il vraiment à quelque chose ?","<p>Trois choses : il garantit l'unicité de votre identité, il donne accès à un support théoriquement plus réactif en cas d'usurpation (dans les faits très décevant — faire fermer de faux comptes reste une galère), et surtout il apporte de la <b>preuve sociale</b>. Le badge attire le regard en story. L'offre à 169 € par mois est inutile : celle à environ 17 € suffit, et le changement d'abonnement est libre.</p>"],
+    ["Le badge ne fait-il pas prétentieux avec 3 800 abonnés ?","<p>Le badge vaut aussi sur Facebook, où vous avez 18 000 abonnés. La crédibilité est donc adossée à quelque chose de réel. Et 3 800 abonnés, ce n'est déjà pas mal.</p>"]
+   ]],
+   ["contenu","🎬 Contenus et viralité",[
+    ["Qu'est-ce qui rend nos vidéos virales, concrètement ?","<p>Le <b>twist</b>. On oriente le cerveau du spectateur vers une interprétation, il la construit, puis tout se retourne. La voiture (on croit à la jalousie), « quand je te débranche » (on croit à la maladie, il parle de la console), le macho qui finit en tablier : c'est le même mécanisme à chaque fois. Ça envoie un shoot de dopamine, et ça peut être votre signature.</p>"],
+    ["Comment trouver de nouvelles idées de ce type ?","<p>Ne cherchez pas des « idées de vidéos », cherchez des <b>situations de retournement de position dans une dualité</b>. Testez la version inversée, avec Nelly dans le rôle. Et notez sur votre téléphone chaque scène de film ou de spectacle qui produit cet effet sur vous — c'est là que se trouve la matière première.</p>"],
+    ["Le 1<sup>er</sup> avril comme modèle ?","<p>Exactement. Le format historique : jouer le drame parfaitement au sérieux, ne jamais faire le twist dans la vidéo, et le laisser arriver en commentaire. Un formateur en immobilier avait publié une vidéo « j'arrête tout, l'immobilier c'est mort » — le premier commentaire disait « poisson d'avril ».</p>"],
+    ["Que répondre aux commentaires « c'est copié » ?","<p>Rien. Tout le monde tire sa créativité de quelque chose qu'il a vu, consciemment ou non — dans la musique, l'écriture, le cinéma. La grille d'accords de <i>Lay Lady Lay</i> se retrouve sur des dizaines de milliers de morceaux. C'est le jeu, et c'est déculpabilisant de l'admettre.</p>"],
+    ["Peut-on republier une vidéo qui n'a pas marché ?","<p>Oui, sans le moindre scrupule, et c'est même recommandé pour tout ce qui est passé sous 10 000 à 20 000 vues. Une vidéo qui n'a rien donné il y a six semaines peut exploser aujourd'hui — et l'inverse est vrai aussi. C'est très aléatoire.</p>"],
+    ["Peut-on transformer un reel existant en reel d'essai ?","<p>Non, la passerelle n'existe pas. Et même si elle existait, ce serait déconseillé : le contenu garde sa data en mémoire, ceux qui ont déjà liké ne peuvent pas reliker, le résultat serait contre-productif. Il faut <b>réuploader intégralement</b>, en changeant la description et en testant une autre miniature.</p>"],
+    ["Publier la même vidéo plusieurs fois dans la journée, ça marche vraiment ?","<p>Oui, et personne ne sait vraiment pourquoi. Prenez une vidéo qui a très bien marché ailleurs et publiez-la 5 à 10 fois dans la journée. La même vidéo qui faisait 43 vues à 15 h peut en faire 11 000 en quatre minutes à 18 h. Il y a des fenêtres où la plateforme a besoin de contenu à pousser, et si le contenu accroche, ça part.</p>"],
+    ["Sur quelle plateforme faut-il miser ?","<p>Chaque plateforme a son intérêt, mais Facebook semble le plus aligné avec votre cible — vous y avez déjà 18 000 abonnés, et beaucoup d'experts anticipent un renouveau de sa viralité. TikTok est plus difficile aujourd'hui : sursaturé, et son algorithme fonctionne par mimétisme, il récompense la reprise des formats du moment.</p>"]
+   ]],
+   ["seo","🌐 Le site, Google et les IA",[
+    ["Pourquoi une section FAQ est-elle indispensable ?","<p>Parce que c'est le <b>premier endroit qu'un bot IA regarde</b>. Une IA ne lit jamais une source en entier : elle extrait des morceaux de texte, des <i>chunks</i>. Une FAQ est déjà chunkée — question, réponse, question, réponse. Vous lui mâchez le travail, et en échange vous contrôlez le récit qu'on fera de vous.</p>"],
+    ["Combien de questions faut-il y mettre ?","<p>Vingt à trente suffisent. « Qui est TidyMess ? », « D'où vient TidyMess ? », « Quel style de musique ? » — et chaque réponse doit contenir explicitement le style, la région, le département. C'est comme ça que vous apparaîtrez sur « c'est quoi les groupes du 64 ? », requête sur laquelle Google ne vous connaît pas encore.</p>"],
+    ["Qu'est-ce que le chunking ?","<p>Le découpage en morceaux. Quand vous demandez « c'est quoi la SACEM ? » à une IA, elle sélectionne une dizaine de sources qui font autorité à ses yeux, et n'en extrait que des tronçons de texte — les chunks. C'est pour ça que la structure du contenu compte autant que le contenu lui-même.</p>"],
+    ["Et le RAG ?","<p><i>Retrieval Augmented Generation</i>. L'IA n'a pas la réponse : elle va chercher des chunks dans huit à dix sources, les mélange dans un prompt interne non public qui élimine, refusionne et contrôle, puis rédige. Le tout en une fraction de seconde. Les IA ne savent pas grand-chose — elles savent aller chercher et restituer très vite.</p>"],
+    ["Qu'est-ce que l'EEAT ?","<p>Expérience, Expertise, Autorité, Fiabilité. C'est ce qui différencie un contenu généré par IA d'un travail humain amplifié par l'IA. Google veut voir que vous avez <b>réellement vécu</b> une expérience sur le sujet, que vous avez une expertise réelle, une autorité par rapport aux autres, et qu'on peut vous identifier sans ambiguïté.</p>"],
+    ["Un article écrit par Claude peut-il ranker ?","<p>Publié tel quel, non. Depuis la mise à jour du <b>1<sup>er</sup> août 2026</b>, le contenu purement génératif est déclassé — vous pouvez finir au fond du classement. Ce n'est pas l'usage de l'IA qui pose problème, c'est l'absence d'expérience humaine dedans.</p>"],
+    ["Comment fait-on, alors ?","<p>On ne demande pas un article, on demande <b>un interrogatoire avant l'article</b> : « je veux absolument qu'avant de rédiger, tu me poses toutes les questions possibles sur mon expérience, mon expertise et mon autorité, pour booster notre note EEAT ». Il proposera un plan, puis une dizaine de questions. Et là, il faut raconter sa vie dans le détail — le festival à douze ans avec ses parents, le sandwich infâme, la première partie où le son était mauvais. Ce sont ces détails qui rendent l'article inimitable.</p>"],
+    ["Qu'est-ce que le JSON-LD ?","<p>Un bout de code structuré qui crée l'autorité d'un site. Sans lui, pour Google, vous êtes un inconnu qui donne un avis. Avec lui correctement rempli, Google comprend qui vous êtes, recoupe avec ses autres sources, valide votre niveau d'autorité — et accepte alors d'analyser votre contenu et de le comparer aux autres.</p>"],
+    ["Quelle part du trafic passe par les IA aujourd'hui ?","<p>On était à environ 10 % il y a peu ; on est aujourd'hui autour de <b>60 %</b>, avec un objectif affiché de 90 % en fin d'année. Google a placé le mode IA en première position dans ses résultats et fait tout pour qu'il devienne l'usage par défaut.</p>"],
+    ["Pourquoi nos scores PageSpeed varient-ils autant ?","<p>Deux causes probables. Le pixel Meta fait mécaniquement baisser la note : on ne peut pas l'enlever, il faut l'accepter. Et surtout, un élément instable dans le code — typiquement un widget Instagram gratuit qui compte chaque visite comme une vue de son quota et se bloque au-delà de 100. La note fluctue alors selon le trafic.</p>"],
+    ["Peut-on créer une page Wikipédia tout de suite ?","<p>Non, elle serait supprimée faute de notoriété. Wikipédia est l'étape ultime : il faut d'abord des relais d'autorité — un article du plus gros journal de votre région, éventuellement un quotidien national, un webzine musical important — puis Wikidata et MusicBrainz alimentés, le Knowledge Panel revendiqué. À ce moment-là, la communauté peut accepter votre demande.</p>"],
+    ["Dans quel ordre faut-il tout faire ?","<p>Wikidata d'abord (deux à trois heures à bloquer), puis MusicBrainz, puis retour sur Wikidata pour compléter ce qui n'était pas possible avant, et en parallèle la revendication du Knowledge Panel Google. Ensuite seulement la presse, et enfin Wikipédia.</p>"],
+    ["Pourquoi Wikidata avant tout le reste ?","<p>C'est la plus grosse base de données au monde, désormais contrôlée et utilisée par Google — et lue par ChatGPT, Claude, Gemini, Grok et tous les autres. C'est là qu'on établit les faits de base : que vous êtes des humains, votre pays, votre discipline, vos identifiants dans les autres bases.</p>"],
+    ["Et MusicBrainz ?","<p>C'est la référence numéro un pour tout ce qui touche à l'industrie musicale : albums, titres, participations, parutions, œuvres, concerts. Google s'en sert énormément, et tous les LLM aussi. Attention, c'est long et la nomenclature est déroutante — à faire impérativement avec Claude.</p>"],
+    ["Comment revendique-t-on le Knowledge Panel ?","<p>Sur le panneau qui apparaît à droite dans Google, cliquer sur « Revendiquer cette chaîne info », puis valider. Il faut compléter des informations, envoyer une pièce d'identité et un lien vers un réseau social. Une fois validé, vous choisissez les photos, l'article mis en avant, la biographie, les profils sociaux et l'entourage — au lieu des trois photos et deux vidéos que Google a choisies pour vous.</p>"]
+   ]],
+   ["blog","✍️ Le blog et la stratégie éditoriale",[
+    ["Faut-il appeler la rubrique « blog » ou « actualités » ?","<p>Peu importe. Pour Google, un blog et un espace d'actualités sont traités exactement de la même manière : de l'information ponctuelle ou spécifique que vous partagez. Vous pouvez même l'appeler autrement — « le carnet de », par exemple.</p>"],
+    ["De quoi doivent parler les articles ?","<p>Surtout pas de vous. Les gens qui vous connaissent vous connaissent déjà. L'objectif est d'attirer <b>ceux qui ne vous connaissent pas</b> : 1 000, puis 5 000, puis 15 000 personnes qui arrivent sur votre site, vous découvrent, et décident ou non d'aimer ce que vous faites. Au moins la moitié des articles doivent parler d'autres artistes.</p>"],
+    ["Quels sont les trois piliers ?","<ul><li><b>D'autres artistes</b> que votre avatar connaît, aime ou respecte — soit par l'actualité chaude, soit par l'influence profonde.</li><li><b>Le local et les lieux</b> : « quoi faire à Saint-Jean-de-Luz la deuxième semaine de juillet ? », « où écouter du live à Bayonne ? ».</li><li><b>Le behind the scenes</b> : l'histoire d'un morceau, pourquoi il existe. C'est le pilier le plus riche en EEAT.</li></ul>"],
+    ["Faut-il viser le national ou le local ?","<p>Le local, très clairement, au démarrage. L'objectif : que tout le monde à 100 km à la ronde sache que vous existez et ait une irrésistible envie de vous programmer. On étend ensuite progressivement.</p>"],
+    ["Comment un article sur un autre artiste nous ramène-t-il quelque chose ?","<p>Par la recommandation. Le jour où quelqu'un demande à une IA « j'aime Julien Doré, tu me recommandes quoi ? », si un article bien référencé et validé en autorité explique que Julien Doré a influencé votre écriture, l'IA vous cite. Plus vous multipliez ces points d'accroche, plus vous êtes recommandés.</p>"],
+    ["Et la technique du confrère ?","<p>Vous repérez un artiste d'une autre région qui vise le même public, vous écrivez un article sur lui, vous le lui envoyez : « on adore ce que tu fais, on a chroniqué ça, n'hésite pas à repartager ». Si son public clique, il entre dans votre pixel et devient reciblable. Puis vous recommencez avec Marseille, Lyon, Quimper, Paris.</p>"],
+    ["Combien d'articles faut-il publier ?","<p>Autant que vous avez d'idées — un par jour si ça vous chante. Sur 350 idées, il y en aura bien une qui cartonne, peut-être plus. L'article le plus lu du blog Muzisecur est « date de répartition SACEM », une idée qui semblait sans intérêt au moment de l'écrire.</p>"],
+    ["Quels résultats peut-on espérer ?","<p>Sur Muzisecur, dans la niche d'une niche : de zéro visiteur à près de 10 000 par mois en moins de six mois. Et ça se traduit très concrètement en appels entrants, en ventes et en opportunités. Le parcours typique est long : quelqu'un lit un article, oublie, revoit une publicité trois mois plus tard, relit un article, et finit par venir.</p>"],
+    ["Quand faut-il lancer les campagnes publicitaires ?","<p>Une fois le site structuré et le blog en place. On commence par le réseau où vous êtes le <b>plus faible</b> — YouTube ou TikTok — pour ne pas casser le cycle viral d'Instagram, et on remonte progressivement.</p>"],
+    ["Comment utiliser un article comme destination publicitaire ?","<p>Vous écrivez « le top 10 des artistes émergents du 64 à suivre de très près en 2027 », en commençant par le n° 10 et en vous plaçant premier ou deuxième. Vous identifiez la requête via la SERP, et vous faites de la publicité uniquement pour l'article — pas pour vendre. Si 43 programmateurs tapent cette requête dans la semaine, être devant eux coûte environ 2,80 €. Une date vendue 2 000 € et l'opération est rentabilisée des centaines de fois.</p>"]
+   ]],
+   ["argent","💶 Argent, aides et contrôles",[
+    ["CIPP ou CISV ?","<p>Le CIPP couvre 40 % des dépenses de production phonographique, le CISV 30 % pour le spectacle vivant. Vous êtes partis sur le CISV : dix points de moins, mais le principe est identique.</p>"],
+    ["Quand déclencher la demande ?","<p>Le plus tôt possible. Dès que la société a plus d'un an d'existence, on demande l'agrément au CNM : environ 15 jours de délai. Ensuite, chaque projet enregistré ouvre le droit.</p>"],
+    ["Quelles dépenses sont éligibles ?","<p>Toutes celles rattachées au projet. Une campagne publicitaire renommée « Acquisition — [nom du projet] » dans Meta devient éligible. Une facture de graphiste qui porte le nom du projet aussi. Celles qui ne le sont pas naturellement, on les fait entrer dans le moule — en restant capable de tout justifier.</p>"],
+    ["Quel impact sur le budget publicitaire ?","<p>Considérable. Si vous pouvez dépenser 8 000 € par mois sur une campagne rentable, environ 3 000 € sont pris en charge. Votre retour sur investissement change de nature, ce qui permet d'investir davantage.</p>"],
+    ["Faut-il encore chercher des subventions ?","<p>De moins en moins. Ce n'est pas qu'il n'y a plus d'argent — il y en a plus qu'avant — mais il est fléché ailleurs : le ministère de la Culture a dû orienter une partie de son budget vers la défense, l'IA et la cybersécurité. Une fois le crédit d'impôt actionné, vous avez le plus gros morceau ; le reste est souvent infructueux.</p>"],
+    ["Quelles nouvelles conditions arrivent ?","<p>La sensibilisation <b>VHSS</b> devient obligatoire en janvier 2027 : sans elle, impossible même de déposer une demande sur la plateforme. Et une formation certifiante dans son domaine devrait bientôt être exigée des porteurs de projet, sous peine de perte d'éligibilité.</p>"],
+    ["À partir de quel montant y a-t-il un contrôle ?","<p>En dessous de 100 000 €, c'est rare. Au-delà, ça peut arriver — mais toujours <b>a posteriori</b>, souvent deux ou trois ans plus tard, quand l'administration ressort les trois derniers crédits d'impôt et passe trois semaines à tout éplucher.</p>"],
+    ["Qu'est-ce qui protège vraiment en contrôle ?","<p>La documentation, uniquement. Pas l'argumentaire du jour J. Un tournage documentaire aux Maldives entièrement documenté en amont — synopsis, justification du lieu, factures nominatives — est passé sans difficulté. Une tablette à 200 € achetée en urgence pour servir de prompteur, non documentée, a été rejetée.</p>"],
+    ["Comment documente-t-on une décision ?","<p>En l'étalant dans le temps. Février : compte rendu de réunion évoquant l'idée d'acheter deux iPhone. Mars : étude comparative — une caméra coûte 3 000 € pièce, deux iPhone reviennent à 2 000 € et servent aussi aux réseaux sociaux. Avril : décision actée d'un commun accord. Vous êtes deux associés, servez-vous-en. Claude rédige les comptes rendus.</p>"],
+    ["Qu'est-ce qu'un avantage en nature déguisé ?","<p>Une dépense de la société qui bénéficie personnellement à quelqu'un sans être justifiée par l'activité. Un team building offert à toute l'équipe à Dubaï a été requalifié ainsi, avec une majoration de 100 %. La contrôleuse a précisé que la même dépense présentée comme une mission de prospection ou de travail sur un projet aurait été parfaitement légitime.</p>"],
+    ["Que faire si on ne sait pas répondre en contrôle ?","<p>Ne jamais paniquer et toujours avoir une réponse. Ils n'examinent jamais tout : ils échantillonnent. Le vrai danger, c'est une réponse mal formulée qui les pousse à aller creuser ailleurs.</p>"]
+   ]],
+   ["droits","⚖️ Droits, sons et distribution",[
+    ["Pourquoi nos vidéos se font-elles striker sur YouTube ?","<p>Parce que votre contrat de distribution est une licence : aux yeux de YouTube, c'est le distributeur qui détient l'exploitation. Déclarer « c'est nous qui avons les droits » ne fonctionnera pas.</p>"],
+    ["Qui peut débloquer la situation ?","<p>Il faut remonter la chaîne : vous → Aurélie Cabrol, sous-distributrice → Curonico → Virgin. Si Virgin strike, personne en dessous ne peut rien. La demande doit remonter jusqu'à Virgin pour qu'ils <b>revendiquent la monétisation au lieu de bloquer</b>. C'est la limite de la sous-distribution : plus il y a d'étages, moins vous contrôlez.</p>"],
+    ["Faut-il une whitelist sur YouTube ?","<p>Non. Le claim reçu permet de monétiser la vidéo et améliore même son référencement. Une vidéo bloquée relève d'une erreur à faire corriger, pas d'une règle.</p>"],
+    ["Quelle musique utiliser sur Instagram et Facebook ?","<p>Celle du catalogue de sons directement disponible dans l'application. C'est la meilleure pratique, et elle vaut aussi pour TikTok.</p>"],
+    ["Y a-t-il une limite de durée sur TikTok ?","<p>Oui, vérifié en direct : l'extrait disponible dans le catalogue est <b>plafonné à une minute</b> sur l'ensemble des œuvres. Si vous préférez garder le son original monté dans la vidéo, restez sous <b>59 secondes</b> de musique. La vidéo elle-même peut durer plus longtemps.</p>"],
+    ["Faut-il faire des vidéos courtes ou longues sur TikTok ?","<p>D'après un formateur TikTok, les vidéos de <b>plus de trois minutes</b> auraient aujourd'hui un potentiel viral nettement supérieur. C'est en apparence contradictoire avec la limite d'une minute sur les sons du catalogue — le point reste à éclaircir.</p>"]
+   ]]
+  ];
+
+  var zone=document.getElementById("faqZone");
+  FAQ.forEach(function(g){
+    var w=document.createElement("div");w.className="fgroup";w.setAttribute("data-cat",g[0]);
+    var h=document.createElement("h3");h.textContent=g[1];w.appendChild(h);
+    g[2].forEach(function(qa,i){
+      var d=document.createElement("details");d.className="acc";if(i===0){d.open=true;}
+      var s=document.createElement("summary");s.innerHTML=qa[0];
+      var a=document.createElement("div");a.className="in";a.innerHTML=qa[1];
+      d.appendChild(s);d.appendChild(a);w.appendChild(d);
+    });
+    zone.appendChild(w);
+  });
+
+  var cat="all",term="";
+  var chips=Array.prototype.slice.call(document.querySelectorAll(".chip"));
+  var input=document.getElementById("q"),none=document.getElementById("noresult");
+  function apply(){
+    var shown=0;
+    Array.prototype.forEach.call(zone.children,function(g){
+      var gc=g.getAttribute("data-cat"),any=0;
+      Array.prototype.forEach.call(g.querySelectorAll("details.acc"),function(d){
+        var ok=(cat==="all"||cat===gc)&&(term===""||d.textContent.toLowerCase().indexOf(term)>-1);
+        d.style.display=ok?"":"none";
+        if(ok){any++;shown++;if(term!==""){d.open=true;}}
+      });
+      g.style.display=any?"":"none";
+    });
+    none.style.display=shown?"none":"block";
+  }
+  chips.forEach(function(c){c.addEventListener("click",function(){
+    chips.forEach(function(x){x.classList.remove("on");});
+    c.classList.add("on");cat=c.getAttribute("data-f");apply();});});
+  input.addEventListener("input",function(){term=input.value.trim().toLowerCase();apply();});
+
+  /* ---------- PLAN ---------- */
+  var boxes=Array.prototype.slice.call(document.querySelectorAll(".task input"));
+  var cnt=document.getElementById("cnt"),fill=document.getElementById("fill");
+  function upd(){
+    var n=boxes.filter(function(b){return b.checked;}).length;
+    cnt.textContent=n+"/"+boxes.length;
+    fill.style.width=(n/boxes.length*100)+"%";
+  }
+  boxes.forEach(function(b){b.addEventListener("change",function(){
+    b.closest(".task").classList.toggle("done",b.checked);upd();});});
+  document.getElementById("reset").addEventListener("click",function(){
+    boxes.forEach(function(b){b.checked=false;b.closest(".task").classList.remove("done");});upd();});
+  upd();
+
+  /* ---------- QUIZ ---------- */
+  var QUIZ=[
+   ["Quelle est la vraie limite d'actions à ne pas dépasser sur Instagram ?",
+    ["100 abonnements par jour","20 actions par heure","50 actions par jour","7 500 actions par semaine"],1,
+    "100 par jour est le plafond toléré, pas un objectif. La limite réellement inscrite dans le code, c'est 20 actions par heure — faire 100 follows puis 100 unfollows en une heure, c'était dix fois au-dessus."],
+   ["Pourquoi une section FAQ est-elle indispensable sur la page d'accueil ?",
+    ["Parce que les visiteurs la lisent en premier","Parce qu'elle améliore le score PageSpeed","Parce qu'elle facilite le chunking par les IA","Parce que Google pénalise les sites sans FAQ"],2,
+    "Une IA ne lit jamais une source en entier : elle en extrait des chunks. Une FAQ est déjà découpée en question/réponse — c'est le format le plus facile à chunker, donc le premier endroit qu'un bot regarde. Et c'est vous qui contrôlez la narrative."],
+   ["Par quoi faut-il commencer le travail d'autorité ?",
+    ["Wikipédia","MusicBrainz","Le Knowledge Panel Google","Wikidata"],3,
+    "Wikidata d'abord — deux à trois heures à bloquer. C'est la plus grosse base de données au monde, contrôlée par Google et lue par tous les LLM. Ensuite MusicBrainz, puis retour sur Wikidata, puis le Knowledge Panel. Wikipédia est l'étape ultime."],
+   ["Quelle est la pire erreur de stratégie éditoriale pour un blog d'artiste ?",
+    ["Publier trop souvent","Faire un blog qui parle de soi","Parler d'artistes plus connus que soi","Écrire des articles trop longs"],1,
+    "Les gens qui vous connaissent vous connaissent déjà. Le blog sert à attirer ceux qui ne vous connaissent pas : au moins la moitié des articles doivent parler d'autres artistes, de vos villes et de vos salles."],
+   ["Qu'est-ce qui protège réellement lors d'un contrôle fiscal ?",
+    ["Un bon expert-comptable","Rester en dessous des seuils","La documentation écrite et datée","Payer une majoration de 10 %"],2,
+    "C'est la documentation, et elle seule. Le tournage aux Maldives, entièrement documenté en amont, est passé. La tablette-prompteur à 200 €, non documentée, a été rejetée. Formalisez chaque décision sur plusieurs réunions datées."]
+  ];
+  var qz=document.getElementById("quizZone"),scoreEl=document.getElementById("score"),answered=[],good=0;
+  QUIZ.forEach(function(q,qi){
+    var d=document.createElement("div");d.className="q";
+    var t=document.createElement("div");t.className="qt";
+    t.innerHTML="<b>Q"+(qi+1)+".</b> "+q[0];d.appendChild(t);
+    q[1].forEach(function(opt,oi){
+      var l=document.createElement("label");l.className="opt";
+      var r=document.createElement("input");r.type="radio";r.name="q"+qi;
+      var s=document.createElement("span");s.textContent=opt;
+      l.appendChild(r);l.appendChild(s);d.appendChild(l);
+      r.addEventListener("change",function(){
+        if(answered[qi]){return;}
+        answered[qi]=true;
+        var opts=d.querySelectorAll(".opt");
+        opts[q[2]].classList.add("ok");
+        if(oi!==q[2]){l.classList.add("ko");} else {good++;}
+        d.querySelectorAll(".opt input").forEach(function(x){x.disabled=true;});
+        fb.classList.add("show");
+        if(answered.filter(Boolean).length===QUIZ.length){
+          scoreEl.textContent="Votre score : "+good+" / "+QUIZ.length+
+            (good===QUIZ.length?" — sans faute, tout est clair 🎉":good>=3?" — l'essentiel est retenu 👌":" — une relecture des sections 01, 04 et 05 s'impose 📖");
+          scoreEl.classList.add("show");
+        }
+      });
+    });
+    var fb=document.createElement("div");fb.className="fb";fb.innerHTML="<b>Explication —</b> "+q[3];
+    d.appendChild(fb);qz.appendChild(d);
+  });
+
+  /* ---------- PROGRESS ---------- */
+  var pr=document.getElementById("progress");
+  window.addEventListener("scroll",function(){
+    var h=document.documentElement,max=h.scrollHeight-h.clientHeight;
+    pr.style.width=(max>0?(h.scrollTop/max*100):0)+"%";
+  },{passive:true});
+})();
+</script>
+
+</body>
+</html>

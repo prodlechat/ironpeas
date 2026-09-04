@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Résumé de cours — Live Iron PEAS du 4 septembre 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED;
+  --primary-dark:#4C1D95;
+  --primary-light:#EDE9FE;
+  --accent:#F59E0B;
+  --accent-light:#FEF3C7;
+  --success:#10B981;
+  --success-light:#D1FAE5;
+  --danger:#EF4444;
+  --danger-light:#FEE2E2;
+  --info:#3B82F6;
+  --info-light:#DBEAFE;
+  --ink:#111827;
+  --body:#374151;
+  --muted:#6B7280;
+  --line:#E5E7EB;
+  --bg:#F9FAFB;
+  --card:#FFFFFF;
+}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--bg);color:var(--body);line-height:1.7;font-size:16px;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:'Space Grotesk','Inter',sans-serif;color:var(--ink);line-height:1.25;}
+
+/* Progress bar */
+#progress-wrap{position:fixed;top:0;left:0;width:100%;height:5px;background:rgba(108,58,237,.12);z-index:9999;}
+#progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--primary),#A78BFA);transition:width .1s linear;}
+
+.wrap{max-width:920px;margin:0 auto;padding:0 20px;}
+
+/* Hero */
+.hero{
+  background:linear-gradient(135deg,#4C1D95 0%,#6C3AED 55%,#8B5CF6 100%);
+  color:#fff;padding:64px 0 56px;margin-bottom:40px;
+}
+.hero h1{color:#fff;font-size:2.5rem;margin:16px 0 14px;letter-spacing:-.02em;}
+.badge{
+  display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);
+  color:#fff;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:7px 14px;border-radius:100px;
+}
+.hero p.lead{font-size:1.08rem;color:rgba(255,255,255,.92);max-width:700px;}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;}
+.meta span{
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+  padding:8px 14px;border-radius:10px;font-size:.86rem;font-weight:500;
+}
+
+/* TOC */
+.toc{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:30px;margin-bottom:44px;box-shadow:0 1px 3px rgba(0,0,0,.05);
+}
+.toc h2{font-size:1.05rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:20px;}
+.toc ol{list-style:none;counter-reset:toc;}
+.toc li{counter-increment:toc;border-bottom:1px solid var(--line);}
+.toc li:last-child{border-bottom:none;}
+.toc a{
+  display:flex;align-items:center;gap:16px;padding:13px 4px;
+  text-decoration:none;color:var(--ink);font-weight:500;transition:.15s;
+}
+.toc a:hover{color:var(--primary);padding-left:10px;}
+.toc a::before{
+  content:counter(toc,decimal-leading-zero);
+  font-family:'Space Grotesk';font-weight:700;color:var(--primary);
+  background:var(--primary-light);width:36px;height:36px;flex:0 0 36px;
+  display:flex;align-items:center;justify-content:center;border-radius:9px;font-size:.85rem;
+}
+
+/* Sections */
+section.chapter{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;
+  margin-bottom:34px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);
+}
+.chapter-head{padding:26px 32px;border-top:5px solid var(--primary);background:linear-gradient(180deg,#FAFAFF,#fff);}
+.chapter-head .num{
+  font-family:'Space Grotesk';font-size:.78rem;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--primary);
+}
+.chapter-head h2{font-size:1.62rem;margin-top:6px;letter-spacing:-.01em;}
+.chapter-head .tc{
+  display:inline-block;margin-top:12px;font-size:.78rem;font-weight:600;
+  background:var(--primary-light);color:var(--primary-dark);padding:5px 11px;border-radius:7px;
+}
+.chapter-body{padding:8px 32px 32px;}
+.chapter-body p{margin:16px 0;}
+.chapter-body h3{font-size:1.13rem;margin:30px 0 8px;color:var(--primary-dark);}
+.chapter-body ul,.chapter-body ol{margin:14px 0 14px 22px;}
+.chapter-body li{margin:8px 0;}
+strong{color:var(--ink);font-weight:600;}
+
+/* accent colors per chapter */
+.c1 .chapter-head{border-top-color:var(--primary);}
+.c2 .chapter-head{border-top-color:var(--success);}
+.c3 .chapter-head{border-top-color:var(--danger);}
+.c4 .chapter-head{border-top-color:var(--info);}
+.c5 .chapter-head{border-top-color:var(--accent);}
+.c6 .chapter-head{border-top-color:#0EA5E9;}
+.c7 .chapter-head{border-top-color:#DB2777;}
+.c8 .chapter-head{border-top-color:#059669;}
+.c2 .chapter-head .num{color:var(--success);} .c2 .chapter-head .tc{background:var(--success-light);color:#065F46;}
+.c3 .chapter-head .num{color:var(--danger);}  .c3 .chapter-head .tc{background:var(--danger-light);color:#991B1B;}
+.c4 .chapter-head .num{color:var(--info);}    .c4 .chapter-head .tc{background:var(--info-light);color:#1E40AF;}
+.c5 .chapter-head .num{color:#B45309;}        .c5 .chapter-head .tc{background:var(--accent-light);color:#92400E;}
+.c6 .chapter-head .num{color:#0369A1;}        .c6 .chapter-head .tc{background:#E0F2FE;color:#075985;}
+.c7 .chapter-head .num{color:#DB2777;}        .c7 .chapter-head .tc{background:#FCE7F3;color:#9D174D;}
+.c8 .chapter-head .num{color:#059669;}        .c8 .chapter-head .tc{background:var(--success-light);color:#065F46;}
+
+/* Callouts */
+.callout{border-radius:12px;padding:18px 22px 18px 20px;margin:22px 0;border-left:5px solid;}
+.callout .ct{font-weight:700;font-family:'Space Grotesk';display:flex;align-items:center;gap:9px;margin-bottom:7px;font-size:.95rem;}
+.callout p:last-child{margin-bottom:0;}
+.callout p:first-of-type{margin-top:0;}
+.retenir{background:var(--primary-light);border-color:var(--primary);} .retenir .ct{color:var(--primary-dark);}
+.astuce{background:var(--success-light);border-color:var(--success);} .astuce .ct{color:#065F46;}
+.attention{background:var(--accent-light);border-color:var(--accent);} .attention .ct{color:#92400E;}
+.danger{background:var(--danger-light);border-color:var(--danger);} .danger .ct{color:#991B1B;}
+.saviez{background:var(--info-light);border-color:var(--info);} .saviez .ct{color:#1E40AF;}
+
+/* Tables */
+.tbl-wrap{overflow-x:auto;margin:24px 0;border-radius:12px;border:1px solid var(--line);}
+table{width:100%;border-collapse:collapse;font-size:.93rem;background:#fff;}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:13px 16px;font-weight:600;font-family:'Space Grotesk';}
+tbody td{padding:12px 16px;border-top:1px solid var(--line);vertical-align:top;}
+tbody tr:nth-child(even){background:#FAFAFC;}
+td.win{color:#065F46;font-weight:600;}
+td.lose{color:#991B1B;font-weight:600;}
+
+/* Cards grid */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin:24px 0;}
+.card{background:#FAFAFC;border:1px solid var(--line);border-radius:13px;padding:20px;}
+.card h4{font-size:1rem;margin-bottom:7px;color:var(--primary-dark);}
+.card p{font-size:.9rem;margin:0;color:var(--body);}
+.card .ico{font-size:1.5rem;display:block;margin-bottom:8px;}
+
+/* Pros / cons */
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0;}
+.pc>div{border-radius:13px;padding:20px;}
+.pros{background:var(--success-light);border:1px solid #A7F3D0;}
+.cons{background:var(--danger-light);border:1px solid #FECACA;}
+.pc h4{font-size:.95rem;margin-bottom:10px;}
+.pros h4{color:#065F46;} .cons h4{color:#991B1B;}
+.pc ul{margin:0 0 0 18px;} .pc li{font-size:.9rem;margin:6px 0;}
+
+/* Timeline */
+.timeline{list-style:none;margin:24px 0;padding-left:8px;border-left:3px solid var(--primary-light);}
+.timeline li{position:relative;padding:0 0 22px 26px;margin:0;}
+.timeline li::before{
+  content:'';position:absolute;left:-9.5px;top:6px;width:15px;height:15px;
+  border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light);
+}
+.timeline strong{display:block;color:var(--primary-dark);font-family:'Space Grotesk';}
+
+/* Accordion */
+details{background:#FAFAFC;border:1px solid var(--line);border-radius:11px;margin:16px 0;overflow:hidden;}
+summary{padding:15px 20px;cursor:pointer;font-weight:600;color:var(--primary-dark);list-style:none;font-family:'Space Grotesk';}
+summary::-webkit-details-marker{display:none;}
+summary::before{content:'▸ ';color:var(--primary);font-weight:700;}
+details[open] summary::before{content:'▾ ';}
+details .dc{padding:0 20px 18px;font-size:.94rem;}
+details .dc p:first-child{margin-top:0;}
+
+/* Quiz */
+.quiz{background:linear-gradient(135deg,#4C1D95,#6C3AED);border-radius:18px;padding:36px 32px;color:#fff;margin:44px 0;}
+.quiz h2{color:#fff;font-size:1.8rem;margin-bottom:6px;}
+.quiz>p.sub{color:rgba(255,255,255,.85);margin-bottom:26px;}
+.q{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:13px;padding:22px;margin-bottom:18px;}
+.q .qt{font-weight:600;margin-bottom:14px;font-family:'Space Grotesk';}
+.opt{
+  display:block;width:100%;text-align:left;background:rgba(255,255,255,.94);border:2px solid transparent;
+  color:var(--ink);padding:12px 16px;border-radius:9px;margin-bottom:9px;cursor:pointer;
+  font-family:inherit;font-size:.94rem;transition:.15s;
+}
+.opt:hover:not(:disabled){background:#fff;transform:translateX(4px);}
+.opt:disabled{cursor:default;}
+.opt.good{background:#D1FAE5;border-color:#10B981;color:#065F46;font-weight:600;}
+.opt.bad{background:#FEE2E2;border-color:#EF4444;color:#991B1B;}
+.fb{margin-top:10px;font-size:.9rem;padding:11px 14px;border-radius:9px;background:rgba(255,255,255,.16);display:none;}
+.fb.show{display:block;}
+#score{
+  display:none;margin-top:24px;background:rgba(255,255,255,.95);color:var(--ink);
+  border-radius:13px;padding:22px;text-align:center;font-family:'Space Grotesk';
+}
+#score .big{font-size:2.2rem;font-weight:700;color:var(--primary);display:block;}
+
+/* Footer */
+footer{text-align:center;padding:44px 20px 60px;color:var(--muted);font-size:.88rem;}
+footer .brand{font-family:'Space Grotesk';font-weight:700;color:var(--primary);font-size:1.05rem;display:block;margin-bottom:6px;}
+
+@media(max-width:640px){
+  .hero h1{font-size:1.85rem;}
+  .chapter-head,.chapter-body{padding-left:20px;padding-right:20px;}
+  .pc{grid-template-columns:1fr;}
+  .quiz{padding:26px 20px;}
+}
+@media print{
+  #progress-wrap,.quiz{display:none;}
+  body{background:#fff;}
+  section.chapter{break-inside:avoid;box-shadow:none;}
+  .hero{background:var(--primary)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-wrap"><div id="progress-bar"></div></div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="badge">Live Iron PEAS · Session du 4 septembre 2026</span>
+    <h1>Subventions, crédits d'impôt et OGC : structurer son activité musicale</h1>
+    <p class="lead">Le replay complet de la session de rentrée, condensé en support écrit : comment monter des dossiers d'aide qui passent, s'inscrire aux organismes de gestion collective sans se faire recaler, activer les crédits d'impôt, et piloter son activité comme un vrai producteur.</p>
+    <div class="meta">
+      <span>⏱️ 3 h 07 de live</span>
+      <span>🎙️ Animé par Loïc — Muzisecur</span>
+      <span>📚 21 chapitres</span>
+      <span>🎯 Artistes, producteurs et labels indépendants</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>Sommaire</h2>
+    <ol>
+      <li><a href="#s1">Embauches, DPAE et statut : ce qui est légal, ce qui ne l'est pas</a></li>
+      <li><a href="#s2">Les subventions : la méthode complète, étape par étape</a></li>
+      <li><a href="#s3">Coller au légal : minima syndicaux, contrats et musicien amateur</a></li>
+      <li><a href="#s4">S'inscrire aux OGC : le socle commun et les 3 hacks</a></li>
+      <li><a href="#s5">Les crédits d'impôt : CIPP, CIM, CISV — le vrai levier</a></li>
+      <li><a href="#s6">Spotify, Deezer, Bandcamp : le comparatif et les bonnes métriques</a></li>
+      <li><a href="#s7">Fausses agences, faux streams et « activité suspecte »</a></li>
+      <li><a href="#s8">Réseau, booking et pilotage : MaMA, bookeurs, structure</a></li>
+    </ol>
+  </nav>
+
+  <!-- ============ 1 ============ -->
+  <section class="chapter c1" id="s1">
+    <div class="chapter-head">
+      <span class="num">Chapitre 01</span>
+      <h2>Embauches, DPAE et statut : ce qui est légal, ce qui ne l'est pas</h2>
+      <span class="tc">▶ 00:33 → 07:12 du replay</span>
+    </div>
+    <div class="chapter-body">
+
+      <h3>Sortir d'un label sans contrat écrit</h3>
+      <p>Cas fréquent : un artiste a envoyé des titres à un label qui les a distribués, <strong>sans contrat signé</strong>. L'absence de contrat ne veut pas dire absence d'engagement — le fait d'avoir envoyé les fichiers constitue un engagement de fait. Le label peut parfaitement répondre « c'est toi qui me les as envoyés, je ne t'ai rien demandé ».</p>
+      <ul>
+        <li><strong>Faire une rupture propre</strong> par lettre de résiliation, même sans contrat.</li>
+        <li>Dès qu'un titre est réuploadé ailleurs, <strong>l'empreinte audio déclenche une alerte</strong> chez l'ancien distributeur. Autant éviter le conflit en amont.</li>
+        <li>Ne pas oublier la <strong>récupération des métadonnées</strong> et un <strong>état de relance</strong> pour récupérer les revenus restants.</li>
+      </ul>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 À retenir</div>
+        <p>Pas de contrat ≠ pas d'engagement. On nettoie toujours la situation par écrit avant de redistribuer un titre.</p>
+      </div>
+
+      <h3>SASU et cachets : le piège employeur/employé</h3>
+      <p>Question récurrente : « Puis-je me payer en cachet d'artiste via ma SASU ? » Techniquement, oui — vous avez le droit d'être employeur et employé. <strong>Mais ces cachets ne rentreront pas dans votre intermittence.</strong> France Travail Spectacle les refusera précisément parce que vous êtes des deux côtés du contrat.</p>
+
+      <h3>La DPAE : la règle non négociable</h3>
+      <p>DPAE = <strong>Déclaration Préalable À l'Embauche</strong>. Le mot « préalable » est dans le nom, et il n'est pas décoratif.</p>
+
+      <ul class="timeline">
+        <li><strong>Avant l'embauche</strong>DPAE déposée — techniquement avant l'heure de passage sur scène. Si le passage est à 20 h et la DPAE faite à 19 h 59, c'est bon.</li>
+        <li><strong>Après la prestation</strong>Le paiement du cachet, lui, peut intervenir après. Aucun problème.</li>
+      </ul>
+
+      <div class="callout danger">
+        <div class="ct">🚨 Attention</div>
+        <p>« Tout le monde fait l'admin après » est faux — et c'est vous qui payez en cas de contrôle. Les organisateurs et producteurs qui vous disent ça vous exposent, pas eux.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ 2 ============ -->
+  <section class="chapter c2" id="s2">
+    <div class="chapter-head">
+      <span class="num">Chapitre 02</span>
+      <h2>Les subventions : la méthode complète, étape par étape</h2>
+      <span class="tc">▶ 07:12 → 22:16 du replay</span>
+    </div>
+    <div class="chapter-body">
+
+      <p>Le principe de base est simple : <strong>on ne monte pas un dossier tant que les pièces ne sont pas toutes là.</strong> Un dossier bancal est un dossier refusé.</p>
+
+      <ul class="timeline">
+        <li><strong>1. Qualification du projet</strong>Enregistrement ? Mix ? Master ? Clip ? Tournée ? EPK ? Deux ou trois questions suffisent à dégager les grandes lignes.</li>
+        <li><strong>2. Envoi des checklists</strong>Un document par subvention, avec la liste exacte des pièces à fournir. Vous cochez, vous rassemblez.</li>
+        <li><strong>3. Analyse des pièces</strong>S'il manque quelque chose, on refait un tour. Le dossier ne part pas incomplet.</li>
+        <li><strong>4. Dépôt</strong>Une fois seulement que tout est carré.</li>
+      </ul>
+
+      <div class="callout attention">
+        <div class="ct">⚠️ Le piège classique</div>
+        <p>Le <strong>Kbis de plus de 3 mois</strong>. C'est écrit sur la checklist, et pourtant c'est presque toujours celui-là qui coince.</p>
+      </div>
+
+      <h3>Pas de template : chaque dossier est unique</h3>
+      <p>Un quartet de jazz et un projet urbain avec du track big data n'ont ni les mêmes budgets, ni les mêmes pièces demandées, ni le même prix de projet. Le copier-coller est ce qui fait tomber les dossiers.</p>
+
+      <h3>Le budget prévisionnel : le document central</h3>
+      <p>Le budget se construit <strong>par blocs</strong>, parce que toutes les dépenses ne sont pas éligibles aux mêmes aides :</p>
+      <div class="cards">
+        <div class="card"><span class="ico">📝</span><h4>Préproduction</h4><p>Écriture, résidences, répétitions. Aides dédiées à l'écriture et à la résidence.</p></div>
+        <div class="card"><span class="ico">🎛️</span><h4>Enregistrement</h4><p>Studio, mix, mastering. Éligible au CIPP (crédit d'impôt phonographique).</p></div>
+        <div class="card"><span class="ico">📣</span><h4>Sortie &amp; promo</h4><p>Clip, EPK, attaché de presse, release party. Aides promo + crédits d'impôt.</p></div>
+        <div class="card"><span class="ico">🎤</span><h4>Live</h4><p>Bloc séparé — c'est le CISV (crédit d'impôt spectacle vivant) qui s'applique.</p></div>
+      </div>
+
+      <div class="callout saviez">
+        <div class="ct">💡 Exemple concret — l'aide EPK SPEDIDAM</div>
+        <p>Montant maximum <strong>2 500 €</strong>, prise en charge jusqu'à <strong>80 % de la facture</strong>. Durée max de l'EPK : 15 minutes. Il faut être une association ou une entreprise. Ne concerne ni les clips, ni les documentaires, ni la captation de concert.</p>
+      </div>
+
+      <h3>Le timing : la variable que tout le monde sous-estime</h3>
+      <p><strong>Minimum un mois avant de dépenser — réalistement entre un et trois mois.</strong> Un dossier peut se monter en une journée, mais si la date de commission était hier, c'est terminé.</p>
+
+      <div class="callout danger">
+        <div class="ct">🚨 Il n'existe pas de calendrier fiable des subventions</div>
+        <p>Personne n'en publie, et c'est très difficile à maintenir : les guichets ferment dès que le budget est épuisé. Exemple — l'aide coproduction SACEM est officiellement ouverte jusqu'au 31 octobre, mais elle ferme souvent dès le 1<sup>er</sup> octobre faute de budget.</p>
+      </div>
+
+      <details>
+        <summary>Et si j'ai déjà dépensé ? (cas d'une tournée passée)</summary>
+        <div class="dc">
+          <p>La majorité des aides se demandent <strong>avant</strong>. Le CISV est déjà perdu sur des dépenses passées. Il peut rester une ou deux aides marginales — à vérifier au cas par cas.</p>
+          <p>À noter sur les aides spectacle vivant à l'international : certaines posent des conditions absurdes, comme exiger 10 000 followers <em>du pays cible</em> sur un réseau social… alors que la tournée sert justement à construire cette audience.</p>
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+  <!-- ============ 3 ============ -->
+  <section class="chapter c3" id="s3">
+    <div class="chapter-head">
+      <span class="num">Chapitre 03</span>
+      <h2>Coller au légal : minima syndicaux, contrats et musicien amateur</h2>
+      <span class="tc">▶ 22:16 → 30:10 du replay</span>
+    </div>
+    <div class="chapter-body">
+
+      <p>Le point que tout le monde néglige : <strong>dès que vous demandez une subvention, vous vous rapprochez mécaniquement du cadre légal.</strong> Environ 90 % des aides ont la même condition n° 1 — payer tous les intervenants au moins aux minima légaux et syndicaux.</p>
+
+      <div class="callout attention">
+        <div class="ct">⚠️ Trois cadres, trois montants</div>
+        <p>Studio / enregistrement, clip vidéo et live relèvent de <strong>trois conventions différentes avec trois grilles de rémunération différentes</strong>. Il faut savoir laquelle s'applique avant de budgéter.</p>
+      </div>
+
+      <h3>Les contrats : la clé silencieuse d'un dossier accepté</h3>
+      <p>La majorité des subventions exigent un contrat — contrat d'artiste, contrat d'investissement, contrat de licence. Or la SACEM, l'ADAMI, la SPEDIDAM et le CNM ont tous des <strong>services juridiques</strong>. Un contrat bricolé sur ChatGPT ne passera pas : ils attendent des termes précis, des engagements, des durées, des territoires.</p>
+
+      <div class="pc">
+        <div class="pros">
+          <h4>✅ Ce qui fait passer un dossier</h4>
+          <ul>
+            <li>Tous les intervenants rémunérés, y compris les figurants d'un clip</li>
+            <li>Contrats propres, datés, signés, avec durée et territoire</li>
+            <li>Temps de pause et repas respectés (ex. 20 min toutes les 4 h en studio)</li>
+            <li>Un budget cohérent avec les factures fournies</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>❌ Ce qui fait refuser</h4>
+          <ul>
+            <li>Un contrat bancal — motif de refus à lui seul</li>
+            <li>Le band ou les figurants non payés sur un clip</li>
+            <li>Un montage « musicien amateur » pour ne payer personne</li>
+            <li>Un dossier générique, copié-collé d'un autre projet</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Le mythe du « statut de musicien amateur »</h3>
+      <p>Le statut existe, mais il est <strong>très réglementé</strong>. On ne décide pas du jour au lendemain que tel intervenant est amateur.</p>
+
+      <div class="callout danger">
+        <div class="ct">🚨 Le statut d'amateur tombe automatiquement si…</div>
+        <p>…l'artiste a <strong>sorti un titre sur Spotify</strong>, ou est <strong>membre d'un organisme de gestion collective</strong> (SACEM, ADAMI, SPEDIDAM). Dans ce cas le statut ne s'applique plus, point. Le montage « t'inquiète, on le passe en amateur, tu ne payes personne » n'a jamais existé et n'existera jamais.</p>
+      </div>
+
+      <p>La France protège fortement le statut d'intermittent — et c'est précisément ce dispositif de cotisations qui l'alimente.</p>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Le vrai secret des financeurs</div>
+        <p>Dans 9 cas sur 10, votre projet artistique ne les intéresse pas plus que ça. Les deux seules questions qu'ils se posent : <strong>« Est-ce que tu es dans les clous ? »</strong> et <strong>« Est-ce que ton dossier est complet ? »</strong></p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ 4 ============ -->
+  <section class="chapter c4" id="s4">
+    <div class="chapter-head">
+      <span class="num">Chapitre 04</span>
+      <h2>S'inscrire aux OGC : le socle commun et les 3 hacks</h2>
+      <span class="tc">▶ 30:10 → 42:50 du replay</span>
+    </div>
+    <div class="chapter-body">
+
+      <p>SACEM, ADAMI, SPEDIDAM, SPPF, SCPP — et leurs équivalents dans le monde. Chacun demande ce qu'il veut, sans concertation. Mais tous partagent un <strong>socle commun</strong>.</p>
+
+      <div class="cards">
+        <div class="card"><span class="ico">🎵</span><h4>1 à 5 titres sur Spotify</h4><p>La condition universelle. C'est l'histoire du chien qui se mord la queue : pour s'inscrire, il faut d'abord sortir.</p></div>
+        <div class="card"><span class="ico">🪪</span><h4>Carte d'identité</h4><p>Systématiquement demandée.</p></div>
+        <div class="card"><span class="ico">🔢</span><h4>N° de sécurité sociale</h4><p>Également dans le socle commun.</p></div>
+        <div class="card"><span class="ico">📄</span><h4>Puis « à la demande »</h4><p>Chaque organisme ajoute ses propres pièces par-dessus.</p></div>
+      </div>
+
+      <div class="callout saviez">
+        <div class="ct">💡 Nombre de streams : aucune importance</div>
+        <p>Sur <strong>Spotify, ça passe dès 0 écoute</strong> — seule la disponibilité du titre compte. À l'inverse, la SACEM demande au moins <strong>1 000 vues sur YouTube</strong>. C'est pour ça qu'on insiste sur Spotify.</p>
+      </div>
+
+      <div class="callout attention">
+        <div class="ct">⚠️ Les titres trop courts ne passent plus</div>
+        <p>Découper un morceau en cinq fragments de 30 secondes pour « faire 5 titres » ne fonctionne plus : Spotify les refuse. Comptez <strong>1 min 30 minimum</strong> pour être tranquille.</p>
+      </div>
+
+      <h3>Le justificatif d'activité professionnelle — 3 solutions</h3>
+      <p>C'est le blocage n° 1, surtout auprès des organismes de droit voisin (SPEDIDAM, ADAMI, SCPP, SPPF). Trois manières de le fournir :</p>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Solution</th><th>Comment ça marche</th><th>Pour qui</th></tr></thead>
+          <tbody>
+            <tr><td><strong>AEM ou fiche de paie</strong></td><td>Le justificatif roi. Si vous avez l'un ou l'autre, vous passez sans discussion.</td><td>Intermittents déjà embauchés</td></tr>
+            <tr><td><strong>Contrat d'enregistrement</strong></td><td>Contrat signé entre votre structure (label, société, association) et l'artiste interprète. Cosigné, il fonctionne.</td><td>Débuts de carrière, producteurs, autoproduction</td></tr>
+            <tr><td><strong>Crédits physiques</strong></td><td>Être crédité comme interprète sur un CD, vinyle ou DVD — avec code-barres et sortie dans les règles. Sinon refusé.</td><td>Ceux qui ont des sorties physiques officielles</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout danger">
+        <div class="ct">🚨 Erreur à ne jamais commettre</div>
+        <p>Si vous passez par une association pour vous faire un contrat d'enregistrement, <strong>vous ne devez pas figurer au bureau de l'association</strong>. Jamais — surtout si vous êtes intermittent ou comptez le devenir. Il faut quelqu'un d'autre à cette place pour que vous puissiez être l'artiste embauché.</p>
+      </div>
+
+      <details>
+        <summary>Cas particulier : auteur-compositeur sans intermittence</summary>
+        <div class="dc">
+          <p>Ça ne suffit pas seul. Il faut passer par le <strong>crédit</strong> : faire une sortie digitale et remplir méticuleusement chaque crédit (basse, guitare, chant, etc.), puis envoyer une capture d'écran. Le titre doit être disponible sur Spotify, sinon ça ne passe pas.</p>
+        </div>
+      </details>
+
+      <h3>Le contrat de distribution</h3>
+      <p>Deuxième grosse pièce bloquante. Les agrégateurs — TuneCore, DistroKid, iMusician, CD Baby, Amuse… — <strong>ne délivrent pas ce type de contrat</strong>. Deux solutions :</p>
+      <ol>
+        <li><strong>Passer par un vrai distributeur</strong> (Muzisecur, Believe, Sony, Universal…). C'est toujours la meilleure option.</li>
+        <li><strong>Faire une attestation d'autodistribution</strong> — acceptée uniquement si elle est correctement rédigée, signée, datée, avec les bonnes clauses.</li>
+      </ol>
+      <p>À noter : un <strong>contrat de licence avec une major</strong> passe aussi très souvent.</p>
+
+      <div class="callout attention">
+        <div class="ct">⚠️ L'IA et le droit français</div>
+        <p>N'envoyez jamais un contrat ou une attestation générés à l'arrache par une IA, avec des termes mi-français mi-anglais. Les IA sont majoritairement américaines ou chinoises et captent mal la complexité du droit français : elles proposent souvent des solutions valables dans les pays anglo-saxons, pas chez nous. Refus quasi assuré.</p>
+      </div>
+
+      <details>
+        <summary>📚 Ressource citée pendant le live : le SNAM-CGT</summary>
+        <div class="dc">
+          <p><strong>snam-cgt.org</strong> — utile non pas pour y adhérer, mais pour <em>lire et comprendre</em> : cachets minimaux, statut d'intermittent, défraiements, frais de restauration, temps de pause, GUSO, GIP Cafés Cultures, FONPEPS.</p>
+          <p>Attention à bien identifier votre catégorie : un musicien, un chef d'orchestre et un choriste ne sont pas payés pareil. Et ne mélangez pas les conventions — phono, clip et live ont des méthodes de calcul différentes. Astuce de navigation : passer par le menu du site plutôt que par un lien direct.</p>
+        </div>
+      </details>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Trouver un expert-comptable qui comprend la musique</div>
+        <p>C'est un vrai problème du secteur : très peu d'experts-comptables maîtrisent les crédits d'impôt musique et les spécificités du métier. Un bon expert coûte cher — et il les vaut : le niveau d'erreurs qu'il vous évite et la tranquillité qu'il vous apporte sont sans commune mesure. C'est un investissement, pas une charge.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ 5 ============ -->
+  <section class="chapter c5" id="s5">
+    <div class="chapter-head">
+      <span class="num">Chapitre 05</span>
+      <h2>Les crédits d'impôt : CIPP, CIM, CISV — le vrai levier</h2>
+      <span class="tc">▶ 2:36:20 → 2:55:00 du replay</span>
+    </div>
+    <div class="chapter-body">
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Le principe qui change tout</div>
+        <p>Une subvention bien montée <em>peut</em> être refusée — elle passe en commission. Un crédit d'impôt bien monté <strong>passe à tous les coups</strong>. C'est pour ça que le crédit d'impôt est toujours prioritaire sur la subvention.</p>
+      </div>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Crédit d'impôt</th><th>Périmètre</th><th>Taux</th><th>Dépenses couvertes</th></tr></thead>
+          <tbody>
+            <tr><td><strong>CIPP</strong><br><small>Phonographique</small></td><td>Production de disques</td><td class="win">40 %</td><td>Enregistrement, mix, mastering, clip vidéo, un peu de promo, release party</td></tr>
+            <tr><td><strong>CIM</strong><br><small>Édition musicale</small></td><td>Éditeurs</td><td class="win">30 %</td><td>Dépenses liées à l'activité d'édition</td></tr>
+            <tr><td><strong>CISV</strong><br><small>Spectacle vivant</small></td><td>Producteurs de spectacles</td><td class="win">30 %</td><td>Location de salles, salaires, déplacements, transport, hébergement</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Les dépenses doivent être <strong>facturées et réalisées en Europe</strong> (Royaume-Uni exclu). La structure doit être <strong>soumise à l'IS</strong> : SARL, SAS, SASU — ou une <strong>association soumise à l'IS</strong>, ce qui est parfaitement possible.</p>
+
+      <h3>Le hack pour les structures associatives</h3>
+      <ul class="timeline">
+        <li><strong>1. Passer l'association à l'IS</strong>Une association a le droit d'être soumise à l'impôt sur les sociétés.</li>
+        <li><strong>2. Adhérer au CNM</strong>Centre National de la Musique — l'adhésion est <strong>gratuite</strong>.</li>
+        <li><strong>3. Ouvrir un compte pro et déposer le CISV</strong>30 % des investissements sur les spectacles produits reviennent dans votre poche.</li>
+      </ul>
+
+      <div class="callout saviez">
+        <div class="ct">💡 L'effet roulement — exemple chiffré réel</div>
+        <p>Janvier 2025 : signature d'un album jazz en édition, <strong>10 000 € investis</strong> (attaché de presse, dépenses éligibles). Clôture des comptes en juin. Novembre 2025 : <strong>3 000 € récupérés</strong> au titre du CIM — alors que le projet n'est même pas encore sorti.</p>
+        <p>Ces 3 000 € financent le projet suivant : sur les 10 000 € du deuxième album, seuls <strong>7 000 € sortent réellement de votre poche</strong>. Et ainsi de suite, chaque année, avec une enveloppe qui arrive à date fixe.</p>
+      </div>
+
+      <div class="callout danger">
+        <div class="ct">🚨 La règle absolue</div>
+        <p><strong>Le crédit d'impôt se dépose AVANT de dépenser.</strong> Après, c'est trop tard, quelles que soient les factures. Il suffit d'un budget prévisionnel poste par poste (enregistrement, mix, master, clips, release party) — le devis n'est même pas obligatoire, mais c'est mieux de l'avoir.</p>
+      </div>
+
+      <p>Ce qui change surtout, c'est le <strong>mindset</strong> : quand vous savez qu'une partie reviendra quoi qu'il arrive, dépenser devient beaucoup moins anxiogène. Que le projet marche ou pas, vous n'avez pas perdu 10 000 € — vous en avez perdu 7 000.</p>
+
+      <div class="callout astuce">
+        <div class="ct">💡 Astuce complémentaire — le GIP Cafés Cultures</div>
+        <p>Dispositif d'aide à la rémunération destiné aux <strong>lieux qui embauchent</strong> : cafés, hôtels, restaurants, collectivités, autres employeurs. C'est le lieu — pas la boîte de production — qui doit faire le cachet pour en bénéficier, et il obtient un remboursement partiel. Exemple : sur environ 200 € de coût employeur, le lieu peut se faire rembourser autour de 46 €. Plus il y a d'artistes sur scène, plus le remboursement monte. À proposer aux lieux qui trouvent votre cachet trop cher.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ 6 ============ -->
+  <section class="chapter c6" id="s6">
+    <div class="chapter-head">
+      <span class="num">Chapitre 06</span>
+      <h2>Spotify, Deezer, Bandcamp : le comparatif et les bonnes métriques</h2>
+      <span class="tc">▶ 53:26 → 1:08:00 · 1:50:26 → 2:02:00 du replay</span>
+    </div>
+    <div class="chapter-body">
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Critère</th><th>Spotify</th><th>Deezer</th><th>Bandcamp</th></tr></thead>
+          <tbody>
+            <tr><td>Couverture des genres</td><td class="win">Tout-terrain, gagne partout</td><td>Public majoritairement francophone</td><td>Underground, metal, goth, électro</td></tr>
+            <tr><td>Rémunération du streaming</td><td class="lose">4-5 € / 1 000 streams · rien avant 1 000 streams</td><td class="win">Jusqu'à ~30 € / 1 000 streams (modèle artist-centric)</td><td class="lose">Nulle — pas de rémunération streaming</td></tr>
+            <tr><td>Rémunération des ventes</td><td>Marginale</td><td>Marginale</td><td class="win">Excellente, quasi tout revient à l'artiste</td></tr>
+            <tr><td>Playlists éditoriales</td><td class="win">Imbattable, et de loin</td><td>Surtout des playlists utilisateurs</td><td>Très peu de mises en avant</td></tr>
+            <tr><td>Mises en avant</td><td class="win">Puissance de feu incomparable</td><td>Existe mais ~100× moins d'utilisateurs</td><td>Quasi inexistantes</td></tr>
+            <tr><td>Rôle dans le marché</td><td class="win">Lanceur de talents</td><td class="lose">Suiveur, pas lanceur</td><td>Niche communautaire forte</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout saviez">
+        <div class="ct">💡 Le seuil des 1 000 streams</div>
+        <p>Spotify <strong>ne rémunère pas les 999 premiers streams</strong> d'un titre. Tant que vous n'avez pas dépassé le millier, rien ne tombe dans votre poche.</p>
+      </div>
+
+      <div class="callout astuce">
+        <div class="ct">💡 L'idée à retenir du débat</div>
+        <p>Sur un <strong>hit</strong>, Spotify repasse largement devant malgré sa rémunération unitaire faible, par pur effet de volume (5 millions de streams contre quelques dizaines de milliers). Mais rien n'empêche, dans une campagne Meta ou Google Ads, de <strong>cibler en priorité l'audience Deezer</strong> : elle est francophone, donc souvent plus proche de vous, et vous touchez de toute façon les utilisateurs Spotify en collatéral.</p>
+      </div>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Le premier critère reste le genre musical</div>
+        <p>Avant toute stratégie de plateforme : Spotify n'est adapté ni à tous les projets, ni à tous les profils. Rock indé, metal, goth, punk, électro et underground fonctionnent très bien sur Bandcamp — parfois mieux qu'ailleurs.</p>
+      </div>
+
+      <h3>Streams, abonnés ou auditeurs mensuels : que regarder ?</h3>
+      <p>Cas réel observé pendant le live : un artiste à <strong>120 000 auditeurs mensuels</strong>, <strong>400 000 streams sur 30 jours</strong>, mais <strong>moins de 5 000 abonnés</strong>. Les abonnés ne sont donc pas la métrique déterminante.</p>
+
+      <ul class="timeline">
+        <li><strong>Métrique n° 1 — les auditeurs mensuels</strong>Combien de personnes écoutent votre musique chaque mois. C'est le premier coup d'œil d'un pro.</li>
+        <li><strong>Métrique n° 2 — les streams par auditeur</strong>Le vrai indicateur d'attachement. En dessous de 1,8, le morceau n'est joué qu'une fois. À partir de 1,8-2, il commence à se passer quelque chose. Les gros profils montent à 3,2 voire 4.</li>
+        <li><strong>Métrique n° 3 — le nombre de playlists</strong>Dans l'exemple cité : 7 000 playlists. C'est ce qui alimente les auditeurs mensuels.</li>
+      </ul>
+
+      <div class="callout astuce">
+        <div class="ct">💡 Le parcours d'écoute réel : la répétition avant la conversion</div>
+        <p>Personne ne s'abonne à la première écoute. Le schéma type : playlist éditoriale → un titre accroche → l'algorithme propose des titres similaires → on retombe deux ou trois fois sur le même artiste → <em>là</em> on clique sur son profil, on s'abonne, on explore la discographie.</p>
+        <p><strong>Conséquence directe :</strong> c'est exactement pour ça qu'il faut sortir régulièrement et construire un catalogue étoffé. Le cerveau humain fonctionne à la répétition — comme la radio, comme Instagram. Un seul titre isolé ne crée jamais d'attachement.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ 7 ============ -->
+  <section class="chapter c7" id="s7">
+    <div class="chapter-head">
+      <span class="num">Chapitre 07</span>
+      <h2>Fausses agences, faux streams et « activité suspecte »</h2>
+      <span class="tc">▶ 1:43:02 → 1:50:26 du replay</span>
+    </div>
+    <div class="chapter-body">
+
+      <div class="callout danger">
+        <div class="ct">🚨 La règle qui vous protège</div>
+        <p>Les CGU de Spotify sont explicites : <strong>l'usage de sites tiers pour la promotion engage votre seule responsabilité.</strong> Spotify propose ses propres outils — <strong>Spotify Ads, Marquee, Showcase</strong>. Vous les utilisez, ou vous assumez. Il n'y a pas de recours : les distributeurs ne tapent jamais sur l'agence, ils tapent sur l'artiste ou le producteur.</p>
+      </div>
+
+      <p>Le paysage est saturé de faux : faux streams, fausses vues, faux « experts Meta certifiés », phishing pour récupérer vos données. À un point où il y a probablement plus de fausses offres que de bonnes.</p>
+
+      <h3>Le changement de vocabulaire de Spotify</h3>
+      <p>Spotify ne parle plus de « faux streams » mais d'<strong>activité suspecte</strong> — un terme volontairement plus large, et donc plus difficile à contester.</p>
+
+      <div class="callout saviez">
+        <div class="ct">💡 Comment une activité devient « suspecte »</div>
+        <p>Votre audience type : francophones de 25 à 40 ans, principalement à Paris. Puis, sans explication, <strong>10 000 visiteurs du Maroc</strong> arrivent sur votre profil… et génèrent <strong>3 streams</strong>. Le ratio est trois fois inférieur à votre moyenne. C'est exactement ce que l'algorithme identifie comme anormal.</p>
+      </div>
+
+      <div class="pc">
+        <div class="pros">
+          <h4>✅ Ce qui reste sûr</h4>
+          <ul>
+            <li>Les outils officiels Spotify (Ads, Marquee, Showcase) — plus chers, mais sans risque</li>
+            <li>Une campagne Meta ou YouTube <strong>bien menée</strong>, avec un ciblage cohérent</li>
+            <li>Tester chaque nouveau prestataire avec de petites sommes</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>❌ Les sanctions encourues</h4>
+          <ul>
+            <li>Retrait des streams concernés</li>
+            <li>Retrait des revenus associés</li>
+            <li>Amende d'une dizaine d'euros, souvent en plus</li>
+            <li>Au total : campagne payée pour rien + streams perdus + pénalité</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout attention">
+        <div class="ct">⚠️ Signal d'alerte concret</div>
+        <p>Ne mettez pas 400 € en une journée sur un pays qui n'a rien à voir avec votre audience. Une campagne progressive et géographiquement cohérente ne déclenche pas d'alerte.</p>
+      </div>
+
+      <details>
+        <summary>Et la publicité YouTube ? Le retour d'expérience du live</summary>
+        <div class="dc">
+          <p>Consensus pendant la session : <strong>une pub YouTube bien ciblée est souvent plus efficace qu'une campagne Meta</strong>, qui a tendance à cibler la masse. Sur YouTube, on affine davantage. Meta reste pertinent pour vendre des services (EPK, branding, mastering, press releases).</p>
+          <p>Exemple partagé : moins de 50 € de promo sur un titre ciblé Inde → <strong>2 700 nouveaux abonnés et 17 000 vues en une semaine</strong>. Rappel utile : dans l'industrie musicale, la première langue est l'anglais, puis l'espagnol, le coréen et le hindi.</p>
+          <p>Autre levier gratuit : <strong>créer des playlists publiques sur YouTube</strong> mêlant vos titres et ceux d'autres artistes. Les auditeurs découvrent votre musique dans le flux, ce qui génère des vues supplémentaires sans budget.</p>
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+  <!-- ============ 8 ============ -->
+  <section class="chapter c8" id="s8">
+    <div class="chapter-head">
+      <span class="num">Chapitre 08</span>
+      <h2>Réseau, booking et pilotage de son activité</h2>
+      <span class="tc">▶ 1:08:35 → 1:30:00 · 2:09:33 → 3:06:00 du replay</span>
+    </div>
+    <div class="chapter-body">
+
+      <h3>Le MaMA : ça vaut le coup ?</h3>
+      <div class="pc">
+        <div class="pros">
+          <h4>✅ Les vrais atouts</h4>
+          <ul>
+            <li>Des conférences de qualité, avec des intervenants qui ont de la bouteille</li>
+            <li>De très gros décideurs présents (dont des dirigeants du CNM)</li>
+            <li>Le meilleur du MaMA se joue <strong>avant et après</strong> l'événement</li>
+            <li>Une expérience à vivre au moins une fois</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>❌ Les limites</h4>
+          <ul>
+            <li>Multiplicité des lieux : deux confs intéressantes en même temps à 10 min de marche</li>
+            <li>Aucune réservation — conf pleine = porte fermée</li>
+            <li>Confort d'écoute parfois discutable</li>
+            <li>Surcharge d'informations : les décideurs croisent 4 500 personnes en trois jours</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout astuce">
+        <div class="ct">💡 Le hack réseau du MaMA</div>
+        <p>Les rendez-vous qui comptent se font <strong>tôt le matin, vers 8 h, dans les bars autour du festival</strong> — c'est là que les dirigeants se retrouvent. Et en fin de journée, quand tout le monde est en roue libre, on se fait de vrais contacts. Repérez en amont les intervenants qui vous intéressent, ajoutez-les sur LinkedIn un mois avant, et proposez un créneau avant ou après l'événement.</p>
+      </div>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 L'erreur de positionnement à ne pas faire</div>
+        <p>Si votre cible n° 1 est un <strong>bookeur</strong>, ne lui parlez pas de vos maquettes ni de vos singles. Son seul intérêt immédiat : <strong>qui vous êtes sur scène.</strong> Ce que vous chantez, comment vous vous comportez, quelle formule, quel prix.</p>
+        <p>Pas besoin de grosses scènes ni de festivals — des <strong>vidéos live</strong> suffisent, en prévoyant plusieurs formats (teaser court et versions longues).</p>
+      </div>
+
+      <p>À savoir : un bookeur cherche essentiellement deux choses — des <strong>premières parties</strong> (le plus courant) ou un projet de carrière à développer sur le long terme (de plus en plus rare). Vous êtes la solution à son problème, pas l'inverse.</p>
+
+      <details>
+        <summary>Se présenter quand on cumule intermittence et projet solo</summary>
+        <div class="dc">
+          <p>Erreur fréquente : compartimenter les deux activités. En réalité c'est l'intermittence qui finance et permet de développer le projet personnel — les deux n'en font qu'un.</p>
+          <p><strong>Formulation recommandée :</strong> se présenter d'abord comme <strong>auteur·rice-compositeur·rice-interprète ayant son propre répertoire, capable de s'adapter à la demande</strong>. Cela ouvre un panel bien plus large qu'un positionnement « chanteur·se de reprises », tout en restant honnête. Une première partie dure généralement 30 minutes — de quoi tenir avec son répertoire, quitte à finir sur une ou deux covers cohérentes avec l'univers.</p>
+        </div>
+      </details>
+
+      <h3>Manager, agences et réalité du marché événementiel</h3>
+      <div class="callout attention">
+        <div class="ct">⚠️ Ce qui a été dit sans filtre pendant le live</div>
+        <p>Le marché de l'événementiel s'est durci : inflation, budgets réduits, contraintes sonores de plus en plus fortes. Les producteurs privilégient souvent un DJ (un billet, un repas, un cachet) à un groupe de quatre avec transport, hébergement et restauration. Les commissions d'agences vont de <strong>10-15 % pour un bookeur</strong> à <strong>20 % pour un bon manager</strong> — et certaines agences prennent 25 à 50 % au-dessus du devis client.</p>
+        <p>Deux visions se sont exprimées, et les deux se défendent : celle de l'expérience (sans carnet d'adresses, on s'épuise) et celle de la construction progressive (le carnet se bâtit dans le temps, le bouche-à-oreille fonctionne fort). À vous de situer où vous en êtes.</p>
+      </div>
+
+      <div class="callout astuce">
+        <div class="ct">💡 Alternative concrète</div>
+        <p>Tant que vous n'avez pas de manager qui apporte vraiment des dates, gardez les 20 % et réinvestissez-les en visibilité (cameraman, contenu, promo). Signez uniquement des <strong>contrats non exclusifs</strong>, avec un pourcentage sur les dates réellement vendues. Cartes de visite en soirée, plateformes type mariage.net, LinkedIn pro et newsletter font souvent mieux qu'une agence médiocre.</p>
+      </div>
+
+      <h3>Piloter son activité : la structure et le budget</h3>
+      <div class="callout retenir">
+        <div class="ct">🎯 Le conseil structurel le plus important de la session</div>
+        <p>Si vous passez par une boîte de prod uniquement pour vos déclarations, vous perdez une commission (souvent 8 %) et le contrôle. <strong>Montez votre propre association, sans figurer au bureau</strong>, et pilotez tout : cachets, ventes de CD et vinyles, organisation de spectacles, réinvestissement dans vos clips et enregistrements. Une licence de spectacle n'est nécessaire que si vous organisez des spectacles — pas si vous vous contentez d'être booké.</p>
+      </div>
+
+      <h4 style="margin-top:26px;color:var(--primary-dark);font-family:'Space Grotesk';">La méthode budget en 3 temps</h4>
+      <ul class="timeline">
+        <li><strong>1. Partir de sa capacité financière réelle</strong>Choisir un montant qu'on a <em>déjà</em> à disposition. Exemple : « cette année, je suis prêt à investir 5 000 € ».</li>
+        <li><strong>2. Allouer par projet</strong>2 500 € sur tel artiste en édition, 1 000 € sur tel autre, 500 € sur un troisième. Un ou plusieurs projets, peu importe — l'enveloppe est fixée.</li>
+        <li><strong>3. Garder une épargne de réserve</strong>Un trésor de guerre pour saisir une opportunité qui tombe en cours d'année. C'est ce qui manque quand on vit au jour le jour.</li>
+      </ul>
+
+      <div class="callout saviez">
+        <div class="ct">💡 Faire table rase pour y voir clair</div>
+        <p>Pour chaque artiste avec qui vous travaillez : qu'est-ce que je veux faire ? Combien ça va coûter ? Une fois que tout est posé sur la table, il devient beaucoup plus simple de déplacer ses pions — et de savoir quel crédit d'impôt et quelle subvention viser sur chaque poste.</p>
+      </div>
+
+      <div class="callout attention">
+        <div class="ct">⚠️ L'ordre de priorité à graver</div>
+        <p><strong>1.</strong> Crédits d'impôt (ils passent à tous les coups) → <strong>2.</strong> Subventions (soumises à commission). Et dans les deux cas : <strong>on dépose avant de dépenser.</strong></p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <div class="quiz" id="quiz">
+    <h2>🧠 Testez vos connaissances</h2>
+    <p class="sub">5 questions pour vérifier que l'essentiel est bien acquis.</p>
+
+    <div class="q" data-good="1">
+      <div class="qt">1. Quand doit être déposée la DPAE ?</div>
+      <button class="opt">Dans les 8 jours suivant la prestation</button>
+      <button class="opt">Avant l'embauche, donc avant de monter sur scène</button>
+      <button class="opt">Au moment du versement du cachet</button>
+      <button class="opt">Uniquement si le cachet dépasse 500 €</button>
+      <div class="fb">DPAE = <strong>Déclaration Préalable À l'Embauche</strong>. Toujours avant le passage sur scène. Seul le paiement peut intervenir après.</div>
+    </div>
+
+    <div class="q" data-good="2">
+      <div class="qt">2. Un artiste a sorti un titre sur Spotify. Peut-il être déclaré « musicien amateur » sur un projet ?</div>
+      <button class="opt">Oui, tant qu'il n'est pas intermittent</button>
+      <button class="opt">Oui, si le producteur le décide contractuellement</button>
+      <button class="opt">Non — sortir un titre sur Spotify ou adhérer à un OGC fait tomber le statut</button>
+      <button class="opt">Oui, mais seulement pour les clips</button>
+      <div class="fb">Le statut d'amateur est très réglementé. Il ne s'applique plus dès qu'un titre est sorti sur Spotify <em>ou</em> que l'artiste est membre d'un OGC (SACEM, ADAMI, SPEDIDAM).</div>
+    </div>
+
+    <div class="q" data-good="0">
+      <div class="qt">3. Quel est le taux du CIPP (crédit d'impôt phonographique) ?</div>
+      <button class="opt">40 % des investissements éligibles</button>
+      <button class="opt">30 % des investissements éligibles</button>
+      <button class="opt">20 % des investissements éligibles</button>
+      <button class="opt">80 % des investissements éligibles</button>
+      <div class="fb">CIPP = <strong>40 %</strong> (enregistrement, mix, master, clip, release party). Le CIM (édition) et le CISV (spectacle vivant) sont à 30 %.</div>
+    </div>
+
+    <div class="q" data-good="3">
+      <div class="qt">4. Un agrégateur type TuneCore ou DistroKid peut-il fournir le contrat de distribution demandé par un OGC ?</div>
+      <button class="opt">Oui, sur simple demande au support</button>
+      <button class="opt">Oui, dans l'espace client après 6 mois d'ancienneté</button>
+      <button class="opt">Oui, mais uniquement en formule payante</button>
+      <button class="opt">Non — il faut un vrai distributeur ou une attestation d'autodistribution bien rédigée</button>
+      <div class="fb">Aucun agrégateur ne délivre ce type de contrat. Deux options : passer par un distributeur (Muzisecur, Believe, Sony, Universal…) ou produire une attestation d'autodistribution correctement rédigée, signée et datée.</div>
+    </div>
+
+    <div class="q" data-good="1">
+      <div class="qt">5. Quelle est la métrique n° 1 regardée par un professionnel sur un profil Spotify ?</div>
+      <button class="opt">Le nombre d'abonnés</button>
+      <button class="opt">Le nombre d'auditeurs mensuels</button>
+      <button class="opt">Le nombre total de titres publiés</button>
+      <button class="opt">Le nombre de sauvegardes en bibliothèque</button>
+      <div class="fb">Les auditeurs mensuels d'abord, puis les streams par auditeur (seuil intéressant à partir de 1,8-2). Les abonnés ne sont pas déterminants : un artiste peut faire 400 000 streams avec moins de 5 000 abonnés.</div>
+    </div>
+
+    <div id="score"><span class="big"></span><span id="score-txt"></span></div>
+  </div>
+
+  <footer>
+    <span class="brand">Producteur à Succès</span>
+    Support de cours généré à partir du replay Iron PEAS du 4 septembre 2026 — session animée par Loïc (Muzisecur).<br>
+    Document de synthèse à usage pédagogique. Les informations juridiques et fiscales sont données à titre indicatif et ne remplacent pas l'avis d'un expert-comptable ou d'un juriste.
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function upd(){
+    var h=document.documentElement;
+    var max=h.scrollHeight-h.clientHeight;
+    bar.style.width=(max>0?(h.scrollTop||document.body.scrollTop)/max*100:0)+'%';
+  }
+  window.addEventListener('scroll',upd,{passive:true});
+  window.addEventListener('resize',upd);
+  upd();
+
+  var total=document.querySelectorAll('.q').length, answered=0, correct=0;
+  document.querySelectorAll('.q').forEach(function(q){
+    var good=parseInt(q.getAttribute('data-good'),10);
+    var opts=q.querySelectorAll('.opt');
+    opts.forEach(function(btn,i){
+      btn.addEventListener('click',function(){
+        if(q.dataset.done) return;
+        q.dataset.done='1';
+        answered++;
+        if(i===good) correct++;
+        opts.forEach(function(b,j){
+          b.disabled=true;
+          if(j===good) b.classList.add('good');
+          else if(j===i) b.classList.add('bad');
+        });
+        q.querySelector('.fb').classList.add('show');
+        if(answered===total){
+          var sc=document.getElementById('score');
+          sc.style.display='block';
+          sc.querySelector('.big').textContent=correct+' / '+total;
+          var msg = correct===total ? "Parfait — tout est acquis." :
+                    correct>=Math.ceil(total*0.6) ? "Bien joué. Revoyez les chapitres correspondant aux erreurs." :
+                    "À revoir : reprenez le replay chapitre par chapitre.";
+          document.getElementById('score-txt').textContent=msg;
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

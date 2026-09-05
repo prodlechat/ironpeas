@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Résumé de cours — Session mentorat du 5 septembre 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED;
+  --primary-dark:#4C1D95;
+  --primary-light:#EDE9FE;
+  --accent:#F59E0B;
+  --accent-light:#FEF3C7;
+  --success:#10B981;
+  --success-light:#D1FAE5;
+  --danger:#EF4444;
+  --danger-light:#FEE2E2;
+  --info:#3B82F6;
+  --info-light:#DBEAFE;
+  --ink:#111827;
+  --body:#374151;
+  --muted:#6B7280;
+  --line:#E5E7EB;
+  --bg:#F9FAFB;
+  --card:#FFFFFF;
+}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--bg);color:var(--body);line-height:1.7;font-size:16px;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:'Space Grotesk','Inter',sans-serif;color:var(--ink);line-height:1.25;}
+
+/* Progress bar */
+#progress-wrap{position:fixed;top:0;left:0;width:100%;height:5px;background:rgba(108,58,237,.12);z-index:9999;}
+#progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--primary),#A78BFA);transition:width .1s linear;}
+
+.wrap{max-width:920px;margin:0 auto;padding:0 20px;}
+
+/* Hero */
+.hero{
+  background:linear-gradient(135deg,#4C1D95 0%,#6C3AED 55%,#8B5CF6 100%);
+  color:#fff;padding:64px 0 56px;margin-bottom:40px;
+}
+.hero h1{color:#fff;font-size:2.5rem;margin:16px 0 14px;letter-spacing:-.02em;}
+.badge{
+  display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);
+  color:#fff;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:7px 14px;border-radius:100px;
+}
+.hero p.lead{font-size:1.08rem;color:rgba(255,255,255,.92);max-width:700px;}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;}
+.meta span{
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+  padding:8px 14px;border-radius:10px;font-size:.86rem;font-weight:500;
+}
+
+/* TOC */
+.toc{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:30px;margin-bottom:44px;box-shadow:0 1px 3px rgba(0,0,0,.05);
+}
+.toc h2{font-size:1.05rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:20px;}
+.toc ol{list-style:none;counter-reset:toc;}
+.toc li{counter-increment:toc;border-bottom:1px solid var(--line);}
+.toc li:last-child{border-bottom:none;}
+.toc a{
+  display:flex;align-items:center;gap:16px;padding:13px 4px;
+  text-decoration:none;color:var(--ink);font-weight:500;transition:.15s;
+}
+.toc a:hover{color:var(--primary);padding-left:10px;}
+.toc a::before{
+  content:counter(toc,decimal-leading-zero);
+  font-family:'Space Grotesk';font-weight:700;color:var(--primary);
+  background:var(--primary-light);width:36px;height:36px;flex:0 0 36px;
+  display:flex;align-items:center;justify-content:center;border-radius:9px;font-size:.85rem;
+}
+
+/* Sections */
+section.chapter{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;
+  margin-bottom:34px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);
+}
+.chapter-head{padding:26px 32px;border-top:5px solid var(--primary);background:linear-gradient(180deg,#FAFAFF,#fff);}
+.chapter-head .num{
+  font-family:'Space Grotesk';font-size:.78rem;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--primary);
+}
+.chapter-head h2{font-size:1.62rem;margin-top:6px;letter-spacing:-.01em;}
+.chapter-head .tc{
+  display:inline-block;margin-top:12px;font-size:.78rem;font-weight:600;
+  background:var(--primary-light);color:var(--primary-dark);padding:5px 11px;border-radius:7px;
+}
+.chapter-body{padding:8px 32px 32px;}
+.chapter-body p{margin:16px 0;}
+.chapter-body h3{font-size:1.13rem;margin:30px 0 8px;color:var(--primary-dark);}
+.chapter-body ul,.chapter-body ol{margin:14px 0 14px 22px;}
+.chapter-body li{margin:8px 0;}
+strong{color:var(--ink);font-weight:600;}
+
+/* accent colors per chapter */
+.c1 .chapter-head{border-top-color:var(--primary);}
+.c2 .chapter-head{border-top-color:var(--success);}
+.c3 .chapter-head{border-top-color:var(--danger);}
+.c4 .chapter-head{border-top-color:var(--info);}
+.c5 .chapter-head{border-top-color:var(--accent);}
+.c6 .chapter-head{border-top-color:#0EA5E9;}
+.c7 .chapter-head{border-top-color:#DB2777;}
+.c8 .chapter-head{border-top-color:#059669;}
+.c2 .chapter-head .num{color:var(--success);} .c2 .chapter-head .tc{background:var(--success-light);color:#065F46;}
+.c3 .chapter-head .num{color:var(--danger);}  .c3 .chapter-head .tc{background:var(--danger-light);color:#991B1B;}
+.c4 .chapter-head .num{color:var(--info);}    .c4 .chapter-head .tc{background:var(--info-light);color:#1E40AF;}
+.c5 .chapter-head .num{color:#B45309;}        .c5 .chapter-head .tc{background:var(--accent-light);color:#92400E;}
+.c6 .chapter-head .num{color:#0369A1;}        .c6 .chapter-head .tc{background:#E0F2FE;color:#075985;}
+.c7 .chapter-head .num{color:#DB2777;}        .c7 .chapter-head .tc{background:#FCE7F3;color:#9D174D;}
+.c8 .chapter-head .num{color:#059669;}        .c8 .chapter-head .tc{background:var(--success-light);color:#065F46;}
+
+/* Callouts */
+.callout{border-radius:12px;padding:18px 22px 18px 20px;margin:22px 0;border-left:5px solid;}
+.callout .ct{font-weight:700;font-family:'Space Grotesk';display:flex;align-items:center;gap:9px;margin-bottom:7px;font-size:.95rem;}
+.callout p:last-child{margin-bottom:0;}
+.callout p:first-of-type{margin-top:0;}
+.retenir{background:var(--primary-light);border-color:var(--primary);} .retenir .ct{color:var(--primary-dark);}
+.astuce{background:var(--success-light);border-color:var(--success);} .astuce .ct{color:#065F46;}
+.attention{background:var(--accent-light);border-color:var(--accent);} .attention .ct{color:#92400E;}
+.danger{background:var(--danger-light);border-color:var(--danger);} .danger .ct{color:#991B1B;}
+.saviez{background:var(--info-light);border-color:var(--info);} .saviez .ct{color:#1E40AF;}
+
+/* Tables */
+.tbl-wrap{overflow-x:auto;margin:24px 0;border-radius:12px;border:1px solid var(--line);}
+table{width:100%;border-collapse:collapse;font-size:.93rem;background:#fff;}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:13px 16px;font-weight:600;font-family:'Space Grotesk';}
+tbody td{padding:12px 16px;border-top:1px solid var(--line);vertical-align:top;}
+tbody tr:nth-child(even){background:#FAFAFC;}
+td.win{color:#065F46;font-weight:600;}
+td.lose{color:#991B1B;font-weight:600;}
+
+/* Cards grid */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin:24px 0;}
+.card{background:#FAFAFC;border:1px solid var(--line);border-radius:13px;padding:20px;}
+.card h4{font-size:1rem;margin-bottom:7px;color:var(--primary-dark);}
+.card p{font-size:.9rem;margin:0;color:var(--body);}
+.card .ico{font-size:1.5rem;display:block;margin-bottom:8px;}
+
+/* Pros / cons */
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0;}
+.pc>div{border-radius:13px;padding:20px;}
+.pros{background:var(--success-light);border:1px solid #A7F3D0;}
+.cons{background:var(--danger-light);border:1px solid #FECACA;}
+.pc h4{font-size:.95rem;margin-bottom:10px;}
+.pros h4{color:#065F46;} .cons h4{color:#991B1B;}
+.pc ul{margin:0 0 0 18px;} .pc li{font-size:.9rem;margin:6px 0;}
+
+/* Timeline */
+.timeline{list-style:none;margin:24px 0;padding-left:8px;border-left:3px solid var(--primary-light);}
+.timeline li{position:relative;padding:0 0 22px 26px;margin:0;}
+.timeline li::before{
+  content:'';position:absolute;left:-9.5px;top:6px;width:15px;height:15px;
+  border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light);
+}
+.timeline strong{display:block;color:var(--primary-dark);font-family:'Space Grotesk';}
+
+/* Accordion */
+details{background:#FAFAFC;border:1px solid var(--line);border-radius:11px;margin:16px 0;overflow:hidden;}
+summary{padding:15px 20px;cursor:pointer;font-weight:600;color:var(--primary-dark);list-style:none;font-family:'Space Grotesk';}
+summary::-webkit-details-marker{display:none;}
+summary::before{content:'▸ ';color:var(--primary);font-weight:700;}
+details[open] summary::before{content:'▾ ';}
+details .dc{padding:0 20px 18px;font-size:.94rem;}
+details .dc p:first-child{margin-top:0;}
+
+/* Quiz */
+.quiz{background:linear-gradient(135deg,#4C1D95,#6C3AED);border-radius:18px;padding:36px 32px;color:#fff;margin:44px 0;}
+.quiz h2{color:#fff;font-size:1.8rem;margin-bottom:6px;}
+.quiz>p.sub{color:rgba(255,255,255,.85);margin-bottom:26px;}
+.q{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:13px;padding:22px;margin-bottom:18px;}
+.q .qt{font-weight:600;margin-bottom:14px;font-family:'Space Grotesk';}
+.opt{
+  display:block;width:100%;text-align:left;background:rgba(255,255,255,.94);border:2px solid transparent;
+  color:var(--ink);padding:12px 16px;border-radius:9px;margin-bottom:9px;cursor:pointer;
+  font-family:inherit;font-size:.94rem;transition:.15s;
+}
+.opt:hover:not(:disabled){background:#fff;transform:translateX(4px);}
+.opt:disabled{cursor:default;}
+.opt.good{background:#D1FAE5;border-color:#10B981;color:#065F46;font-weight:600;}
+.opt.bad{background:#FEE2E2;border-color:#EF4444;color:#991B1B;}
+.fb{margin-top:10px;font-size:.9rem;padding:11px 14px;border-radius:9px;background:rgba(255,255,255,.16);display:none;}
+.fb.show{display:block;}
+#score{
+  display:none;margin-top:24px;background:rgba(255,255,255,.95);color:var(--ink);
+  border-radius:13px;padding:22px;text-align:center;font-family:'Space Grotesk';
+}
+#score .big{font-size:2.2rem;font-weight:700;color:var(--primary);display:block;}
+
+/* Footer */
+footer{text-align:center;padding:44px 20px 60px;color:var(--muted);font-size:.88rem;}
+footer .brand{font-family:'Space Grotesk';font-weight:700;color:var(--primary);font-size:1.05rem;display:block;margin-bottom:6px;}
+
+@media(max-width:640px){
+  .hero h1{font-size:1.85rem;}
+  .chapter-head,.chapter-body{padding-left:20px;padding-right:20px;}
+  .pc{grid-template-columns:1fr;}
+  .quiz{padding:26px 20px;}
+}
+@media print{
+  #progress-wrap,.quiz{display:none;}
+  body{background:#fff;}
+  section.chapter{break-inside:avoid;box-shadow:none;}
+  .hero{background:var(--primary)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-wrap"><div id="progress-bar"></div></div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="badge">Mentorat Hic &amp; Nunc · Session du 5 septembre 2026</span>
+    <h1>Trouver ses premiers clients : mairies, intermittents et entreprises</h1>
+    <p class="lead">Une session de stratégie commerciale appliquée au lancement d'une offre de formation : quel marché attaquer en premier, par quels intermédiaires passer, comment constituer une base de prospects, et pourquoi le marketing précède toujours la vente.</p>
+    <div class="meta">
+      <span>⏱️ 2 h 11 de session</span>
+      <span>🎙️ Tarik Hamiche</span>
+      <span>👥 Loïc &amp; Emma — Kazar Studio</span>
+      <span>📚 21 chapitres</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>Sommaire</h2>
+    <ol>
+      <li><a href="#s1">Point de départ : où en est le projet</a></li>
+      <li><a href="#s2">L'argument légal : la loi de juillet 2022 comme levier de vente</a></li>
+      <li><a href="#s3">Marché des mairies : pourquoi il faut passer par des intermédiaires</a></li>
+      <li><a href="#s4">Les intermittents : la cible la plus accessible, et comment l'aborder</a></li>
+      <li><a href="#s5">Les financements que personne ne connaît (et qui font vendre)</a></li>
+      <li><a href="#s6">Les entreprises : créer le besoin avant de vendre la solution</a></li>
+      <li><a href="#s7">Salons et conférences : la méthode complète pour réseauter</a></li>
+      <li><a href="#s8">Emailing, communauté et les 3 leviers qui font acheter</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="chapter c1" id="s1">
+    <div class="chapter-head">
+      <span class="num">Chapitre 01</span>
+      <h2>Point de départ : où en est le projet</h2>
+      <span class="tc">▶ 00:00 → 24:33 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <h3>Le référencement sur Ophélie / EDOF</h3>
+      <p>Bug identifié sur la plateforme : quand une session est enregistrée en brouillon mais mal complétée, <strong>il devient impossible de la modifier</strong> — et le formulaire reste bloqué.</p>
+      <div class="callout astuce">
+        <div class="ct">💡 Le contournement</div>
+        <p>Supprimer le brouillon en cours et refaire une demande depuis le début. Cas vécu sur une session où l'inscription par dossier de candidature empêchait d'ajouter ensuite une réunion d'information groupée.</p>
+      </div>
+
+      <h3>Débrief du rendez-vous avec Rémi</h3>
+      <p>Rémi est un professionnel du montage de scènes mobiles, 40 ans de métier, très pragmatique. Le rendez-vous devait servir à récupérer du carnet d'adresses. Résultat : <strong>il n'a aucun nom de prospect à donner.</strong></p>
+      <div class="pc">
+        <div class="pros">
+          <h4>✅ Ce qu'il apporte</h4>
+          <ul>
+            <li>Du contenu métier de première main (sécurité, montage, contraintes réelles)</li>
+            <li>L'astuce du cadenas de bâche arrière à libérer au-delà de 30-50 km/h de vent</li>
+            <li>Une vraie légitimité terrain pour crédibiliser la formation</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>❌ Ce qu'il n'apporte pas</h4>
+          <ul>
+            <li>Zéro prospection, zéro fichier client — « on m'appelle » depuis toujours</li>
+            <li>Aucune donnée sur son avatar client</li>
+            <li>Aucune séquence de vente reproductible</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Le diagnostic</div>
+        <p>Un modèle d'affaires solide en apparence, mais <strong>assis sur rien d'autre que le bouche-à-oreille entrant</strong>. Ça fonctionne tant que le téléphone sonne — c'est justement ce qui rend l'évolution impossible. Et c'est le danger structurel des entreprises construites autour d'une seule tête.</p>
+      </div>
+
+      <h3>Les autres chantiers ouverts</h3>
+      <ul>
+        <li><strong>Contacts mairies</strong> via l'entourage : la mère d'Emma travaille dans une commune, l'épouse du directeur est adjointe à la culture dans une grande ville avec un gros festival annuel — un terrain déjà rompu aux questions de sécurité.</li>
+        <li><strong>Offre commerciale Trouville</strong> : « –50 % sur les prestations techniques pour toute commande passée avant fin novembre », avec un <strong>minimum de commande</strong> à intégrer. Objectif double : générer des devis avant l'audience de décembre, et prouver une activité à venir.</li>
+        <li><strong>Démarchage de salles</strong> pour faire tourner un projet artistique, à partir d'une méthode et de tableurs de suivi récupérés auprès d'un confrère.</li>
+      </ul>
+
+      <details>
+        <summary>Aparté Muzisecur : contrats, e-mails et artistes réticents</summary>
+        <div class="dc">
+          <p><strong>Bug remonté :</strong> la mise à jour d'une adresse e-mail dans la base de contacts ne se répercute pas sur les contrats en attente de signature.</p>
+          <p><strong>Sur les artistes qui refusent de signer :</strong> l'incompréhension vient souvent du volume — recevoir 8 à 10 contrats d'un coup fait fuir. La pédagogie à tenir : chaque destination a son contrat, ça protège sur plusieurs exploitations, ça génère des droits, et ça fait grossir le catalogue.</p>
+          <p><strong>Le point juridique qui débloque :</strong> pour déposer une œuvre éditée, <strong>une seule signature suffit désormais en France</strong> — l'éditeur plus un ayant droit. C'est la règle au Royaume-Uni depuis quinze ans, elle est récente chez nous. Attention : les droits des non-signataires ne sont pas répartis. Un ayant droit qui se réveille six ans plus tard aura perdu six années de droits. Cela résout les blocages classiques d'œuvres jamais déposées faute d'accord entre co-auteurs.</p>
+          <p>Et le contrat d'édition confère déjà un pouvoir ferme et irrévocable sur les autorisations d'exploitation : l'éditeur peut accorder ou refuser une synchro sans consulter chaque ayant droit.</p>
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="chapter c2" id="s2">
+    <div class="chapter-head">
+      <span class="num">Chapitre 02</span>
+      <h2>L'argument légal : la loi de juillet 2022 comme levier de vente</h2>
+      <span class="tc">▶ 07:44 → 10:38 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <p>Le texte du <strong>25 juillet 2022</strong> est jugé flou — mais il ne faut surtout pas l'interpréter de façon floue, parce que derrière il y a la réglementation ERP (établissements recevant du public).</p>
+
+      <ul class="timeline">
+        <li><strong>Le principe</strong>Dès qu'il y a du public, celui qui monte la structure doit connaître les tenants et aboutissants de la sécurité avant de monter la scène.</li>
+        <li><strong>Le responsable final</strong>C'est le maire. Il a donc tout intérêt à faire former ses agents techniques.</li>
+        <li><strong>La conséquence</strong>Indirectement, ne pas être formé devient illégal dès lors qu'un incident survient.</li>
+      </ul>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Comment en faire un argument commercial</div>
+        <p>Il n'est pas nécessaire de brandir une menace. <strong>Il suffit de semer un doute.</strong> Le raisonnement que vous voulez déclencher chez l'élu : « on n'est pas à quelques milliers d'euros près sur le budget annuel de la commune, faisons-le, au moins on est tranquille ». Beaucoup de petites communes ne sont tout simplement pas au courant des règles — le seul fait de les rappeler peut créer la décision.</p>
+      </div>
+
+      <div class="callout saviez">
+        <div class="ct">💡 C'est le contenu d'un article de blog évident</div>
+        <p>Ce sujet — « la loi est floue mais les avocats ne le seront pas » — est l'un des articles les plus importants à écrire pour attirer le bon public.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="chapter c3" id="s3">
+    <div class="chapter-head">
+      <span class="num">Chapitre 03</span>
+      <h2>Marché des mairies : pourquoi il faut passer par des intermédiaires</h2>
+      <span class="tc">▶ 24:33 → 32:32 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <div class="callout attention">
+        <div class="ct">⚠️ La règle de lecture d'un marché vide</div>
+        <p>Quand aucun acteur sérieux n'occupe un marché, il n'y a que deux explications : <strong>soit c'est une mine d'or inexploitée, soit c'est un marché complexe à adresser.</strong> Ici, s'il y avait un besoin identifié et solvable, la moitié des communes se serait déjà formée et il existerait de gros acteurs. Ce n'est pas le cas.</p>
+      </div>
+
+      <p>Faire de la vente directe à 50 000 communes demanderait trop d'énergie pour un cycle de décision très particulier. La stratégie recommandée est donc de <strong>ne pas vendre en direct, mais de se greffer sur des structures qui travaillent déjà avec les collectivités.</strong></p>
+
+      <h3>Le circuit à activer</h3>
+      <ul class="timeline">
+        <li><strong>1. Identifier le réseau régional d'organismes de formation</strong>En Bretagne il s'appelle <strong>FormaCulture</strong> — une base de données cartographiée regroupant les OF les plus importants d'un territoire. L'équivalent existe très probablement en Normandie et dans chaque région.</li>
+        <li><strong>2. Repérer les structures semi-institutionnelles</strong>Dans ces réseaux d'une trentaine de membres, certaines structures sont financées directement par le département, la région ou l'État, et forment spécifiquement les agents des collectivités.</li>
+        <li><strong>3. Remonter à l'OPCO</strong>Pour les employés municipaux, c'est <strong>Uniformation</strong> (OPCO de la cohésion sociale) qui prend en charge.</li>
+        <li><strong>4. Se positionner comme sous-traitant</strong>La structure semi-institutionnelle monte la formation, gère la demande et les plannings ; vous intervenez sur un module. C'est l'OF qui est rémunéré, et vous êtes son sous-traitant.</li>
+      </ul>
+
+      <div class="callout saviez">
+        <div class="ct">💡 Le timing et les montants</div>
+        <p><strong>Septembre à novembre</strong> est la période où ces organismes construisent leur offre 2027 — c'est maintenant qu'il faut se manifester. Ils ne prennent pas de commission et ne cherchent pas la marge : ils annoncent un budget, vous prenez ou non. Une formation que vous vendriez 2 000 à 3 000 € dans le privé peut être valorisée <strong>autour de 6 000 € par stagiaire</strong> dans ce circuit.</p>
+      </div>
+
+      <div class="callout astuce">
+        <div class="ct">💡 L'angle à utiliser</div>
+        <p>S'appuyer sur le partenaire technique référent pour dire : « ces formations sont opérées chez eux, avec leurs équipes, ce sont des experts du domaine ». Cela peut créer une demande même là où elle n'existait pas. Et ces acteurs peuvent ne pas rappeler pendant six mois puis dérouler un marché entier d'un coup — exemple vécu avec la SACEM, refus répétés puis un appel pour 52 personnes à former.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="chapter c4" id="s4">
+    <div class="chapter-head">
+      <span class="num">Chapitre 04</span>
+      <h2>Les intermittents : la cible la plus accessible, et comment l'aborder</h2>
+      <span class="tc">▶ 33:36 → 47:43 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <div class="callout danger">
+        <div class="ct">🚨 Le piège des 507 heures</div>
+        <p>Faire comptabiliser les heures de formation dans les 507 heures paraît vendeur, mais cela implique deux choses que les intermittents refusent : <strong>ne plus être rémunéré en ARE</strong> pendant cette période, et <strong>voir son taux horaire dégringoler</strong>. Les techniciens événementiels ont des amplitudes horaires énormes et donc des taux très élevés — ils ne veulent surtout pas diluer ça. À manier avec des pincettes.</p>
+      </div>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Pourquoi les intermittents sont la meilleure porte d'entrée</div>
+        <p>Ils ont une demande déjà identifiée. Ils ont compris que pour déclencher une opportunité il faut monter en compétence. La seule question qui leur reste est : <strong>où, quand, comment ?</strong> Il ne reste donc qu'à les éduquer.</p>
+        <p>Mais attention : <strong>si vous les appelez pour leur vendre une formation, ils vous raccrochent au nez.</strong> Il faut un angle d'attaque détourné.</p>
+      </div>
+
+      <h3>Approche 1 — le sondage</h3>
+      <p>Se présenter comme préparant une étude documentée et chiffrée sur l'état des intermittents du spectacle en France, en mettant en avant deux ou trois problématiques réelles et ressenties.</p>
+      <div class="cards">
+        <div class="card"><span class="ico">🔄</span><h4>Le cercle vicieux</h4><p>Multiplier les cachets pour renouveler son statut, jusqu'à ne plus avoir la force de tenir son instrument après 30 ans.</p></div>
+        <div class="card"><span class="ico">📉</span><h4>La précarité du statut</h4><p>Intéressant temporairement, mais fragile sur le long terme — un sujet dont ils ont envie de parler.</p></div>
+        <div class="card"><span class="ico">❓</span><h4>5 questions maximum</h4><p>Dont une ou deux sur les besoins de montée en compétence envisagés dans les 6 à 18 mois.</p></div>
+        <div class="card"><span class="ico">📊</span><h4>Enrichir la base</h4><p>Technicien ou artiste ? Quel domaine ? Quelles contraintes ? C'est la vraie valeur du sondage.</p></div>
+      </div>
+      <div class="callout attention">
+        <div class="ct">⚠️ Obligation légale</div>
+        <p>Si vous annoncez une étude, <strong>vous devez en rendre le résultat</strong>. Il n'y a pas de délai imposé, mais l'engagement doit être tenu. Bonne nouvelle : c'est aussi le prétexte parfait pour confirmer les coordonnées — « dès que l'étude est prête, je te l'envoie ».</p>
+      </div>
+
+      <h3>Approche 2 — la communauté d'entraide</h3>
+      <p>Annoncer la création d'un espace fermé, gratuit, réservé aux intermittents et artistes-auteurs, avec un conseil de forte valeur partagé chaque semaine. Mais il faut arriver avec des munitions concrètes dès le premier appel (voir chapitre 5).</p>
+
+      <div class="callout astuce">
+        <div class="ct">💡 Le « jacuzzi » de prospects</div>
+        <p>C'est l'endroit où l'on fait patienter des prospects ultra-qualifiés en les détendant. Ils vous identifient comme les gens qui donnent des conseils utiles. Résultat : quand une question se pose, ils viennent d'abord chez vous. Et là, prospecter devient facile — un live sur un sujet technique, 100 présents sur 800 membres, quelques ventes derrière.</p>
+      </div>
+
+      <div class="callout saviez">
+        <div class="ct">💡 L'effet de levier partenaires</div>
+        <p>Une communauté active permet d'inviter des acteurs qui gèrent la paie des intermittents et disposent de bases colossales. Seul, vous n'obtenez pas leur temps pour 25 personnes. Avec plusieurs centaines de membres actifs, ils viennent — ils y voient des clients à récupérer. Et le replay du live vous référence par association : quand quelqu'un cherche des avis sur ce partenaire, il tombe sur vous.</p>
+      </div>
+
+      <details>
+        <summary>Faire grossir la base : jeu concours et scraping</summary>
+        <div class="dc">
+          <p><strong>Le jeu concours de parrainage :</strong> chaque membre invite au moins un professionnel, mais doit d'abord décrire en commentaire son profil et la raison de l'invitation. Le profil le plus intéressant gagne une prestation offerte. Sur 800 membres, même 100 à 150 participants font doubler la communauté. Répété deux ou trois fois par an, cela crée un actif décisif.</p>
+          <p><strong>Le scraping France Travail / CLAP :</strong> cette base spécifique liste les intermittents fraîchement sortis d'un CDDU et en recherche, avec nom, prénom, téléphone, CV et expérience récente. Elle se renouvelle en continu, sans doublons, et permet de filtrer par métier (techniciens ou musiciens). 50 à 100 nouveaux prospects par semaine, gratuitement et en automatique.</p>
+          <p><strong>Sur la légalité :</strong> point d'honnêteté soulevé pendant la session — recopier une information publique est techniquement autorisé ; la question de la prospection derrière reste ouverte. L'argument avancé : au stade du sondage ou de l'invitation à un réseau d'entraide, il n'y a rien à vendre. À arbitrer par vous-même, idéalement en vérifiant vos obligations RGPD.</p>
+        </div>
+      </details>
+
+      <div class="callout astuce">
+        <div class="ct">💡 Le canal institutionnel qu'on oublie</div>
+        <p>Les <strong>bureaux Afdas régionaux</strong> organisent une à deux réunions d'information par mois avec les intermittents. Il y a peu de monde — 10 à 12 personnes — mais ce sont exactement 10 à 12 personnes finançables qui veulent se former. L'avatar parfait. Se connecter à un conseiller local, présenter le réseau d'entraide et chercher la synergie. L'Afdas lance aussi des <strong>appels à projets de formation</strong> sur besoins spécifiques.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="chapter c5" id="s5">
+    <div class="chapter-head">
+      <span class="num">Chapitre 05</span>
+      <h2>Les financements que personne ne connaît (et qui font vendre)</h2>
+      <span class="tc">▶ 40:05 → 50:54 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <p>Ces trois leviers sont les « cartouches » à sortir dès le premier contact : ils créent instantanément de la valeur perçue, et ils sont vrais.</p>
+
+      <div class="callout saviez">
+        <div class="ct">💡 Levier 1 — l'abondement Afdas</div>
+        <p>On voit les fonds Afdas diminuer chaque semestre, et on en conclut qu'il n'y a plus d'argent. <strong>C'est faux : l'argent a simplement été fléché différemment</strong>, vers la Caisse des dépôts. Une formation en studio autrefois financée jusqu'à 8 000 € est aujourd'hui plafonnée autour de 3 000 € en direct.</p>
+        <p>Sauf que le complément existe. Avec seulement <strong>deux cachets (CDD-U) dans le mois</strong>, on peut se connecter à Mon Compte Formation, voir son solde CPF, et cliquer sur la case « demande d'abondement ». Chaque personne peut mobiliser <strong>entre 8 000 et 12 000 € de fonds d'abondement</strong>, dès lors que la demande est justifiée — formation certifiante inscrite au CPF, cachets effectifs. Les fonds sont dédiés à ça. <strong>Presque personne ne le sait.</strong></p>
+      </div>
+
+      <div class="callout saviez">
+        <div class="ct">💡 Levier 2 — les congés payés non réclamés</div>
+        <p>Les intermittents ont environ <strong>10 % de congés payés</strong> qui doivent leur être rétrocédés en fin d'année. Sans demande, <strong>ils sont définitivement perdus au bout de trois ans</strong>. Quelqu'un qui découvre le mécanisme dix ans trop tard a laissé filer 10 % par an sur dix ans. C'est le genre de conseil qui déclenche immédiatement un « ça m'intéresse ».</p>
+      </div>
+
+      <div class="callout saviez">
+        <div class="ct">💡 Levier 3 — les enveloppes dirigeants (FIF PL, Agefice)</div>
+        <p>Ces fonds <strong>ne se cumulent pas d'une année sur l'autre</strong>. L'enveloppe reste disponible, mais si elle n'est pas consommée au moins une fois par an, c'est l'équivalent de <strong>3 000 € perdus chaque année</strong> — parfois davantage selon les organismes. Autant la mobiliser, même sans besoin urgent.</p>
+      </div>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Pourquoi c'est le meilleur contenu d'accroche</div>
+        <p>Chaque conseil fait soit gagner de l'argent, soit en économiser, soit ouvrir une opportunité. C'est exactement le contrat que vous proposez à votre communauté. Un objet d'e-mail testé pendant la session : <strong>« L'Afdas n'a pas dû vous dire ça… »</strong> — un nom d'autorité connu, de la curiosité, et un contenu qui tient sa promesse.</p>
+      </div>
+
+      <div class="callout attention">
+        <div class="ct">⚠️ Le risque assumé</div>
+        <p>Un objet volontairement accrocheur peut faire réagir : quelqu'un peut transférer le message à l'organisme cité. Sur un échantillon test, ça reste jouable — mais c'est un arbitrage à faire consciemment.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="chapter c6" id="s6">
+    <div class="chapter-head">
+      <span class="num">Chapitre 06</span>
+      <h2>Les entreprises : créer le besoin avant de vendre la solution</h2>
+      <span class="tc">▶ 48:08 → 1:11:58 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <p>Pour les entreprises, pas de communauté : c'est de la <strong>prospection ciblée et des salons professionnels</strong>. Mais avec un argumentaire chiffré, pas une offre de formation.</p>
+
+      <div class="callout astuce">
+        <div class="ct">💡 L'argumentaire type — exemple du montage vidéo</div>
+        <p>Certaines entreprises dépensent <strong>25 000 à 45 000 € par mois</strong> en sous-traitance de montage vidéo. Le raisonnement à leur servir :</p>
+        <p>« Une formation qui coûte 3 000 à 4 000 € — et qui ne vous coûtera rien puisqu'elle est finançable — rend votre collaborateur environ <strong>30 % plus productif</strong>. Faites le calcul sur quelque chose qui ne vous coûte rien. »</p>
+      </div>
+
+      <p>Beaucoup d'entreprises ont déjà des monteurs en interne, mais qui travaillent avec de mauvais outils, refont toujours la même chose, et mettent trente minutes à produire un effet qu'un plug-in génère instantanément. Le gain est réel et démontrable.</p>
+
+      <h3>Créer un besoin qui n'existe pas encore</h3>
+      <div class="callout saviez">
+        <div class="ct">💡 Le cas d'école décortiqué en direct : l'onboarding vidéo</div>
+        <p>Situation réelle : chaque nouveau membre d'une plateforme SaaS démarre par un appel d'onboarding. Les questions posées sont toujours les mêmes — plusieurs centaines d'appels ont permis de toutes les recenser. L'idée : figer l'écran, afficher une flèche sur le bouton, et lancer une courte vidéo qui explique la fonction.</p>
+        <p><strong>Environ 60 vidéos à produire.</strong> Deux options :</p>
+        <ul>
+          <li><strong>Sous-traiter</strong> — 50 à 100 € par vidéo, soit un budget conséquent.</li>
+          <li><strong>Se former au montage</strong> — objectif clair donné à l'organisme : apprendre à monter efficacement avec des templates prêts à l'emploi, une heure de montage maximum par vidéo. Coût réel proche de zéro grâce au financement.</li>
+        </ul>
+        <p>Le calcul décisif : une heure de salarié coûte 30 à 40 € chargés, multiplié par 500 heures d'appels d'onboarding dans l'année. <strong>Zéro d'un côté, 20 000 € d'économies de l'autre</strong>, pour une à deux semaines d'investissement — et un dispositif qui tourne ensuite pendant deux ans.</p>
+      </div>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 La leçon transposable</div>
+        <p>Ce besoin n'existait pas dans la tête du client une semaine plus tôt. <strong>Identifier les segments de marché où tout le monde admettrait qu'il faut faire de la vidéo, mais où personne ne l'a encore fait</strong> — là se trouve le marché. Exemples cités : les procédures de sécurité en accrobranche (désormais en vidéo, 40 personnes à la fois au lieu de 20 minutes par groupe de cinq), les compagnies aériennes, et la lecture d'actes notariés.</p>
+      </div>
+
+      <div class="callout astuce">
+        <div class="ct">💡 La double casquette comme avantage</div>
+        <p>Quand un prospect répond « je n'ai pas le temps de me former », vous n'avez pas perdu : vous basculez sur la prestation. « On a compris ce que tu voulais, on t'a fait un devis. » Chaque prospect est un prospect cible pour <strong>chacune de vos activités</strong> — formation, studio, agence.</p>
+      </div>
+
+      <div class="callout attention">
+        <div class="ct">⚠️ Ne pas oublier le multicanal</div>
+        <p>On mémorise mieux quand plusieurs canaux travaillent ensemble. C'est l'argument pour combiner <strong>l'écrit et la voix</strong> dans vos supports, plutôt que de choisir. Et pour les explications d'interface, du motion design léger suffit — quand on remplit un formulaire, on n'est pas au cinéma : il faut aller à l'essentiel.</p>
+      </div>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Le rôle du blog dans la chaîne</div>
+        <p>Les vraies questions des gens sont des sujets d'articles : « quel logiciel de montage quand on n'est pas monteur pro ? », « CapCut suffit-il ? ». Le blog fait du <strong>pull marketing</strong> — il attire. Le contact rassure et lève ce qui reste à convaincre. Le prospect ne clique pas la première fois, ni la deuxième — mais la troisième. Et quand quelqu'un lui dit « vu tes besoins, tu n'as pas besoin d'un outil aussi poussé », la question suivante est <em>« du coup, je fais comment pour me former ? »</em>. <strong>À ce moment-là, la vente est déjà faite.</strong></p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="chapter c7" id="s7">
+    <div class="chapter-head">
+      <span class="num">Chapitre 07</span>
+      <h2>Salons et conférences : la méthode complète pour réseauter</h2>
+      <span class="tc">▶ 1:28:40 → 1:45:08 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <div class="callout danger">
+        <div class="ct">🚨 L'erreur numéro un</div>
+        <p>Réseauter pour vendre. <strong>Ça se voit à des kilomètres</strong>, et les gens un peu affûtés le sentent venir. Sur un salon, on ne vend rien. On vient poser des questions.</p>
+        <p>L'erreur numéro deux : y aller sans plan, « on verra bien ». Vous déambulerez, vous apprendrez des choses — mais factuellement, écouter le replay des conférences aurait produit le même résultat.</p>
+      </div>
+
+      <h3>Avant l'événement</h3>
+      <ul class="timeline">
+        <li><strong>Obtenir la liste des participants et intervenants</strong>Auprès de l'organisateur ou d'un contact bien placé. C'est la base de tout le reste.</li>
+        <li><strong>Repérer 10 cibles maximum</strong>Sans ça, vous vous connecterez avec personne et tout sera laissé au hasard.</li>
+        <li><strong>Se renseigner sur chacune</strong>Ce qu'elle a produit, ses réalisations marquantes — de quoi poser une question qui montre que vous avez fait le travail.</li>
+        <li><strong>Contacter en amont quand c'est possible</strong>Un message LinkedIn un mois avant, pour caler un créneau avant ou après l'événement.</li>
+      </ul>
+
+      <h3>Pendant : se rendre mémorable</h3>
+      <div class="callout astuce">
+        <div class="ct">💡 Le signe distinctif</div>
+        <p>Tout le monde sera en bleu ou en blanc. Arrivez en rouge. « Souvenez-vous, la personne habillée en rouge. » Ça peut être visuel, ça peut être une attitude — l'essentiel est qu'il existe un moyen de vous rappeler.</p>
+      </div>
+
+      <div class="callout astuce">
+        <div class="ct">💡 Le hack de la photo — la technique complète</div>
+        <ol>
+          <li>Aller voir la cible et la <strong>faire parler d'elle</strong> : « ce n'est pas votre agence qui a fait ça ? » — vous avez fait vos devoirs, ça se sent.</li>
+          <li>Une fois le contact établi : « l'objectif n'est pas de prendre votre temps, mais je serais honoré qu'on échange en dehors du salon. Vous avez une carte ? »</li>
+          <li>« Juste avant de partir, une dernière faveur : est-ce que ça vous dérange qu'on fasse une photo ensemble ? » — un professionnel correct ne refuse pas.</li>
+          <li>Regarder le selfie et enchaîner : « on a l'air trop sérieux, on en refait une plus détendue ? » — la deuxième photo est celle qui compte.</li>
+          <li><strong>Une à deux semaines plus tard</strong>, quand tout est retombé : e-mail de reprise de contact, et en post-scriptum sous la signature — « je vous remets la photo qu'on a prise ensemble, c'était mon meilleur souvenir du salon » — avec la pièce jointe.</li>
+        </ol>
+        <p>La personne ouvre par curiosité, voit la photo détendue, se souvient du moment, et répond. Sans ça, le réflexe est « je ne sais pas qui c'est, je n'ai pas le temps ».</p>
+      </div>
+
+      <div class="callout astuce">
+        <div class="ct">💡 La méthode conférence</div>
+        <p>Arriver <strong>avant la fin de la conférence précédente</strong>, entrer pendant que les gens sortent, et se poser dès qu'une place se libère au <strong>premier rang, pile en face</strong>. Poser une question pertinente qui montre un vrai niveau et apporte du contradictoire — avec courtoisie. Dès la fin, se lever immédiatement et arriver en premier avec une question, avant l'afflux.</p>
+        <p><strong>Puis désamorcer volontairement :</strong> « je vois qu'il y a du monde derrière, est-ce que ça vous dérangerait qu'on en reparle après l'événement ? » Vous récupérez le contact et vous partez. Pour un conférencier, quarante personnes qui affluent d'un coup est une épreuve — la délicatesse de libérer l'espace est très appréciée, et elle se souviendra de vous.</p>
+      </div>
+
+      <div class="callout saviez">
+        <div class="ct">💡 Les vrais moments de réseau</div>
+        <p>Si l'événement se tient dans un hôtel, <strong>dormez sur place</strong>. Sinon arrivez très tôt et repartez très tard. Les gens les plus intéressants sont disponibles au petit-déjeuner, à la salle de sport, et surtout <strong>au bar le soir</strong>, quand tout est retombé.</p>
+      </div>
+
+      <h3>En cocktail : l'approche qui marche toujours</h3>
+      <p>Ne pas se la jouer. « C'est la première fois que je fais ce type d'événement, je suis curieux d'en savoir plus sur vous. » Pour un professionnel bienveillant, il n'y a rien de plus agréable que quelqu'un qui s'intéresse sincèrement à son métier.</p>
+
+      <div class="pc">
+        <div class="pros">
+          <h4>✅ L'approche qui obtient une réponse</h4>
+          <ul>
+            <li>« Je me lance dans ça, si tu avais un seul conseil pour mes premiers pas, ce serait quoi ? »</li>
+            <li>Poser des questions — les gens adorent parler d'eux et de ce qu'ils font</li>
+            <li>Rejoindre un groupe : « je ne sais pas de quoi vous parlez, mais ça a l'air intéressant, ça vous dérange si je me joins ? »</li>
+            <li>Écourter sans culpabiliser : « je te remercie, je vais me resservir, tu veux quelque chose ? »</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>❌ L'approche qui n'obtient rien</h4>
+          <ul>
+            <li>« J'ai fait ça, ça et ça, du coup qu'est-ce que tu penses de… » — on ne se connaît pas</li>
+            <li>Chercher à vendre à un inconnu : c'est impossible</li>
+            <li>Rester en retrait « pour écouter et apprendre » — le rôle de potiche</li>
+            <li>Laisser un accompagnateur volubile monopoliser toutes les conversations</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Le retournement à provoquer</div>
+        <p>En posant des questions à quelqu'un qui est là pour déclencher des opportunités, <strong>il finira par vous retourner la question</strong> : « et toi, tu fais quoi ? ». C'est là que vous répondez, en citant votre structure et la personne connue qui vous accompagne. Vous créez une forme d'autorité empruntée : vous n'êtes pas quelqu'un qui débarque de nulle part. La balle revient au centre naturellement.</p>
+        <p>Le principe général : <strong>« je suis là, je n'ai besoin de personne — si toi tu as besoin de moi, je suis là. »</strong></p>
+      </div>
+
+      <details>
+        <summary>Cas particulier : les événements autour du court métrage</summary>
+        <div class="dc">
+          <p>L'économie du court métrage est extrêmement fragile. Or un porteur de projet <strong>peut passer par une formation pour réaliser le montage et la post-production de son propre court</strong> — c'est un usage parfaitement accepté et bien identifié dans le secteur. C'est donc l'occasion de ne pas promouvoir uniquement les prestations studio, mais aussi l'offre de formation.</p>
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="chapter c8" id="s8">
+    <div class="chapter-head">
+      <span class="num">Chapitre 08</span>
+      <h2>Emailing, communauté et les 3 leviers qui font acheter</h2>
+      <span class="tc">▶ 1:45:08 → 2:10:58 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <h3>L'emailing : tester avant d'envoyer en masse</h3>
+      <div class="callout danger">
+        <div class="ct">🚨 Ne jamais utiliser Gmail pour du volume</div>
+        <p>Les outils internes détectent les copier-coller d'e-mails. Même en changeant le prénom, <strong>c'est l'expéditeur lui-même qui signale au serveur destinataire que ça sent le spam</strong>. Passez par un autorépondeur.</p>
+      </div>
+
+      <ul class="timeline">
+        <li><strong>1. Tester sur un petit échantillon</strong>50 à 100 contacts d'une même zone géographique. Sur 20, l'échantillon est trop faible pour conclure.</li>
+        <li><strong>2. Lire les bons indicateurs</strong>Délivrabilité (proche de 100 % si le domaine est bien paramétré), taux d'ouverture, taux de réponse. Avec un lien vers un formulaire, on mesure aussi le taux de clic.</li>
+        <li><strong>3. Diagnostiquer</strong>Ouvert mais pas de réponse → l'e-mail ne fonctionne pas, passez à l'appel. Pas ouvert malgré une bonne délivrabilité → <strong>le problème vient de l'objet</strong>.</li>
+        <li><strong>4. Monter en volume progressivement</strong>Importer les contacts par segments de 100, 150, puis 250 par jour, pour ne pas déclencher de blocage interne. Un envoi possible chaque jour sur le segment fraîchement importé.</li>
+      </ul>
+
+      <div class="callout astuce">
+        <div class="ct">💡 Choisir son autorépondeur</div>
+        <p>Ils se valent globalement tous. Le meilleur techniquement coûte très cher — au point que l'arbitrage devient une question de principe. Les alternatives citées : GetResponse, Aweber, MailChimp, SG Autorépondeur (français). <strong>La bonne méthode</strong> : demander un comparatif basé sur les avis réels, ouvrir un compte gratuit sur quatre ou cinq d'entre eux, passer une demi-heure sur chacun et garder celui dont l'interface vous parle immédiatement. On n'a pas tous les mêmes appétences.</p>
+      </div>
+
+      <h3>La communauté : rythme et animation</h3>
+      <div class="cards">
+        <div class="card"><span class="ico">💬</span><h4>Un espace fermé</h4><p>Une plateforme communautaire à une dizaine d'euros par mois suffit largement au démarrage.</p></div>
+        <div class="card"><span class="ico">📝</span><h4>1 article par semaine</h4><p>Sur les sujets prioritaires pour eux, repartagé dans la communauté.</p></div>
+        <div class="card"><span class="ico">🎥</span><h4>1 live invité par mois</h4><p>Annoncé à l'avance sur trois mois. Commencez par des intervenants faciles d'accès.</p></div>
+        <div class="card"><span class="ico">🔁</span><h4>Le rebond permanent</h4><p>Sondage terminé → invitation à la communauté. Entrée dans la communauté → soumission du sondage.</p></div>
+      </div>
+      <p>Ce qui retient les gens, c'est de savoir que <strong>chaque mois il se passe quelque chose qui peut les intéresser</strong>. Ils restent connectés, ils repêchent vos e-mails dans les spams. Et après un live, rester vingt à trente minutes de plus avec les plus motivés crée le lien direct qu'aucun e-mail ne remplace.</p>
+
+      <div class="callout saviez">
+        <div class="ct">💡 Le moment idéal pour la première offre</div>
+        <p>Construire la communauté jusqu'en novembre, puis teaser début novembre : « jusqu'ici on n'a fait que donner, mais quelque chose arrive pile pour le Black Friday ». Période où les gens sont psychologiquement disposés à dépenser — et vous arrivez dans le lot avec, contrairement aux autres, <strong>une relation déjà construite</strong>.</p>
+      </div>
+
+      <h3>Marketing et vente : la distinction fondamentale</h3>
+      <div class="callout retenir">
+        <div class="ct">🎯 La vente est facile, le marketing est dur</div>
+        <p><strong>La vente n'est qu'une question de chiffres</strong> — il n'y a presque rien à faire. <strong>Le marketing, c'est 3 à 6 mois de travail sans être payé</strong>, sans pouvoir mesurer l'impact, à l'aveugle. Il faut tenir. Mais le jour où vous lancez, ça arrive comme un torrent.</p>
+        <p>Exemple cité : une créatrice partie de 300 abonnés, arrivée à plusieurs centaines de milliers, se plaignant de ne toujours pas être payée. Une offre construite en deux heures a généré plus de 200 000 €. <strong>La lecture correcte n'est pas « 200 000 € en deux heures » — c'est « un an de travail a créé les conditions qui rendent ces deux heures possibles ».</strong></p>
+      </div>
+
+      <div class="callout attention">
+        <div class="ct">⚠️ Compter ce qui doit être compté</div>
+        <p>Combien de personnes entrent dans la communauté chaque jour ? Si c'est 2, l'objectif est de passer à 3, 4, 5. Si c'est 10, l'objectif est 12. <strong>Le reste n'a aucun intérêt.</strong></p>
+      </div>
+
+      <h3>Les 3 leviers — et seulement 3</h3>
+      <p>Trois choses font acheter, et les mêmes trois font renoncer. C'est de la psychologie humaine, ça n'a jamais changé.</p>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Levier</th><th>Ce que le prospect se dit</th><th>Comment le lever</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1. La confiance en vous</strong></td><td>« Je ne te fais pas confiance » → aucun centime ne sortira, par principe.</td><td>Le contenu gratuit, la communauté, la régularité. C'est ce que construit le marketing.</td></tr>
+            <tr><td><strong>2. Les moyens</strong></td><td>« J'ai très envie, mais je n'ai pas l'argent. »</td><td>Le financement : Afdas, abondement, CPF, OPCO. Souvent, le reste à charge est nul ou faible.</td></tr>
+            <tr><td><strong>3. La confiance en soi</strong></td><td>« Je te crois, j'ai les moyens, mais je n'y arriverai pas / je n'aurai pas le temps. »</td><td>Le plus subtil. La communauté le lève d'elle-même : voir d'autres avancer déclenche le « pourquoi pas moi ».</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout astuce">
+        <div class="ct">💡 La boucle anti-objection</div>
+        <p>« Je ferai des vidéos face caméra sans montage, je ne perdrai pas de temps » → l'objection réelle est <em>le temps</em>, pas le montage. Réponse : « je t'apprends une technique qui prendra dix minutes par vidéo, moins que ce que tu fais aujourd'hui. » Objection contrée, un coup gagné. S'il n'y en a pas d'autre, la vente est faite. S'il en surgit une nouvelle — « il me faudrait un logiciel à 300 € par mois » — on la contre à son tour. <strong>Ce n'est que ça.</strong></p>
+      </div>
+
+      <h3>Le plan d'action décidé en fin de session</h3>
+      <ul class="timeline">
+        <li><strong>Tester les autorépondeurs</strong>Créer des comptes gratuits sur quatre ou cinq outils, faire des essais, retenir celui qui paraît immédiatement intuitif.</li>
+        <li><strong>Paramétrer et envoyer ensemble</strong>Configuration du domaine puis premier envoi accompagné, à la session suivante.</li>
+        <li><strong>Mesurer, puis segmenter</strong>Si les retours sont bons, import par segments croissants jusqu'au mailing de masse.</li>
+        <li><strong>Créer la communauté et le sondage</strong>Arbitrer entre les deux points d'entrée, puis implémenter.</li>
+        <li><strong>Débloquer Ophélie et finaliser le blog</strong>Commencer par référencer les formations dont le formateur est déjà identifié.</li>
+        <li><strong>Prendre contact avec l'Afdas et France Travail</strong>Se présenter comme nouvel organisme, vérifier le référencement, proposer une visite des locaux et ouvrir la porte aux besoins sur mesure.</li>
+      </ul>
+
+      <div class="callout saviez">
+        <div class="ct">💡 Pourquoi la démarche de présentation compte</div>
+        <p>Beaucoup de dossiers sont orientés automatiquement, mais il reste de la gestion humaine derrière — des conseillers qui cherchent une réponse adaptée. <strong>Très peu d'organismes font la démarche d'aller se présenter.</strong> Celui qui la fait se rend disponible dans les têtes au bon moment.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <div class="quiz" id="quiz">
+    <h2>🧠 Testez vos connaissances</h2>
+    <p class="sub">5 questions sur les points clés de la session.</p>
+
+    <div class="q" data-good="2">
+      <div class="qt">1. Pourquoi ne pas vendre la formation directement aux mairies ?</div>
+      <button class="opt">Parce que c'est interdit par le code des marchés publics</button>
+      <button class="opt">Parce que les communes n'ont pas de budget formation</button>
+      <button class="opt">Parce que le cycle est trop long : mieux vaut passer par des organismes qui travaillent déjà avec les collectivités</button>
+      <button class="opt">Parce que la responsabilité juridique incomberait au formateur</button>
+      <div class="fb">Il faut se greffer sur les réseaux régionaux d'OF et les structures semi-institutionnelles financées par le département ou la région, en se positionnant comme sous-traitant — avec un OPCO comme Uniformation en financeur.</div>
+    </div>
+
+    <div class="q" data-good="0">
+      <div class="qt">2. Combien un intermittent peut-il mobiliser en fonds d'abondement Afdas, au-delà de son solde CPF ?</div>
+      <button class="opt">Entre 8 000 et 12 000 €</button>
+      <button class="opt">Entre 500 et 1 000 €</button>
+      <button class="opt">Entre 2 000 et 3 000 €</button>
+      <button class="opt">Aucun abondement n'existe</button>
+      <div class="fb">Il suffit de deux cachets dans le mois et d'une formation certifiante inscrite au CPF. Les fonds ont été fléchés vers la Caisse des dépôts — ils existent toujours, mais presque personne ne les demande.</div>
+    </div>
+
+    <div class="q" data-good="3">
+      <div class="qt">3. Quel est l'objectif d'un premier contact sur un salon professionnel ?</div>
+      <button class="opt">Présenter son offre le plus tôt possible</button>
+      <button class="opt">Récupérer un maximum de cartes de visite</button>
+      <button class="opt">Distribuer des plaquettes commerciales</button>
+      <button class="opt">Poser des questions et faire en sorte qu'on ne vous oublie pas</button>
+      <div class="fb">On ne vend rien sur un salon. On repère 10 cibles en amont, on les fait parler d'elles, et on crée un marqueur mémorable — un signe distinctif visuel ou le hack de la photo relancée par e-mail deux semaines plus tard.</div>
+    </div>
+
+    <div class="q" data-good="1">
+      <div class="qt">4. Que se passe-t-il si un intermittent ne réclame pas ses congés payés ?</div>
+      <button class="opt">Ils sont automatiquement versés avec le dernier cachet de l'année</button>
+      <button class="opt">Ils sont définitivement perdus au bout de trois ans</button>
+      <button class="opt">Ils basculent sur son compte CPF</button>
+      <button class="opt">Ils restent acquis sans limite de durée</button>
+      <div class="fb">Environ 10 % doivent être rétrocédés en fin d'année, mais sans demande ils sont perdus après trois ans. Sur dix ans d'ignorance, la perte devient très significative — c'est un excellent contenu d'accroche.</div>
+    </div>
+
+    <div class="q" data-good="2">
+      <div class="qt">5. Quels sont les trois — et seuls — leviers qui déterminent un achat ?</div>
+      <button class="opt">Le prix, la concurrence et la saisonnalité</button>
+      <button class="opt">La notoriété, la publicité et le bouche-à-oreille</button>
+      <button class="opt">La confiance en vous, les moyens financiers, et la confiance du prospect en sa propre capacité à réussir</button>
+      <button class="opt">L'urgence, la rareté et la garantie</button>
+      <div class="fb">Le troisième est le plus subtil à manier — et c'est précisément celui que la communauté lève toute seule, en montrant que d'autres profils comparables y sont arrivés.</div>
+    </div>
+
+    <div id="score"><span class="big"></span><span id="score-txt"></span></div>
+  </div>
+
+  <footer>
+    <span class="brand">Producteur à Succès</span>
+    Support de cours généré à partir de la session de mentorat du 5 septembre 2026 — Tarik Hamiche avec Loïc et Emma (Kazar Studio).<br>
+    Document de synthèse à usage pédagogique. Les informations sur les dispositifs de financement sont données à titre indicatif et doivent être vérifiées auprès des organismes concernés.
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function upd(){
+    var h=document.documentElement;
+    var max=h.scrollHeight-h.clientHeight;
+    bar.style.width=(max>0?(h.scrollTop||document.body.scrollTop)/max*100:0)+'%';
+  }
+  window.addEventListener('scroll',upd,{passive:true});
+  window.addEventListener('resize',upd);
+  upd();
+
+  var total=document.querySelectorAll('.q').length, answered=0, correct=0;
+  document.querySelectorAll('.q').forEach(function(q){
+    var good=parseInt(q.getAttribute('data-good'),10);
+    var opts=q.querySelectorAll('.opt');
+    opts.forEach(function(btn,i){
+      btn.addEventListener('click',function(){
+        if(q.dataset.done) return;
+        q.dataset.done='1';
+        answered++;
+        if(i===good) correct++;
+        opts.forEach(function(b,j){
+          b.disabled=true;
+          if(j===good) b.classList.add('good');
+          else if(j===i) b.classList.add('bad');
+        });
+        q.querySelector('.fb').classList.add('show');
+        if(answered===total){
+          var sc=document.getElementById('score');
+          sc.style.display='block';
+          sc.querySelector('.big').textContent=correct+' / '+total;
+          var msg = correct===total ? "Parfait — tout est acquis." :
+                    correct>=Math.ceil(total*0.6) ? "Bien joué. Revoyez les chapitres correspondant aux erreurs." :
+                    "À revoir : reprenez le replay chapitre par chapitre.";
+          document.getElementById('score-txt').textContent=msg;
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

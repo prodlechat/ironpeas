@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Résumé de cours — Session mentorat du 8 septembre 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED;
+  --primary-dark:#4C1D95;
+  --primary-light:#EDE9FE;
+  --accent:#F59E0B;
+  --accent-light:#FEF3C7;
+  --success:#10B981;
+  --success-light:#D1FAE5;
+  --danger:#EF4444;
+  --danger-light:#FEE2E2;
+  --info:#3B82F6;
+  --info-light:#DBEAFE;
+  --ink:#111827;
+  --body:#374151;
+  --muted:#6B7280;
+  --line:#E5E7EB;
+  --bg:#F9FAFB;
+  --card:#FFFFFF;
+}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--bg);color:var(--body);line-height:1.7;font-size:16px;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:'Space Grotesk','Inter',sans-serif;color:var(--ink);line-height:1.25;}
+
+/* Progress bar */
+#progress-wrap{position:fixed;top:0;left:0;width:100%;height:5px;background:rgba(108,58,237,.12);z-index:9999;}
+#progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--primary),#A78BFA);transition:width .1s linear;}
+
+.wrap{max-width:920px;margin:0 auto;padding:0 20px;}
+
+/* Hero */
+.hero{
+  background:linear-gradient(135deg,#4C1D95 0%,#6C3AED 55%,#8B5CF6 100%);
+  color:#fff;padding:64px 0 56px;margin-bottom:40px;
+}
+.hero h1{color:#fff;font-size:2.5rem;margin:16px 0 14px;letter-spacing:-.02em;}
+.badge{
+  display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);
+  color:#fff;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:7px 14px;border-radius:100px;
+}
+.hero p.lead{font-size:1.08rem;color:rgba(255,255,255,.92);max-width:700px;}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;}
+.meta span{
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+  padding:8px 14px;border-radius:10px;font-size:.86rem;font-weight:500;
+}
+
+/* TOC */
+.toc{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:30px;margin-bottom:44px;box-shadow:0 1px 3px rgba(0,0,0,.05);
+}
+.toc h2{font-size:1.05rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:20px;}
+.toc ol{list-style:none;counter-reset:toc;}
+.toc li{counter-increment:toc;border-bottom:1px solid var(--line);}
+.toc li:last-child{border-bottom:none;}
+.toc a{
+  display:flex;align-items:center;gap:16px;padding:13px 4px;
+  text-decoration:none;color:var(--ink);font-weight:500;transition:.15s;
+}
+.toc a:hover{color:var(--primary);padding-left:10px;}
+.toc a::before{
+  content:counter(toc,decimal-leading-zero);
+  font-family:'Space Grotesk';font-weight:700;color:var(--primary);
+  background:var(--primary-light);width:36px;height:36px;flex:0 0 36px;
+  display:flex;align-items:center;justify-content:center;border-radius:9px;font-size:.85rem;
+}
+
+/* Sections */
+section.chapter{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;
+  margin-bottom:34px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);
+}
+.chapter-head{padding:26px 32px;border-top:5px solid var(--primary);background:linear-gradient(180deg,#FAFAFF,#fff);}
+.chapter-head .num{
+  font-family:'Space Grotesk';font-size:.78rem;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--primary);
+}
+.chapter-head h2{font-size:1.62rem;margin-top:6px;letter-spacing:-.01em;}
+.chapter-head .tc{
+  display:inline-block;margin-top:12px;font-size:.78rem;font-weight:600;
+  background:var(--primary-light);color:var(--primary-dark);padding:5px 11px;border-radius:7px;
+}
+.chapter-body{padding:8px 32px 32px;}
+.chapter-body p{margin:16px 0;}
+.chapter-body h3{font-size:1.13rem;margin:30px 0 8px;color:var(--primary-dark);}
+.chapter-body ul,.chapter-body ol{margin:14px 0 14px 22px;}
+.chapter-body li{margin:8px 0;}
+strong{color:var(--ink);font-weight:600;}
+
+/* accent colors per chapter */
+.c1 .chapter-head{border-top-color:var(--primary);}
+.c2 .chapter-head{border-top-color:var(--success);}
+.c3 .chapter-head{border-top-color:var(--danger);}
+.c4 .chapter-head{border-top-color:var(--info);}
+.c5 .chapter-head{border-top-color:var(--accent);}
+.c6 .chapter-head{border-top-color:#0EA5E9;}
+.c7 .chapter-head{border-top-color:#DB2777;}
+.c8 .chapter-head{border-top-color:#059669;}
+.c2 .chapter-head .num{color:var(--success);} .c2 .chapter-head .tc{background:var(--success-light);color:#065F46;}
+.c3 .chapter-head .num{color:var(--danger);}  .c3 .chapter-head .tc{background:var(--danger-light);color:#991B1B;}
+.c4 .chapter-head .num{color:var(--info);}    .c4 .chapter-head .tc{background:var(--info-light);color:#1E40AF;}
+.c5 .chapter-head .num{color:#B45309;}        .c5 .chapter-head .tc{background:var(--accent-light);color:#92400E;}
+.c6 .chapter-head .num{color:#0369A1;}        .c6 .chapter-head .tc{background:#E0F2FE;color:#075985;}
+.c7 .chapter-head .num{color:#DB2777;}        .c7 .chapter-head .tc{background:#FCE7F3;color:#9D174D;}
+.c8 .chapter-head .num{color:#059669;}        .c8 .chapter-head .tc{background:var(--success-light);color:#065F46;}
+
+/* Callouts */
+.callout{border-radius:12px;padding:18px 22px 18px 20px;margin:22px 0;border-left:5px solid;}
+.callout .ct{font-weight:700;font-family:'Space Grotesk';display:flex;align-items:center;gap:9px;margin-bottom:7px;font-size:.95rem;}
+.callout p:last-child{margin-bottom:0;}
+.callout p:first-of-type{margin-top:0;}
+.retenir{background:var(--primary-light);border-color:var(--primary);} .retenir .ct{color:var(--primary-dark);}
+.astuce{background:var(--success-light);border-color:var(--success);} .astuce .ct{color:#065F46;}
+.attention{background:var(--accent-light);border-color:var(--accent);} .attention .ct{color:#92400E;}
+.danger{background:var(--danger-light);border-color:var(--danger);} .danger .ct{color:#991B1B;}
+.saviez{background:var(--info-light);border-color:var(--info);} .saviez .ct{color:#1E40AF;}
+
+/* Tables */
+.tbl-wrap{overflow-x:auto;margin:24px 0;border-radius:12px;border:1px solid var(--line);}
+table{width:100%;border-collapse:collapse;font-size:.93rem;background:#fff;}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:13px 16px;font-weight:600;font-family:'Space Grotesk';}
+tbody td{padding:12px 16px;border-top:1px solid var(--line);vertical-align:top;}
+tbody tr:nth-child(even){background:#FAFAFC;}
+td.win{color:#065F46;font-weight:600;}
+td.lose{color:#991B1B;font-weight:600;}
+
+/* Cards grid */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin:24px 0;}
+.card{background:#FAFAFC;border:1px solid var(--line);border-radius:13px;padding:20px;}
+.card h4{font-size:1rem;margin-bottom:7px;color:var(--primary-dark);}
+.card p{font-size:.9rem;margin:0;color:var(--body);}
+.card .ico{font-size:1.5rem;display:block;margin-bottom:8px;}
+
+/* Pros / cons */
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0;}
+.pc>div{border-radius:13px;padding:20px;}
+.pros{background:var(--success-light);border:1px solid #A7F3D0;}
+.cons{background:var(--danger-light);border:1px solid #FECACA;}
+.pc h4{font-size:.95rem;margin-bottom:10px;}
+.pros h4{color:#065F46;} .cons h4{color:#991B1B;}
+.pc ul{margin:0 0 0 18px;} .pc li{font-size:.9rem;margin:6px 0;}
+
+/* Timeline */
+.timeline{list-style:none;margin:24px 0;padding-left:8px;border-left:3px solid var(--primary-light);}
+.timeline li{position:relative;padding:0 0 22px 26px;margin:0;}
+.timeline li::before{
+  content:'';position:absolute;left:-9.5px;top:6px;width:15px;height:15px;
+  border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light);
+}
+.timeline strong{display:block;color:var(--primary-dark);font-family:'Space Grotesk';}
+
+/* Accordion */
+details{background:#FAFAFC;border:1px solid var(--line);border-radius:11px;margin:16px 0;overflow:hidden;}
+summary{padding:15px 20px;cursor:pointer;font-weight:600;color:var(--primary-dark);list-style:none;font-family:'Space Grotesk';}
+summary::-webkit-details-marker{display:none;}
+summary::before{content:'▸ ';color:var(--primary);font-weight:700;}
+details[open] summary::before{content:'▾ ';}
+details .dc{padding:0 20px 18px;font-size:.94rem;}
+details .dc p:first-child{margin-top:0;}
+
+/* Quiz */
+.quiz{background:linear-gradient(135deg,#4C1D95,#6C3AED);border-radius:18px;padding:36px 32px;color:#fff;margin:44px 0;}
+.quiz h2{color:#fff;font-size:1.8rem;margin-bottom:6px;}
+.quiz>p.sub{color:rgba(255,255,255,.85);margin-bottom:26px;}
+.q{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:13px;padding:22px;margin-bottom:18px;}
+.q .qt{font-weight:600;margin-bottom:14px;font-family:'Space Grotesk';}
+.opt{
+  display:block;width:100%;text-align:left;background:rgba(255,255,255,.94);border:2px solid transparent;
+  color:var(--ink);padding:12px 16px;border-radius:9px;margin-bottom:9px;cursor:pointer;
+  font-family:inherit;font-size:.94rem;transition:.15s;
+}
+.opt:hover:not(:disabled){background:#fff;transform:translateX(4px);}
+.opt:disabled{cursor:default;}
+.opt.good{background:#D1FAE5;border-color:#10B981;color:#065F46;font-weight:600;}
+.opt.bad{background:#FEE2E2;border-color:#EF4444;color:#991B1B;}
+.fb{margin-top:10px;font-size:.9rem;padding:11px 14px;border-radius:9px;background:rgba(255,255,255,.16);display:none;}
+.fb.show{display:block;}
+#score{
+  display:none;margin-top:24px;background:rgba(255,255,255,.95);color:var(--ink);
+  border-radius:13px;padding:22px;text-align:center;font-family:'Space Grotesk';
+}
+#score .big{font-size:2.2rem;font-weight:700;color:var(--primary);display:block;}
+
+/* Footer */
+footer{text-align:center;padding:44px 20px 60px;color:var(--muted);font-size:.88rem;}
+footer .brand{font-family:'Space Grotesk';font-weight:700;color:var(--primary);font-size:1.05rem;display:block;margin-bottom:6px;}
+
+@media(max-width:640px){
+  .hero h1{font-size:1.85rem;}
+  .chapter-head,.chapter-body{padding-left:20px;padding-right:20px;}
+  .pc{grid-template-columns:1fr;}
+  .quiz{padding:26px 20px;}
+}
+@media print{
+  #progress-wrap,.quiz{display:none;}
+  body{background:#fff;}
+  section.chapter{break-inside:avoid;box-shadow:none;}
+  .hero{background:var(--primary)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-wrap"><div id="progress-bar"></div></div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="badge">Mentorat Hic &amp; Nunc · Session du 8 septembre 2026</span>
+    <h1>Mettre en place sa machine de prospection : emailing, sondage et posture de vente</h1>
+    <p class="lead">Session d'exécution : configurer un autorépondeur de A à Z, construire un sondage segmenté, déployer un blog sur WordPress — et surtout comprendre pourquoi on ne vend jamais en cherchant à vendre.</p>
+    <div class="meta">
+      <span>⏱️ 2 h 20 de session</span>
+      <span>🎙️ Tarik Hamiche</span>
+      <span>👥 Loïc &amp; Emma — Quasar Studio</span>
+      <span>📚 23 chapitres</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>Sommaire</h2>
+    <ol>
+      <li><a href="#s1">Point de départ et méthode de prospection</a></li>
+      <li><a href="#s2">Constituer et importer sa base : la partie légale et technique</a></li>
+      <li><a href="#s3">GetResponse : segmentation, automatisations et A/B test</a></li>
+      <li><a href="#s4">Rédiger un email qui ressemble à un email</a></li>
+      <li><a href="#s5">Le sondage : choisir son outil de formulaire</a></li>
+      <li><a href="#s6">Le blog : images crédibles et déploiement WordPress</a></li>
+      <li><a href="#s7">Le salon : y aller sans pression</a></li>
+      <li><a href="#s8">La posture de vente : l'obsession du problème</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="chapter c1" id="s1">
+    <div class="chapter-head">
+      <span class="num">Chapitre 01</span>
+      <h2>Point de départ et méthode de prospection</h2>
+      <span class="tc">▶ 00:00 → 06:51 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <h3>Ce qui a avancé depuis la dernière session</h3>
+      <ul>
+        <li><strong>Ofeli / EDOF débloqué</strong> — le blocage venait de l'absence d'enregistrement sur Kairos, ce qui empêchait la plateforme de retrouver l'organisme de formation.</li>
+        <li><strong>Blog</strong> — prêt à être mis en ligne, mais les visuels générés par IA font trop artificiels.</li>
+        <li><strong>GetResponse</strong> — compte ouvert, mais l'interface reste floue.</li>
+      </ul>
+
+      <h3>La séquence de prospection à appliquer</h3>
+      <p>Méthode récupérée auprès d'un confrère musicien qui a formalisé sa propre approche après des années à faire tourner son groupe :</p>
+      <ul class="timeline">
+        <li><strong>J+0 — Premier email</strong>Simple prise de contact, rien de commercial.</li>
+        <li><strong>J+7 — Deuxième email</strong>Uniquement s'il ne s'est rien passé.</li>
+        <li><strong>Troisième temps — L'appel</strong>C'est là que le contact se joue vraiment.</li>
+      </ul>
+
+      <div class="callout astuce">
+        <div class="ct">💡 Le bon timing pour les salles</div>
+        <p>C'est le moment de contacter les <strong>salles et les SMAC</strong> pour booker des dates. En revanche, il est encore trop tôt pour les mairies sur les événements d'été (terrasses du jeudi et compagnie) — ces décisions se prennent plus tard dans l'année.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="chapter c2" id="s2">
+    <div class="chapter-head">
+      <span class="num">Chapitre 02</span>
+      <h2>Constituer et importer sa base : la partie légale et technique</h2>
+      <span class="tc">▶ 06:51 → 26:05 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <h3>Extraire une base ciblée depuis Airtable</h3>
+      <ul class="timeline">
+        <li><strong>1. Filtrer par code postal</strong>Bouton Filtre → Ajouter une condition → champ « code postal ». Choisir <strong>« n'importe laquelle des valeurs »</strong> plutôt que « et », et ne saisir que les <strong>deux premiers chiffres</strong> du département.</li>
+        <li><strong>2. Cibler la proximité</strong>Commencer par les départements les plus proches, puis élargir aux limitrophes jusqu'à obtenir un volume exploitable.</li>
+        <li><strong>3. Exporter</strong>Menu « Grid View » en haut à gauche → Download CSV.</li>
+      </ul>
+
+      <div class="callout attention">
+        <div class="ct">⚠️ Le bon volume pour un test</div>
+        <p>Entre <strong>50 et 100 contacts</strong>. Six contacts ne permettent de rien conclure ; 3 000 d'un coup font sauter le compte.</p>
+      </div>
+
+      <h3>Ce que dit la loi — et ce qui se passe en pratique</h3>
+      <div class="callout danger">
+        <div class="ct">🚨 Le point de franchise sur la légalité</div>
+        <p>Pour être parfaitement clair : <strong>récupérer une base, l'importer et solliciter les gens n'est pas légal</strong> au sens strict de la loi. C'est ce que le texte dit.</p>
+        <p>En pratique, tant qu'il n'y a pas de démarchage agressif, qu'on n'insiste pas auprès des gens et qu'un <strong>bouton de désabonnement bien visible</strong> est présent — ce que GetResponse impose de toute façon — c'est difficilement condamnable. Les plateformes sont tenues de vous afficher l'avertissement, mais elles traitent quand même l'import.</p>
+      </div>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Le vrai risque n'est pas celui qu'on croit</div>
+        <p>Ce n'est pas le régulateur qui va débarquer pour 3 000 adresses — ces textes ont été pensés pour des bases de dizaines ou de centaines de milliers de contacts. <strong>Le risque réel, c'est que l'autorépondeur coupe votre compte</strong> si vous importez 3 000 personnes et que 400 se désabonnent le jour même.</p>
+        <p>D'où la règle : <strong>100 par 100, 200 par 200, 300 par 300.</strong> Et si vous êtes sur un compte gratuit plafonné à 500 contacts, fractionnez d'autant plus.</p>
+      </div>
+
+      <h3>Les étapes techniques à ne pas rater</h3>
+      <div class="cards">
+        <div class="card"><span class="ico">🔗</span><h4>Mapper les champs</h4><p>L'outil ne reconnaît pas les colonnes par défaut : associer manuellement prénom, nom, ville.</p></div>
+        <div class="card"><span class="ico">🏷️</span><h4>Nommer les listes</h4><p>« Liste intermittents test » plutôt que « Contact ». On démarre avec deux listes, un matin on en a 170.</p></div>
+        <div class="card"><span class="ico">📮</span><h4>L'adresse postale</h4><p>Obligatoire, et l'amende peut être lourde. Le destinataire doit identifier l'expéditeur immédiatement.</p></div>
+        <div class="card"><span class="ico">🔐</span><h4>Authentifier le domaine</h4><p>Le DKIM évite les spams. Deux ou trois lignes à ajouter : l'hébergeur le fait en deux minutes.</p></div>
+      </div>
+
+      <div class="callout attention">
+        <div class="ct">⚠️ Mettre l'adresse de la société, pas la sienne</div>
+        <p>Point vérifié en direct pendant la session : l'adresse pré-remplie était l'adresse personnelle. À corriger systématiquement avant tout envoi.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="chapter c3" id="s3">
+    <div class="chapter-head">
+      <span class="num">Chapitre 03</span>
+      <h2>GetResponse : segmentation, automatisations et A/B test</h2>
+      <span class="tc">▶ 26:05 → 38:53 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Menu</th><th>À quoi ça sert</th><th>Quand s'en servir</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Email marketing</strong></td><td>Rédiger et envoyer un email à une base</td><td>L'usage de base — envoyer un message à 800 personnes</td>
+            </tr>
+            <tr><td><strong>Automate</strong></td><td>Créer des campagnes automatisées avec déclencheurs</td><td>Séquences post-conférence, relances conditionnelles</td></tr>
+            <tr><td><strong>Connect</strong></td><td>Intégrer des outils tiers (Airtable, formulaires)</td><td>Faire remonter les réponses de sondage dans la base</td></tr>
+            <tr><td><strong>Build visibility</strong></td><td>Pages de capture, pages de vente, site</td><td>Plus tard, et payant en supplément</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout saviez">
+        <div class="ct">💡 Un scénario d'automatisation concret</div>
+        <p>Si le destinataire <strong>ouvre</strong> l'email → étape validée. S'il n'a <strong>pas ouvert à J+7</strong> → le même email repart automatiquement. S'il a ouvert <strong>et cliqué</strong> → on lui appose le tag « clic validé ».</p>
+        <p>Et on repasse en manuel quand ça compte : si quelqu'un a cliqué sur un lien d'achat à J+5 sans aller au bout, une notification permet d'écrire personnellement — « j'ai vu que tu étais intéressé, si tu as un doute, voici mon numéro ».</p>
+      </div>
+
+      <h3>La segmentation par tags : le vrai levier</h3>
+      <p>Si chaque réponse du sondage appose un tag, une base de 3 000 contacts dont 1 000 ont répondu devient une collection de listes bien plus intéressantes que la masse initiale.</p>
+
+      <div class="cards">
+        <div class="card"><span class="ico">🎯</span><h4>« Jamais utilisé ses fonds »</h4><p>À éduquer : ils perdent chaque année plusieurs milliers d'euros de fonds de formation sans le savoir.</p></div>
+        <div class="card"><span class="ico">🔥</span><h4>« Formation faite, carence en cours »</h4><p>Prospect très chaud à recontacter au bon moment.</p></div>
+        <div class="card"><span class="ico">⏳</span><h4>« Intermittent 10 ans » / « 1 an »</h4><p>L'ancienneté change complètement le discours à tenir.</p></div>
+        <div class="card"><span class="ico">✍️</span><h4>« Auteur »</h4><p>Une loi change et ne concerne que les auteurs ? On envoie au seul segment concerné.</p></div>
+      </div>
+
+      <div class="callout astuce">
+        <div class="ct">💡 L'offre express sur segment chaud</div>
+        <p>Exemple donné, utilisé régulièrement : « Suite à une annulation sur la prochaine session, je fais une remise de −70 %. Il n'y a que deux places — si le lien est mort, c'est qu'elles sont prises. » Envoyé à 150 contacts très qualifiés sur une formation à 3 000 € qui tombe à 400 €, le calcul se fait tout seul.</p>
+      </div>
+
+      <div class="callout saviez">
+        <div class="ct">💡 L'A/B test sur l'objet</div>
+        <p>Même email, seul l'objet change. Sur 1 000 contacts, l'outil envoie 500 en version A et 500 en version B, puis compare les taux d'ouverture. C'est la façon la plus fiable d'identifier ce qui fait ouvrir.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="chapter c4" id="s4">
+    <div class="chapter-head">
+      <span class="num">Chapitre 04</span>
+      <h2>Rédiger un email qui ressemble à un email</h2>
+      <span class="tc">▶ 35:12 → 1:02:31 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Ne jamais utiliser de template</div>
+        <p>Les modèles proposés par les autorépondeurs ressemblent à tout, sauf à un email écrit par un humain. Prendre le <strong>modèle vierge</strong>, ajouter un bloc de texte, et rien d'autre.</p>
+        <p>Le test qui tranche : <strong>avez-vous déjà envoyé un email à un ami avec un bandeau, un logo et trois colonnes pour lui demander ce qu'il fait samedi ?</strong> Vous savez que vous écrivez à des milliers de personnes. Eux doivent avoir l'impression de recevoir un message personnel.</p>
+      </div>
+
+      <h3>Les deux leviers d'ouverture</h3>
+      <div class="pc">
+        <div class="pros">
+          <h4>✅ Ce qui donne envie d'ouvrir</h4>
+          <ul>
+            <li><strong>Objet :</strong> « Nouvelle opportunité »</li>
+            <li><strong>Aperçu :</strong> « 600 artistes sélectionnés pour… »</li>
+            <li>La curiosité est attisée, on veut lire la suite</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>❌ Ce qui tue l'ouverture</h4>
+          <ul>
+            <li><strong>Objet :</strong> « Nouvelle opportunité »</li>
+            <li><strong>Aperçu :</strong> « Bonjour, je sais qu'on ne se connaît pas, je m'appelle… »</li>
+            <li>Aucune raison d'ouvrir</li>
+          </ul>
+        </div>
+      </div>
+      <p>La plupart des autorépondeurs permettent de définir cette <strong>ligne d'aperçu séparément de l'objet</strong> — c'est un levier gratuit que presque personne n'utilise.</p>
+
+      <div class="callout astuce">
+        <div class="ct">💡 Les variables de personnalisation</div>
+        <p>Prénom, ville, et tout champ présent dans la base peuvent être insérés dans le corps du message. « Hello Emma, […] c'est le meilleur studio que je connaisse à Rouen » se lit infiniment mieux qu'une newsletter impersonnelle — et c'est précisément l'intérêt d'un autorépondeur : chacun reçoit sa version.</p>
+      </div>
+
+      <details>
+        <summary>Deux détails de finition qui comptent</summary>
+        <div class="dc">
+          <p><strong>Le lien de désabonnement :</strong> certains marketeurs le rendent quasi invisible en le passant dans la couleur du fond — légalement présent, pratiquement introuvable. La recommandation inverse a été donnée en séance : <strong>le mettre en rouge</strong>, parce que statistiquement les gens cliquent beaucoup moins sur un bouton rouge. À défaut, du noir. Un désabonnement propre vaut mieux qu'un signalement en spam.</p>
+          <p><strong>Toujours s'envoyer un test</strong>, et le vérifier <strong>sur ordinateur ET sur mobile</strong>. C'est en faisant ce test pendant la session qu'on a vu qu'un fond gris rendait mal et que le centrage passait différemment selon le support.</p>
+        </div>
+      </details>
+
+      <div class="callout attention">
+        <div class="ct">⚠️ Quand l'outil de travail devient le goulot d'étranglement</div>
+        <p>Une bonne partie de la session a été perdue sur un bug de saisie dans l'éditeur — texte effacé au bout de deux caractères. Test croisé sur une autre machine : le problème ne venait pas de l'outil.</p>
+        <p>Diagnostic : ultraportable de bureautique, refroidissement sous-dimensionné, processeur qui bride dès qu'on le sollicite. <strong>« On a passé dix minutes sur un truc que j'ai fait en dix secondes. »</strong> Pour un poste de stratégie digitale, l'équipement n'est pas un confort mais un prérequis — et c'est un argument légitime à porter auprès de son dirigeant.</p>
+      </div>
+
+      <div class="callout astuce">
+        <div class="ct">💡 En attendant : la méthode EMOM</div>
+        <p>Comme au sport : toutes les heures, on importe 100 à 200 contacts, tranquillement. On fractionne la base en 10 à 15 listes nommées « intermittents 1 », « intermittents 2 »… Cela demande un peu d'organisation, mais ça avance sans risquer le compte — et sans dépendre d'un outil qui rame.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="chapter c5" id="s5">
+    <div class="chapter-head">
+      <span class="num">Chapitre 05</span>
+      <h2>Le sondage : choisir son outil de formulaire</h2>
+      <span class="tc">▶ 1:06:55 → 1:25:34 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <p>Le contenu du premier email est arrêté : annoncer la volonté de <strong>créer une communauté</strong> et demander aux destinataires ce qui les intéresserait d'y trouver. Reste à choisir avec quoi collecter les réponses.</p>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Critère</th><th>Google Forms</th><th>Typeform et équivalents</th></tr></thead>
+          <tbody>
+            <tr><td>Parcours</td><td class="lose">Linéaire, tout de haut en bas</td><td class="win">Une question à la fois, design soigné</td></tr>
+            <tr><td>Segmentation conditionnelle</td><td class="lose">Impossible</td><td class="win">Une réponse « producteur » saute les questions sur l'intermittence</td></tr>
+            <tr><td>Taux de complétion</td><td class="lose">25 questions affichées → on répond à 4 et on part</td><td class="win">Le parcours raccourcit à mesure qu'on répond</td></tr>
+            <tr><td>Interconnexion</td><td>Google Sheet, difficile à exploiter ensuite</td><td class="win">Vers Airtable, puis vers l'autorépondeur</td></tr>
+            <tr><td>Coût</td><td class="win">Gratuit</td><td>Environ 30 €/mois — alternatives gratuites à explorer</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Le chaînage recommandé</div>
+        <p>Formulaire → <strong>Airtable</strong> → autorépondeur. L'étape intermédiaire n'est pas une complication : <strong>si un jour l'autorépondeur saute ou se fait pirater, la base reste.</strong> Avoir sa base à deux endroits est une règle de prudence de base.</p>
+      </div>
+
+      <div class="callout astuce">
+        <div class="ct">💡 Les alternatives à explorer</div>
+        <p>Plusieurs outils offrent le même parcours conditionnel avec un plan gratuit bien plus généreux — certains jusqu'à 1 000 réponses par mois, ce qui correspondrait à 12 000 contacts qualifiés par an. Trois pistes ont été relevées en séance : <strong>Tally, Fillout et YouForm</strong>. À comparer avant de payer un abonnement.</p>
+      </div>
+
+      <h3>Notion comme quartier général</h3>
+      <p>Outil gratuit utilisé comme « deuxième cerveau » : objectifs, actions du jour, prise de notes, CRM interne, et un mode tableau à trois colonnes (urgent / moyen / secondaire) où l'on peut assigner des tâches et recevoir des notifications quand c'est à son tour d'agir. <em>Trente minutes de tutoriel suffisent à en comprendre la mécanique.</em></p>
+
+      <div class="callout saviez">
+        <div class="ct">💡 Le plan d'action construit en direct</div>
+        <ol>
+          <li>Régler le problème de rédaction d'email</li>
+          <li>Identifier et tester 3 alternatives gratuites au formulaire payant</li>
+          <li>Choisir l'outil de création de formulaire</li>
+          <li>Créer le formulaire type sondage</li>
+          <li>Rédiger l'email de sondage — <strong>puis le tester sur soi</strong></li>
+          <li>Importer les bases par paquets de 100 à 150, en notant ce qui est importé</li>
+          <li>Mapper les réponses vers un tableau récapitulatif</li>
+          <li>Envoyer</li>
+        </ol>
+      </div>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Sur le droit à l'erreur</div>
+        <p>Réponse donnée à l'hésitation « je ne suis pas encore sereine » : le principe interne appliqué avec les équipes est de <strong>valoriser la prise de risque</strong>. Quand on valorise l'essai, les gens tentent des choses — et même en se plantant, ils apprennent. Le monde ne s'arrêtera pas de tourner parce qu'un email imparfait est parti à 50 contacts. <strong>Mieux vaut ça que de ne jamais rien faire.</strong></p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="chapter c6" id="s6">
+    <div class="chapter-head">
+      <span class="num">Chapitre 06</span>
+      <h2>Le blog : images crédibles et déploiement WordPress</h2>
+      <span class="tc">▶ 1:25:34 → 1:47:36 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <h3>Le problème des visuels générés par IA</h3>
+      <p>Le rendu « fait trop IA » et ça se voit. Trois pistes, de la moins à la plus efficace :</p>
+
+      <ul class="timeline">
+        <li><strong>1. Rééduquer le générateur</strong>Lui dire explicitement ce qui ne va pas : « je trouve que ça manque de naturel, ça fait trop photo générée. Améliore le prompt pour obtenir des images hyper réalistes, comme de vraies photos prises sur de vraies scènes en France. » Puis lui demander d'enregistrer cette exigence et de se poser la question à chaque image.</li>
+        <li><strong>2. S'inspirer de références réelles</strong>Lui fournir les photos existantes du prestataire comme modèles.</li>
+        <li><strong>3. Demander de vraies photos</strong>Le prestataire prend forcément des photos sur chaque scène qu'il installe — ses équipes aussi. Un simple message suffit, et son logo qui traîne sur les images lui fait de la visibilité en retour.</li>
+      </ul>
+
+      <div class="callout attention">
+        <div class="ct">⚠️ Le principe de réalité</div>
+        <p>On peut beaucoup améliorer un rendu IA, mais <strong>on ne remplacera jamais une vraie photo</strong> : à l'œil un peu exercé, il reste toujours des incohérences. Le plus sage au démarrage est d'utiliser les photos réelles disponibles, même imparfaites, quitte à améliorer ensuite.</p>
+      </div>
+
+      <h3>Déployer le blog sur WordPress</h3>
+      <div class="callout danger">
+        <div class="ct">🚨 Ne jamais donner ses identifiants à un assistant IA</div>
+        <p>Quand l'outil demande un accès, <strong>on ne donne jamais son mot de passe WordPress</strong>. La bonne méthode : dans le profil WordPress, section « mots de passe d'application », créer une clé dédiée. Elle donne les mêmes droits mais reste séparée du compte, et se <strong>révoque d'un clic</strong> sans rien casser.</p>
+        <p>Sinon, la méthode par défaut reste la meilleure : demander la <strong>liste des étapes</strong> et les exécuter soi-même, en envoyant une capture d'écran dès qu'un bouton décrit n'existe pas.</p>
+      </div>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Option retenue : la page WordPress classique</div>
+        <p>Créer une page WordPress « Blog », y coller le HTML dans un bloc, et pointer le menu dessus. Le design est respecté à 100 %, l'URL reste propre (<em>votre-site.fr/blog</em>) et le visiteur n'a pas le sentiment de quitter le site.</p>
+        <p><strong>La contrepartie assumée :</strong> une page HTML est figée. À chaque nouvel article, il faut ajouter la vignette à la main — ce qui correspond exactement à la façon dont les articles sont déjà produits.</p>
+      </div>
+
+      <div class="callout astuce">
+        <div class="ct">💡 Le maillage interne : à tester une fois en ligne</div>
+        <p>Si l'article 3 renvoie vers l'article 1, le lien doit être testé <strong>après déploiement</strong>, pas avant. D'où le conseil de démarrer avec deux ou trois articles seulement, et de passer sur chaque page pour cliquer partout. Ce qui fonctionne au lancement continuera de fonctionner ensuite.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="chapter c7" id="s7">
+    <div class="chapter-head">
+      <span class="num">Chapitre 07</span>
+      <h2>Le salon : y aller sans pression</h2>
+      <span class="tc">▶ 1:47:36 → 2:00:47 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Le seul conseil qui vaille</div>
+        <p><strong>N'essayez de rien vendre à personne.</strong> Y aller dans une démarche de « vous êtes des gens qui m'intéressent et je viens vous rencontrer, c'est tout ». Si les choses doivent se faire, elles se feront d'elles-mêmes.</p>
+        <p>Le parallèle donné : c'est comme aller en soirée dans le seul but de repartir accompagné. Ça se voit, ça ne marche pas. Alors qu'en y allant pour passer un bon moment, sans intention, c'est généralement là que ça se produit.</p>
+      </div>
+
+      <h3>La posture : rester authentique</h3>
+      <p>Se présenter tel qu'on est : <em>« je bosse là-bas, je suis nouvelle, je suis en formation, je suis là pour apprendre »</em>. Les gens accueillent bien plus volontiers quelqu'un qui met cartes sur table que quelqu'un qui essaie de paraître ce qu'il n'est pas.</p>
+
+      <details>
+        <summary>L'anecdote du dojo — pourquoi bluffer ne marche jamais</summary>
+        <div class="dc">
+          <p>Un pratiquant arrive en jujitsu brésilien en assurant qu'il maîtrise. Interrogé, il dit venir de l'aïkido après quinze ans, et avoir « gagné toutes ses compétitions ». Or <strong>il n'existe ni compétition ni ceinture graduée visible en aïkido</strong> — tout le monde y est éternel débutant. Le bluff s'effondre en une question anodine.</p>
+          <p>S'il était arrivé en disant « je débute, allez-y doucement, je ne vais rien comprendre au départ », la relation aurait été excellente et on l'aurait orienté vers les bons partenaires d'entraînement.</p>
+        </div>
+      </details>
+
+      <div class="callout astuce">
+        <div class="ct">💡 Pour se mettre dans le bain</div>
+        <p>Commencer par les <strong>stands</strong>, s'il y en a : les gens qui y tiennent quelque chose ont envie de vous parler. Deux ou trois échanges faciles pour se dégeler, et c'est parti. Et se rappeler que tous ceux qui se sont déplacés sont là <em>pour</em> la rencontre — sinon ils seraient restés chez eux.</p>
+      </div>
+
+      <div class="callout saviez">
+        <div class="ct">💡 L'histoire du Midem : le vrai intérêt d'un salon</div>
+        <p>Quatre années de suite au plus gros salon international de la musique. Les trois premières : environ 1 000 € par édition, aucune opportunité, pas d'anglais, personne à qui parler. La quatrième, à deux doigts de ne pas y aller — <em>« ça ne sert à rien, je vais encore m'ennuyer deux jours »</em> — puis décision de dernière minute : « c'est là-bas que tout le monde est ».</p>
+        <p>Trois jours, toujours rien. Le troisième soir, au bar (habitude prise d'y traîner jusqu'à la fermeture), un homme s'assoit à côté, encore plus abattu. La conversation démarre sur ce constat partagé d'échec. Il est DJ producteur, il cherchait un label. « Moi je suis producteur, je peux écouter ? » Casque sur les oreilles, à 22 h : <strong>c'était un hit.</strong> Ce titre est devenu le premier numéro un européen.</p>
+        <p><strong>Ce n'est jamais arrivé une deuxième fois</strong> — mais pour cette seule opportunité, toutes les autres éditions valaient le coup. <em>« Le seul intérêt d'un salon, c'est d'être là où votre chance de déclencher une opportunité est plus grande. Et dans 9,9 cas sur 10, vous vous ennuierez pour rien. C'est le jeu. »</em></p>
+      </div>
+
+      <div class="callout attention">
+        <div class="ct">⚠️ Une deadline commerciale ne change rien à la méthode</div>
+        <p>Le fait qu'une échéance approche pour remplir une session de formation ne justifie pas de forcer la vente sur un salon. La pression se voit, et elle produit l'effet inverse. On y va avec une intention, mais sans pression.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="chapter c8" id="s8">
+    <div class="chapter-head">
+      <span class="num">Chapitre 08</span>
+      <h2>La posture de vente : l'obsession du problème</h2>
+      <span class="tc">▶ 2:00:47 → 2:20:39 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <div class="callout retenir">
+        <div class="ct">🎯 On ne vend pas — on montre que la solution existe</div>
+        <p>Rappel des trois conditions de l'achat : <strong>la confiance dans le vendeur, la confiance en soi, et la capacité financière</strong>. Sans elles, aucune vente n'est possible à un inconnu.</p>
+        <p>L'image donnée : des baskets à acheter pour la rentrée, des vacances au Portugal, un magasin avec « soldes −70 % » sur le chemin. <strong>Personne n'a rien vendu.</strong> Un besoin a rencontré une proposition, c'est tout. Votre seul travail est de montrer que la solution existe.</p>
+      </div>
+
+      <h3>Orienter la conversation, pas la vente</h3>
+      <p>La séquence type quand quelqu'un évoque spontanément une difficulté :</p>
+      <ul class="timeline">
+        <li><strong>1. La question ouverte</strong>« Plutôt que de galérer à trouver le bon prestataire, ce ne serait pas plus intéressant de faire monter ton équipe en compétence ? » — <em>c'est une question, pas une offre.</em></li>
+        <li><strong>2. Laisser venir l'objection</strong>« Ce serait génial, mais ça coûte un bras et je n'ai pas le temps. » C'est l'ouverture.</li>
+        <li><strong>3. Lever les deux freins d'un coup</strong>Le financement existe probablement, et une semaine de formation sur cinq ans de collaboration ne pèse rien.</li>
+        <li><strong>4. Rappeler l'enjeu, sans dramatiser</strong>La responsabilité juridique est réelle : tant qu'il n'arrive rien, personne n'y pense — comme les incendies domestiques.</li>
+        <li><strong>5. S'arrêter là</strong>« Ce n'est peut-être pas le moment d'en parler. Je te laisse ma carte, tu m'appelles quand tu veux. » Le chemin se fera dans sa tête.</li>
+      </ul>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 L'obsession du problème, pas du produit</div>
+        <p><strong>« Si tu te concentres sur le produit que tu as à vendre, tu es fichu d'avance. »</strong> Le bon vendeur est obsédé par les problèmes des gens.</p>
+        <p>D'où l'expression du vendeur qui « vendrait un frigo à des Esquimaux » — elle n'est pas absurde. Si l'un d'eux dit que des loups viennent manger ses réserves, la réponse n'est pas un frigo, <strong>c'est un coffre</strong>. On résout le problème, la vente suit.</p>
+      </div>
+
+      <h3>La méthode SPIN</h3>
+      <p>Issue de l'analyse de dizaines de milliers de conversations commerciales : les meilleurs vendeurs, toutes industries confondues, suivent toujours la même structure.</p>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Étape</th><th>Temps consacré</th><th>Ce qu'on fait</th></tr></thead>
+          <tbody>
+            <tr><td>Se présenter</td><td>2 minutes</td><td>Des banalités. « Salut, tu fais quoi ici ? »</td></tr>
+            <tr><td>Poser des questions</td><td class="win">80 % du temps</td><td>Depuis combien de temps ? Vous êtes combien dans l'équipe ? On identifie la taille de la structure et les problèmes réels.</td></tr>
+            <tr><td>Remuer le couteau</td><td>Court</td><td>« Si tu ne règles pas ça, qu'est-ce que ça va te coûter ? » On fait ressentir le risque concrètement.</td></tr>
+            <tr><td>Inspirer</td><td>Court</td><td>« Imagine qu'en novembre, période creuse, tu formes trois de tes gars. Qu'est-ce qui se passe ? » On projette les gains.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout astuce">
+        <div class="ct">💡 L'anti-vente et le rendez-vous par anticipation</div>
+        <p>Quand la personne demande d'elle-même « ça se passe comment ? combien ? quel délai ? », <strong>c'est gagné — il n'y a plus rien à faire.</strong> C'est même le moment de ralentir : « ne nous précipitons pas, l'information est là, elle va rester. Amuse-toi ce soir. »</p>
+        <p>Puis on verrouille le suivi : <strong>« je me note de t'appeler lundi — plutôt vers midi, comme ça tu déjeunes tranquille au bureau, ça te va ? »</strong> Dès qu'il valide le créneau, on le note immédiatement avec le numéro. On rappelle ensuite en terrain conquis.</p>
+      </div>
+
+      <h3>Vendre, c'est des maths</h3>
+      <div class="callout saviez">
+        <div class="ct">💡 Le changement de perspective</div>
+        <p>Sur des webinaires à 100 inscrits, 2 achètent. Question posée par un partenaire : « comment tu fais pour augmenter tes ventes ? » Réponse : <strong>« je ne cherche même pas à les augmenter »</strong> — pas d'analyse des objections, pas de « pourquoi ils n'achètent pas ». Le système est en place.</p>
+        <p>Le raisonnement : si je veux dix fois plus de ventes, je fais entrer dix fois plus de monde. <em>« Si je fais 100 inscrits par mois, à la fin de l'année j'en ai eu 1 200. Pourquoi est-ce que je ne ferais pas 1 200 inscrits par mois ? »</em></p>
+      </div>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Là où le marketing prend le relais : la longue traîne</div>
+        <p>Sur 100 personnes : 95 ne sont pas pour vous, 1 se décide tout de suite, et 3 ou 4 auraient acheté par le bon chemin. Ces 3 ou 4 ont de vraies raisons d'attendre — pas d'argent maintenant mais dans trois mois, statut non renouvelé cette année, manque de confiance en soi.</p>
+        <p>C'est exactement là que travaillent les articles de blog, les contenus vidéo et les conférences avec invités : <strong>par loi d'association, les invités que vous faites venir vous placent à leur niveau.</strong> C'est ce qui produit les « je vous suis depuis trois ans et je n'achète que maintenant ». Mais tant qu'on ne commence pas, cette longue traîne n'arrive jamais.</p>
+        <p>Appliqué au salon : quelqu'un croisé cette année n'a besoin de rien. L'an prochain non plus. Et la troisième année, c'est cette personne qui vient vers vous parce qu'elle a un projet en cours. <strong>Un salon est improductif à court terme et payant à long terme</strong> — raison de plus pour y aller sans pression.</p>
+      </div>
+
+      <details>
+        <summary>Bonus : automatiser les tâches répétitives avec l'IA dans le navigateur</summary>
+        <div class="dc">
+          <p>Deux voies possibles : l'extension navigateur, qui permet à l'assistant de prendre la main sur votre propre session, ou son navigateur interne, où il ouvre sa propre session et demande une autorisation par site.</p>
+          <p><strong>Quand ça vaut le coup :</strong> les actions répétitives. Exemple cité — une cinquantaine de vidéos à paramétrer sur une plateforme, dix minutes chacune. Déléguée, l'opération a pris une heure au total : la première itération est lente, les suivantes accélèrent.</p>
+          <p><strong>Quand ça n'en vaut pas la peine :</strong> les micro-tâches ponctuelles, où l'assistant reste plus lent que la main. Et la préférence exprimée reste souvent la liste d'étapes à exécuter soi-même, avec des captures d'écran quand quelque chose ne correspond pas.</p>
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <div class="quiz" id="quiz">
+    <h2>🧠 Testez vos connaissances</h2>
+    <p class="sub">5 questions sur les points clés de la session.</p>
+
+    <div class="q" data-good="2">
+      <div class="qt">1. Quel est le vrai risque quand on importe une base achetée ou récupérée ?</div>
+      <button class="opt">Une amende immédiate du régulateur</button>
+      <button class="opt">La fermeture du site web de l'entreprise</button>
+      <button class="opt">Que l'autorépondeur coupe le compte si trop de gens se désabonnent d'un coup</button>
+      <button class="opt">Aucun risque, c'est totalement autorisé</button>
+      <div class="fb">Au sens strict, l'import et la sollicitation ne sont pas légaux — mais sans démarchage agressif et avec un désabonnement visible, c'est difficilement condamnable. Le risque concret est commercial : importer par paliers de 100 à 300 protège le compte.</div>
+    </div>
+
+    <div class="q" data-good="1">
+      <div class="qt">2. Pourquoi éviter les templates graphiques dans un email de prospection ?</div>
+      <button class="opt">Parce qu'ils ralentissent le chargement</button>
+      <button class="opt">Parce qu'un email doit ressembler à un email écrit par un humain</button>
+      <button class="opt">Parce qu'ils sont payants sur la plupart des outils</button>
+      <button class="opt">Parce qu'ils ne s'affichent pas sur mobile</button>
+      <div class="fb">Vous savez que vous écrivez à des milliers de personnes ; le destinataire doit avoir l'impression de recevoir un message personnel. Le test : avez-vous déjà écrit à un ami avec un bandeau et trois colonnes ?</div>
+    </div>
+
+    <div class="q" data-good="3">
+      <div class="qt">3. Que faire quand un assistant IA demande vos accès WordPress ?</div>
+      <button class="opt">Lui donner le mot de passe, c'est plus rapide</button>
+      <button class="opt">Créer un second compte administrateur pour lui</button>
+      <button class="opt">Lui envoyer une capture d'écran du mot de passe</button>
+      <button class="opt">Générer un mot de passe d'application dédié, révocable d'un clic</button>
+      <div class="fb">On ne donne jamais ses identifiants. Un mot de passe d'application donne les mêmes droits mais reste séparé du compte et se supprime sans rien casser. À défaut, demander la liste des étapes et les exécuter soi-même.</div>
+    </div>
+
+    <div class="q" data-good="0">
+      <div class="qt">4. Dans la méthode SPIN, quelle part du temps est consacrée aux questions ?</div>
+      <button class="opt">Environ 80 % de l'échange</button>
+      <button class="opt">Environ 20 %, le reste étant la présentation de l'offre</button>
+      <button class="opt">Environ 50 / 50</button>
+      <button class="opt">Le minimum, pour ne pas lasser l'interlocuteur</button>
+      <div class="fb">Deux minutes de présentation, puis 80 % du temps en questions pour identifier les problèmes réels. Ensuite seulement on fait ressentir le coût de l'inaction, puis on projette les gains.</div>
+    </div>
+
+    <div class="q" data-good="2">
+      <div class="qt">5. Selon la session, comment augmenter ses ventes sur un système qui convertit 2 % ?</div>
+      <button class="opt">Analyser chaque objection pour améliorer le taux</button>
+      <button class="opt">Baisser le prix jusqu'à ce que ça convertisse mieux</button>
+      <button class="opt">Faire entrer dix fois plus de monde à l'entrée du système</button>
+      <button class="opt">Relancer individuellement chaque personne qui n'a pas acheté</button>
+      <div class="fb">« Vendre, c'est des maths. » Une fois le système en place, on ne cherche pas à optimiser le taux : on augmente le volume d'entrée. Le travail sur les indécis relève du marketing et de la longue traîne, pas de la vente.</div>
+    </div>
+
+    <div id="score"><span class="big"></span><span id="score-txt"></span></div>
+  </div>
+
+  <footer>
+    <span class="brand">Producteur à Succès</span>
+    Support de cours généré à partir de la session de mentorat du 8 septembre 2026 — Tarik Hamiche avec Loïc et Emma (Quasar Studio).<br>
+    Document de synthèse à usage pédagogique. Les points relatifs à la prospection par email et à la protection des données sont rapportés tels qu'exposés en séance et ne constituent pas un conseil juridique.
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function upd(){
+    var h=document.documentElement;
+    var max=h.scrollHeight-h.clientHeight;
+    bar.style.width=(max>0?(h.scrollTop||document.body.scrollTop)/max*100:0)+'%';
+  }
+  window.addEventListener('scroll',upd,{passive:true});
+  window.addEventListener('resize',upd);
+  upd();
+
+  var total=document.querySelectorAll('.q').length, answered=0, correct=0;
+  document.querySelectorAll('.q').forEach(function(q){
+    var good=parseInt(q.getAttribute('data-good'),10);
+    var opts=q.querySelectorAll('.opt');
+    opts.forEach(function(btn,i){
+      btn.addEventListener('click',function(){
+        if(q.dataset.done) return;
+        q.dataset.done='1';
+        answered++;
+        if(i===good) correct++;
+        opts.forEach(function(b,j){
+          b.disabled=true;
+          if(j===good) b.classList.add('good');
+          else if(j===i) b.classList.add('bad');
+        });
+        q.querySelector('.fb').classList.add('show');
+        if(answered===total){
+          var sc=document.getElementById('score');
+          sc.style.display='block';
+          sc.querySelector('.big').textContent=correct+' / '+total;
+          var msg = correct===total ? "Parfait — tout est acquis." :
+                    correct>=Math.ceil(total*0.6) ? "Bien joué. Revoyez les chapitres correspondant aux erreurs." :
+                    "À revoir : reprenez le replay chapitre par chapitre.";
+          document.getElementById('score-txt').textContent=msg;
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

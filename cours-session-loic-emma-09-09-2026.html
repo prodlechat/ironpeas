@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Résumé de cours — Session mentorat du 9 septembre 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED;
+  --primary-dark:#4C1D95;
+  --primary-light:#EDE9FE;
+  --accent:#F59E0B;
+  --accent-light:#FEF3C7;
+  --success:#10B981;
+  --success-light:#D1FAE5;
+  --danger:#EF4444;
+  --danger-light:#FEE2E2;
+  --info:#3B82F6;
+  --info-light:#DBEAFE;
+  --ink:#111827;
+  --body:#374151;
+  --muted:#6B7280;
+  --line:#E5E7EB;
+  --bg:#F9FAFB;
+  --card:#FFFFFF;
+}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--bg);color:var(--body);line-height:1.7;font-size:16px;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:'Space Grotesk','Inter',sans-serif;color:var(--ink);line-height:1.25;}
+
+/* Progress bar */
+#progress-wrap{position:fixed;top:0;left:0;width:100%;height:5px;background:rgba(108,58,237,.12);z-index:9999;}
+#progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--primary),#A78BFA);transition:width .1s linear;}
+
+.wrap{max-width:920px;margin:0 auto;padding:0 20px;}
+
+/* Hero */
+.hero{
+  background:linear-gradient(135deg,#4C1D95 0%,#6C3AED 55%,#8B5CF6 100%);
+  color:#fff;padding:64px 0 56px;margin-bottom:40px;
+}
+.hero h1{color:#fff;font-size:2.5rem;margin:16px 0 14px;letter-spacing:-.02em;}
+.badge{
+  display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);
+  color:#fff;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:7px 14px;border-radius:100px;
+}
+.hero p.lead{font-size:1.08rem;color:rgba(255,255,255,.92);max-width:700px;}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;}
+.meta span{
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+  padding:8px 14px;border-radius:10px;font-size:.86rem;font-weight:500;
+}
+
+/* TOC */
+.toc{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:30px;margin-bottom:44px;box-shadow:0 1px 3px rgba(0,0,0,.05);
+}
+.toc h2{font-size:1.05rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:20px;}
+.toc ol{list-style:none;counter-reset:toc;}
+.toc li{counter-increment:toc;border-bottom:1px solid var(--line);}
+.toc li:last-child{border-bottom:none;}
+.toc a{
+  display:flex;align-items:center;gap:16px;padding:13px 4px;
+  text-decoration:none;color:var(--ink);font-weight:500;transition:.15s;
+}
+.toc a:hover{color:var(--primary);padding-left:10px;}
+.toc a::before{
+  content:counter(toc,decimal-leading-zero);
+  font-family:'Space Grotesk';font-weight:700;color:var(--primary);
+  background:var(--primary-light);width:36px;height:36px;flex:0 0 36px;
+  display:flex;align-items:center;justify-content:center;border-radius:9px;font-size:.85rem;
+}
+
+/* Sections */
+section.chapter{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;
+  margin-bottom:34px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);
+}
+.chapter-head{padding:26px 32px;border-top:5px solid var(--primary);background:linear-gradient(180deg,#FAFAFF,#fff);}
+.chapter-head .num{
+  font-family:'Space Grotesk';font-size:.78rem;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--primary);
+}
+.chapter-head h2{font-size:1.62rem;margin-top:6px;letter-spacing:-.01em;}
+.chapter-head .tc{
+  display:inline-block;margin-top:12px;font-size:.78rem;font-weight:600;
+  background:var(--primary-light);color:var(--primary-dark);padding:5px 11px;border-radius:7px;
+}
+.chapter-body{padding:8px 32px 32px;}
+.chapter-body p{margin:16px 0;}
+.chapter-body h3{font-size:1.13rem;margin:30px 0 8px;color:var(--primary-dark);}
+.chapter-body ul,.chapter-body ol{margin:14px 0 14px 22px;}
+.chapter-body li{margin:8px 0;}
+strong{color:var(--ink);font-weight:600;}
+
+/* accent colors per chapter */
+.c1 .chapter-head{border-top-color:var(--primary);}
+.c2 .chapter-head{border-top-color:var(--success);}
+.c3 .chapter-head{border-top-color:var(--danger);}
+.c4 .chapter-head{border-top-color:var(--info);}
+.c5 .chapter-head{border-top-color:var(--accent);}
+.c6 .chapter-head{border-top-color:#0EA5E9;}
+.c7 .chapter-head{border-top-color:#DB2777;}
+.c8 .chapter-head{border-top-color:#059669;}
+.c2 .chapter-head .num{color:var(--success);} .c2 .chapter-head .tc{background:var(--success-light);color:#065F46;}
+.c3 .chapter-head .num{color:var(--danger);}  .c3 .chapter-head .tc{background:var(--danger-light);color:#991B1B;}
+.c4 .chapter-head .num{color:var(--info);}    .c4 .chapter-head .tc{background:var(--info-light);color:#1E40AF;}
+.c5 .chapter-head .num{color:#B45309;}        .c5 .chapter-head .tc{background:var(--accent-light);color:#92400E;}
+.c6 .chapter-head .num{color:#0369A1;}        .c6 .chapter-head .tc{background:#E0F2FE;color:#075985;}
+.c7 .chapter-head .num{color:#DB2777;}        .c7 .chapter-head .tc{background:#FCE7F3;color:#9D174D;}
+.c8 .chapter-head .num{color:#059669;}        .c8 .chapter-head .tc{background:var(--success-light);color:#065F46;}
+
+/* Callouts */
+.callout{border-radius:12px;padding:18px 22px 18px 20px;margin:22px 0;border-left:5px solid;}
+.callout .ct{font-weight:700;font-family:'Space Grotesk';display:flex;align-items:center;gap:9px;margin-bottom:7px;font-size:.95rem;}
+.callout p:last-child{margin-bottom:0;}
+.callout p:first-of-type{margin-top:0;}
+.retenir{background:var(--primary-light);border-color:var(--primary);} .retenir .ct{color:var(--primary-dark);}
+.astuce{background:var(--success-light);border-color:var(--success);} .astuce .ct{color:#065F46;}
+.attention{background:var(--accent-light);border-color:var(--accent);} .attention .ct{color:#92400E;}
+.danger{background:var(--danger-light);border-color:var(--danger);} .danger .ct{color:#991B1B;}
+.saviez{background:var(--info-light);border-color:var(--info);} .saviez .ct{color:#1E40AF;}
+
+/* Tables */
+.tbl-wrap{overflow-x:auto;margin:24px 0;border-radius:12px;border:1px solid var(--line);}
+table{width:100%;border-collapse:collapse;font-size:.93rem;background:#fff;}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:13px 16px;font-weight:600;font-family:'Space Grotesk';}
+tbody td{padding:12px 16px;border-top:1px solid var(--line);vertical-align:top;}
+tbody tr:nth-child(even){background:#FAFAFC;}
+td.win{color:#065F46;font-weight:600;}
+td.lose{color:#991B1B;font-weight:600;}
+
+/* Cards grid */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin:24px 0;}
+.card{background:#FAFAFC;border:1px solid var(--line);border-radius:13px;padding:20px;}
+.card h4{font-size:1rem;margin-bottom:7px;color:var(--primary-dark);}
+.card p{font-size:.9rem;margin:0;color:var(--body);}
+.card .ico{font-size:1.5rem;display:block;margin-bottom:8px;}
+
+/* Pros / cons */
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0;}
+.pc>div{border-radius:13px;padding:20px;}
+.pros{background:var(--success-light);border:1px solid #A7F3D0;}
+.cons{background:var(--danger-light);border:1px solid #FECACA;}
+.pc h4{font-size:.95rem;margin-bottom:10px;}
+.pros h4{color:#065F46;} .cons h4{color:#991B1B;}
+.pc ul{margin:0 0 0 18px;} .pc li{font-size:.9rem;margin:6px 0;}
+
+/* Timeline */
+.timeline{list-style:none;margin:24px 0;padding-left:8px;border-left:3px solid var(--primary-light);}
+.timeline li{position:relative;padding:0 0 22px 26px;margin:0;}
+.timeline li::before{
+  content:'';position:absolute;left:-9.5px;top:6px;width:15px;height:15px;
+  border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light);
+}
+.timeline strong{display:block;color:var(--primary-dark);font-family:'Space Grotesk';}
+
+/* Accordion */
+details{background:#FAFAFC;border:1px solid var(--line);border-radius:11px;margin:16px 0;overflow:hidden;}
+summary{padding:15px 20px;cursor:pointer;font-weight:600;color:var(--primary-dark);list-style:none;font-family:'Space Grotesk';}
+summary::-webkit-details-marker{display:none;}
+summary::before{content:'▸ ';color:var(--primary);font-weight:700;}
+details[open] summary::before{content:'▾ ';}
+details .dc{padding:0 20px 18px;font-size:.94rem;}
+details .dc p:first-child{margin-top:0;}
+
+/* Quiz */
+.quiz{background:linear-gradient(135deg,#4C1D95,#6C3AED);border-radius:18px;padding:36px 32px;color:#fff;margin:44px 0;}
+.quiz h2{color:#fff;font-size:1.8rem;margin-bottom:6px;}
+.quiz>p.sub{color:rgba(255,255,255,.85);margin-bottom:26px;}
+.q{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:13px;padding:22px;margin-bottom:18px;}
+.q .qt{font-weight:600;margin-bottom:14px;font-family:'Space Grotesk';}
+.opt{
+  display:block;width:100%;text-align:left;background:rgba(255,255,255,.94);border:2px solid transparent;
+  color:var(--ink);padding:12px 16px;border-radius:9px;margin-bottom:9px;cursor:pointer;
+  font-family:inherit;font-size:.94rem;transition:.15s;
+}
+.opt:hover:not(:disabled){background:#fff;transform:translateX(4px);}
+.opt:disabled{cursor:default;}
+.opt.good{background:#D1FAE5;border-color:#10B981;color:#065F46;font-weight:600;}
+.opt.bad{background:#FEE2E2;border-color:#EF4444;color:#991B1B;}
+.fb{margin-top:10px;font-size:.9rem;padding:11px 14px;border-radius:9px;background:rgba(255,255,255,.16);display:none;}
+.fb.show{display:block;}
+#score{
+  display:none;margin-top:24px;background:rgba(255,255,255,.95);color:var(--ink);
+  border-radius:13px;padding:22px;text-align:center;font-family:'Space Grotesk';
+}
+#score .big{font-size:2.2rem;font-weight:700;color:var(--primary);display:block;}
+
+/* Footer */
+footer{text-align:center;padding:44px 20px 60px;color:var(--muted);font-size:.88rem;}
+footer .brand{font-family:'Space Grotesk';font-weight:700;color:var(--primary);font-size:1.05rem;display:block;margin-bottom:6px;}
+
+@media(max-width:640px){
+  .hero h1{font-size:1.85rem;}
+  .chapter-head,.chapter-body{padding-left:20px;padding-right:20px;}
+  .pc{grid-template-columns:1fr;}
+  .quiz{padding:26px 20px;}
+}
+@media print{
+  #progress-wrap,.quiz{display:none;}
+  body{background:#fff;}
+  section.chapter{break-inside:avoid;box-shadow:none;}
+  .hero{background:var(--primary)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-wrap"><div id="progress-bar"></div></div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="badge">Mentorat Hic &amp; Nunc · Session du 9 septembre 2026</span>
+    <h1>Écrire un email qui fait mouche : copywriting, avatar et angles marketing</h1>
+    <p class="lead">Une session de correction en direct : pourquoi un email de prospection poli et bien écrit ne convertit rien, comment le reconstruire autour d'un problème réel, et comment décliner une base froide en autant d'angles marketing qu'elle a de douleurs.</p>
+    <div class="meta">
+      <span>⏱️ 2 h 03 de session</span>
+      <span>🎙️ Tarik Hamiche</span>
+      <span>👥 Emma — Quasar Studio</span>
+      <span>📚 24 chapitres</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>Sommaire</h2>
+    <ol>
+      <li><a href="#s1">Point de départ : ce qui bloque après une journée de mise en place</a></li>
+      <li><a href="#s2">L'autopsie de l'email : pourquoi il ne peut pas marcher</a></li>
+      <li><a href="#s3">La structure qui convertit : problème, fausse solution, solution</a></li>
+      <li><a href="#s4">Connaître son avatar : la priorité absolue</a></li>
+      <li><a href="#s5">Les problèmes réels des intermittents (et où les trouver)</a></li>
+      <li><a href="#s6">Un angle marketing par problème : la mécanique complète</a></li>
+      <li><a href="#s7">L'espace communautaire : à quoi il sert vraiment</a></li>
+      <li><a href="#s8">Le sondage, l'appel de vente et le syndrome de l'imposteur</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="chapter c1" id="s1">
+    <div class="chapter-head">
+      <span class="num">Chapitre 01</span>
+      <h2>Point de départ : ce qui bloque après une journée de mise en place</h2>
+      <span class="tc">▶ 00:00 → 07:03 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <div class="cards">
+        <div class="card"><span class="ico">🌐</span><h4>Le blog</h4><p>Intégration WordPress presque terminée — il reste à créer l'onglet d'accès. Plus long que prévu : beaucoup de réglages à modifier avant de pouvoir coller le code.</p></div>
+        <div class="card"><span class="ico">📧</span><h4>Le test email</h4><p>Le message de test est arrivé <strong>directement en spam</strong>. C'est le point bloquant numéro un.</p></div>
+        <div class="card"><span class="ico">🐢</span><h4>L'import de base</h4><p>Une centaine de contacts importés en environ trois quarts d'heure. Anormalement lent — le blocage de saisie a été contourné en navigation privée.</p></div>
+        <div class="card"><span class="ico">📋</span><h4>Le questionnaire</h4><p>Construit sur l'outil retenu, avec des questions sur le profil, les besoins de formation et les attentes vis-à-vis d'un espace communautaire.</p></div>
+      </div>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Le vrai sujet prioritaire</div>
+        <p>La délivrabilité passe avant tout le reste : <strong>vous pouvez avoir fait le meilleur travail du monde, si le message n'atteint pas la cible, il ne se passe rien.</strong> C'est le point à débloquer en parallèle du travail éditorial.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="chapter c2" id="s2">
+    <div class="chapter-head">
+      <span class="num">Chapitre 02</span>
+      <h2>L'autopsie de l'email : pourquoi il ne peut pas marcher</h2>
+      <span class="tc">▶ 07:03 → 12:46 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <p>L'email soumis était poli, structuré, sans faute — et pourtant condamné. Voici le diagnostic ligne par ligne.</p>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Ce qui était écrit</th><th>Ce que ça déclenche chez le lecteur</th></tr></thead>
+          <tbody>
+            <tr><td>« Bonjour <em>Prénom</em> »</td><td>D'où tu me connais ? La familiarité non méritée attise la méfiance.</td></tr>
+            <tr><td>« Je me permets de vous contacter »</td><td>Je ne te le permets pas. La formule crée de la distance, pas de la politesse.</td></tr>
+            <tr><td>« Nous travaillons régulièrement avec… »</td><td>Rien pour moi. On parle de vous depuis la première ligne.</td></tr>
+            <tr><td>« Notre objectif est de… nous avons préparé… »</td><td>Toujours vous. Le « je / nous » écrase le « tu ».</td></tr>
+            <tr><td>« Nous réfléchissons également à la création… qui permettrait… »</td><td>Vous n'y croyez pas vous-même. Pourquoi le lecteur y croirait-il ?</td></tr>
+            <tr><td>« Votre avis nous aidera à déterminer si ce serait pertinent »</td><td>Le seul bénéfice mentionné est encore pour vous.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Le « what's in it for me »</div>
+        <p>La question que se pose tout lecteur, consciemment ou non : <strong>qu'est-ce qu'il y a pour moi ?</strong> Qu'est-ce que tu m'apportes, qu'est-ce qui fait que ça va m'intéresser ? Dans l'email d'origine, la réponse est : rien.</p>
+      </div>
+
+      <div class="callout danger">
+        <div class="ct">🚨 Le pire signal : le doute</div>
+        <p>Quand on écrit « on réfléchit à créer… qui permettrait peut-être… », l'énergie transmise est : <em>« je ne suis tellement pas sûr de moi qu'en vrai, vous non plus vous ne devriez pas y croire »</em>. <strong>On ne peut pas demander à des gens de croire en un projet si l'on n'y croit pas soi-même.</strong></p>
+      </div>
+
+      <div class="callout attention">
+        <div class="ct">⚠️ Le test à faire avant d'envoyer</div>
+        <p>Pensez à un intermittent réel que vous connaissez. Est-ce que <em>cette personne-là</em> répondrait favorablement à ce message ? Les intermittents ont une approche de la vie très éloignée du registre « Madame, Monsieur, je me permets de ». Si la réponse est non, l'email est mort avant d'être envoyé.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="chapter c3" id="s3">
+    <div class="chapter-head">
+      <span class="num">Chapitre 03</span>
+      <h2>La structure qui convertit : problème, fausse solution, solution</h2>
+      <span class="tc">▶ 12:46 → 23:18 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <div class="callout saviez">
+        <div class="ct">💡 Le slippery slide effect</div>
+        <p>Le principe le plus important du copywriting — et de l'aveu du formateur, celui qu'il travaille depuis quinze ans sans le maîtriser encore complètement :</p>
+        <ul>
+          <li><strong>L'objet</strong> n'a qu'une fonction : donner une irrésistible envie de cliquer.</li>
+          <li><strong>La première phrase</strong> n'a qu'une fonction : donner envie de lire la deuxième.</li>
+          <li><strong>La deuxième</strong> n'a qu'une fonction : donner envie de lire la troisième.</li>
+          <li>Et ainsi de suite jusqu'au bout. On glisse, on ne s'arrête pas.</li>
+        </ul>
+      </div>
+
+      <p>Deux règles s'ajoutent : on arrête de dire <strong>« je » et « nous » pour dire « tu »</strong>, et on adopte un schéma que le cerveau assimile — le storytelling, ou la structure ci-dessous, dérivée d'AIDA.</p>
+
+      <ul class="timeline">
+        <li><strong>1. Le problème</strong>Un problème précis, identifié, ressenti. On le pose comme une question, comme si on ne savait pas encore que c'est le sien. Exemple pour des artistes : <em>« Vous n'avez pas l'impression de faire plusieurs métiers, mais de n'être payé que pour un seul ? »</em></li>
+        <li><strong>2. Les fausses solutions</strong>Deux ou trois choses que la personne a probablement déjà essayées et qui n'ont pas marché. Effet recherché : <em>« ouais, j'ai déjà essayé et je te confirme, ça ne marche pas ».</em></li>
+        <li><strong>3. L'empathie</strong>La phrase pivot, qu'on peut écrire telle quelle : <strong>« C'est normal, et tu n'es pas tout seul. »</strong> C'est là que la crédibilité se gagne.</li>
+        <li><strong>4. La solution</strong>« C'est la raison pour laquelle nous avons décidé de créer… » — puis on liste les <em>bénéfices pour l'autre</em>, pas les caractéristiques.</li>
+        <li><strong>5. L'appel à l'action</strong>« C'est gratuit, tu as juste à cliquer ici. Tu pourras partir quand tu veux si tu n'y trouves pas de valeur. »</li>
+      </ul>
+
+      <div class="callout astuce">
+        <div class="ct">💡 L'effet tango</div>
+        <p>« On n'aime pas le zouk, c'est trop direct. » Le tango se danse en duel : on s'approche, on repousse, on se recolle. Appliqué à l'email : on pose le problème (on attire), <strong>puis on repousse immédiatement avec les fausses solutions</strong> — et c'est ce mouvement de recul empathique qui crée la confiance.</p>
+        <p>Le marchand de tapis, lui, saute directement du problème à la vente : « j'ai une pilule, ça coûte 25 balles, tout ira mieux ». C'est exactement ce qu'il ne faut pas faire.</p>
+      </div>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 La présentation vient à la fin, pas au début</div>
+        <p>Pas besoin de se présenter en ouverture. On peut finir par : <em>« Au fait, je ne me suis pas présentée. Moi c'est Emma. Le studio existe depuis X années, on a notamment travaillé avec… »</em> — et là, <strong>on blinde la preuve sociale et l'autorité</strong>. Puis un post-scriptum avec le lien : « PS : c'est par ici, on a hâte de t'accueillir. »</p>
+      </div>
+
+      <div class="callout saviez">
+        <div class="ct">💡 On vend une idée, pas un produit</div>
+        <p>Inquiétude soulevée en séance : « il n'y a rien derrière, l'espace communautaire n'existe pas encore ». Réponse : <strong>ce n'est pas grave.</strong> Les idées se vendent bien mieux que les produits. Dès lors qu'un problème est cerné, que l'empathie est créée et que l'envie est là, le plus dur est fait. Des gens peuvent patienter plusieurs mois. L'essentiel est de savoir ce qu'on construit en priorité.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="chapter c4" id="s4">
+    <div class="chapter-head">
+      <span class="num">Chapitre 04</span>
+      <h2>Connaître son avatar : la priorité absolue</h2>
+      <span class="tc">▶ 23:18 → 32:03 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <div class="callout danger">
+        <div class="ct">🚨 Le constat sans détour</div>
+        <p><strong>Si vous ne comprenez pas les gens à qui vous voulez vendre quelque chose, ça ne marchera pas.</strong> Et le problème n'est pas qu'ils manquent de temps — c'est qu'ils s'en moquent. Beaucoup ne suivraient aucune formation si elles n'étaient pas financées.</p>
+      </div>
+
+      <div class="pc">
+        <div class="pros">
+          <h4>✅ Ce qui intéresse vraiment un artiste</h4>
+          <ul>
+            <li>Plus de visibilité</li>
+            <li>Vendre plus de dates</li>
+            <li>Être mieux payé</li>
+            <li>Améliorer son confort de vie</li>
+            <li>Résumé : se lever, être en studio, être en concert le soir — et rien d'autre à gérer</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>❌ Ce qui ne l'intéresse pas</h4>
+          <ul>
+            <li>« Comprendre vos besoins »</li>
+            <li>« Un espace communautaire qui vous corresponde »</li>
+            <li>Répondre à un sondage sans contrepartie</li>
+            <li>Toute formulation institutionnelle</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Le travail de terrain à faire</h3>
+      <p>Aller parler à de vrais intermittents, en tête-à-tête. Techniciens, artistes, gens de l'audiovisuel, animateurs — varier les profils. Les questions à poser sont volontairement basiques :</p>
+      <ul>
+        <li>Qu'est-ce qui te préoccupe le plus au quotidien ?</li>
+        <li>Qu'est-ce qui te donne envie de te lever ?</li>
+        <li>Qu'est-ce qui te fait peur, qu'est-ce qui t'inquiète, qu'est-ce qui te stresse ?</li>
+        <li><strong>Si tu avais une baguette magique, quel problème résoudrais-tu, qui débloquerait tout le reste ?</strong></li>
+      </ul>
+      <p>Cette dernière question devrait d'ailleurs être la première du sondage.</p>
+
+      <div class="callout astuce">
+        <div class="ct">💡 Utiliser l'IA — mais en la challengeant</div>
+        <p>Premier prompt : « liste les cinq problèmes fondamentaux que rencontre cette cible et qu'elle n'arrive pas à résoudre seule ». Puis <strong>ne pas se contenter de la réponse</strong> — elle ira chercher des sources institutionnelles, ce qui donne une vision lissée.</p>
+        <p>Le deuxième prompt est celui qui compte : « scanne les forums et espaces où de vrais intermittents discutent entre eux, et liste les cinq sujets sur lesquels ils ont réellement mal — argent, visibilité, liberté. Pas de sites institutionnels, pas de blogs. » Ces espaces sont difficiles à falsifier : on y trouve les vrais avis.</p>
+      </div>
+
+      <div class="callout astuce">
+        <div class="ct">💡 La source d'insights que tout le monde oublie</div>
+        <p>Les <strong>avis clients laissés en ligne</strong> chez les organismes de formation qui vendent à cette même cible. Quand quelqu'un écrit « avant cette formation, mon problème c'était X, maintenant je ne l'ai plus », dites-vous qu'ils sont des milliers à avoir ce X.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="chapter c5" id="s5">
+    <div class="chapter-head">
+      <span class="num">Chapitre 05</span>
+      <h2>Les problèmes réels des intermittents (et où les trouver)</h2>
+      <span class="tc">▶ 33:00 → 48:54 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Problème</th><th>Ce qu'il recouvre concrètement</th></tr></thead>
+          <tbody>
+            <tr><td><strong>La course aux 507 heures</strong></td><td>Il faut 507 heures — environ 43 cachets — pour obtenir ou renouveler le statut. Arriver à sa date anniversaire à trois cachets près est un vrai crève-cœur.</td></tr>
+            <tr><td><strong>L'administratif</strong></td><td>Beaucoup passent par des structures tierces qui prélèvent 10 à 20 % pour gérer déclarations et contrats. Les autres le font sans savoir ce qu'ils font.</td></tr>
+            <tr><td><strong>Le travail uniquement par réseau</strong></td><td>Deux ou trois agences, un organisateur de mariages, quelques opéras. Ils ne savent pas prospecter ni élargir leur zone. Le jour où le flux s'arrête, il n'y a rien.</td></tr>
+            <tr><td><strong>L'argent laissé sur la table</strong></td><td>Congés spectacles, droits voisins, droits à la formation — voir l'encadré ci-dessous.</td></tr>
+            <tr><td><strong>Aucun plan B</strong></td><td>Besoin profond de sécurité, peur de demain. C'est de la psychologie pure, et c'est très mobilisateur.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout saviez">
+        <div class="ct">💡 Trois gisements d'argent que les intermittents ignorent</div>
+        <p><strong>Les congés spectacles :</strong> 10 % des sommes perçues leur sont dus et doivent être réclamés. Le délai de réclamation est passé de 5 ans à 3 ans. Sur 12 000 € de revenus annuels, cela représente environ 1 200 € qui attendent — et sur huit ans d'ignorance, la perte devient très lourde.</p>
+        <p><strong>Les droits voisins :</strong> chaque intervention ouvre des droits ADAMI et SPEDIDAM. Ce ne sont pas des fortunes — 30 ou 40 € par prestation — mais multiplié par quarante dates, cela fait un vrai complément.</p>
+        <p><strong>Les droits à la formation :</strong> témoignage direct — douze ans d'éligibilité aux fonds sans le savoir, sans même savoir que l'organisme existait ni que cela le concernait, alors que les plafonds étaient alors de 12 000 à 15 000 €. Formations d'anglais et de marketing payées de sa poche : <strong>25 à 30 000 € perdus sur dix ans.</strong></p>
+      </div>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Le schéma mental à provoquer en trois temps</div>
+        <p><strong>1.</strong> « Je ne le savais pas. » → <strong>2.</strong> « Je suis content de le savoir. » → <strong>3.</strong> « J'aimerais en savoir plus. »</p>
+        <p>C'est à la troisième étape, et seulement là, qu'on glisse la formation ou l'espace communautaire : <em>« on en parle régulièrement dans le réseau, si tu en étais membre tu le saurais déjà ».</em></p>
+      </div>
+
+      <h3>Transformer un fil de forum en article de blog</h3>
+      <p>Exemple relevé en direct : un sonorisateur découvre que son employeur n'avait pas la licence de spectacle, et que <strong>toutes ses heures ne comptent donc pas pour l'intermittence</strong>. Aucun intermittent ne pense à demander la licence avant de signer. Cela fait un article immédiatement.</p>
+      <p>Autre cas : une jeune intermittente perd des périodes travaillées faute d'actualisation mensuelle auprès de France Travail. Même logique.</p>
+
+      <div class="callout astuce">
+        <div class="ct">💡 Les zones de flou juridique valent de l'or</div>
+        <p>Quand un sujet est confus — les uns disent oui pour de mauvaises raisons, les autres non pour de mauvaises raisons — <strong>celui qui apporte la réponse claire capte tout le flux.</strong> Exemple cité : « un intermittent peut-il créer un label ? » a généré l'un des meilleurs volumes de ventes sur une formation entière.</p>
+        <p>Et il ne s'agit pas de viser des requêtes massives : si dix-sept personnes par mois se posent cette question et que vous avez la réponse, ces dix-sept arrivent chez vous. Si la réponse les aide, la relation est construite.</p>
+      </div>
+
+      <details>
+        <summary>Répondre sur les forums : improductif à court terme, payant à long terme</summary>
+        <div class="dc">
+          <p>Peu de gens répondent sur ces espaces, donc une réponse utile ressort. Et quand quelqu'un demandera « ça vaut quoi les formations de tel studio ? », une page avec une réponse réelle se positionnera bien mieux qu'une page vide — les moteurs valorisent l'avis d'un humain qui a vécu l'expérience.</p>
+          <p>À condition de parler d'un réseau d'entraide plutôt que de vendre : on ne se fait pas bannir, et ça fonctionne.</p>
+        </div>
+      </details>
+
+      <div class="callout saviez">
+        <div class="ct">💡 Un segment sous-exploité : les presque-retraités</div>
+        <p>52 à 55 ans, encore intermittents, techniciens ou artistes. Trois raisons d'en faire un cœur de cible :</p>
+        <ul>
+          <li>Ils savent que leur retraite sera modeste et cherchent à créer des revenus complémentaires dans leur domaine — ils ont donc besoin de se former.</li>
+          <li><strong>Les fonds de formation disparaissent au passage à la retraite.</strong> S'il y a un budget à utiliser, c'est maintenant, pas dans trois ans.</li>
+          <li>Quand quelqu'un a cotisé longtemps sans jamais demander de formation, l'organisme financeur accorde très souvent des exceptions bien au-delà du plafond habituel — cas cité : un programme à 12 000 € obtenu là où le plafond nominal était de 2 400 €, sur le seul argument des trente années de cotisation.</li>
+        </ul>
+        <p>Bonus : ce sont des gens instruits, expérimentés et faciles à travailler.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="chapter c6" id="s6">
+    <div class="chapter-head">
+      <span class="num">Chapitre 06</span>
+      <h2>Un angle marketing par problème : la mécanique complète</h2>
+      <span class="tc">▶ 48:54 → 55:03 · 1:42:19 → 1:57:33 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Un problème = un email. Jamais trois problèmes dans un email.</div>
+        <p>Si vous identifiez trois problèmes, vous avez <strong>trois chances de faire mouche</strong> — donc trois emails différents, pas un email qui les empile.</p>
+      </div>
+
+      <div class="callout astuce">
+        <div class="ct">💡 L'analogie qui explique tout</div>
+        <p>En soirée, quelqu'un vous aborde et vous dites non. S'il revient avec <em>exactement la même phrase, même intonation</em>, votre réaction n'est pas la neutralité : c'est l'agacement. « Qu'est-ce que je viens de te dire ? »</p>
+        <p>Par email, c'est identique. En revanche, <strong>si vous changez d'angle et attaquez un autre problème</strong>, ceux qui n'ont pas réagi au premier peuvent se sentir pleinement concernés par le deuxième.</p>
+      </div>
+
+      <h3>Le schéma dessiné en séance</h3>
+      <ul class="timeline">
+        <li><strong>La cible</strong>L'avatar, en haut de la chaîne. Tout part de lui.</li>
+        <li><strong>Le problème</strong>Identifié par la recherche terrain, pas supposé.</li>
+        <li><strong>L'angle marketing</strong>La manière d'aborder ce problème. Un problème peut ouvrir plusieurs angles.</li>
+        <li><strong>L'email</strong>La simple manifestation de l'angle choisi. Rien de plus.</li>
+        <li><strong>Le CTA</strong>Créé en conséquence : le sondage, l'inscription au réseau, l'appel.</li>
+      </ul>
+
+      <div class="callout saviez">
+        <div class="ct">💡 Exemple déroulé — le problème des 507 heures</div>
+        <p><strong>Semaine 1</strong> — Angle : « la formation qui comptabilise des heures ». En suivant une formation, on peut choisir de ne pas être indemnisé en ARE et de faire compter le temps de formation dans les heures nécessaires au renouvellement, dans une limite annuelle. Trois mois de formation peuvent ainsi couvrir une large part des 507 heures. C'est mal connu des intermittents.</p>
+        <p><strong>Semaine 2</strong> — Même problème, angle différent : « 3 méthodes pour trouver jusqu'à 7 cachets à la dernière minute ». On reste sur la même douleur, on change la porte d'entrée.</p>
+        <p><strong>Semaine 3</strong> — Encore un autre angle si les résultats restent bons.</p>
+      </div>
+
+      <div class="callout attention">
+        <div class="ct">⚠️ Quand changer de problème plutôt que d'angle</div>
+        <p>Si le premier problème convertit à 3 %, il n'est pas le bon pour cette base — on change de problème. Si un autre convertit à 25 %, on reste dessus et on décline les angles. <strong>C'est le test qui décide, pas l'intuition.</strong></p>
+      </div>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 La base s'épure, et c'est normal</div>
+        <p>1 000 contacts → 70 rejoignent l'espace → il en reste 930 → nouvelle approche → 895… À la fin, si 40 % ont été convertis, il faut se féliciter : <strong>c'est énorme.</strong> Les 60 % restants ne sont plus intermittents, ou n'ont simplement aucun besoin sur le moment. Pas de problème = pas de sujet. On les laisse dormir, avec un email tous les quinze jours ou une fois par mois, et ils reviennent un par un.</p>
+      </div>
+
+      <div class="callout astuce">
+        <div class="ct">💡 Le marketing, c'est de l'agilité</div>
+        <p>« La bêtise à ne surtout pas faire, c'est de se dire : mon truc, beaucoup n'en ont pas voulu, mais je vais continuer à le proposer. » On teste, on s'adapte, on change d'angle en permanence — exactement comme dans une conversation qui ne prend pas : on tente autre chose.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="chapter c7" id="s7">
+    <div class="chapter-head">
+      <span class="num">Chapitre 07</span>
+      <h2>L'espace communautaire : à quoi il sert vraiment</h2>
+      <span class="tc">▶ 55:03 → 1:06:27 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Blog et communauté ne jouent pas le même rôle</div>
+        <p><strong>Le blog</strong> n'est vu que si l'on tape la bonne requête — c'est un travail de référencement à long terme.</p>
+        <p><strong>L'espace communautaire, c'est une salle qui donne sur les Champs-Élysées.</strong> Dehors c'est le bruit et la foule ; vous ouvrez la porte, vous faites entrer les gens, et une fois qu'ils sont dedans, ils voient ce que vous affichez. Ils n'ont pas le choix. Votre partage d'informations a enfin une destination.</p>
+        <p>La base email joue le même rôle : quand les gens y sont volontairement, ils reçoivent les réponses sans avoir à venir les chercher — <strong>y compris à des questions qu'ils ne se posaient pas.</strong></p>
+      </div>
+
+      <div class="callout saviez">
+        <div class="ct">💡 Le « secret des dieux » : donner accès à l'inaccessible</div>
+        <p>Le simple mortel ne monte pas sur l'Olympe. <strong>Votre rôle est de faire le lien.</strong> Concrètement : une fois par mois ou par trimestre, un live réservé à la communauté avec un invité normalement injoignable — un conseiller d'un organisme public expert depuis trente ans, un éditeur international, quelqu'un qui a construit un système de promotion à grande échelle.</p>
+        <p>C'est de la valeur pure : d'ordinaire on paie pour ça, et là c'est gratuit. Même si la moitié du contenu ne sert pas, les quelques minutes utiles justifient l'heure bloquée.</p>
+        <p>À noter : <strong>le dirigeant du studio est lui-même un invité de valeur.</strong> Quelqu'un qui a réalisé des campagnes nationales diffusées en télé, pour un jeune compositeur ou réalisateur, c'est de l'or : comment as-tu fait, dans quel état d'esprit, quelles contraintes, combien ça rapporte, est-ce qu'un succès en garantit d'autres ?</p>
+      </div>
+
+      <div class="callout astuce">
+        <div class="ct">💡 Le programme annoncé retient les premiers arrivants</div>
+        <p>Quand les premiers inscrits découvrent qu'ils ne sont que deux, le réflexe est de partir. <strong>Un calendrier d'événements à venir, avec des noms et des thématiques, les fait rester</strong> — comme la bande-annonce qui vous rassure dans une salle de cinéma à moitié vide.</p>
+      </div>
+
+      <h3>Ce qu'on trouve dans un espace communautaire qui tourne</h3>
+      <div class="cards">
+        <div class="card"><span class="ico">📢</span><h4>Annonces</h4><p>Réservées à l'animateur.</p></div>
+        <div class="card"><span class="ico">❓</span><h4>Questions / réponses</h4><p>Le cœur du réacteur. Les membres finissent par se répondre entre eux.</p></div>
+        <div class="card"><span class="ico">🎯</span><h4>Opportunités</h4><p>Plans, offres, mises en relation.</p></div>
+        <div class="card"><span class="ico">🎓</span><h4>Classroom</h4><p>Replays de lives, ressources, sessions d'été.</p></div>
+        <div class="card"><span class="ico">📅</span><h4>Calendrier</h4><p>Lives annoncés, liens récupérables, ajout à l'agenda.</p></div>
+        <div class="card"><span class="ico">🗺️</span><h4>Carte des membres</h4><p>Géolocalisation approximative — utile pour organiser des rencontres en déplacement.</p></div>
+      </div>
+
+      <div class="callout saviez">
+        <div class="ct">💡 La gamification : la reconnaissance motive plus que l'argent</div>
+        <p>Un système de niveaux et de badges (rookie, membre confirmé, garde rapprochée, membre à vie…) classe les membres selon leur activité. Un leaderboard « tous les temps / 30 jours / semaine » rend la progression visible.</p>
+        <p>Puis, <strong>des récompenses aléatoires et non annoncées</strong> : débarquer un matin, taguer le top 3 des trente derniers jours et leur offrir quelque chose de réel — des places de concert, par exemple. Cela pousse les membres à s'entraider.</p>
+      </div>
+
+      <div class="callout attention">
+        <div class="ct">⚠️ Sur la modération</div>
+        <p>Laisser les membres s'autoréguler, et intervenir ponctuellement quand quelque chose dérape ou quand quelqu'un fait manifestement de l'autopromotion. Le système finit par s'autogérer.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="chapter c8" id="s8">
+    <div class="chapter-head">
+      <span class="num">Chapitre 08</span>
+      <h2>Le sondage, l'appel de vente et le syndrome de l'imposteur</h2>
+      <span class="tc">▶ 1:06:27 → 2:02:39 de la session</span>
+    </div>
+    <div class="chapter-body">
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Sur le syndrome de l'imposteur</div>
+        <p>Inquiétude exprimée : « je n'ai pas les connaissances sur le milieu de l'intermittence, c'est dommage de créer un espace là-dessus ».</p>
+        <p><strong>Vous n'avez pas besoin d'avoir les connaissances. Vous avez besoin de savoir où aller les chercher</strong> — et de créer les conditions pour que les langues se délient. Exemple donné : développer et gérer une plateforme logicielle entière sans savoir coder, simplement en sachant aller chercher les compétences nécessaires.</p>
+        <p>Et dans 95 % des cas, la réponse existe déjà quelque part. Quand elle n'existe vraiment pas : on épingle la question, on tague les membres susceptibles de savoir, et on offre une récompense à celui qui amène la bonne personne. Le réseau se met en mouvement de lui-même.</p>
+      </div>
+
+      <div class="callout astuce">
+        <div class="ct">💡 L'imposteur en face de vous est votre meilleur prospect</div>
+        <p>« Je sais faire du montage, mais je n'ai jamais vraiment appris, je ne sais pas si… » — c'est le profil idéal pour une entrée en formation. La réponse qui convertit : <em>« c'est génial d'être autodidacte, tous les bons monteurs le sont. Maintenant, si tu travailles avec une équipe sans utiliser les bons outils, le bon langage et les bons process, tu passeras pour un amateur. C'est exactement ce qu'on t'apprend. »</em></p>
+      </div>
+
+      <h3>Le sondage : le refondre autour d'un problème</h3>
+      <p>Un sondage envoyé à froid sans justification ne sera pas rempli. Il doit répondre directement à un besoin.</p>
+
+      <div class="callout saviez">
+        <div class="ct">💡 L'accroche qui fait remplir un questionnaire</div>
+        <p><em>« Tu as du mal à renouveler ton statut. Il est probable que tu sois dans l'une des cinq situations qui rendent ça presque impossible. Pour découvrir laquelle et savoir comment la régler, réponds à six questions — trois minutes chrono, montre en main. À l'issue, je t'envoie une réponse adaptée. »</em></p>
+        <p>Le mécanisme : problème + curiosité. <em>« Laquelle des cinq je suis ? Je ne savais même pas qu'il y en avait cinq. »</em> C'est le même ressort qu'un quiz vu il y a des années sur les cinq erreurs qui bloquent la progression à la guitare : quinze questions, envie d'abandonner à chaque étape, mais impossible de ne pas aller au bout — et le diagnostic final était juste.</p>
+      </div>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Ordre</th><th>Question</th><th>Pourquoi</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>La plus simple possible (situation actuelle, ancienneté)</td><td>Huiler la mécanique. Comme apprendre à écrire : la première étape est « prends un stylo ».</td></tr>
+            <tr><td>2</td><td>Le secteur d'activité</td><td>Segmente immédiatement et permet le branchement conditionnel.</td></tr>
+            <tr><td>3</td><td><strong>Quel est le frein principal qui te bloque dans ton parcours ?</strong> (champ libre)</td><td>Le cœur du sondage. Ne jamais suggérer de réponses.</td></tr>
+            <tr><td>4</td><td>Si tu pouvais décrire la solution rêvée, ce serait quoi ?</td><td>Ils vous donnent leur solution idéale <em>avec leurs propres mots</em> — réutilisables tels quels.</td></tr>
+            <tr><td>5</td><td>Combien de jours / quel budget serais-tu prêt à y consacrer ?</td><td>Le prix à payer. Mesure le niveau de conscience et écarte les doux rêveurs.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout danger">
+        <div class="ct">🚨 Les questions qui vous tirent une balle dans le pied</div>
+        <p><strong>« Sur quel sujet aimeriez-vous vous former ? »</strong> — les gens ne savent pas. C'est comme demander au public ce qu'il veut dans le prochain téléphone : chacun répond son petit confort, et rien n'est exploitable.</p>
+        <p><strong>« Comment vous sentez-vous par rapport à… »</strong> — ça fait institut de sondage, ça ne donne aucune envie de répondre.</p>
+        <p><strong>« Avez-vous suivi une formation financée récemment ? »</strong> — excellente question, mais <em>pas ici</em>. Elle a sa place avant une prise de rendez-vous, où elle s'annonce naturellement comme une question de prise en charge.</p>
+        <p>Et un mot de vocabulaire : on ne dit pas « carrière » ni « projet professionnel » — ça fait France Travail. Un artiste est dans un <strong>parcours</strong>.</p>
+      </div>
+
+      <h3>L'appel de vente : la structure en deux parties</h3>
+      <p>Méthode testée sur une dizaine d'années. À annoncer dès l'ouverture de l'appel.</p>
+      <ul class="timeline">
+        <li><strong>Partie 1 — Parle-moi de toi</strong>Ton projet, où tu en es dans ton parcours. Toujours faire parler les gens d'eux en premier. S'intéresser sincèrement : demander le lien de la chaîne, regarder en direct. Cela permet aussi d'évaluer la personne.</li>
+        <li><strong>Le pivot — la validation</strong>« Vu où tu en es, le programme dont je vais te parler correspond exactement à ce que tu veux faire. Si ça n'avait pas été le cas, je te l'aurais dit et on se serait arrêtés là. »</li>
+        <li><strong>Rappuyer sur le problème</strong>« Qu'est-ce qui te bloque ? Sinon tu ne serais pas là. » Et : « as-tu déjà essayé de régler ça, avec quelle solution ? » — les réponses alimentent vos futurs emails.</li>
+        <li><strong>Partie 2 — Le financement</strong>Annoncé dès le début comme argument choc : dans la grande majorité des cas, il n'y a pas de reste à charge.</li>
+      </ul>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Les trois objections, encore et toujours</div>
+        <p>Est-ce que je crois dans la personne qui me vend ? Est-ce que j'ai les moyens ? Est-ce que je me crois capable ? <strong>Tout l'enjeu d'un appel de vente est de répondre à ces trois-là</strong> — et un bon sondage en amont a déjà fait la moitié du travail.</p>
+      </div>
+
+      <div class="callout astuce">
+        <div class="ct">💡 Assumer ses erreurs plutôt que de les craindre</div>
+        <p>Anecdote livrée en séance : une imprécision sur la durée de protection d'une œuvre — dite « 70 ans après la mort des ayants droit » au lieu de « 70 ans après la mort du <em>dernier ayant droit vivant</em> ». Un professionnel l'a signalé avec agressivité. La réponse : « tu as raison, merci de l'avoir mis en lumière, je corrige » — suivie d'une vidéo rectificative publique.</p>
+        <p>Votre travail n'est pas de tout savoir. C'est de <strong>vérifier</strong>, de demander les sources, et de corriger quand vous vous trompez. Personne ne vous en voudra. Évitez simplement les erreurs grossières.</p>
+      </div>
+
+      <div class="callout attention">
+        <div class="ct">⚠️ Sur la deadline et la pression</div>
+        <p>Une échéance doit servir à <strong>déclencher l'action, pas à la précipiter</strong> — ce n'est pas la même chose. Réagir sous l'effet de la peur, c'est faire des erreurs.</p>
+        <p>« Si le travail dur était ce qui payait, les mineurs seraient tous milliardaires. C'est le travail intelligent qui paye. » On peut envoyer 3 000 emails et dire qu'on a bossé — on aura mal bossé. Une base de contacts qui a coûté cher mérite d'être exploitée correctement, pas vite.</p>
+      </div>
+
+      <div class="callout retenir">
+        <div class="ct">🎯 Le plan de travail arrêté en fin de session</div>
+        <ol>
+          <li><strong>Étudier l'avatar</strong> — ses problèmes, ses peurs, ses aspirations, ses envies. C'est tout. L'âge, l'instrument, l'ancienneté sont du détail : tout se joue dans la psychologie.</li>
+          <li><strong>Identifier les problèmes majeurs</strong>, ceux qui font mal.</li>
+          <li><strong>Un angle marketing par problème</strong>, et un email par angle.</li>
+          <li><strong>Un CTA par email</strong> — réseau d'entraide ou questionnaire.</li>
+          <li><strong>Débloquer la délivrabilité</strong> en parallèle : sans elle, rien n'arrive.</li>
+        </ol>
+        <p>Puis on évalue, on corrige, on améliore, et on déroule.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <div class="quiz" id="quiz">
+    <h2>🧠 Testez vos connaissances</h2>
+    <p class="sub">5 questions sur les points clés de la session.</p>
+
+    <div class="q" data-good="1">
+      <div class="qt">1. Quelle est la seule fonction de la première phrase d'un email ?</div>
+      <button class="opt">Se présenter et donner le contexte</button>
+      <button class="opt">Donner envie de lire la deuxième phrase</button>
+      <button class="opt">Annoncer l'offre le plus tôt possible</button>
+      <button class="opt">Rassurer sur l'origine du message</button>
+      <div class="fb">C'est le slippery slide effect : l'objet fait ouvrir, chaque phrase n'existe que pour amener à la suivante. On glisse jusqu'au bout sans point d'arrêt.</div>
+    </div>
+
+    <div class="q" data-good="2">
+      <div class="qt">2. Dans la structure recommandée, que vient-il juste après l'énoncé du problème ?</div>
+      <button class="opt">La solution, pour ne pas faire attendre</button>
+      <button class="opt">La présentation de l'entreprise</button>
+      <button class="opt">Les fausses solutions déjà tentées, pour créer de l'empathie</button>
+      <button class="opt">Le témoignage d'un client satisfait</button>
+      <div class="fb">C'est l'effet tango : on attire avec le problème, puis on repousse avec les fausses solutions. Effet recherché : « j'ai déjà essayé, ça ne marche pas ». Puis la phrase pivot : « c'est normal, et tu n'es pas tout seul ».</div>
+    </div>
+
+    <div class="q" data-good="0">
+      <div class="qt">3. Vous avez identifié trois problèmes majeurs chez votre cible. Que faire ?</div>
+      <button class="opt">Trois emails différents, un par problème</button>
+      <button class="opt">Un email qui aborde les trois pour maximiser les chances</button>
+      <button class="opt">Choisir le plus grave et abandonner les deux autres</button>
+      <button class="opt">Demander à la cible lequel la concerne avant d'écrire</button>
+      <div class="fb">Trois problèmes = trois chances de faire mouche, donc trois angles distincts. Renvoyer le même message à ceux qui n'ont pas réagi ne produit que de l'agacement — comme en soirée, quand on répète la même phrase mot pour mot.</div>
+    </div>
+
+    <div class="q" data-good="3">
+      <div class="qt">4. Pourquoi les presque-retraités sont-ils un cœur de cible intéressant ?</div>
+      <button class="opt">Ils disposent de plus de temps libre</button>
+      <button class="opt">Ils paient plus facilement de leur poche</button>
+      <button class="opt">Ils ont moins d'exigences sur le contenu</button>
+      <button class="opt">Leurs fonds de formation disparaissent à la retraite, et les financeurs font des exceptions pour les longs cotisants</button>
+      <div class="fb">Trois leviers : un besoin réel de revenus complémentaires, une fenêtre de financement qui se referme, et des dépassements de plafond fréquemment accordés à ceux qui ont cotisé longtemps sans jamais rien demander.</div>
+    </div>
+
+    <div class="q" data-good="1">
+      <div class="qt">5. Quelle question ne faut-il PAS poser dans un sondage à froid ?</div>
+      <button class="opt">Quel est le frein principal dans ton parcours ?</button>
+      <button class="opt">Sur quel sujet aimeriez-vous vous former ?</button>
+      <button class="opt">Si tu avais une baguette magique, à quoi ressemblerait la solution ?</button>
+      <button class="opt">Quel budget serais-tu prêt à y consacrer ?</button>
+      <div class="fb">Les gens ne savent pas sur quoi ils veulent se former — c'est comme demander au public ce qu'il veut dans le prochain téléphone. Chacun répond son petit confort, et rien n'est exploitable.</div>
+    </div>
+
+    <div id="score"><span class="big"></span><span id="score-txt"></span></div>
+  </div>
+
+  <footer>
+    <span class="brand">Producteur à Succès</span>
+    Support de cours généré à partir de la session de mentorat du 9 septembre 2026 — Tarik Hamiche avec Emma (Quasar Studio).<br>
+    Document de synthèse à usage pédagogique. Les éléments réglementaires évoqués (heures, plafonds, délais de réclamation) sont rapportés tels qu'exposés en séance et doivent être vérifiés auprès des organismes concernés.
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function upd(){
+    var h=document.documentElement;
+    var max=h.scrollHeight-h.clientHeight;
+    bar.style.width=(max>0?(h.scrollTop||document.body.scrollTop)/max*100:0)+'%';
+  }
+  window.addEventListener('scroll',upd,{passive:true});
+  window.addEventListener('resize',upd);
+  upd();
+
+  var total=document.querySelectorAll('.q').length, answered=0, correct=0;
+  document.querySelectorAll('.q').forEach(function(q){
+    var good=parseInt(q.getAttribute('data-good'),10);
+    var opts=q.querySelectorAll('.opt');
+    opts.forEach(function(btn,i){
+      btn.addEventListener('click',function(){
+        if(q.dataset.done) return;
+        q.dataset.done='1';
+        answered++;
+        if(i===good) correct++;
+        opts.forEach(function(b,j){
+          b.disabled=true;
+          if(j===good) b.classList.add('good');
+          else if(j===i) b.classList.add('bad');
+        });
+        q.querySelector('.fb').classList.add('show');
+        if(answered===total){
+          var sc=document.getElementById('score');
+          sc.style.display='block';
+          sc.querySelector('.big').textContent=correct+' / '+total;
+          var msg = correct===total ? "Parfait — tout est acquis." :
+                    correct>=Math.ceil(total*0.6) ? "Bien joué. Revoyez les chapitres correspondant aux erreurs." :
+                    "À revoir : reprenez le replay chapitre par chapitre.";
+          document.getElementById('score-txt').textContent=msg;
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

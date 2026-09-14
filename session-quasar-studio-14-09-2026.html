@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session de mentorat — Quasar Studio | 14 septembre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED; --primary-dark:#4C1D95; --primary-light:#EDE9FE;
+  --accent:#F59E0B; --accent-light:#FEF3C7;
+  --success:#10B981; --success-light:#D1FAE5;
+  --danger:#EF4444; --danger-light:#FEE2E2;
+  --info:#3B82F6; --info-light:#DBEAFE;
+  --ink:#1A1523; --muted:#5B5670; --line:#E7E4EF; --bg:#FAF9FC; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+.progress-wrap{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(108,58,237,.12);z-index:999}
+#progress{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+.wrap{max-width:940px;margin:0 auto;padding-inline:20px}
+
+/* HERO */
+.hero{background:linear-gradient(140deg,#3B1D80 0%,#6C3AED 55%,#8B5CF6 100%);color:#fff;padding-block:60px 52px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{content:"";position:absolute;left:-60px;bottom:-120px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.05)}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:700;margin-bottom:14px;position:relative;z-index:2}
+.hero .sub{font-size:17px;opacity:.92;max-width:660px;position:relative;z-index:2}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;position:relative;z-index:2}
+.meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:7px 14px;border-radius:10px;font-size:13.5px;font-weight:500}
+
+/* TOC */
+.toc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:-32px;position:relative;z-index:5;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.toc h2{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:16px;color:var(--primary-dark)}
+.toc ol{list-style:none;counter-reset:toc;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.toc li{counter-increment:toc}
+.toc a{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink);padding:9px 10px;border-radius:10px;font-size:14.5px;transition:background .15s}
+.toc a:hover{background:var(--primary-light);color:var(--primary-dark)}
+.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);font-size:13px;flex-shrink:0;padding-top:1px}
+
+/* SECTIONS */
+section.chap{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+section.chap>.bar{height:5px;background:var(--primary)}
+.chap[data-c="a"]>.bar{background:var(--accent)} .chap[data-c="g"]>.bar{background:var(--success)}
+.chap[data-c="b"]>.bar{background:var(--info)} .chap[data-c="r"]>.bar{background:var(--danger)}
+.chead{padding:26px 28px 0;display:flex;gap:14px;align-items:center}
+.cnum{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--primary-light);color:var(--primary-dark);display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px}
+.chap[data-c="a"] .cnum{background:var(--accent-light);color:#92400E}
+.chap[data-c="g"] .cnum{background:var(--success-light);color:#065F46}
+.chap[data-c="b"] .cnum{background:var(--info-light);color:#1E40AF}
+.chap[data-c="r"] .cnum{background:var(--danger-light);color:#991B1B}
+.chead h2{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.25;font-weight:700}
+.tc{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-top:3px}
+.cbody{padding:18px 28px 28px}
+.cbody p{margin-bottom:14px}
+.cbody h3{font-family:'Space Grotesk',sans-serif;font-size:16.5px;margin:22px 0 10px;color:var(--primary-dark)}
+.cbody ul,.cbody ol{margin:0 0 14px 20px}
+.cbody li{margin-bottom:7px}
+strong{font-weight:650;color:#2D2540}
+
+/* CALLOUTS */
+.box{border-radius:12px;padding:16px 18px;margin:18px 0;border-left:4px solid;font-size:15px}
+.box .bt{display:block;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.box p:last-child{margin-bottom:0}
+.b-key{background:var(--primary-light);border-color:var(--primary)} .b-key .bt{color:var(--primary-dark)}
+.b-warn{background:var(--accent-light);border-color:var(--accent)} .b-warn .bt{color:#92400E}
+.b-tip{background:var(--success-light);border-color:var(--success)} .b-tip .bt{color:#065F46}
+.b-info{background:var(--info-light);border-color:var(--info)} .b-info .bt{color:#1E40AF}
+.b-danger{background:var(--danger-light);border-color:var(--danger)} .b-danger .bt{color:#991B1B}
+
+/* TABLES */
+.tbl{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:12px 14px;font-weight:600;font-size:13.5px}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#FBFAFE}
+
+/* PROS CONS */
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.pc>div{border-radius:12px;padding:16px 18px;font-size:14.5px}
+.pc .ok{background:var(--success-light);border:1px solid #A7F3D0}
+.pc .ko{background:var(--danger-light);border:1px solid #FECACA}
+.pc h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.pc .ok h4{color:#065F46} .pc .ko h4{color:#991B1B}
+.pc ul{margin:0 0 0 18px} .pc li{margin-bottom:5px}
+
+/* CARDS */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:18px 0}
+.card{background:#FBFAFE;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h4{font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:6px;color:var(--primary-dark)}
+.card p{font-size:14px;color:var(--muted);margin:0}
+
+/* TIMELINE */
+.tl{list-style:none;margin:18px 0 18px 0;padding-left:26px;border-left:2px dashed var(--line)}
+.tl li{position:relative;margin-bottom:16px;font-size:15px}
+.tl li::before{content:"";position:absolute;left:-33px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light)}
+.tl b{display:block;font-family:'Space Grotesk',sans-serif;color:var(--primary-dark)}
+
+/* DETAILS */
+details{border:1px solid var(--line);border-radius:12px;margin:14px 0;background:#FBFAFE}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:15px;color:var(--primary-dark);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+details[open] summary::before{content:"▾ "}
+details .dc{padding:0 18px 16px;font-size:14.5px}
+
+/* QA */
+.qa{border:1px solid var(--line);border-radius:14px;margin-bottom:14px;overflow:hidden;background:var(--card)}
+.qa .q{background:linear-gradient(90deg,var(--primary-light),#F6F3FF);padding:14px 18px;font-weight:650;color:var(--primary-dark);font-size:15.5px;display:flex;gap:10px}
+.qa .q span{flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.qa .a{padding:16px 18px;font-size:15px}
+.qa .a strong.who{color:var(--primary);font-weight:700}
+
+/* ACTION PLAN */
+.plan{background:linear-gradient(140deg,#0F172A,#1E1B4B);color:#fff;border-radius:18px;padding:30px 28px;margin-top:26px}
+.plan h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:8px}
+.plan>p{opacity:.8;margin-bottom:20px;font-size:15px}
+.plan .tbl{border-color:rgba(255,255,255,.15)}
+.plan table{color:#fff;background:rgba(255,255,255,.03)}
+.plan thead th{background:rgba(255,255,255,.12)}
+.plan tbody td{border-color:rgba(255,255,255,.12)}
+.plan tbody tr:nth-child(even){background:rgba(255,255,255,.04)}
+.pri{display:inline-block;padding:3px 9px;border-radius:6px;font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.p1{background:#EF4444;color:#fff} .p2{background:#F59E0B;color:#3B2500} .p3{background:#10B981;color:#03301F}
+
+/* QUIZ */
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px;margin-top:26px}
+.quiz h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:6px;color:var(--primary-dark)}
+.quiz>p{color:var(--muted);margin-bottom:22px;font-size:15px}
+.qz{margin-bottom:24px;padding-bottom:22px;border-bottom:1px dashed var(--line)}
+.qz:last-of-type{border-bottom:none}
+.qz .qt{font-weight:650;margin-bottom:12px;font-size:15.5px}
+.opt{display:block;width:100%;text-align:left;background:#FBFAFE;border:1.5px solid var(--line);border-radius:10px;padding:11px 15px;margin-bottom:8px;cursor:pointer;font-family:inherit;font-size:14.5px;color:var(--ink);transition:all .15s}
+.opt:hover{border-color:var(--primary);background:var(--primary-light)}
+.opt.good{background:var(--success-light);border-color:var(--success);font-weight:600}
+.opt.bad{background:var(--danger-light);border-color:var(--danger)}
+.fb{display:none;margin-top:10px;padding:12px 15px;border-radius:10px;font-size:14.5px;background:var(--info-light);border-left:4px solid var(--info)}
+.fb.show{display:block}
+.score{margin-top:20px;padding:16px;border-radius:12px;background:var(--primary-light);text-align:center;font-weight:650;color:var(--primary-dark);display:none}
+.score.show{display:block}
+
+footer{text-align:center;padding-block:40px 50px;color:var(--muted);font-size:14px}
+footer b{color:var(--primary-dark);font-family:'Space Grotesk',sans-serif}
+
+@media(max-width:640px){
+  .pc{grid-template-columns:1fr}
+  .chead{padding:22px 18px 0} .cbody{padding:16px 18px 22px}
+  .toc{padding:22px 18px} .plan,.quiz{padding:24px 18px}
+  .hero h1{font-size:27px}
+}
+@media print{
+  .progress-wrap{display:none} body{background:#fff}
+  section.chap,.toc,.quiz{box-shadow:none;break-inside:avoid}
+  .opt{display:none}
+}
+</style>
+</head>
+<body>
+<div class="progress-wrap"><div id="progress"></div></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">Mentorat privé · Session du 14 septembre 2026</div>
+    <h1>Sauver une boîte qui a le feu aux fesses :<br>court terme, financements et longue traîne</h1>
+    <p class="sub">Session de travail avec Quasar Studio (Rouen) : arbitrer entre les actions qui paient demain et celles qui paient dans six mois, et débloquer les vrais leviers de financement de la formation professionnelle.</p>
+    <div class="meta">
+      <span>⏱ 1 h 31</span>
+      <span>🎙 Tarik Hamiche</span>
+      <span>👥 Loïc (dirigeant) &amp; Emma</span>
+      <span>📌 31 chapitres</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<nav class="toc">
+  <h2>Au programme</h2>
+  <ol>
+    <li><a href="#s1">Le contexte : un marché qui se contracte</a></li>
+    <li><a href="#s2">Le désaccord de départ : sens vs urgence</a></li>
+    <li><a href="#s3">Le blog : incontournable, mais sur le bon sujet</a></li>
+    <li><a href="#s4">Google Ads : pourquoi la pub seule brûle du cash</a></li>
+    <li><a href="#s5">Priorité immédiate : la prospection dans le dur</a></li>
+    <li><a href="#s6">Sortir du tout-Afdas : la carte des financements</a></li>
+    <li><a href="#s7">Le CPF décortiqué : le vrai parcours</a></li>
+    <li><a href="#s8">TVA, Qualiopi et structure juridique</a></li>
+    <li><a href="#s9">Changer de cible et construire le tunnel</a></li>
+    <li><a href="#s10">Faire entrer des fonds sans perdre la main</a></li>
+    <li><a href="#s11">Les chantiers techniques : blog &amp; matériel</a></li>
+    <li><a href="#qa">Questions / Réponses de la session</a></li>
+    <li><a href="#plan">Plan d'action</a></li>
+    <li><a href="#quiz">Quiz de validation</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="chap" id="s1" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">01</div><div><h2>Le contexte : un marché qui se contracte</h2><div class="tc">⏱ 00:00 – 03:00</div></div></div>
+  <div class="cbody">
+    <p>La session s'ouvre sur un état des lieux du marché audiovisuel français, tel que publié par le CNC et Unifrance. Les chiffres posent le décor : ce n'est pas Quasar Studio qui va mal isolément, c'est tout un secteur qui se comprime.</p>
+    <div class="cards">
+      <div class="card"><h4>− 21 %</h4><p>Ventes internationales de programmes français</p></div>
+      <div class="card"><h4>− 60 %</h4><p>Préventes</p></div>
+      <div class="card"><h4>− 27 % / − 30 %</h4><p>Fiction / animation</p></div>
+      <div class="card"><h4>− 2,7 %</h4><p>Documentaire (43 M€) — le segment qui résiste</p></div>
+    </div>
+    <div class="box b-info"><span class="bt">Le saviez-vous ?</span><p>Un accord France – Corée du Sud porte sur <strong>62 M€ par pays</strong> pour développer cinéma et court métrage. Les effets ne se feront pas sentir avant l'année prochaine : c'est une opportunité à surveiller, pas une solution au problème de trésorerie de cette semaine.</p></div>
+    <div class="box b-tip"><span class="bt">Réflexe à prendre</span><p>Deux tournages sont identifiés à proximité du studio (un long métrage au Moulin d'Andé, un court métrage voisin). Une veille locale des tournages en cours = des contacts post-prod à prendre <em>maintenant</em>. La veille sectorielle n'a de valeur que si elle se traduit en appels.</p></div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="chap" id="s2" data-c="r">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">02</div><div><h2>Le désaccord de départ : du sens contre l'urgence</h2><div class="tc">⏱ 03:00 – 06:00</div></div></div>
+  <div class="cbody">
+    <p>Emma a fait remonter un vrai désaccord de fond, et c'est le point de départ de toute la session : <strong>elle ne voit pas le sens des actions en cours</strong>. Non par désengagement — exactement l'inverse.</p>
+    <p>Son raisonnement : la deadline est fin octobre, et les actions engagées (création d'un blog, travail de contenu) mettront des mois à produire du résultat. En plus, elles n'étaient pas orientées dans la bonne direction par rapport au cœur de métier du studio.</p>
+    <div class="box b-key"><span class="bt">À retenir</span><p>Une collaboratrice qui remonte un désaccord au lieu d'exécuter en silence, c'est un signal de valeur. Elle aurait pu « faire ce qu'on lui a demandé », attendre trois mois et se dédouaner. Le réflexe managérial correct n'est pas de recadrer, c'est d'<strong>écouter et réarbitrer</strong>.</p></div>
+    <h3>Les trois points soulevés</h3>
+    <ol>
+      <li><strong>Horizon temporel</strong> — le blog crée de la longue traîne sur plusieurs mois à plusieurs années. Cela va à l'encontre de l'objectif court terme. Mais c'est un incontournable : il faut le faire quand même.</li>
+      <li><strong>Ligne éditoriale</strong> — le contenu avait été orienté sur les intermittents du spectacle. Or Quasar n'a pas la légitimité maximale sur ce sujet, et devra traiter des demandes entrantes qu'elle ne maîtrise pas.</li>
+      <li><strong>Limite de ressources</strong> — l'ordinateur d'Emma la ralentit (30 à 40 min pour une tâche qui en prend 5).</li>
+    </ol>
+    <div class="box b-danger"><span class="bt">Le piège de la légitimité</span><p>Créer du contenu sur un domaine où l'on n'a ni la légitimité ni le niveau d'expertise pour traiter les demandes entrantes, <strong>ça se retourne contre soi</strong>. On attire des prospects qu'on ne peut pas servir.</p></div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="chap" id="s3" data-c="">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">03</div><div><h2>Le blog : incontournable, mais sur le bon sujet</h2><div class="tc">⏱ 04:30 – 06:00 · 59:09 – 61:02</div></div></div>
+  <div class="cbody">
+    <p>Le verdict est double, et il faut tenir les deux bouts : <strong>oui, le blog est un incontournable</strong> ; <strong>non, ce n'est pas l'action prioritaire pour générer du chiffre en octobre</strong>. Les deux sont vrais en même temps.</p>
+    <div class="pc">
+      <div class="ok"><h4>Intermittence — ce qui ne va pas</h4><ul><li>Cible idéale sur le papier pour la formation audiovisuelle</li><li>Mais : les réponses sont déjà partout sur Internet</li><li>Légitimité de Quasar limitée sur le sujet</li><li>Risque de demandes entrantes non traitables</li></ul></div>
+      <div class="ko" style="background:var(--success-light);border-color:#A7F3D0"><h4 style="color:#065F46">Audiovisuel / post-prod — ce qui marche</h4><ul><li>Autant de volume de recherche (comparatifs d'outils, logiciels, process)</li><li>Demande une vraie expertise : barrière à l'entrée</li><li>Légitimité, expérience, matériel, lieu : Quasar a tout</li><li>Correspond au cœur de métier vendu derrière</li></ul></div>
+    </div>
+    <div class="box b-key"><span class="bt">Arbitrage retenu</span><p>Réorienter la ligne éditoriale <strong>autour de l'audiovisuel et de la post-production</strong> — ce que l'équipe maîtrise le mieux — plutôt que de l'intermittence. Même volume de requêtes, beaucoup plus de légitimité.</p></div>
+    <h3>Et le blocage technique WordPress</h3>
+    <p>Emma a produit un très bon travail de conception (pages blog, articles). Problème : intégré dans le WordPress existant, <strong>le design est détruit</strong>, et l'équipe dépend de la disponibilité de la webmaster de l'hébergeur.</p>
+    <div class="box b-tip"><span class="bt">La solution retenue</span><p>Sortir le blog de WordPress : l'héberger séparément sur un sous-domaine (<code>blog.quasar-studio.fr</code>) via Cloudflare — <strong>environ 10 € par an</strong> — avec un déploiement automatique. Chaque nouvel article d'Emma se met alors en ligne directement, sans passer par personne.</p></div>
+    <div class="box b-warn"><span class="bt">Attention à l'ordre des opérations</span><p>Étape 1 : appeler l'hébergeur (Infomaniak) et lui dire <em>ce qu'on veut faire</em>, pas lui demander une manip précise. Chaque hébergeur a sa procédure : certains créent le sous-domaine et donnent la ligne CNAME à ajouter, d'autres demandent d'abord l'hébergement puis les enregistrements. On ne peut pas anticiper — <strong>on demande la procédure, puis on déploie</strong>.</p></div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="chap" id="s4" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">04</div><div><h2>Google Ads : pourquoi la pub seule brûle du cash</h2><div class="tc">⏱ 06:00 – 09:30</div></div></div>
+  <div class="cbody">
+    <p>Loïc voulait faire former Emma à Google Ads. La réponse est nette : <strong>ce serait improductif aujourd'hui</strong>. Créer une campagne est facile et rapide — 75 % du travail est fait par l'algorithme. Le problème est ailleurs.</p>
+    <div class="box b-danger"><span class="bt">L'erreur que tout le monde fait</span><p>« Je fais une campagne, je la fais bien, s'il le faut je paye un pro, et je renvoie vers ma <strong>home page</strong>. » Ça ne convertit jamais. Google est un moteur de <em>recherche</em> : si la page d'arrivée ne correspond pas à 100 % à la requête, ça ne marche pas.</p></div>
+    <div class="box b-warn"><span class="bt">Ordre de grandeur</span><p>Sur un compte bien construit en longue traîne : <strong>50 € le clic qualifié</strong> — c'est-à-dire un clic qui arrive sur une page de commande avec quelqu'un prêt à acheter. Sans travail de longue traîne préalable, l'algorithme part dans mille directions et l'on dépense des semaines à perte.</p></div>
+    <h3>Le mécanisme qui fonctionne</h3>
+    <ol>
+      <li>Produire des articles de blog qui répondent <strong>exactement</strong> à des questions réelles de la cible.</li>
+      <li>Identifier les articles qui génèrent le plus d'interactions.</li>
+      <li>Créer des campagnes sur les mots-clés de la thématique <em>de ces articles</em>.</li>
+      <li>Envoyer le trafic payant sur l'article, pas sur la home page.</li>
+    </ol>
+    <div class="box b-info"><span class="bt">Exemple concret donné en session</span><p>Requête : <em>« En ayant appris le montage en autodidacte, puis-je m'intégrer facilement dans une équipe de post-prod cinéma ? »</em> — Un article qui ne vend rien tout de suite, mais qui récapitule toutes les mauvaises solutions que la personne a déjà essayées, est décisif et la pousse à l'achat.</p></div>
+    <div class="box b-key"><span class="bt">Le levier caché</span><p>Sur un mot-clé comme « CNC », impossible de battre le site officiel en organique : domaine trop ancien, trop fort. <strong>Avec de la pub, on se place numéro un, juste au-dessus.</strong> Et l'internaute moyen ne distingue pas un lien sponsorisé d'un lien organique. Une fois qu'il est sur votre article, vous contrôlez la narrative.</p></div>
+    <p>20 articles bien ciblés valent mieux que 100 pages de vente — et coûtent infiniment moins de temps à produire. Passer de 100 à 1 000 visiteurs/mois avec du trafic qualifié devient alors un simple achat.</p>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="chap" id="s5" data-c="r">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">05</div><div><h2>Priorité immédiate : la prospection dans le dur</h2><div class="tc">⏱ 17:31 – 21:00 · 52:00 – 54:31</div></div></div>
+  <div class="cbody">
+    <p>C'est le cœur de l'arbitrage de la session. Réorienter le temps d'Emma sur du concret : <strong>plus de temps sur un téléphone que sur un ordinateur</strong>. Le mining, la communauté, la base qualifiée : ce sera exactement ce qu'il faudra faire dans trois mois, une fois le cap passé.</p>
+    <h3>La méthode du « un par un »</h3>
+    <ul>
+      <li>Récupérer la liste complète des adhérents des associations et réseaux où l'équipe a un contact.</li>
+      <li>Passer la liste avec la personne qui a le lien : <em>« Lui, tu l'as eu cette semaine ? Il n'y a pas de besoin ? Très bien, rayé. »</em></li>
+      <li>Ceux qui n'ont pas été appelés : Emma les appelle. <em>« Bonjour, je vous appelle de la part de Laurent… »</em> — le contact interne légitime la prise de contact.</li>
+      <li>Élargir ensuite à toutes les structures régionales productrices d'audiovisuel (Hauts-de-France, Bretagne, etc.).</li>
+      <li>Le besoin peut porter sur tout : prise vidéo, mixage, bande-annonce, formation.</li>
+    </ul>
+    <div class="box b-tip"><span class="bt">Un appel de 20 secondes est un appel réussi</span><p>« Il n'y a pas de besoin ? Très bien, désolé du dérangement, au revoir. » L'objectif n'est pas de convaincre, c'est d'avoir <strong>touché chaque membre au moins une fois</strong> pour identifier qui a un besoin maintenant.</p></div>
+    <h3>La « politique du chien fou »</h3>
+    <p>Ne jamais rentrer bredouille d'un appel. Si l'interlocuteur dit « non, mon besoin c'est de repeindre 1 000 m² », on répond <em>« bouge pas, je t'envoie quelqu'un »</em> — et on négocie 20 % de commission avec un artisan connu. C'est volontairement poussé à l'extrême, mais l'idée est là : <strong>le job devient de trouver les plans</strong>, et chaque plan trouvé ouvre une relation.</p>
+    <div class="box b-warn"><span class="bt">La remise : signal dangereux</span><p>Arriver avec une remise sèche envoie un mauvais signal (on est aux abois). Arriver avec une <strong>remise justifiée et temporaire</strong>, ça passe : « On s'est fait planter par une production qui a annulé trois semaines au dernier moment — servez-vous de nous, c'est le moment. » Donnez même un nom et une histoire. Le prospect qui n'a besoin qu'à partir de tel mois : « Allez, on peut s'entendre. »</p></div>
+    <div class="box b-key"><span class="bt">À retenir</span><p>Prospecter dans le dur, c'est accepter de se manger des portes toute la journée jusqu'à tomber sur la personne qui dit : « Justement, on se demandait avec qui on allait bosser. » Et là, on ne la lâche pas — on va la voir là où elle est.</p></div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="chap" id="s6" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">06</div><div><h2>Sortir du tout-Afdas : la carte des financements</h2><div class="tc">⏱ 12:32 – 17:31 · 21:00 – 29:30 · 49:30 – 52:00</div></div></div>
+  <div class="cbody">
+    <p>Deuxième grand axe : la partie organisme de formation raisonne uniquement Afdas. Or <strong>l'Afdas est l'OPCO le plus rétréci du moment</strong> : son budget baisse d'année en année.</p>
+    <h3>Ce qui change avec la réforme (1<sup>er</sup> octobre)</h3>
+    <div class="box b-warn"><span class="bt">Le texte cité en session</span><p>« Il est recommandé de déposer les dossiers de prise en charge <strong>avant le 15 septembre</strong> pour bénéficier des modalités antérieures à la réforme de la TVA applicable aux OPCO. Après le 1<sup>er</sup> octobre, certaines formations ne bénéficieront plus de la même subrogation : l'entreprise cliente devra régler le prestataire avant d'être remboursée. »</p></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Qui paie ?</th><th>Ce qui change vraiment</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Client entreprise</strong></td><td>L'entreprise avance le paiement, puis se fait rembourser. Elle avance aussi la TVA si l'OF est assujetti. Concrètement, un jeu d'écriture — désagréable mais pas bloquant.</td></tr>
+        <tr><td><strong>Client particulier / intermittent</strong></td><td><strong>Ça ne change pas.</strong> Demande Afdas → validation → formation → facture envoyée par l'OF à l'Afdas → l'Afdas règle l'OF. Seule nouveauté : le stagiaire doit envoyer son attestation de fin de formation.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="box b-danger"><span class="bt">Le vrai problème n'est pas la TVA</span><p>Ce sont les <strong>plafonds de prise en charge qui s'effondrent</strong>. Une formation audiovisuelle prise en charge à 8 000 € est déjà passée à la moitié, et devrait être plafonnée autour de <strong>3 000 €</strong>. Au-delà, l'intermittent renonce — on les connaît.</p></div>
+    <h3>Les OPCO oubliés à activer</h3>
+    <div class="cards">
+      <div class="card"><h4>FIF PL</h4><p>Professions libérales. Simple à activer : un premier dossier suffit.</p></div>
+      <div class="card"><h4>Agefice</h4><p>Dirigeants d'EURL et SARL travailleurs non salariés. Dès 7 € de cotisation formation justifiés → enveloppe de <strong>3 000 € par an</strong>.</p></div>
+      <div class="card"><h4>Uniformation</h4><p>Employés municipaux, communautés de communes. À creuser via les listes de bénéficiaires de fonds.</p></div>
+      <div class="card"><h4>CPF</h4><p>Le plus gros gisement — mais aussi le plus verrouillé. Voir la section suivante.</p></div>
+    </div>
+    <div class="box b-key"><span class="bt">À retenir</span><p><strong>Les OPCO ne sont pas compliqués.</strong> Il suffit de monter un premier dossier avec chacun. Il n'y a que le CPF qui est compliqué — parce que c'est là qu'est l'argent, et que les barrières ont été montées exprès.</p></div>
+    <h3>Trouver les donneurs d'ordre</h3>
+    <p>Les associations et structures culturelles régionales gagnent des appels d'offres de formation — mais <strong>elles ne forment pas elles-mêmes</strong> : elles prennent toujours des prestataires externes. Exemple donné : une association culturelle qui obtient 120 000 € de fonds pour des formations audiovisuelles.</p>
+    <div class="box b-tip"><span class="bt">Le pitch</span><p>« Nous, on est là, on a le lieu, il répond à toutes les normes, et on a les compétences. » Ça ne fait pas rentrer de cash cette semaine — mais savoir que 100 ou 200 K€ tombent dans trois mois, <strong>ça rend facile de faire patienter tout le monde</strong>.</p></div>
+    <details><summary>Les appels d'offres : ne pas y passer plus d'une à deux heures</summary><div class="dc">Faire lire l'appel d'offres à une IA, lui demander de se renseigner sur la demande, et répondre. Le tour est fait en une ou deux heures. Ce ne sont pas de gros marchés — mais il suffit qu'un donneur d'ordre accroche.</div></details>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="chap" id="s7" data-c="">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">07</div><div><h2>Le CPF décortiqué : le vrai parcours</h2><div class="tc">⏱ 28:01 – 29:30 · 34:33 – 49:30</div></div></div>
+  <div class="cbody">
+    <div class="box b-danger"><span class="bt">Le malentendu n°1</span><p><strong>Ce n'est pas parce qu'on a Qualiopi qu'on peut actionner le CPF.</strong> Qualiopi et le NDA sont nécessaires, mais très loin d'être suffisants.</p></div>
+    <h3>Pourquoi c'est devenu si dur</h3>
+    <p>Avant, on ouvrait son compte sur EDOF et on vendait. L'État a constaté que les gens utilisaient réellement leur fonds de formation. Interdire l'accès au citoyen aurait été inconstitutionnel — alors on a <strong>durci l'accès des organismes de formation</strong>, sous couvert de lutte contre les arnaques au CPF.</p>
+    <h3>Le parcours officiel : 8 mois</h3>
+    <ul class="tl">
+      <li><b>Étape 1 — Certification RS</b>Déposer une formation éligible au Répertoire Spécifique. <strong>6 à 8 mois de procédure.</strong></li>
+      <li><b>Étape 2 — Compte EDOF</b>Ouverture avec contrôle manuel absolu d'un administrateur. <strong>2 mois</strong>, et ils répondent le dernier jour des deux mois. Une ligne de CV qui dérange → on repart pour deux mois.</li>
+      <li><b>Résultat</b>8 mois minimum, sans garantie d'accord.</li>
+    </ul>
+    <h3>Le raccourci : louer une certification existante</h3>
+    <div class="box b-tip"><span class="bt">Le mécanisme clé</span><p>Les certificateurs ont <strong>l'obligation légale de louer leurs certifications à d'autres formateurs</strong>. On les démarche, on obtient un accord, et ce certificat permet d'aller voir EDOF directement — en sautant les 6 à 8 mois de création de certification.</p></div>
+    <p>Le dossier présenté à EDOF devient : « J'ai un OF, j'ai Qualiopi, j'ai le NDA, et j'ai un certificateur qui m'autorise à former à une formation certifiante. » Si le CV et l'organisme sont cohérents, ça passe — après les deux mois d'attente réglementaires.</p>
+    <div class="box b-info"><span class="bt">Économie du deal</span><p>Le certificateur prend une commission par stagiaire — <strong>de l'ordre de 250 €</strong> sur une formation vendue 2 000 €, soit environ 10 %. C'est considéré comme fair. La gestion passe souvent par un intermédiaire spécialisé (type Certif-CPF).</p></div>
+    <h3>Les plafonds à connaître pour fixer son prix</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Type de certification</th><th>Plafond CPF mobilisable</th><th>Abondement Afdas (à vérifier)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>RS</strong> (Répertoire Spécifique)</td><td>≈ 1 500 €</td><td>≈ 2 000 €</td></tr>
+        <tr><td><strong>RNCP</strong></td><td>≈ 4 600 €</td><td>jusqu'à 12 000 €</td></tr>
+        <tr><td colspan="3">Depuis 2025, le stagiaire doit obligatoirement mettre <strong>150 € de sa poche</strong>, quel que soit son solde.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="box b-key"><span class="bt">L'astuce de pricing</span><p>Un programme positionné précisément à <strong>1 650 €</strong> : 150 € de la poche du stagiaire + 1 500 € de CPF = plafond maximum atteint. Dès qu'une personne a 1 500 € ou plus sur son compte, ça passe tout seul, sans reste à charge supplémentaire.</p></div>
+    <div class="box b-warn"><span class="bt">L'abondement Afdas que personne ne trouve</span><p>Un intermittent avec 1 000 € de solde CPF qui vise une formation à 5 000 € dispose d'un <strong>bouton d'abondement Afdas</strong> — dès lors qu'il a déclaré au moins deux cachets rémunérés dans l'année. Le budget remonte alors <strong>jusqu'à 12 000 €</strong>.<br><br>Comme la plupart l'ignorent, l'Afdas ne consomme pas son enveloppe — et son budget est réduit l'année suivante. Le cercle vicieux qui explique la baisse continue des plafonds.</p></div>
+    <h3>La démo France Compétences</h3>
+    <ol>
+      <li>Aller sur <strong>France Compétences</strong> → « Certification professionnelle » → « Trouver une certification professionnelle ».</li>
+      <li>Filtrer sur <strong>RS</strong> (le RNCP est beaucoup trop complexe pour trouver un certificateur).</li>
+      <li>Taper des mots-clés métier précis : « montage », « post-production », « captation »… Chaque certification est dédiée à un métier — il faut chercher, il n'existe pas de certification globale.</li>
+      <li>Ouvrir la fiche : regarder les compétences visées et surtout le <strong>nombre de certifiés par an</strong> (c'est l'indicateur de demande réelle).</li>
+      <li>Chercher le lien <strong>« Liste des organismes préparant à la certification »</strong> : plus la liste est longue, plus le certificateur est solide.</li>
+      <li>Aller sur le site de chaque organisme, trouver un contact, et écrire.</li>
+    </ol>
+    <div class="box b-info"><span class="bt">Le mail type donné en session</span><p>« Bonjour, je suis organisme de formation. J'ai vu que vous aviez la certification RS XXXX. J'aimerais savoir comment vous fonctionnez pour autoriser des organismes de formation comme le mien à former à votre certification. »<br><br>Ils répondent en général — <strong>c'est dans leur intérêt</strong>.</p></div>
+    <details><summary>Pourquoi les grandes écoles vendent 20 à 30 K€ l'année (et pourquoi ce n'est pas de la gourmandise)</summary><div class="dc">Le RNCP impose un niveau d'exigence très élevé : bâtiment classé ERP1, procédures, normes de sécurité poussées, mises à jour permanentes. Chaque exigence est une facture — à l'État, à un avocat, à un prestataire. Les écoles amortissent tout cela sur les cursus. Ce n'est pas qu'elles veulent se gaver sur le dos des jeunes : elles se font sanctionner au moindre manquement.</div></details>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="chap" id="s8" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">08</div><div><h2>TVA, Qualiopi et structure juridique</h2><div class="tc">⏱ 29:30 – 34:33</div></div></div>
+  <div class="cbody">
+    <p>Question de fond : peut-on faire de la formation exonérée de TVA ? Oui — mais à des conditions strictes, et la structure juridique compte autant que le statut.</p>
+    <h3>Les 3 conditions de l'exonération de TVA formation</h3>
+    <div class="cards">
+      <div class="card"><h4>1. Le NDA</h4><p>Numéro de déclaration d'activité d'organisme de formation.</p></div>
+      <div class="card"><h4>2. Qualiopi</h4><p>La certification qualité en cours de validité.</p></div>
+      <div class="card"><h4>3. La demande fiscale</h4><p>Une demande d'exonération déposée auprès du service des impôts.</p></div>
+    </div>
+    <div class="box b-danger"><span class="bt">La règle qui piège tout le monde</span><p>Si, <strong>dans la même structure</strong>, on exerce certaines activités assujetties à la TVA, alors <strong>toute l'activité doit être assujettie</strong>. L'exonération est perdue pour tout le monde.</p></div>
+    <div class="box b-tip"><span class="bt">La parade appliquée par Tarik</span><p>Créer une <strong>structure à part, indépendante, qui ne fait que de la formation</strong>. Aucune dépense qui n'appartienne strictement à l'activité de formation n'y passe. Coût réel : un bilan comptable de plus en fin d'année. Bénéfice : la tranquillité.</p></div>
+    <div class="box b-warn"><span class="bt">Exemple d'un contrôle qui déraille</span><p>Vous achetez un écran « pour la formation ». Si l'écran est posé dans une pièce qui n'est pas dédiée à 100 % à la formation, l'administration peut requalifier : activité tierce → assujettissement à la TVA. Le critère est flou, donc on se protège par la structure.</p></div>
+    <h3>Qualiopi : la contrainte de temps</h3>
+    <ul class="tl">
+      <li><b>Qualiopi est nominatif</b>Il appartient à la structure qui l'a obtenu. On ne le déplace pas vers une autre société.</li>
+      <li><b>Audit de contrôle à 18 mois</b>Puis 18 mois plus tard, revalidation complète de l'agrément.</li>
+      <li><b>Cycle de 3 ans</b>« C'est comme repasser le permis tous les trois ans. » Et on paie à chaque étape.</li>
+    </ul>
+    <div class="box b-key"><span class="bt">La stratégie de bascule</span><p>Obtenir Qualiopi sur un OF qui part de zéro est <strong>quasiment une formalité</strong> : environ 1 500 € de frais administratifs. Le tout est de le faire <em>au bon moment</em>. Le monter maintenant = payer deux certifications en parallèle. Le monter à l'approche de l'échéance des trois ans = obtenir la nouvelle sur la nouvelle structure, et abandonner l'ancienne au lieu de la renouveler. « Comme deux permis de conduire : un qui expire, un nouveau qui repart pour trois ans. »</p></div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="chap" id="s9" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">09</div><div><h2>Changer de cible et construire le tunnel</h2><div class="tc">⏱ 39:31 – 43:00</div></div></div>
+  <div class="cbody">
+    <div class="tbl"><table>
+      <thead><tr><th>Cible</th><th>Volume en France</th><th>Difficulté d'acquisition</th><th>Stratégie adaptée</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Intermittents</strong></td><td>≈ 300 000</td><td>Très durs à trouver, public niché</td><td>Blog, espace communautaire, mise en confiance longue avant sollicitation</td></tr>
+        <tr><td><strong>Salariés « lambda »</strong></td><td>Plusieurs centaines de milliers d'intéressés</td><td>Beaucoup plus accessible</td><td>Publicité payante, tunnel d'acquisition classique</td></tr>
+      </tbody>
+    </table></div>
+    <div class="box b-key"><span class="bt">Le basculement</span><p>Beaucoup de gens veulent ou <em>ont besoin</em> d'apprendre le montage vidéo — pour devenir créateur de contenu, pour leur métier, pour se reconvertir. La cible reste nichée, mais elle devient <strong>assez large pour que la publicité soit rentable</strong>.</p></div>
+    <h3>Le tunnel proposé</h3>
+    <ul class="tl">
+      <li><b>1. La publicité</b>« Vous avez appris le montage vidéo en autodidacte, mais vous voulez passer à un niveau professionnel. Vous avez peut-être déjà ressenti un fossé en salle de post-prod… »</li>
+      <li><b>2. Le bootcamp gratuit</b>Deux heures, ou 2 × 2 h, ou 3 × 2 h sur trois jours. En ligne ou en présentiel, <strong>uniquement sur inscription</strong>. Gratuit ne veut pas dire bancal : on fait intervenir un formateur montage, un formateur étalonnage, un formateur son.</li>
+      <li><b>3. L'appel à l'action</b>« Vous avez vu les bases. Pour aller plus loin et repartir avec une formation certifiante, voilà ce qu'on vous propose : les dates, le lieu, le prix. »</li>
+      <li><b>4. L'argument financier</b>« Si vous êtes intermittent, c'est finançable Afdas. Si vous êtes salarié, vous pouvez mobiliser votre CPF pour financer une grosse partie du coût. Écrivez-nous. »</li>
+    </ul>
+    <div class="box b-tip"><span class="bt">L'économie du tunnel</span><p>Faire entrer 100 personnes sur un bootcamp. Il suffit que <strong>3 à 5 s'inscrivent</strong>. Sur une campagne à 500 €, on peut rentrer 10 000 à 20 000 €. C'est ce que rend possible le fait d'être éligible à plusieurs OPCO : on tape dans la masse.</p></div>
+    <div class="box b-info"><span class="bt">Pourquoi la formation offerte d'abord</span><p>Elle sert à <strong>asseoir la crédibilité</strong> avant de vendre. Sur une cible qui ne vous connaît pas, c'est ce qui transforme une publicité en relation.</p></div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="chap" id="s10" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">10</div><div><h2>Faire entrer des fonds sans perdre la main</h2><div class="tc">⏱ 11:34 – 12:32 · 54:31 – 59:09</div></div></div>
+  <div class="cbody">
+    <p>Le contexte posé par Loïc est sans détour : une holding, un vaisseau amiral, un chiffre d'affaires passé de 1 à 1,2 M€ à environ 100 K€ en quatre ans après avoir délégué la direction. Le redressement prendra 6 mois à 1 an, et ne se fera pas seul — il faudra des financeurs.</p>
+    <div class="box b-key"><span class="bt">Le principe</span><p>Il existe des montages qui permettent de faire entrer des associés dans une structure <strong>sans leur concéder de droit de vote</strong>. En SAS, c'est particulièrement souple : on peut déterminer des associés fondateurs qui ne peuvent pas être réduits à un simple pourcentage, et accueillir des apporteurs qui abondent sans prendre le contrôle.</p></div>
+    <div class="box b-warn"><span class="bt">Attention</span><p>Le montage doit être accepté par l'investisseur — c'est la vraie difficulté. Le réflexe naturel de l'apporteur est : « J'amène 100 000 €, vous êtes en difficulté, je prends 30 %. » Il faut donc arriver avec des arguments de valorisation solides.</p></div>
+    <h3>Valoriser autre chose que le capital social</h3>
+    <p>Un point important est ressorti d'une expertise antérieure. L'expert, sans être guidé, a identifié spontanément ce qui a vraiment de la valeur dans un studio :</p>
+    <div class="cards">
+      <div class="card"><h4>Les locaux</h4><p>L'actif immobilier et son emplacement.</p></div>
+      <div class="card"><h4>L'isolation</h4><p>Travaux structurels non reproductibles à bas coût.</p></div>
+      <div class="card"><h4>La correction acoustique</h4><p>Tout ce qui a été mis en œuvre sur des années.</p></div>
+      <div class="card"><h4>Pas le matériel</h4><p>Le matos se change régulièrement : il se déprécie, il ne fait pas la valeur.</p></div>
+    </div>
+    <div class="box b-tip"><span class="bt">À mettre en avant face à un financeur</span><p>Ce n'est pas seulement un capital social : c'est un <strong>outil de production non délocalisable et coûteux à reconstituer</strong>. C'est le vrai argument de valorisation.</p></div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="chap" id="s11" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">11</div><div><h2>Les chantiers techniques : blog &amp; matériel</h2><div class="tc">⏱ 09:30 – 11:00 · 61:02 – 72:31 · 75:31 – 84:00</div></div></div>
+  <div class="cbody">
+    <h3>La limite matérielle</h3>
+    <p>Une tâche qui prend 5 minutes sur une machine correcte en prend 30 à 40 chez Emma. Pire : pendant ce temps, elle ne peut rien faire d'autre — ouvrir un autre logiciel sature le CPU et tout se bloque.</p>
+    <div class="box b-key"><span class="bt">Ce qu'il faut installer</span><p>Python, les dépendances de développement, un gestionnaire de paquets (Homebrew), Git/GitHub. Pas pour qu'elle devienne développeuse — <strong>pour qu'elle aille vite</strong>.</p></div>
+    <h3>MacBook Neo ou MacBook Air ?</h3>
+    <div class="tbl"><table>
+      <thead><tr><th></th><th>MacBook « Neo » (entrée de gamme)</th><th>MacBook Air</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Prix</strong></td><td>≈ 799 € (le second modèle ≈ 899 €, seule différence : le stockage)</td><td>≈ 1 400 €</td></tr>
+        <tr><td><strong>Puce</strong></td><td>A18 — famille iPad/iPhone, Neural Engine 16 cœurs, GPU 5 cœurs</td><td>Puce M, plus de marge</td></tr>
+        <tr><td><strong>RAM</strong></td><td><strong>8 Go, non extensibles</strong> — le vrai frein</td><td>Configurable</td></tr>
+        <tr><td><strong>Stockage</strong></td><td>256 Go sur le modèle de base — vite juste</td><td>Plus confortable</td></tr>
+      </tbody>
+    </table></div>
+    <div class="box b-info"><span class="bt">L'estimation de charge</span><p>Un assistant IA en ligne de commande consomme quelques centaines de Mo. Homebrew tourne nativement sur puce Apple. Les scripts Python sont une charge légère. Git et GitHub : quelques Mo, même avec un dépôt de centaines de pages. Un site statique servi en local est instantané.<br><br><strong>Le stack complet tourne autour de 4 à 5 Go.</strong> Sur 8 Go de RAM, ça passe.</p></div>
+    <div class="box b-warn"><span class="bt">Le seul point de vigilance</span><p>Le <strong>navigateur</strong>. Trop d'onglets ouverts et les 8 Go saturent. Pas de téléchargement lourd en parallèle, pas de sites très gourmands pendant qu'on travaille.</p></div>
+    <div class="box b-tip"><span class="bt">Verdict de la session</span><p>Ça peut passer, et l'économie est réelle (≈ 600 € HT, amortissement qui passe bien). Ce sera de toute façon <strong>deux à quatre fois plus puissant</strong> que la machine actuelle. À tester — au pire, prévoir un disque dur externe pour le stockage. Si achat en magasin : <strong>faire toutes les mises à jour à la réception</strong> (un Mac de deux ans en rayon n'a jamais été mis à jour), puis compter une heure pour installer les dépendances.</p></div>
+    <h3>Le déploiement du blog</h3>
+    <ul class="tl">
+      <li><b>Étape 1 — Appeler l'hébergeur</b>Lui dire : « On a un blog en HTML statique en local, on veut le mettre en ligne sur un sous-domaine <code>blog.quasar-studio.fr</code>. Comment fait-on ? » Et attendre <em>sa</em> procédure.</li>
+      <li><b>Étape 2 — Héberger sur Cloudflare</b>≈ 10 € par an. La page est disponible sur un domaine technique, et une ligne (souvent un CNAME) côté hébergeur fait le pont.</li>
+      <li><b>Étape 3 — Déploiement automatique</b>Une fois le lien direct en place, chaque nouvel article et chaque modification de structure ou de référencement se met en ligne sans repasser par l'hébergeur.</li>
+    </ul>
+    <div class="box b-danger"><span class="bt">Pourquoi sortir de WordPress</span><p>WordPress est un outil clé en main pour les gens qui ne veulent pas mettre les mains dedans. On reste enfermé dans le template : on peut le faire bouger un peu, mais il faut coder et cela déplace plein d'autres choses. <strong>Sans la main sur le serveur, on est limité partout</strong> — et dépendant de la disponibilité d'un tiers.</p></div>
+  </div>
+</section>
+
+<!-- QA -->
+<section class="chap" id="qa" data-c="">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">💬</div><div><h2>Questions / Réponses de la session</h2><div class="tc">Les échanges tels qu'ils ont eu lieu</div></div></div>
+  <div class="cbody">
+
+    <div class="qa"><div class="q"><span>Q.</span>Est-ce que le blog, ce n'est pas une perte de temps quand la deadline est fin octobre ?</div><div class="a">Non — mais ce n'est pas l'action prioritaire. Le blog crée de la longue traîne sur plusieurs mois à plusieurs années : c'est un incontournable, et <strong>plus tôt on le démarre, plus tôt il devient efficace</strong>. Il doit se faire en parallèle, pendant les temps de pause, pas à la place de la prospection.</div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Peut-on former Emma à Google Ads pour lancer des campagnes rapidement ?</div><div class="a">Ce serait improductif. Créer une campagne est facile — 75 % du travail est fait par l'algorithme. Mais sans le mécanisme de longue traîne créé par le blog, <strong>l'algorithme part dans mille directions</strong> et on dépense des semaines à perte. La pub vient après le contenu, pas avant.</div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>La réforme Afdas du 1<sup>er</sup> octobre va-t-elle nous obliger à faire avancer la formation par nos clients ?</div><div class="a">Uniquement pour les <strong>clients entreprises</strong>, et uniquement si vous êtes assujetti à la TVA. Pour les particuliers et les intermittents, le circuit ne change pas : l'Afdas règle l'OF directement. Le stagiaire doit simplement fournir son attestation de fin de formation. Le vrai problème, ce sont les <strong>plafonds de prise en charge qui baissent</strong>.</div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Avec la certification Qualiopi qu'on a, peut-on utiliser les fonds CPF des gens ?</div><div class="a">Non. <strong>Qualiopi ne donne pas accès au CPF.</strong> Il faut en plus une formation éligible au Répertoire Spécifique (6 à 8 mois de procédure) et un compte EDOF validé manuellement (2 mois). Le raccourci : passer par un certificateur existant, qui a l'obligation de louer sa certification.</div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Chaque certification est dédiée à un métier, ou en existe-t-il une globale pour la post-production ?</div><div class="a">Il faut chercher par mots-clés métier. Certaines fiches sont très générales (« Réalisateur audiovisuel et cinématographique, option production image / post-production ») mais ce sont en général des <strong>RNCP</strong>, dont le niveau d'exigence est bien plus élevé et l'accès bien plus complexe. Pour démarrer, viser le RS.</div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Dans l'état actuel, on ne peut donc actionner que l'Afdas ?</div><div class="a">Pour l'instant oui — mais <strong>vous pourriez déjà actionner le FIF PL et l'Agefice</strong>. Il suffit de monter un premier dossier avec chacun. Les OPCO ne sont pas compliqués ; il n'y a que le CPF qui l'est, parce que c'est là qu'est l'argent.</div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>On peut faire entrer des financeurs sans leur céder le contrôle ?</div><div class="a">Oui, et c'est plus facile en SAS. On détermine des associés fondateurs qui ne peuvent pas être dilués à un simple pourcentage, et on accueille des apporteurs qui abondent sans droit de vote équivalent. <strong>La difficulté est de le faire accepter</strong> — d'où l'importance de valoriser les locaux, l'isolation et la correction acoustique, et pas seulement le capital social.</div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Un MacBook d'entrée de gamme à 800 € suffira-t-il pour le travail d'Emma ?</div><div class="a">Le stack complet (assistant IA en ligne de commande, Homebrew, Python, Git, site statique local) tourne autour de <strong>4 à 5 Go</strong>. Sur 8 Go de RAM, ça passe — avec pour seul point de vigilance le navigateur, qui sature vite si on ouvre trop d'onglets. Ce sera de toute façon deux à quatre fois plus puissant que la machine actuelle.</div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>On demande simplement à la webmaster de créer un sous-domaine ?</div><div class="a">Ce n'est pas si simple. Il faut lui dire <strong>ce qu'on veut faire</strong>, pas lui demander une manipulation. Chaque hébergeur fonctionne différemment : certains créent le sous-domaine et donnent la ligne CNAME, d'autres demandent d'abord l'hébergement puis les enregistrements DNS. <strong>Première étape : appeler, exposer l'objectif, demander la procédure.</strong> Ensuite on déploie.</div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Emma va passer beaucoup de temps au téléphone — la formation ne va-t-elle pas être bâclée ?</div><div class="a">Au contraire : mieux vaut <strong>étaler l'accompagnement</strong> plutôt que le comprimer. Rythme proposé : deux demi-journées par semaine (par exemple lundi matin et vendredi), avec des blocs ajoutés en cours de semaine selon les besoins, jusqu'à la coupure de Noël. Et un canal direct pour les déblocages ponctuels.</div></div>
+
+  </div>
+</section>
+
+<!-- PLAN -->
+<section class="plan" id="plan">
+  <h2>🎯 Plan d'action</h2>
+  <p>Ce qui a été décidé en fin de session, par priorité.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Priorité</th><th>Action</th><th>Qui</th><th>Quand</th></tr></thead>
+    <tbody>
+      <tr><td><span class="pri p1">Urgent</span></td><td>Appeler l'hébergeur : exposer le projet de sous-domaine blog et demander la procédure exacte</td><td>Loïc / Emma</td><td>Aujourd'hui</td></tr>
+      <tr><td><span class="pri p1">Urgent</span></td><td>Débloquer la création de l'adresse e-mail manquante auprès du partenaire</td><td>Loïc</td><td>Aujourd'hui</td></tr>
+      <tr><td><span class="pri p1">Urgent</span></td><td>Décider et acheter la machine d'Emma (Apple Store / Fnac, puis mises à jour + installation des dépendances)</td><td>Loïc</td><td>Cette semaine</td></tr>
+      <tr><td><span class="pri p1">Urgent</span></td><td>Démarrer la prospection téléphonique « un par un » sur la liste des adhérents du réseau local</td><td>Emma</td><td>Dès cette semaine</td></tr>
+      <tr><td><span class="pri p2">Important</span></td><td>Répondre à l'appel d'offres reçu (1 à 2 h maximum, pas plus)</td><td>Emma + appui</td><td>Cette semaine</td></tr>
+      <tr><td><span class="pri p2">Important</span></td><td>Réorienter la ligne éditoriale du blog : audiovisuel et post-production, plus l'intermittence</td><td>Loïc valide, Emma exécute</td><td>Cette semaine</td></tr>
+      <tr><td><span class="pri p2">Important</span></td><td>Déployer le blog sur Cloudflare + sous-domaine, avec déploiement automatique</td><td>Session dédiée</td><td>Dès retour hébergeur</td></tr>
+      <tr><td><span class="pri p2">Important</span></td><td>Monter un premier dossier FIF PL et un premier dossier Agefice</td><td>Loïc</td><td>Sous 2 semaines</td></tr>
+      <tr><td><span class="pri p3">Structurant</span></td><td>Chercher une certification RS sur France Compétences et contacter 3 à 5 certificateurs</td><td>Loïc / Emma</td><td>Sous 1 mois</td></tr>
+      <tr><td><span class="pri p3">Structurant</span></td><td>Identifier les associations et structures régionales financées pour des formations audiovisuelles → les démarcher comme donneurs d'ordre</td><td>Emma</td><td>En continu</td></tr>
+      <tr><td><span class="pri p3">Structurant</span></td><td>Préparer l'argumentaire de valorisation (locaux, isolation, acoustique) pour les financeurs potentiels</td><td>Loïc</td><td>Sous 1 mois</td></tr>
+      <tr><td><span class="pri p3">Structurant</span></td><td>Nouveau rythme : sessions calées jusqu'à fin d'année, compte rendu d'actions chaque lundi</td><td>Tous</td><td>À partir de lundi prochain</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- QUIZ -->
+<section class="quiz" id="quiz">
+  <h2>🧠 Quiz de validation</h2>
+  <p>5 questions pour vérifier que les points clés sont bien passés.</p>
+
+  <div class="qz" data-good="2">
+    <div class="qt">1. Pourquoi lancer des campagnes Google Ads avant d'avoir un blog est-il une erreur ?</div>
+    <button class="opt">Parce que Google Ads coûte trop cher pour une PME</button>
+    <button class="opt">Parce qu'il faut obligatoirement une certification pour faire de la publicité</button>
+    <button class="opt">Parce que sans contenu de longue traîne, l'algorithme ne trouve pas la cible et on dépense à perte</button>
+    <button class="opt">Parce que Google refuse les annonceurs sans historique</button>
+    <div class="fb">L'algorithme fait 75 % du travail — mais il a besoin de pages qui correspondent exactement aux requêtes. Sans cela, il part dans mille directions. Et renvoyer la pub vers la home page ne convertit jamais.</div>
+  </div>
+
+  <div class="qz" data-good="1">
+    <div class="qt">2. Avoir Qualiopi permet-il de mobiliser le CPF de ses stagiaires ?</div>
+    <button class="opt">Oui, Qualiopi est justement la certification qui ouvre le CPF</button>
+    <button class="opt">Non : il faut en plus une formation éligible au RS et un compte EDOF validé</button>
+    <button class="opt">Oui, à condition d'être aussi référencé Afdas</button>
+    <button class="opt">Non, le CPF est réservé aux écoles RNCP</button>
+    <div class="fb">Qualiopi et le NDA sont nécessaires mais insuffisants. Il faut une certification RS (6 à 8 mois) ou la location de la certification d'un certificateur, plus un compte EDOF validé manuellement (2 mois).</div>
+  </div>
+
+  <div class="qz" data-good="2">
+    <div class="qt">3. Pourquoi un programme positionné à 1 650 € plutôt qu'à 1 800 € ?</div>
+    <button class="opt">C'est le prix moyen du marché de la formation audiovisuelle</button>
+    <button class="opt">C'est le seuil au-delà duquel l'Afdas refuse la prise en charge</button>
+    <button class="opt">150 € obligatoires de la poche du stagiaire + 1 500 € de plafond CPF = le maximum mobilisable sans reste à charge</button>
+    <button class="opt">C'est le plafond fixé par France Compétences pour les certifications RS</button>
+    <div class="fb">Depuis 2025, le stagiaire doit obligatoirement mettre 150 € de sa poche. Le plafond CPF sur une certification RS étant d'environ 1 500 €, un prix à 1 650 € passe tout seul dès que la personne a 1 500 € de solde.</div>
+  </div>
+
+  <div class="qz" data-good="0">
+    <div class="qt">4. Pourquoi créer une structure séparée pour l'activité de formation ?</div>
+    <button class="opt">Parce qu'une seule activité assujettie à la TVA dans la structure fait tomber l'exonération sur toute l'activité</button>
+    <button class="opt">Parce que Qualiopi interdit de cumuler formation et prestation</button>
+    <button class="opt">Parce que c'est obligatoire pour obtenir un numéro de déclaration d'activité</button>
+    <button class="opt">Parce que les OPCO ne financent que les structures mono-activité</button>
+    <div class="fb">La règle piège : si une partie de l'activité est assujettie, tout l'est. Une structure dédiée, sans aucune dépense étrangère à la formation, coûte un bilan comptable de plus et supprime le risque.</div>
+  </div>
+
+  <div class="qz" data-good="3">
+    <div class="qt">5. Quelle est l'action la plus rentable à court terme pour le studio ?</div>
+    <button class="opt">Publier 20 articles de blog le plus vite possible</button>
+    <button class="opt">Déposer une certification RS auprès de France Compétences</button>
+    <button class="opt">Lancer une campagne Google Ads sur la marque</button>
+    <button class="opt">Prendre le téléphone et appeler un par un chaque contact du réseau pour identifier les besoins immédiats</button>
+    <div class="fb">Le blog et la certification sont structurants mais lents. À très court terme, seule la prospection directe fait rentrer des affaires — avec, si besoin, une remise justifiée et temporaire plutôt qu'un rabais sec.</div>
+  </div>
+
+  <div class="score" id="score"></div>
+</section>
+
+<footer>
+  <p><b>Producteur à Succès</b> — Session de mentorat privé du 14 septembre 2026</p>
+  <p style="margin-top:6px;font-size:13px;opacity:.8">Support généré à partir de la transcription intégrale de la session (1 h 31)</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var bar = document.getElementById('progress');
+  function upd(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', upd, {passive:true});
+  window.addEventListener('resize', upd);
+  upd();
+
+  var answered = 0, correct = 0;
+  var total = document.querySelectorAll('.qz').length;
+  document.querySelectorAll('.qz').forEach(function(q){
+    var good = parseInt(q.getAttribute('data-good'), 10);
+    var opts = q.querySelectorAll('.opt');
+    opts.forEach(function(o, i){
+      o.addEventListener('click', function(){
+        if (q.dataset.done) return;
+        q.dataset.done = '1';
+        answered++;
+        if (i === good) correct++;
+        opts.forEach(function(x, j){
+          if (j === good) x.classList.add('good');
+          else if (j === i) x.classList.add('bad');
+          x.style.cursor = 'default';
+        });
+        q.querySelector('.fb').classList.add('show');
+        if (answered === total) {
+          var s = document.getElementById('score');
+          s.textContent = 'Score : ' + correct + ' / ' + total + (correct === total ? ' — parfait 🎯' : (correct >= total - 1 ? ' — très bien 👏' : ' — une relecture des sections concernées s\'impose 📘'));
+          s.classList.add('show');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session de mentorat #1 — Ivaanyh | 14 septembre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED; --primary-dark:#4C1D95; --primary-light:#EDE9FE;
+  --accent:#F59E0B; --accent-light:#FEF3C7;
+  --success:#10B981; --success-light:#D1FAE5;
+  --danger:#EF4444; --danger-light:#FEE2E2;
+  --info:#3B82F6; --info-light:#DBEAFE;
+  --ink:#1A1523; --muted:#5B5670; --line:#E7E4EF; --bg:#FAF9FC; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+.progress-wrap{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(108,58,237,.12);z-index:999}
+#progress{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+.wrap{max-width:940px;margin:0 auto;padding-inline:20px}
+
+.hero{background:linear-gradient(140deg,#3B1D80 0%,#6C3AED 55%,#8B5CF6 100%);color:#fff;padding-block:60px 52px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{content:"";position:absolute;left:-60px;bottom:-120px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.05)}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:700;margin-bottom:14px;position:relative;z-index:2}
+.hero .sub{font-size:17px;opacity:.92;max-width:680px;position:relative;z-index:2}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;position:relative;z-index:2}
+.meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:7px 14px;border-radius:10px;font-size:13.5px;font-weight:500}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:-32px;position:relative;z-index:5;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.toc h2{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:16px;color:var(--primary-dark)}
+.toc ol{list-style:none;counter-reset:toc;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.toc li{counter-increment:toc}
+.toc a{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink);padding:9px 10px;border-radius:10px;font-size:14.5px;transition:background .15s}
+.toc a:hover{background:var(--primary-light);color:var(--primary-dark)}
+.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);font-size:13px;flex-shrink:0;padding-top:1px}
+
+section.chap{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+section.chap>.bar{height:5px;background:var(--primary)}
+.chap[data-c="a"]>.bar{background:var(--accent)} .chap[data-c="g"]>.bar{background:var(--success)}
+.chap[data-c="b"]>.bar{background:var(--info)} .chap[data-c="r"]>.bar{background:var(--danger)}
+.chead{padding:26px 28px 0;display:flex;gap:14px;align-items:center}
+.cnum{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--primary-light);color:var(--primary-dark);display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px}
+.chap[data-c="a"] .cnum{background:var(--accent-light);color:#92400E}
+.chap[data-c="g"] .cnum{background:var(--success-light);color:#065F46}
+.chap[data-c="b"] .cnum{background:var(--info-light);color:#1E40AF}
+.chap[data-c="r"] .cnum{background:var(--danger-light);color:#991B1B}
+.chead h2{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.25;font-weight:700}
+.tc{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-top:3px}
+.cbody{padding:18px 28px 28px}
+.cbody p{margin-bottom:14px}
+.cbody h3{font-family:'Space Grotesk',sans-serif;font-size:16.5px;margin:22px 0 10px;color:var(--primary-dark)}
+.cbody ul,.cbody ol{margin:0 0 14px 20px}
+.cbody li{margin-bottom:7px}
+strong{font-weight:650;color:#2D2540}
+em.q{font-style:italic;color:#413655}
+
+.box{border-radius:12px;padding:16px 18px;margin:18px 0;border-left:4px solid;font-size:15px}
+.box .bt{display:block;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.box p:last-child{margin-bottom:0}
+.b-key{background:var(--primary-light);border-color:var(--primary)} .b-key .bt{color:var(--primary-dark)}
+.b-warn{background:var(--accent-light);border-color:var(--accent)} .b-warn .bt{color:#92400E}
+.b-tip{background:var(--success-light);border-color:var(--success)} .b-tip .bt{color:#065F46}
+.b-info{background:var(--info-light);border-color:var(--info)} .b-info .bt{color:#1E40AF}
+.b-danger{background:var(--danger-light);border-color:var(--danger)} .b-danger .bt{color:#991B1B}
+
+.tbl{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:12px 14px;font-weight:600;font-size:13.5px}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#FBFAFE}
+
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.pc>div{border-radius:12px;padding:16px 18px;font-size:14.5px}
+.pc .ok{background:var(--success-light);border:1px solid #A7F3D0}
+.pc .ko{background:var(--danger-light);border:1px solid #FECACA}
+.pc h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.pc .ok h4{color:#065F46} .pc .ko h4{color:#991B1B}
+.pc ul{margin:0 0 0 18px} .pc li{margin-bottom:5px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px;margin:18px 0}
+.card{background:#FBFAFE;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h4{font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:6px;color:var(--primary-dark)}
+.card p{font-size:14px;color:var(--muted);margin:0}
+
+.tl{list-style:none;margin:18px 0;padding-left:26px;border-left:2px dashed var(--line)}
+.tl li{position:relative;margin-bottom:16px;font-size:15px}
+.tl li::before{content:"";position:absolute;left:-33px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light)}
+.tl b{display:block;font-family:'Space Grotesk',sans-serif;color:var(--primary-dark)}
+
+details{border:1px solid var(--line);border-radius:12px;margin:14px 0;background:#FBFAFE}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:15px;color:var(--primary-dark);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+details[open] summary::before{content:"▾ "}
+details .dc{padding:0 18px 16px;font-size:14.5px}
+
+.pull{margin:22px 0;padding:20px 24px;border-radius:14px;background:linear-gradient(120deg,#2D1B69,#4C1D95);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:19px;line-height:1.45;font-weight:600}
+.pull span{display:block;margin-top:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;opacity:.7;letter-spacing:.03em}
+
+.qa{border:1px solid var(--line);border-radius:14px;margin-bottom:14px;overflow:hidden;background:var(--card)}
+.qa .q{background:linear-gradient(90deg,var(--primary-light),#F6F3FF);padding:14px 18px;font-weight:650;color:var(--primary-dark);font-size:15.5px;display:flex;gap:10px}
+.qa .q span{flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.qa .a{padding:16px 18px;font-size:15px}
+
+.plan{background:linear-gradient(140deg,#0F172A,#1E1B4B);color:#fff;border-radius:18px;padding:30px 28px;margin-top:26px}
+.plan h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:8px}
+.plan>p{opacity:.8;margin-bottom:20px;font-size:15px}
+.chk{list-style:none;margin:0;padding:0}
+.chk li{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;margin-bottom:9px;font-size:15px;cursor:pointer;transition:background .15s}
+.chk li:hover{background:rgba(255,255,255,.09)}
+.chk .bx{flex-shrink:0;width:20px;height:20px;border:2px solid rgba(255,255,255,.4);border-radius:6px;margin-top:3px;display:grid;place-items:center;font-size:13px;font-weight:700;color:transparent}
+.chk li.done .bx{background:var(--success);border-color:var(--success);color:#fff}
+.chk li.done .tx{opacity:.5;text-decoration:line-through}
+.chk .tx b{display:block;font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.04em;text-transform:uppercase;opacity:.65;margin-bottom:2px}
+
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px;margin-top:26px}
+.quiz h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:6px;color:var(--primary-dark)}
+.quiz>p{color:var(--muted);margin-bottom:22px;font-size:15px}
+.qz{margin-bottom:24px;padding-bottom:22px;border-bottom:1px dashed var(--line)}
+.qz:last-of-type{border-bottom:none}
+.qz .qt{font-weight:650;margin-bottom:12px;font-size:15.5px}
+.opt{display:block;width:100%;text-align:left;background:#FBFAFE;border:1.5px solid var(--line);border-radius:10px;padding:11px 15px;margin-bottom:8px;cursor:pointer;font-family:inherit;font-size:14.5px;color:var(--ink);transition:all .15s}
+.opt:hover{border-color:var(--primary);background:var(--primary-light)}
+.opt.good{background:var(--success-light);border-color:var(--success);font-weight:600}
+.opt.bad{background:var(--danger-light);border-color:var(--danger)}
+.fb{display:none;margin-top:10px;padding:12px 15px;border-radius:10px;font-size:14.5px;background:var(--info-light);border-left:4px solid var(--info)}
+.fb.show{display:block}
+.score{margin-top:20px;padding:16px;border-radius:12px;background:var(--primary-light);text-align:center;font-weight:650;color:var(--primary-dark);display:none}
+.score.show{display:block}
+
+footer{text-align:center;padding-block:40px 50px;color:var(--muted);font-size:14px}
+footer b{color:var(--primary-dark);font-family:'Space Grotesk',sans-serif}
+
+@media(max-width:640px){
+  .pc{grid-template-columns:1fr}
+  .chead{padding:22px 18px 0} .cbody{padding:16px 18px 22px}
+  .toc{padding:22px 18px} .plan,.quiz{padding:24px 18px}
+  .hero h1{font-size:27px} .pull{font-size:17px;padding:18px}
+}
+@media print{
+  .progress-wrap{display:none} body{background:#fff}
+  section.chap,.toc,.quiz{box-shadow:none;break-inside:avoid}
+  .opt{display:none}
+}
+</style>
+</head>
+<body>
+<div class="progress-wrap"><div id="progress"></div></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">Mentorat artiste · Session #1 · 14 septembre 2026</div>
+    <h1>Débloquer la création avant de construire<br>la stratégie</h1>
+    <p class="sub">Première session : poser le cadre, clarifier les objectifs — et identifier le vrai goulot d'étranglement. Avant le marketing, avant les réseaux, avant le live : retrouver le plaisir de créer.</p>
+    <div class="meta">
+      <span>⏱ 2 h 15</span>
+      <span>🎙 Tarik Hamiche</span>
+      <span>🎤 Ivaanyh</span>
+      <span>📌 41 chapitres</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<nav class="toc">
+  <h2>Au programme</h2>
+  <ol>
+    <li><a href="#s1">Le cadre du mentorat</a></li>
+    <li><a href="#s2">Les objectifs posés à plat</a></li>
+    <li><a href="#s3">Le vrai goulot d'étranglement</a></li>
+    <li><a href="#s4">Pourquoi il faut créer beaucoup</a></li>
+    <li><a href="#s5">L'intention plutôt que le contrôle</a></li>
+    <li><a href="#s6">Muscler la gratitude</a></li>
+    <li><a href="#s7">Le corps commande, l'esprit suit</a></li>
+    <li><a href="#s8">Le parallèle des tractions</a></li>
+    <li><a href="#s9">Se reconnecter au plaisir</a></li>
+    <li><a href="#s10">Les collaborations comme levier</a></li>
+    <li><a href="#s11">Sortir un titre : la vraie stratégie</a></li>
+    <li><a href="#s12">Le fonctionnement entre les sessions</a></li>
+    <li><a href="#qa">Questions / Réponses</a></li>
+    <li><a href="#plan">Plan d'action</a></li>
+    <li><a href="#quiz">Quiz de validation</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="chap" id="s1" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">01</div><div><h2>Le cadre du mentorat</h2><div class="tc">⏱ 00:00 – 04:30</div></div></div>
+  <div class="cbody">
+    <p>La session s'ouvre sur le fonctionnement de l'accompagnement lui-même, avant tout contenu.</p>
+    <div class="cards">
+      <div class="card"><h4>Chaque session enregistrée</h4><p>Le lien de la vidéo, chapitrée, est envoyé par email après la session.</p></div>
+      <div class="card"><h4>Un résumé HTML</h4><p>Les points clés, le plan d'action à cocher, la FAQ des questions posées.</p></div>
+      <div class="card"><h4>À toi pour toujours</h4><p>Le replay et le support restent disponibles : on peut y revenir quand on veut.</p></div>
+    </div>
+    <h3>Le niveau d'intensité se choisit</h3>
+    <p>Un principe repris d'un coach personnel : <em class="q">« Est-ce que tu veux que je te mette une branlée ou est-ce qu'on y va tranquille ? Est-ce que tu veux que je te dise tout ce qui ne va pas ou qu'on se concentre sur l'essentiel ? »</em> C'est l'artiste qui donne le ton, le mentor s'adapte.</p>
+    <div class="box b-key"><span class="bt">Choix posé en session</span><p>Intensité maximale, et <strong>transparence totale</strong> : pas de brossage dans le sens du poil. En échange, l'expérience du mentor est partagée sans filtre, et l'échange reste à double sens.</p></div>
+    <div class="box b-info"><span class="bt">Le rituel de départ de chaque accompagnement</span><p>Mettre de la clarté. Deux questions, avec ses propres mots : <strong>vers quoi tu tends</strong> (trimestre, semestre, année, 5 ans) et <strong>ce que tu attends de cet accompagnement</strong>.</p></div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="chap" id="s2" data-c="">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">02</div><div><h2>Les objectifs posés à plat</h2><div class="tc">⏱ 04:30 – 10:04</div></div></div>
+  <div class="cbody">
+    <div class="tbl"><table>
+      <thead><tr><th>Axe</th><th>Objectif posé</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Création</strong></td><td>Construire un catalogue régulier et qui lui ressemble · terminer et sortir l'EP en cours · créer de nouvelles chansons régulièrement · réaliser au moins une belle collaboration</td></tr>
+        <tr><td><strong>Visibilité</strong></td><td>Construire une vraie communauté (des gens là pour la musique, pas pour les stories) · ≈ 50 K sur l'ensemble des réseaux sur un an · développer la chaîne YouTube · tenir une régularité de contenu, pas seulement au moment des sorties</td></tr>
+        <tr><td><strong>Live</strong></td><td>Arrêter de subir les dates entrantes · passer à un démarchage proactif · festivals, salles, premières parties, France et étranger</td></tr>
+        <tr><td><strong>Business</strong></td><td>Augmenter le chiffre d'affaires annuel de façon réaliste : live, prestations, droits, synchro, voix off, partenariats de marque</td></tr>
+        <tr><td><strong>Équipe</strong></td><td>Rester indépendante avec sa propre structure, tout en construisant progressivement une équipe de spécialistes : management, booking, distribution, production/mix, relations publiques ponctuelles</td></tr>
+        <tr><td><strong>Personnel</strong></td><td>Devenir régulière, autonome et fiable envers elle-même · ne plus dépendre de l'urgence · savoir quoi faire chaque jour · terminer et exécuter même quand ce n'est pas parfait</td></tr>
+      </tbody>
+    </table></div>
+    <div class="box b-warn"><span class="bt">La question qui recadre</span><p><em class="q">« Si tu ne devais en choisir qu'un seul, ce serait lequel ? »</em> — Réponse : le live, parce qu'il touche tout le reste (rencontres, fan base, revenus, visibilité). Puis la contre-question : <em class="q">« Selon toi, il n'y a pas d'autre moyen de gagner en visibilité sans le live ? »</em> Il y en a énormément en 2026.</p></div>
+    <div class="box b-key"><span class="bt">Ce qui ressort de l'exercice</span><p>La création est écartée de la liste des priorités — <em class="q">« ça dépend de moi »</em>. C'est précisément là que se trouve le problème : <strong>1 EP l'année dernière, 1 seul titre depuis</strong>. Le reste de la session part de là.</p></div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="chap" id="s3" data-c="r">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">03</div><div><h2>Le vrai goulot d'étranglement</h2><div class="tc">⏱ 10:04 – 20:32</div></div></div>
+  <div class="cbody">
+    <p>Le blocage n'est pas technique, ni financier. Il est identifié et nommé pendant la session : <strong>perfectionnisme, insatisfaction chronique, remise en question permanente</strong> — et l'absence d'un regard extérieur qui dise « stop, le titre est bien, tu balances ».</p>
+    <h3>Le process créatif actuel</h3>
+    <ul class="tl">
+      <li><b>L'écriture d'abord</b>Le texte vient en amont, souvent sans instru — sauf quand une mélodie existe déjà (piano-voix ou guitare-voix).</li>
+      <li><b>La prod ensuite</b>Aujourd'hui : un prompt IA pour obtenir une base acoustique. Avant : beatmaking maison sur banque de sons, puis un « yaourt » sur lequel écrire le texte.</li>
+      <li><b>Les voix à la maison</b>Enregistrées seule, ce qui coûte moins cher mais prend beaucoup plus de temps — chaque prise devant être « un peu parfaite ».</li>
+    </ul>
+    <div class="box b-info"><span class="bt">Ce qui manquait avant</span><p>Les premiers sons se faisaient en studio, en une journée, avec quelqu'un aux manettes : arrivée en piano-voix, résultat à 80 % le soir même. Une reverb et des presets qui donnent envie, deux prises, et on passe. Le coût (600 € puis 1 000 € le titre) a mis fin à cette méthode — mais <strong>c'est aussi le confort et le plaisir qui ont disparu avec</strong>.</p></div>
+    <h3>D'où vient le blocage</h3>
+    <p>Plusieurs éléments remontent : une famille où la musique n'était pas valorisée, un grand frère déjà installé dans la musique qui considérait que seuls les auteurs étaient de vrais artistes — et une entrée dans la carrière où il a fallu casser ces codes pour s'autoriser à écrire, alors que l'envie de départ était simplement de chanter.</p>
+    <div class="box b-warn"><span class="bt">Le pattern observé</span><p>Les phases de déblocage existent : après certaines séances de travail personnel, l'écriture coule. <strong>Mais l'effet dure deux ou trois jours</strong>, puis s'estompe — et se reproduit de moins en moins à chaque tentative. <em class="q">« Plus j'essaye, moins j'y arrive. »</em></p></div>
+    <div class="pull">« Si tu retires ça, tu retires tout le goulot d'étranglement qui t'empêche d'avancer. »<span>Le diagnostic de la session</span></div>
+    <div class="box b-danger"><span class="bt">La conséquence en cascade</span><p>Quand il y a de la matière, l'énergie promo vient toute seule : on est fier de ce qu'on présente, aucun effort de motivation à fournir. Quand il ne reste que deux titres et rien derrière, à quoi bon les travailler ? <strong>C'est comme ouvrir un magasin sans avoir de stock.</strong></p></div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="chap" id="s4" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">04</div><div><h2>Pourquoi il faut créer beaucoup</h2><div class="tc">⏱ 20:32 – 25:00</div></div></div>
+  <div class="cbody">
+    <p>Au-delà de toute stratégie digitale ou marketing, <strong>le point le plus important, c'est le rythme de production</strong>. Les artistes qui ont un vrai succès — c'est encore plus visible chez les Américains — produisent tout le temps. La question « tu as un album en préparation ? » ne se pose même pas : il y en a huit de côté et trois en cours.</p>
+    <div class="box b-key"><span class="bt">La nuance essentielle</span><p>Il ne s'agit pas de <em>sortir</em> beaucoup de morceaux — ce serait une erreur. Il s'agit d'en <strong>créer</strong> beaucoup. Parce que dans la masse, il y a un mécanisme qui ne s'explique pas : les pépites sortent. Sur une année, une seule suffit à te lancer et à te faire tourner.</p></div>
+    <h3>La réalité des carrières</h3>
+    <p>Même les légendes n'ont pas quarante tubes. La plupart des artistes à succès ont un, deux ou trois titres marquants sur cinq ou six albums. Il n'existe pas de recette pour faire hit sur hit : on peut faire des morceaux bankable, radiophoniques, grand public — mais les vrais hits, ceux qu'on réécoute et qu'on fait écouter à ses enfants, sont rares dans une carrière.</p>
+    <div class="box b-tip"><span class="bt">La théorie appliquée</span><p><strong>Plus tu en fais, plus tu t'en rapproches.</strong> C'est une question de probabilité : tu augmentes tes chances. Première étape : foi et force de production, foi et force de proposition.</p></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="chap" id="s5" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">05</div><div><h2>L'intention plutôt que le contrôle</h2><div class="tc">⏱ 25:00 – 32:30 · 38:32 – 43:32 · 53:30 – 60:30</div></div></div>
+  <div class="cbody">
+    <h3>L'exercice de la balade</h3>
+    <ul class="tl">
+      <li><b>Le décor</b>Dehors, idéalement en nature : forêt, plage. Une heure, seule.</li>
+      <li><b>Le protocole</b>Rien. Pas de téléphone, pas d'écouteurs, pas de contenu inspirant. Rien du tout.</li>
+      <li><b>L'intention</b>Une seule : <em class="q">« Je veux rentrer avec une piste. »</em> Pas une solution — une piste.</li>
+      <li><b>Le piège</b>La première fois, ça ne vient pas. C'est là que la plupart des gens arrêtent. Exactement comme un grand écart : le corps est élastique, il s'adapte. Certains en un mois, d'autres en un an — mais ça vient.</li>
+    </ul>
+    <div class="box b-info"><span class="bt">La base scientifique</span><p>La neuroplasticité est documentée depuis les années 50. <strong>Plus un humain s'auto-questionne, plus il se rapproche de la réponse jusqu'à l'obtenir.</strong> Le cerveau se réorganise pour ouvrir des chemins auxquels on n'aurait jamais pensé. Certaines expériences accélèrent ce processus — c'est probablement ce qui se passe lors des séances qui débloquent.</p></div>
+    <div class="box b-tip"><span class="bt">Trouver son déclencheur</span><p>Chacun a un endroit où le cerveau bascule tout seul, sans effort. Pour Tarik : <strong>le jacuzzi et les avions</strong>. Deux minutes, et tout s'éclaire — « ça fait un mois qu'on bute là-dessus et il n'y avait qu'à faire ça ». L'enjeu n'est pas de reproduire ce déclencheur-là, c'est de trouver le sien.</p></div>
+    <div class="box b-warn"><span class="bt">Le point auquel personne ne pense</span><p>Quand on atteint cet état, le cerveau <strong>rejette consciemment</strong> certaines pensées. On pense à un truc, ça part, on redescend — « c'est peut-être l'heure de rentrer ». Si l'on identifie les pensées qu'on refuse et qu'on se met à les accepter, on maintient l'état beaucoup plus longtemps.</p></div>
+    <h3>Pourquoi l'approche protocolaire ne marche pas</h3>
+    <p>La contradiction est nommée sans détour : l'approche est <strong>scolaire, exigeante, protocolaire</strong> — alors que c'est exactement l'inverse qui est requis. Se mettre « en mode » pour aller chercher un état de lâcher-prise est structurellement impossible.</p>
+    <div class="pull">« C'est comme demander à ton biceps et à ton triceps de se contracter en même temps. Essaye. »<span>La métaphore centrale de la session</span></div>
+    <p>Dès qu'on entre dans le contrôle, on ne peut plus absorber ce niveau d'énergie. On peut avoir le sentiment de l'atteindre, se donner l'illusion, se sentir bien par effet placebo — mais ça ne dure jamais et ça retombe.</p>
+    <div class="pull">« La réponse viendra quand tu arrêteras de la chercher avec l'intention de la trouver. »<span>Le retournement de la session</span></div>
+    <div class="box b-key"><span class="bt">Le process créatif du mentor, pour comparaison</span><p>Mille fois plus simple : <strong>aller en studio et écouter du son</strong>. Pas de plan, pas d'objectif. On écoute, on réécoute une prod qu'on trouve dingue, on commente entre amis. À force de ne toucher à rien, on n'a plus qu'une envie : s'y mettre. C'est le plaisir qui déclenche, pas la contrainte.</p></div>
+    <details><summary>L'intention en action : comment Muzisecur a été sauvé</summary><div class="dc">Le développeur quitte la plateforme du jour au lendemain. Aucune compétence en code côté dirigeant, application complexe, tout construit par une seule personne. L'intention de départ était modeste : <em>tenir un mois de plus, le temps d'annoncer l'arrêt aux membres</em>.<br><br>Entrée dans le jacuzzi, sans forcer, en pensant à autre chose. Puis l'enchaînement : « je crée des sites avec l'IA… une application n'est rien de plus qu'un site avec des besoins opérationnels… peut-être qu'une IA peut m'apprendre à coder, ou au moins m'expliquer comment l'app est structurée ».<br><br>Résultat : plusieurs heures de travail avec l'IA — schémas, explications répétées, quiz de vérification — jusqu'à tout comprendre. Deux semaines plus tard, le constat extérieur : <em>« tu as fait plus pour la plateforme en deux semaines que lui en deux ans »</em>.<br><br>Et le contre-exemple : un montage financier bloqué pendant <strong>un an</strong>. Jacuzzi, plage, Portugal — puis un matin, la réponse. Avocat : légal. Comptable : légal. Un ami : « plein de gens font ça ». Des fois c'est immédiat, des fois c'est un an. L'essentiel est de ne jamais lâcher et de revenir dessus.</div></details>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="chap" id="s6" data-c="">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">06</div><div><h2>Muscler la gratitude</h2><div class="tc">⏱ 32:30 – 38:32 · 49:32 – 53:30</div></div></div>
+  <div class="cbody">
+    <div class="box b-info"><span class="bt">Le principe de fond</span><p>Le bien-être se construit et s'entretient <strong>exactement comme un muscle ou un cardio</strong>. Ce n'est pas un état qu'on a ou qu'on n'a pas : c'est un entraînement quotidien, avec des exercices dédiés.</p><p style="margin-top:8px;font-size:14px;opacity:.85">Un ouvrage de référence sur ce principe a été cité en session — la transcription automatique n'a pas retranscrit le nom correctement, il est audible dans le replay <strong>vers 31:31</strong>. Les méthodes qu'il formalise ont été reprises par la PNL et une grande partie du développement personnel.</p></div>
+    <h3>L'exercice des trois colonnes (≈ 10 min)</h3>
+    <ul class="tl">
+      <li><b>1. Le passé</b>Revivre intégralement un moment qui a procuré un très fort niveau d'énergie, de plaisir, de joie. Yeux fermés, les images, l'intensité des couleurs. Consciemment.</li>
+      <li><b>2. Le présent</b>Revenir à l'instant présent <em>avec ce niveau d'énergie-là</em>, et trouver un élément de sa vie actuelle pour lequel on a de la gratitude.</li>
+      <li><b>3. Le futur</b>Le plus difficile. « Je vais écrire un album » — et vivre exactement le même niveau émotionnel en s'imaginant en studio, en train de créer, de composer, de le faire écouter, de le voir sortir.</li>
+    </ul>
+    <div class="box b-warn"><span class="bt">Ce qu'il faut savoir avant de commencer</span><p>Au début c'est dur à maîtriser. Bien fait, l'exercice libère beaucoup d'énergie d'un coup — ce qui peut surprendre. <strong>Et les résultats ne se voient jamais au début.</strong> Il faut tenir un à deux mois, comme le sport : au début c'est un effort, ensuite c'est l'absence qui manque.</p></div>
+    <h3>Le rituel du « bon moment »</h3>
+    <p>Tous les soirs, sans exception, même les soirs d'énervement : <em class="q">« Quel est ton meilleur moment de la journée ? »</em> Même une journée catastrophique en a un — <em class="q">« mon meilleur moment, c'est quand j'ai mis mes chaussures »</em>. Cherche et tu vas trouver.</p>
+    <div class="box b-key"><span class="bt">À adapter à la musique</span><p>Le faire sur soi <strong>en tant que personne</strong>, et aussi sur soi <strong>en tant qu'artiste</strong>. Tous les jours, trouver quelque chose. C'est là que la gratitude se greffe au projet musical.</p></div>
+    <h3>Le reproche : ce qui tue la progression</h3>
+    <p>Un constat brutal : les gens passent leur journée à reprocher — le temps, le gouvernement, la voisine. Mais <strong>les plus dangereux sont ceux qui se reprochent à eux-mêmes en permanence</strong>. Quelqu'un dit « tu es incroyable, tu es douée » → on le prend mal, on se sent mal, on rejette. On devient incapable d'accepter une énergie positive dès qu'elle nous concerne.</p>
+    <div class="box b-tip"><span class="bt">La parade</span><p>S'autoriser à accepter : « elle me trouve géniale, c'est que je dois l'être quelque part ». Et même demander — ce n'est pas déplacé : <em class="q">« Qu'est-ce qui fait que tu me trouves génial ? Raconte-moi. »</em> On en rejettera une grosse partie, mais il suffit qu'un élément passe.</p></div>
+    <h3>Les affirmations : les rendre efficaces</h3>
+    <div class="pc">
+      <div class="ko"><h4>Ce qui ne marche pas</h4><ul><li>Des affirmations génériques auxquelles on ne croit pas</li><li>Les écouter sans émotion, en fond</li><li>Affirmer un état qu'on sait faux (« je suis déjà au sommet »)</li></ul></div>
+      <div class="ok"><h4>Ce qui marche</h4><ul><li>Des affirmations écrites soi-même, spécifiques à son domaine</li><li>Les vivre <strong>avec l'émotion</strong>, pas seulement les entendre</li><li><strong>Y mettre des preuves</strong> : « je suis sur le chemin, parce que l'année dernière j'ai fait ça, et le mois dernier j'ai atteint ça »</li></ul></div>
+    </div>
+    <div class="box b-info"><span class="bt">Le test de la petite fille</span><p>Si une enfant de 7 ans venait dire « je ne réussis rien, je suis nulle », on verrait immédiatement tout ce qu'elle réussit et on le lui listerait. <strong>Le problème n'est pas l'absence de micro-victoires : c'est qu'on ne se les accorde pas à soi-même.</strong></p></div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="chap" id="s7" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">07</div><div><h2>Le corps commande, l'esprit suit</h2><div class="tc">⏱ 43:32 – 49:32 · 65:00 – 71:30</div></div></div>
+  <div class="cbody">
+    <div class="pull">« Ce n'est pas toi le problème. Tant que tu te diras que c'est toi, ce sera toi. »<span>Le point de bascule de la session</span></div>
+    <p>La démonstration est simple : si le problème était la personne, il suffirait de la retirer de l'équation pour qu'il disparaisse. Or si on la retire, il ne reste rien — donc le problème n'est pas elle. Ce qui est en cause, c'est la <strong>narrative qu'on se raconte à soi-même</strong>.</p>
+    <div class="box b-key"><span class="bt">L'image du système d'exploitation</span><p>On arrive au monde vierge de tout problème. Ce qui bloque a été installé — consciemment ou non, volontairement ou non — comme un programme. <strong>Le système d'exploitation n'est pas la machine.</strong> Ces programmes ont été installés assez longtemps pour qu'on les considère comme le mode de fonctionnement normal.</p></div>
+    <h3>L'erreur de sens</h3>
+    <div class="pc">
+      <div class="ko"><h4>Ce que font la plupart des gens</h4><ul><li>S'attaquer d'abord au mental, au cérébral</li><li>« Si je règle ce qu'il y a dans ma tête, je me sentirai mieux »</li><li>Résultat : ça gratte en surface et à court terme</li></ul></div>
+      <div class="ok"><h4>Ce qui fonctionne</h4><ul><li>Agir d'abord sur le <strong>ressenti corporel</strong></li><li>Le physique est influençable : hormones, sensations, énergie</li><li>Le corps a une mémoire — muscles, système nerveux</li><li>Et c'est lui qui remet l'esprit en place</li></ul></div>
+    </div>
+    <div class="box b-tip"><span class="bt">La preuve par la scène</span><p>Quand une scène est réussie, avec un retour du public et une énergie qui passe, il est <strong>impossible de se sentir mal sur le moment</strong>. Biceps et triceps, encore : on ne peut pas ressentir autant de plaisir et broyer du noir en même temps. C'est après, en repassant au mode par défaut, que ça se gâche.</p></div>
+    <div class="box b-info"><span class="bt">Le système réticulo-activateur</span><p>À force de répéter des états de plaisir, cette petite zone du cerveau s'active et se met à repérer dans l'environnement ce qui correspond. C'est le même mécanisme qui fait qu'une femme enceinte voit des femmes enceintes partout. <strong>Un matin, la porte que l'on croise depuis quinze ans devient visible.</strong></p></div>
+    <h3>« On n'attend rien de toi »</h3>
+    <p>La formule provoque un échange nourri — et une reformulation utile. Quand on attend quelque chose de soi, on se déçoit dès qu'on ne l'obtient pas. En revanche, se fixer des <strong>ambitions</strong> tout en se laissant la possibilité de ne pas les atteindre, c'est décorrélé du résultat : on met des actions en place, on reste aligné avec qui on est, et le reproche n'a plus prise.</p>
+    <div class="box b-key"><span class="bt">La nuance retenue</span><p>« On n'attend rien de toi » signifie : <strong>retire-toi la pression de l'obligation de fournir un résultat.</strong> Ce n'est pas un appel à la passivité — la pression reste un moteur. C'est le discours interne qui change : une ambition ne pèse pas comme une attente.</p></div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="chap" id="s8" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">08</div><div><h2>Le parallèle des tractions</h2><div class="tc">⏱ 71:30 – 82:31</div></div></div>
+  <div class="cbody">
+    <p>C'est l'image qui structure toute la fin de session, et elle répond directement à l'objection « à un moment donné il faut se bouger ».</p>
+    <div class="tbl"><table>
+      <thead><tr><th></th><th>Ceux qui stagnent</th><th>Ceux qui progressent</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Le raisonnement</strong></td><td>« J'arrive à en faire 5, donc je fais des séries de 5, tout le temps »</td><td>« J'arrive à en faire 5, donc je fais des séries de 2 ou 3 »</td></tr>
+        <tr><td><strong>Ce qui se passe</strong></td><td>Système nerveux cramé à chaque séance, récupération impossible</td><td>Système nerveux préservé, adaptations nerveuses, plus de fibres sollicitées</td></tr>
+        <tr><td><strong>Le résultat</strong></td><td>Stagnation pendant deux ans, parfois régression : 5 → 4 → 3</td><td>Un bond au bout de quelques semaines : 5 → 7, puis 10 et plus</td></tr>
+      </tbody>
+    </table></div>
+    <div class="box b-danger"><span class="bt">La transposition</span><p>Face à un mur dans son projet musical, la réaction normale est : <em class="q">« Il faut que tu bouges, que tu fasses des trucs, que tu mettes des actions en place. »</em> C'est exactement le type qui refait des séries de 5. <strong>On crame son système, on devient moins efficace, on s'aime encore moins pour ça — et on devient encore moins capable de créer.</strong></p></div>
+    <div class="box b-tip"><span class="bt">Ce que « lever le pied » veut dire ici</span><p>Il ne s'agit pas d'arrêter de bosser. Il s'agit de <strong>le faire avec plus de plaisir et de ne pas ressentir la difficulté pendant un temps</strong>. On décharge du négatif, on accumule du positif. Et un jour on entre en studio pour un titre, et on en sort trois : « on partait sur un EP, je crois que je suis chaud pour un album ».</p></div>
+    <div class="box b-warn"><span class="bt">Pourquoi c'est encore plus vrai en création</span><p>Parce que c'est lié aux émotions. Pousser trop fort, dans ce domaine, mène des artistes à des solutions qui détruisent — ce n'est simplement pas tenable dans la durée.</p></div>
+    <div class="box b-key"><span class="bt">Le recadrage final</span><p>Ralentir un peu <strong>n'est pas régresser, ni gâcher sa vie</strong>. C'est passer par un chemin un peu plus long. À court terme, moins de résultats ; en réalité, on est en train de bâtir une machine qui va beaucoup rapporter ensuite. Et de toute façon : <em>les chemins essayés jusqu'ici n'ont pas marché, alors pourquoi ne pas tester ?</em></p></div>
+    <details><summary>La contradiction repérée dans le discours</summary><div class="dc">« Je pense que je gâche ma vie à ne pas me bouger » + « je n'arrive pas à me bouger » + « je ne supporte pas de ne pas me bouger ». Les trois dans la même phrase, en boucle.<br><br>La contrepartie honnête a aussi été posée : sur un titre bouclé au printemps, se fixer « dans un mois il est enregistré et sorti » a fonctionné — et a relancé l'activité sur les réseaux. C'est ce que l'artiste appelle « s'apporter des preuves ». Les deux lectures coexistent : <strong>la discipline produit des preuves, le forçage produit de l'épuisement.</strong> Tout l'enjeu est de savoir laquelle des deux on est en train d'appliquer.</div></details>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="chap" id="s9" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">09</div><div><h2>Se reconnecter au plaisir</h2><div class="tc">⏱ 60:30 – 65:00 · 100:03 – 110:30</div></div></div>
+  <div class="cbody">
+    <div class="pull">« Reconnecte-toi au plaisir. Pas à l'effort, pas à la prochaine étape. Juste au plaisir. »<span>Le mot d'ordre de la session</span></div>
+    <h3>Le studio jamaïcain</h3>
+    <p>Rendez-vous à 10 h, les musiciens arrivent à 15 h. Cinquante personnes, des bières, du rhum, un poisson grillé dehors. L'artiste fait la sieste. Le micro n'est même pas allumé — parfois pendant une semaine entière. Ils écoutent du son, toute la journée.</p>
+    <div class="box b-key"><span class="bt">Pourquoi ça marche</span><p>Parce qu'un jour quelqu'un dit : <em class="q">« C'est quoi ce son ? Attends, fais écouter. Vire la rythmique, garde juste la voix, j'ai une idée. »</em> Et il pose un truc. <strong>C'est leur process créatif : arriver entre amis, comme à la maison.</strong></p></div>
+    <h3>Chacun son déclencheur</h3>
+    <div class="cards">
+      <div class="card"><h4>Willy William</h4><p>Composait à 5 h du matin en sortant de boîte. « Tu ne sens pas les basses ? Tu bois un verre, tu danses, tu sors de là et tu ne veux pas que ça s'arrête. Donc pour que ça ne s'arrête pas, tu crées. »</p></div>
+      <div class="card"><h4>Eminem</h4><p>Bourreau de travail. Silence total en studio, pas un bruit, pas de fumée, pas d'alcool. Son plaisir : se bâtir un avenir.</p></div>
+      <div class="card"><h4>Toi</h4><p>Il ne s'agit pas de copier l'un ou l'autre. Il s'agit de trouver ce qui, <strong>dans ton process, te ramène au plaisir</strong> — et de l'intensifier.</p></div>
+    </div>
+    <h3>Le devoir de la quinzaine</h3>
+    <div class="box b-tip"><span class="bt">La consigne exacte</span><p><strong>Se faire kiffer. Juste ça.</strong> Faire des choses inhabituelles. Repérer un bar musical avec des bœufs improvisés le soir — et y aller sans objectif précis. Écouter de la vraie musique acoustique en live, dans une salle, avec des gens qui résonnent. Personne ne sait que tu chantes. <strong>Pas de performance, personne à impressionner, pas de « après je vais en studio ».</strong> Mais si un truc touche et donne envie : ne rien retenir.</p></div>
+    <ul>
+      <li>Repérer concrètement : « on est lundi, demain il y a un truc là-bas, vendredi il y a un truc là-bas — j'y vais ».</li>
+      <li>Appeler quelqu'un de sa liste de contacts avec qui on se sent bien et qui aime la musique, sans objectif : juste renouer.</li>
+      <li>Retourner voir les potes avec qui les cinq ou six titres précédents ont été faits.</li>
+      <li>Et si ce n'est pas lié à la musique, ce n'est pas grave : le karaoké avec des copines compte aussi.</li>
+    </ul>
+    <details><summary>Le contre-exemple qui fonctionne : quatre jours de Skyjo</summary><div class="dc">Un séminaire d'artistes près de Monaco. Une DJ sous pression : beaucoup de dates partout, mais impossible de produire son premier hit. La conversation part exactement comme celle de cette session.<br><br>Le soir même, deux personnes commencent une partie d'un jeu de société. Elle s'y met, elle se sent bien — tout le monde le voit. Le lendemain : « on commence par ça, après on bosse ». Puis une deuxième partie, une troisième, ça rigole, ça change les équipes, on repousse le repas.<br><br><strong>Quatre jours comme ça.</strong> Résultat : elle a complètement débloqué, parce qu'elle avait connecté avec des vraies personnes — pas dans un cadre de réseautage. Deux de ces rencontres sont devenues ses collaborateurs réguliers.</div></details>
+    <h3>Retrouver l'enfance musicale</h3>
+    <p>Un rappel simple : les premières chansons chantées l'ont été dans une voiture ou sous la douche, pour le plaisir. <strong>C'est exactement ça qu'il faut retrouver.</strong> Les enfants ont ce réflexe naturellement : taper sur un pad sans se soucier d'être dans les temps — et l'oreille travaille quand même.</p>
+    <div class="box b-info"><span class="bt">Le témoignage de Tarik</span><p>« Quand j'ai commencé à être plus dans la partie label que dans la musique, j'ai perdu beaucoup de créativité et de plaisir à créer — c'était devenu une usine. » Aujourd'hui : une session lancée, une boucle de quatre mesures, six pistes, et si l'envie passe, on arrête et on fait autre chose. <strong>Avant je faisais de la musique pour le plaisir, puis pour en vivre ; maintenant j'en refais pour le plaisir, et c'est carrément mieux.</strong></p></div>
+    <div class="box b-tip"><span class="bt">Squatter des sessions studio</span><p>C'est ce qu'il y a de mieux. Être assis à côté pendant que quelqu'un d'autre cherche une idée qu'on a déjà, sans pouvoir la placer — « ce n'est pas ma session, je me tais ». <strong>Ça donne la dalle.</strong> Comme regarder un match de foot quand on est gamin : on n'a qu'une envie, aller sur le terrain.</p></div>
+    <div class="box b-warn"><span class="bt">La règle sous-jacente</span><p><strong>Aucune décision n'est bonne quand elle est prise par la peur.</strong> « Si je ne fais pas ça, je vais gâcher ma vie » est une décision prise par la peur. Par le plaisir, c'est autre chose.</p></div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="chap" id="s10" data-c="">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">10</div><div><h2>Les collaborations comme levier</h2><div class="tc">⏱ 85:30 – 98:00</div></div></div>
+  <div class="cbody">
+    <div class="box b-key"><span class="bt">La transaction humaine</span><p>Au-delà de l'opération business, il existe un autre type de rencontre : on ne se connaît pas, on veut collaborer parce qu'on se sent bien, parce qu'on se kiffe, et on est prêt à y investir un peu de temps pour voir où ça mène. <strong>C'est une manière de kiffer et d'être stimulé</strong> — et c'est exactement ce qui a motivé la mise en place de ce mentorat.</p></div>
+    <div class="box b-warn"><span class="bt">Pourquoi attendre ne fonctionne pas</span><p>Avec un très fort niveau d'exigence envers soi-même vient, mécaniquement, un très fort niveau d'exigence envers les autres. Résultat : on ne peut apprécier que ce qui vient naturellement à soi — et il ne vient rien. <strong>Se mettre à chercher activement change tout.</strong></p></div>
+    <h3>La méthode du vendredi</h3>
+    <ul class="tl">
+      <li><b>Deux heures bloquées</b>Le vendredi, jour des sorties : écouter plein de nouveautés.</li>
+      <li><b>Sans jugement de valeur</b>Une seule question : je vibre ou je ne vibre pas.</li>
+      <li><b>Les crédits, direct</b>Qui a écrit ? Qui a composé ? Sont-ils sur les réseaux ?</li>
+      <li><b>Écrire</b>Simplement. « Ton coup de violon, il est ouf. » Un match se fait, ou pas.</li>
+    </ul>
+    <div class="box b-info"><span class="bt">L'exemple donné en session</span><p>Un violoniste de moins de 23 ans repéré de cette façon — et qui joue, on l'apprend le lendemain, pour Céline Dion. Un appel, un match immédiat. Et l'envie de produire un morceau juste pour le faire poser dessus. <strong>Ce genre de connexion ouvre des portes qu'on ne cherchait pas.</strong></p></div>
+    <p>Le déclencheur n'a pas besoin d'être musical au sens strict : <em class="q">« Je n'aime pas sa musique, mais énergie de ouf, belle personnalité — si je peux être en studio avec, ça me fera du bien. »</em> Parfois il ne se passe rien, parfois on est déçu, parfois on est agréablement surpris. Ce n'est jamais du temps mal investi.</p>
+    <h3>Élargir le champ d'écoute</h3>
+    <div class="box b-danger"><span class="bt">Le point faible identifié</span><p>Très peu d'écoute de musique, et du mal à trouver des artistes qui provoquent un vrai déclic. <strong>En tant qu'artiste, connaître son environnement n'est pas optionnel</strong> — et c'est aussi la matière première des collaborations.</p></div>
+    <div class="box b-tip"><span class="bt">Où chercher</span><p>Pas seulement en France. La culture musicale française est orientée vers la chanson populaire festive et la variété à texte : la voix y est moins mise en avant qu'à l'époque des grandes voix. Les meilleures voix entendues viennent souvent de <strong>Suisse, de Belgique, du Canada</strong> — et ailleurs. <strong>Les artistes les plus incroyables sont souvent les moins visibles</strong> : il faut prendre le temps de les chercher.</p></div>
+    <div class="box b-key"><span class="bt">Et pour finir sur ce point</span><p>« Les meilleurs morceaux que tu feras, ce sont des morceaux que tu feras avec des gens. <strong>C'est rarement seul qu'on sort les meilleurs sons.</strong> »</p></div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="chap" id="s11" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">11</div><div><h2>Sortir un titre : la vraie stratégie</h2><div class="tc">⏱ 119:33 – 134:02</div></div></div>
+  <div class="cbody">
+    <div class="box b-warn"><span class="bt">D'abord, retirer la pression</span><p><strong>La « stratégie de sortie » telle qu'on l'imaginait il y a quinze ans n'existe plus.</strong> Si tu as envie de sortir le titre, sors-le. Si tu n'as pas envie, ne le sors pas. Quant au choix entre deux versions : tu peux sortir les deux, une seule, ou aucune — il n'y a pas de règle.</p></div>
+    <p>Sur le titre soumis avant la session, la préférence exprimée va à <strong>la version acoustique guitare-voix</strong> (prod réalisée avec l'IA), plutôt qu'à la version électro.</p>
+    <h3>Les deux vraies questions</h3>
+    <div class="cards">
+      <div class="card"><h4>1. Est-ce que j'ai déjà le coup d'après ?</h4><p>Si la réponse est non, mieux vaut travailler le titre que le sortir. Sortir sans suite, c'est se mettre tout de suite en position de faiblesse.</p></div>
+      <div class="card"><h4>2. Comment je le présente ?</h4><p>Pour que les gens aient envie de l'écouter et de le découvrir. C'est le job de l'artiste, et ça se prépare avant la sortie.</p></div>
+    </div>
+    <div class="box b-danger"><span class="bt">Le feu de bengale et les portes de saloon</span><p>Sans buzz monumental, un titre isolé fait du bruit puis s'éteint. Pas parce qu'il devait s'éteindre : parce que <strong>le gros de l'audience se capitalise sur les autres titres</strong>. S'il n'y en a pas, ça monte, redescend, remonte, redescend — les « portes de saloon ». On a l'impression que ça décolle, et ça ne décolle pas. C'est le pire scénario : ça démotive et ça casse la dynamique.</p></div>
+    <h3>Greffer le morceau à une intention</h3>
+    <div class="box b-danger"><span class="bt">L'erreur classique</span><p>« Je sors le titre parce qu'il est prêt et qu'il faut le sortir. Comme je ne sais pas quoi faire dessus, je fais comme tout le monde : un clip si je peux, j'en parle, un peu de pub si j'ai de l'argent, et on voit ce qui se passe. » <strong>Dans 100 % des cas, il ne se passe rien.</strong></p></div>
+    <div class="box b-key"><span class="bt">Le mécanisme du triangle</span><p>Prenons <em>Titanic</em> : le film a marché, mais la chanson était là, sur cette scène-là. La musique illustrait parfaitement la scène, et la combinaison des deux a créé un lien émotionnel entre la chanson, le film et la vie personnelle du spectateur. <strong>Ce triangle-là — mon cerveau, l'image, le son — c'est ce qui fait « waouh ».</strong> Même chose pour <em>Eye of the Tiger</em> et le dépassement de soi : le morceau aurait pu porter d'autres valeurs, c'est le film qui a fixé l'association.</p></div>
+    <div class="box b-tip"><span class="bt">Aujourd'hui, ce triangle tient dans un téléphone</span><p>Tu as le visuel, tu as la musique. Quand tu tombes juste, le triangle se crée et ça touche. Peu importe que le visuel soit de toi ou extérieur à toi.</p></div>
+    <h3>Le cas concret travaillé en session</h3>
+    <p>Le titre parle de profiter de la vie et de réaliser son envie de se réaliser. Le voyage aux États-Unis en road trip — les paysages, les rencontres, l'instant présent — est le matériau naturel.</p>
+    <div class="box b-info"><span class="bt">L'exécution proposée</span><p>Une image face au Grand Canyon. <strong>Huit secondes.</strong> Un texte inspirant en surimpression — qui n'est même pas obligatoirement de toi : un texte qui a traversé les âges fonctionne. Le son derrière.<br><br>Si le lecteur résonne avec le texte tout en étant plongé dans l'émotion de la musique et de l'image : il reste dessus, il like, il partage, il l'envoie. À 100 000 personnes qui font ça, ça devient un buzz.</p></div>
+    <p>Et c'est là que le mécanisme se retourne en faveur de la musique : d'autres reprennent le concept <em>en gardant le son</em>, parce que c'est ce son-là qui les inspire. De 100 000 écoutes on peut passer très vite à 500 000. <strong>Au départ c'est le message qui passe ; la musique, elle, gagne en visibilité au passage.</strong></p>
+    <div class="box b-key"><span class="bt">Le principe général</span><p>La musique n'est d'abord qu'<strong>additionnelle</strong> à autre chose. Elle devient supérieure à ce statut quand les gens se l'approprient — et ça, ce n'est pas l'artiste qui le décide, c'est le public.<br><br>L'axe création de contenu n'est <strong>que du levier émotionnel</strong> : faire rire, faire kiffer, choquer, impressionner, éduquer. Trouver ceux qui matchent avec le morceau.</p></div>
+    <details><summary>Les leviers fédérateurs : puissants et à manier avec précaution</summary><div class="dc">Une énergie collective captée au bon moment peut lancer une carrière. Le sport en est l'exemple le plus évident — le foot a lancé des carrières entières. D'autres combats de société peuvent jouer le même rôle, à condition d'arriver avec un morceau cohérent, ni cliché ni cheesy, que la communauté concernée puisse s'approprier.<br><br><strong>Le risque :</strong> laisser les médias coller une étiquette. Certains le gèrent très bien — arriver par un réseau, puis en sortir tout de suite et se repositionner. Bien fait, ça marche.</div></details>
+    <h3>Cohérence artistique et coup d'avance</h3>
+    <div class="pc">
+      <div class="ko"><h4>Ce qui casse la dynamique</h4><ul><li>Des valeurs contradictoires d'un titre à l'autre</li><li>Un personnage qui ne peut pas résonner avec le même public</li><li>Sortir au coup par coup, en repartant à zéro à chaque fois</li></ul></div>
+      <div class="ok"><h4>Ce qui construit</h4><ul><li>Des ambiances différentes, mais des valeurs constantes</li><li>La tristesse et la fête peuvent cohabiter : c'est la vie</li><li>Travailler par phases : sur plusieurs morceaux, on en sacrifie un ou deux et on imbrique le reste</li></ul></div>
+    </div>
+    <div class="box b-key"><span class="bt">À retenir</span><p>La cohérence n'est pas dans le thème ni dans l'ambiance : elle est <strong>dans le personnage et les valeurs qu'il porte</strong>. Et il faut construire brique par brique — d'où l'importance d'avoir toujours un coup d'avance pour savoir où l'on peut aller.</p></div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="chap" id="s12" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">12</div><div><h2>Le fonctionnement entre les sessions</h2><div class="tc">⏱ 116:02 – 119:33</div></div></div>
+  <div class="cbody">
+    <div class="box b-tip"><span class="bt">Rien n'est formalisé</span><p>Tout est possible : de l'asynchrone sur WhatsApp, ou un call si le sujet le demande. <strong>En général, à partir de 17 h – 18 h, la disponibilité est bonne.</strong></p></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Créneau</th><th>Disponibilité</th></tr></thead>
+      <tbody>
+        <tr><td>En semaine, après 17 h – 18 h</td><td>Généralement disponible et flexible</td></tr>
+        <tr><td>Vendredi</td><td>Indisponible — créneau réservé au sport (jiu-jitsu brésilien)</td></tr>
+        <tr><td>Un mercredi sur deux</td><td>Indisponible</td></tr>
+      </tbody>
+    </table></div>
+    <div class="box b-key"><span class="bt">Le message important</span><p><strong>« Tu ne déranges pas. »</strong> Quand la réponse ne vient pas, c'est simplement que le moment est pris. Quand le temps est limité, c'est dit. Il ne faut pas hésiter à solliciter.</p></div>
+    <div class="box b-info"><span class="bt">Et ce qui est attendu en retour</span><p>Les photos, les partages d'expérience, <strong>les idées farfelues pour se faire kiffer</strong> — envoyées sur WhatsApp, au fil de la quinzaine.</p></div>
+  </div>
+</section>
+
+<!-- QA -->
+<section class="chap" id="qa" data-c="">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">💬</div><div><h2>Questions / Réponses de la session</h2><div class="tc">Les échanges tels qu'ils ont eu lieu</div></div></div>
+  <div class="cbody">
+
+    <div class="qa"><div class="q"><span>Q.</span>Si je dois choisir un seul objectif, c'est bien le live ?</div><div class="a">C'est un choix défendable — il touche la fan base, les revenus et la visibilité d'un coup. Mais la contre-question est importante : il existe énormément d'autres moyens de gagner en visibilité en 2026. Et surtout, la création a été écartée de la liste alors que <strong>c'est elle qui bloque tout le reste</strong>.</div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Comment se remettre dans l'état où je suis hyper créative ?</div><div class="a">Ce n'est pas l'état qu'il faut viser, c'est le <strong>chemin</strong>. Une heure de marche seule, dehors, sans rien, avec une seule intention : rentrer avec une piste. Au début ça ne vient pas — c'est normal, comme un grand écart. Répété régulièrement, le cerveau s'adapte. Et chacun a son propre déclencheur à identifier.</div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>J'ai déjà fait des retraites silencieuses, de l'hypnose, du travail sur moi — et ça n'a pas tenu. Pourquoi ?</div><div class="a">Parce que l'approche était <strong>protocolaire et exigeante</strong> : se mettre « en mode » pour aller chercher un résultat. C'est structurellement impossible — biceps et triceps ne se contractent pas ensemble. Dès qu'on entre dans le contrôle, on ne peut plus absorber cette énergie. On peut duper son cerveau un moment, mais ça retombe toujours.</div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Si ce n'est pas moi le problème, c'est qui alors ?</div><div class="a">Personne. Si le problème était toi, il suffirait de te retirer de l'équation — mais alors il ne resterait rien. <strong>Ce qui bloque, c'est la narrative</strong>, un programme installé assez longtemps pour qu'il passe pour normal. Le système d'exploitation n'est pas la machine.</div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>« On n'attend rien de toi » — je ne suis pas d'accord, j'attends des choses de moi.</div><div class="a">Reformulé : <strong>retire-toi la pression de l'obligation de fournir un résultat.</strong> Quand on attend quelque chose de soi, on se déçoit dès qu'on n'y arrive pas. Une ambition, elle, se fixe sans être conditionnée au résultat : on met des actions en place, on reste aligné, et le reproche n'a plus prise. Les deux disent la même chose — mais le discours interne n'est pas du tout le même.</div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>À un moment donné, il faut bien se bouger, non ?</div><div class="a">Oui — mais pas en refaisant des séries de cinq tractions tous les jours. <strong>Lever le pied n'est pas régresser.</strong> Il ne s'agit pas d'arrêter de travailler, mais de le faire avec plus de plaisir et sans ressentir la difficulté pendant un temps. C'est ce qui crée les adaptations qui permettent le bond suivant.</div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Je n'ai pas de vision claire — je ne veux pas faire un Stade de France.</div><div class="a">La vision est déjà là, elle porte juste un autre nom : <strong>faire de la musique, en vivre, monter une petite structure qui fonctionne, et être en accord avec qui on est.</strong> C'est suffisamment clair. Ce n'est pas la vision qui manque — c'est le premier verrou qu'il faut débloquer.</div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Quelle version du titre sortir, et faut-il une stratégie de sortie ?</div><div class="a">La version acoustique guitare-voix est celle qui a le plus touché. Quant à la stratégie de sortie : celle des années 2010 n'existe plus. Les deux vraies questions sont : <strong>ai-je déjà le coup d'après ?</strong> et <strong>comment je présente ce titre pour qu'on ait envie de le découvrir ?</strong> Sans réponse à la première, mieux vaut travailler que sortir.</div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Le visuel doit être extérieur à moi, ou créé par moi en lien avec la chanson ?</div><div class="a">L'un ou l'autre, peu importe. Ce qui compte, c'est le <strong>triangle</strong> : le visuel, le son et l'émotion du spectateur. Quand les trois matchent, ça touche — et la musique, d'abord additionnelle, finit par être adoptée pour elle-même.</div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Comment on fonctionne entre les rendez-vous ?</div><div class="a">Rien de formalisé : WhatsApp en asynchrone, ou un call quand c'est utile. Disponibilité généralement bonne après 17 h – 18 h, sauf le vendredi et un mercredi sur deux. <strong>Et surtout : solliciter ne dérange pas.</strong></div></div>
+
+  </div>
+</section>
+
+<!-- PLAN -->
+<section class="plan" id="plan">
+  <h2>🎯 Plan d'action — les 2 prochaines semaines</h2>
+  <p>Un seul mot d'ordre : se faire kiffer. Clique pour cocher.</p>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Priorité absolue</b>Consacrer les deux prochaines semaines à une seule chose : se faire kiffer, sans objectif de production</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Sortir</b>Repérer un bar musical avec bœufs improvisés et y aller — juste pour écouter, sans dire qu'on chante</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Renouer</b>Appeler quelqu'un de sa liste de contacts avec qui on se sent bien et qui aime la musique, sans objectif</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Renouer</b>Reprendre contact avec les potes avec qui les cinq ou six titres précédents ont été faits</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Rituel quotidien</b>Chaque soir : « quel est mon meilleur moment de la journée ? » — en tant que personne ET en tant qu'artiste</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Exercice</b>Tester l'exercice des trois colonnes (passé / présent / futur), 10 minutes, en acceptant que les effets ne se voient pas tout de suite</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Exercice</b>Une balade d'une heure, dehors, sans rien, avec une seule intention : rentrer avec une piste</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Affirmations</b>Reprendre les audios existants et y ajouter des preuves concrètes (ce qui a été accompli cette année)</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Écoute</b>Bloquer deux heures le vendredi pour écouter des nouveautés — sans jugement, juste « je vibre ou pas »</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Collaborations</b>Sur ce qui fait vibrer : regarder les crédits, trouver les réseaux, écrire. Élargir hors de France</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>À envoyer</b>Le lien de l'artiste suisse-allemande évoquée en session, si le nom est retrouvé</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Titre en cours</b>Ne pas sortir tant que le coup d'après n'est pas prêt — et préparer d'abord l'angle de présentation</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Titre en cours</b>Tester le format road trip : une image du voyage, 8 secondes, un texte inspirant, le son derrière</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Entre les sessions</b>Envoyer photos, partages d'expérience et idées farfelues sur WhatsApp, au fil de la quinzaine</span></li>
+  </ul>
+</section>
+
+<!-- QUIZ -->
+<section class="quiz" id="quiz">
+  <h2>🧠 Quiz de validation</h2>
+  <p>5 questions pour vérifier que les points clés sont bien passés.</p>
+
+  <div class="qz" data-good="1">
+    <div class="qt">1. Pourquoi faut-il créer beaucoup de morceaux ?</div>
+    <button class="opt">Pour alimenter l'algorithme des plateformes de streaming</button>
+    <button class="opt">Parce que c'est dans la masse que sortent les pépites — on augmente ses chances</button>
+    <button class="opt">Parce qu'il faut sortir un titre par mois pour exister</button>
+    <button class="opt">Parce que les maisons de disques exigent un volume minimum</button>
+    <div class="fb">La nuance est essentielle : il ne s'agit pas de <em>sortir</em> beaucoup, mais d'en <em>créer</em> beaucoup. Il n'y a pas de recette pour faire hit sur hit — mais plus on produit, plus on se rapproche de la pépite qui lance tout.</div>
+  </div>
+
+  <div class="qz" data-good="2">
+    <div class="qt">2. Pourquoi une approche protocolaire du lâcher-prise échoue-t-elle ?</div>
+    <button class="opt">Parce qu'il faut un accompagnement professionnel pour y arriver</button>
+    <button class="opt">Parce que les exercices demandent plus de temps que prévu</button>
+    <button class="opt">Parce que le contrôle et le lâcher-prise sont antagonistes — comme le biceps et le triceps</button>
+    <button class="opt">Parce que le cerveau finit toujours par s'habituer aux mêmes exercices</button>
+    <div class="fb">Se mettre « en mode » pour aller chercher un état de lâcher-prise est structurellement impossible. Dès qu'on entre dans le contrôle, on ne peut plus absorber cette énergie : on peut duper son cerveau un moment, mais ça retombe toujours.</div>
+  </div>
+
+  <div class="qz" data-good="0">
+    <div class="qt">3. Que dit le parallèle des tractions ?</div>
+    <button class="opt">Quand on plafonne, il faut baisser le volume pour préserver le système nerveux et débloquer un bond</button>
+    <button class="opt">Il faut s'entraîner tous les jours au maximum de ses capacités</button>
+    <button class="opt">Mieux vaut changer complètement d'exercice quand on stagne</button>
+    <button class="opt">Le talent détermine le plafond qu'on peut atteindre</button>
+    <div class="fb">Ceux qui refont des séries de 5 stagnent, voire régressent. Ceux qui font des séries de 2 ou 3 passent à 7, puis 10. En création, c'est encore plus vrai parce que c'est lié aux émotions : lever le pied n'est pas régresser.</div>
+  </div>
+
+  <div class="qz" data-good="3">
+    <div class="qt">4. Avant de sortir un titre, quelle est la question la plus importante ?</div>
+    <button class="opt">Est-ce que le mix et le mastering sont irréprochables ?</button>
+    <button class="opt">Quel est le meilleur jour de la semaine pour sortir ?</button>
+    <button class="opt">Quel budget puis-je mettre en publicité ?</button>
+    <button class="opt">Est-ce que j'ai déjà le coup d'après, et comment je présente ce titre ?</button>
+    <div class="fb">Sans suite prête, un titre isolé fait un « feu de bengale » : ça monte, ça redescend, ça remonte — les portes de saloon. L'audience ne peut se capitaliser que s'il y a d'autres titres derrière.</div>
+  </div>
+
+  <div class="qz" data-good="1">
+    <div class="qt">5. Que signifie « greffer le morceau à une intention » ?</div>
+    <button class="opt">Écrire un texte qui délivre un message engagé</button>
+    <button class="opt">Associer le son à un visuel et une émotion pour créer un triangle qui touche le spectateur</button>
+    <button class="opt">Déposer le morceau auprès d'un éditeur avant la sortie</button>
+    <button class="opt">Choisir un thème qui correspond aux tendances du moment</button>
+    <div class="fb">C'est le mécanisme de <em>Titanic</em> ou d'<em>Eye of the Tiger</em> : le lien entre l'image, le son et la vie personnelle du spectateur. La musique est d'abord additionnelle — elle devient centrale quand le public se l'approprie.</div>
+  </div>
+
+  <div class="score" id="score"></div>
+</section>
+
+<footer>
+  <p><b>Producteur à Succès</b> — Mentorat artiste · Session #1 du 14 septembre 2026</p>
+  <p style="margin-top:6px;font-size:13px;opacity:.8">Support généré à partir de la transcription intégrale de la session (2 h 15)</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var bar = document.getElementById('progress');
+  function upd(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', upd, {passive:true});
+  window.addEventListener('resize', upd);
+  upd();
+
+  document.querySelectorAll('.chk li').forEach(function(li){
+    li.addEventListener('click', function(){ li.classList.toggle('done'); });
+  });
+
+  var answered = 0, correct = 0;
+  var total = document.querySelectorAll('.qz').length;
+  document.querySelectorAll('.qz').forEach(function(q){
+    var good = parseInt(q.getAttribute('data-good'), 10);
+    var opts = q.querySelectorAll('.opt');
+    opts.forEach(function(o, i){
+      o.addEventListener('click', function(){
+        if (q.dataset.done) return;
+        q.dataset.done = '1';
+        answered++;
+        if (i === good) correct++;
+        opts.forEach(function(x, j){
+          if (j === good) x.classList.add('good');
+          else if (j === i) x.classList.add('bad');
+          x.style.cursor = 'default';
+        });
+        q.querySelector('.fb').classList.add('show');
+        if (answered === total) {
+          var s = document.getElementById('score');
+          s.textContent = 'Score : ' + correct + ' / ' + total + (correct === total ? ' — parfait 🎯' : (correct >= total - 1 ? ' — très bien 👏' : ' — une relecture des sections concernées s\'impose 📘'));
+          s.classList.add('show');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

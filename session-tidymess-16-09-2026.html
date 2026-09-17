@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session de mentorat TidyMess — 16 septembre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED; --primary-dark:#4C1D95; --primary-light:#EDE9FE;
+  --accent:#F59E0B; --accent-light:#FEF3C7;
+  --success:#10B981; --success-light:#D1FAE5;
+  --danger:#EF4444; --danger-light:#FEE2E2;
+  --info:#3B82F6; --info-light:#DBEAFE;
+  --ink:#1A1523; --muted:#5B5670; --line:#E7E4EF; --bg:#FAF9FC; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+.progress-wrap{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(108,58,237,.12);z-index:999}
+#progress{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+.wrap{max-width:940px;margin:0 auto;padding-inline:20px}
+
+.hero{background:linear-gradient(140deg,#3B1D80 0%,#6C3AED 55%,#8B5CF6 100%);color:#fff;padding-block:60px 52px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{content:"";position:absolute;left:-60px;bottom:-120px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.05)}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:700;margin-bottom:14px;position:relative;z-index:2}
+.hero .sub{font-size:17px;opacity:.92;max-width:680px;position:relative;z-index:2}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;position:relative;z-index:2}
+.meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:7px 14px;border-radius:10px;font-size:13.5px;font-weight:500}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:-32px;position:relative;z-index:5;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.toc h2{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:16px;color:var(--primary-dark)}
+.toc ol{list-style:none;counter-reset:toc;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.toc li{counter-increment:toc}
+.toc a{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink);padding:9px 10px;border-radius:10px;font-size:14.5px;transition:background .15s}
+.toc a:hover{background:var(--primary-light);color:var(--primary-dark)}
+.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);font-size:13px;flex-shrink:0;padding-top:1px}
+
+section.chap{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+section.chap>.bar{height:5px;background:var(--primary)}
+.chap[data-c="a"]>.bar{background:var(--accent)} .chap[data-c="g"]>.bar{background:var(--success)}
+.chap[data-c="b"]>.bar{background:var(--info)} .chap[data-c="r"]>.bar{background:var(--danger)}
+.chead{padding:26px 28px 0;display:flex;gap:14px;align-items:center}
+.cnum{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--primary-light);color:var(--primary-dark);display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px}
+.chap[data-c="a"] .cnum{background:var(--accent-light);color:#92400E}
+.chap[data-c="g"] .cnum{background:var(--success-light);color:#065F46}
+.chap[data-c="b"] .cnum{background:var(--info-light);color:#1E40AF}
+.chap[data-c="r"] .cnum{background:var(--danger-light);color:#991B1B}
+.chead h2{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.25;font-weight:700}
+.tc{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-top:3px}
+.cbody{padding:18px 28px 28px}
+.cbody p{margin-bottom:14px}
+.cbody h3{font-family:'Space Grotesk',sans-serif;font-size:16.5px;margin:22px 0 10px;color:var(--primary-dark)}
+.cbody ul,.cbody ol{margin:0 0 14px 20px}
+.cbody li{margin-bottom:7px}
+strong{font-weight:650;color:#2D2540}
+em.q{font-style:italic;color:#413655}
+code{background:#F1EEFA;padding:2px 6px;border-radius:5px;font-size:13.5px;color:var(--primary-dark)}
+
+.box{border-radius:12px;padding:16px 18px;margin:18px 0;border-left:4px solid;font-size:15px}
+.box .bt{display:block;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.box p:last-child{margin-bottom:0}
+.b-key{background:var(--primary-light);border-color:var(--primary)} .b-key .bt{color:var(--primary-dark)}
+.b-warn{background:var(--accent-light);border-color:var(--accent)} .b-warn .bt{color:#92400E}
+.b-tip{background:var(--success-light);border-color:var(--success)} .b-tip .bt{color:#065F46}
+.b-info{background:var(--info-light);border-color:var(--info)} .b-info .bt{color:#1E40AF}
+.b-danger{background:var(--danger-light);border-color:var(--danger)} .b-danger .bt{color:#991B1B}
+
+.tbl{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:12px 14px;font-weight:600;font-size:13.5px}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#FBFAFE}
+
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.pc>div{border-radius:12px;padding:16px 18px;font-size:14.5px}
+.pc .ok{background:var(--success-light);border:1px solid #A7F3D0}
+.pc .ko{background:var(--danger-light);border:1px solid #FECACA}
+.pc h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.pc .ok h4{color:#065F46} .pc .ko h4{color:#991B1B}
+.pc ul{margin:0 0 0 18px} .pc li{margin-bottom:5px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
+.card{background:#FBFAFE;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h4{font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:6px;color:var(--primary-dark)}
+.card p{font-size:14px;color:var(--muted);margin:0}
+.stat h4{font-size:24px;font-family:'Space Grotesk',sans-serif}
+
+.tl{list-style:none;margin:18px 0;padding-left:26px;border-left:2px dashed var(--line)}
+.tl li{position:relative;margin-bottom:16px;font-size:15px}
+.tl li::before{content:"";position:absolute;left:-33px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light)}
+.tl b{display:block;font-family:'Space Grotesk',sans-serif;color:var(--primary-dark)}
+
+details{border:1px solid var(--line);border-radius:12px;margin:14px 0;background:#FBFAFE}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:15px;color:var(--primary-dark);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+details[open] summary::before{content:"▾ "}
+details .dc{padding:0 18px 16px;font-size:14.5px}
+
+.pull{margin:22px 0;padding:20px 24px;border-radius:14px;background:linear-gradient(120deg,#2D1B69,#4C1D95);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:19px;line-height:1.45;font-weight:600}
+.pull span{display:block;margin-top:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;opacity:.7;letter-spacing:.03em}
+
+.faq{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+.faq>.bar{height:5px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.faqhead{padding:26px 28px 0}
+.faqhead h2{font-family:'Space Grotesk',sans-serif;font-size:26px;color:var(--primary-dark)}
+.faqhead p{color:var(--muted);font-size:15px;margin-top:4px}
+.faqbody{padding:18px 28px 28px}
+.faqcat{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.faqcat:first-child{margin-top:6px}
+.qa{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:#FDFCFF}
+.qa .q{background:linear-gradient(90deg,var(--primary-light),#F6F3FF);padding:13px 18px;font-weight:650;color:var(--primary-dark);font-size:15.5px;display:flex;gap:10px}
+.qa .q span{flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.qa .a{padding:15px 18px;font-size:15px}
+.qa .a p{margin-bottom:10px} .qa .a p:last-child{margin-bottom:0}
+
+.plan{background:linear-gradient(140deg,#0F172A,#1E1B4B);color:#fff;border-radius:18px;padding:30px 28px;margin-top:26px}
+.plan h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:8px}
+.plan>p{opacity:.8;margin-bottom:20px;font-size:15px}
+.phase{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin:22px 0 10px}
+.phase:first-of-type{margin-top:0}
+.chk{list-style:none;margin:0;padding:0}
+.chk li{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;margin-bottom:9px;font-size:15px;cursor:pointer;transition:background .15s}
+.chk li:hover{background:rgba(255,255,255,.09)}
+.chk .bx{flex-shrink:0;width:20px;height:20px;border:2px solid rgba(255,255,255,.4);border-radius:6px;margin-top:3px;display:grid;place-items:center;font-size:13px;font-weight:700;color:transparent}
+.chk li.done .bx{background:var(--success);border-color:var(--success);color:#fff}
+.chk li.done .tx{opacity:.5;text-decoration:line-through}
+.chk .tx b{display:block;font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.04em;text-transform:uppercase;opacity:.65;margin-bottom:2px}
+
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px;margin-top:26px}
+.quiz h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:6px;color:var(--primary-dark)}
+.quiz>p{color:var(--muted);margin-bottom:22px;font-size:15px}
+.qz{margin-bottom:24px;padding-bottom:22px;border-bottom:1px dashed var(--line)}
+.qz:last-of-type{border-bottom:none}
+.qz .qt{font-weight:650;margin-bottom:12px;font-size:15.5px}
+.opt{display:block;width:100%;text-align:left;background:#FBFAFE;border:1.5px solid var(--line);border-radius:10px;padding:11px 15px;margin-bottom:8px;cursor:pointer;font-family:inherit;font-size:14.5px;color:var(--ink);transition:all .15s}
+.opt:hover{border-color:var(--primary);background:var(--primary-light)}
+.opt.good{background:var(--success-light);border-color:var(--success);font-weight:600}
+.opt.bad{background:var(--danger-light);border-color:var(--danger)}
+.fb{display:none;margin-top:10px;padding:12px 15px;border-radius:10px;font-size:14.5px;background:var(--info-light);border-left:4px solid var(--info)}
+.fb.show{display:block}
+.score{margin-top:20px;padding:16px;border-radius:12px;background:var(--primary-light);text-align:center;font-weight:650;color:var(--primary-dark);display:none}
+.score.show{display:block}
+
+footer{text-align:center;padding-block:40px 50px;color:var(--muted);font-size:14px}
+footer b{color:var(--primary-dark);font-family:'Space Grotesk',sans-serif}
+
+@media(max-width:640px){
+  .pc{grid-template-columns:1fr}
+  .chead,.faqhead{padding:22px 18px 0} .cbody,.faqbody{padding:16px 18px 22px}
+  .toc{padding:22px 18px} .plan,.quiz{padding:24px 18px}
+  .hero h1{font-size:27px} .pull{font-size:17px;padding:18px}
+}
+@media print{
+  .progress-wrap{display:none} body{background:#fff}
+  section.chap,.toc,.quiz,.faq{box-shadow:none;break-inside:avoid}
+  .opt{display:none}
+}
+</style>
+</head>
+<body>
+<div class="progress-wrap"><div id="progress"></div></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">Mentorat TidyMess · Session du 16 septembre 2026</div>
+    <h1>Financer la formation, comprendre l'algo,<br>et enfin créer de l'actu</h1>
+    <p class="sub">Une session en deux temps : d'abord débloquer le financement de l'accompagnement (FIF PL, CPF), puis la vraie question de fond — comment convertir une audience venue pour autre chose vers la musique, et pourquoi il faut absolument produire davantage.</p>
+    <div class="meta">
+      <span>⏱ 2 h 14</span>
+      <span>🎙 Tarik Hamiche</span>
+      <span>🎤 Nelly &amp; Thomas</span>
+      <span>📌 47 chapitres</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<nav class="toc">
+  <h2>Au programme</h2>
+  <ol>
+    <li><a href="#s1">Le point d'étape</a></li>
+    <li><a href="#s2">Valeur perçue et autorité</a></li>
+    <li><a href="#s3">Financer la formation : le FIF PL</a></li>
+    <li><a href="#s4">FIF PL ou CPF : le comparatif</a></li>
+    <li><a href="#s5">Tenir le rythme sans s'épuiser</a></li>
+    <li><a href="#s6">Comment l'algorithme décide</a></li>
+    <li><a href="#s7">Les carrousels mixtes</a></li>
+    <li><a href="#s8">Le blog et le réseau booking</a></li>
+    <li><a href="#s9">Le RIM, les SMAC et l'effet réseau</a></li>
+    <li><a href="#s10">Le vrai point faible : pas d'actu</a></li>
+    <li><a href="#s11">Produire beaucoup : la mécanique du hit</a></li>
+    <li><a href="#s12">Décrocher une collaboration</a></li>
+    <li><a href="#s13">Protéger ses comptes</a></li>
+    <li><a href="#s14">La dynamique et la part de chance</a></li>
+    <li><a href="#faq">FAQ de la session</a></li>
+    <li><a href="#plan">Plan d'action</a></li>
+    <li><a href="#quiz">Quiz de validation</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="chap" id="s1" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">01</div><div><h2>Le point d'étape</h2><div class="tc">⏱ 03:24 – 12:04</div></div></div>
+  <div class="cbody">
+    <p>Deux semaines de rentrée chargées, et pourtant les indicateurs bougent dans le bon sens.</p>
+    <div class="cards">
+      <div class="card stat"><h4>≈ 20 000</h4><p>Abonnés Facebook — le seuil est proche</p></div>
+      <div class="card stat"><h4>4 160</h4><p>Abonnés Instagram, contre <strong>1 233</strong> au démarrage début juin</p></div>
+      <div class="card stat"><h4>5 M+</h4><p>Comptes atteints cet été</p></div>
+    </div>
+    <h3>Ce qui a avancé</h3>
+    <ul>
+      <li><strong>La FAQ du site</strong> — bien fournie, et la question « jouez-vous en dehors du département ? » a été reformulée : la réponse dit maintenant clairement que le groupe est disponible partout en France et dans les pays francophones.</li>
+      <li><strong>Les réels</strong> — le rythme est reparti depuis la levée de la restriction Instagram, avec des abonnés qui rentrent chaque jour.</li>
+      <li><strong>Les concerts</strong> — un mariage avec des morceaux particuliers à travailler, plus une participation autour d'une reprise.</li>
+      <li><strong>Les bases de données musicales</strong> — MusicBrainz (les trois albums référencés, page créée), Discogs (relié au site), Wikidata (page créée). Quelques détails restent à finaliser.</li>
+    </ul>
+    <div class="box b-tip"><span class="bt">Les premiers retours extérieurs</span><p>Deux organisateurs d'événements — un en Bretagne, un à Bordeaux — relancés pour prendre des nouvelles et envoyés sur le site. Retour identique des deux : <em class="q">« Le site est pro. »</em> Le réflexe de relancer d'anciens contacts a suffi à provoquer ces deux retours.</p></div>
+    <div class="box b-info"><span class="bt">Un signal à noter</span><p>Les reconnaissances en public commencent — à l'hôpital, dans des salles de spectacle. <strong>C'est le début d'un niveau de notoriété différent.</strong></p></div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="chap" id="s2" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">02</div><div><h2>Valeur perçue et autorité</h2><div class="tc">⏱ 10:19 – 14:16</div></div></div>
+  <div class="cbody">
+    <p>Question posée en session : quand les gens s'extasient sur le site, faut-il leur dire qu'il a été fait en interne ?</p>
+    <div class="box b-key"><span class="bt">La réponse</span><p><strong>Non — et pour deux raisons.</strong></p><p>1. Dans le spectacle vivant, beaucoup n'ont pas encore intégré qu'un artiste est aussi un chef de projet. Annoncer qu'on fait soi-même son site web brouille le message plutôt qu'il ne valorise.</p><p>2. Cela crée une <strong>valeur perçue</strong> : de beaux supports (photos pour les affiches, vidéos pour les teasers, un site qui claque) signalent un projet dans lequel on investit. Ce sont d'ailleurs les vidéos qui ont le plus impressionné.</p></div>
+    <div class="box b-warn"><span class="bt">La nuance</span><p>Il ne s'agit pas de dire que c'était facile — le travail a été long et réel. Il s'agit de ne pas dévaloriser le résultat en dévoilant la mécanique.</p></div>
+    <h3>Les bases de données : pourquoi ça compte</h3>
+    <p>MusicBrainz, Discogs et Wikidata ne sont pas des vitrines pour le public : ce sont les sources que les moteurs de recherche et les IA génératives consultent pour savoir <strong>qui vous êtes et ce que vous avez sorti</strong>. Les remplir, c'est construire de l'autorité là où elle se vérifie.</p>
+    <div class="box b-info"><span class="bt">À savoir</span><p>Ces plateformes sont anciennes et pas toujours claires sur la différence entre « œuvre » et « enregistrement ». Prendre le temps de comprendre leur logique avant de tout remplir évite de devoir tout reprendre.</p></div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="chap" id="s3" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">03</div><div><h2>Financer la formation : le FIF PL</h2><div class="tc">⏱ 22:33 – 37:40</div></div></div>
+  <div class="cbody">
+    <div class="box b-danger"><span class="bt">Le point de départ</span><p>L'URSSAF ne délivre pas d'attestation de cotisation formation pour une SAS — c'est normal, ce n'est pas elle qui gère. <strong>Il faut passer par l'OPCO.</strong> Et dans votre cas, l'OPCO, c'est le <strong>FIF PL</strong>.</p></div>
+    <h3>Pourquoi le FIF PL et pas l'Agefice</h3>
+    <p>L'Agefice serait plus généreux — <strong>3 000 € par an</strong> contre 900 € — mais il n'est pas accessible ici, et voici le mécanisme exact :</p>
+    <ul class="tl">
+      <li><b>Le principe</b>Ces fonds de formation pour dirigeants sont alimentés par les <strong>cotisations sociales sur le salaire de dirigeant</strong>.</li>
+      <li><b>En SARL</b>Les charges sociales sont obligatoires, qu'il y ait du chiffre d'affaires ou non. Dès que la cotisation formation dépasse un tout petit seuil (environ 7 €), l'enveloppe de 3 000 € par an s'ouvre.</li>
+      <li><b>Dans votre cas</b>Il aurait fallu se déclarer <strong>président salarié</strong> : un bulletin de salaire, environ 80 % de charges — et en échange, les fonds de formation.</li>
+      <li><b>Conséquence</b>Sans cela, le seul critère qui compte est le <strong>code APE</strong> (ou code NAF). Pour vous : art du spectacle vivant.</li>
+    </ul>
+    <h3>Les plafonds du FIF PL</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Cas</th><th>Prise en charge</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Budget annuel de base</strong></td><td>Plafonné à <strong>900 € par an et par professionnel</strong> — et c'est un maximum, pas une garantie</td></tr>
+        <tr><td><strong>Formation à distance</strong></td><td>La moitié, soit environ 450 €</td></tr>
+        <tr><td><strong>Formation liée à la pratique pro</strong></td><td>Pas de problème, dans la limite des 900 €</td></tr>
+        <tr><td><strong>Formation hors cœur de métier</strong></td><td>Déduction : la prise en charge diminue</td></tr>
+        <tr><td><strong>Formation longue durée</strong></td><td><strong>Jusqu'à 3 000 €</strong> — et cette enveloppe ne vient pas en déduction du budget annuel</td></tr>
+      </tbody>
+    </table></div>
+    <div class="box b-key"><span class="bt">Le levier : la formation longue durée</span><p>Les conditions relevées en session : <strong>110 heures minimum</strong>, en <strong>présentiel</strong>, le thème doit entrer dans les thèmes pris en charge de l'année — et on ne peut en faire <strong>qu'une tous les trois ans</strong>. En échange : jusqu'à 3 000 €.</p></div>
+    <div class="box b-danger"><span class="bt">Le problème : les thèmes sont introuvables</span><p>Une bonne partie de la session a été passée à chercher la liste des thèmes pris en charge pour 2026 sur le site du FIF PL. Le bandeau annonce <em class="q">« les critères de formation longue durée ont évolué, découvrez vite vos nouveaux critères »</em> — et chaque lien renvoie au même document, qui ne contient pas la liste. Même l'espace adhérent tourne en rond.</p><p><strong>Hypothèse posée en session :</strong> cette opacité leur laisse peut-être la latitude de refuser des dossiers même conformes.</p></div>
+    <div class="box b-tip"><span class="bt">Le précédent qui est passé</span><p>Un dirigeant de studio d'enregistrement en Normandie, via sa holding. Critères appliqués : <strong>110 heures minimum, présentiel, thème dans le cadre</strong>. Faute d'information sur le cadre, le programme a été orienté « dirigeants ». Demande envoyée, relance trois jours avant le début faute de réponse, puis accord immédiat : <strong>3 000 € de fonds de formation obtenus</strong>. Tenté au petit bonheur la chance — et ça a marché.</p></div>
+    <div class="box b-info"><span class="bt">Et si c'est refusé ?</span><p>Ce n'est pas bloquant. Ils disent pourquoi, et <strong>rien n'interdit de déposer un deuxième programme dans la foulée</strong>. C'est une démarche qui s'itère.</p></div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="chap" id="s4" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">04</div><div><h2>FIF PL ou CPF : le comparatif</h2><div class="tc">⏱ 37:40 – 42:35</div></div></div>
+  <div class="cbody">
+    <div class="tbl"><table>
+      <thead><tr><th></th><th>FIF PL</th><th>CPF</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Plafond</strong></td><td>3 000 € si la formation longue durée passe</td><td>1 500 € maximum par formation</td></tr>
+        <tr><td><strong>Justificatifs</strong></td><td>Feuilles de présence signées à la main</td><td>Logs de connexion faisant foi, traçage complet</td></tr>
+        <tr><td><strong>Obligations</strong></td><td>Suivre la formation en présentiel</td><td>50 h de vidéos à faire tourner, 2 × 7 h en live, une présentation devant jury</td></tr>
+        <tr><td><strong>Carence</strong></td><td>Une formation longue durée tous les 3 ans</td><td>12 mois entre deux mobilisations</td></tr>
+        <tr><td><strong>Notoriété</strong></td><td>Peu connu, <strong>peu mobilisé</strong> — c'est l'opportunité</td><td>Bien connu et très utilisé</td></tr>
+      </tbody>
+    </table></div>
+    <div class="box b-key"><span class="bt">La recommandation</span><p><strong>Commencer par le FIF PL.</strong> Beaucoup de gens ne mobilisent pas ce fonds-là, alors que le CPF est saturé. Et si ça passe une fois, c'est un mécanisme à itérer sur une autre structure — d'abord une entité, puis l'auto-entreprise l'année suivante, en milieu d'année. <strong>Sans les faire en même temps.</strong></p></div>
+    <div class="box b-danger"><span class="bt">Le cas particulier de la fonction publique</span><p>Une enseignante a bien un CPF — mais elle ne choisit pas ce qu'elle en fait. Si le rectorat décide qu'il faut se former à quelque chose, ce sont <strong>ses</strong> fonds de formation qui paient, sur le thème choisi par l'employeur, sans droit de refus. La retenue sur salaire censée financer une montée en compétence choisie ne l'est pas.</p></div>
+    <div class="box b-warn"><span class="bt">Pourquoi les plafonds sont si bas</span><p>Le CPF a été plafonné à 1 500 € par formation parce que trop de cadres disposaient d'enveloppes importantes et les dépensaient. Conséquence concrète : quelqu'un avec 5 000 € de droits et un projet de reconversion à 10 000 € ne peut mobiliser que 1 500 €, puis attendre 12 mois pour 1 500 de plus.</p></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="chap" id="s5" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">05</div><div><h2>Tenir le rythme sans s'épuiser</h2><div class="tc">⏱ 42:35 – 49:17</div></div></div>
+  <div class="cbody">
+    <p>Question posée : faut-il vraiment un contenu par jour, ou un tous les deux jours suffirait ?</p>
+    <div class="box b-key"><span class="bt">La réponse</span><p><strong>Ralentir un peu n'est pas déconnant — ce qui compte, c'est de rester régulier.</strong> Et l'algorithme est parfaitement adapté aux pauses.</p></div>
+    <h3>La règle des pauses</h3>
+    <div class="pc">
+      <div class="ok"><h4>Ce qui fonctionne</h4><ul><li>Trois ou quatre mois à fond, puis deux semaines de pause</li><li>Reprendre, refaire trois ou quatre mois, repauser</li><li>Effet observé : <strong>la publication qui suit une pause revient plus fort</strong> — il peut y avoir un pic de visibilité</li></ul></div>
+      <div class="ko"><h4>Ce qui casse le rythme</h4><ul><li>S'arrêter tous les quinze jours</li><li>Tourner en urgence le dimanche après deux concerts</li><li>Perdre le plaisir : <strong>si on n'est pas connecté au kiff, ça se ressent dans le contenu</strong></li></ul></div>
+    </div>
+    <div class="box b-tip"><span class="bt">Adapter le contenu au contexte</span><p>Les jours de concert, <strong>arrêter les tournages et se filmer sur place</strong>. Idéalement quelqu'un à côté qui shoote plein de vidéos. Dès qu'un moment est bon : on poste. Format différent, moins monté, moins travaillé — mais il y a 4 000 personnes qui suivent, et <strong>du moment qu'on poste, ça marche</strong>. Une simple story de concert fait le job.</p></div>
+    <div class="box b-info"><span class="bt">Le réflexe de recyclage</span><p>Lister les <strong>10 contenus les moins vus</strong> par l'audience et les republier. Ils seront accueillis complètement différemment — l'algorithme ne les avait simplement pas montrés à grand monde la première fois.</p></div>
+    <h3>YouTube a changé son comptage de vues</h3>
+    <p>Sur les vidéos longues comme sur les shorts, une impression sur l'écran d'accueil se transforme désormais en vue. Le nombre de vues gonfle mécaniquement.</p>
+    <div class="box b-warn"><span class="bt">La conséquence à surveiller</span><p><strong>Ce n'est pas l'emballement des vues qui gêne, c'est ce que ça casse :</strong> là où l'on avait 75 likes pour 1 000 vues, on a maintenant 75 likes pour 4 000 vues. Le pourcentage d'engagement par vidéo devient illisible d'une période à l'autre.</p><p>Effet secondaire : des dizaines de notifications « X personnes ont aimé votre short » par jour, impossibles à désactiver séparément des notifications de commentaires.</p></div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="chap" id="s6" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">06</div><div><h2>Comment l'algorithme décide</h2><div class="tc">⏱ 49:17 – 56:30</div></div></div>
+  <div class="cbody">
+    <p>Question de fond posée en session : pourquoi les contenus musicaux font-ils systématiquement moins de vues que les scènettes de couple ?</p>
+    <div class="pull">« L'algorithme n'a pas été conçu pour pousser des artistes. Ce n'est pas son job. »<span>Le point de départ de l'explication</span></div>
+    <h3>Premier calcul : la typologie de contenu</h3>
+    <p>L'algorithme raisonne ainsi : <em class="q">« Il y a un type de contenu que beaucoup de gens créent et que beaucoup de gens consomment. Quand j'en repère un qui colle à ce type-là, je lui donne assez d'exposition pour savoir si ça plaît ou pas. »</em></p>
+    <div class="tbl"><table>
+      <thead><tr><th>Type de contenu</th><th>Impressions nécessaires pour « noter »</th><th>Conséquence</th></tr></thead>
+      <tbody>
+        <tr><td>Contenu grand public et très produit (maquillage, couple…)</td><td>Ordre de grandeur : 200 000</td><td>Diffusion large dès le départ, chiffres élevés</td></tr>
+        <tr><td>Contenu musical, plus niché</td><td>Ordre de grandeur : 10 000</td><td>Diffusion plus étroite — <strong>ce n'est pas une sanction, c'est un échantillon suffisant</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="box b-info"><span class="bt">Précision honnête</span><p>Ces chiffres sont extrapolés. Personne ne les connaît, pas même les équipes internes des plateformes. Ce qui compte, c'est le <strong>mécanisme</strong>, pas les valeurs exactes.</p></div>
+    <h3>Deuxième calcul : le seuil d'interactions</h3>
+    <p>En parallèle, un second filtre s'applique : pour un volume d'impressions donné, s'il n'y a pas un pourcentage minimum d'interactions, <strong>l'algorithme n'étend pas</strong> — même si le contenu « plaît ».</p>
+    <div class="cards">
+      <div class="card"><h4>Le plafond invisible</h4><p>C'est pourquoi des vidéos font 40 ou 50 000 vues et ne dépassent jamais ce chiffre : le premier calcul leur donnait du volume, le second n'a pas suivi.</p></div>
+      <div class="card"><h4>L'emballement</h4><p>Si le taux d'interactions explose, l'algorithme peut faire fois 15 dès le premier jour — avec un effet composé : plus de diffusion, plus d'interactions, plus de diffusion.</p></div>
+      <div class="card"><h4>Le vrai plafond</h4><p>L'emballement s'arrête quand la vidéo atteint des gens qui s'en fichent. Sur les contenus francophones, cela se situe souvent entre <strong>1 et 2 millions de vues</strong>.</p></div>
+    </div>
+    <div class="pull">« Je préfère 1 000 fois une vidéo qui a fait 3 000 vues mais où l'impact a été ressenti, plutôt qu'une vidéo à 30 000 vues sans impact. »<span>Le vrai indicateur : le ratio impressions / interactions</span></div>
+    <div class="box b-key"><span class="bt">Remettre les chiffres en perspective</span><p>3 000 vues sur une vidéo musicale, ce n'est pas un échec. <strong>Mettez 3 000 personnes dans une salle de concert et vous souriez.</strong> Les contenus artistiques donnent l'impression de moins marcher parce qu'on les compare à des chiffres de divertissement — mais leur impact réel est bien supérieur.</p></div>
+    <details><summary>Suivre la tendance ou viser la qualité : l'exemple de l'influenceur</summary><div class="dc">Un compositeur devenu influenceur revendique le titre de plus gros influenceur music business de France — et en nombre d'abonnés, c'est incontestable : 150 000.<br><br>En regardant ensemble les commentaires sous ses vidéos, le constat est différent : ce n'est pas une audience d'artistes ou de producteurs qualifiée, ce sont beaucoup de passants qui laissent des « lol » et des emojis. Et il le confirme lui-même : <em>« dès que je fais une vidéo un peu sérieuse music business, ça fait mille fois moins de vues qu'une vidéo où je fais n'importe quoi. »</em><br><br><strong>La leçon :</strong> en analysant les chiffres, on découvre ce qui intéresse son audience. Parfois on est d'accord, parfois non. Alors on choisit — suivre la tendance pour faire du chiffre, ou tenir la qualité avec moins de volume. Les deux sont des décisions légitimes, à condition de les prendre en conscience.</div></details>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="chap" id="s7" data-c="">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">07</div><div><h2>Les carrousels mixtes</h2><div class="tc">⏱ 57:18 – 64:57</div></div></div>
+  <div class="cbody">
+    <p>La question centrale de la session : les abonnés sont majoritairement venus pour les scènettes de couple. Comment les ramener vers la musique ?</p>
+    <div class="box b-key"><span class="bt">La réponse : le carrousel mixte</span><p>Un carrousel où le premier slide est une <strong>image ou un texte</strong> calibré pour l'audience actuelle, et où le slide suivant est une <strong>vidéo musicale</strong>. Le premier attire, le second convertit.</p></div>
+    <h3>Pourquoi ça fonctionne mécaniquement</h3>
+    <ul class="tl">
+      <li><b>Les carrousels sont montrés en priorité aux abonnés</b>Sur les 3 000 à 4 000 premières vues, <strong>plus de 80 % sont vos propres abonnés</strong>.</li>
+      <li><b>Le spectateur arrive volontairement sur la vidéo</b>Il a scrollé pour voir la suite — ce ne sont pas des gens qui tombent dessus et se barrent en deux secondes. La statistique de vue est donc bien plus fiable.</li>
+      <li><b>Le verdict est net</b>S'ils regardent et n'accrochent pas, le contenu n'est pas bon. S'ils accrochent, cela donne de la visibilité, <strong>éduque ceux qui ne savaient pas ce que vous faites</strong>, et prouve le potentiel.</li>
+      <li><b>Et si en plus ils interagissent</b>Le reel peut partir en phase virale.</li>
+    </ul>
+    <div class="box b-warn"><span class="bt">Les conditions techniques</span><p><strong>L'image doit capter l'œil immédiatement</strong> et <strong>le son doit démarrer direct</strong>. Pas de blanc, pas d'intro. Le public est surpris : soit il aime et il reste, soit il n'aime pas et il part — c'est justement ce qu'on veut mesurer.</p></div>
+    <h3>Ce qui accroche sur le premier slide</h3>
+    <div class="pc">
+      <div class="ok"><h4>Une image qui choque</h4><ul><li>Du vrai contraste</li><li>Quelque chose qu'on ne voit pas tous les jours</li><li>L'œil s'arrête avant que le cerveau ne décide</li></ul></div>
+      <div class="ko" style="background:var(--info-light);border-color:#BFDBFE"><h4 style="color:#1E40AF">Une phrase qui arrête</h4><ul><li>On se dit « je suis d'accord » ou « non, pas du tout »</li><li>Le registre titre-choc fonctionne (« la fin est proche », « le casse du siècle »)</li><li>La réaction visée : qui ? quoi ? comment ? pourquoi ?</li></ul></div>
+    </div>
+    <div class="box b-info"><span class="bt">Le prompt à donner à l'IA</span><p><em>« J'ai envie de créer un carrousel mixte avec un ou deux slides — format image ou texte — qui attire l'attention de mon audience, celle qui a vraiment accroché sur mes contenus scènettes de couple. Le deuxième ou le troisième slide sera une vidéo dans laquelle j'interprète un morceau. Mon objectif est que le morceau ait un lien direct, plus ou moins proche, avec ce que je dis dans le premier slide. »</em></p><p>Puis : <em>« Peux-tu me suggérer des idées de slides et des structures de slides qui peuvent avoir un impact fort sur mes abonnés ? »</em></p><p>Demandez explicitement quelque chose qui <strong>capte l'attention tout en restant aligné</strong> avec la ligne du projet.</p></div>
+    <div class="box b-tip"><span class="bt">La stat à mesurer — et elle seule</span><p>Pas le nombre de vues : <strong>le taux de rétention sur la vidéo</strong>. Parmi ceux qui ont vu le slide et sont allés sur la vidéo, combien restent écouter ?</p><p>Sur Instagram, <strong>plus de 25 %, c'est énorme</strong>. Si le taux est élevé mais le volume petit, cela veut dire qu'une meilleure phrase d'accroche amènerait plus de trafic à l'entrée. La question devient alors : est-ce que le taux se maintient avec plus de trafic ? C'est le point d'équilibre à chercher.</p></div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="chap" id="s8" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">08</div><div><h2>Le blog et le réseau booking</h2><div class="tc">⏱ 64:57 – 68:36</div></div></div>
+  <div class="cbody">
+    <h3>Les articles de blog : la prochaine étape</h3>
+    <div class="box b-key"><span class="bt">La règle</span><p><strong>Maximum un par semaine — mais bien travaillé.</strong> Il vaut mieux moins d'articles et plus qualitatifs que l'inverse.</p></div>
+    <ul>
+      <li>Chaque article doit avoir <strong>un lien direct avec vous</strong>.</li>
+      <li>Mettre de l'<strong>EEAT</strong> dedans : répondre sérieusement aux questions personnelles que l'IA vous pose pendant la rédaction, c'est ce qui rend l'article crédible.</li>
+      <li>Relire, reformuler, ne pas publier le premier jet.</li>
+      <li>Si les photos ne sont pas belles, <strong>les refaire</strong>. Vraiment.</li>
+    </ul>
+    <div class="box b-danger"><span class="bt">Le risque de cannibalisation</span><p>C'est la règle Google depuis le 1<sup>er</sup> août : moins mais mieux. Exemple vécu — une pause forcée en rédaction parce que la Search Console signalait <em class="q">« trop d'articles qui se cannibalisent »</em> et recommandait explicitement une trêve.</p></div>
+    <h3>Commencer à bouger les réseaux booking</h3>
+    <p>Le travail de contact a déjà démarré : deux ou trois anciennes touches relancées. Ce n'est pas encore mûr, mais ça peut faire bouger des lignes.</p>
+    <div class="box b-tip"><span class="bt">Les salons professionnels</span><p>S'il y a un ou deux salons pro dans le domaine, dans la région ou ailleurs : <strong>il faut y aller.</strong> Deux raisons :</p><p>1. Des gens peuvent vous reconnaître, vu l'impact qu'ont commencé à avoir les vidéos.<br>2. Vous avez maintenant une très belle carte de visite — un site qui claque, et le chiffre de 5 millions de comptes atteints qui intrigue.</p></div>
+    <div class="box b-info"><span class="bt">Ne pas trop en attendre — mais créer des touches</span><p>Ce qui va se passer : certains, par crainte de passer à côté, vont « ouvrir la porte » sans s'engager. Un bon accueil, un contact sympa — mais pas de contrat signé dans la foulée. <strong>C'est normal : ils sont en phase de rapprochement stratégique.</strong> Il ne faut pas attendre que ça prenne pour aller les voir, il faut commencer le réseautage maintenant.</p></div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="chap" id="s9" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">09</div><div><h2>Le RIM, les SMAC et l'effet réseau</h2><div class="tc">⏱ 68:36 – 88:50</div></div></div>
+  <div class="cbody">
+    <h3>Le RIM — Réseau des Indépendants de la Musique</h3>
+    <p>Le réseau des indépendants de la musique en <strong>Nouvelle-Aquitaine</strong>. Il faut un siège social immatriculé dans la région pour y adhérer — ce qui est votre cas.</p>
+    <div class="cards">
+      <div class="card stat"><h4>≈ 50 €</h4><p>Le coût de l'adhésion, avec le statut de la société</p></div>
+      <div class="card"><h4>Base publique</h4><p>L'annuaire des membres (téléphones, emails) est consultable par tout le monde</p></div>
+      <div class="card"><h4>Ce que l'adhésion ajoute</h4><p>Les invitations aux événements — et c'est là qu'est toute la valeur</p></div>
+    </div>
+    <div class="box b-key"><span class="bt">Pourquoi les invitations changent tout</span><p>Ce sont des invitations VIP : les carrés, l'étage, pas la fosse. Et tous les gens présents ont été invités aussi — sponsors, tourneurs, médias, radios. <strong>Vous les croisez, vous les recroisez</strong>, et quand vous les appelez ensuite, la glace est déjà brisée.</p></div>
+    <div class="box b-info"><span class="bt">Le script d'approche</span><p><em>« Bonjour, je vous contacte parce que j'ai vu qu'on était dans le réseau RIM ensemble et je me demandais si vous veniez à la prochaine rencontre du [date]. »</em></p><p>La réponse importe peu. Ce qui compte : la personne sait qu'elle peut vous croiser, donc elle ne vous raccroche pas au nez. Elle ne sait pas qui vous êtes, mais vous venez du réseau — <strong>vous n'êtes pas un amateur qui sort de son trou</strong>. Ensuite seulement : « de toute façon je vous contactais pour… »</p></div>
+    <div class="box b-danger"><span class="bt">La limite à ne pas franchir</span><p>La base étant publique, n'importe qui peut prétendre venir du réseau sans y être. <strong>C'est exactement là qu'on se grille bêtement</strong> — quelqu'un du milieu repère immédiatement une affirmation fausse, et le contact est mort. Si on utilise l'approche, on adhère vraiment.</p></div>
+    <h3>Les événements à viser</h3>
+    <ul>
+      <li>Les <strong>rencontres pro et « escales »</strong> régionales : tables rondes, temps d'échange, sortie de résidence d'artiste. Des élus sont parfois invités — et il suffit que l'un d'eux aime ce qu'il entend.</li>
+      <li><strong>Les assemblées générales</strong> — c'est le meilleur créneau, parce que tous les éléments importants de la structure sont présents.</li>
+      <li>Les conférences y sont souvent décevantes ; ce sont les gens présents qui valent le déplacement.</li>
+    </ul>
+    <h3>Les SMAC</h3>
+    <p>Deux identifiées près de chez vous : <strong>Ampli à Pau</strong> et <strong>La Gespe à Tarbes</strong>. Un premier contact avec Ampli s'était mal passé — accueil méprisant, équipe depuis renouvelée.</p>
+    <div class="box b-tip"><span class="bt">Pourquoi il faut y retourner</span><p>Les équipes changent. Vous avez changé aussi. Et parfois ce n'est ni l'un ni l'autre : c'est simplement le mauvais jour — saturation, ras-le-bol, fatigue. <strong>Un mauvais accueil n'est pas un verdict.</strong></p><p>Le parallèle donné : on croise des artistes en concert qui paraissent désagréables, on les recroise plus tard dans d'autres conditions et ils sont adorables. Quinze dates en deux semaines, ça épuise.</p></div>
+    <div class="box b-key"><span class="bt">Le vrai pouvoir des SMAC</span><p>Ce n'est pas qu'elles vont se bouger pour vous. C'est que <strong>tout cet écosystème est massivement subventionné</strong>.</p><p><strong>Levier 1 —</strong> À partir du moment où une SMAC valide et accompagne votre projet, d'autres structures subventionnées sont quasi obligées de vous programmer, sous peine de perdre des subventions. Et sur ces dates-là, si vous brillez, des acteurs non subventionnés vous découvrent et vous prennent aussi.</p><p><strong>Levier 2 —</strong> Pour les aides et subventions. Arriver devant une commission avec la SMAC du coin derrière vous et une lettre de recommandation du réseau, ça pèse — parce que la personne qui instruit le dossier ne veut pas être seule responsable d'un projet qui échoue.</p></div>
+    <div class="box b-info"><span class="bt">Comment se présenter à une SMAC</span><p><em>« On a un projet sorti, ça fait peut-être un moment, mais notre activité se développe. On a doublé notre nombre d'abonnés en quelques mois. On continue d'être actifs. On a un site web qui claque, et partout où on le montre on a de très bons retours. On commence à se bouger, donc on vient se présenter pour voir s'il n'y a pas des synergies à mettre en place. »</em></p><p>Et rester <strong>ouvert à tout</strong> : un studio de répétition, un dispositif d'accompagnement, n'importe quoi. Le message est simplement : « on est là ».</p></div>
+    <div class="pull">« La vente, c'est des maths. Tu te montres à 100 endroits, il y en a un ou deux qui vont acheter sans que tu n'aies rien à faire. »<span>Mais il faut se montrer</span></div>
+    <details><summary>L'opportunité indirecte : l'histoire du stagiaire de M6</summary><div class="dc">Un stagiaire chez M6, à l'époque au stade « machine à café ». Un clip à tourner à l'étranger ; sa responsable refuse qu'il vienne. Après insistance, elle accepte qu'il vienne <strong>aux frais de la production</strong>, en congé — « faites vos affaires ».<br><br>Deux semaines plus tard, il quitte M6. On comprendra trois mois après : on lui avait confié un projet de casting pour monter un groupe, M6 a abandonné le projet — mais lui y croyait. Il a inscrit le groupe à une émission télé, ils ont gagné en visibilité, et il est devenu leur manager.<br><br>Aujourd'hui, ce même homme dirige un des plus gros studios d'enregistrement des Hauts-de-Seine, réalise de beaux albums et gère de gros projets synchro. Et quand il avait des dates qu'il ne pouvait pas honorer, il les refilait.<br><br><strong>La leçon :</strong> même quelqu'un qui n'est pas le décisionnaire, si vous le convainquez à cet endroit-là, vous le recroiserez ailleurs dans quelques mois. C'est ça, le réseau : <em>vous ne connaissez personne, mais tout le monde vous connaît.</em></div></details>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="chap" id="s10" data-c="r">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">10</div><div><h2>Le vrai point faible : pas d'actu</h2><div class="tc">⏱ 88:50 – 95:04</div></div></div>
+  <div class="cbody">
+    <div class="pull">« Vous avez un défaut : il n'y a pas d'actu. »<span>Le diagnostic de la session</span></div>
+    <p>La dynamique est bonne, le contenu tourne, le réseau se construit. Mais il manque le carburant : <strong>quelque chose de nouveau à annoncer</strong>. Sans actu, il est très difficile de solliciter qui que ce soit.</p>
+    <details><summary>Le parallèle vécu : les ventes de livres</summary><div class="dc">Six mois sans regarder les chiffres de vente, puis le constat : effondrement. La question posée à un proche : <em>« qu'est-ce qui se passe ? »</em> — la réponse : <em>« Tu ne fais plus rien. »</em><br><br>Avant, il y avait des séminaires tout le temps, une conférence dans une école en permanence. 20 ventes dans la journée, multipliées par chaque semaine, plus le bouche-à-oreille, plus les vidéos : entre <strong>200 et 300 ventes par semaine</strong>. Sans ces occasions, plus rien.<br><br>Et la solution est simple : une réédition suffirait à <strong>légitimer d'en reparler</strong>, de faire de la com, voire des campagnes publicitaires. Et ça repart.</div></details>
+    <h3>Solliciter sans saouler : la mécanique de la mode</h3>
+    <p>L'industrie de la mode ne s'arrête jamais de vous solliciter : un jean pour l'été, un autre pour l'automne, un autre pour l'hiver. Les French Days, le Black Friday, les soldes, Noël. Et quand les idées manquent, le village des marques. <strong>Pourquoi ? Parce que les produits changent constamment.</strong></p>
+    <div class="box b-key"><span class="bt">Le principe transposé</span><p>Vous sollicitez votre audience, elle adhère ou non — et ce n'est pas grave. <strong>Mais vous avez le droit de lui prendre un peu la tête une semaine ou deux</strong> : c'est frais, c'est récent, c'est normal. L'essentiel est d'<strong>acter le début et la fin de la campagne</strong>.</p></div>
+    <div class="box b-info"><span class="bt">Le calendrier type d'une sortie</span><p>Single annoncé pour le 30 septembre, on en parle le 16 :</p><p>→ trois ou quatre jours après, on peut en reparler<br>→ une semaine après, encore<br>→ la veille de la sortie, le jour J, le lendemain : oui<br>→ quelques jours après : encore une fois<br>→ <strong>au-delà, on commence à saouler</strong></p><p>Puis on relâche. Deux semaines plus tard, une nouveauté avec un nouvel angle : on a de nouveau le droit, parce qu'entre-temps il y a eu du contenu différenciant.</p></div>
+    <div class="box b-tip"><span class="bt">Le Saint-Graal</span><p>Sur un malentendu, le titre sort, vous en parlez une fois, les gens sautent dessus et se l'approprient. Là, c'est terminé : <strong>il n'y a plus qu'à appuyer sur un bouton</strong>.</p></div>
+    <div class="box b-warn"><span class="bt">Le signe que ça tourne vraiment</span><p>Quand vous vous ferez insulter pour ça — <em class="q">« arrête de nous saouler avec tes chansons »</em> — c'est excellent. Cela veut dire que la communication tourne, rebondit, et que ceux qui ne sont pas dans le cœur de cible dégagent tout seuls.</p></div>
+    <h3>Comment créer de l'actu sans nouvel album</h3>
+    <div class="cards">
+      <div class="card"><h4>Ressortir en singles</h4><p>Chaque morceau de l'album, avec une date de sortie propre, est une nouveauté. <strong>Absolument tout le monde fait ça</strong> — c'est un usage courant de la profession.</p></div>
+      <div class="card"><h4>Un remix</h4><p>Des choses moins produites mais actuelles. Si un truc vient de sortir et qu'il y a un début de buzz intéressant, se greffer dessus.</p></div>
+      <div class="card"><h4>Greffer la musique au contenu</h4><p>Une vidéo de couple avec un vinyle en main, même préfabriqué. Sur une vidéo à plusieurs millions de vues, <strong>quelques centaines de milliers de curieux, ce sont autant de streams</strong>.</p></div>
+      <div class="card"><h4>Le son en fond</h4><p>Un de vos morceaux derrière une vidéo qui s'emballe. Sur certaines plateformes, ça se convertit directement en streams — et ça peut ouvrir des playlists.</p></div>
+    </div>
+    <details><summary>La stratégie Lil Wayne</summary><div class="dc">Entre 2003 et 2008 environ, ce rappeur a sorti près de 200 projets. La méthode : prendre des morceaux qui existaient déjà, poser un couplet dessus, et publier — le format mixtape.<br><br>Ça a cartonné pour une raison mécanique : <strong>il était tellement productif qu'il y avait toujours un titre qui finissait par accrocher quelque part dans l'année.</strong><br><br>Ce n'est pas un modèle à copier tel quel. C'est une démonstration de ce que la force de proposition permet — et c'est elle qui justifie la sollicitation d'un public.</div></details>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="chap" id="s11" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">11</div><div><h2>Produire beaucoup : la mécanique du hit</h2><div class="tc">⏱ 95:04 – 106:53</div></div></div>
+  <div class="cbody">
+    <div class="box b-key"><span class="bt">Le rythme attendu aujourd'hui</span><p>Écoutez les interviews d'artistes qui marchent : <em class="q">« Quand je ne suis pas en concert, je suis en promo. Quand je ne suis pas en promo, je suis en studio. »</em> Ça revient tout le temps, parce qu'ils ont compris qu'il faut <strong>constamment alimenter</strong>.</p><p>La norme : <strong>au minimum un projet par an</strong>, ce qui permet d'avoir une actu tous les mois.</p></div>
+    <div class="box b-warn"><span class="bt">Ce qui a changé en quinze ans</span><p>Avant : un album tous les trois ou quatre ans était cohérent — album, promo, tournée, repos, création. <strong>À l'ère du digital, ce cycle n'est plus tenable.</strong></p><p>Une pause de six mois sans rien sortir est normale. Un an sans rien sortir <em>mais en produisant</em> aussi. Un an sans rien sortir <strong>et</strong> sans rien produire, en dehors d'une tournée mondiale, signale un problème.</p></div>
+    <h3>La statistique qui explique tout</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Sur 100 morceaux produits dans une carrière</th><th>Résultat</th></tr></thead>
+      <tbody>
+        <tr><td><strong>2</strong></td><td>Marchent vraiment</td></tr>
+        <tr><td><strong>2 à 3</strong></td><td>Des « follow-up » : ça suit un succès, donc ça marche, sans devenir des classiques</td></tr>
+        <tr><td><strong>Le reste</strong></td><td>Des morceaux d'album — ils alimentent les concerts</td></tr>
+        <tr><td colspan="2">Les légendes avec 30 ou 40 ans de carrière en ont entre <strong>10 et 20</strong>. Imaginez le volume qu'il faut produire pour y arriver.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="box b-info"><span class="bt">Le test fait en direct</span><p>Même les plus grands n'ont pas quarante tubes mémorisables. L'exercice tenté en session — citer trois tubes de Madonna de tête — a montré la limite en quelques secondes. Michael Jackson a fait dix ou douze albums ; il a forcément sorti des sons qui n'ont pas tourné. <strong>C'est juste normal.</strong></p></div>
+    <div class="pull">« Plus tu proposes de choses, plus tu te donnes de chances d'avoir un truc qui accroche et qui devient un classique. »<span>La seule variable qu'on maîtrise</span></div>
+    <h3>La contrepartie économique</h3>
+    <p>Enchaîner un album par an suppose de ne pas payer plein tarif partout. Trois leviers à activer :</p>
+    <ul class="tl">
+      <li><b>Anticiper les aides avant de dépenser</b>Savoir, <strong>avant le premier centime engagé</strong>, quelles aides seront mobilisables et avec qui on va travailler. Les agréments crédit d'impôt se préparent en amont — il faut que ce soit carré.</li>
+      <li><b>Optimiser le temps de studio</b>Arriver avec des maquettes quasi exploitables faites à la maison. Là où un groupe classique aurait besoin de 15 heures de studio, <strong>en 4 heures c'est fait</strong> — c'est ça qui divise les coûts.</li>
+      <li><b>Faire jouer les volumes</b>« J'enregistre un titre chez toi » et « j'en enregistre 15 » ne se négocient pas pareil. Il faut prendre l'habitude de négocier partout et de trouver des deals.</li>
+    </ul>
+    <div class="box b-tip"><span class="bt">Sur le crowdfunding</span><p>Pas besoin d'en refaire à chaque projet — ce sont toujours à peu près les mêmes contributeurs, et il faut les laisser respirer. Ce n'est pas la seule voie de financement.</p></div>
+    <details><summary>Deadline ou temps long : deux modes de fonctionnement à concilier</summary><div class="dc">Un point relationnel sincère a été posé en session : l'un travaille bien sous deadline et ne démarre qu'avec elle ; l'autre a besoin de temps, déteste l'urgence, et vit mal les projets bouclés à la dernière minute. La cover enregistrée la veille pour le lendemain, après un concert et avec l'école le lendemain, en est l'illustration.<br><br>Le témoignage de Tarik sur lui-même : pas particulièrement bon sous pression, mais bon en situation de crise — pas de panique, pas d'emballement, un comportement peut-être moins agréable mais pas de perte de contrôle. Et un travers assumé : quand le sujet l'intéresse, il s'y met tout de suite et longtemps ; quand il ne l'intéresse pas, il attend le dernier moment.<br><br><strong>Il n'y a pas de bon mode.</strong> Il y a deux modes opposés qui, quand on travaille ensemble, créent des frictions — et le fait de les nommer est déjà la moitié du travail.</div></details>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="chap" id="s12" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">12</div><div><h2>Décrocher une collaboration</h2><div class="tc">⏱ 111:47 – 116:00 · 122:13</div></div></div>
+  <div class="cbody">
+    <p>Votre ingénieur du son — qui a le studio où vous enregistrez — est aussi l'ingé son façade d'un groupe connu. Une demande lui a déjà été faite : voir s'il pouvait obtenir une première partie.</p>
+    <div class="box b-danger"><span class="bt">Ce n'est pas la bonne approche</span><p>Demander un service, c'est demander à quelqu'un de dépenser son capital relationnel pour vous, sans rien y gagner. Il le fera mollement, ou pas du tout.</p></div>
+    <div class="box b-key"><span class="bt">La bonne approche : l'intéresser</span><p>La question à lui poser devient : <em class="q">« Quel deal serait assez confortable pour toi pour que tu ailles proposer une collab ? »</em></p><p>Concrètement : vous avez un son, ou une idée de son, dont vous pensez qu'il leur irait bien. <strong>Vous splittez les points en deux avec lui.</strong> Il présente, ça marche ou pas — mais il a une vraie raison de le faire, et de le faire bien.</p></div>
+    <h3>Le pitch qu'il portera</h3>
+    <p><em>« J'ai un morceau à vous faire écouter. C'est un groupe que j'enregistre, ils sont d'ici, ils sont top. Ils aiment bien ce que vous faites et pensent qu'une collab pourrait vous intéresser. Ils ont un bon buzz web, ils font de la création de contenu, ça tourne bien — plus de 5 millions de comptes atteints cet été. Prenez le temps d'écouter, puis vous me dites. »</em></p>
+    <div class="box b-tip"><span class="bt">Vous n'avez rien à prouver</span><p>Ils prennent cinq minutes, ils écoutent. Soit il y a une fibre, soit non. Et même un refus peut produire quelque chose : il suffit qu'un membre du groupe accroche et propose une guitare — et c'est peut-être ce riff-là qui fera le hit. <strong>Ça ne s'anticipe pas.</strong></p></div>
+    <div class="box b-info"><span class="bt">Concevoir le morceau pour eux</span><p>Si l'idée se précise : partir de la <strong>grille d'accords</strong> sur laquelle ils sont confortables, de leur <strong>tonalité</strong>, de leur <strong>univers</strong>. Et regarder dans les tiroirs s'il n'y a pas des textes déjà écrits qui iraient dans cet esprit-là.</p></div>
+    <div class="pull">« Chaque membre de votre réseau, direct ou indirect, il faut toujours le solliciter avec la carotte : voilà ce qu'il y a à gagner pour toi. »<span>Le principe général</span></div>
+    <div class="box b-tip"><span class="bt">Une piste concrète ouverte en session</span><p>Un contact a été transmis directement pendant l'appel : un duo de producteurs — deux frères — certifiés récemment, dont le morceau du moment passe en radio. Le grand frère est accompagné depuis 2019-2020 ; il est chanteur, il sait écrire et composer, et ils ont un vrai univers.</p><p><strong>L'approche à avoir :</strong> appeler de la part de Tarik, expliquer que vous êtes entre deux projets, que vous partez sur un nouvel album et que vous avez envie de mettre des choses un peu différentes. <strong>Le fait de montrer un travail de développement de visibilité déjà amorcé va peser.</strong></p><p>Le pronostic donné : ces deux-là sont sous-cotés, et dans deux ou trois ans ils seront devenus inaccessibles. C'est maintenant qu'il faut les approcher.</p></div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="chap" id="s13" data-c="r">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">13</div><div><h2>Protéger ses comptes</h2><div class="tc">⏱ 116:37 – 119:18</div></div></div>
+  <div class="cbody">
+    <p>La restriction Instagram subie cet été a coûté cher, au moment même où la dynamique montait.</p>
+    <div class="box b-tip"><span class="bt">Un recours existe désormais</span><p>Il existe un interlocuteur qui gère les litiges au niveau européen et qui a le pouvoir de réactiver des comptes bloqués. Le circuit : quand le support classique répond « on ne peut rien faire », c'est cette personne qui étudie le dossier — et si quelque chose ne colle pas, la réactivation est rapide.</p><p>Un cas similaire a été résolu de cette manière : compte publicitaire bloqué, puis page bloquée dans la foulée, débloqué immédiatement après passage par ce contact. <strong>Si ça se reproduit, la piste est là.</strong></p></div>
+    <div class="box b-warn"><span class="bt">Les usurpations d'identité</span><p>Il existe aussi un groupe dédié, basé en Italie, qui traite ce sujet — parce qu'il y a un vrai business derrière : des comptes à des centaines de milliers, voire des millions d'abonnés se font pirater. Déposer plainte ne sert à rien, écrire à la plateforme non plus.</p></div>
+    <div class="box b-key"><span class="bt">Le seul vrai bouclier : la certification</span><p>La pastille bleue payante est <strong>le seul dispositif qui protège réellement</strong> contre l'usurpation — parce que pour l'obtenir, votre pièce d'identité a été authentifiée.</p><p>Le coût : environ 15 à 17 € par mois sur Instagram, et à peu près autant sur Facebook. Les abonnements sont facturés séparément par plateforme. <strong>À arbitrer dans le budget</strong> — mais c'est le seul recours préventif.</p></div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="chap" id="s14" data-c="">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">14</div><div><h2>La dynamique et la part de chance</h2><div class="tc">⏱ 124:53 – fin</div></div></div>
+  <div class="cbody">
+    <h3>Ce qui prouve que la dynamique est bonne</h3>
+    <div class="box b-key"><span class="bt">La preuve est déjà faite</span><p><strong>Vous avez eu une vidéo qui s'est emballée.</strong> Cela veut dire que ce type de contenu peut vous donner de la visibilité — ce n'était pas acquis, et maintenant on sait que vous en êtes capables. Il ne reste qu'à réitérer.</p></div>
+    <ul class="tl">
+      <li><b>1. Valider la formule</b>Vous avez isolé une formule qui fonctionne. Première étape : confirmer qu'elle tient dans le temps.</li>
+      <li><b>2. Y greffer les sons</b>Une fois la formule validée, mettre la musique dessus et observer ce qui se passe.</li>
+      <li><b>3. Détourner l'audience</b>Sur cette montée en visibilité, ramener progressivement cette audience vers la musique.</li>
+      <li><b>4. Attendre l'alchimie</b>Et là, ce n'est plus entre vos mains.</li>
+    </ul>
+    <div class="pull">« Ce n'est pas une question de faire du bon son ou pas. Quasiment tout ce que les gens font est bon. Par contre, l'alchimie, tu ne peux pas l'inventer. »<span>Vingt ans de constat</span></div>
+    <p>À partir du moment où c'est construit, pensé, juste, avec une bonne harmonie — c'est bien fait. On aime ou on n'aime pas, mais il n'y a rien à redire. <strong>L'alchimie avec le public, elle, ne se décrète pas.</strong> Des morceaux dont on était certain qu'ils cartonneraient n'ont rien donné ; d'autres, faits un dimanche sans y penser, ont explosé.</p>
+    <h3>« 90 %, c'est de la chance »</h3>
+    <div class="box b-info"><span class="bt">La conférence en Allemagne</span><p>Devant des dirigeants du secteur, la question posée : <em class="q">« Quel est le critère numéro un qui garantit de faire percer un artiste ? »</em> — la réponse : <strong>à 90 %, c'est de la chance.</strong></p><p>Dans la salle, un investisseur qui rachète des catalogues n'y croit pas. L'argument développé : dix ans de suite, on fait le même salon professionnel, on croise les mêmes têtes aux mêmes endroits, il ne se passe rien. Et une année, on tombe sur quelqu'un qui se dit la même chose depuis dix ans — et quelque chose se crée.</p><p><strong>Ce n'est pas que l'artiste avait plus de talent cette année-là.</strong> Le talent ne se pense pas en stock, il se pense en flux. Il ne reste qu'une explication.</p></div>
+    <div class="box b-key"><span class="bt">La nuance décisive</span><p>« Cette chance-là, <strong>elle peut se provoquer</strong>. Ça ne veut pas dire qu'elle va se provoquer, mais elle peut. » C'est exactement ce que vous êtes en train de faire en actionnant des leviers stratégiques.</p></div>
+    <details><summary>Le contre-exemple : perdre son levier</summary><div class="dc">Un chanteur québécois, star en France au milieu des années 2000 — numéro un des ventes, concerts pleins. Dix ans plus tard, il est dans une situation très difficile. Il sort toujours des morceaux, aussi beaux qu'avant, probablement même meilleurs. Et tout le monde s'en fiche.<br><br>Ce n'est pas le talent qui a changé. À l'époque, un artiste alors numéro un des ventes toutes catégories lui a ouvert une porte : quand il a dit « son son, c'est une tuerie, écoutez-le », les gens ont écouté. L'alchimie s'est créée parce qu'il a atteint assez de monde pour que ce monde en atteigne d'autres.<br><br>Aujourd'hui il n'a plus ce levier, et il n'a pas adopté les leviers modernes. Il attend que ça se passe — <strong>et ça ne se passera plus.</strong><br><br>C'est le miroir exact de votre situation : vous, vous êtes en train d'actionner les leviers, et on voit que ça marche.</div></details>
+    <div class="box b-warn"><span class="bt">Le moment critique</span><p>C'est précisément maintenant que le doute et la lassitude peuvent s'installer. <strong>C'est là qu'il ne faut pas lâcher</strong> — ni se dire « on a fait ça, faisons autre chose pour voir ». Il faut rester sur la ligne directrice.</p></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="bar"></div>
+  <div class="faqhead"><h2>💬 FAQ de la session</h2><p>Toutes les questions posées pendant la session, et les réponses données.</p></div>
+  <div class="faqbody">
+
+    <div class="faqcat">Financement de la formation</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>On a cotisé l'année dernière — comment obtenir une attestation ?</div><div class="a"><p>L'URSSAF ne délivre pas d'attestation de cotisation formation pour une SAS : ce n'est pas elle qui gère ces fonds. <strong>Il faut se rapprocher de son OPCO.</strong> Dans votre cas, c'est le FIF PL, identifié à partir du code NAF.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Comment ça se fait qu'on ne cotise pas du côté de l'Agefice ?</div><div class="a"><p>Parce que ces fonds sont alimentés par les <strong>cotisations sociales sur le salaire de dirigeant</strong>. En SARL, les charges sont dues quoi qu'il arrive : dès que la cotisation formation dépasse un petit seuil, l'enveloppe de 3 000 € par an s'ouvre.</p><p>Dans votre structure, il aurait fallu être déclaré <strong>président salarié</strong> — bulletin de salaire, environ 80 % de charges. Sans cela, l'Agefice est fermé et seul le code APE détermine la prise en charge FIF PL.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Peut-on aller au-delà de 3 000 € ?</div><div class="a"><p>Non, 3 000 € est le plafond. Mais pour l'atteindre il faut une <strong>formation longue durée : 110 heures minimum, en présentiel</strong>, sur un thème entrant dans les critères de l'année — et une seule tous les trois ans. Le programme peut être conçu sur mesure entre nous.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Où trouve-t-on la liste des thèmes pris en charge ?</div><div class="a"><p>C'est précisément le problème : <strong>ils ne communiquent pas dessus.</strong> Le site annonce de nouveaux critères, mais chaque lien renvoie au même document qui ne les contient pas — y compris depuis l'espace adhérent.</p><p><strong>La seule voie fiable est de les appeler.</strong> Un doute a été formulé en session : cette opacité leur laisse peut-être la possibilité de refuser des dossiers même conformes.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Faut-il que la formation soit référencée au FIF PL ?</div><div class="a"><p>Non, ce n'est pas obligatoire. Le précédent cité — 3 000 € obtenus pour un dirigeant de studio en Normandie — portait sur un programme construit sur mesure, orienté dirigeants, sans référencement préalable.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Peut-on faire une demande avec deux structures différentes ?</div><div class="a"><p>Oui — mais <strong>pas en même temps.</strong> La logique proposée : tenter d'abord avec une entité, et si ça passe, réitérer avec l'auto-entreprise en milieu d'année suivante.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Pour le CPF, il faut remplir des papiers ?</div><div class="a"><p>La demande se fait directement en ligne, mais les contraintes sont lourdes : <strong>logs de connexion faisant foi</strong>, environ 50 heures de vidéos à faire tourner, deux fois 7 heures en live, et une présentation devant un jury. C'est beaucoup plus exigeant que le FIF PL, dont les justificatifs se limitent à des feuilles de présence signées.</p></div></div>
+
+    <div class="faqcat">Contenu et algorithme</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Est-ce qu'il faut toujours un contenu par jour, ou un tous les deux jours suffirait ?</div><div class="a"><p>Ralentir un peu n'est pas déconnant. <strong>Ce qui compte, c'est la régularité, pas la fréquence maximale.</strong> Et l'algorithme accepte parfaitement les pauses : trois ou quatre mois à fond puis deux semaines d'arrêt, c'est sain — à condition de ne pas s'arrêter toutes les deux semaines.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Si on allège, est-ce que ça ne va pas casser le rythme ?</div><div class="a"><p>Au contraire. Vous allez remarquer qu'après un espacement, <strong>la publication suivante revient beaucoup plus fort</strong> — il peut même y avoir un pic de visibilité. Et cela préserve le plaisir, qui se ressent dans le contenu.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Pourquoi les contenus musicaux font-ils moins de vues que les scènettes de couple ?</div><div class="a"><p>Ce n'est pas un jugement de qualité, c'est un <strong>mécanisme de diffusion</strong>. L'algorithme donne à chaque type de contenu le volume d'impressions dont il a besoin pour « noter » : beaucoup pour un format grand public, beaucoup moins pour un format niché. Les chiffres sont donc structurellement plus petits.</p><p>Le second filtre est le taux d'interactions : sans lui, même un contenu apprécié n'est pas étendu.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Avec les abonnés qu'on a déjà, peut-on les ramener vers notre musique ?</div><div class="a"><p>Oui — <strong>les carrousels mixtes</strong>. Premier slide image ou texte calibré pour l'audience actuelle, slide suivant une vidéo musicale. Les carrousels sont montrés en priorité aux abonnés (plus de 80 % des premières milliers de vues), et le spectateur arrive volontairement sur la vidéo.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Concrètement, ça donne quoi ? Une phrase sur un conflit de couple, puis un moment de concert ?</div><div class="a"><p>Exactement cette idée. Et on peut aller plus loin : construire une <strong>progression de curiosité</strong> — un premier slide qui attire vers le deuxième, qui attire vers le troisième, et c'est le troisième qui est la vidéo.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Comment présente-t-on ça à une IA pour qu'elle nous aide ?</div><div class="a"><p>En décrivant l'intention complète : le carrousel mixte, l'audience visée (celle des scènettes de couple), le fait que le slide final soit une vidéo où vous interprétez un morceau, et l'objectif de <strong>lien entre le morceau et le premier slide</strong>. Puis demander des idées de slides et de structures.</p><p>Précisez que ça doit capter l'attention <strong>tout en restant aligné</strong> avec votre ligne — l'IA qui vous suit depuis le début connaît déjà le contexte.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Quelle statistique faut-il regarder pour savoir si ça marche ?</div><div class="a"><p>Pas le nombre de vues : <strong>le taux de rétention sur la vidéo</strong>. Sur Instagram, au-delà de 25 %, c'est énorme. Si le taux est bon mais le volume faible, c'est la phrase d'accroche qu'il faut améliorer — puis vérifier que le taux se maintient avec plus de trafic.</p></div></div>
+
+    <div class="faqcat">Réseau et développement</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Qu'est-ce que l'adhésion apporte, si la base de contacts est publique ?</div><div class="a"><p>Le statut de membre et surtout <strong>les invitations aux événements</strong> : rencontres, festivals, assemblées générales. Ce sont des invitations VIP, et tous les gens présents ont été invités aussi — tourneurs, médias, radios, sponsors.</p><p>Et cela donne un motif légitime d'appeler quelqu'un. Utiliser l'argument du réseau sans en être membre, c'est le meilleur moyen de se griller.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Si on adhère, peut-on faire profiter quelqu'un d'autre des invitations ?</div><div class="a"><p>Non, c'est nominatif et sur réservation : il faut être membre pour recevoir les informations. Si la société compte plusieurs personnes, cela se voit au moment des inscriptions.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Faut-il aller voir une SMAC maintenant, ou attendre d'avoir un projet en cours ?</div><div class="a"><p>Ça dépend des équipes, mais <strong>ça vaut le coup d'y aller maintenant</strong>. Le pitch : le projet est sorti il y a un moment, mais l'activité se développe — abonnés doublés en quelques mois, site qui claque, très bons retours. Et rester ouvert à tout : studio de répétition, dispositif d'accompagnement, n'importe quelle synergie.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>On s'était pris du mépris la première fois, faut-il vraiment y retourner ?</div><div class="a"><p>Oui. Les équipes changent — c'est déjà le cas ici. Vous avez changé aussi. Et parfois ce n'est ni l'un ni l'autre : c'est le mauvais jour, la saturation, la fatigue. <strong>Un mauvais accueil n'est pas un verdict définitif.</strong></p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Notre ingé son travaille avec un groupe connu — on lui a demandé une première partie, est-ce la bonne approche ?</div><div class="a"><p>Non. Demander un service, c'est lui demander de dépenser son capital relationnel sans contrepartie. <strong>La bonne approche est de l'intéresser :</strong> « quel deal serait assez confortable pour toi pour que tu ailles proposer une collab ? » — et lui splitter les points en deux sur le morceau.</p></div></div>
+
+    <div class="faqcat">Actualité et production</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>On n'a pas de nouvel album — sur quoi créer de l'actu ?</div><div class="a"><p>Plusieurs voies. <strong>Ressortir chaque morceau de l'album en single</strong> avec une date propre : à partir du moment où il y a une date de sortie, c'est une nouveauté, et tout le monde procède ainsi. Sinon : un remix, un morceau plus léger mais actuel, ou aller en studio peaufiner des choses.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Sachant que le précédent est sorti en octobre 2025, aurait-il fallu en sortir un autre fin 2026 ?</div><div class="a"><p>Oui, ça aurait été un bon rythme — et ce n'est pas un avis personnel, c'est ce que le marché montre. <strong>Il faut occuper une place et l'occuper en permanence.</strong> Avec de l'actu, on peut régulièrement publier un article, solliciter des médias, solliciter son public, demander des subventions ou des crédits d'impôt.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Comment solliciter son public sans le saouler ?</div><div class="a"><p>En actant le <strong>début et la fin de la campagne</strong>. Sur une sortie : l'annonce, un rappel trois-quatre jours après, un autre une semaine après, la veille, le jour J, le lendemain, puis un dernier quelques jours après. Au-delà, on saoule. Puis on relâche — et deux semaines plus tard, une nouveauté avec un angle différent redonne le droit de parler.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Combien de temps dure un mentorat ?</div><div class="a"><p><strong>Un an maximum</strong>, c'est la règle. Si en un an la dynamique n'est pas lancée, c'est qu'il y a quelque chose que le mentor n'a pas identifié, et qu'il n'est peut-être pas la bonne personne pour continuer.</p><p>Au-delà, des sessions de suivi ponctuelles sont possibles, plus espacées — un trimestre ou deux mois d'écart — et souvent à titre gracieux.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Est-ce qu'on sent quand la dynamique n'est pas là ?</div><div class="a"><p>Oui. Ici, la preuve est déjà faite : <strong>vous avez eu une vidéo qui s'est emballée.</strong> Cela démontre que ce type de contenu peut vous donner de la visibilité. Il reste à valider la formule dans la durée, puis à y greffer les sons.</p></div></div>
+
+  </div>
+</section>
+
+<!-- PLAN -->
+<section class="plan" id="plan">
+  <h2>🎯 Plan d'action</h2>
+  <p>Par ordre de priorité. Clique pour cocher.</p>
+
+  <div class="phase">Cette semaine</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Financement</b>Appeler le FIF PL pour obtenir la liste des thèmes pris en charge en 2026 — en se présentant comme jeune label du spectacle vivant qui doit monter en compétence sur des sujets techniques</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Financement</b>Enregistrer l'appel si possible, en tirer le transcript et l'envoyer à Tarik pour qu'il adapte le programme aux critères annoncés</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Réseau</b>Adhérer au RIM (≈ 50 €, avec le statut de la société) pour recevoir les invitations aux prochains événements</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Collab</b>Appeler Alex de la part de Tarik : expliquer l'entre-deux-projets, l'album à venir et l'envie de faire des choses différentes</span></li>
+  </ul>
+
+  <div class="phase">Ce mois-ci</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Contenu</b>Passer à un contenu tous les deux jours si besoin — la régularité prime sur la fréquence</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Contenu</b>Les jours de concert : arrêter les tournages, se filmer sur place, poster brut</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Contenu</b>Lister les 10 contenus les moins vus et les republier</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Contenu</b>Tester un premier carrousel mixte : slide d'accroche + vidéo musicale, image qui capte l'œil et son qui démarre direct</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Mesure</b>Sur ce carrousel, ne regarder que le taux de rétention de la vidéo (objectif : plus de 25 %)</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Site</b>Lancer les articles de blog — un par semaine maximum, avec de l'EEAT et de vraies photos</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Site</b>Finaliser les derniers détails sur MusicBrainz, Discogs et Wikidata</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Collab</b>Proposer à l'ingé son un split des points en échange d'une mise en relation, plutôt que lui demander un service</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Réseau</b>Aller se présenter à la SMAC de Pau — malgré le mauvais accueil passé, l'équipe a changé</span></li>
+  </ul>
+
+  <div class="phase">Le trimestre</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Actu</b>Programmer la ressortie de morceaux de l'album en singles datés, pour retrouver un flux d'actualité</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Actu</b>Glisser un des sons en fond d'une vidéo à fort potentiel — c'est le levier de conversion vers les streams</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Réseau</b>Repérer et faire un ou deux salons pro du secteur, région ou hors région</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Réseau</b>Aller à la prochaine assemblée générale du RIM — c'est là que tout le monde est présent</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Production</b>Cadrer le prochain album en amont : aides mobilisables, agréments crédit d'impôt, partenaires, avant la première dépense</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Production</b>Préparer des maquettes quasi exploitables à la maison pour diviser le temps de studio</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Production</b>Négocier au volume avec le studio : 15 titres ne se discutent pas comme un seul</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Sécurité</b>Arbitrer dans le budget la pastille bleue Instagram et Facebook — seul vrai bouclier contre l'usurpation</span></li>
+  </ul>
+</section>
+
+<!-- QUIZ -->
+<section class="quiz" id="quiz">
+  <h2>🧠 Quiz de validation</h2>
+  <p>5 questions pour vérifier que les points clés sont bien passés.</p>
+
+  <div class="qz" data-good="2">
+    <div class="qt">1. Pourquoi l'Agefice (3 000 €/an) n'est-il pas accessible dans votre cas ?</div>
+    <button class="opt">Parce qu'il est réservé au spectacle vivant</button>
+    <button class="opt">Parce que le chiffre d'affaires est trop faible</button>
+    <button class="opt">Parce que ces fonds viennent des cotisations sur le salaire de dirigeant, et il aurait fallu être président salarié</button>
+    <button class="opt">Parce qu'on ne peut adhérer qu'à un seul OPCO par an</button>
+    <div class="fb">Ces enveloppes sont alimentées par les charges sociales du dirigeant. Sans statut de président salarié, l'Agefice reste fermé et seul le code APE détermine la prise en charge FIF PL — plafonnée à 900 € par an.</div>
+  </div>
+
+  <div class="qz" data-good="1">
+    <div class="qt">2. Quelles sont les conditions pour viser 3 000 € au FIF PL ?</div>
+    <button class="opt">Une formation certifiante inscrite au Répertoire Spécifique</button>
+    <button class="opt">110 heures minimum, en présentiel, sur un thème pris en charge — une seule tous les 3 ans</button>
+    <button class="opt">Trois formations courtes cumulées dans l'année</button>
+    <button class="opt">Une formation à distance d'au moins 50 heures</button>
+    <div class="fb">C'est le dispositif « formation longue durée », et son enveloppe ne vient pas en déduction du budget annuel de 900 €. À noter : à distance, la prise en charge est divisée par deux.</div>
+  </div>
+
+  <div class="qz" data-good="0">
+    <div class="qt">3. Pourquoi les contenus musicaux font-ils moins de vues ?</div>
+    <button class="opt">Parce que l'algorithme donne à chaque type de contenu le volume d'impressions dont il a besoin pour l'évaluer — beaucoup moins pour un format niché</button>
+    <button class="opt">Parce que les plateformes brident volontairement la musique pour des raisons de droits</button>
+    <button class="opt">Parce que le public n'aime pas la musique sur les réseaux</button>
+    <button class="opt">Parce que les vidéos musicales sont trop longues</button>
+    <div class="fb">Ce n'est pas une sanction : c'est un échantillon suffisant. Un format grand public a besoin de beaucoup d'impressions pour être noté, un format niché de beaucoup moins. Le second filtre, lui, est le taux d'interactions.</div>
+  </div>
+
+  <div class="qz" data-good="3">
+    <div class="qt">4. Sur un carrousel mixte, quelle statistique faut-il regarder ?</div>
+    <button class="opt">Le nombre total de vues du carrousel</button>
+    <button class="opt">Le nombre de nouveaux abonnés gagnés</button>
+    <button class="opt">Le nombre de partages en DM</button>
+    <button class="opt">Le taux de rétention sur la vidéo — au-delà de 25 % sur Instagram, c'est énorme</button>
+    <div class="fb">Les spectateurs arrivent volontairement sur la vidéo (ils ont scrollé pour voir la suite), donc la stat est fiable. Si le taux est bon mais le volume faible, c'est la phrase d'accroche qu'il faut retravailler.</div>
+  </div>
+
+  <div class="qz" data-good="2">
+    <div class="qt">5. Quelle est la bonne approche pour obtenir une collaboration via un intermédiaire ?</div>
+    <button class="opt">Lui demander le service en expliquant bien le projet</button>
+    <button class="opt">Contacter le groupe directement en le citant comme référence</button>
+    <button class="opt">L'intéresser financièrement : splitter les points du morceau avec lui</button>
+    <button class="opt">Attendre une occasion de le croiser en concert</button>
+    <div class="fb">Demander un service, c'est lui demander de dépenser son capital relationnel sans contrepartie. Avec la moitié des points, il a une vraie raison de le faire — et de le faire bien.</div>
+  </div>
+
+  <div class="score" id="score"></div>
+</section>
+
+<footer>
+  <p><b>Producteur à Succès</b> — Mentorat TidyMess · Session du 16 septembre 2026</p>
+  <p style="margin-top:6px;font-size:13px;opacity:.8">Support généré à partir de la transcription intégrale de la session (2 h 14)</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var bar = document.getElementById('progress');
+  function upd(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', upd, {passive:true});
+  window.addEventListener('resize', upd);
+  upd();
+
+  document.querySelectorAll('.chk li').forEach(function(li){
+    li.addEventListener('click', function(){ li.classList.toggle('done'); });
+  });
+
+  var answered = 0, correct = 0;
+  var total = document.querySelectorAll('.qz').length;
+  document.querySelectorAll('.qz').forEach(function(q){
+    var good = parseInt(q.getAttribute('data-good'), 10);
+    var opts = q.querySelectorAll('.opt');
+    opts.forEach(function(o, i){
+      o.addEventListener('click', function(){
+        if (q.dataset.done) return;
+        q.dataset.done = '1';
+        answered++;
+        if (i === good) correct++;
+        opts.forEach(function(x, j){
+          if (j === good) x.classList.add('good');
+          else if (j === i) x.classList.add('bad');
+          x.style.cursor = 'default';
+        });
+        q.querySelector('.fb').classList.add('show');
+        if (answered === total) {
+          var s = document.getElementById('score');
+          s.textContent = 'Score : ' + correct + ' / ' + total + (correct === total ? ' — parfait 🎯' : (correct >= total - 1 ? ' — très bien 👏' : ' — une relecture des sections concernées s\'impose 📘'));
+          s.classList.add('show');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

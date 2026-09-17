@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session live Questions / Réponses — 17 septembre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED; --primary-dark:#4C1D95; --primary-light:#EDE9FE;
+  --accent:#F59E0B; --accent-light:#FEF3C7;
+  --success:#10B981; --success-light:#D1FAE5;
+  --danger:#EF4444; --danger-light:#FEE2E2;
+  --info:#3B82F6; --info-light:#DBEAFE;
+  --ink:#1A1523; --muted:#5B5670; --line:#E7E4EF; --bg:#FAF9FC; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+.progress-wrap{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(108,58,237,.12);z-index:999}
+#progress{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+.wrap{max-width:940px;margin:0 auto;padding-inline:20px}
+
+.hero{background:linear-gradient(140deg,#3B1D80 0%,#6C3AED 55%,#8B5CF6 100%);color:#fff;padding-block:60px 52px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{content:"";position:absolute;left:-60px;bottom:-120px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.05)}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:700;margin-bottom:14px;position:relative;z-index:2}
+.hero .sub{font-size:17px;opacity:.92;max-width:690px;position:relative;z-index:2}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;position:relative;z-index:2}
+.meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:7px 14px;border-radius:10px;font-size:13.5px;font-weight:500}
+
+/* LECTEUR */
+.player-wrap{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:-32px;position:relative;z-index:6;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.vid{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.chx{margin-top:16px;border:1px solid var(--line);border-radius:12px;background:#FBFAFE}
+.chx summary{cursor:pointer;padding:12px 16px;font-weight:650;font-size:14.5px;color:var(--primary-dark);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chx summary::-webkit-details-marker{display:none}
+.chx summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+.chx[open] summary::before{content:"▾ "}
+.chx summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+.chlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:2px;max-height:330px;overflow-y:auto;padding:0 10px 12px}
+.chlist button{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;background:transparent;border:0;border-radius:9px;padding:8px 10px;font-family:inherit;font-size:14.5px;color:var(--ink);cursor:pointer;line-height:1.45;transition:background .12s}
+.chlist button:hover{background:var(--primary-light);color:var(--primary-dark)}
+.chlist b{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;min-width:54px}
+button.seek{background:var(--primary-light);border:1px solid #DDD3FA;color:var(--primary-dark);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;cursor:pointer;font-variant-numeric:tabular-nums;transition:all .12s}
+button.seek:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.player-wrap + .toc{margin-top:26px}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:-32px;position:relative;z-index:5;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.toc h2{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:16px;color:var(--primary-dark)}
+.toc ol{list-style:none;counter-reset:toc;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.toc li{counter-increment:toc}
+.toc a{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink);padding:9px 10px;border-radius:10px;font-size:14.5px;transition:background .15s}
+.toc a:hover{background:var(--primary-light);color:var(--primary-dark)}
+.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);font-size:13px;flex-shrink:0;padding-top:1px}
+
+section.chap{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+section.chap>.bar{height:5px;background:var(--primary)}
+.chap[data-c="a"]>.bar{background:var(--accent)} .chap[data-c="g"]>.bar{background:var(--success)}
+.chap[data-c="b"]>.bar{background:var(--info)} .chap[data-c="r"]>.bar{background:var(--danger)}
+.chead{padding:26px 28px 0;display:flex;gap:14px;align-items:center}
+.cnum{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--primary-light);color:var(--primary-dark);display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px}
+.chap[data-c="a"] .cnum{background:var(--accent-light);color:#92400E}
+.chap[data-c="g"] .cnum{background:var(--success-light);color:#065F46}
+.chap[data-c="b"] .cnum{background:var(--info-light);color:#1E40AF}
+.chap[data-c="r"] .cnum{background:var(--danger-light);color:#991B1B}
+.chead h2{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.25;font-weight:700}
+.tc{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-top:3px}
+.cbody{padding:18px 28px 28px}
+.cbody p{margin-bottom:14px}
+.cbody h3{font-family:'Space Grotesk',sans-serif;font-size:16.5px;margin:22px 0 10px;color:var(--primary-dark)}
+.cbody ul,.cbody ol{margin:0 0 14px 20px}
+.cbody li{margin-bottom:7px}
+strong{font-weight:650;color:#2D2540}
+em.q{font-style:italic;color:#413655}
+
+.box{border-radius:12px;padding:16px 18px;margin:18px 0;border-left:4px solid;font-size:15px}
+.box .bt{display:block;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.box p:last-child{margin-bottom:0}
+.b-key{background:var(--primary-light);border-color:var(--primary)} .b-key .bt{color:var(--primary-dark)}
+.b-warn{background:var(--accent-light);border-color:var(--accent)} .b-warn .bt{color:#92400E}
+.b-tip{background:var(--success-light);border-color:var(--success)} .b-tip .bt{color:#065F46}
+.b-info{background:var(--info-light);border-color:var(--info)} .b-info .bt{color:#1E40AF}
+.b-danger{background:var(--danger-light);border-color:var(--danger)} .b-danger .bt{color:#991B1B}
+
+.tbl{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:12px 14px;font-weight:600;font-size:13.5px}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#FBFAFE}
+
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.pc>div{border-radius:12px;padding:16px 18px;font-size:14.5px}
+.pc .ok{background:var(--success-light);border:1px solid #A7F3D0}
+.pc .ko{background:var(--danger-light);border:1px solid #FECACA}
+.pc h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.pc .ok h4{color:#065F46} .pc .ko h4{color:#991B1B}
+.pc ul{margin:0 0 0 18px} .pc li{margin-bottom:5px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
+.card{background:#FBFAFE;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h4{font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:6px;color:var(--primary-dark)}
+.card p{font-size:14px;color:var(--muted);margin:0}
+.stat h4{font-size:22px;font-family:'Space Grotesk',sans-serif}
+
+.tl{list-style:none;margin:18px 0;padding-left:26px;border-left:2px dashed var(--line)}
+.tl li{position:relative;margin-bottom:16px;font-size:15px}
+.tl li::before{content:"";position:absolute;left:-33px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light)}
+.tl b{display:block;font-family:'Space Grotesk',sans-serif;color:var(--primary-dark)}
+
+details{border:1px solid var(--line);border-radius:12px;margin:14px 0;background:#FBFAFE}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:15px;color:var(--primary-dark);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+details[open] summary::before{content:"▾ "}
+details .dc{padding:0 18px 16px;font-size:14.5px}
+
+.pull{margin:22px 0;padding:20px 24px;border-radius:14px;background:linear-gradient(120deg,#2D1B69,#4C1D95);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:19px;line-height:1.45;font-weight:600}
+.pull span{display:block;margin-top:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;opacity:.7;letter-spacing:.03em}
+
+.faq{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+.faq>.bar{height:5px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.faqhead{padding:26px 28px 0}
+.faqhead h2{font-family:'Space Grotesk',sans-serif;font-size:26px;color:var(--primary-dark)}
+.faqhead p{color:var(--muted);font-size:15px;margin-top:4px}
+.faqbody{padding:18px 28px 28px}
+.faqcat{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.faqcat:first-child{margin-top:6px}
+.qa{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:#FDFCFF}
+.qa .q{background:linear-gradient(90deg,var(--primary-light),#F6F3FF);padding:13px 18px;font-weight:650;color:var(--primary-dark);font-size:15.5px;display:flex;gap:10px}
+.qa .q span{flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.qa .a{padding:15px 18px;font-size:15px}
+.qa .a p{margin-bottom:10px} .qa .a p:last-child{margin-bottom:0}
+
+.plan{background:linear-gradient(140deg,#0F172A,#1E1B4B);color:#fff;border-radius:18px;padding:30px 28px;margin-top:26px}
+.plan h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:8px}
+.plan>p{opacity:.8;margin-bottom:20px;font-size:15px}
+.phase{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin:22px 0 10px}
+.phase:first-of-type{margin-top:0}
+.chk{list-style:none;margin:0;padding:0}
+.chk li{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;margin-bottom:9px;font-size:15px;cursor:pointer;transition:background .15s}
+.chk li:hover{background:rgba(255,255,255,.09)}
+.chk .bx{flex-shrink:0;width:20px;height:20px;border:2px solid rgba(255,255,255,.4);border-radius:6px;margin-top:3px;display:grid;place-items:center;font-size:13px;font-weight:700;color:transparent}
+.chk li.done .bx{background:var(--success);border-color:var(--success);color:#fff}
+.chk li.done .tx{opacity:.5;text-decoration:line-through}
+.chk .tx b{display:block;font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.04em;text-transform:uppercase;opacity:.65;margin-bottom:2px}
+
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px;margin-top:26px}
+.quiz h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:6px;color:var(--primary-dark)}
+.quiz>p{color:var(--muted);margin-bottom:22px;font-size:15px}
+.qz{margin-bottom:24px;padding-bottom:22px;border-bottom:1px dashed var(--line)}
+.qz:last-of-type{border-bottom:none}
+.qz .qt{font-weight:650;margin-bottom:12px;font-size:15.5px}
+.opt{display:block;width:100%;text-align:left;background:#FBFAFE;border:1.5px solid var(--line);border-radius:10px;padding:11px 15px;margin-bottom:8px;cursor:pointer;font-family:inherit;font-size:14.5px;color:var(--ink);transition:all .15s}
+.opt:hover{border-color:var(--primary);background:var(--primary-light)}
+.opt.good{background:var(--success-light);border-color:var(--success);font-weight:600}
+.opt.bad{background:var(--danger-light);border-color:var(--danger)}
+.fb{display:none;margin-top:10px;padding:12px 15px;border-radius:10px;font-size:14.5px;background:var(--info-light);border-left:4px solid var(--info)}
+.fb.show{display:block}
+.score{margin-top:20px;padding:16px;border-radius:12px;background:var(--primary-light);text-align:center;font-weight:650;color:var(--primary-dark);display:none}
+.score.show{display:block}
+
+footer{text-align:center;padding-block:40px 50px;color:var(--muted);font-size:14px}
+footer b{color:var(--primary-dark);font-family:'Space Grotesk',sans-serif}
+
+@media(max-width:640px){
+  .pc{grid-template-columns:1fr}
+  .chead,.faqhead{padding:22px 18px 0} .cbody,.faqbody{padding:16px 18px 22px}
+  .toc{padding:22px 18px} .plan,.quiz{padding:24px 18px}
+  .hero h1{font-size:27px} .pull{font-size:17px;padding:18px}
+  .player-wrap{padding:14px} .chlist{grid-template-columns:1fr;max-height:280px}
+}
+@media print{
+  .progress-wrap{display:none} body{background:#fff}
+  section.chap,.toc,.quiz,.faq{box-shadow:none;break-inside:avoid}
+  .opt{display:none}
+  .vid{display:none} .player-wrap{box-shadow:none;margin-top:20px}
+  .chlist{max-height:none;overflow:visible} .chlist button{padding:3px 0}
+  button.seek{background:none;border:0;padding:0;color:var(--primary-dark)}
+}
+</style>
+</head>
+<body>
+<div class="progress-wrap"><div id="progress"></div></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">Session live · Questions / Réponses · 17 septembre 2026</div>
+    <h1>Ce qui change cet automne —<br>et comment ne pas le subir</h1>
+    <p class="sub">Une matinée entière de questions. Au programme : le badge « AI Persona » de Spotify qui peut faire chuter vos streams, le resserrement des aides et des fonds de formation, la parade par la multi-structuration, les vrais tarifs de la promo, et comment convertir une audience venue pour autre chose.</p>
+    <div class="meta">
+      <span>⏱ 2 h 27</span>
+      <span>🎙 Tarik Hamiche</span>
+      <span>📌 53 chapitres</span>
+      <span>🔁 Prochaine session dans 15 jours</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="player-wrap">
+  <div class="vid">
+    <iframe id="vimeoPlayer"
+      src="https://player.vimeo.com/video/1227673730?h=b187247ae5"
+      title="Session live Questions / Réponses — 17 septembre 2026"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  <details class="chx" id="chx">
+    <summary><span>Les 53 chapitres de la session</span><em>Cliquez un chapitre pour y aller</em></summary>
+    <div class="chlist" id="chlist"></div>
+  </details>
+</div>
+
+<nav class="toc">
+  <h2>Au programme</h2>
+  <ol>
+    <li><a href="#s1">Le badge « AI Persona » de Spotify</a></li>
+    <li><a href="#s2">Le badge « vérifié par Spotify »</a></li>
+    <li><a href="#s3">YouTube : vues et monétisation</a></li>
+    <li><a href="#s4">Aides et fonds de formation : le resserrement</a></li>
+    <li><a href="#s5">La parade : la multi-structuration</a></li>
+    <li><a href="#s6">Publicité Meta : la méthode</a></li>
+    <li><a href="#s7">Prestataires promo : les vrais tarifs</a></li>
+    <li><a href="#s8">Playlists payantes et pitch éditorial</a></li>
+    <li><a href="#s9">Artiste, licence, distribution : les 3 contrats</a></li>
+    <li><a href="#s10">Google Knowledge Panel et autorité</a></li>
+    <li><a href="#s11">Les Grammy Awards</a></li>
+    <li><a href="#s12">Muzisecur : l'outil et sa feuille de route</a></li>
+    <li><a href="#s13">Convertir une audience non-musicale</a></li>
+    <li><a href="#s14">Penser en flux, pas en stock</a></li>
+    <li><a href="#faq">FAQ de la session</a></li>
+    <li><a href="#plan">Plan d'action</a></li>
+    <li><a href="#quiz">Quiz de validation</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="chap" id="s1" data-c="r">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">01</div><div><h2>Le badge « AI Persona » de Spotify</h2><div class="tc">⏱ 15:13 – 26:57</div></div></div>
+  <div class="cbody">
+    <p>Spotify a mis en place un système de détection des profils d'artistes générés par IA, présenté comme une lutte contre les faux comptes. Un badge apparaît alors sur le profil.</p>
+    <div class="box b-danger"><span class="bt">Le problème</span><p>Le système ne distingue pas un humain qui a utilisé un peu d'IA d'un compte entièrement automatisé. <strong>Une utilisation même partielle d'un outil connu — Suno en tête — peut suffire à déclencher le badge</strong>, même avec plusieurs années de carrière derrière soi.</p></div>
+    <h3>Ce que ça coûte concrètement</h3>
+    <div class="cards">
+      <div class="card"><h4>Déréférencement</h4><p>Sortie des playlists éditoriales sur lesquelles vous étiez positionné</p></div>
+      <div class="card"><h4>Référencement en baisse</h4><p>Le niveau de visibilité algorithmique chute</p></div>
+      <div class="card"><h4>Effet public</h4><p>Les auditeurs hostiles à l'IA se détournent</p></div>
+    </div>
+    <div class="box b-warn"><span class="bt">Le cas relevé</span><p>Un DJ signalant le problème sur un forum est passé d'environ <strong>2 millions d'auditeurs mensuels à un peu moins de 300 000</strong>. Il ne s'en est pas rendu compte tout de suite : il avait été retiré de plusieurs grosses playlists.</p></div>
+    <div class="box b-tip"><span class="bt">La manip à faire immédiatement</span><p><strong>Alerter votre distributeur.</strong> C'est le seul premier réflexe. Il envoie la requête au DSP.</p><p>La procédure Spotify : dès que vous pouvez <strong>prouver qu'il y a un vrai humain derrière le nom d'artiste</strong> — des vidéos de scène suffisent — le profil repasse en traitement manuel.</p></div>
+    <h3>Comment ils détectent (et pourquoi c'est bancal)</h3>
+    <div class="box b-info"><span class="bt">L'hypothèse posée en session</span><p>Ils en sont probablement <strong>incapables de façon fiable</strong>. Au moindre soupçon, ils taguent — et si vous ne réagissez pas, c'est vous qui subissez.</p><p>Deux pistes techniques évoquées pendant l'échange : le croisement de bases (savoir que tel titre a été exporté tel jour à telle heure), et la détection d'artefacts répétés propres aux algorithmes génératifs. Aucune n'est documentée : ce sont des théories.</p></div>
+    <div class="box b-key"><span class="bt">D'où vient vraiment le tag</span><p>Suno a entraîné son IA sur des catalogues d'œuvres <strong>sans autorisation ni rémunération</strong>, et a été condamné pour cela. La réponse : poser un tag sur tout ce qui sort de chez eux. <strong>C'est ce tag que Spotify réutilise</strong> — sans regarder s'il y a un créateur qui a travaillé derrière ou quelqu'un qui a généré 400 titres en une nuit.</p></div>
+    <div class="box b-warn"><span class="bt">Le débat en arrière-plan</span><p>Une logique financière se profile : si un profil est détecté comme IA, les streams générés pourraient être considérés comme non valides — et donc non payés. Et les accords récents entre plateformes de génération et majors brouillent encore les cartes.</p></div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="chap" id="s2" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">02</div><div><h2>Le badge « vérifié par Spotify »</h2><div class="tc">⏱ 29:26 – 34:26</div></div></div>
+  <div class="cbody">
+    <p>Depuis le <strong>30 avril</strong>, un badge « vérifié » existe sur Spotify. Il vaut le coup d'aller le chercher.</p>
+    <div class="cards">
+      <div class="card"><h4>Il écarte le doute IA</h4><p>Vous êtes identifié comme un artiste réel, le sujet est clos</p></div>
+      <div class="card"><h4>Il nourrit l'algorithme</h4><p>C'est du carburant pour la visibilité et le référencement</p></div>
+      <div class="card"><h4>Il atteste d'une existence</h4><p>Il prouve que vous êtes un artiste établi</p></div>
+    </div>
+    <div class="box b-key"><span class="bt">Il ne se demande pas — il se déclenche</span><p>Il n'existe aucun formulaire. Spotify le délivre <strong>quand son système détecte une activité humaine normale et cohérente</strong>. Tout se fait automatiquement.</p></div>
+    <h3>La checklist qui le déclenche</h3>
+    <ul>
+      <li>Alimenter et <strong>tenir à jour Spotify for Artists</strong> — pas une mise à jour de bio tous les deux ans</li>
+      <li>Connecter tous les comptes de réseaux sociaux</li>
+      <li>Renouveler les photos, et <strong>éviter les photos retouchées par IA</strong></li>
+      <li>Faire des <strong>canvas vidéo</strong> sur les sorties</li>
+      <li>Faire les <strong>pitchs</strong> à chaque sortie</li>
+      <li>Brancher une plateforme de merch</li>
+      <li>Renseigner les dates de concerts, ou au moins communiquer dessus</li>
+      <li>Mettre des vidéos peu produites, en face caméra — quelque chose d'humain</li>
+    </ul>
+    <div class="box b-info"><span class="bt">Ce qui a disparu</span><p>L'ancien petit check « artiste certifié » n'existe plus — c'est lui que plusieurs participants ont vu disparaître de leur profil. Il a été remplacé par ce nouveau système de vérification.</p></div>
+    <div class="box b-warn"><span class="bt">Peut-on le perdre ?</span><p>A priori non. Une fois l'activité humaine détectée, Spotify ne le retire pas — sauf cas extrême de compte falsifié, ce qui supposerait de falsifier la base de données du distributeur. En revanche, <strong>les plateformes changent leurs règles régulièrement</strong> : un dispositif équivalent a déjà été supprimé ailleurs un an après son lancement.</p></div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="chap" id="s3" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">03</div><div><h2>YouTube : vues et monétisation</h2><div class="tc">⏱ 34:26 – 38:28</div></div></div>
+  <div class="cbody">
+    <h3>Le comptage des vues a changé</h3>
+    <div class="tbl"><table>
+      <thead><tr><th></th><th>Avant</th><th>Maintenant</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Vidéo longue</strong></td><td>Une vue comptait après le clic, la pub d'intro et environ 5 secondes de lecture</td><td>Dès que la vidéo apparaît quelque part et qu'un œil humain peut la voir, ça compte une vue</td></tr>
+        <tr><td><strong>Short</strong></td><td>Une demi-seconde de passage suffisait déjà</td><td>Inchangé</td></tr>
+      </tbody>
+    </table></div>
+    <div class="box b-warn"><span class="bt">Ce que ça va faire</span><p>Un clip qui faisait <strong>10 000 vues peut désormais en afficher 30 à 40 000</strong> sans difficulté. C'est un effet placebo : vous n'avez pas plus de visibilité.</p></div>
+    <div class="box b-danger"><span class="bt">L'inconvénient réel : les ratios cassés</span><p>Avec 1 000 vues et 700 likes, le taux était de 70 %. Avec 30 ou 40 000 vues et toujours 700 likes, on tombe sur un taux d'interaction situé <strong>entre 0,5 et 2 %</strong>. L'impact sur le traitement algorithmique n'est pas encore connu — affaire à suivre.</p></div>
+    <h3>La monétisation se durcit</h3>
+    <p>Les nouvelles règles s'appliqueront dans les <strong>deux premiers mois de 2027</strong>. Les chaînes qui ne remplissent pas les conditions seront démonétisées.</p>
+    <div class="cards">
+      <div class="card stat"><h4>1 000</h4><p>Abonnés minimum — le seuil de base</p></div>
+      <div class="card stat"><h4>8 000 h</h4><p>De visionnage, soit <strong>le double</strong> de l'exigence actuelle</p></div>
+      <div class="card stat"><h4>20 M</h4><p>Ou 20 millions de vues shorts sur 90 jours, contre 10 millions aujourd'hui</p></div>
+    </div>
+    <div class="box b-tip"><span class="bt">Ce qu'il faut faire maintenant</span><p>Si vous êtes à 900 abonnés, <strong>ça vaut le coup de faire des mini-campagnes pour aller chercher les 100 manquants</strong> avant de perdre la monétisation. Si vous en êtes très loin, inutile de vous prendre la tête.</p><p>Pourquoi ça compte : <strong>la monétisation aide au référencement et à la diffusion.</strong> Une chaîne non monétisée est désavantagée.</p></div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="chap" id="s4" data-c="r">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">04</div><div><h2>Aides et fonds de formation : le resserrement</h2><div class="tc">⏱ 38:28 – 44:40</div></div></div>
+  <div class="cbody">
+    <div class="cards">
+      <div class="card stat"><h4>27 → 20 M€</h4><p>L'enveloppe globale d'aides, soit environ −25 %</p></div>
+      <div class="card stat"><h4>−25 %</h4><p>De plus anticipé pour l'année prochaine</p></div>
+      <div class="card stat"><h4>÷ 3</h4><p>Les fonds de formation dans la culture, et ça continue de baisser</p></div>
+    </div>
+    <p>Les dispositifs sont aussi <strong>fusionnés</strong> : là où il existait trois aides distinctes, il n'en reste qu'une — sans plus de commissions ni de places. Deux aides disparaissent de fait. Le même mouvement s'observe ailleurs, et les sociétés de gestion collective devraient suivre.</p>
+    <div class="box b-danger"><span class="bt">Le système, tel quel</span><p>On cotise lourdement en charges sociales, et une petite partie revient sous forme d'aides. <strong>La suite annoncée : cotisations en hausse et aides en baisse.</strong> On est sûr de payer, presque plus sûr de récupérer.</p></div>
+    <h3>La nouvelle technique sur les fonds de formation</h3>
+    <div class="box b-warn"><span class="bt">Le tour de passe-passe pour 2027</span><p>Le discours ne sera plus « on baisse les budgets ». Ce sera : <em class="q">« les budgets restent les mêmes, voire augmentent — mais votre montant de prise en charge, lui, baisse. »</em></p><p>Concrètement : là où vous aviez <strong>8 000 € en direct, on vous en donnera 2 500 ou 3 000</strong>. Pour le reste, il faudra passer par votre CPF et faire une demande séparée. <strong>On complexifie la démarche pour réduire le nombre d'entrants.</strong></p></div>
+    <h3>Les délais de carence s'allongent</h3>
+    <ul class="tl">
+      <li><b>Déjà appliqué</b>De 6 mois à 12 mois, et de 12 mois à 18 mois selon les formations.</li>
+      <li><b>Prévu pour 2027</b>Extension à <strong>23 mois</strong> — pour rester juste sous le seuil symbolique des deux ans.</li>
+    </ul>
+    <div class="box b-danger"><span class="bt">L'avance de trésorerie — en place depuis le 15 septembre</span><p>Pour les professionnels : vous <strong>avancez la somme</strong>, et l'organisme dispose d'<strong>un an</strong> pour vous rembourser après la fin de formation.</p><p>Le risque annoncé : l'extension aux particuliers. Sur une formation à 5 000 €, cela signifierait virer 5 000 €, suivre six mois de formation, puis attendre jusqu'à un an. <strong>Soit un an et demi d'immobilisation.</strong> Plus personne ne suivrait de formation financée.</p></div>
+    <div class="box b-warn"><span class="bt">Et le verrou qui se prépare</span><p>Le précédent est connu : les formations de sensibilisation aux violences et harcèlement sexistes et sexuels sont passées de recommandation à obligation pour accéder aux subventions.</p><p><strong>Le même chemin s'annonce pour les formations certifiantes.</strong> Dès 2027 en forte recommandation : avoir une formation certifiante, un diplôme lié à la filière, ou justifier de plusieurs années d'expérience professionnelle dans la musique. Si cela devient obligatoire en 2028, <strong>environ 80 % des demandeurs actuels ne seraient plus éligibles</strong> — et devraient se former sans fonds pour y accéder.</p></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="chap" id="s5" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">05</div><div><h2>La parade : la multi-structuration</h2><div class="tc">⏱ 44:40 – 56:16 · 62:28</div></div></div>
+  <div class="cbody">
+    <div class="pull">« Il va falloir être multi-structurel. C'est plus facile de lever des fonds quand tu as plusieurs structures que quand tu n'en as qu'une. »<span>La réponse à « comment s'émanciper ? »</span></div>
+    <h3>Volet 1 — Multiplier les guichets de formation</h3>
+    <p>Ces enveloppes ne sont pas exclusives les unes des autres : <strong>ce n'est pas l'une ou l'autre, ce sont les deux.</strong></p>
+    <div class="tbl"><table>
+      <thead><tr><th>Statut</th><th>Guichet</th></tr></thead>
+      <tbody>
+        <tr><td>Artiste-auteur avec un numéro de SIREN</td><td>FIF PL</td></tr>
+        <tr><td>Dirigeant de label, avec fiche de paie ou travailleur non salarié</td><td>Agefice — une enveloppe supplémentaire</td></tr>
+        <tr><td>Auteur-compositeur</td><td>Une enveloppe de l'ordre de 1 500 € côté société d'auteurs</td></tr>
+        <tr><td>Intermittent</td><td>Afdas</td></tr>
+        <tr><td>Solde CPF disponible</td><td>Mobilisable, avec un éventuel abondement</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Volet 2 — Multiplier les leviers d'aide à la musique</h3>
+    <ul class="tl">
+      <li><b>Le dispositif n°1 : le crédit d'impôt</b>C'est le plus rentable. À aller chercher en priorité.</li>
+      <li><b>Le statut d'artiste-auteur</b>Il ouvre des dispositifs — aide à la création, à la résidence — <strong>qui ne sont pas éligibles aux sociétés commerciales</strong>. Ce ne sont pas les mêmes critères, donc pas le même champ des possibles.</li>
+      <li><b>Une activité d'édition distincte</b>Soit une enseigne commerciale indépendante, soit carrément une structure séparée dédiée à l'édition. Cela ouvre le crédit d'impôt édition et les aides spécifiques aux éditeurs.</li>
+    </ul>
+    <div class="box b-key"><span class="bt">Le calcul à faire</span><p>Une structure de plus, c'est un bilan de plus, donc des frais comptables. Mais <strong>si le gain d'accès aux leviers dépasse le coût du bilan, la question est réglée.</strong></p></div>
+    <details><summary>Comment les structures en place jouent ce jeu</summary><div class="dc">L'exemple donné concerne un acteur de grande taille, mais le mécanisme est le même à petite échelle.<br><br><strong>La structure « tournée »</strong> est en permanence déficitaire — et c'est volontaire : elle ne vit que de subventions, et plus elle est déficitaire, plus elle en lève. Il a fallu au démarrage un apport de trésorerie venu de la structure production.<br><br><strong>La structure « distribution »</strong> a un levier financier puissant : elle permet d'afficher des bilans déficitaires sans perdre d'argent. Sur un million encaissé, environ 900 000 € sont dus aux clients (elle ne capte que 10 à 15 % de la valeur réelle). Avec 200 000 € de frais fixes, le résultat imposable devient négatif. <strong>On ne paie jamais d'impôts sur une structure qui génère du cash</strong>, et ce cash peut être redéployé ailleurs.<br><br><strong>Le découpage</strong> — production, édition, distribution, spectacle vivant — permet des jeux d'écriture : la structure A achète des prestations à la structure B, ce qui crée des dépenses réellement constatées et éligibles au crédit d'impôt, dans un écosystème interne. Subtilité à observer : <strong>les dates de clôture d'exercice ne sont jamais les mêmes</strong> — 31 décembre, 31 mars, fin juin, fin octobre. L'argent circule en permanence.</div></details>
+    <div class="box b-danger"><span class="bt">L'erreur vécue : environ 400 000 € de subventions perdues</span><p>Un label à 1,6 M€ de chiffre d'affaires, <strong>une seule structure</strong>. Deux conséquences :</p><p><strong>1. Le crédit d'impôt.</strong> Avec une seule structure, on est obligé de prendre le crédit d'impôt correspondant au type de revenu le plus important — cette année-là, le spectacle vivant. Toutes les dépenses de production, pourtant les plus lourdes, devenaient non éligibles. Avec trois structures : un crédit d'impôt production, un édition, un spectacle vivant — <strong>le levier était doublé.</strong></p><p><strong>2. Les aides édition.</strong> Certaines exigent que l'activité représente au moins 50 % du chiffre d'affaires. L'édition ne l'atteignait pas : <strong>plus de 70 000 € d'aides identifiées, non demandables.</strong></p><p>Le calcul rétrospectif : trois structures auraient coûté environ 10 000 € de frais comptables. Elles auraient évité de perdre autour de 400 000 €.</p></div>
+    <div class="box b-warn"><span class="bt">La nuance importante</span><p>Tout mettre dans une seule structure au départ <strong>n'est pas une erreur</strong> : c'est un choix dimensionné. L'erreur serait de créer cinq structures dès le premier jour et de surdimensionner son véhicule. La question se pose quand les différentes activités commencent à peser chacune leur poids.</p></div>
+    <details><summary>Le cas pratique de l'ordinateur</summary><div class="dc">Question posée par un petit label : « Comment financer un ordinateur en optimisant ? » Il a deux structures, plus son propre statut.<br><br>La mécanique : acheter le Mac 2 000 € en nom propre — à crédit si besoin, l'échelonnement existe. Puis <strong>le louer à ses propres structures</strong>. En tant qu'artiste-auteur avec un SIRET distinct et une déclaration au réel, on a aussi le droit de se le louer à soi-même pour cette activité.<br><br>Le tarif : environ un dixième de la valeur, soit 200 € — mais pour rester tranquille vis-à-vis du fisc, on se fait un prix raisonnable, 150 €. Trois structures à 150 € : <strong>près de 500 € par mois, l'ordinateur est amorti en quatre mois.</strong> On laisse tourner un an ou deux, on revend la machine à l'une des structures, et on recommence.<br><br>Le même principe s'applique ailleurs — les frais kilométriques notamment. À manier avec discernement : ce qui est décrit ici est une mécanique observée, pas une invitation à en abuser.</div></details>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="chap" id="s6" data-c="">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">06</div><div><h2>Publicité Meta : la méthode</h2><div class="tc">⏱ 56:16 – 62:28 · 84:56</div></div></div>
+  <div class="cbody">
+    <p>La question posée : <em class="q">« J'ai dépensé 200 € en pub Meta sans résultat, qu'est-ce que je fais de travers ? »</em></p>
+    <div class="box b-danger"><span class="bt">L'erreur classique</span><p>Avoir appuyé sur le bouton <strong>« Booster »</strong>, s'être laissé débiter 200 €, voir des impressions bouger et rien derrière. En boostant, <strong>on ne contrôle pas la cible</strong> — et laisser l'algorithme en roue libre sans pixel et sans données, c'est du hasard pur.</p></div>
+    <h3>Les quatre étapes, dans l'ordre</h3>
+    <ul class="tl">
+      <li><b>1. Toujours le gestionnaire de publicité</b>Jamais le bouton « booster ». On peut d'ailleurs booster une publication <em>depuis</em> le gestionnaire. C'est lui qui donne la maîtrise de l'objectif de campagne et de la cible.</li>
+      <li><b>2. Alimenter le pixel avant de dépenser</b>Créer le pixel dès l'ouverture du compte pub, puis générer du flux organique. Même 3 000 ou 4 000 vues par vidéo nourrissent l'algorithme : il apprend qui vient, qui regarde, qui like. Connecter Facebook et Instagram en comptes professionnels synchronisés pour que les deux alimentent le même pixel. Et si vous avez un site avec un blog, y poser le pixel aussi et y amener du trafic organique.</li>
+      <li><b>3. Bien configurer le compte</b>La méthode la plus simple est la moins efficace. Il faut mettre en place <strong>l'API conversion</strong>. Avec une IA pour vous guider pas à pas, comptez environ <strong>45 minutes</strong> — et ce sera fait une bonne fois.</li>
+      <li><b>4. Affiner le ciblage</b>Voir ci-dessous.</li>
+    </ul>
+    <h3>Le ciblage par paliers</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Palier</th><th>Qui</th><th>Budget</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Retargeting niveau 1</strong></td><td>Uniquement vos abonnés, ceux qui ont liké vos posts, ceux qui ont commenté</td><td>Quelques <strong>dizaines</strong> d'euros suffisent — pas 200</td></tr>
+        <tr><td><strong>Retargeting niveau 2</strong></td><td>Audiences similaires : les gens qui ressemblent au top 1 % de vos abonnés et de ceux qui interagissent</td><td>Demande un peu de trafic préalable, mais s'atteint vite</td></tr>
+        <tr><td><strong>Acquisition</strong></td><td>Le public le plus demandeur de ce que vous proposez — pour continuer à nourrir l'algorithme</td><td>Une fois les deux premiers paliers maîtrisés</td></tr>
+      </tbody>
+    </table></div>
+    <div class="box b-tip"><span class="bt">Puis le créatif</span><p>Une fois la mécanique en place, l'essentiel se joue sur les contenus publicitaires. Le système de segmentation actuel récompense la <strong>démultiplication de variantes différenciées</strong> : même discours dans des lieux différents, discours différents dans le même lieu. On teste beaucoup de combinaisons, on laisse l'algorithme trouver ce qui produit du résultat, et on recommence.</p></div>
+    <div class="box b-danger"><span class="bt">L'autre erreur : démarrer trop gros</span><p>C'est documenté depuis longtemps. Il faut <strong>calibrer la régie avec de tout petits budgets</strong>, puis augmenter progressivement. Passer de 5 € à 25 € par jour, c'est +500 % : l'algorithme ne le gère pas. On double par paliers : 5 → 10 → 15 ou 20 → 25 → 30. Une fois qu'aucun plafond n'apparaît et que c'est rentable, on peut monter franchement.</p></div>
+    <div class="box b-info"><span class="bt">Et pour une cible très spécifique</span><p>Question posée sur un programme visant les utilisateurs d'un logiciel précis : <strong>oui, ça vaut le coup</strong>. Au départ, c'est à vous d'indiquer qui vous visez — vous ne pouvez pas laisser l'algorithme décider. Au bout d'un an ou deux, quand le pixel a drainé beaucoup de données, alors vous pourrez le laisser travailler seul : il s'en sort bien.</p><p>Les trois étapes de la régie : <strong>quel objectif</strong> (ventes, clics, vues, inscrits), <strong>auprès de qui</strong>, puis <strong>quoi leur montrer</strong>.</p></div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="chap" id="s7" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">07</div><div><h2>Prestataires promo : les vrais tarifs</h2><div class="tc">⏱ 70:18 – 82:58</div></div></div>
+  <div class="cbody">
+    <div class="box b-key"><span class="bt">Quand on démarre : non</span><p>Une équipe promo, un attaché de presse, un community manager — au départ, <strong>ça ne sert à rien.</strong> Il y a tout à construire. Vous pourriez confier 40 000 € à quelqu'un d'excellent : s'il n'y a eu que deux sorties en quatre ans, il ne se passera rien.</p></div>
+    <h3>La base, gratuite et disponible pour tous</h3>
+    <ul>
+      <li><strong>Sortir des projets régulièrement</strong> — un single par mois ou tous les deux mois, un EP ou un album par an. Un rythme, quel qu'il soit.</li>
+      <li>Être présent sur toutes les plateformes importantes.</li>
+      <li>Comprendre les clés de référencement.</li>
+      <li>Aller chercher des partenaires à petite échelle, un par un, à la main.</li>
+    </ul>
+    <p>Cela ne demande pas beaucoup d'argent — du temps et de la logistique. <strong>Et si après ça il ne se passe rien, ce n'est pas un prestataire qu'il faut : c'est votre travail qu'il faut améliorer.</strong></p>
+    <h3>La grille tarifaire réelle</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Prestation</th><th>Prix</th><th>Remarque</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Attaché de presse web</strong><br>(articles, webzines, chroniques)</td><td>500 à 700 € sur des styles de niche, 1 000 à 2 500 € sinon</td><td>Pour <strong>un projet</strong>, travaillé sur environ un mois — pas à la semaine</td></tr>
+        <tr><td><strong>Promo radio</strong></td><td>3 000 à 3 500 € HT</td><td>Hors prime de résultat et hors frais fixes (envois, déplacements)</td></tr>
+        <tr><td><strong>Télé</strong></td><td>—</td><td><strong>Ne sert plus à rien</strong> sans gros airplay radio ou signature en major</td></tr>
+        <tr><td><strong>Envoi de clip</strong></td><td>≈ 500 €</td><td>Héritage de l'encodage physique : une cassette coûtait 200-300 € par chaîne</td></tr>
+        <tr><td><strong>Promo club</strong></td><td>Ne pas dépasser 1 000 à 1 500 €</td><td>Beaucoup moins rentable qu'avant — voir ci-dessous</td></tr>
+        <tr><td><strong>Community manager</strong></td><td>1 000 à 1 500 € par compte d'artiste chez les meilleures</td><td>Inutile sous 20 000 abonnés et sans beaucoup d'actualité</td></tr>
+      </tbody>
+    </table></div>
+    <div class="box b-warn"><span class="bt">La réalité de la promo radio</span><p>Quand vous payez ce prix, <strong>vous êtes environ 25 à payer sur le mois — et il en travaillera trois ou quatre.</strong> Tout le monde le sait, tout le monde l'accepte. Si vous n'avez pas les reins assez solides, cela veut simplement dire que ce n'est pas le moment.</p></div>
+    <div class="box b-tip"><span class="bt">Le modèle au résultat, plus juste</span><p>Deux agences de promo radio pratiquent désormais ce modèle : <strong>un prix fixe à l'entrée de 1 000 à 1 500 €</strong>, qui rémunère le travail et le réseau construit. S'il n'y a pas d'accroche, on s'arrête là. S'il y a une entrée sur un gros média, on passe au tarif normal — <strong>et là, on est sûr qu'il y a du travail derrière, parce que la barrière la plus difficile vient d'être franchie.</strong></p></div>
+    <div class="box b-danger"><span class="bt">Pourquoi la promo club a perdu son intérêt</span><p>Avant, un top 3 ou top 5 club pouvait rapporter jusqu'à 10 000 € de droits voisins dans l'année — un prestataire à 2 ou 3 000 € était vite amorti. Aujourd'hui, les droits voisins sont assis sur la collecte auprès des établissements : il y en a environ <strong>trois fois moins qu'il y a dix ans, et ils gagnent trois fois moins.</strong> L'effet est mécanique.</p></div>
+    <div class="box b-danger"><span class="bt">Les community managers</span><p>Il faut s'en passer. Utilisez l'IA, des outils d'automatisation, ou mettez en place une discipline — mais <strong>n'investissez pas d'argent là-dedans</strong>, le retour sur investissement est nul.</p><p>L'erreur la plus fréquente : « j'ai engagé quelqu'un, je m'en délaisse ». Ils ne feront rien de plus que vous. <strong>Ça donne l'impression d'avancer sans avancer</strong> — et ça coûte.</p><p>Au-delà de 20 000 abonnés et avec beaucoup de matière — prestations tous les week-ends, studio en permanence, beaucoup de photos et de vidéos — quelqu'un à 400 € par mois pour organiser tout ça, pourquoi pas.</p></div>
+    <div class="box b-key"><span class="bt">L'ordre à respecter si vous démarrez</span><p><strong>D'abord le digital par la partie webzine. Ensuite la radio</strong> — parce que la radio déclenche tout le reste. C'est tout.</p></div>
+    <div class="box b-warn"><span class="bt">Et pour les campagnes publicitaires</span><p>Apprenez à les faire, même si ça rebute. Passer par une agence coûte un bras : le cas cité en session est quelqu'un qui paie <strong>1 000 € de prestation pour dépenser 200 à 300 € de budget publicitaire.</strong></p></div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="chap" id="s8" data-c="r">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">08</div><div><h2>Playlists payantes et pitch éditorial</h2><div class="tc">⏱ 66:39 – 70:18 · 130:13</div></div></div>
+  <div class="cbody">
+    <div class="pull">« Les playlists payantes, une arnaque ? Dans 9 cas sur 10, oui. Dans 9,5 sur 10, oui. »<span>La réponse sans détour</span></div>
+    <p>Les plateformes font une distinction très nette entre <strong>curateurs légitimes</strong> et <strong>fermes à clics</strong>. La plupart des curateurs qui vendent une place sans autre condition que le paiement ne sont pas légitimes : c'est exclu du règlement de fonctionnement, et détecté rapidement.</p>
+    <div class="box b-warn"><span class="bt">Même une playlist honnête peut basculer</span><p>Quelqu'un qui a mis dix ans à construire sa playlist à la main, s'il se met à facturer, y prend goût et change sa sélection toutes les semaines parce qu'on le paie — <strong>le comportement devient anormal, et la playlist est bloquée</strong>. À juste titre.</p></div>
+    <div class="box b-danger"><span class="bt">Le piège du faux stream</span><p>Le cas qui revient régulièrement : <em class="q">« Mon titre a fait l'objet d'une alerte pour faux streams alors que je n'ai jamais payé personne. »</em> En creusant, un service de promotion payante avait été utilisé. Le titre s'est bien retrouvé sur une vraie playlist — <strong>mais les streams dessus n'étaient pas réels.</strong> Idéalement, on ne le fait jamais.</p></div>
+    <div class="box b-info"><span class="bt">Les 0,5 % qui tiennent la route</span><p>Une ou deux agences investissent réellement dans la création de playlists, souvent adossées à des médias. <strong>Elles ne vendent pas à 300 € mais à plusieurs milliers d'euros</strong>, parce que le turnover est très limité.</p><p>Leur fonctionnement : le titre a déjà un peu de traction, on le place en bas de playlist — 57<sup>e</sup> sur 60 —, on observe son comportement et on le fait monter progressivement. Si ça ne prend pas, le contrat prévoit le retrait sous un mois. <strong>C'est légitime, ça fonctionne, et ça coûte cher.</strong></p></div>
+    <h3>Le pitch éditorial, lui, sert toujours</h3>
+    <div class="box b-tip"><span class="bt">Sans le moindre doute</span><p>Il rend votre projet <strong>disponible auprès des équipes éditoriales</strong>, le rend visible, et permet d'obtenir des playlists. Même si vous n'obtenez pas celles que vous visez, ou rien pendant dix sorties : <strong>il suffit qu'à la onzième vous en décrochiez une pour avoir un coup de boost mécanique.</strong> Il y a chaque semaine des gens qui en obtiennent, sans être signés ni très visibles.</p></div>
+    <div class="box b-key"><span class="bt">Les seules playlists sûres</span><p>Les playlists <strong>éditoriales</strong> — internes à la plateforme, ou de tiers. La limite des playlists de tiers : vous n'avez aucun contrôle sur ce que fait le curateur.</p></div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="chap" id="s9" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">09</div><div><h2>Artiste, licence, distribution : les 3 contrats</h2><div class="tc">⏱ 86:55 – 96:05</div></div></div>
+  <div class="cbody">
+    <h3>Le contrat d'artiste</h3>
+    <div class="box b-info"><span class="bt">En voie de disparition</span><p>Il lie un label et un artiste à titre <strong>exclusif</strong>, pour une durée qui <strong>ne peut pas excéder 5 ans</strong>. On le fait quand on veut signer un artiste, investir dans son développement et s'engager avec lui.</p></div>
+    <p>Point décisif : <strong>c'est un contrat qui relève du droit du travail.</strong> Chaque sollicitation de l'artiste équivaut à celle d'un salarié et doit être payée — le temps en studio, le temps de promo, l'intervention sur un clip. Tout se paie, et c'est chargé.</p>
+    <p>La contrepartie côté producteur : on reverse entre <strong>3 et 7 %</strong> des recettes, et on décide de tout. Certains contrats intègrent désormais des <strong>pactes de direction artistique</strong> — l'artiste ne peut plus refuser une orientation une fois le contrat signé.</p>
+    <div class="box b-warn"><span class="bt">Pourquoi il disparaît</span><p>Les labels n'investissent plus vraiment dans le développement d'artistes. On en voit de moins en moins dans les grosses structures ; les petits producteurs en font encore parfois.</p></div>
+    <h3>Le contrat de licence</h3>
+    <div class="box b-key"><span class="bt">Un mot fourre-tout — et c'est sa force</span><p>La licence, c'est un <strong>droit d'utilisation</strong>. Elle permet des accords de co-exploitation avec des tiers : entre un producteur et un label exploitant, entre un artiste autoproduit et un label qui développe, entre un label et un média, entre un label et une marque.</p><p>Son avantage : <strong>elle n'est pas régie par le droit du travail.</strong> On peut y mettre à peu près ce qu'on veut, tant que les dispositions ne se contredisent pas.</p></div>
+    <details><summary>L'analogie qui rend la licence limpide</summary><div class="dc">Imaginons que vous déteniez une marque très connue. Vous autorisez quelqu'un à fabriquer des oreillers à son effigie : c'est un contrat de licence, avec des conditions définies — « tu n'as pas le droit de les vendre plus de 25 €, et je prends 30 % sur les ventes ». Il accepte ou non.<br><br>Et cela peut être <strong>exclusif ou non</strong> : vous pouvez autoriser trois personnes différentes à faire la même chose.<br><br>Autre usage : la synchronisation. « Vous voulez le mettre dans votre film ? Vous me payez tant, et j'ai tant sur les résultats. » Ou un événement : « Vous avez le droit de l'utiliser, mais pas de le filmer ni de le diffuser. »<br><br>C'est exactement ce que règle un contrat de licence — et c'est pour cela qu'il est de plus en plus utilisé, notamment entre petits producteurs indépendants et labels plus importants qui ne veulent plus de contrats d'artiste. Les contrats de synchronisation prennent eux aussi de plus en plus cette forme.</div></details>
+    <h3>Le contrat de distribution</h3>
+    <p>Il autorise un distributeur à servir d'<strong>intermédiaire pour la mise en commercialisation</strong>. Un label aurait énormément de difficultés à monter son propre réseau : c'est complexe à construire, coûteux, et lourd à maintenir.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Acteur</th><th>Taux de retenue</th></tr></thead>
+      <tbody>
+        <tr><td>Distributeurs historiques</td><td>Environ <strong>25 %</strong></td></tr>
+        <tr><td>Gros distributeurs digitaux</td><td><strong>35 à 45 %</strong> — parce que tout le monde veut signer avec eux</td></tr>
+        <tr><td>Ce que ça devrait coûter en digital</td><td><strong>Pas plus de 20 %</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="box b-info"><span class="bt">Et si on veut son propre réseau ?</span><p>En digital c'est plus simple qu'en physique, mais cela coûte tout de même <strong>7 000 à 10 000 € par an</strong> rien qu'à entretenir — et l'on est en permanence entre le marteau et l'enclume.</p></div>
+    <div class="box b-warn"><span class="bt">Sur la licence exclusive 5 ans à 50/50</span><p>Question posée en séance. <strong>Le taux est bon en soi</strong>, mais impossible de trancher sans lire le contrat. Les points à vérifier :</p><p>→ <strong>Quelle assiette de calcul ?</strong> Y a-t-il des abattements ?<br>→ <strong>Quel montant d'avance ?</strong> On s'enferme cinq ans : il faut une sécurité ou une garantie du signataire.<br>→ <strong>Y a-t-il des options ?</strong><br>→ <strong>La répartition des droits voisins est-elle bien prévue à la source ?</strong></p></div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="chap" id="s10" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">10</div><div><h2>Google Knowledge Panel et autorité</h2><div class="tc">⏱ 2:23 – 15:13</div></div></div>
+  <div class="cbody">
+    <p>Cas concret traité en direct : une artiste très bien référencée sur Google — première et deuxième page, nombreux articles de presse — mais <strong>sans fiche Knowledge Panel</strong>, ce panneau latéral qu'on peut ensuite revendiquer et enrichir soi-même.</p>
+    <div class="box b-info"><span class="bt">Le diagnostic</span><p>L'IA de Google l'identifie pourtant correctement comme comédienne, humoriste, autrice et chanteuse. Le blocage vient d'ailleurs : <strong>il n'y a pas assez de données pour certifier avec certitude qui est derrière ce nom</strong>, et probablement un conflit entre deux identités — le nom civil d'un côté, le nom d'artiste de l'autre, sans lien établi entre les deux.</p></div>
+    <h3>Les 5 causes possibles</h3>
+    <ul class="tl">
+      <li><b>1. Bases de données non alimentées</b>MusicBrainz et Wikidata sont les sources que Google consulte. Tant qu'elles sont incomplètes, il ne tranche pas.</li>
+      <li><b>2. Pas de chaîne YouTube d'artiste officielle</b>C'est le signal le plus fréquemment en cause.</li>
+      <li><b>3. Le nom n'est pas écrit à l'identique partout</b>Vérifier l'orthographe exacte sur l'ensemble des plateformes.</li>
+      <li><b>4. Aucun point d'ancrage qui vous appartient</b>Typiquement : votre propre site internet, qui prouve à Google que c'est bien vous derrière tous ces comptes.</li>
+      <li><b>5. Un homonyme</b>Quand Google a un doute, il ne référence rien du tout.</li>
+    </ul>
+    <div class="box b-key"><span class="bt">La marche à suivre</span><p>Continuer le travail de référencement : <strong>relier explicitement les deux identités dans Wikidata</strong> (nom civil et nom d'artiste, en alias et en pseudonyme, dans les deux sens), finir les références, remettre le site en ligne. La fiche apparaît automatiquement — il n'y a rien à demander, mais il faut lui donner de quoi décider.</p></div>
+    <div class="box b-tip"><span class="bt">Et si ça persiste</span><p>Écrire au support de Google là où un ticket est possible : <em class="q">« Je suis artiste, j'ai des articles de presse, quand je tape mon nom chez vous je vois de nombreuses sources, mais je n'ai pas accès au Knowledge Panel. À quoi est-ce dû ? »</em></p></div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="chap" id="s11" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">11</div><div><h2>Les Grammy Awards</h2><div class="tc">⏱ 98:19 – 101:37</div></div></div>
+  <div class="cbody">
+    <div class="box b-key"><span class="bt">Le fait</span><p>C'est vrai : <strong>n'importe quel artiste peut déposer une candidature.</strong> Littéralement n'importe qui.</p></div>
+    <div class="box b-warn"><span class="bt">La subtilité</span><p>Le parallèle donné : n'importe qui peut se porter candidat à une élection présidentielle — mais sans les parrainages, la candidature est morte d'avance.</p><p>Ici, les membres du panel qui votent <strong>ne vont pas éplucher 20 000 candidatures</strong>. Ils voteront pour ce qu'ils ont aimé et, surtout, pour ce qu'ils ont vu.</p></div>
+    <p>C'est pourquoi les labels déploient des campagnes marketing massives en Californie avant la clôture des votes : des affiches partout, pour atteindre les décideurs et leur montrer que le projet existe. Et les grands managers et cadres de maisons de disques connaissent ces votants personnellement — ils les invitent, ils leur parlent des projets.</p>
+    <div class="box b-tip"><span class="bt">Où se positionner malgré tout</span><p>Certaines catégories sont nettement moins concurrentielles : <strong>jazz, classique, musiques du monde</strong>, et une catégorie récente consacrée aux artistes africains. Moins de concurrence, donc plus de chances d'être vu.</p></div>
+    <div class="box b-key"><span class="bt">Pourquoi tenter quand même</span><p>Il ne s'agit pas de gagner. <strong>Être nommé est déjà une certification en soi</strong> — et c'est une vraie galère à décrocher. Vous recevez un courrier, un boîtier, une médaille, une invitation à la cérémonie.</p><p>Et on sait qu'il y a des gens qui écoutent énormément, certains payant des assistants pendant trois mois pour filtrer. <strong>Si vous passez ces filtres, il peut se passer quelque chose.</strong></p></div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="chap" id="s12" data-c="">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">12</div><div><h2>Muzisecur : l'outil et sa feuille de route</h2><div class="tc">⏱ 101:37 – 130:13</div></div></div>
+  <div class="cbody">
+    <div class="pull">« Ça remplace un distributeur, un éditeur, un avocat et un conseiller. »<span>La réponse à « concrètement, à quoi ça sert ? »</span></div>
+    <h3>Ce que la plateforme remplace</h3>
+    <div class="cards">
+      <div class="card"><h4>Le distributeur</h4><p><strong>2 % de taux de retenue</strong> — contre 35 à 45 % chez les gros digitaux. L'objectif est même de passer à zéro si le logiciel de gestion des royalties peut être réinternalisé.</p></div>
+      <div class="card"><h4>L'administrateur de droits</h4><p>Dépôts SACEM, Adami, Spedidam, SCPP, SPPF en une fois. Détection des doublons d'ISRC. Déclaration annuelle des ventes préparée.</p></div>
+      <div class="card"><h4>L'éditeur</h4><p>Les œuvres sont administrées <strong>même quand elles ne sont pas au catalogue</strong> — c'est récent.</p></div>
+      <div class="card"><h4>L'avocat du quotidien</h4><p>Contrats rédigés par un avocat, recontrôlés par les organismes tous les deux ans. Pas pour un bras de fer avec une major, mais pour tous les contrats courants.</p></div>
+    </div>
+    <div class="box b-tip"><span class="bt">Le gain de temps le plus visible</span><p>Avant, un contrat à six ayants droit : appeler les six, attendre les coordonnées, compléter, envoyer, relancer, attendre les signatures. <strong>Aujourd'hui tout est automatisé</strong> — envoi, suivi, relance, notification, archivage — puis enchaînement automatique sur les dépôts d'œuvres.</p></div>
+    <details><summary>Le tour de l'interface, tel qu'il a été fait en direct</summary><div class="dc"><strong>Tableau de bord</strong> — gamification avec des badges à débloquer, statistiques des titres distribués, actualités de la plateforme, dernières sorties digitales.<br><br><strong>Contacts</strong> — c'est le point de départ, tout le travail s'articule autour d'eux. Au lieu de saisir un contact à la main, on envoie un lien à la personne, qui remplit elle-même ses informations.<br><br><strong>Catalogue</strong> — importable depuis un profil de plateforme, ou depuis le catalogue déclaré auprès des organismes. Permet d'identifier rapidement les œuvres qui restent à déclarer.<br><br><strong>Déclaration des œuvres</strong> — la partie la plus fastidieuse, et elle est assumée comme telle. C'est là qu'on renseigne ce que le système ne peut pas deviner : qui a écrit, composé, interprété, joué de quoi.<br><br><strong>Contrats</strong> — générés automatiquement à partir de ces informations, au logo de votre label, avec une vidéo explicative sur le rôle de chaque contrat. Entièrement modifiables, à vos risques et périls.<br><br><strong>Le reste</strong> — dépôts SACEM (définitifs ou provisoires), distribution digitale sans limite, onglet promo (envoi aux médias, pitch playlists, relevés de diffusion), adhésions aux organismes en France et à l'étranger, contrôles de répartition, programmes types, dates de concerts, déclaration annuelle des ventes en un clic, mandats à signer, gestion de l'abonnement.<br><br><strong>Le support</strong> a été refondu : intégré à l'interface, annoncé sous 24 h ouvrées mais répondu en général dans l'heure, avec notification dans l'outil et par e-mail. Et des vidéos d'aide contextuelles un peu partout, déclenchées par un petit bouton, sans son par défaut pour ne pas déranger.</div></details>
+    <h3>Ce qui arrive</h3>
+    <ul class="tl">
+      <li><b>Création de label, toutes formes juridiques</b>Aujourd'hui SAS et SASU. Arrivent SARL, EURL, EIRL, association loi 1901, entreprise individuelle — puis le statut d'artiste-auteur.</li>
+      <li><b>Crédit d'impôt automatisé</b>Phonographique, édition et spectacle vivant, transmis automatiquement au CNM. Déploiement annoncé sous une semaine environ.</li>
+      <li><b>Aides et subventions</b>Le gros chantier. Les dossiers seront montés et envoyés directement, avec des critères d'éligibilité automatisés à partir de vos données et de ceux du CNM.</li>
+      <li><b>Pacte de préférence éditoriale</b>Ajout d'une cession de créances : si une avance est versée et non remboursée, possibilité de la récupérer à la source.</li>
+      <li><b>Dépôt à signataire unique</b>Quand les autres ayants droit sont à l'étranger — la société d'auteurs vient de le permettre.</li>
+      <li><b>Muzisecur Université</b>Formation complète à l'outil, avec un certificat partageable sur vos réseaux.</li>
+      <li><b>Programme d'affiliation</b>Réservé aux membres : <strong>30 % à vie</strong> sur les 15 premiers inscrits, <strong>50 %</strong> sur les 15 suivants, <strong>70 %</strong> au-delà de 30. Avec une base de contenus prêts à relayer — plus de 1 000 shorts, plus de 1 000 vidéos longues, environ un millier d'articles.</li>
+      <li><b>Complétion par chat vocal</b>Remplacer les formulaires par une conversation avec une IA qui pose les questions et donne les explications au passage. En test.</li>
+    </ul>
+    <div class="box b-info"><span class="bt">Deux précisions données en séance</span><p><strong>Les signatures sur téléphone ont-elles une valeur ?</strong> Oui. Un certificat de signature électronique horodaté a été déployé, avec suivi précis et validation par e-mail. Avant, n'importe qui pouvait signer pour n'importe qui — ce n'est plus le cas. Déjà actif sur les mandats, mémorandums et dépôts d'œuvres, en cours d'extension.</p><p><strong>Si j'arrête mon abonnement, je perds mes données ?</strong> Non. Un bouton permet de tout télécharger. Pour la distribution digitale, le délai de transfert est de deux mois, et le transfert lui-même prend quelques heures — c'est la plateforme qui s'en occupe.</p></div>
+    <div class="box b-warn"><span class="bt">La reconnaissance audio, elle, ne marche pas</span><p>Les tests d'identification automatique à partir du son ont échoué : à côté de la plaque la moitié du temps, et incapable de fournir l'année de production, l'année de première publication, le pays d'enregistrement ou le nom des musiciens. <strong>Ces informations-là, seul vous les avez.</strong></p></div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="chap" id="s13" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">13</div><div><h2>Convertir une audience non-musicale</h2><div class="tc">⏱ 131:47 – 134:56 · 137:40</div></div></div>
+  <div class="cbody">
+    <p>Le cas posé : un groupe qui a massivement publié du contenu <strong>hors musique</strong>, devenu très viral — plusieurs millions de comptes atteints, bientôt plus d'une dizaine de millions. Pic d'abonnés, pic de trafic, pic d'interactions. <strong>Et côté plateformes de streaming, rien ne bouge.</strong></p>
+    <div class="pull">« Il faut intégrer des éléments de promotion dans vos contenus. C'est tout. »<span>La réponse</span></div>
+    <h3>Les trois leviers, du plus simple au plus direct</h3>
+    <ul class="tl">
+      <li><b>1. Votre son en musique de fond — systématiquement</b>Sur toutes les vidéos, à partir de maintenant. Si une vidéo fait huit millions de vues, cela fait <strong>huit millions d'écoutes potentielles</strong> du titre sur la plateforme : apparition dans les tops, réutilisation par d'autres membres, visibilité gratuite.</li>
+      <li><b>2. Un objet promotionnel dans le cadre</b>Faire fabriquer un vinyle, une pochette, et l'avoir en main pendant la vidéo. Les curieux se demandent ce que c'est : <strong>c'est un appel à l'action déguisé, et c'est le meilleur qui soit.</strong></li>
+      <li><b>3. L'appel à l'action franc</b>Démarrer avec ce qui marche d'habitude, puis, au bout de 30 secondes sur une vidéo d'une minute trente, tout arrêter. « Vous ne vous êtes même pas rendu compte qu'on était artistes. Voilà ce qu'on vous propose. »</li>
+    </ul>
+    <div class="box b-key"><span class="bt">L'effet est cumulatif</span><p>Ça démarre petit : 1 000 par-ci, 2 000 par-là, 400, 3 000. Mais si une ou deux vidéos repartent à huit ou dix millions de vues, <strong>comme le dispositif est déjà en place, ça devient explosif.</strong> Sur dix millions de personnes, en attirer 50 000 fait 50 000 streams — un signal envoyé à l'algorithme, un profil retravaillé, plus de visibilité. Et à la sortie suivante, votre nouveauté apparaît dans le flux d'écoute algorithmique de toutes ces personnes.</p></div>
+    <h3>La bonne façon d'intégrer sa musique</h3>
+    <div class="pc">
+      <div class="ko"><h4>Ce qu'il ne faut pas faire</h4><ul><li>Monter la musique <em>dans</em> la vidéo avant publication</li><li>Résultat : aucun lien vers le titre, aucune attribution, aucun stream</li></ul></div>
+      <div class="ok"><h4>Ce qu'il faut faire</h4><ul><li>Faire la vidéo <strong>sans</strong> la musique</li><li>L'ajouter <strong>au moment de la publication</strong>, depuis la bibliothèque de la plateforme</li><li>Le titre s'affiche et un lien vers son utilisation est créé</li></ul></div>
+    </div>
+    <div class="box b-warn"><span class="bt">Deux contraintes à anticiper</span><p><strong>La durée.</strong> L'ajout depuis la plateforme est plafonné à une minute sur certains réseaux. Au-delà, vous pouvez vous retrouver avec deux minutes de vidéo sans son. Cela impose d'adapter le format.</p><p><strong>L'extrait.</strong> Vous le sélectionnez au moment de la sortie digitale. Selon la façon dont vous comptez utiliser le morceau en contenu, il y a une vraie réflexion stratégique à avoir dès la sortie pour disposer du bon support.</p></div>
+    <details><summary>Le titre du morceau comme levier de visibilité</summary><div class="dc">Piste que Tarik dit chercher à documenter — les éléments factuels sont rares, mais les tests donnent des résultats frappants.<br><br>Quand quelqu'un publie une story ou un reel, il cherche une musique d'illustration. Il tape des <strong>mots-clés d'ambiance</strong> dans la barre de recherche : « dépassement », « victoire », « morning routine ». Et une grande partie des gens choisit un peu au hasard parmi les premiers résultats.<br><br>Si le titre de votre morceau contient les mots-clés correspondant à l'usage que vous anticipez, <strong>vous remontez dans ces résultats</strong>. Et si les gens se mettent à l'utiliser, le classement par utilisation récente peut vous faire monter très haut.<br><br>Les mêmes titres trustent ces recherches depuis dix ans. Le levier est particulièrement intéressant pour les <strong>musiques instrumentales et les niches</strong>.<br><br><strong>La limite, discutée en séance :</strong> réfléchir au titre en fonction du référencement risque de brider la création. Et si tout le monde utilise le même outil de suggestion, l'avantage disparaît — c'est déjà ce qu'on observe sur les suggestions de titres automatiques ailleurs. La piste reste ouverte, sans certitude.</div></details>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="chap" id="s14" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">14</div><div><h2>Penser en flux, pas en stock</h2><div class="tc">⏱ 134:56 – 137:40</div></div></div>
+  <div class="cbody">
+    <div class="pull">« Pour ça, il faut penser en flux, pas en stock. Sinon, c'est démoralisant. »<span>Le principe qui clôt la session</span></div>
+    <div class="pc">
+      <div class="ko"><h4>Penser en stock</h4><ul><li>« Je veux 10 000 auditeurs mensuels à la fin du mois »</li><li>Impossible à évaluer : on ne sait pas en combien de temps on les a faits</li><li>Une fois l'objectif atteint, on veut doubler — et c'est quasi impossible dans la foulée</li><li>C'est là qu'on flingue sa démarche</li></ul></div>
+      <div class="ok"><h4>Penser en flux</h4><ul><li>« On est à 300, on vise +20 % — donc 60 de plus »</li><li>Si on les voit trois jours plus tard, l'objectif est atteint : <strong>micro-victoire</strong>, et ça incite à continuer</li><li>De 300 à 1 000, de 1 000 à 2 000, de 2 000 à 3 000…</li><li><strong>On n'atteint jamais l'objectif</strong> — et c'est exactement ce qu'on veut</li></ul></div>
+    </div>
+    <div class="box b-key"><span class="bt">Pourquoi ça change tout</span><p>À 3 000, on grimpe encore de 10 %. À 30 000, encore de 10 %. À 300 000, encore. <strong>Ça ne s'arrête jamais.</strong> La courbe est peut-être plus lente, mais elle est infiniment plus constructive en termes de vision stratégique.</p></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="bar"></div>
+  <div class="faqhead"><h2>💬 FAQ de la session</h2><p>Cette session était intégralement construite sur vos questions. Les voici, avec les réponses données.</p></div>
+  <div class="faqbody">
+
+    <div class="faqcat">Spotify, IA et plateformes</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Comment Spotify peut-il déterminer qu'il y a une pincée d'IA dans un titre ?</div><div class="a"><p>La théorie avancée : <strong>ils en sont probablement incapables de façon fiable.</strong> Au moindre soupçon, ils taguent — et si vous ne réagissez pas, c'est vous qui subissez.</p><p>Deux pistes techniques ont été discutées : le croisement de bases (un titre exporté tel jour à telle heure) et la détection d'artefacts répétés propres aux algorithmes génératifs. Rien n'est documenté.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Que faire si le badge « AI Persona » apparaît sur mon profil ?</div><div class="a"><p><strong>Alerter immédiatement votre distributeur</strong>, c'est le seul premier réflexe. Il contacte le DSP. Dès que vous pouvez prouver qu'un humain réel est derrière le nom d'artiste — des vidéos de scène suffisent — le profil repasse en traitement manuel.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Est-ce qu'à cause de l'IA, j'ai moins de royalties qu'avant ?</div><div class="a"><p>Non. Aucun élément ne laisse penser à une baisse mécanique. Le risque a existé : si les plateformes avaient laissé déverser des centaines de milliers de titres générés, le pot commun aurait été dilué.</p><p>Mais elles ont réagi. Un cas a servi d'exemple — plus de 8 millions de dollars de royalties générés frauduleusement, une bonne partie restituée, et une condamnation pénale. Une plateforme bloque désormais les déversements massifs manifestement anormaux, jusqu'à en faire bloquer les projets auprès des distributeurs.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Si on nous délivre le badge « vérifié », peut-on nous le retirer ?</div><div class="a"><p>A priori non. Une fois l'activité humaine détectée, il n'est pas retiré — sauf cas de compte falsifié, ce qui supposerait de falsifier la base de données du distributeur. En revanche les plateformes changent leurs règles : un badge équivalent a déjà été supprimé ailleurs un an après son lancement.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Beaucoup d'artistes retirent leur catalogue de Spotify. Dois-je faire pareil ?</div><div class="a"><p>Deux motifs ont été observés : une <strong>protestation politique</strong> liée aux investissements du fondateur, et un motif de <strong>rémunération</strong> — on est effectivement bien mieux payé sur plusieurs autres plateformes.</p><p>La limite pratique : si vos auditeurs sont sur Spotify et que vous renvoyez le trafic ailleurs, <strong>une grande partie du public n'aura pas l'autre plateforme</strong> et se sentira mise à l'écart. C'est un choix personnel, pas une recommandation.</p></div></div>
+
+    <div class="faqcat">Aides, financements et structuration</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Comment s'émanciper du système d'aides qui se referme ?</div><div class="a"><p><strong>En devenant multi-structurel.</strong> Côté formation : artiste-auteur avec SIREN → FIF PL ; dirigeant de label → Agefice ; auteur-compositeur → enveloppe côté société d'auteurs ; intermittent → Afdas ; plus le CPF et son abondement. <strong>Ces guichets sont cumulables, pas alternatifs.</strong></p><p>Côté aides musique : le crédit d'impôt d'abord, puis le statut d'artiste-auteur pour les dispositifs fermés aux sociétés commerciales, puis une activité d'édition distincte pour les aides éditeurs.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Quelle serait l'erreur de tout mettre dans la même structure ?</div><div class="a"><p>Ce n'est pas une erreur au départ — c'est un choix dimensionné. <strong>L'erreur serait de créer cinq structures dès le premier jour</strong> et de surdimensionner son véhicule.</p><p>La question se pose quand chaque activité commence à peser. Le cas vécu : un label à 1,6 M€ en structure unique a perdu autour de 400 000 € — crédit d'impôt limité au type de revenu majoritaire, et aides édition inaccessibles faute d'atteindre 50 % du chiffre d'affaires.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>La multi-structuration, ce n'est pas réservé aux gros ?</div><div class="a"><p>Non. L'exemple donné : quelqu'un avec un label à 8 000 € de chiffre d'affaires et une seconde structure merch/concerts à 12-13 000 €. Avec des écritures comptables propres, il a récupéré <strong>3 à 4 000 € sur 20 000 € générés</strong> — soit environ 25 % de volume d'affaires en plus. Et les mécanismes seront déjà en place quand il grossira.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Comment financer un ordinateur en optimisant ?</div><div class="a"><p>L'acheter en nom propre — à crédit si nécessaire — puis <strong>le louer à ses propres structures</strong>, y compris à soi-même au titre de l'activité d'artiste-auteur si l'on est au réel. Environ 150 € par structure et par mois : sur trois structures, la machine est amortie en quatre mois.</p></div></div>
+
+    <div class="faqcat">Publicité et prestataires</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>J'ai dépensé 200 € en pub Meta sans résultat. Qu'est-ce que je fais de travers ?</div><div class="a"><p>Probablement le bouton « Booster ». <strong>Toujours passer par le gestionnaire de publicité</strong>, qui donne la maîtrise de l'objectif et de la cible. Avant de dépenser : créer le pixel, l'alimenter en organique, connecter Facebook et Instagram, poser le pixel sur votre site, et mettre en place l'API conversion — environ 45 minutes avec une IA pour vous guider.</p><p>Puis cibler par paliers : d'abord vos abonnés et ceux qui interagissent, avec quelques dizaines d'euros seulement.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Est-ce que ça vaut le coup de faire de la pub pour un programme très ciblé ?</div><div class="a"><p>Oui, à condition d'avoir la bonne cible. <strong>Au départ, c'est vous qui indiquez qui vous visez</strong> — vous ne pouvez pas laisser l'algorithme décider. Au bout d'un an ou deux, quand le pixel a beaucoup de données, vous pourrez le laisser travailler seul : il s'en sort bien.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Est-ce qu'une équipe promo à 1 500 € par mois vaut le coup quand on démarre ?</div><div class="a"><p>Non. Quand on démarre, il y a tout à construire : <strong>sortir régulièrement, être présent partout, comprendre le référencement, démarcher un par un.</strong> Tout cela est gratuit et ne demande que du temps.</p><p>Et aucune équipe qui travaille bien ne facture 1 500 € par mois — une équipe, c'est au minimum deux personnes, et des gens réellement influents ne pratiquent pas ce tarif.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Qu'est-ce qui justifie un coût pour envoyer un clip ?</div><div class="a"><p>Un héritage. Historiquement, il fallait encoder le clip dans un format spécifique : une cassette coûtait 200 à 300 € par chaîne, six ou sept chaînes, soit environ 2 000 €. Un acteur a repris ce marché en numérique, en standardisant aussi les contrats d'autorisation de diffusion, et facture autour de 500 €.</p><p>L'avis donné : <strong>aujourd'hui, une IA ferait la même chose pour 30 €</strong> — mais le monopole oblige à passer par là.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Les playlists payantes, c'est une arnaque ?</div><div class="a"><p>Dans 9 cas sur 10, oui — voire 9,5. Les curateurs qui vendent une place sans autre condition que le paiement ne sont pas légitimes au regard du règlement des plateformes, et c'est détecté rapidement.</p><p>Les 0,5 % qui tiennent : des agences qui investissent réellement dans la création de playlists, souvent adossées à des médias. Elles facturent <strong>plusieurs milliers d'euros</strong>, placent le titre en bas de playlist et le font monter selon son comportement.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Le pitch éditorial sert-il encore à quelque chose ?</div><div class="a"><p>Oui, sans le moindre doute. Il rend le projet disponible auprès des équipes éditoriales, le rend visible, et permet d'obtenir des playlists. <strong>Même si vous n'obtenez rien pendant dix sorties, il suffit de la onzième</strong> pour avoir un coup de boost mécanique. Il y a chaque semaine des gens qui en décrochent sans être signés.</p></div></div>
+
+    <div class="faqcat">Droits et contrats</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Sans passage radio, télé ni boîte de nuit, est-il inutile de compter sur les droits voisins ?</div><div class="a"><p>À ce jour, <strong>il n'y a pas de droits voisins collectés sur le streaming.</strong> Un accord pourrait survenir, avec éventuellement une rétrocession sur plusieurs années — mais rien n'est acquis.</p><p>En revanche, l'absence d'exploitation ne signifie pas zéro droit voisin : vous en touchez mécaniquement <strong>sur la base de vos ventes</strong>, via la copie privée collectée sur les supports de stockage, et <strong>sur vos prestations scéniques</strong>. Les sommes ne sont pas extraordinaires, mais c'est le cumul qui compte — à condition de bien déclarer son catalogue et ses scores de vente.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>On me propose une licence exclusive sur 5 ans à 50/50. Je signe ?</div><div class="a"><p>Le taux est bon en soi, mais impossible de trancher sans le contrat. Quatre points à vérifier : <strong>l'assiette de calcul</strong> (y a-t-il des abattements ?), <strong>le montant de l'avance</strong> (on s'enferme cinq ans, il faut une sécurité ou une garantie du signataire), <strong>l'existence d'options</strong>, et <strong>la répartition des droits voisins à la source</strong>.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Quelle est la différence entre contrat d'artiste, de licence et de distribution ?</div><div class="a"><p><strong>Le contrat d'artiste</strong> lie un label et un artiste à titre exclusif, 5 ans maximum. Il relève du droit du travail : chaque sollicitation se paie. L'artiste touche 3 à 7 % des recettes. Il disparaît peu à peu.</p><p><strong>La licence</strong> est un droit d'utilisation, non régi par le droit du travail — on peut y mettre à peu près ce qu'on veut. Elle couvre les co-exploitations, la synchronisation, les accords avec des médias ou des marques.</p><p><strong>La distribution</strong> confie à un intermédiaire la mise en commercialisation. Environ 25 % historiquement, 35 à 45 % chez les gros digitaux — alors que 20 % devrait être le plafond en digital.</p></div></div>
+
+    <div class="faqcat">Muzisecur</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Concrètement, à quoi ça sert ? Qu'est-ce que ça remplace ?</div><div class="a"><p>Quatre métiers en un : <strong>un distributeur</strong> (2 % de retenue), <strong>un administrateur de droits</strong> (dépôts, doublons, déclaration annuelle des ventes), <strong>un éditeur</strong> (les œuvres sont administrées même hors catalogue) et <strong>un avocat du quotidien</strong> (contrats rédigés par un avocat, recontrôlés tous les deux ans).</p><p>S'y ajoutent la création de label, les adhésions aux organismes en France et à l'étranger, les demandes de crédit d'impôt, et un support intégré.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Les signatures faites sur mon téléphone ont-elles une valeur juridique ?</div><div class="a"><p>Oui. Un <strong>certificat de signature électronique horodaté</strong> a été déployé, avec un suivi précis et une validation par e-mail. Avant, comme dans un PDF, n'importe qui pouvait signer pour n'importe qui. C'est déjà actif sur les mandats, mémorandums et dépôts d'œuvres, et en cours d'extension.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Si j'arrête mon abonnement, est-ce que je perds mes données ?</div><div class="a"><p>Non. Un bouton permet de tout télécharger et de tout récupérer. Pour la distribution digitale, le délai de transfert est de deux mois, largement suffisant — et le transfert lui-même prend quelques heures, pris en charge par la plateforme.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Qu'est-ce qui va être ajouté prochainement ?</div><div class="a"><p>Création de label sur toutes les formes juridiques ; automatisation du crédit d'impôt phono, édition et spectacle vivant avec transmission au CNM ; montage automatisé des dossiers d'aides et subventions ; cession de créances dans le pacte de préférence éditoriale ; dépôt à signataire unique quand les autres ayants droit sont à l'étranger ; une université avec certificat ; un programme d'affiliation ; et un test de complétion par chat vocal.</p></div></div>
+
+    <div class="faqcat">Visibilité et référencement</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Pourquoi je n'ai pas de fiche Google alors que j'ai beaucoup d'articles de presse ?</div><div class="a"><p>Parce que Google n'a pas assez de données pour certifier qui est derrière le nom — souvent un conflit entre nom civil et nom d'artiste non reliés.</p><p>Cinq causes à vérifier : <strong>MusicBrainz et Wikidata incomplets</strong>, absence de <strong>chaîne YouTube d'artiste officielle</strong> (le signal le plus fréquent), <strong>orthographe du nom variable</strong> selon les plateformes, absence d'un <strong>point d'ancrage qui vous appartient</strong> (votre site), ou la présence d'un <strong>homonyme</strong> — auquel cas Google, dans le doute, ne référence rien.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Comment basculer une audience venue pour du contenu non musical vers ma musique ?</div><div class="a"><p>En intégrant des éléments de promotion dans les contenus qui marchent déjà. Trois leviers : <strong>votre son en musique de fond systématiquement</strong> ; <strong>un objet promotionnel visible dans le cadre</strong> (vinyle, pochette) ; et <strong>un appel à l'action franc</strong> au milieu d'une vidéo qui fonctionne.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Faut-il intégrer sa musique dans la vidéo ou l'ajouter depuis la plateforme ?</div><div class="a"><p><strong>Depuis la plateforme, au moment de la publication.</strong> C'est ce qui crée le lien vers votre titre et l'attribution. Deux contraintes : la durée est plafonnée à une minute sur certains réseaux, et l'extrait utilisable se sélectionne au moment de la sortie digitale — il y a donc une réflexion à avoir dès la sortie.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Que veut dire « penser en flux et pas en stock » ?</div><div class="a"><p>Ne pas viser un palier (« 10 000 auditeurs à la fin du mois ») mais un <strong>taux de croissance régulier</strong> (« +20 % »). Un palier est difficile à évaluer et, une fois atteint, quasi impossible à doubler dans la foulée. Une croissance en pourcentage, elle, se reconduit indéfiniment — <strong>on n'atteint jamais l'objectif</strong>, et chaque étape franchie est une micro-victoire qui pousse à continuer.</p></div></div>
+
+  </div>
+</section>
+
+<!-- PLAN -->
+<section class="plan" id="plan">
+  <h2>🎯 Plan d'action</h2>
+  <p>Ce qui découle concrètement de cette session. Clique pour cocher.</p>
+
+  <div class="phase">À vérifier cette semaine</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Spotify</b>Aller regarder son profil : le badge « AI Persona » est-il apparu ? Si oui, alerter le distributeur immédiatement</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Spotify</b>Vérifier la présence du badge « vérifié » et, sinon, dérouler la checklist qui le déclenche</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>YouTube</b>Vérifier son nombre d'abonnés : si on est entre 800 et 1 000, planifier une mini-campagne avant 2027</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Formation</b>Déposer les demandes de prise en charge avant que les nouveaux plafonds et délais de carence ne s'appliquent</span></li>
+  </ul>
+
+  <div class="phase">Ce mois-ci</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Spotify for Artists</b>Mettre à jour la bio, renouveler les photos (non retouchées par IA), connecter tous les réseaux</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Spotify for Artists</b>Faire les canvas vidéo et les pitchs sur chaque sortie, renseigner les dates de concert</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Référencement</b>Compléter MusicBrainz et Wikidata, relier nom civil et nom d'artiste dans les deux sens</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Référencement</b>Vérifier que le nom est orthographié à l'identique sur toutes les plateformes</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Référencement</b>Remettre en ligne un site à soi : c'est le point d'ancrage qui manque le plus souvent</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Publicité</b>Créer le pixel, connecter Facebook et Instagram en comptes pro synchronisés</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Publicité</b>Mettre en place l'API conversion — environ 45 minutes en se faisant guider par une IA</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Publicité</b>Première campagne en retargeting niveau 1 uniquement, quelques dizaines d'euros</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Contenu</b>Arrêter de graver la musique dans les vidéos : l'ajouter depuis la plateforme à la publication</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Contenu</b>Choisir consciemment l'extrait utilisable dès la prochaine sortie digitale</span></li>
+  </ul>
+
+  <div class="phase">Le trimestre</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Structuration</b>Faire le calcul : une seconde structure coûterait X en comptable, ouvrirait Y en leviers. Trancher</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Structuration</b>Recenser tous les guichets de formation auxquels on est éligible — ils sont cumulables</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Structuration</b>Vérifier si une activité d'édition distincte ouvrirait des aides aujourd'hui inaccessibles</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Anticipation</b>Se rapprocher d'une formation certifiante avant que l'exigence ne devienne obligatoire</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Promo</b>Si budget promo il y a : d'abord le webzine, ensuite la radio. Jamais la télé, jamais le community manager</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Promo</b>Chercher les agences radio qui pratiquent le modèle au résultat (1 000-1 500 € à l'entrée)</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Objectifs</b>Reformuler ses objectifs en taux de croissance plutôt qu'en paliers</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Ambition</b>Regarder les catégories Grammy les moins concurrentielles et envisager une candidature</span></li>
+  </ul>
+</section>
+
+<!-- QUIZ -->
+<section class="quiz" id="quiz">
+  <h2>🧠 Quiz de validation</h2>
+  <p>5 questions pour vérifier que les points clés sont bien passés.</p>
+
+  <div class="qz" data-good="1">
+    <div class="qt">1. Le badge « AI Persona » vient d'apparaître sur votre profil. Quel est le premier réflexe ?</div>
+    <button class="opt">Retirer le titre concerné des plateformes</button>
+    <button class="opt">Alerter immédiatement son distributeur, qui fait la requête auprès du DSP</button>
+    <button class="opt">Écrire directement au support de la plateforme</button>
+    <button class="opt">Attendre : le badge disparaît de lui-même au bout de quelques semaines</button>
+    <div class="fb">C'est le seul premier réflexe. Dès qu'on peut prouver qu'un humain réel est derrière le nom d'artiste — des vidéos de scène suffisent — le profil repasse en traitement manuel. Ne pas réagir coûte cher : un DJ est passé d'environ 2 millions d'auditeurs mensuels à moins de 300 000.</div>
+  </div>
+
+  <div class="qz" data-good="3">
+    <div class="qt">2. Comment obtient-on le badge « vérifié par Spotify » ?</div>
+    <button class="opt">En remplissant un formulaire dans Spotify for Artists</button>
+    <button class="opt">En atteignant un seuil d'auditeurs mensuels</button>
+    <button class="opt">En le demandant via son distributeur</button>
+    <button class="opt">Il ne se demande pas : il se déclenche quand le système détecte une activité humaine cohérente</button>
+    <div class="fb">Aucun formulaire n'existe. La checklist qui le déclenche : Spotify for Artists tenu à jour, réseaux connectés, photos renouvelées et non retouchées par IA, canvas vidéo, pitchs, merch branché, dates de concert.</div>
+  </div>
+
+  <div class="qz" data-good="0">
+    <div class="qt">3. Pourquoi une seule structure peut coûter très cher en subventions ?</div>
+    <button class="opt">Parce que le crédit d'impôt s'applique au type de revenu majoritaire, rendant les autres dépenses non éligibles</button>
+    <button class="opt">Parce que les commissions plafonnent les aides par entreprise</button>
+    <button class="opt">Parce qu'une structure unique paie plus de charges sociales</button>
+    <button class="opt">Parce que le CNM refuse les dossiers des structures mono-activité</button>
+    <div class="fb">Le cas vécu : un label à 1,6 M€ de CA n'a pu prendre que le crédit d'impôt spectacle vivant, rendant les dépenses de production — les plus lourdes — non éligibles. Plus 70 000 € d'aides édition inaccessibles faute d'atteindre 50 % du CA. Environ 400 000 € perdus pour 10 000 € de frais comptables économisés.</div>
+  </div>
+
+  <div class="qz" data-good="2">
+    <div class="qt">4. Vos 200 premiers euros de publicité Meta, sur qui les dépenser ?</div>
+    <button class="opt">Sur une audience large pour laisser l'algorithme apprendre</button>
+    <button class="opt">Sur des audiences similaires au top 1 % de vos abonnés</button>
+    <button class="opt">Uniquement sur vos abonnés et ceux qui ont liké ou commenté — et quelques dizaines d'euros suffisent</button>
+    <button class="opt">Sur les auditeurs de votre genre musical, via le ciblage par centres d'intérêt</button>
+    <div class="fb">C'est le retargeting de niveau 1. Les audiences similaires viennent au palier suivant, une fois qu'il y a assez de trafic. Et avant toute dépense : pixel créé, comptes connectés, API conversion en place.</div>
+  </div>
+
+  <div class="qz" data-good="1">
+    <div class="qt">5. Que signifie « penser en flux plutôt qu'en stock » ?</div>
+    <button class="opt">Sortir de la musique en continu plutôt que par albums</button>
+    <button class="opt">Viser un taux de croissance régulier plutôt qu'un palier chiffré à atteindre</button>
+    <button class="opt">Privilégier les revenus récurrents aux revenus ponctuels</button>
+    <button class="opt">Mesurer les streams quotidiens plutôt que les auditeurs mensuels</button>
+    <div class="fb">Un palier est difficile à évaluer et, une fois atteint, quasi impossible à doubler dans la foulée — c'est là qu'on casse sa démarche. Une croissance en pourcentage se reconduit indéfiniment, et chaque étape est une micro-victoire.</div>
+  </div>
+
+  <div class="score" id="score"></div>
+</section>
+
+<footer>
+  <p><b>Producteur à Succès</b> — Session live Questions / Réponses du 17 septembre 2026</p>
+  <p style="margin-top:6px;font-size:13px;opacity:.8">Support généré à partir de la transcription intégrale de la session (2 h 27)</p>
+</footer>
+
+</div>
+
+<script>
+/* ---- Lecteur Vimeo : chapitres cliquables + timecodes cliquables ---- */
+(function(){
+  var CHAPITRES = [
+    [0,"Accueil et programme de la session"],
+    [143,"Pourquoi je n'ai pas de fiche Google ?"],
+    [314,"Les 5 causes d'absence du Knowledge Panel"],
+    [913,"Spotify : le badge « AI Persona »"],
+    [1012,"Que faire si le badge apparaît"],
+    [1088,"Comment Spotify détecte l'IA"],
+    [1211,"D'où vient le tag : la condamnation de Suno"],
+    [1621,"L'IA fait-elle baisser vos royalties ?"],
+    [1698,"L'affaire Smith et la réaction des DSP"],
+    [1766,"Le badge « vérifié par Spotify »"],
+    [1893,"Peut-on perdre le badge ?"],
+    [2066,"YouTube change le comptage des vues"],
+    [2217,"Monétisation YouTube : les seuils durcis"],
+    [2308,"Aides et subventions : -25 % et ça continue"],
+    [2423,"Fonds de formation rabotés et avance imposée"],
+    [2577,"Formations certifiantes : la future obligation"],
+    [2680,"S'émanciper : devenir multi-structurel"],
+    [2751,"Multiplier les points de contact aux fonds"],
+    [2874,"L'exemple Wagram : le jeu des structures"],
+    [3122,"Financer son ordinateur en se le louant"],
+    [3376,"« 200 € de pub Meta sans résultat »"],
+    [3468,"Alimenter le pixel avant de dépenser"],
+    [3572,"Retargeting, créatif et taille des budgets"],
+    [3748,"Une seule structure : l'erreur à 400 000 €"],
+    [3999,"Les playlists payantes : arnaque ou pas"],
+    [4131,"Les 0,5 % de prestataires qui tiennent"],
+    [4218,"Une équipe promo quand on démarre ?"],
+    [4413,"La grille tarifaire réelle de la promo"],
+    [4503,"Le modèle au résultat pour la radio"],
+    [4627,"Télé et promo club : ce qui ne sert plus"],
+    [4727,"Pourquoi un envoi de clip coûte 500 €"],
+    [4796,"Les community managers : à éviter"],
+    [4978,"Droits voisins sans diffusion : que touche-t-on"],
+    [5096,"Meta Ads : qui cibler au départ ?"],
+    [5215,"Licence exclusive 5 ans à 50/50 : je signe ?"],
+    [5312,"Le contrat d'artiste"],
+    [5432,"Le contrat de licence"],
+    [5592,"Le contrat de distribution"],
+    [5765,"Retirer son catalogue de Spotify ?"],
+    [5899,"Les Grammy Awards : comment ça marche"],
+    [6097,"Muzisecur : ce que ça remplace"],
+    [6514,"Démonstration : contacts et catalogue"],
+    [6750,"Déclarer ses œuvres, contrats générés"],
+    [7061,"Distribution, promo et contrats signés"],
+    [7185,"Adhésions, aides et déclaration des ventes"],
+    [7344,"Les prochains chantiers Muzisecur"],
+    [7707,"Signature électronique et vos données"],
+    [7813,"Le pitch éditorial sert-il encore ?"],
+    [7907,"Basculer son audience vers la musique"],
+    [8096,"Penser en flux, pas en stock"],
+    [8260,"Intégrer sa musique depuis la plateforme"],
+    [8388,"Le titre du morceau comme levier"],
+    [8714,"Clôture et prochaine session"]
+  ];
+
+  var frame = document.getElementById('vimeoPlayer');
+  function fmt(s){ var m = Math.floor(s/60), r = s%60; return m + ':' + (r<10?'0':'') + r; }
+
+  function seek(sec){
+    if (!frame || !frame.contentWindow) return;
+    try {
+      frame.contentWindow.postMessage(JSON.stringify({method:'setCurrentTime', value: sec}), '*');
+      frame.contentWindow.postMessage(JSON.stringify({method:'play'}), '*');
+    } catch(e){}
+    var top = frame.getBoundingClientRect().top + window.pageYOffset - 20;
+    window.scrollTo({top: top < 0 ? 0 : top, behavior:'smooth'});
+  }
+
+  var list = document.getElementById('chlist');
+  if (list) {
+    CHAPITRES.forEach(function(c){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.innerHTML = '<b>' + fmt(c[0]) + '</b><span></span>';
+      b.querySelector('span').textContent = c[1];
+      b.addEventListener('click', function(){ seek(c[0]); });
+      list.appendChild(b);
+    });
+  }
+
+  document.querySelectorAll('.tc').forEach(function(el){
+    var parts = el.textContent.split(/(\d+:\d{2})/);
+    if (parts.length < 2) return;
+    el.textContent = '';
+    parts.forEach(function(p){
+      if (/^\d+:\d{2}$/.test(p)) {
+        var mm = p.split(':');
+        var sec = parseInt(mm[0],10)*60 + parseInt(mm[1],10);
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'seek'; b.textContent = p;
+        b.title = 'Aller à ' + p + ' dans la vidéo';
+        b.addEventListener('click', function(){ seek(sec); });
+        el.appendChild(b);
+      } else {
+        el.appendChild(document.createTextNode(p));
+      }
+    });
+  });
+})();
+
+(function(){
+  var bar = document.getElementById('progress');
+  function upd(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', upd, {passive:true});
+  window.addEventListener('resize', upd);
+  upd();
+
+  document.querySelectorAll('.chk li').forEach(function(li){
+    li.addEventListener('click', function(){ li.classList.toggle('done'); });
+  });
+
+  var answered = 0, correct = 0;
+  var total = document.querySelectorAll('.qz').length;
+  document.querySelectorAll('.qz').forEach(function(q){
+    var good = parseInt(q.getAttribute('data-good'), 10);
+    var opts = q.querySelectorAll('.opt');
+    opts.forEach(function(o, i){
+      o.addEventListener('click', function(){
+        if (q.dataset.done) return;
+        q.dataset.done = '1';
+        answered++;
+        if (i === good) correct++;
+        opts.forEach(function(x, j){
+          if (j === good) x.classList.add('good');
+          else if (j === i) x.classList.add('bad');
+          x.style.cursor = 'default';
+        });
+        q.querySelector('.fb').classList.add('show');
+        if (answered === total) {
+          var s = document.getElementById('score');
+          s.textContent = 'Score : ' + correct + ' / ' + total + (correct === total ? ' — parfait 🎯' : (correct >= total - 1 ? ' — très bien 👏' : ' — une relecture des sections concernées s\'impose 📘'));
+          s.classList.add('show');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

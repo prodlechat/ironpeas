@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mentorat Ivaanyh #2 — Booking et prospection — 28 septembre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED; --primary-dark:#4C1D95; --primary-light:#EDE9FE;
+  --accent:#F59E0B; --accent-light:#FEF3C7;
+  --success:#10B981; --success-light:#D1FAE5;
+  --danger:#EF4444; --danger-light:#FEE2E2;
+  --info:#3B82F6; --info-light:#DBEAFE;
+  --ink:#1A1523; --muted:#5B5670; --line:#E7E4EF; --bg:#FAF9FC; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+.progress-wrap{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(108,58,237,.12);z-index:999}
+#progress{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+.wrap{max-width:940px;margin:0 auto;padding-inline:20px}
+
+.hero{background:linear-gradient(140deg,#3B1D80 0%,#6C3AED 55%,#8B5CF6 100%);color:#fff;padding-block:60px 52px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{content:"";position:absolute;left:-60px;bottom:-120px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.05)}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:700;margin-bottom:14px;position:relative;z-index:2}
+.hero .sub{font-size:17px;opacity:.92;max-width:690px;position:relative;z-index:2}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;position:relative;z-index:2}
+.meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:7px 14px;border-radius:10px;font-size:13.5px;font-weight:500}
+
+/* LECTEUR */
+.player-wrap{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:-32px;position:relative;z-index:6;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.vid{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.chx{margin-top:16px;border:1px solid var(--line);border-radius:12px;background:#FBFAFE}
+.chx summary{cursor:pointer;padding:12px 16px;font-weight:650;font-size:14.5px;color:var(--primary-dark);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chx summary::-webkit-details-marker{display:none}
+.chx summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+.chx[open] summary::before{content:"▾ "}
+.chx summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+.chlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:2px;max-height:330px;overflow-y:auto;padding:0 10px 12px}
+.chlist button{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;background:transparent;border:0;border-radius:9px;padding:8px 10px;font-family:inherit;font-size:14.5px;color:var(--ink);cursor:pointer;line-height:1.45;transition:background .12s}
+.chlist button:hover{background:var(--primary-light);color:var(--primary-dark)}
+.chlist b{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;min-width:54px}
+button.seek{background:var(--primary-light);border:1px solid #DDD3FA;color:var(--primary-dark);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;cursor:pointer;font-variant-numeric:tabular-nums;transition:all .12s}
+button.seek:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.player-wrap + .toc{margin-top:26px}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:-32px;position:relative;z-index:5;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.toc h2{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:16px;color:var(--primary-dark)}
+.toc ol{list-style:none;counter-reset:toc;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.toc li{counter-increment:toc}
+.toc a{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink);padding:9px 10px;border-radius:10px;font-size:14.5px;transition:background .15s}
+.toc a:hover{background:var(--primary-light);color:var(--primary-dark)}
+.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);font-size:13px;flex-shrink:0;padding-top:1px}
+
+section.chap{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+section.chap>.bar{height:5px;background:var(--primary)}
+.chap[data-c="a"]>.bar{background:var(--accent)} .chap[data-c="g"]>.bar{background:var(--success)}
+.chap[data-c="b"]>.bar{background:var(--info)} .chap[data-c="r"]>.bar{background:var(--danger)}
+.chead{padding:26px 28px 0;display:flex;gap:14px;align-items:center}
+.cnum{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--primary-light);color:var(--primary-dark);display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px}
+.chap[data-c="a"] .cnum{background:var(--accent-light);color:#92400E}
+.chap[data-c="g"] .cnum{background:var(--success-light);color:#065F46}
+.chap[data-c="b"] .cnum{background:var(--info-light);color:#1E40AF}
+.chap[data-c="r"] .cnum{background:var(--danger-light);color:#991B1B}
+.chead h2{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.25;font-weight:700}
+.tc{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-top:3px}
+.cbody{padding:18px 28px 28px}
+.cbody p{margin-bottom:14px}
+.cbody h3{font-family:'Space Grotesk',sans-serif;font-size:16.5px;margin:22px 0 10px;color:var(--primary-dark)}
+.cbody ul,.cbody ol{margin:0 0 14px 20px}
+.cbody li{margin-bottom:7px}
+strong{font-weight:650;color:#2D2540}
+em.q{font-style:italic;color:#413655}
+
+.box{border-radius:12px;padding:16px 18px;margin:18px 0;border-left:4px solid;font-size:15px}
+.box .bt{display:block;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.box p:last-child{margin-bottom:0}
+.b-key{background:var(--primary-light);border-color:var(--primary)} .b-key .bt{color:var(--primary-dark)}
+.b-warn{background:var(--accent-light);border-color:var(--accent)} .b-warn .bt{color:#92400E}
+.b-tip{background:var(--success-light);border-color:var(--success)} .b-tip .bt{color:#065F46}
+.b-info{background:var(--info-light);border-color:var(--info)} .b-info .bt{color:#1E40AF}
+.b-danger{background:var(--danger-light);border-color:var(--danger)} .b-danger .bt{color:#991B1B}
+
+.tbl{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:12px 14px;font-weight:600;font-size:13.5px}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#FBFAFE}
+
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.pc>div{border-radius:12px;padding:16px 18px;font-size:14.5px}
+.pc .ok{background:var(--success-light);border:1px solid #A7F3D0}
+.pc .ko{background:var(--danger-light);border:1px solid #FECACA}
+.pc h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.pc .ok h4{color:#065F46} .pc .ko h4{color:#991B1B}
+.pc ul{margin:0 0 0 18px} .pc li{margin-bottom:5px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
+.card{background:#FBFAFE;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h4{font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:6px;color:var(--primary-dark)}
+.card p{font-size:14px;color:var(--muted);margin:0}
+.stat h4{font-size:22px;font-family:'Space Grotesk',sans-serif}
+
+.tl{list-style:none;margin:18px 0;padding-left:26px;border-left:2px dashed var(--line)}
+.tl li{position:relative;margin-bottom:16px;font-size:15px}
+.tl li::before{content:"";position:absolute;left:-33px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light)}
+.tl b{display:block;font-family:'Space Grotesk',sans-serif;color:var(--primary-dark)}
+
+details{border:1px solid var(--line);border-radius:12px;margin:14px 0;background:#FBFAFE}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:15px;color:var(--primary-dark);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+details[open] summary::before{content:"▾ "}
+details .dc{padding:0 18px 16px;font-size:14.5px}
+
+.pull{margin:22px 0;padding:20px 24px;border-radius:14px;background:linear-gradient(120deg,#2D1B69,#4C1D95);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:19px;line-height:1.45;font-weight:600}
+.pull span{display:block;margin-top:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;opacity:.7;letter-spacing:.03em}
+
+.faq{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+.faq>.bar{height:5px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.faqhead{padding:26px 28px 0}
+.faqhead h2{font-family:'Space Grotesk',sans-serif;font-size:26px;color:var(--primary-dark)}
+.faqhead p{color:var(--muted);font-size:15px;margin-top:4px}
+.faqbody{padding:18px 28px 28px}
+.faqcat{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.faqcat:first-child{margin-top:6px}
+.qa{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:#FDFCFF}
+.qa .q{background:linear-gradient(90deg,var(--primary-light),#F6F3FF);padding:13px 18px;font-weight:650;color:var(--primary-dark);font-size:15.5px;display:flex;gap:10px}
+.qa .q span{flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.qa .a{padding:15px 18px;font-size:15px}
+.qa .a p{margin-bottom:10px} .qa .a p:last-child{margin-bottom:0}
+
+.plan{background:linear-gradient(140deg,#0F172A,#1E1B4B);color:#fff;border-radius:18px;padding:30px 28px;margin-top:26px}
+.plan h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:8px}
+.plan>p{opacity:.8;margin-bottom:20px;font-size:15px}
+.phase{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin:22px 0 10px}
+.phase:first-of-type{margin-top:0}
+.chk{list-style:none;margin:0;padding:0}
+.chk li{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;margin-bottom:9px;font-size:15px;cursor:pointer;transition:background .15s}
+.chk li:hover{background:rgba(255,255,255,.09)}
+.chk .bx{flex-shrink:0;width:20px;height:20px;border:2px solid rgba(255,255,255,.4);border-radius:6px;margin-top:3px;display:grid;place-items:center;font-size:13px;font-weight:700;color:transparent}
+.chk li.done .bx{background:var(--success);border-color:var(--success);color:#fff}
+.chk li.done .tx{opacity:.5;text-decoration:line-through}
+.chk .tx b{display:block;font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.04em;text-transform:uppercase;opacity:.65;margin-bottom:2px}
+
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px;margin-top:26px}
+.quiz h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:6px;color:var(--primary-dark)}
+.quiz>p{color:var(--muted);margin-bottom:22px;font-size:15px}
+.qz{margin-bottom:24px;padding-bottom:22px;border-bottom:1px dashed var(--line)}
+.qz:last-of-type{border-bottom:none}
+.qz .qt{font-weight:650;margin-bottom:12px;font-size:15.5px}
+.opt{display:block;width:100%;text-align:left;background:#FBFAFE;border:1.5px solid var(--line);border-radius:10px;padding:11px 15px;margin-bottom:8px;cursor:pointer;font-family:inherit;font-size:14.5px;color:var(--ink);transition:all .15s}
+.opt:hover{border-color:var(--primary);background:var(--primary-light)}
+.opt.good{background:var(--success-light);border-color:var(--success);font-weight:600}
+.opt.bad{background:var(--danger-light);border-color:var(--danger)}
+.fb{display:none;margin-top:10px;padding:12px 15px;border-radius:10px;font-size:14.5px;background:var(--info-light);border-left:4px solid var(--info)}
+.fb.show{display:block}
+.score{margin-top:20px;padding:16px;border-radius:12px;background:var(--primary-light);text-align:center;font-weight:650;color:var(--primary-dark);display:none}
+.score.show{display:block}
+
+footer{text-align:center;padding-block:40px 50px;color:var(--muted);font-size:14px}
+footer b{color:var(--primary-dark);font-family:'Space Grotesk',sans-serif}
+
+@media(max-width:640px){
+  .pc{grid-template-columns:1fr}
+  .chead,.faqhead{padding:22px 18px 0} .cbody,.faqbody{padding:16px 18px 22px}
+  .toc{padding:22px 18px} .plan,.quiz{padding:24px 18px}
+  .hero h1{font-size:27px} .pull{font-size:17px;padding:18px}
+  .player-wrap{padding:14px} .chlist{grid-template-columns:1fr;max-height:280px}
+}
+@media print{
+  .progress-wrap{display:none} body{background:#fff}
+  section.chap,.toc,.quiz,.faq{box-shadow:none;break-inside:avoid}
+  .opt{display:none}
+  .vid{display:none} .player-wrap{box-shadow:none;margin-top:20px}
+  .chlist{max-height:none;overflow:visible} .chlist button{padding:3px 0}
+  button.seek{background:none;border:0;padding:0;color:var(--primary-dark)}
+}
+</style>
+</head>
+<body>
+<div class="progress-wrap"><div id="progress"></div></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">Mentorat privé · Session 2 · 28 septembre 2026</div>
+    <h1>Construire une machine à vendre des dates</h1>
+    <p class="sub">Aujourd'hui, 98 % des dates arrivent toutes seules. Cette session démonte ce que serait un vrai process : le réseau comme porte d'entrée, l'objet d'email qui se fait ouvrir, la page qui déclenche l'appel, les deux seules règles de la vente, et l'ordre exact dans lequel tout ça se teste avant d'être automatisé.</p>
+    <div class="meta">
+      <span>⏱ 2 h 25</span>
+      <span>🎙 Tarik Hamiche &amp; Ivaanyh</span>
+      <span>📌 62 chapitres</span>
+      <span>🎯 Sujet : booking &amp; prospection</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="player-wrap">
+  <div class="vid">
+    <iframe id="vimeoPlayer"
+      src="https://player.vimeo.com/video/1231193921?h=609a249fcb"
+      title="Mentorat Ivaanyh #2 — 28 septembre 2026"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  <details class="chx" id="chx">
+    <summary><span>Les 62 chapitres de la session</span><em>Cliquez un chapitre pour y aller</em></summary>
+    <div class="chlist" id="chlist"></div>
+  </details>
+</div>
+
+<nav class="toc">
+  <h2>Au programme</h2>
+  <ol>
+    <li><a href="#s1">Le point de départ : aucun process de vente</a></li>
+    <li><a href="#s2">Les tarifs actuels et la réalité des 45 dates</a></li>
+    <li><a href="#s3">La Fracama : le réseau comme levier</a></li>
+    <li><a href="#s4">Structurer une approche, même sur l'entrant</a></li>
+    <li><a href="#s5">L'email qui se fait ouvrir</a></li>
+    <li><a href="#s6">Les deux seules règles de la vente</a></li>
+    <li><a href="#s7">Les hacks d'approche</a></li>
+    <li><a href="#s8">Brainstormer ses objets avec l'IA — démo live</a></li>
+    <li><a href="#s9">Tester avant d'automatiser</a></li>
+    <li><a href="#s10">Automatiser la collecte avec Claude</a></li>
+    <li><a href="#s11">La page qui convertit — et le site pour les IA</a></li>
+    <li><a href="#s12">Traquer les salles par artistes similaires</a></li>
+    <li><a href="#s13">Fixer et annoncer ses prix</a></li>
+    <li><a href="#s14">Collabs, prods IA et faire connaître sa voix</a></li>
+    <li><a href="#faq">FAQ de la session</a></li>
+    <li><a href="#plan">Plan d'action</a></li>
+    <li><a href="#quiz">Quiz de validation</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="chap" id="s1" data-c="r">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">01</div><div><h2>Le point de départ : aucun process de vente</h2><div class="tc">⏱ 4:18 – 19:59</div></div></div>
+  <div class="cbody">
+    <p>Première chose posée à plat : le booking actuel n'est pas un process, c'est un flux entrant. <strong>95 à 98 % des dates tombent toutes seules.</strong> Quand une cible est visée volontairement — un festival près de chez soi — l'action se résume à envoyer un mail.</p>
+    <div class="box b-info"><span class="bt">Ce qui existe déjà</span><p>Un système de démarchage automatisé monté cet été avec un coach IA : l'outil cible des contacts, remplit une base, prépare un email et le dépose en brouillon dans une boîte dédiée. <strong>Il n'a jamais été envoyé.</strong> Un seul contact a été sollicité manuellement (Terres du Son) — sans réponse.</p></div>
+    <h3>L'email de prospection, lu en direct</h3>
+    <p>L'objet retenu était pourtant bon : <em class="q">« Ivaanyh, l'artiste à ne surtout pas programmer sur [festival] »</em>. Le corps, lui, empile les formules, le premier EP, quelques adjectifs, des liens, le dossier de presse, des références de premières parties, et se termine par une demande de rendez-vous.</p>
+    <div class="box b-danger"><span class="bt">Le diagnostic</span><p>C'est un clone. <strong>« Si tu veux te démarquer dans une boîte mail, c'est très typiquement le genre d'email qu'il ne faut pas faire. »</strong> Il ressemble à ce que n'importe qui pourrait faire — et des emails comme ça, un programmateur en reçoit 400.</p><p>Détail qui grille immédiatement : les tirets cadratins laissés par l'IA.</p></div>
+    <h3>La base de contacts : le vrai angle mort</h3>
+    <p>L'IA constitue la base à la demande (festivals de la région Centre, salles de la petite couronne…), mais elle ramène des adresses génériques trouvées sur les sites. Or le bon interlocuteur ne s'appelle presque jamais « programmateur ».</p>
+    <div class="box b-key"><span class="bt">À faire chercher explicitement</span><p>Directeur des programmes, chargé de programmation, responsable de la saison… <strong>et surtout pas</strong> le contact communication ou le chargé de com du centre culturel. C'est le briefing qui fait la différence, pas l'outil.</p></div>
+    <h3>D'où viennent vraiment les dates</h3>
+    <p>Recommandation et bouche-à-oreille, presque exclusivement. Une date en amène une ou deux dans les deux ans. Une personne croisée lors d'une interview parle du projet à un contact, qui appelle un an plus tard ; la même revient six mois après pour son mariage.</p>
+    <div class="box b-tip"><span class="bt">Ce que ça dit</span><p>Un flux entrant de cette qualité sans aucune prospection, c'est un signal fort : <strong>« tu dois être sacrément époustouflante sur scène »</strong>. Le problème n'est pas le produit, c'est l'absence de robinet qu'on peut ouvrir à volonté.</p></div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="chap" id="s2" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">02</div><div><h2>Les tarifs actuels et la réalité des 45 dates</h2><div class="tc">⏱ 19:59 – 26:53</div></div></div>
+  <div class="cbody">
+    <div class="tbl"><table>
+      <thead><tr><th>Formule</th><th>Prix pratiqué</th><th>Repères donnés en session</th></tr></thead>
+      <tbody>
+        <tr><td>Solo</td><td>600 € budget global net</td><td>Sur un cachet classique, il reste moins de 300 € en poche</td></tr>
+        <tr><td>Duo</td><td>1 000 €</td><td>C'est la formule qui se vend le mieux dans la plupart des cas</td></tr>
+        <tr><td>Full band</td><td>2 500 €</td><td>Vendu 3 500 € pour une première partie ; jugé « peu, avec du recul »</td></tr>
+        <tr><td>Full band + ingé son</td><td>5 400 € hors VHR</td><td>Espace culturel de ville en région parisienne (auditorium 250 places)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="box b-warn"><span class="bt">Comment cette date à 5 400 € est arrivée</span><p>Pas par prospection : un saxophoniste a parlé du projet, la directrice des programmes a vu une prestation en duo sur le rooftop de son espace culturel, puis <strong>il a fallu relancer deux fois sur près de deux ans</strong>. Les espaces culturels bouclent leur programmation un an à l'avance, souvent plus.</p></div>
+    <h3>Le volume réel</h3>
+    <div class="cards">
+      <div class="card stat"><h4>45+</h4><p>dates sur l'année, et d'autres qui tombent encore</p></div>
+      <div class="card stat"><h4>0</h4><p>date issue d'un démarchage sortant</p></div>
+      <div class="card stat"><h4>~90 %</h4><p>d'événementiel : séminaires, soirées privées, mariages, cabaret</p></div>
+    </div>
+    <p>Concerts et festivals existent, mais restent minoritaires. Le gros du chiffre vient de l'événementiel entrant — un modèle confortable et totalement dépendant de la mémoire des autres.</p>
+    <div class="pull">« Sans rien faire, ce n'est pas mal. Mais le jour où ils arrêteront de venir à toi, tu seras un peu en galère. »<span>Le risque du 100 % entrant</span></div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="chap" id="s3" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">03</div><div><h2>La Fracama : le réseau comme levier</h2><div class="tc">⏱ 26:53 – 33:35</div></div></div>
+  <div class="cbody">
+    <p>La Fracama est le réseau des musiques actuelles en Centre-Val de Loire. Le réflexe spontané — « ce n'est pas mon délire, ils placent les gens qu'ils ont envie de placer » — est compréhensible, mais il passe à côté de l'usage réel qu'on peut en faire.</p>
+    <div class="box b-danger"><span class="bt">Ce qui ne sert à rien</span><p>Les réunions. <strong>« J'en ai animé plein, j'ai fait le RIM en Aquitaine, la Fracama, le Super MAB en Bretagne : ça ne sert strictement à rien. »</strong> C'est de l'habitude, et du temps perdu.</p></div>
+    <h3>Levier 1 — la carte de visite de membre</h3>
+    <p>Être membre change la nature de l'appel. Vous ne démarchez plus un inconnu : vous appartenez au même réseau. Les gens savent qu'ils peuvent vous recroiser, ignorent avec qui vous travaillez, et deviennent nettement plus aimables.</p>
+    <div class="box b-key"><span class="bt">Ce que ça débloque</span><p>Ça suffit à passer la barrière du <em class="q">« non, je ne vous connais pas, merci, au revoir »</em>. Et la base des adhérents est publique sur le site : de l'extérieur c'est de la prospection froide, de l'intérieur elle devient tiède.</p></div>
+    <h3>Levier 2 — les assemblées générales</h3>
+    <p>Une AG par an suffit. On y trouve le board — président, trésorier, les plus impliqués — c'est-à-dire ceux qui tirent le plus de bénéfices du réseau et qui tournent le mieux. Et des membres venus par curiosité, exactement dans le même état d'esprit que vous.</p>
+    <div class="box b-tip"><span class="bt">L'exemple concret</span><p>Deuxième AG du Super MAB en Bretagne, conversation banale au café : rencontre avec <strong>une personne qui a la main sur 17 festivals</strong>. Rien de forcé, juste le fait d'être là.</p></div>
+    <h3>Levier 3 — les subventions et le poids politique</h3>
+    <p>Être intégré à une structure connue des financeurs change la lecture d'un dossier. Sur une demande d'aide SACEM, pouvoir écrire <em class="q">« je suis encadrée par le réseau des musiques actuelles de ma région »</em> fait une différence, même si rien d'autre ne se passe : ça signale une démarche structurée.</p>
+    <div class="box b-info"><span class="bt">Le hack de l'AG</span><p>Le lendemain d'une AG, envoyer à tous les membres un mail d'une seule ligne : <strong>« Salut, est-ce que tu étais présent à l'AG ? Parce que je ne crois pas t'y avoir vu. »</strong> Quasiment tout le monde répond — et la conversation est lancée.</p><p><strong>Condition absolue :</strong> être réellement adhérent. Certains iront vérifier votre nom dans l'annuaire par curiosité. S'ils ne vous trouvent pas, c'est mort.</p></div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="chap" id="s4" data-c="">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">04</div><div><h2>Structurer une approche, même sur l'entrant</h2><div class="tc">⏱ 33:35 – 38:30</div></div></div>
+  <div class="cbody">
+    <p>Avant même de prospecter, il y a un gisement gratuit : les appels entrants. Aujourd'hui ils sont traités à l'instinct. Ils devraient être traités comme un laboratoire.</p>
+    <h3>Le script mental A-B-C</h3>
+    <p>Pas forcément écrit, mais un ordre des choses, testé et comparé : <em class="q">« À Pierre, j'ai dit B, D, E — il n'a pas kiffé. À Paul, j'ai dit A, B, C — il a kiffé direct. J'en ai eu dix cette année, A-B-C marche mieux. »</em></p>
+    <div class="box b-key"><span class="bt">La méthode d'origine</span><p>En démarchage mairies et festivals : <strong>toujours la même accroche, et selon la réaction, toujours la même chose à dire ou à faire.</strong> Tellement scripté que n'importe qui aurait pu passer l'appel à la place. Au départ, avec une feuille devant soi.</p></div>
+    <div class="box b-warn"><span class="bt">Attention</span><p>L'approche qui marche pour un artiste ne marche pas pour un autre. <strong>Vendre Céline Dion et vendre Ivaanyh ne demandent pas le même angle</strong> : l'autorité n'est pas la même, la nature du spectacle non plus.</p></div>
+    <h3>Le barrage de la secrétaire</h3>
+    <p>En mairie, le premier obstacle est l'accueil. Il faut un hack, et il faut le noter quand il fonctionne.</p>
+    <ul class="tl">
+      <li><b>Le coup de la coupure</b>Donner un prénom : « Bonjour, je cherchais à joindre Xavier Dumont, on vient d'être coupés, vous pouvez me le passer ? » — « Oui, tout de suite. »</li>
+      <li><b>Le jour d'absence</b>« Il ne travaille pas le mercredi ? Zut, il a dû m'appeler de son portable et j'ai rappelé le fixe. Désolé, je le rappellerai. » Puis raccrocher.</li>
+      <li><b>La règle</b>Tout noter, sur une feuille ou un fichier : chaque objection rencontrée devient une réponse prête pour la fois suivante.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="chap" id="s5" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">05</div><div><h2>L'email qui se fait ouvrir</h2><div class="tc">⏱ 38:30 – 47:07</div></div></div>
+  <div class="cbody">
+    <div class="box b-danger"><span class="bt">Le pronostic</span><p>« Je suis quasiment persuadé que ton email générique, dépourvu de toute sensibilité, envoyé avec ou sans IA, n'aura pas d'impact. » <strong>Raison : des emails comme ça, il en arrive 400.</strong></p></div>
+    <h3>Partir de la cible, pas de soi</h3>
+    <p>Le travail est un travail d'introspection inversée : qu'est-ce que le programmateur va se dire en tombant sur ce message ? C'est ce qu'on appelle travailler par <strong>réaction recherchée</strong>.</p>
+    <div class="pc">
+      <div class="ko"><h4>Ce qu'il se dit aujourd'hui</h4><ul><li>« Encore un énième email »</li><li>« Copié-collé, ils ont juste changé le prénom et la ville »</li><li>« Je n'ai pas du tout envie de répondre »</li></ul></div>
+      <div class="ok"><h4>Ce qu'on veut qu'il se dise</h4><ul><li>« Mais c'est qui ? »</li><li>« Pourquoi je ne la connais pas ? »</li><li>« Je suis peut-être passé à côté de quelque chose »</li></ul></div>
+    </div>
+    <h3>L'exemple construit en direct</h3>
+    <p>Objet : <strong>« Pourquoi 100 % des gens recommandent Ivaanyh ? »</strong></p>
+    <p>Première ligne : <em class="q">« 100 % des gens qui vivent l'expérience Ivaanyh sur scène la recommandent. »</em></p>
+    <p>Puis la différenciation : <em class="q">« C'est d'ailleurs la seule artiste originaire de la région Centre-Val de Loire qui ne démarche jamais les festivals. »</em></p>
+    <p>Puis la figure d'autorité : <em class="q">« Elle vient d'intégrer la Fracama, et tout le monde se demande encore comment elle fait. »</em></p>
+    <div class="box b-key"><span class="bt">Le slippery slide effect</span><p>Vous êtes en haut d'un toboggan : la chute est amorcée et <strong>chaque ligne ne sert qu'à faire glisser le lecteur vers la suivante</strong>. Sept ou huit lignes suffisent — pas besoin d'un email long.</p><p>Fin possible (à doser selon le profil) : « Si tu es arrivé ici, c'est que tu ne sais toujours pas qui est Ivaanyh. Tu as déjà un train de retard. Clique ici pour le rattraper. »</p></div>
+    <h3>Ce qu'il y a derrière le clic</h3>
+    <div class="box b-tip"><span class="bt">Un EPK minimal, rien d'autre</span><p>Pas le site. Pas un son. Pas un live complet. <strong>Une image, un titre, un player vidéo live, deux ou trois photos de prestation.</strong> La bio tient en six ou sept lignes, lisibles en diagonale comme une coupure de presse : on lit le titre, on a compris.</p></div>
+    <h3>Tracker, puis appeler</h3>
+    <p>Les outils d'emailing permettent de savoir qui a ouvert, qui a cliqué, qui est arrivé sur l'EPK. Quelqu'un qui a franchi toutes ces étapes mérite un appel.</p>
+    <div class="box b-info"><span class="bt">Le script de l'appel</span><p>« Allô Roger ? C'est Ivaanyh — la fille qui n'a pas besoin de prospecter. J'ai vu que tu avais reçu mon email, que tu avais cliqué, que tu étais venu sur mon EPK. Je trouvais normal de venir me présenter. »</p><p>Il est surpris, mais il a le sentiment que votre appel est un privilège. Il écoute.</p></div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="chap" id="s6" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">06</div><div><h2>Les deux seules règles de la vente</h2><div class="tc">⏱ 47:07 – 48:56</div></div></div>
+  <div class="cbody">
+    <div class="cards">
+      <div class="card"><h4>Règle 1 — c'est une question de chiffres</h4><p>Vous parlez à 100 personnes, une achète. Vous voulez 100 ventes ? Parlez à 100 fois plus de monde. Point.</p></div>
+      <div class="card"><h4>Règle 2 — on achète à quelqu'un qu'on aime bien</h4><p>La relation de confiance et le « kiff » envers le vendeur. Littéralement, c'est tout. C'est la sympathie qui fait vendre.</p></div>
+    </div>
+    <div class="box b-warn"><span class="bt">Corollaire important</span><p>Convaincre et influencer ne servent quasiment à rien : ça fait bouger les stats à la marge. <strong>La base reste le volume.</strong> Et sur l'appel, la plus grosse erreur est de chercher à se vendre.</p></div>
+    <p>Ce qu'on fait à la place : parler de <em>lui</em>. <em class="q">« J'ai regardé ton festival, je trouve la prog géniale. Pour une fois, un festival qui ne programme pas que des numéros un sortis de The Voice qu'on aura oubliés dans six mois. »</em> Vous pouvez raccrocher sans même qu'il sache comment vous joindre. Ça suffit à instiller le truc.</p>
+    <div class="pull">« Quand un matin on lui demandera "il nous faudrait quelques artistes locaux", il dira : vous me bookez Ivaanyh. Point. »<span>L'effet recherché</span></div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="chap" id="s7" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">07</div><div><h2>Les hacks d'approche</h2><div class="tc">⏱ 48:56 – 56:10</div></div></div>
+  <div class="cbody">
+    <h3>Prospecter en vidéo, pas en texte</h3>
+    <div class="box b-key"><span class="bt">Si vous utilisez l'IA pour démarcher, faites-le en vidéo</span><p>Une vidéo face caméra de vous, peu importe le contenu. <strong>Et l'IA incruste, sur chaque exemplaire, le logo du festival ou du lieu visé.</strong> Le message s'intitule « message personnel pour Didier ».</p><p>Le destinataire voit sa propre marque en haut à droite, son prénom en dessous, et un visage qui parle. « C'est irrésistible. » Fonctionne par email comme sur LinkedIn.</p></div>
+    <div class="box b-danger"><span class="bt">Pourquoi pas l'email de masse</span><p>Les autorépondeurs insèrent des prénoms depuis quinze ans. <strong>C'est grillé.</strong> « Il n'y a que ma mère qui se demande comment il connaît son prénom. »</p></div>
+    <h3>L'exemple des scènes mobiles</h3>
+    <p>Beaucoup de mairies utilisent des <em>stage cars</em> — des semi-remorques dont on déplie une scène. C'est compliqué à assembler sans formation.</p>
+    <ul class="tl">
+      <li><b>L'objet</b>« Les amendes pour stage cars mal montés commencent à tomber. » Avec un storytelling derrière.</li>
+      <li><b>Le positionnement</b>Conseiller de confiance, pas vendeur : « si vous avez des questions, je suis là pour y répondre ».</li>
+      <li><b>La bascule</b>En fin d'échange : « du coup, les événements, ça se passe bien ? » — puis distiller un nom d'artiste comme une évidence locale.</li>
+      <li><b>Le résultat</b>Quelques jours après, des demandes de devis arrivent spontanément sur l'artiste.</li>
+    </ul>
+    <div class="box b-warn"><span class="bt">La limite pour un artiste</span><p>Vous ne pouvez pas « filouter » en direct. Mais vous pouvez le faire de façon détournée : <strong>écrire depuis une adresse de société, sous un prénom d'assistante ou de chargée de projet</strong>, puis prendre le relais au téléphone. C'est déjà ce qui avait été fait avec des stagiaires.</p></div>
+    <h3>L'artiste qui vend en direct — et qui anti-vend</h3>
+    <p>Un artiste formé à ça répondait aux sollicitations par : <em class="q">« Les prix, je ne sais pas, je ne m'occupe pas de ça, il faut passer par le contact pro, il y a un tourneur. »</em> Les gens avaient le sentiment qu'en passant en direct ça leur coûterait moins cher — ce qui était faux.</p>
+    <div class="box b-tip"><span class="bt">Le déclencheur</span><p>Quand le même contact revenait plusieurs fois — signe qu'il était très chaud — l'artiste envoyait une note vocale : <strong>« Je viens de voir qu'on a une annulation, j'ai carte blanche si j'ai une touche. Si tu es chaud, c'est maintenant. »</strong> Au téléphone avec l'artiste, plus de négociation. Le prix passe.</p><p>Réserve : ça ne fonctionne qu'avec un minimum de notoriété.</p></div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="chap" id="s8" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">08</div><div><h2>Brainstormer ses objets avec l'IA — démo live</h2><div class="tc">⏱ 56:10 – 82:11</div></div></div>
+  <div class="cbody">
+    <div class="box b-key"><span class="bt">La consigne de départ</span><p><strong>Ne pas automatiser la prospection maintenant.</strong> D'abord faire le travail de réflexion sur le contenu des emails — et le faire avec l'IA, mais en la dirigeant.</p></div>
+    <p>La session bascule en démonstration écran partagé : un skill de copywriting, construit à partir d'une dizaine des meilleurs ouvrages du domaine, est chargé puis mis au travail.</p>
+    <h3>Le prompt initial</h3>
+    <div class="box b-info"><span class="bt">Ce qui est demandé</span><p>« Propose-moi 10 idées d'objets d'email à envoyer à des programmateurs de festivals, de lieux culturels ou de mairies, pour vendre une artiste pop soul dont la force est <strong>la spontanéité, le live, le partage, l'émotion</strong>. L'idée est d'être absolument différenciant : ces gens reçoivent des centaines d'emails par semaine. Je veux surprendre, choquer, impressionner, créer de la curiosité. »</p></div>
+    <h3>Les trois recadrages qui changent tout</h3>
+    <ol>
+      <li><strong>Sortir de la vente.</strong> « C'est trop téléphoné, on voit que j'essaie de vendre une artiste. Pars d'un ressenti ou d'un problème de ma cible, les programmateurs eux-mêmes. »</li>
+      <li><strong>Creuser la douleur trouvée.</strong> Quand l'IA touche juste — le manque de reconnaissance : on ne vient jamais leur dire quand c'est réussi — on lui demande d'appuyer précisément là.</li>
+      <li><strong>Imposer un schéma narratif.</strong> « Raconte-moi une histoire qui l'inspire, use du slippery slide effect, donne une irrésistible envie d'en savoir plus. »</li>
+    </ol>
+    <div class="box b-tip"><span class="bt">Le briefing complet à réutiliser</span><p>« Pars du principe que le programmateur reçoit des centaines d'emails par semaine. Il ne me connaît pas, je ne le connais pas, il n'a pas de temps pour moi — et j'ai pourtant besoin qu'il ouvre mon email. <strong>Pars de la psychologie d'un programmateur d'événements en France : liste ses peurs, ses frustrations, ses problèmes, mais aussi ses aspirations</strong>, et propose-moi 25 objets inspirés des 100 de Schwartz. »</p></div>
+    <h3>Eugene Schwartz et les « 100 »</h3>
+    <p>Eugene Schwartz est l'un des copywriters les plus réputés au monde. Ses 100 structures d'accroche sont une référence absolue — très américanisées, donc à adapter, mais fécondes.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Objet produit</th><th>Verdict en session</th></tr></thead>
+      <tbody>
+        <tr><td>« Faites-vous cette erreur au moment de boucler votre saison ? »</td><td>Marche très bien</td></tr>
+        <tr><td>« À qui la faute quand la salle est à moitié vide ? »</td><td>Peut très bien marcher</td></tr>
+        <tr><td>« Combien vous coûte réellement une annulation à trois semaines ? »</td><td>Bonne reprise de l'angle « plantage »</td></tr>
+        <tr><td>« Benoît, faites-vous partie de ces programmateurs qui n'ont plus de budget mais encore des exigences ? »</td><td>S'il se reconnaît, il ouvre — à ultra-personnaliser</td></tr>
+        <tr><td>« Vous arrive-t-il de programmer par sécurité plutôt que par envie ? »</td><td>Touche juste (« en radio, ils sont tous comme ça »)</td></tr>
+        <tr><td>« On va devoir annuler la date du 14 juillet »</td><td>Très fort sur une mairie — mais tout se joue derrière</td></tr>
+        <tr><td>« Personne ne connaissait son nom. Pourtant, elle a reçu une standing ovation. »</td><td><strong>Le meilleur pour ce projet</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="box b-warn"><span class="bt">Ce que l'IA rate systématiquement</span><p>Les corps d'email. Elle essaie de raconter « comme un roman » : <em class="q">« Je jouais en première partie devant environ deux personnes, le public parlait, regardait son verre… »</em> Verdict : <strong>« On l'a déjà perdu. Non, il ne lira pas ça. »</strong> Les accroches sont là, le texte long ne l'est pas.</p></div>
+    <h3>La technique du modèle</h3>
+    <p>Plutôt que de demander des idées dans le vide, on donne un modèle qui a fonctionné. On cherche sur LinkedIn une publication dont le score est <strong>anormalement haut par rapport à la moyenne du compte</strong> — pas un bon post, une anomalie.</p>
+    <div class="box b-info"><span class="bt">Le prompt</span><p>« Isole la structure de ce message et sers-t'en pour l'adapter à Ivaanyh et à sa cible. »</p><p>Structure isolée sur l'exemple traité : <strong>un ras-le-bol personnel → une action → une bascule vers le « on » → trois griefs numérotés → un piège binaire</strong>. L'autrice ne l'avait probablement même pas fait exprès.</p></div>
+    <div class="box b-tip"><span class="bt">Une idée retenue pour la relance</span><p>« J'en ai eu marre de relancer les programmateurs qui ne me répondaient pas, alors j'ai décidé de ne leur écrire qu'une fois. » Puis, dans le corps : <em class="q">« Voilà Benoît, je t'ai envoyé un mail la semaine dernière. Si tu as eu le temps d'écouter et que tu veux me faire un retour, je suis là. »</em></p></div>
+    <div class="box b-key"><span class="bt">Tutoiement ou vouvoiement ?</span><p>Ça dépend de l'univers. Dans le rock, personne ne se vouvoie. Ailleurs, <strong>le vouvoiement ne fait jamais de mal</strong> — surtout quand on ne connaît pas la personne.</p></div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="chap" id="s9" data-c="">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">09</div><div><h2>Tester avant d'automatiser</h2><div class="tc">⏱ 82:11 – 92:40</div></div></div>
+  <div class="cbody">
+    <h3>La cible, c'est de la psychologie</h3>
+    <p>« Programmateurs de festivals » n'est pas une cible, c'est une liste. La cible, c'est : sont-ils jeunes ou âgés ? Aguerris ou débutants ? Aventureux ou frileux ? <strong>On ne peut pas vendre à quelqu'un qu'on ne comprend pas.</strong></p>
+    <div class="box b-info"><span class="bt">La loi des 70 / 20 / 10</span><p>Sur dix profils d'acheteurs potentiels : <strong>un seul fait 70 % des ventes</strong>, deux ou trois font les 20 % suivants, tout le reste se partage les 10 %. L'objectif du test, c'est de trouver ce profil-là.</p></div>
+    <div class="box b-danger"><span class="bt">Pourquoi ne pas automatiser trop tôt</span><p>Envoyer 10 000 mails demain est trivial. <strong>Mais si vous vous êtes trompé, vous vous êtes trompé 10 000 fois.</strong> Avec plusieurs autorépondeurs et des comptes dédiés, tout peut partir dans la journée — et votre domaine avec.</p></div>
+    <h3>La séquence de test, dans l'ordre</h3>
+    <ul class="tl">
+      <li><b>Étape 1 — l'objet</b>Cinq angles marketing différents sur des lots de 50. On compare les taux d'ouverture : 20 % contre 45 %, il y a un signal. A contre B, puis A contre C, D, E, F jusqu'à trouver le gagnant.</li>
+      <li><b>Étape 2 — le contenu</b>Format court, format long, angle storytelling, angle artiste locale… On mesure au taux de clic.</li>
+      <li><b>Étape 3 — la page</b>Vidéo d'entrée ? Image d'abord ? Texte court ? On mesure au nombre de gens qui écrivent ou appellent.</li>
+      <li><b>Le résultat</b>Ce que Tarik appelle la <strong>séquence optimale de vente</strong> : qu'est-ce que je montre, à qui, et dans quel ordre, pour susciter un passage à l'action.</li>
+    </ul>
+    <h3>L'outillage</h3>
+    <div class="cards">
+      <div class="card"><h4>Brevo</h4><p>Recommandé : pas cher (~10 €/mois), fiable, et Claude sait très bien travailler avec</p></div>
+      <div class="card"><h4>MailChimp / ActiveCampaign</h4><p>Équivalents cités ; n'importe lequel fait l'affaire</p></div>
+      <div class="card"><h4>Gmail</h4><p>À proscrire : au-delà d'une dizaine d'envois identiques, tout est bloqué ou part en spam</p></div>
+    </div>
+    <div class="box b-warn"><span class="bt">La délivrabilité, expliquée simplement</span><p>Sur une base de 1 000, l'autorépondeur n'envoie pas 1 000 mails d'un coup. <strong>Il en envoie 50, mesure le taux de rebond et de désabonnement, puis 100, puis 200</strong>, et ainsi de suite. Si vous êtes à 8 % de désabonnement, inutile de continuer : le domaine est grillé.</p><p>Une fois la réputation du domaine jugée bonne, les volumes peuvent monter.</p></div>
+    <div class="box b-key"><span class="bt">L'émotion qui surperforme sur tout</span><p><strong>L'humiliation vécue.</strong> L'exemple donné : Orelsan racontant sa première vraie scène parisienne — cinq minutes de rap avant de réaliser que le micro ne marchait pas, un quart d'heure à chercher des piles, concert arrêté.</p><p>Ça ne laisse personne indifférent. Soit on se dit « quel clochard », soit « il s'est quand même relevé de ça ». Dans les deux cas, on a lu.</p></div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="chap" id="s10" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">10</div><div><h2>Automatiser la collecte avec Claude</h2><div class="tc">⏱ 92:40 – 99:52</div></div></div>
+  <div class="cbody">
+    <p>Une fois la séquence validée, la collecte de contacts devient « un jeu d'enfant ». Avant, il fallait scripter des automatisations, chaque aller-retour coûtait cher, et une campagne ratée dégoûtait pour six mois. Aujourd'hui : une vingtaine d'euros par mois.</p>
+    <h3>Le brief type</h3>
+    <div class="box b-info"><span class="bt">Ce qu'on demande, étape par étape</span><p>1. Va sur Google, identifie toutes les fiches Google Business et toutes les pages qui présentent un lieu comme centre culturel.<br>
+    2. Prends l'adresse et le numéro de téléphone.<br>
+    3. Clique sur le site web, cherche l'email de contact.<br>
+    4. Trouve l'organigramme et la personne en charge de la programmation.<br>
+    5. Quand tu es sûr de l'email, envoie le message avec l'objet et la structure que je t'ai donnés, en insérant le prénom et la ville quand tu les as.<br>
+    6. Dès que tu en as 1 000, préviens-moi.</p></div>
+    <div class="cards">
+      <div class="card"><h4>Espaces culturels</h4><p>Ceux qui font des concerts, des dédicaces, des saisons</p></div>
+      <div class="card"><h4>Mairies</h4><p>Celles qui ont un comité des fêtes et ont organisé des concerts sur les six derniers mois — les affiches portent leur nom</p></div>
+      <div class="card"><h4>Réseaux filière</h4><p>Fracama, RIM et leurs équivalents : scraper l'annuaire des adhérents, ne garder que spectacle vivant, festival, concert</p></div>
+      <div class="card"><h4>LinkedIn</h4><p>Profils dont le poste contient « programmateur festival » — à briefer précisément, puis message privé</p></div>
+    </div>
+    <div class="box b-warn"><span class="bt">Le point important</span><p>Tout ça, <strong>n'importe qui peut le faire aujourd'hui</strong>. Ce n'est plus là que se fait la différence. Elle se fait sur l'objet qui donne envie d'ouvrir, le contenu qui donne envie de cliquer, et la page qui donne envie d'acheter.</p></div>
+    <div class="box b-tip"><span class="bt">Scaler pour de bon</span><p>Avec un outil type PhantomBuster ou Waalaxy sur LinkedIn : <strong>150 messages par semaine</strong> vers des profils identifiés. Deux heures de paramétrage, puis six mois de fonctionnement autonome. Sur 50 000 mails à 1 %, ce sont 500 contacts intéressés — et il n'y a plus qu'à attendre les appels.</p></div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="chap" id="s11" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">11</div><div><h2>La page qui convertit — et le site pour les IA</h2><div class="tc">⏱ 99:52 – 108:57</div></div></div>
+  <div class="cbody">
+    <div class="box b-danger"><span class="bt">Le cas vécu</span><p>Un duo suivi en mentorat était persuadé que son site suffisait : deux mois de travail, de belles images, du buzz réseaux sociaux, tout au vert. <strong>Le site convertissait zéro.</strong> Trop d'informations pour un décideur pressé.</p></div>
+    <h3>L'anatomie de la page qui a remplacé le site</h3>
+    <ul class="tl">
+      <li><b>Écran 1</b>La photo du groupe, le nom, le genre musical. Rien d'autre.</li>
+      <li><b>Un sommaire interactif</b>Quatre entrées seulement : bio, live, galerie photo, témoignages. On clique, ça descend.</li>
+      <li><b>Bio</b>Cinq lignes. On comprend le style, la formation, l'énergie. Point.</li>
+      <li><b>Live</b>Un teaser d'1 min 45, rythmé. On se projette : « je veux ça chez moi ».</li>
+      <li><b>Galerie</b>Beaucoup de photos de scène, avec du public, des t-shirts au nom de l'artiste. Ça donne le sentiment que ça marche.</li>
+      <li><b>Témoignages</b>Un mur d'avis récupérés sur les réseaux sociaux.</li>
+      <li><b>Contact</b>Un mail. « Demandez un devis. »</li>
+    </ul>
+    <div class="box b-key"><span class="bt">La seule réaction recherchée</span><p>Après l'email, le clic et cette page, une seule question doit rester : <strong>« Ça coûte combien ? »</strong></p></div>
+    <h3>Alors à quoi sert encore le site ?</h3>
+    <div class="pc">
+      <div class="ok"><h4>Usage 1 — les gens qui vous connaissent déjà</h4><ul><li>Le public, les fans</li><li>Un pro qui vous a vu et veut en savoir plus</li><li>Ça vit, il y a des photos, une bio : ça rassure</li></ul></div>
+      <div class="ko"><h4>Ce qu'il ne fait pas</h4><ul><li>Convertir un inconnu</li><li>Personne ne tape spontanément le nom d'un artiste qu'il ne connaît pas</li></ul></div>
+    </div>
+    <h3>Usage 2 — être lisible par les IA</h3>
+    <div class="box b-info"><span class="bt">Ce qui a été posé sur le site du duo</span><p><strong>Du JSON-LD</strong> pour faire ressortir l'autorité du groupe, <strong>un bloc de code qui permet aux LLM de lire le contenu</strong>, et <strong>une FAQ</strong>. Résultat : les IA savent lire le site et le restituer.</p><p>Avant, quand on tapait leur nom, c'était un site tiers qui ressortait et parlait d'eux approximativement. Maintenant, <strong>ce sont eux qui maîtrisent la narrative.</strong></p></div>
+    <div class="box b-tip"><span class="bt">L'étape suivante, pas encore faite chez eux</span><p>Écrire dans la FAQ les questions que les gens posent réellement : <em class="q">« Quel duo pop rock rafle tout sur son passage en Nouvelle-Aquitaine ? »</em>. Aujourd'hui, sur cette requête, ils ne sortent que grâce à quelqu'un d'autre qui parle d'eux. Il y a une vraie carte à jouer.</p></div>
+    <div class="box b-warn"><span class="bt">L'horizon</span><p>Google a annoncé viser <strong>90 % des requêtes traitées par son IA en 2027</strong>. L'objectif affiché est de faire disparaître la page de liens. Et ce qui marche dans Google AI marche dans ChatGPT, Claude, Grok. Ceux qui commencent ce travail maintenant auront plusieurs années d'autorité d'avance.</p></div>
+    <h3>Créer sa page dédiée</h3>
+    <p>Elle se crée à partir de rien, avec Claude, en décrivant les blocs voulus. Exemple donné : l'EPK de Makassy, monté en cinq minutes à partir d'une quarantaine de messages WhatsApp envoyés en vrac.</p>
+    <div class="box b-key"><span class="bt">Deux conseils</span><p><strong>Donner un modèle.</strong> « J'ai vu cette page, fais-moi un EPK qui lui ressemble » donne un bien meilleur résultat qu'une description abstraite.</p><p><strong>Le format compte pour les mairies :</strong> elles fonctionnent avec un devis + un support visuel présentés en réunion. Un EPK qui tient sur un lien, sans pièce jointe, avec vidéo, son et photos, passe partout.</p></div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="chap" id="s12" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">12</div><div><h2>Traquer les salles par artistes similaires</h2><div class="tc">⏱ 110:42 – 117:52</div></div></div>
+  <div class="cbody">
+    <div class="box b-key"><span class="bt">Le principe</span><p>Plutôt que de démarcher des lieux au hasard, <strong>repérer dix artistes du même style et du même niveau de visibilité</strong>, faire lister par l'IA tous les endroits où ils ont joué sur les dix derniers mois, et récupérer les contacts de ces lieux-là.</p></div>
+    <h3>Pourquoi ça marche</h3>
+    <p>Si un lieu les a pris eux, rien ne l'empêche de vous prendre vous. Et il ne va pas les reprogrammer trois semaines plus tard : il a une grille à remplir. Il cherchera donc <strong>le même type d'artiste — ni une star, ni une débutante, très qualitative musicalement, pas encore gourmande.</strong> Un budget cohérent : 1 000, 2 000, 3 000, 4 000 €.</p>
+    <div class="box b-info"><span class="bt">Le signal fort</span><p>Quand plusieurs artistes de ce profil passent dans la même salle à intervalles réguliers, c'est qu'il y a <strong>quelqu'un de l'autre côté avec une vraie volonté de continuer cette politique</strong>. Ces gens-là accueillent bien les appels.</p><p>Estimation donnée : dans ces conditions, <strong>80 % de chances de vendre</strong>.</p></div>
+    <h3>Le script d'entrée</h3>
+    <div class="box b-tip"><span class="bt">Mot pour mot</span><p><em class="q">« Je me permets de vous contacter parce que j'ai vu que beaucoup d'artistes proches de mon univers sont passés chez vous — untel, untel et untel. Rien que pour ça, je trouve que la programmation est top et ça méritait que je vous appelle. »</em></p><p>Puis : <em class="q">« Sans prétention, je pense que je colle parfaitement avec ce que vous venez de me dire. Si ça vous va, je vous envoie un petit email et vous regarderez par vous-même. »</em></p><p>Avec le bon objet, le bon email et la bonne page déjà prêts, <strong>ça glisse tout seul</strong>.</p></div>
+    <div class="box b-warn"><span class="bt">La même méthode, appliquée à la formation</span><p>Exemple donné côté Producteur à Succès : demander à l'IA de trouver les comptes Instagram qui suivent <em>en même temps</em> plusieurs acteurs du secteur — 122 personnes exactement — puis leur envoyer un DM personnel. <strong>Suivre tous ces comptes à la fois signale un niveau de conscience élevé.</strong></p></div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="chap" id="s13" data-c="r">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">13</div><div><h2>Fixer et annoncer ses prix</h2><div class="tc">⏱ 117:52 – 127:00</div></div></div>
+  <div class="cbody">
+    <h3>Méthode 1 — le prix de la concurrence</h3>
+    <div class="box b-key"><span class="bt">Le test grandeur nature</span><p>Lister dix artistes qui font la même chose avec le même niveau de visibilité, <strong>se faire passer pour un tourneur, les appeler et demander leur prix.</strong> Peut-être que dix sont au-dessus de 3 000 €. Peut-être que deux le sont et que tous les autres sont sous 1 000 €. Ça donne l'ordre d'idée.</p><p>Variante honnête : les artistes avec qui vous faites des feats — là, on parle prix en toute transparence.</p></div>
+    <h3>Méthode 2 — créer du contraste</h3>
+    <div class="box b-info"><span class="bt">Le prix n'est presque jamais le problème</span><p>Dans 90 % des cas, « c'est trop cher » est faux. Les mêmes personnes qui trouvaient une formation à 400 € trop chère achetaient un téléphone à 1 500 € ou mettaient 4 000 € dans un clip raté. <strong>C'est une question de valeur perçue</strong>, et la valeur perçue se conditionne.</p></div>
+    <h3>Le protocole d'annonce</h3>
+    <ul class="tl">
+      <li><b>1. Annoncer le plus haut, à l'oral</b>« Le meilleur niveau que je peux vous fournir, avec tout le band, c'est 5 500 € hors taxes. »</li>
+      <li><b>2. Se taire</b>Et ne jamais casser le silence. <strong>Moins le blanc est long, plus le prix est accepté.</strong> Des questions qui fusent (« les VHR sont inclus ? ») = ça passe. Un long blanc suivi de « je prends note » = il faut rebondir.</li>
+      <li><b>3. Ancrer</b>« On sait que certaines salles ont des budgets plus restreints. J'ai une deuxième formule, en duo, à tant. » Passer de 5 500 à 2 000 fait respirer — et le duo devient l'évidence.</li>
+      <li><b>4. Anti-vendre la troisième</b>« Le solo ? Honnêtement, je ne vous le recommande pas. Vu le lieu, vu votre programmation, vous prenez un risque de décevoir votre public. C'est moins cher — 1 600 au lieu de 2 000 — mais je ne pense pas que ce soit adapté. »</li>
+    </ul>
+    <div class="box b-warn"><span class="bt">Dit sans détour</span><p>« C'est de la manipulation pure et dure. » Mais psychologiquement, elle se dira : <em class="q">« En vrai, je n'ai pas besoin du groupe complet, et ça évite le régisseur. »</em> Le duo est ce qui se vend le mieux — c'est exactement ce qu'on voulait vendre.</p></div>
+    <div class="box b-tip"><span class="bt">L'inverse, côté acheteur</span><p>Face à un vendeur formé, appliquer la même chose : se taire, prendre son téléphone, faire semblant de calculer. Il finira par parler — et par baisser lui-même. <strong>99 % des gens ne sont pas formés à ça</strong>, et le responsable de prod d'un centre culturel encore moins.</p></div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="chap" id="s14" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">14</div><div><h2>Collabs, prods IA et faire connaître sa voix</h2><div class="tc">⏱ 127:00 – 144:59</div></div></div>
+  <div class="cbody">
+    <h3>Deux profils proposés pour des collaborations</h3>
+    <div class="cards">
+      <div class="card"><h4>Un rappeur à l'univers décalé</h4><p>Docteur en neurosciences, ~44 000 abonnés YouTube, en tournée depuis 18 mois avec une structure de booking reconnue, actuellement en recherche de collaborations — ouvert à un refrain chanté. Beaucoup de connexions scène.</p></div>
+      <div class="card"><h4>Deux frères, auteur et compositeur</h4><p>Des « machines à hits » quand ils travaillent ensemble : l'un compose, l'autre écrit les top lines et les textes. Ils viennent de produire une artiste au registre Brel / Indila / Piaf.</p></div>
+    </div>
+    <h3>Les prods 100 % IA : quel risque ?</h3>
+    <div class="box b-warn"><span class="bt">La réponse nuancée</span><p>Si vous dirigez la direction artistique et que vous êtes humaine dessus, c'est considéré comme co-créé. <strong>Le risque résiduel : on ne sait pas encore comment les plateformes traiteront une prod entièrement générée.</strong></p></div>
+    <div class="box b-key"><span class="bt">Le hack : mettre les mains dedans</span><p>C'est exactement la logique du sample. « J'ai fait des sons sur des samples que je n'ai jamais déclarés — stretchés à mort, tonalité changée, découpés au point qu'on ne les détectait plus. »</p><p>Sur une prod IA : <strong>la reprendre dans son DAW, doubler la grille d'accords piano avec un pad, ou faire rejouer la ligne de guitare par un musicien avec deux ou trois variantes.</strong> Vous avez mis les mains dedans : c'est une co-composition.</p></div>
+    <h3>Faire connaître sa voix</h3>
+    <p>Le constat : ce que les gens voient sur les réseaux représente environ 10 % de ce qui est réellement faisable vocalement. Le format proposé cherche donc une chose précise — la démonstration.</p>
+    <ul class="tl">
+      <li><b>Le format de base</b>Prendre un titre du moment, reprendre un refrain a cappella et empiler toutes les voix : lead, médium, tierce, basse, octave. Chaque voix affichée à l'écran.</li>
+      <li><b>Ce qui rend ça viral</b>La capacité à le faire sur des styles complètement différents. Et un peu de reverb — « c'est viral, la reverb ».</li>
+      <li><b>Les covers courtes</b>30 à 40 secondes, purement performance. Refaire les montées de Whitney Houston, par exemple, et l'assumer.</li>
+      <li><b>Les mises en situation</b>« Cette femme va arrêter la foule avec sa voix » : un lieu bruyant, une vocalise, les réactions filmées. Version plus simple et sans staff : le détournement d'une scène virale existante.</li>
+      <li><b>Le canal</b>TikTok en priorité. Cinq à sept vidéos suffisent pour tester.</li>
+    </ul>
+    <div class="box b-info"><span class="bt">Ce n'est pas qu'une question de moyens</span><p><strong>C'est une question d'audace.</strong> « Tu prends un haut-parleur, tu sors une note inatteignable dans un grand magasin un samedi après-midi, tout le monde se retourne. » Il faut un peu de matériel pour capter proprement dans le bruit — ou du montage.</p></div>
+    <div class="box b-tip"><span class="bt">L'objectif réel : l'identification</span><p>Pas la viralité pour elle-même. Créer un raccourci mental : <strong>« la chanteuse qui… »</strong>, comme « le mec aveugle qui chantait dans le métro ».</p><p>Et sur la masse, ce sont les gens vraiment sensibles qui vous suivront partout. <strong>Une vidéo à 4 millions de vues qui ne rapporte que 3 000 abonnés, ce sont 3 000 abonnés hyper qualifiés</strong> — et tant mieux si les autres ne viennent pas.</p></div>
+    <div class="pull">« Le secret, c'est de tout tester. Ce avec quoi tu n'es pas alignée, tu ne forces pas, tu dégages direct. Et quand tu sens bien un truc, tu tentes. »<span>Mot de la fin</span></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<div class="faq" id="faq">
+  <div class="bar"></div>
+  <div class="faqhead">
+    <h2>FAQ de la session</h2>
+    <p>Les 24 questions posées — ou que vous vous poserez en relisant — et leurs réponses telles qu'elles ont été données.</p>
+  </div>
+  <div class="faqbody">
+
+    <div class="faqcat">Le point de départ</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>J'ai déjà 45 dates par an sans rien faire. Pourquoi changer ?</div><div class="a"><p>Parce que ce flux ne se pilote pas. Il dépend de la mémoire des gens et du hasard des recommandations. <strong>Le jour où il se tarit, il n'y a rien derrière.</strong> L'objectif n'est pas de remplacer l'entrant, c'est d'ajouter un robinet qu'on peut ouvrir à volonté.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Mon email de prospection est-il récupérable ?</div><div class="a"><p>L'objet, oui — « L'artiste à ne surtout pas programmer sur [festival] » est bon. Le corps, non : il est trop corporate, trop long, et ressemble à ce que n'importe qui enverrait. <strong>À réécrire entièrement en partant de la cible.</strong> Détail pratique : supprimer les tirets cadratins, ils signalent immédiatement une rédaction par IA.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Mon système de démarchage automatisé est-il inutile ?</div><div class="a"><p>Non, mais il arrive trop tôt. L'infrastructure est bonne ; ce qu'elle transporte ne l'est pas encore. <strong>Automatiser un message qui ne fonctionne pas, c'est se tromper 10 000 fois au lieu d'une.</strong></p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Comment faire trouver le bon interlocuteur par l'IA ?</div><div class="a"><p>En le briefant explicitement. Le titre « programmateur » est rare : cherchez directeur des programmes, chargé de programmation, responsable de saison. Et excluez nommément les contacts communication et marketing, qui sont ce que l'IA ramène par défaut.</p></div></div>
+
+    <div class="faqcat">Le réseau et la Fracama</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Adhérer à la Fracama, ça sert vraiment ?</div><div class="a"><p>Oui, mais pas pour ce qu'on croit. <strong>Les réunions ne servent à rien.</strong> Ce qui sert : la carte de visite de membre pour démarcher, l'annuaire des adhérents devenu base tiède, une AG par an pour les rencontres, et le poids du réseau dans un dossier de subvention.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Ça coûte combien ?</div><div class="a"><p>Estimation donnée en session : de l'ordre de 50 € par an. « Ça vaut clairement le coup. »</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Je n'aime pas les réunions de réseau. Je peux quand même ?</div><div class="a"><p>Oui — et c'est justement le point. Beaucoup de gens présents aux AG pensent exactement la même chose et viennent par curiosité. C'est entre eux que les choses se font. L'exemple donné : une rencontre café en AG avec quelqu'un qui pilote 17 festivals.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Le hack du mail post-AG, c'est honnête ?</div><div class="a"><p>À condition d'être réellement adhérent et d'avoir réellement raté l'AG — ou d'assumer l'avoir quittée un moment. <strong>Si vous n'êtes pas dans le réseau et que vous bluffez, ça se verra</strong> : certains iront chercher votre nom dans l'annuaire.</p></div></div>
+
+    <div class="faqcat">L'email et la séquence</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Par quoi je commence concrètement ?</div><div class="a"><p>Par l'objet. C'est la première étape et rien ne se passe sans elle : <strong>l'objet rend visible, l'email donne envie d'en savoir plus, la page déclenche l'intention d'achat et la prise de contact.</strong> L'appel ne fait que conclure.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Comment trouver un bon objet quand on n'est pas copywriter ?</div><div class="a"><p>Avec l'IA, mais en la dirigeant. Trois recadrages à faire systématiquement : sortir de la vente, partir d'un problème ou d'une frustration de la cible, imposer un schéma narratif. Et lui donner un cadre de référence — les 100 structures d'Eugene Schwartz.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>L'IA me sort des choses banales. Que faire ?</div><div class="a"><p>La reprendre, encore. « Les idées sont vraiment nulles » est une consigne valable. Et lui donner <strong>un modèle réel</strong> : une publication LinkedIn au score anormalement élevé, avec la consigne « isole la structure de ce message et adapte-la ».</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Quel objet a été retenu pour Ivaanyh ?</div><div class="a"><p><strong>« Personne ne connaissait son nom. Pourtant, elle a reçu une standing ovation. »</strong> Avec une réserve : vérifier qu'il n'est pas trop long à l'affichage.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Long ou court, l'email ?</div><div class="a"><p>Court. Sept ou huit lignes suffisent. L'IA a tendance à écrire des corps trop romancés — c'est précisément ce que personne ne lit.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Je tutoie ou je vouvoie ?</div><div class="a"><p>Ça dépend de l'univers. Dans le rock, tout le monde se tutoie. Sinon, <strong>le vouvoiement ne fait jamais de mal</strong>, surtout avec quelqu'un qu'on ne connaît pas.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Vers quoi doit pointer le lien de l'email ?</div><div class="a"><p>Vers une page dédiée — un EPK très simple, ou une page de vente. <strong>Pas vers le site.</strong> Le site contient trop d'informations pour quelqu'un qui doit décider vite.</p></div></div>
+
+    <div class="faqcat">Tester, mesurer, automatiser</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Je dois envoyer des emails différents à la même cible ?</div><div class="a"><p>Oui. C'est tout l'intérêt. Sur des lots de 50, un objet A contre un objet B : 20 ouvertures contre 45, vous savez lequel garder. Puis A contre C, D, E jusqu'à isoler le gagnant.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Mais je n'aurai aucune information sur le profil des gens.</div><div class="a"><p>Pas immédiatement, non. Et ce n'est pas grave : <strong>ce qui compte d'abord, c'est de savoir que sur cette cible-là, cet objet fonctionne mieux qu'un autre.</strong> Le portrait psychologique se dessine ensuite.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Comment je mesure les ouvertures ?</div><div class="a"><p>Via l'outil d'envoi. Brevo est recommandé — une dizaine d'euros par mois, fiable, et automatisable avec Claude. MailChimp ou ActiveCampaign font la même chose.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Pourquoi pas simplement Gmail ?</div><div class="a"><p>Au-delà d'une dizaine d'envois identiques, Gmail détecte le copier-coller et bloque ou envoie en spam. <strong>Un autorépondeur est fait pour ça</strong> — et surtout pour monter en puissance progressivement (50, puis 100, puis 200) en mesurant les rebonds et les désabonnements, afin de préserver la réputation de votre domaine.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Quand est-ce que j'ai le droit d'automatiser ?</div><div class="a"><p>Quand vous avez trouvé la séquence optimale de vente : l'objet qui fait ouvrir, le contenu qui fait cliquer, la page qui fait écrire. <strong>Avant, c'est du volume à l'aveugle.</strong> Après, deux heures de paramétrage suffisent pour six mois de fonctionnement autonome.</p></div></div>
+
+    <div class="faqcat">Prix, salles et image</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Comment je sais si mes prix sont justes ?</div><div class="a"><p>En appelant dix artistes équivalents en vous faisant passer pour un tourneur, et en notant ce qu'ils annoncent. Ou, plus simplement, en demandant en transparence aux artistes avec qui vous collaborez.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Et si mon prix est trop élevé pour eux ?</div><div class="a"><p>Dans 90 % des cas, le prix n'est pas le vrai sujet — c'est la valeur perçue. La parade : annoncer le plus haut à l'oral, se taire, puis faire respirer avec une formule intermédiaire, et <strong>anti-vendre la moins chère</strong>.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Une prod 100 % IA, c'est risqué ?</div><div class="a"><p>Le risque n'est pas nul tant que les plateformes n'ont pas tranché. La parade est simple : <strong>mettre les mains dedans</strong> — doubler la grille d'accords, ajouter un pad, faire rejouer une ligne par un musicien. Ça devient une co-composition.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Comment faire connaître ma voix pour ce qu'elle vaut ?</div><div class="a"><p>Par un format de démonstration : un refrain a cappella empilé en lead, médium, tierce, basse et octave, sur des styles très différents, en 30 à 40 secondes, principalement sur TikTok. Puis, si les moyens suivent, des mises en situation. <strong>L'objectif n'est pas la vue : c'est de devenir « la chanteuse qui… ».</strong></p></div></div>
+
+  </div>
+</div>
+
+<!-- PLAN -->
+<div class="plan" id="plan">
+  <h2>Plan d'action</h2>
+  <p>Dans l'ordre. Chaque phase suppose la précédente terminée — c'est tout le propos de la session. Cliquez pour cocher.</p>
+
+  <div class="phase">Phase 1 — Les fondations (cette semaine)</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Réseau</b>Adhérer à la Fracama et récupérer l'annuaire des adhérents</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Réseau</b>Repérer la date de la prochaine AG et la bloquer dans l'agenda</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Entrant</b>Ouvrir un fichier de notes pour les appels entrants : ce qui a été dit, dans quel ordre, et la réaction obtenue</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Cible</b>Écrire le portrait psychologique d'un programmateur : peurs, frustrations, problèmes, aspirations</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Positionnement</b>Formuler en une phrase ce qui vous rend différente, sans parler de musique</span></li>
+  </ul>
+
+  <div class="phase">Phase 2 — La séquence (2 à 4 semaines)</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Objet</b>Produire 25 idées d'objets avec l'IA, en la recadrant sur la douleur de la cible</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Objet</b>N'en retenir que 5, correspondant à 5 angles marketing distincts</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Modèle</b>Aller chercher sur LinkedIn 2 publications au score anormalement élevé et en faire isoler la structure</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Email</b>Écrire un corps de 7 à 8 lignes maximum, en slippery slide, avec un seul appel à l'action</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Page</b>Créer l'EPK dédié : photo + nom + genre, sommaire interactif, bio 5 lignes, teaser 1 min 45, galerie, témoignages, contact devis</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Outil</b>Ouvrir un compte Brevo et le connecter au domaine</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Base</b>Constituer une première liste de 100 contacts qualifiés, avec le nom du vrai programmateur</span></li>
+  </ul>
+
+  <div class="phase">Phase 3 — Les tests (4 à 8 semaines)</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Test 1</b>Objet A contre objet B sur deux lots de 50 — comparer les taux d'ouverture</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Test 1</b>Faire affronter le gagnant aux objets C, D, E jusqu'à stabilisation</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Test 2</b>Tester deux formats de corps d'email — comparer les taux de clic</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Test 3</b>Tester deux versions de l'EPK — compter les prises de contact</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Appel</b>Appeler systématiquement ceux qui ont ouvert, cliqué et visité l'EPK — sans chercher à vendre</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Prix</b>Appeler 10 artistes équivalents pour relever leurs tarifs réels</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Prix</b>Répéter le protocole d'annonce : le plus haut d'abord, puis le silence, puis l'ancrage</span></li>
+  </ul>
+
+  <div class="phase">Phase 4 — Le scale (une fois la séquence validée)</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Collecte</b>Faire scraper par l'IA les fiches Google Business des espaces culturels, avec organigramme et contact</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Collecte</b>Même chose pour les mairies ayant organisé un concert sur les 6 derniers mois</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Collecte</b>Scraper l'annuaire des réseaux filière, en ne gardant que spectacle vivant et festival</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Ciblage fin</b>Lister 10 artistes du même niveau et récupérer tous les lieux où ils sont passés en 10 mois</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Image</b>Tester 5 à 7 vidéos de démonstration vocale sur TikTok</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Site</b>Ajouter JSON-LD, FAQ et lisibilité LLM sur le site pour maîtriser la narrative dans les IA</span></li>
+  </ul>
+</div>
+
+<!-- QUIZ -->
+<div class="quiz" id="quiz">
+  <h2>Quiz de validation</h2>
+  <p>Cinq questions pour vérifier que l'essentiel est passé.</p>
+
+  <div class="qz" data-good="2">
+    <div class="qt">1. Dans quel ordre faut-il travailler ?</div>
+    <button class="opt">Constituer la base, automatiser, puis soigner le message</button>
+    <button class="opt">Créer l'EPK, puis l'email, puis l'objet</button>
+    <button class="opt">L'objet, puis le corps de l'email, puis la page, puis l'appel</button>
+    <button class="opt">Appeler d'abord, écrire ensuite</button>
+    <div class="fb">L'objet rend visible, l'email donne envie d'en savoir plus, la page déclenche l'intention d'achat, l'appel conclut. C'est la séquence optimale de vente — et on ne l'automatise qu'une fois validée.</div>
+  </div>
+
+  <div class="qz" data-good="1">
+    <div class="qt">2. Quel est le vrai intérêt d'adhérer à un réseau régional comme la Fracama ?</div>
+    <button class="opt">Les réunions mensuelles, où se font les programmations</button>
+    <button class="opt">La carte de visite de membre, l'annuaire, l'AG annuelle et le poids en dossier de subvention</button>
+    <button class="opt">Le réseau place directement ses adhérents dans les festivals</button>
+    <button class="opt">L'accès à des cachets plus élevés</button>
+    <div class="fb">Les réunions « ne servent strictement à rien ». Ce qui sert : démarcher en tant que membre, prospecter l'annuaire devenu tiède, aller à une AG par an, et faire état de son ancrage dans un dossier d'aide.</div>
+  </div>
+
+  <div class="qz" data-good="0">
+    <div class="qt">3. Quelles sont les deux règles de la vente citées en session ?</div>
+    <button class="opt">C'est une question de volume ; et on achète à quelqu'un qu'on apprécie</button>
+    <button class="opt">Il faut convaincre ; et il faut négocier</button>
+    <button class="opt">Il faut un beau dossier ; et il faut relancer trois fois</button>
+    <button class="opt">Il faut être le moins cher ; et être disponible</button>
+    <div class="fb">Parlez à 100 personnes, une achète — c'est de l'arithmétique. Et ce qui déclenche l'achat, c'est la relation de confiance et de sympathie envers le vendeur. Convaincre ne fait bouger les stats qu'à la marge.</div>
+  </div>
+
+  <div class="qz" data-good="3">
+    <div class="qt">4. Un programmateur reçoit votre email. Que doit-il trouver derrière le clic ?</div>
+    <button class="opt">Votre site internet complet</button>
+    <button class="opt">Un lien Spotify vers votre dernier titre</button>
+    <button class="opt">Un dossier de presse PDF en pièce jointe</button>
+    <button class="opt">Un EPK minimal : image, titre, player vidéo live, 2-3 photos, bio de 6 lignes</button>
+    <div class="fb">Le site contient trop d'informations pour quelqu'un qui décide vite — l'exemple du duo dont le site « convertissait zéro » est parlant. La page dédiée ne doit provoquer qu'une seule réaction : « ça coûte combien ? »</div>
+  </div>
+
+  <div class="qz" data-good="2">
+    <div class="qt">5. Vous annoncez 5 500 € pour le full band. Que faites-vous juste après ?</div>
+    <button class="opt">Vous justifiez le prix par le nombre de musiciens</button>
+    <button class="opt">Vous proposez immédiatement une remise</button>
+    <button class="opt">Vous vous taisez et vous mesurez la durée du silence</button>
+    <button class="opt">Vous annoncez les trois formules d'affilée</button>
+    <div class="fb">Moins le blanc est long, plus le prix est accepté. Des questions qui fusent = ça passe. Un long silence suivi de « je prends note » = il faut rebondir sur la formule intermédiaire, par effet d'ancrage — puis anti-vendre la troisième.</div>
+  </div>
+
+  <div class="score" id="score"></div>
+</div>
+
+<footer>
+  <p>Support de session — <b>Mentorat Ivaanyh #2</b> · 28 septembre 2026 · 2 h 25 · 62 chapitres</p>
+  <p>Producteur à Succès — Tarik Hamiche</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var CHAPITRES = [
+    [0,"Ivaanyh : l'origine du nom d'artiste"],
+    [50,"Bilan des 15 derniers jours"],
+    [258,"Le booking : 98 % des dates sont entrantes"],
+    [301,"Le démarchage automatisé mis en place"],
+    [460,"L'email de prospection lu en direct"],
+    [634,"Diagnostic : un email clone"],
+    [761,"Trouver le vrai programmateur"],
+    [945,"La cible : festivals, salles, mairies"],
+    [992,"Le constat : aucun process de vente"],
+    [1030,"D'où viennent vraiment les dates"],
+    [1199,"Les tarifs : solo, duo, full band"],
+    [1506,"45 dates par an, sans prospecter"],
+    [1613,"La Fracama : faut-il adhérer ?"],
+    [1755,"Levier 1 : la carte de visite du réseau"],
+    [1795,"Levier 2 : les assemblées générales"],
+    [1879,"Subventions et poids politique local"],
+    [1955,"Le hack du mail envoyé après l'AG"],
+    [2053,"Structurer une approche : le script A-B-C"],
+    [2204,"Passer le barrage de la secrétaire"],
+    [2310,"Partir de la cible, pas de soi"],
+    [2478,"L'objet qui arrête un programmateur"],
+    [2606,"Slippery slide effect et EPK minimal"],
+    [2710,"Tracker les ouvertures et les clics"],
+    [2827,"Les deux seules règles de la vente"],
+    [2936,"Prospecter en vidéo personnalisée"],
+    [3118,"L'exemple des scènes mobiles"],
+    [3265,"Vendre en direct et anti-vendre"],
+    [3370,"Ne pas automatiser trop tôt"],
+    [3444,"Démo live : brainstormer les objets"],
+    [3593,"Recadrer l'IA sur la douleur cible"],
+    [4018,"Partir de la psychologie du programmateur"],
+    [4093,"Les 100 structures d'Eugene Schwartz"],
+    [4299,"L'objet retenu pour Ivaanyh"],
+    [4658,"Copier la structure d'un post viral"],
+    [4931,"La loi des 70 / 20 / 10"],
+    [5072,"Tester l'objet, puis l'email, puis la page"],
+    [5209,"Mesurer les ouvertures : Brevo et cie"],
+    [5255,"L'autorépondeur et la délivrabilité"],
+    [5446,"Scaler une fois la séquence trouvée"],
+    [5560,"L'émotion qui surperforme sur tout"],
+    [5660,"Automatiser la collecte avec Claude"],
+    [5852,"Scraper les annuaires des réseaux"],
+    [5992,"Le beau site qui ne vend rien"],
+    [6049,"L'anatomie de la page qui convertit"],
+    [6240,"JSON-LD, FAQ et lecture par les IA"],
+    [6378,"Google 2027 : 90 % des requêtes en IA"],
+    [6439,"Créer sa page dédiée avec Claude"],
+    [6537,"Récapitulatif et devoirs"],
+    [6642,"L'anti-vente avant l'appel"],
+    [6891,"Traquer les salles par artistes similaires"],
+    [7072,"Fixer ses tarifs : voir la concurrence"],
+    [7147,"Le prix n'est pas le problème"],
+    [7187,"Annoncer le prix, puis se taire"],
+    [7272,"L'ancrage : de 5 500 à 2 000 €"],
+    [7348,"Anti-vendre la troisième formule"],
+    [7620,"Deux profils pour des collaborations"],
+    [8050,"Prods 100 % IA : quel risque ?"],
+    [8159,"Comment faire connaître sa voix"],
+    [8213,"Le format démonstration vocale"],
+    [8360,"Les mises en situation virales"],
+    [8599,"Créer l'identification"],
+    [8699,"Clôture et prochaines étapes"]
+  ];
+
+  var frame = document.getElementById('vimeoPlayer');
+  function fmt(s){ var m = Math.floor(s/60), r = s%60; return m + ':' + (r<10?'0':'') + r; }
+
+  function seek(sec){
+    if (!frame || !frame.contentWindow) return;
+    try {
+      frame.contentWindow.postMessage(JSON.stringify({method:'setCurrentTime', value: sec}), '*');
+      frame.contentWindow.postMessage(JSON.stringify({method:'play'}), '*');
+    } catch(e){}
+    var top = frame.getBoundingClientRect().top + window.pageYOffset - 20;
+    window.scrollTo({top: top < 0 ? 0 : top, behavior:'smooth'});
+  }
+
+  var list = document.getElementById('chlist');
+  if (list) {
+    CHAPITRES.forEach(function(c){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.innerHTML = '<b>' + fmt(c[0]) + '</b><span></span>';
+      b.querySelector('span').textContent = c[1];
+      b.addEventListener('click', function(){ seek(c[0]); });
+      list.appendChild(b);
+    });
+  }
+
+  document.querySelectorAll('.tc').forEach(function(el){
+    var parts = el.textContent.split(/(\d+:\d{2})/);
+    if (parts.length < 2) return;
+    el.textContent = '';
+    parts.forEach(function(p){
+      if (/^\d+:\d{2}$/.test(p)) {
+        var mm = p.split(':');
+        var sec = parseInt(mm[0],10)*60 + parseInt(mm[1],10);
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'seek'; b.textContent = p;
+        b.title = 'Aller à ' + p + ' dans la vidéo';
+        b.addEventListener('click', function(){ seek(sec); });
+        el.appendChild(b);
+      } else {
+        el.appendChild(document.createTextNode(p));
+      }
+    });
+  });
+})();
+
+(function(){
+  var bar = document.getElementById('progress');
+  function upd(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', upd, {passive:true});
+  window.addEventListener('resize', upd);
+  upd();
+
+  document.querySelectorAll('.chk li').forEach(function(li){
+    li.addEventListener('click', function(){ li.classList.toggle('done'); });
+  });
+
+  var answered = 0, correct = 0;
+  var total = document.querySelectorAll('.qz').length;
+  document.querySelectorAll('.qz').forEach(function(q){
+    var good = parseInt(q.getAttribute('data-good'), 10);
+    var opts = q.querySelectorAll('.opt');
+    opts.forEach(function(o, i){
+      o.addEventListener('click', function(){
+        if (q.dataset.done) return;
+        q.dataset.done = '1';
+        answered++;
+        if (i === good) correct++;
+        opts.forEach(function(x, j){
+          if (j === good) x.classList.add('good');
+          else if (j === i) x.classList.add('bad');
+          x.style.cursor = 'default';
+        });
+        q.querySelector('.fb').classList.add('show');
+        if (answered === total) {
+          var s = document.getElementById('score');
+          s.textContent = 'Score : ' + correct + ' / ' + total + (correct === total ? ' — parfait 🎯' : (correct >= total - 1 ? ' — très bien 👏' : ' — une relecture des sections concernées s\'impose 📘'));
+          s.classList.add('show');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Comprendre le fonctionnement des réseaux sociaux · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Charte Muziforma : fond sable, violet #5B14FF, Manrope + Inter + JetBrains Mono. */
+:root{--bg:#F7F1E8;--bg-soft:#FCF8F2;--bg-card:#FFFFFF;--ink:#1F1A15;--ink-soft:#5C4F42;--ink-muted:#8A7A6A;--accent:#5B14FF;--accent-dark:#4910CC;--accent-soft:#EDE9FE;--accent-line:#A78BFA;--border:#E8DDC9;--border-soft:#F0E6D4;--warning:#C2410C;--warning-soft:#FFEDD5;--success:#15803D;--success-soft:#DCFCE7;--on-accent:#FFFFFF;--recap-text:rgba(247,241,232,.85);--shadow-sm:0 1px 2px rgba(31,26,21,.04);--shadow-md:0 4px 16px rgba(31,26,21,.06);--radius-sm:8px;--radius-md:14px;--radius-lg:24px;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Manrope,-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700}
+h4{font-size:1.15rem;font-weight:700;line-height:1.3}
+p{margin-bottom:1.1rem;color:var(--ink-soft)}
+strong{color:var(--ink);font-weight:700}
+em{font-style:normal;color:var(--accent);font-weight:800}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.container-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-line));z-index:9999}
+header.top-nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(247,241,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand-mark{font-family:Manrope,sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--ink)}
+.brand-mark em{color:var(--accent)}
+.nav-meta{display:flex;gap:1rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted)}
+.nav-meta span:not(:last-child)::after{content:"·";margin-left:1rem;color:var(--border)}
+@media (max-width:600px){.nav-meta{display:none}}
+.hero{padding:5rem 0 4rem;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;max-width:none;background:radial-gradient(circle,rgba(167,139,250,.22) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(91,20,255,.14) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1.8rem;box-shadow:var(--shadow-sm)}
+.hero h1{margin-bottom:1.5rem}
+.hero-lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:720px;margin:0 auto 1.5rem;line-height:1.55}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.hero-chips span{font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:.35rem .9rem}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:880px;margin:3rem auto 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-num{font-family:Manrope,sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em;margin-bottom:.5rem}
+.stat-label{font-size:.82rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.hero-stats{grid-template-columns:1fr}}
+.section-label{display:inline-block;font-family:Inter,sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:1.5rem}
+.toc-section{padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);text-align:center}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:800px;margin:1rem auto 0}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left;color:var(--ink);transition:.15s}
+.toc-item:hover{border-color:var(--accent);transform:translateX(2px);box-shadow:var(--shadow-sm);color:var(--ink)}
+.toc-num{font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);flex-shrink:0;width:36px}
+.toc-title{font-weight:600;font-size:.95rem;line-height:1.3}
+@media (max-width:600px){.toc-grid{grid-template-columns:1fr}}
+main>section.module{padding:6rem 0;position:relative;overflow:hidden}
+main>section.module:nth-of-type(odd){background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+section.module::before{content:"";position:absolute;top:10%;right:-180px;width:480px;height:480px;background:radial-gradient(circle,rgba(167,139,250,.16) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
+section.module>.container,section.module>.container-narrow{position:relative;z-index:1}
+.module-header{margin-bottom:2.5rem}
+.module-num{font-family:Manrope,sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.6rem;display:block}
+.module-lead{font-size:1.15rem;color:var(--ink-soft);margin:1.5rem 0 2.5rem;line-height:1.55;max-width:720px}
+.prose p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.3rem}
+.callout{background:var(--bg-card);border-left:4px solid var(--accent);border-radius:var(--radius-md);padding:1.6rem 1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm);text-align:left}
+.callout.warning{border-left-color:var(--warning);background:linear-gradient(135deg,var(--warning-soft) 0%,var(--bg-card) 60%)}
+.callout.success{border-left-color:var(--success);background:linear-gradient(135deg,var(--success-soft) 0%,var(--bg-card) 60%)}
+.callout-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.6rem}
+.callout.warning .callout-tag{color:var(--warning)}
+.callout.success .callout-tag{color:var(--success)}
+.callout p{margin:0;color:var(--ink);line-height:1.55}
+.callout ul{margin:.2rem 0 0 1.2rem;color:var(--ink);line-height:1.6}
+/* 3 casquettes : reprend .evolution */
+.evolution{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2rem 0}
+.evo-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;text-align:center;box-shadow:var(--shadow-sm)}
+.evo-col.featured{border:2px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg-card) 50%);transform:scale(1.02);box-shadow:var(--shadow-md)}
+.evo-acronym{font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;letter-spacing:-.04em;margin-bottom:.4rem}
+.evo-col:not(.featured) .evo-acronym{color:var(--ink-muted)}
+.evo-full{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:1rem;font-weight:600}
+.evo-col h4{margin-bottom:.6rem}
+.evo-col p{font-size:.92rem;line-height:1.55;text-align:left}
+.evo-target{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--border);text-align:left;font-size:.85rem;line-height:1.45;color:var(--ink)}
+.evo-target strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem;font-weight:800}
+@media (max-width:800px){.evolution{grid-template-columns:1fr}.evo-col.featured{transform:none}}
+/* circuit : reprend .rag-flow */
+.rag-flow{margin:2.5rem 0;display:flex;flex-direction:column;gap:1.5rem}
+.rag-step{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.rag-step:hover{border-color:var(--accent-line)}
+.rag-step-circle{flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.6rem;box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+.rag-step.alt .rag-step-circle{background:var(--warning);box-shadow:rgba(194,65,12,.3) 0 6px 20px}
+.rag-step>div:last-child{flex:1 1 0%;min-width:0}
+.step-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);margin-bottom:.4rem}
+.rag-step h4{margin-bottom:.6rem}
+.rag-step p{margin:0;line-height:1.55}
+/* tableaux dans la charte */
+.data-table{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);margin:2rem 0}
+.data-table table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+.data-table th{text-align:left;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding:1rem 1.1rem;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.data-table td{padding:.9rem 1.1rem;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table td strong{color:var(--ink)}
+.data-table .n{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--accent-dark);white-space:nowrap}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .6rem;border-radius:6px;white-space:nowrap}
+.badge.yes{background:var(--success-soft);color:var(--success)}
+.badge.no{background:var(--warning-soft);color:var(--warning)}
+.badge.mid{background:var(--accent-soft);color:var(--accent-dark)}
+/* barre de répartition */
+.split{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);margin:2rem 0}
+.split h4{margin-bottom:1.2rem}
+.split-bar{display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden}
+.split-bar div{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:500;color:var(--on-accent);white-space:nowrap;overflow:hidden}
+.split-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem 1rem;margin-top:1.2rem;font-size:.88rem;color:var(--ink-soft)}
+.split-legend span{display:flex;align-items:center;gap:.5rem}
+.split-legend i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.split-legend b{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--ink);margin-left:auto}
+.split-note{font-size:.82rem;color:var(--ink-muted);margin:1rem 0 0;line-height:1.5}
+/* cartes : reprend .motors / .eeat */
+.motors,.eeat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:2rem 0}
+.motor-card,.eeat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-sm);min-width:0}
+.eeat-card{transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.eeat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motor-name{font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;color:var(--ink);letter-spacing:-.02em;margin-bottom:.3rem}
+.motor-by{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.motor-spec{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border-soft);font-size:.9rem;line-height:1.45}
+.motor-spec:last-child{border-bottom:0}
+.motor-spec-label{flex-shrink:0;width:78px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding-top:.2rem}
+.motor-spec-value{flex:1 1 0%;color:var(--ink-soft)}
+.eeat-letter{width:52px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1rem}
+.eeat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem}
+.eeat-card h4{margin-bottom:.8rem}
+.eeat-card>p{font-size:.95rem;line-height:1.55;margin-bottom:1.2rem}
+.eeat-music{background:var(--accent-soft);border-radius:var(--radius-sm);padding:1rem;font-size:.9rem;line-height:1.5;color:var(--ink);margin-top:auto}
+.eeat-music strong{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.eeat-music .out{color:var(--warning)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:740px){.eeat-grid,.motors,.grid3{grid-template-columns:1fr}}
+/* étapes : reprend .factors */
+.factors{display:flex;flex-direction:column;gap:1.2rem;margin:2rem 0}
+.factor{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.factor:hover{border-color:var(--accent-line)}
+.factor-num{flex-shrink:0;font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;width:50px;letter-spacing:-.03em}
+.factor.err .factor-num{color:var(--warning)}
+.factor>div:last-child{flex:1 1 0%;min-width:0}
+.factor h4{margin-bottom:.6rem}
+.factor p{font-size:.95rem;line-height:1.55;margin-bottom:1rem}
+.factor p:last-child{margin-bottom:0}
+.factor-detail{background:var(--accent-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.88rem;line-height:1.5;color:var(--ink)}
+.factor-detail strong{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.factor.err .factor-detail{background:var(--warning-soft)}
+.factor.err .factor-detail strong{color:var(--warning)}
+/* checklist : reprend .audit */
+.audit-intro{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm)}
+.audit-intro h3{margin-bottom:.8rem}
+.audit-intro p{margin:0;line-height:1.6}
+.audit-prompts{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.prompt-row{display:flex;gap:1.2rem;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.prompt-num{flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--accent);width:36px}
+.prompt-row>div:not(.prompt-num){flex:1 1 0%;min-width:0}
+.prompt-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.audit-check{flex-shrink:0;padding:.5rem .9rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s;font-family:Inter,sans-serif}
+.audit-check:hover{border-color:var(--accent-line)}
+.audit-check.checked{background:var(--success);color:var(--on-accent);border-color:var(--success);font-weight:600}
+.score{font-family:"JetBrains Mono",monospace;color:var(--success);font-weight:500}
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.faq details{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:border-color .2s}
+.faq details:hover,.faq details[open]{border-color:var(--accent-line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.5rem;font-family:Manrope,sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.faq details[open] summary::after{content:"−";background:var(--accent);color:var(--on-accent)}
+.faq .ans{padding:0 1.5rem 1.4rem;color:var(--ink-soft);font-size:.97rem;line-height:1.65}
+/* synthèse */
+.recap{background:var(--ink);color:var(--recap-text);padding:4rem 0;position:relative;overflow:hidden}
+.recap::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(91,20,255,.25) 0%,transparent 60%);border-radius:50%;pointer-events:none}
+.recap>.container-narrow{position:relative;z-index:1}
+.recap h3{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg-card);margin-bottom:1.5rem}
+.recap-list{list-style:none;counter-reset:item;display:flex;flex-direction:column;gap:1rem}
+.recap-list li{counter-increment:item;padding-left:3rem;position:relative;line-height:1.55;color:var(--recap-text)}
+.recap-list li::before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:Manrope,sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-line)}
+.recap-list li strong{color:var(--bg-card)}
+.next-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin:4rem auto;max-width:760px;text-align:center;box-shadow:var(--shadow-md)}
+.next-cta h3{margin-bottom:1rem}
+.next-cta p{margin-bottom:1.5rem;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.1rem 2.2rem;font-family:Manrope,sans-serif;font-size:1rem;font-weight:800;border-radius:999px;border:0;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+footer.site-footer{background:var(--ink);color:rgba(247,241,232,.55);padding:2.5rem 0;text-align:center;font-size:.85rem;border-top:1px solid rgba(247,241,232,.08);line-height:1.7}
+footer.site-footer .src{max-width:760px;margin:0 auto 1rem;font-size:.8rem;color:rgba(247,241,232,.45)}
+@media (max-width:860px){main>section.module{padding:4rem 0}.toc-section{padding:3rem 0}.module-header{margin-bottom:1.8rem}.module-lead{font-size:1.05rem;margin:1rem 0 1.8rem}.rag-step,.factor{padding:1.4rem;gap:1rem}.rag-step-circle{width:48px;height:48px;font-size:1.3rem}.factor-num{font-size:1.6rem;width:40px}.next-cta{padding:1.8rem 1.4rem}.recap-list li{padding-left:2.4rem}section.module::before{width:320px;height:320px}}
+@media (max-width:480px){.hero{padding:3rem 0 2.5rem}.hero h1{font-size:2rem}.rag-step,.factor{flex-direction:column;gap:.8rem}.prompt-row{flex-wrap:wrap}}
+html,body{width:100% !important;max-width:100% !important;overflow-x:hidden}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress-bar"></div>
+<header class="top-nav">
+  <div class="nav-inner">
+    <span class="brand-mark">MUZI<em>FORMA</em></span>
+    <div class="nav-meta"><span>Module 05 / 08</span><span>Muziforma</span></div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Module 05 · Construire sa stratégie</span>
+    <h1>Comprendre le fonctionnement des <em>réseaux sociaux</em>.</h1>
+    <p class="hero-lead">Avant de créer le moindre contenu, il faut savoir qui décide de sa diffusion : l'algorithme. Comment il fonctionne, ce qu'il mesure, et comment le mettre de ton côté pour toucher les bonnes personnes.</p>
+    <div class="hero-chips"><span>Durée : 30 min</span><span>Formateur : Tarik Hamiche</span></div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">3 s</div><div class="stat-label">Pour stopper le scroll avec une accroche</div></div>
+      <div class="stat-card"><div class="stat-num">5 à 10 %</div><div class="stat-label">Le taux de clic à viser sur YouTube</div></div>
+      <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Métriques qui décident de ta viralité</div></div>
+      <div class="stat-card"><div class="stat-num">70 000</div><div class="stat-label">Vues : presque un Stade de France rempli</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc-section">
+  <div class="container-narrow">
+    <div class="callout">
+      <div class="callout-tag">★ Objectifs pédagogiques</div>
+      <ul>
+        <li>Comprendre ce qu'est un algorithme de recommandation et comment il a évolué</li>
+        <li>Identifier les 3 métriques qui déclenchent la diffusion d'un contenu</li>
+        <li>Savoir agir sur chacune de ces métriques dans tes publications</li>
+        <li>Définir ton avatar, le fan idéal vers qui orienter toute ta communication</li>
+      </ul>
+    </div>
+    <div class="section-label">Plan du cours</div>
+    <div class="toc-grid">
+      <a href="#algorithme" class="toc-item"><span class="toc-num">01</span><span class="toc-title">Un algorithme, c'est quoi ?</span></a>
+      <a href="#evolution" class="toc-item"><span class="toc-num">02</span><span class="toc-title">De Facebook à TikTok : ce qui a changé</span></a>
+      <a href="#metriques" class="toc-item"><span class="toc-num">03</span><span class="toc-title">Les 3 métriques de la viralité</span></a>
+      <a href="#clic" class="toc-item"><span class="toc-num">04</span><span class="toc-title">Métrique 1 : le taux de clic</span></a>
+      <a href="#visionnage" class="toc-item"><span class="toc-num">05</span><span class="toc-title">Métrique 2 : le temps de visionnage</span></a>
+      <a href="#interaction" class="toc-item"><span class="toc-num">06</span><span class="toc-title">Métrique 3 : l'interaction</span></a>
+      <a href="#avatar" class="toc-item"><span class="toc-num">07</span><span class="toc-title">L'avatar, ton fan idéal</span></a>
+      <a href="#test" class="toc-item"><span class="toc-num">08</span><span class="toc-title">Comment l'algorithme teste ton contenu</span></a>
+      <a href="#erreurs" class="toc-item"><span class="toc-num">09</span><span class="toc-title">Les 5 erreurs à éviter</span></a>
+      <a href="#checklist" class="toc-item"><span class="toc-num">10</span><span class="toc-title">Livrable : ta checklist</span></a>
+      <a href="#faq" class="toc-item"><span class="toc-num">11</span><span class="toc-title">FAQ</span></a>
+    </div>
+    <div class="data-table" style="margin-top:2.5rem;text-align:left"><table>
+      <thead><tr><th style="width:90px">Repère</th><th>Chapitre de la vidéo</th></tr></thead>
+      <tbody>
+        <tr><td class="n">00:00</td><td>Qu'est-ce qu'un algorithme ?</td></tr>
+        <tr><td class="n">01:12</td><td>L'ancien modèle : qui te suit, qui tu suis</td></tr>
+        <tr><td class="n">05:04</td><td>TikTok et l'algorithme d'intérêt</td></tr>
+        <tr><td class="n">07:14</td><td>Les 3 métriques de la viralité</td></tr>
+        <tr><td class="n">07:39</td><td>Métrique 1 : le taux de clic</td></tr>
+        <tr><td class="n">09:45</td><td>Métrique 2 : le temps de visionnage</td></tr>
+        <tr><td class="n">14:24</td><td>Métrique 3 : le taux d'interaction</td></tr>
+        <tr><td class="n">17:56</td><td>Les appels à l'action</td></tr>
+        <tr><td class="n">18:58</td><td>L'avatar, ton fan idéal</td></tr>
+        <tr><td class="n">22:48</td><td>Comment l'algorithme teste ton contenu</td></tr>
+        <tr><td class="n">25:23</td><td>Le piège de la pub trop tôt</td></tr>
+        <tr><td class="n">26:43</td><td>Conclusion</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="module" id="algorithme">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">01 / 11</span><h2>Un algorithme, <em>c'est quoi</em> ?</h2></div>
+    <p class="module-lead">Un algorithme, c'est un <strong>programme automatisé</strong> qui applique des règles. Rien de magique : un bout de code qui décide quel contenu montrer, à qui, et quand.</p>
+    <div class="prose">
+      <p>TikTok, Instagram, YouTube, Facebook, LinkedIn ou X : chaque plateforme a son algorithme de recommandation. Il trie les millions de contenus publiés chaque jour et choisit ceux qui apparaissent dans le fil de chaque utilisateur.</p>
+      <p>Plus tu comprends à quoi il est sensible, plus tu peux <strong>le séduire</strong>. Et un algorithme de ton côté, c'est la capacité de te mettre devant deux ou trois millions de personnes en quelques heures, là où ton seul réseau te ferait avancer dix par dix.</p>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Au démarrage, il est plus facile de <strong>séduire l'algorithme</strong> que d'aller chercher ton public un par un. C'est lui qui fait le travail de diffusion à ta place.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="module" id="evolution">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">02 / 11</span><h2>De Facebook à TikTok : <em>ce qui a changé</em></h2></div>
+    <p class="module-lead">Les règles du jeu ont été réécrites en quelques années. Comprendre cette histoire, c'est comprendre pourquoi un petit compte peut aujourd'hui exploser.</p>
+    <div class="rag-flow">
+      <div class="rag-step alt"><div class="rag-step-circle">1</div><div><span class="step-tag">Les débuts</span><h4>Le graphe social : qui te suit, qui tu suis</h4><p>Facebook ou YouTube servaient à partager des moments avec ses proches. L'algorithme mettait en avant les contenus selon le nombre d'abonnés et de relations. Un compte à 5 millions d'abonnés était diffusé, le même contenu posté par un compte à 500 abonnés n'avait aucun impact.</p></div></div>
+      <div class="rag-step alt"><div class="rag-step-circle">2</div><div><span class="step-tag">La dérive</span><h4>Les gros comptes deviennent intouchables</h4><p>Les personnalités déjà connues gagnaient toute la visibilité. Certains influenceurs se sont regroupés pour relayer mutuellement leurs contenus et démultiplier leur impact. Pour un nouvel artiste, le jeu était verrouillé.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">La rupture</span><h4>TikTok invente l'algorithme d'intérêt</h4><p>TikTok arrive avec des milliards de contenus à trier. Deux changements : le format vertical, pensé pour le téléphone, et un algorithme basé sur <strong>l'intérêt</strong>. Ce n'est plus « combien d'abonnés as-tu ? » mais « ton contenu plaît-il ? ».</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">4</div><div><span class="step-tag">La nouvelle norme</span><h4>Tout le monde copie le modèle</h4><p>YouTube, puis Meta (Facebook, Instagram) adoptent la même logique : garder l'utilisateur le plus longtemps possible en lui montrant ce qui l'intéresse. On parle de « TikTokisation » des réseaux sociaux.</p></div></div>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ Bonne nouvelle pour les indépendants</div>
+      <p>Avec l'algorithme d'intérêt, un artiste sans audience peut devenir viral si son contenu plaît. La taille de ton compte compte beaucoup moins qu'avant.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="module" id="metriques">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">03 / 11</span><h2>Les 3 métriques de <em>la viralité</em></h2></div>
+    <p class="module-lead">Pour savoir si ton contenu plaît, l'algorithme observe trois choses. Ce sont les trois leviers sur lesquels tu vas travailler dans tout ce module.</p>
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-letter">1</div><div class="eeat-name">Taux de clic</div><h4>Est-ce qu'on s'arrête ?</h4><p>Sur 1 000 personnes qui voient ton contenu passer, combien cliquent ou arrêtent de scroller.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">2</div><div class="eeat-name">Temps de visionnage</div><h4>Est-ce qu'on reste ?</h4><p>Combien de temps les gens passent sur ton contenu, et quelle part ils en regardent.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">3</div><div class="eeat-name">Interaction</div><h4>Est-ce qu'on réagit ?</h4><p>Likes, commentaires, enregistrements, partages : la preuve que ton contenu fait réagir.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="module" id="clic">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">04 / 11</span><h2>Métrique 1 : le <em>taux de clic</em></h2></div>
+    <p class="module-lead">Le taux de clic (ou CTR, <em>click-through rate</em>) mesure la part de personnes qui cliquent après avoir vu ton contenu passer. C'est le premier filtre.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Taux de clic sur YouTube</th><th>Ce que ça signifie</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Moins de 5 %</strong></td><td>Ta miniature ou ton titre n'accrochent pas assez</td><td><span class="badge no">Faible</span></td></tr>
+        <tr><td><strong>Entre 5 et 10 %</strong></td><td>La zone à viser pour la plupart de tes contenus</td><td><span class="badge mid">Objectif</span></td></tr>
+        <tr><td><strong>Plus de 10 %</strong></td><td>Accroche très forte, fort potentiel de diffusion</td><td><span class="badge yes">Explosif</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="prose"><p>Pour augmenter ton taux de clic, tu as quatre leviers :</p></div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Le titre</h4><p>Plus accrocheur, il doit donner envie de savoir la suite.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>La miniature</h4><p>Sur YouTube, c'est souvent elle qui déclenche le clic depuis les résultats de recherche.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Les deux premières lignes de description</h4><p>Ce sont les seules visibles avant que l'utilisateur déplie le texte.</p></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Les 3 premières secondes, puis les 10 premières</h4><p>Sur les réseaux, un contenu est jugé en 3 secondes. Il faut une accroche forte, le <strong>hook</strong>, pour provoquer le « scroll stop ». Les 7 secondes suivantes posent le thème et doivent donner envie de plonger dans la suite.</p><div class="factor-detail"><strong>La réaction recherchée</strong>« Je veux en savoir plus. »</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="module" id="visionnage">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">05 / 11</span><h2>Métrique 2 : le <em>temps de visionnage</em></h2></div>
+    <p class="module-lead">Le temps de visionnage (<em>watch time</em>) prouve l'intérêt réel pour ton contenu. Faire des vues, c'est facile avec de la pub. Retenir les gens, c'est une autre histoire.</p>
+    <div class="motors">
+      <div class="motor-card">
+        <div class="motor-name">Temps passé</div>
+        <div class="motor-by">La durée brute</div>
+        <div class="motor-spec"><span class="motor-spec-label">Mesure</span><span class="motor-spec-value">Le nombre de secondes ou de minutes regardées</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Exemple</span><span class="motor-spec-value">6 minutes regardées sur une vidéo d'1 heure</span></div>
+      </div>
+      <div class="motor-card">
+        <div class="motor-name">% de visionnage</div>
+        <div class="motor-by">La part regardée</div>
+        <div class="motor-spec"><span class="motor-spec-label">Mesure</span><span class="motor-spec-value">La proportion de la vidéo réellement vue</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Exemple</span><span class="motor-spec-value">6 min sur 1 h = 10 %. 1 min sur 1 min = 100 %</span></div>
+      </div>
+    </div>
+    <div class="data-table"><table>
+      <thead><tr><th>Temps moyen sur un format d'1 minute</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td><strong>3 à 10 secondes</strong></td><td><span class="badge no">Mauvais indicateur</span></td></tr>
+        <tr><td><strong>25 à 30 secondes</strong></td><td><span class="badge mid">Moyenne</span></td></tr>
+        <tr><td><strong>50 à 60 secondes</strong></td><td><span class="badge yes">Excellent, fort potentiel viral</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Formats courts</div><h4>Relancer l'attention toutes les 5 à 10 secondes</h4><p>Une accroche à 3 secondes, le thème posé dans les 7 suivantes, puis un rebondissement, une info ou un effet de montage toutes les 5 à 10 secondes. Les formats courts peuvent aujourd'hui durer jusqu'à 3 minutes.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Formats longs</div><h4>Apporter de la valeur à chaque minute</h4><p>Ouvre sur une question forte, puis enchaîne étude de cas, explication peu connue, exemple concret. Pas besoin de tout scripter : une structure claire d'idées qui s'enchaînent suffit.</p></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Si ton audience regarde une vidéo à 90 % alors qu'elle regarde d'habitude à 20 ou 30 %, l'algorithme la considère comme de <strong>forte valeur</strong> et commence à la recommander.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="module" id="interaction">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">06 / 11</span><h2>Métrique 3 : <em>l'interaction</em></h2></div>
+    <p class="module-lead">Des vues, plus du temps de visionnage, plus des réactions : c'est le tiercé gagnant. L'interaction montre que ton contenu fait bouger les gens.</p>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-letter">♥</div><div class="eeat-name">Like</div><h4>Le signal de base</h4><p>Le plus simple à obtenir, le moins puissant.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">”</div><div class="eeat-name">Commentaire</div><h4>La conversation</h4><p>Il prouve que ton contenu fait réfléchir ou réagir.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">⤓</div><div class="eeat-name">Enregistrement</div><h4>« À revoir plus tard »</h4><p>Regarder plus tard sur YouTube, enregistrer sur Instagram ou TikTok : un signal fort de valeur.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">↗</div><div class="eeat-name">Partage</div><h4>Le signal le plus fort</h4><p>Ton fan aime assez ton contenu pour le montrer à ses amis et à sa communauté.</p></div>
+    </div>
+    <div class="prose">
+      <p><strong>Pourquoi les contenus qui divisent font réagir ?</strong> Parce qu'une prise de position claire pousse chaque camp à venir défendre son point de vue. Un discours neutre (« les maisons de disques existent et servent à ça ») ne déclenche rien. Un discours tranché (« les maisons de disques ne servent plus à grand-chose ») fait réagir pour et contre.</p>
+    </div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Polariser, pas provoquer gratuitement</div>
+      <p>Prendre position n'est pas simple à assumer. Fais-le quand ça correspond vraiment à tes valeurs et à ton univers. Le but n'est pas d'être aimé de tout le monde, mais d'être <strong>soutenu par ton public</strong>.</p>
+    </div>
+    <div class="prose"><p><strong>Les appels à l'action</strong> aident aussi, à condition de rester naturels. Plutôt que « likez et abonnez-vous », qui fait vite amateur sur les réseaux, pose une vraie question :</p></div>
+    <div class="audit-intro">
+      <h3>Exemples d'appels à l'action qui marchent</h3>
+      <p>« Tu as une méthode que je n'ai pas citée ? Mets-la en commentaire, ça m'intéresse et ça intéressera les autres. »<br>« Quel sujet te bloque dans ta carrière ? Dis-le-moi en commentaire, j'en ferai une vidéo. »</p>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="module" id="avatar">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">07 / 11</span><h2>L'avatar, ton <em>fan idéal</em></h2></div>
+    <p class="module-lead">L'avatar, c'est la personne type qui aime ce que tu fais. Pour un artiste, c'est souvent quelqu'un qui <strong>lui ressemble</strong> et partage ses valeurs. Et il peut y en avoir des milliers.</p>
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-name">Exemple marque</div><h4>Apple</h4><p>Des gens qui aiment la technologie, le beau design et l'ergonomie de l'univers Apple.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Exemple marque</div><h4>Amazon</h4><p>Des gens qui veulent tout acheter depuis leur canapé, être livrés vite et retourner un produit sans justification.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Exemple formateur</div><h4>L'avatar de Tarik</h4><p>Artiste indépendant en autoproduction, 18 à 48 ans, auteur ou compositeur, vivant en France, qui fait presque tout seul.</p></div>
+    </div>
+    <div class="prose">
+      <p>Connaître son avatar, c'est savoir <strong>comment lui parler</strong> (ses mots, ses références, ses rêves, ses craintes) et <strong>où le trouver</strong> (ses logiciels, ses plateformes, ses lieux).</p>
+      <p>Au départ, tu ne connais pas ton avatar. Tu vas le découvrir par tâtonnements, en testant des contenus et en regardant qui réagit. Une fois identifié, oriente toute ta communication vers lui, quitte à ne pas plaire aux autres.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="module" id="test">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">08 / 11</span><h2>Comment l'algorithme <em>teste</em> ton contenu</h2></div>
+    <p class="module-lead">Quand un contenu a de bons premiers signaux, l'algorithme ne le montre pas à la terre entière. Il procède par cercles successifs.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Premier test</span><h4>Il montre ton contenu à tes abonnés</h4><p>Par exemple tes 2 000 abonnés. Il mesure taux de clic, temps de visionnage et interaction.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Élargissement</span><h4>Il cherche les sosies de tes abonnés</h4><p>Si les résultats sont bons, il isole les personnes les plus proches de ton public, par exemple 500 000 à 700 000 personnes en France, et leur montre ton contenu.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Diffusion large</span><h4>Il étend par paliers</h4><p>Tant que les statistiques restent bonnes, il élargit encore. Tu passes de quelques milliers à des centaines de milliers de vues, puis parfois à un ou deux millions.</p></div></div>
+    </div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Audience ciblée</div><h4>2 000 abonnés qui te ressemblent</h4><p>Ils réagissent tous de la même manière. Les statistiques sont excellentes, l'algorithme sait exactement à qui montrer ton contenu ensuite.</p><div class="eeat-music"><strong>Résultat</strong>Diffusion élargie, contenu viral.</div></div>
+      <div class="eeat-card"><div class="eeat-name">Audience dispersée</div><h4>2 000 abonnés qui n'ont rien en commun</h4><p>Seuls 10 à 15 % sont sensibles à ton contenu. Les statistiques sont moyennes, l'algorithme conclut qu'il s'est trompé.</p><div class="eeat-music"><strong>Résultat</strong><span class="out">Il arrête de diffuser.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="module" id="erreurs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">09 / 11</span><h2>Les 5 erreurs <em>à éviter</em></h2></div>
+    <p class="module-lead">Celles qui sabotent ta visibilité avant même d'avoir commencé.</p>
+    <div class="factors">
+      <div class="factor err"><div class="factor-num">01</div><div><h4>Faire de la pub trop tôt</h4><p>500 000 vues et 10 000 abonnés achetés en pub sans ciblage : ça flatte l'ego, mais ces abonnés ne se ressemblent pas et interagissent peu. L'algorithme ne sait plus à qui te montrer et ta portée naturelle s'effondre.</p></div></div>
+      <div class="factor err"><div class="factor-num">02</div><div><h4>Viser tout le monde</h4><p>Un public trop large brouille les signaux envoyés à l'algorithme. Parle à ton avatar, pas à la terre entière.</p></div></div>
+      <div class="factor err"><div class="factor-num">03</div><div><h4>Négliger les 3 premières secondes</h4><p>Sans accroche, les gens scrollent et ton contenu ne passe pas le premier filtre.</p></div></div>
+      <div class="factor err"><div class="factor-num">04</div><div><h4>Se décourager trop vite</h4><p>25 vidéos à moins de 300 vues, c'est normal au début. Tu es en phase de test, comme un laboratoire, jusqu'à trouver le format qui plaît. Ensuite, tu peux accélérer.</p></div></div>
+      <div class="factor err"><div class="factor-num">05</div><div><h4>Mépriser les « petits » chiffres</h4><p>Une vidéo à 70 000 vues, c'est presque un Stade de France. 700 000 vues sur un clip, c'est comme dix Stades de France remplis.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="module" id="checklist">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">10 / 11</span><h2>Livrable : ta <em>checklist</em></h2></div>
+    <div class="audit-intro">
+      <h3>Clique sur les cases au fur et à mesure</h3>
+      <p>Ce travail prépare l'exercice « Benchmark, personas et calendrier de son projet » du Module 5. Progression : <span class="score" id="score">0 / 7</span></p>
+    </div>
+    <div class="audit-prompts" id="checklist-list">
+      <div class="prompt-row"><div class="prompt-num">C01</div><div><div class="prompt-text">Je sais expliquer la différence entre graphe social et algorithme d'intérêt</div></div><button type="button" class="audit-check" id="c1">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C02</div><div><div class="prompt-text">J'ai relevé le taux de clic de mes 5 derniers contenus</div></div><button type="button" class="audit-check" id="c2">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C03</div><div><div class="prompt-text">J'ai relevé le temps et le pourcentage de visionnage de ces contenus</div></div><button type="button" class="audit-check" id="c3">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C04</div><div><div class="prompt-text">J'ai identifié le contenu qui a généré le plus d'interactions, et pourquoi</div></div><button type="button" class="audit-check" id="c4">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C05</div><div><div class="prompt-text">J'ai écrit 3 accroches de 3 secondes pour mon prochain contenu</div></div><button type="button" class="audit-check" id="c5">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C06</div><div><div class="prompt-text">J'ai rédigé une première description de mon avatar (âge, valeurs, plateformes, habitudes)</div></div><button type="button" class="audit-check" id="c6">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C07</div><div><div class="prompt-text">J'ai décidé de ne pas lancer de publicité avant d'avoir trouvé un format qui plaît</div></div><button type="button" class="audit-check" id="c7">⬚ Fait</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="module" id="faq">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">11 / 11</span><h2>Questions <em>fréquentes</em></h2></div>
+    <div class="faq">
+      <details><summary>J'ai très peu d'abonnés. Est-ce que je peux quand même devenir viral ?</summary><div class="ans">Oui. Depuis l'algorithme d'intérêt, ce qui compte d'abord, c'est que ton contenu plaise. Un petit compte avec une audience homogène peut obtenir d'excellentes statistiques et être diffusé bien au-delà de ses abonnés.</div></details>
+      <details><summary>Où est-ce que je trouve mes statistiques ?</summary><div class="ans">Dans YouTube Studio pour YouTube, dans les statistiques professionnelles d'Instagram et de Facebook (Meta Business Suite), et dans l'outil d'analyse de TikTok. Tu y retrouves le taux de clic, la durée moyenne de visionnage et les interactions.</div></details>
+      <details><summary>Les chiffres de taux de clic valent-ils pour toutes les plateformes ?</summary><div class="ans">Les repères de 5 à 10 % sont donnés pour YouTube, où la miniature et le titre déclenchent le clic. Sur TikTok ou Instagram, l'équivalent est la capacité à stopper le scroll dans les 3 premières secondes.</div></details>
+      <details><summary>Faut-il forcément faire des contenus polémiques ?</summary><div class="ans">Non. La polarisation est un levier puissant, mais elle doit rester cohérente avec tes valeurs. Une prise de position sincère sur un sujet qui te tient à cœur suffit. La provocation gratuite abîme ton image.</div></details>
+      <details><summary>Est-ce que je dois abandonner la publicité ?</summary><div class="ans">Non, mais pas trop tôt. La publicité est efficace une fois que tu connais ton avatar et que tu as trouvé un format qui plaît. Tu verras comment piloter tes campagnes au Module 7.</div></details>
+      <details><summary>Comment savoir qui est mon avatar si je débute ?</summary><div class="ans">Commence par une hypothèse (souvent : quelqu'un qui te ressemble), publie, puis observe qui réagit : âge, pays, centres d'intérêt dans tes statistiques. Tu affineras au fil des tests. La vidéo « Définir ses objectifs de communication et ses personas cibles » t'aide à le formaliser.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="recap">
+  <div class="container-narrow">
+    <div class="section-label" style="color:var(--accent-line)">Synthèse</div>
+    <h3>Ce que tu dois retenir de ce cours</h3>
+    <ol class="recap-list">
+      <li>Un algorithme est un <strong>programme qui applique des règles</strong> : comprendre ces règles, c'est pouvoir les utiliser.</li>
+      <li>Depuis TikTok, les réseaux fonctionnent à l'<strong>intérêt</strong> : un contenu qui plaît est diffusé, quelle que soit la taille du compte.</li>
+      <li>Trois métriques décident de ta diffusion : <strong>taux de clic, temps de visionnage, interaction</strong>.</li>
+      <li>Les <strong>3 premières secondes</strong> font le clic, les relances toutes les 5 à 10 secondes font le temps de visionnage.</li>
+      <li>Une <strong>audience homogène</strong>, centrée sur ton avatar, envoie des signaux clairs et déclenche la diffusion élargie.</li>
+      <li>Pas de <strong>pub trop tôt</strong> : teste d'abord, trouve ton format, puis accélère.</li>
+    </ol>
+  </div>
+</section>
+
+<div class="container-narrow">
+  <div class="next-cta">
+    <h3>Prêt pour la <em>vidéo suivante</em> ?</h3>
+    <p>Analyser son positionnement artistique : le benchmark concurrentiel.</p>
+    <span class="btn btn-primary">Continuer vers le benchmark →</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="src">Support pédagogique de la formation « Structurer et développer une activité artistique musicale » (certification RS7398), Module 5 : Stratégie de création de contenus et communication digitale. Contenu issu de la vidéo de Tarik Hamiche ; les repères chiffrés (taux de clic, temps de visionnage) sont indicatifs et varient selon les plateformes et les périodes.</p>
+    © 2026 Tarik Hamiche · Muziforma
+  </div>
+</footer>
+
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var btns=[].slice.call(document.querySelectorAll('#checklist-list .audit-check'));
+  var score=document.getElementById('score');var KEY='mz-rs7398-m5-01';var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function paint(b){var on=!!saved[b.id];b.classList.toggle('checked',on);b.textContent=(on?'✓':'⬚')+' Fait';b.setAttribute('aria-pressed',on?'true':'false');}
+  function upd(){score.textContent=btns.filter(function(b){return saved[b.id]}).length+' / '+btns.length;}
+  btns.forEach(function(b){paint(b);b.addEventListener('click',function(){saved[b.id]=!saved[b.id];try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}paint(b);upd();});});
+  upd();
+})();
+</script>
+</body>
+</html>

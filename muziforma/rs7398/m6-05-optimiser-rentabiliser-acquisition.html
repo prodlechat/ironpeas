@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Optimiser et rentabiliser le système d'acquisition · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Charte Muziforma : fond sable, violet #5B14FF, Manrope + Inter + JetBrains Mono. */
+:root{--bg:#F7F1E8;--bg-soft:#FCF8F2;--bg-card:#FFFFFF;--ink:#1F1A15;--ink-soft:#5C4F42;--ink-muted:#8A7A6A;--accent:#5B14FF;--accent-dark:#4910CC;--accent-soft:#EDE9FE;--accent-line:#A78BFA;--border:#E8DDC9;--border-soft:#F0E6D4;--warning:#C2410C;--warning-soft:#FFEDD5;--success:#15803D;--success-soft:#DCFCE7;--on-accent:#FFFFFF;--recap-text:rgba(247,241,232,.85);--shadow-sm:0 1px 2px rgba(31,26,21,.04);--shadow-md:0 4px 16px rgba(31,26,21,.06);--radius-sm:8px;--radius-md:14px;--radius-lg:24px;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Manrope,-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700}
+h4{font-size:1.15rem;font-weight:700;line-height:1.3}
+p{margin-bottom:1.1rem;color:var(--ink-soft)}
+strong{color:var(--ink);font-weight:700}
+em{font-style:normal;color:var(--accent);font-weight:800}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.container-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-line));z-index:9999}
+header.top-nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(247,241,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand-mark{font-family:Manrope,sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--ink)}
+.brand-mark em{color:var(--accent)}
+.nav-meta{display:flex;gap:1rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted)}
+.nav-meta span:not(:last-child)::after{content:"·";margin-left:1rem;color:var(--border)}
+@media (max-width:600px){.nav-meta{display:none}}
+.hero{padding:5rem 0 4rem;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;max-width:none;background:radial-gradient(circle,rgba(167,139,250,.22) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(91,20,255,.14) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1.8rem;box-shadow:var(--shadow-sm)}
+.hero h1{margin-bottom:1.5rem}
+.hero-lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:720px;margin:0 auto 1.5rem;line-height:1.55}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.hero-chips span{font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:.35rem .9rem}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:880px;margin:3rem auto 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-num{font-family:Manrope,sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em;margin-bottom:.5rem}
+.stat-label{font-size:.82rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.hero-stats{grid-template-columns:1fr}}
+.section-label{display:inline-block;font-family:Inter,sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:1.5rem}
+.toc-section{padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);text-align:center}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:800px;margin:1rem auto 0}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left;color:var(--ink);transition:.15s}
+.toc-item:hover{border-color:var(--accent);transform:translateX(2px);box-shadow:var(--shadow-sm);color:var(--ink)}
+.toc-num{font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);flex-shrink:0;width:36px}
+.toc-title{font-weight:600;font-size:.95rem;line-height:1.3}
+@media (max-width:600px){.toc-grid{grid-template-columns:1fr}}
+main>section.module{padding:6rem 0;position:relative;overflow:hidden}
+main>section.module:nth-of-type(odd){background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+section.module::before{content:"";position:absolute;top:10%;right:-180px;width:480px;height:480px;background:radial-gradient(circle,rgba(167,139,250,.16) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
+section.module>.container,section.module>.container-narrow{position:relative;z-index:1}
+.module-header{margin-bottom:2.5rem}
+.module-num{font-family:Manrope,sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.6rem;display:block}
+.module-lead{font-size:1.15rem;color:var(--ink-soft);margin:1.5rem 0 2.5rem;line-height:1.55;max-width:720px}
+.prose p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.3rem}
+.callout{background:var(--bg-card);border-left:4px solid var(--accent);border-radius:var(--radius-md);padding:1.6rem 1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm);text-align:left}
+.callout.warning{border-left-color:var(--warning);background:linear-gradient(135deg,var(--warning-soft) 0%,var(--bg-card) 60%)}
+.callout.success{border-left-color:var(--success);background:linear-gradient(135deg,var(--success-soft) 0%,var(--bg-card) 60%)}
+.callout-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.6rem}
+.callout.warning .callout-tag{color:var(--warning)}
+.callout.success .callout-tag{color:var(--success)}
+.callout p{margin:0;color:var(--ink);line-height:1.55}
+.callout ul{margin:.2rem 0 0 1.2rem;color:var(--ink);line-height:1.6}
+/* 3 casquettes : reprend .evolution */
+.evolution{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2rem 0}
+.evo-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;text-align:center;box-shadow:var(--shadow-sm)}
+.evo-col.featured{border:2px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg-card) 50%);transform:scale(1.02);box-shadow:var(--shadow-md)}
+.evo-acronym{font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;letter-spacing:-.04em;margin-bottom:.4rem}
+.evo-col:not(.featured) .evo-acronym{color:var(--ink-muted)}
+.evo-full{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:1rem;font-weight:600}
+.evo-col h4{margin-bottom:.6rem}
+.evo-col p{font-size:.92rem;line-height:1.55;text-align:left}
+.evo-target{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--border);text-align:left;font-size:.85rem;line-height:1.45;color:var(--ink)}
+.evo-target strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem;font-weight:800}
+@media (max-width:800px){.evolution{grid-template-columns:1fr}.evo-col.featured{transform:none}}
+/* circuit : reprend .rag-flow */
+.rag-flow{margin:2.5rem 0;display:flex;flex-direction:column;gap:1.5rem}
+.rag-step{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.rag-step:hover{border-color:var(--accent-line)}
+.rag-step-circle{flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.6rem;box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+.rag-step.alt .rag-step-circle{background:var(--warning);box-shadow:rgba(194,65,12,.3) 0 6px 20px}
+.rag-step>div:last-child{flex:1 1 0%;min-width:0}
+.step-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);margin-bottom:.4rem}
+.rag-step h4{margin-bottom:.6rem}
+.rag-step p{margin:0;line-height:1.55}
+/* tableaux dans la charte */
+.data-table{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);margin:2rem 0}
+.data-table table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+.data-table th{text-align:left;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding:1rem 1.1rem;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.data-table td{padding:.9rem 1.1rem;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table td strong{color:var(--ink)}
+.data-table .n{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--accent-dark);white-space:nowrap}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .6rem;border-radius:6px;white-space:nowrap}
+.badge.yes{background:var(--success-soft);color:var(--success)}
+.badge.no{background:var(--warning-soft);color:var(--warning)}
+.badge.mid{background:var(--accent-soft);color:var(--accent-dark)}
+/* barre de répartition */
+.split{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);margin:2rem 0}
+.split h4{margin-bottom:1.2rem}
+.split-bar{display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden}
+.split-bar div{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:500;color:var(--on-accent);white-space:nowrap;overflow:hidden}
+.split-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem 1rem;margin-top:1.2rem;font-size:.88rem;color:var(--ink-soft)}
+.split-legend span{display:flex;align-items:center;gap:.5rem}
+.split-legend i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.split-legend b{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--ink);margin-left:auto}
+.split-note{font-size:.82rem;color:var(--ink-muted);margin:1rem 0 0;line-height:1.5}
+/* cartes : reprend .motors / .eeat */
+.motors,.eeat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:2rem 0}
+.motor-card,.eeat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-sm);min-width:0}
+.eeat-card{transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.eeat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motor-name{font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;color:var(--ink);letter-spacing:-.02em;margin-bottom:.3rem}
+.motor-by{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.motor-spec{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border-soft);font-size:.9rem;line-height:1.45}
+.motor-spec:last-child{border-bottom:0}
+.motor-spec-label{flex-shrink:0;width:78px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding-top:.2rem}
+.motor-spec-value{flex:1 1 0%;color:var(--ink-soft)}
+.eeat-letter{width:52px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1rem}
+.eeat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem}
+.eeat-card h4{margin-bottom:.8rem}
+.eeat-card>p{font-size:.95rem;line-height:1.55;margin-bottom:1.2rem}
+.eeat-music{background:var(--accent-soft);border-radius:var(--radius-sm);padding:1rem;font-size:.9rem;line-height:1.5;color:var(--ink);margin-top:auto}
+.eeat-music strong{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.eeat-music .out{color:var(--warning)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:740px){.eeat-grid,.motors,.grid3{grid-template-columns:1fr}}
+/* étapes : reprend .factors */
+.factors{display:flex;flex-direction:column;gap:1.2rem;margin:2rem 0}
+.factor{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.factor:hover{border-color:var(--accent-line)}
+.factor-num{flex-shrink:0;font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;width:50px;letter-spacing:-.03em}
+.factor.err .factor-num{color:var(--warning)}
+.factor>div:last-child{flex:1 1 0%;min-width:0}
+.factor h4{margin-bottom:.6rem}
+.factor p{font-size:.95rem;line-height:1.55;margin-bottom:1rem}
+.factor p:last-child{margin-bottom:0}
+.factor-detail{background:var(--accent-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.88rem;line-height:1.5;color:var(--ink)}
+.factor-detail strong{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.factor.err .factor-detail{background:var(--warning-soft)}
+.factor.err .factor-detail strong{color:var(--warning)}
+/* checklist : reprend .audit */
+.audit-intro{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm)}
+.audit-intro h3{margin-bottom:.8rem}
+.audit-intro p{margin:0;line-height:1.6}
+.audit-prompts{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.prompt-row{display:flex;gap:1.2rem;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.prompt-num{flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--accent);width:36px}
+.prompt-row>div:not(.prompt-num){flex:1 1 0%;min-width:0}
+.prompt-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.audit-check{flex-shrink:0;padding:.5rem .9rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s;font-family:Inter,sans-serif}
+.audit-check:hover{border-color:var(--accent-line)}
+.audit-check.checked{background:var(--success);color:var(--on-accent);border-color:var(--success);font-weight:600}
+.score{font-family:"JetBrains Mono",monospace;color:var(--success);font-weight:500}
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.faq details{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:border-color .2s}
+.faq details:hover,.faq details[open]{border-color:var(--accent-line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.5rem;font-family:Manrope,sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.faq details[open] summary::after{content:"−";background:var(--accent);color:var(--on-accent)}
+.faq .ans{padding:0 1.5rem 1.4rem;color:var(--ink-soft);font-size:.97rem;line-height:1.65}
+/* synthèse */
+.recap{background:var(--ink);color:var(--recap-text);padding:4rem 0;position:relative;overflow:hidden}
+.recap::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(91,20,255,.25) 0%,transparent 60%);border-radius:50%;pointer-events:none}
+.recap>.container-narrow{position:relative;z-index:1}
+.recap h3{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg-card);margin-bottom:1.5rem}
+.recap-list{list-style:none;counter-reset:item;display:flex;flex-direction:column;gap:1rem}
+.recap-list li{counter-increment:item;padding-left:3rem;position:relative;line-height:1.55;color:var(--recap-text)}
+.recap-list li::before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:Manrope,sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-line)}
+.recap-list li strong{color:var(--bg-card)}
+.next-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin:4rem auto;max-width:760px;text-align:center;box-shadow:var(--shadow-md)}
+.next-cta h3{margin-bottom:1rem}
+.next-cta p{margin-bottom:1.5rem;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.1rem 2.2rem;font-family:Manrope,sans-serif;font-size:1rem;font-weight:800;border-radius:999px;border:0;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+footer.site-footer{background:var(--ink);color:rgba(247,241,232,.55);padding:2.5rem 0;text-align:center;font-size:.85rem;border-top:1px solid rgba(247,241,232,.08);line-height:1.7}
+footer.site-footer .src{max-width:760px;margin:0 auto 1rem;font-size:.8rem;color:rgba(247,241,232,.45)}
+@media (max-width:860px){main>section.module{padding:4rem 0}.toc-section{padding:3rem 0}.module-header{margin-bottom:1.8rem}.module-lead{font-size:1.05rem;margin:1rem 0 1.8rem}.rag-step,.factor{padding:1.4rem;gap:1rem}.rag-step-circle{width:48px;height:48px;font-size:1.3rem}.factor-num{font-size:1.6rem;width:40px}.next-cta{padding:1.8rem 1.4rem}.recap-list li{padding-left:2.4rem}section.module::before{width:320px;height:320px}}
+@media (max-width:480px){.hero{padding:3rem 0 2.5rem}.hero h1{font-size:2rem}.rag-step,.factor{flex-direction:column;gap:.8rem}.prompt-row{flex-wrap:wrap}}
+html,body{width:100% !important;max-width:100% !important;overflow-x:hidden}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress-bar"></div>
+<header class="top-nav">
+  <div class="nav-inner">
+    <span class="brand-mark">MUZI<em>FORMA</em></span>
+    <div class="nav-meta"><span>Module 06 / 08</span><span>Muziforma</span></div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Module 06 · Optimiser son système</span>
+    <h1>Optimiser et <em>rentabiliser</em> le système d'acquisition.</h1>
+    <p class="hero-lead">Tu envoies du trafic vers ton système. Et si, pour le même budget et le même volume de visiteurs, tu pouvais obtenir deux fois plus de fans ? C'est tout l'enjeu de l'optimisation : suivre les bonnes métriques et tester sans relâche.</p>
+    <div class="hero-chips"><span>Durée : 53 min</span><span>Formateur : Tarik Hamiche</span></div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">7</div><div class="stat-label">Métriques à suivre pour piloter ton système</div></div>
+      <div class="stat-card"><div class="stat-num">x 2</div><div class="stat-label">Moins cher par fan quand la conversion passe de 10 à 20 %</div></div>
+      <div class="stat-card"><div class="stat-num">19 %</div><div class="stat-label">De conversion sur une page de Tarik, en trafic froid</div></div>
+      <div class="stat-card"><div class="stat-num">1</div><div class="stat-label">Seul élément modifié à la fois dans un test</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc-section">
+  <div class="container-narrow">
+    <div class="callout">
+      <div class="callout-tag">★ Objectifs pédagogiques</div>
+      <ul>
+        <li>Connaître et calculer les 7 métriques clés d'un système d'acquisition</li>
+        <li>Comprendre la lifetime value et le ROAS pour raisonner à long terme</li>
+        <li>Mettre en place un système de tests et de suivi des performances</li>
+        <li>Savoir quels éléments d'une page tester, et selon quelles règles</li>
+      </ul>
+    </div>
+    <div class="section-label">Plan du cours</div>
+    <div class="toc-grid">
+      <a href="#pourquoi" class="toc-item"><span class="toc-num">01</span><span class="toc-title">Pourquoi optimiser ?</span></a>
+      <a href="#cpa" class="toc-item"><span class="toc-num">02</span><span class="toc-title">Coût par acquisition et conversion</span></a>
+      <a href="#autres" class="toc-item"><span class="toc-num">03</span><span class="toc-title">Coût par lead, clic et rebond</span></a>
+      <a href="#ltv" class="toc-item"><span class="toc-num">04</span><span class="toc-title">La lifetime value</span></a>
+      <a href="#clip" class="toc-item"><span class="toc-num">05</span><span class="toc-title">Étude de cas : le clip sur 5 ans</span></a>
+      <a href="#roas" class="toc-item"><span class="toc-num">06</span><span class="toc-title">Le ROAS</span></a>
+      <a href="#tests" class="toc-item"><span class="toc-num">07</span><span class="toc-title">Ton système de tests</span></a>
+      <a href="#elements" class="toc-item"><span class="toc-num">08</span><span class="toc-title">Quoi tester, et comment</span></a>
+      <a href="#erreurs" class="toc-item"><span class="toc-num">09</span><span class="toc-title">Les 5 erreurs à éviter</span></a>
+      <a href="#checklist" class="toc-item"><span class="toc-num">10</span><span class="toc-title">Livrable : ta checklist</span></a>
+      <a href="#faq" class="toc-item"><span class="toc-num">11</span><span class="toc-title">FAQ</span></a>
+    </div>
+    <div class="data-table" style="margin-top:2.5rem;text-align:left"><table>
+      <thead><tr><th style="width:90px">Repère</th><th>Chapitre de la vidéo</th></tr></thead>
+      <tbody>
+        <tr><td class="n">00:00</td><td>Pourquoi optimiser son système</td></tr>
+        <tr><td class="n">02:17</td><td>Le coût par acquisition</td></tr>
+        <tr><td class="n">04:41</td><td>Le taux de conversion par étape</td></tr>
+        <tr><td class="n">06:27</td><td>Le coût par lead</td></tr>
+        <tr><td class="n">08:31</td><td>Taux de clic et taux de rebond</td></tr>
+        <tr><td class="n">11:13</td><td>La lifetime value</td></tr>
+        <tr><td class="n">20:01</td><td>Étude de cas : un clip rentabilisé en 5 ans</td></tr>
+        <tr><td class="n">24:48</td><td>Le ROAS, retour sur dépense publicitaire</td></tr>
+        <tr><td class="n">34:01</td><td>Récapitulatif et système de test</td></tr>
+        <tr><td class="n">38:25</td><td>Les éléments à tester</td></tr>
+        <tr><td class="n">44:20</td><td>Fixer des règles de test</td></tr>
+        <tr><td class="n">46:08</td><td>Démonstration d'un test A/B</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="module" id="pourquoi">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">01 / 11</span><h2>Pourquoi <em>optimiser</em> ?</h2></div>
+    <p class="module-lead">Une fois que tu as activé réseau faible, trafic organique, partenaires et publicité, l'un des leviers les plus puissants reste l'amélioration de ton système lui-même.</p>
+    <div class="prose">
+      <p>Si 10 visiteurs sur 100 s'inscrivent, comment passer à 12, 15, 20, 25 ou 30 ? Chaque point gagné te donne <strong>plus de fans pour le même budget</strong> et le même volume de trafic. Idem en publicité : en améliorant ta créative (le contenu de ta pub), tu peux faire baisser ton coût pour 1 000 impressions.</p>
+      <p>Pour savoir où agir, il faut des <strong>métriques</strong> : des indicateurs à suivre, puis un système de tests pour les améliorer.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="module" id="cpa">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">02 / 11</span><h2>Coût par acquisition <em>et conversion</em></h2></div>
+    <p class="module-lead">Les deux premières métriques sont liées : améliorer ton taux de conversion fait mécaniquement baisser ton coût par fan.</p>
+    <div class="motors">
+      <div class="motor-card">
+        <div class="motor-name">Coût par acquisition</div>
+        <div class="motor-by">Combien te coûte un fan</div>
+        <div class="motor-spec"><span class="motor-spec-label">Calcul</span><span class="motor-spec-value">Budget dépensé ÷ nombre de fans obtenus</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Exemple</span><span class="motor-spec-value">100 € ÷ 10 fans = 10 € par fan</span></div>
+      </div>
+      <div class="motor-card">
+        <div class="motor-name">Taux de conversion par étape</div>
+        <div class="motor-by">Qui passe d'une étape à l'autre</div>
+        <div class="motor-spec"><span class="motor-spec-label">Calcul</span><span class="motor-spec-value">Nombre qui passent à l'étape suivante ÷ nombre de visiteurs de l'étape</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Exemple</span><span class="motor-spec-value">15 inscrits sur 100 visiteurs = 15 % ; 10 clics vers le crowdfunding sur 100 fans = 10 %</span></div>
+      </div>
+    </div>
+    <div class="data-table"><table>
+      <thead><tr><th>Taux de conversion</th><th>Fans pour 100 € de pub</th><th>Coût par fan</th></tr></thead>
+      <tbody>
+        <tr><td><strong>10 %</strong></td><td class="n">10</td><td class="n">10 €</td></tr>
+        <tr><td><strong>20 %</strong></td><td class="n">20</td><td class="n">5 €</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <div class="callout-tag">★ La métrique la plus importante</div>
+      <p>Pour Tarik, c'est le <strong>taux de conversion par étape</strong>, parce que c'est celle sur laquelle tu peux le plus agir. Un titre, un mot, une virgule, une phrase dans ta vidéo peuvent faire rester ou fuir un visiteur.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="module" id="autres">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">03 / 11</span><h2>Coût par lead, <em>clic et rebond</em></h2></div>
+    <p class="module-lead">Trois autres indicateurs complètent le tableau de bord.</p>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">03</div><div><h4>Le coût par lead (CPL)</h4><p>Une vision globale, toutes sources confondues : publicité, organique (à 0 €), partenariats, invitations. Tu divises tout ce que tu as dépensé sur le mois par le total de fans entrés en base.</p><div class="factor-detail"><strong>Repère cité</strong>Si ton coût par acquisition publicitaire est de 5 €, ton coût par lead global devrait être plus bas, par exemple 2 à 3 € grâce à l'organique.</div></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Le taux de clic (CTR)</h4><p>Nombre de clics ÷ nombre d'impressions de ta publicité. Il mesure la qualité de ton annonce et permet de comparer tes publicités entre elles.</p><div class="factor-detail"><strong>Exemple</strong>Pub A : 1 000 clics sur 100 000 impressions (1 %). Pub B : 10 000 clics (10 %). Coupe A, augmente le budget de B. Même logique pour tes miniatures YouTube.</div></div></div>
+      <div class="factor"><div class="factor-num">05</div><div><h4>Le taux de rebond</h4><p>L'inverse du taux de conversion : 90 visiteurs sur 100 qui partent sans s'inscrire, c'est 90 % de rebond. Plus il est bas, plus ta page crée de l'engagement immédiat.</p><div class="factor-detail"><strong>Leviers</strong>Popup de sortie avec une accroche forte, phrase de réassurance sous le bouton, urgence, compte à rebours.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="module" id="ltv">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">04 / 11</span><h2>La <em>lifetime value</em></h2></div>
+    <p class="module-lead">La lifetime value (LTV), c'est ce qu'un fan acheteur te rapporte en moyenne sur toute la durée de sa relation avec toi. Elle te dit jusqu'à combien tu peux dépenser pour l'acquérir.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Exemple de Tarik</span><h4>Une plateforme par abonnement</h4><p>Sur la plateforme SaaS qu'il dirige : environ 70 € par mois en moyenne, soit à peu près 800 € par an, et des utilisateurs qui restent en moyenne trois ans. LTV : environ 2 500 €.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Conséquence</span><h4>Une capacité d'investissement connue</h4><p>Pour être rentable dès la première année, il peut dépenser jusqu'à environ 700 € pour acquérir un client. Sur la durée de vie, bien plus.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Pour un artiste</span><h4>Un fan qui achète plusieurs fois</h4><p>Un premier produit à 50 €, puis une rencontre studio, un produit dérivé, un concert… Si sa valeur sur cinq ans approche quelques centaines d'euros, une acquisition qui semblait à perte devient rentable.</p></div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Mesurer tôt</div>
+      <p>Après trois mois, la LTV n'est pas fiable. Après un an et trois à cinq offres, tu peux faire un premier ratio : par exemple 8 000 € gagnés sur 1 000 fans, soit 8 € par fan et par an. Si un fan te coûte 3 €, tu fais déjà presque trois fois ta mise.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="module" id="clip">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">05 / 11</span><h2>Étude de cas : <em>le clip sur 5 ans</em></h2></div>
+    <p class="module-lead">Tarik a investi environ 30 000 € dans le projet d'un DJ électro, dont environ 25 000 € pour un clip tourné à Los Angeles. À court terme, une perte nette.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Période</th><th>Ce qui est rentré (ordres de grandeur)</th><th>Solde cumulé</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Année de production</strong></td><td>Investissement initial</td><td class="n">env. -30 000 €</td></tr>
+        <tr><td><strong>Année 1</strong></td><td>Environ 15 000 € de commissions de booking et recettes digitales</td><td class="n">env. -15 000 €</td></tr>
+        <tr><td><strong>Année 2</strong></td><td>Une subvention pour le clip, des recettes d'exploitation et du booking</td><td class="n">env. -2 000 €</td></tr>
+        <tr><td><strong>Année 3</strong></td><td>Quelques recettes (droits voisins, édition)</td><td class="n">env. -800 €</td></tr>
+        <tr><td><strong>Année 4</strong></td><td>Environ 3 000 € de recettes</td><td class="n">env. +3 000 €</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout success">
+      <div class="callout-tag">✓ Penser à long terme</div>
+      <p>Le projet n'est devenu rentable qu'au bout de cinq ans. Un clip moins cher aurait peut-être été rentabilisé plus vite, mais avec moins d'impact sur le booking. Raisonner en lifetime value rend les investissements plus faciles à décider et les pertes plus faciles à absorber.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="module" id="roas">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">06 / 11</span><h2>Le <em>ROAS</em></h2></div>
+    <p class="module-lead">Le ROAS (<em>return on ad spend</em>) mesure le retour sur tes dépenses publicitaires. Un ROAS de 3 signifie que pour 1 € investi, tu en récupères 3.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Le point de départ</span><h4>25 000 fans déjà en base</h4><p>Ils t'ont coûté l'an dernier. Aujourd'hui, ils sont là : tu appuies sur un bouton, ils voient ton offre.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">La campagne</span><h4>500 € de retargeting sur ta base</h4><p>Tu en atteins environ 20 000, avec un produit qui te laisse 20 € de marge et un taux de conversion prudent de 5 %.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Le résultat</span><h4>1 000 ventes, 20 000 € de marge</h4><p>Un ROAS d'environ 40. Même en dépensant bien plus, l'opération reste très rentable, et tu peux en faire plusieurs par an.</p></div></div>
+    </div>
+    <div class="prose">
+      <p>Tarik donne un autre exemple avec son livre, vendu en retargeting à sa propre base : en ajoutant ce que rapportent ensuite les acheteurs qui découvrent ses autres offres, le retour dépasse largement celui de la seule vente du livre. C'est la combinaison <strong>système d'acquisition, lifetime value et ROAS</strong> qui rend la publicité rentable.</p>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Les 3 métriques prioritaires</div>
+      <p>Si tu ne devais en suivre que trois : le <strong>taux de conversion</strong>, la <strong>lifetime value</strong> et le <strong>ROAS</strong>. Améliore la conversion, et tout le reste suit.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="module" id="tests">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">07 / 11</span><h2>Ton <em>système de tests</em></h2></div>
+    <p class="module-lead">Pour optimiser ta conversion, pas besoin de faire compliqué : un simple tableau de suivi des tests suffit.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Date</th><th>Élément testé</th><th>Version A</th><th>Version B</th><th>Gagnant</th></tr></thead>
+      <tbody>
+        <tr><td class="n">Test 1</td><td>Titre</td><td>« Télécharge gratuitement ton morceau préféré » : 10 %</td><td>« Télécharge gratuitement le morceau » : 18 %</td><td><span class="badge yes">B</span></td></tr>
+        <tr><td class="n">Test 2</td><td>Titre</td><td>Le gagnant du test 1</td><td>« Obtiens le morceau gratuitement »</td><td><span class="badge mid">À mesurer</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Un seul élément à la fois</h4><p>Si tu changes la couleur du bouton, le titre et la vidéo en même temps, tu ne sauras jamais ce qui a fait bouger ta conversion.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Une durée ou un volume fixés à l'avance</h4><p>Par exemple sept jours par test, ou un minimum de 100 inscrits ou 100 visiteurs par page. Avec beaucoup de trafic payant, un jour peut suffire ; en organique, prévois plutôt une semaine.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Des statistiques remises à zéro</h4><p>Réinitialise les compteurs avant chaque test, sinon les résultats sont faussés.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="module" id="elements">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">08 / 11</span><h2>Quoi tester, <em>et comment</em></h2></div>
+    <p class="module-lead">Tout peut se tester. Ne pars jamais du principe que « ça ne marchera pas » : tu n'en sais rien tant que tu n'as pas mesuré.</p>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-letter">T</div><div class="eeat-name">Le titre</div><h4>Mots, typographie, couleur, taille</h4><p>Et même les émojis, la langue (public bilingue), l'espacement des lignes ou des lettres.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">C</div><div class="eeat-name">Le contenu</div><h4>Format, message, emplacement</h4><p>Photo, vidéo, texte ou rien du tout. Tarik a constaté qu'une page convertissait mieux sans son visage, avec un simple texte.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">B</div><div class="eeat-name">Le bouton</div><h4>Texte, forme, couleur, emplacement</h4><p>« Valider », « S'inscrire », « Obtenir »… et la manière dont il apparaît.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">F</div><div class="eeat-name">Le formulaire</div><h4>Apparition, champs, réassurance</h4><p>Prénom et email convertissent mieux que quatre champs. « Ta meilleure adresse email », « Je déteste le spam, ton email ne sera jamais revendu », « Premier arrivé, premier servi ».</p></div>
+    </div>
+    <div class="audit-intro">
+      <h3>La démonstration dans LearnyBox</h3>
+      <p>Une page de Tarik convertit à environ 19 % en trafic froid, en demandant six informations. Il lance un test A/B depuis le menu de la page : l'outil duplique la page, puis il modifie une seule chose, la couleur du bouton (vert contre jaune doré). 50 % du trafic voit chaque version. Si la version B passe de 18,7 % à 21,3 %, cela représente 26 inscrits de plus pour 1 000 visiteurs, sans dépenser un euro de plus.</p>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Tester en continu, c'est ce qui permet, au fil des mois, de doubler voire tripler ton taux de conversion, et donc d'améliorer toutes tes autres métriques.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="module" id="erreurs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">09 / 11</span><h2>Les 5 erreurs <em>à éviter</em></h2></div>
+    <p class="module-lead">Celles qui faussent tes décisions ou te font abandonner trop tôt.</p>
+    <div class="factors">
+      <div class="factor err"><div class="factor-num">01</div><div><h4>Ne rien mesurer</h4><p>Sans métriques, impossible de savoir quelle campagne couper ou renforcer.</p></div></div>
+      <div class="factor err"><div class="factor-num">02</div><div><h4>Tester plusieurs éléments à la fois</h4><p>Tu ne sauras jamais ce qui a fait la différence.</p></div></div>
+      <div class="factor err"><div class="factor-num">03</div><div><h4>Comparer des tests de durées différentes</h4><p>Trois jours contre un mois, huit visiteurs contre 800 : les résultats ne sont pas comparables.</p></div></div>
+      <div class="factor err"><div class="factor-num">04</div><div><h4>Juger la rentabilité sur le court terme</h4><p>Une acquisition à perte aujourd'hui peut être très rentable sur la durée de vie du fan.</p></div></div>
+      <div class="factor err"><div class="factor-num">05</div><div><h4>Arrêter de tester une page « qui marche »</h4><p>Une bonne page peut toujours devenir meilleure.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="module" id="checklist">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">10 / 11</span><h2>Livrable : ta <em>checklist</em></h2></div>
+    <div class="audit-intro">
+      <h3>Clique sur les cases au fur et à mesure</h3>
+      <p>Ce travail prépare l'exercice « Conception de son système d'acquisition » du Module 6 (volet pilotage). Progression : <span class="score" id="score">0 / 7</span></p>
+    </div>
+    <div class="audit-prompts" id="checklist-list">
+      <div class="prompt-row"><div class="prompt-num">C01</div><div><div class="prompt-text">J'ai créé mon tableau de bord avec les 7 métriques</div></div><button type="button" class="audit-check" id="c1">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C02</div><div><div class="prompt-text">J'ai relevé le taux de conversion actuel de ma page de capture</div></div><button type="button" class="audit-check" id="c2">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C03</div><div><div class="prompt-text">J'ai calculé mon coût par lead global du mois, toutes sources confondues</div></div><button type="button" class="audit-check" id="c3">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C04</div><div><div class="prompt-text">J'ai estimé la lifetime value d'un fan acheteur à partir de mes offres</div></div><button type="button" class="audit-check" id="c4">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C05</div><div><div class="prompt-text">J'ai créé mon tableau de suivi des tests (date, élément, versions, résultat)</div></div><button type="button" class="audit-check" id="c5">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C06</div><div><div class="prompt-text">J'ai fixé mes règles de test (durée ou volume minimum)</div></div><button type="button" class="audit-check" id="c6">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C07</div><div><div class="prompt-text">J'ai lancé mon premier test A/B sur un seul élément</div></div><button type="button" class="audit-check" id="c7">⬚ Fait</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="module" id="faq">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">11 / 11</span><h2>Questions <em>fréquentes</em></h2></div>
+    <div class="faq">
+      <details><summary>Quelle différence entre coût par acquisition et coût par lead ?</summary><div class="ans">Le coût par acquisition se calcule souvent sur une source payante (une campagne). Le coût par lead est global : il additionne toutes tes sources, y compris l'organique gratuit, sur une période donnée.</div></details>
+      <details><summary>Je n'ai pas encore vendu grand-chose. Comment estimer ma lifetime value ?</summary><div class="ans">Commence par une hypothèse (ce qu'un fan pourrait acheter sur un ou deux ans), puis affine avec tes chiffres réels. Au bout d'un an et de quelques offres, tu auras un premier ratio fiable.</div></details>
+      <details><summary>Quel taux de conversion est « bon » ?</summary><div class="ans">Tout dépend du trafic et du nombre d'informations demandées. Tarik considère environ 19 % comme excellent sur du trafic froid avec six champs, et estime qu'un formulaire prénom plus email pourrait monter bien plus haut. L'important est de progresser test après test.</div></details>
+      <details><summary>Combien de temps doit durer un test A/B ?</summary><div class="ans">Fixe une règle avant de commencer : une durée (par exemple sept jours) ou un volume minimum (par exemple 100 visiteurs ou 100 inscrits par version). Plus tu as de trafic, plus le test peut être court.</div></details>
+      <details><summary>Mon outil ne permet qu'un test A/B à la fois. C'est gênant ?</summary><div class="ans">Non, puisque tu ne dois tester qu'un élément à la fois. Tu enchaînes simplement les tests.</div></details>
+      <details><summary>Accepter une perte au début, ce n'est pas risqué ?</summary><div class="ans">Si, c'est pourquoi il faut des risques maîtrisés : des budgets limités, des métriques suivies, et une offre derrière. L'idée est de perdre un peu à court terme pour gagner à long terme, pas de dépenser à l'aveugle.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="recap">
+  <div class="container-narrow">
+    <div class="section-label" style="color:var(--accent-line)">Synthèse</div>
+    <h3>Ce que tu dois retenir de ce cours</h3>
+    <ol class="recap-list">
+      <li>Optimiser, c'est obtenir <strong>plus de fans pour le même budget</strong>.</li>
+      <li>Doubler ton <strong>taux de conversion</strong> divise par deux ton coût par fan.</li>
+      <li>Suis 7 métriques : coût par acquisition, conversion par étape, coût par lead, taux de clic, taux de rebond, <strong>lifetime value</strong>, <strong>ROAS</strong>.</li>
+      <li>Raisonner en <strong>lifetime value</strong> permet d'investir et d'absorber des pertes à court terme.</li>
+      <li>Un test = <strong>un seul élément</strong>, des règles fixées à l'avance, des statistiques remises à zéro.</li>
+      <li>Titre, contenu, bouton, formulaire : <strong>tout se teste</strong>, en continu.</li>
+    </ol>
+  </div>
+</section>
+
+<div class="container-narrow">
+  <div class="next-cta">
+    <h3>Prêt pour la <em>vidéo suivante</em> ?</h3>
+    <p>Protéger juridiquement le système d'acquisition.</p>
+    <span class="btn btn-primary">Continuer vers la protection juridique →</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="src">Support pédagogique de la formation « Structurer et développer une activité artistique musicale » (certification RS7398), Module 6 : Acquisition de fans et développement de communauté. Contenu issu de la vidéo de Tarik Hamiche « Optimiser son système d'acquisition de fans » ; les chiffres et ratios cités sont des exemples tirés de son expérience, à adapter à ton projet.</p>
+    © 2026 Tarik Hamiche · Muziforma
+  </div>
+</footer>
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var btns=[].slice.call(document.querySelectorAll('#checklist-list .audit-check'));
+  var score=document.getElementById('score');var KEY='mz-rs7398-m6-05-optimiser-rentabiliser-acquisition';var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function paint(b){var on=!!saved[b.id];b.classList.toggle('checked',on);b.textContent=(on?'✓':'⬚')+' Fait';b.setAttribute('aria-pressed',on?'true':'false');}
+  function upd(){score.textContent=btns.filter(function(b){return saved[b.id]}).length+' / '+btns.length;}
+  btns.forEach(function(b){paint(b);b.addEventListener('click',function(){saved[b.id]=!saved[b.id];try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}paint(b);upd();});});
+  upd();
+})();
+</script>
+</body>
+</html>

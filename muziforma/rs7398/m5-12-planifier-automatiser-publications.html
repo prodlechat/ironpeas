@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Planifier et automatiser les publications · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Charte Muziforma : fond sable, violet #5B14FF, Manrope + Inter + JetBrains Mono. */
+:root{--bg:#F7F1E8;--bg-soft:#FCF8F2;--bg-card:#FFFFFF;--ink:#1F1A15;--ink-soft:#5C4F42;--ink-muted:#8A7A6A;--accent:#5B14FF;--accent-dark:#4910CC;--accent-soft:#EDE9FE;--accent-line:#A78BFA;--border:#E8DDC9;--border-soft:#F0E6D4;--warning:#C2410C;--warning-soft:#FFEDD5;--success:#15803D;--success-soft:#DCFCE7;--on-accent:#FFFFFF;--recap-text:rgba(247,241,232,.85);--shadow-sm:0 1px 2px rgba(31,26,21,.04);--shadow-md:0 4px 16px rgba(31,26,21,.06);--radius-sm:8px;--radius-md:14px;--radius-lg:24px;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Manrope,-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700}
+h4{font-size:1.15rem;font-weight:700;line-height:1.3}
+p{margin-bottom:1.1rem;color:var(--ink-soft)}
+strong{color:var(--ink);font-weight:700}
+em{font-style:normal;color:var(--accent);font-weight:800}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.container-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-line));z-index:9999}
+header.top-nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(247,241,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand-mark{font-family:Manrope,sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--ink)}
+.brand-mark em{color:var(--accent)}
+.nav-meta{display:flex;gap:1rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted)}
+.nav-meta span:not(:last-child)::after{content:"·";margin-left:1rem;color:var(--border)}
+@media (max-width:600px){.nav-meta{display:none}}
+.hero{padding:5rem 0 4rem;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;max-width:none;background:radial-gradient(circle,rgba(167,139,250,.22) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(91,20,255,.14) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1.8rem;box-shadow:var(--shadow-sm)}
+.hero h1{margin-bottom:1.5rem}
+.hero-lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:720px;margin:0 auto 1.5rem;line-height:1.55}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.hero-chips span{font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:.35rem .9rem}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:880px;margin:3rem auto 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-num{font-family:Manrope,sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em;margin-bottom:.5rem}
+.stat-label{font-size:.82rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.hero-stats{grid-template-columns:1fr}}
+.section-label{display:inline-block;font-family:Inter,sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:1.5rem}
+.toc-section{padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);text-align:center}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:800px;margin:1rem auto 0}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left;color:var(--ink);transition:.15s}
+.toc-item:hover{border-color:var(--accent);transform:translateX(2px);box-shadow:var(--shadow-sm);color:var(--ink)}
+.toc-num{font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);flex-shrink:0;width:36px}
+.toc-title{font-weight:600;font-size:.95rem;line-height:1.3}
+@media (max-width:600px){.toc-grid{grid-template-columns:1fr}}
+main>section.module{padding:6rem 0;position:relative;overflow:hidden}
+main>section.module:nth-of-type(odd){background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+section.module::before{content:"";position:absolute;top:10%;right:-180px;width:480px;height:480px;background:radial-gradient(circle,rgba(167,139,250,.16) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
+section.module>.container,section.module>.container-narrow{position:relative;z-index:1}
+.module-header{margin-bottom:2.5rem}
+.module-num{font-family:Manrope,sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.6rem;display:block}
+.module-lead{font-size:1.15rem;color:var(--ink-soft);margin:1.5rem 0 2.5rem;line-height:1.55;max-width:720px}
+.prose p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.3rem}
+.callout{background:var(--bg-card);border-left:4px solid var(--accent);border-radius:var(--radius-md);padding:1.6rem 1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm);text-align:left}
+.callout.warning{border-left-color:var(--warning);background:linear-gradient(135deg,var(--warning-soft) 0%,var(--bg-card) 60%)}
+.callout.success{border-left-color:var(--success);background:linear-gradient(135deg,var(--success-soft) 0%,var(--bg-card) 60%)}
+.callout-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.6rem}
+.callout.warning .callout-tag{color:var(--warning)}
+.callout.success .callout-tag{color:var(--success)}
+.callout p{margin:0;color:var(--ink);line-height:1.55}
+.callout ul{margin:.2rem 0 0 1.2rem;color:var(--ink);line-height:1.6}
+/* 3 casquettes : reprend .evolution */
+.evolution{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2rem 0}
+.evo-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;text-align:center;box-shadow:var(--shadow-sm)}
+.evo-col.featured{border:2px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg-card) 50%);transform:scale(1.02);box-shadow:var(--shadow-md)}
+.evo-acronym{font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;letter-spacing:-.04em;margin-bottom:.4rem}
+.evo-col:not(.featured) .evo-acronym{color:var(--ink-muted)}
+.evo-full{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:1rem;font-weight:600}
+.evo-col h4{margin-bottom:.6rem}
+.evo-col p{font-size:.92rem;line-height:1.55;text-align:left}
+.evo-target{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--border);text-align:left;font-size:.85rem;line-height:1.45;color:var(--ink)}
+.evo-target strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem;font-weight:800}
+@media (max-width:800px){.evolution{grid-template-columns:1fr}.evo-col.featured{transform:none}}
+/* circuit : reprend .rag-flow */
+.rag-flow{margin:2.5rem 0;display:flex;flex-direction:column;gap:1.5rem}
+.rag-step{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.rag-step:hover{border-color:var(--accent-line)}
+.rag-step-circle{flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.6rem;box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+.rag-step.alt .rag-step-circle{background:var(--warning);box-shadow:rgba(194,65,12,.3) 0 6px 20px}
+.rag-step>div:last-child{flex:1 1 0%;min-width:0}
+.step-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);margin-bottom:.4rem}
+.rag-step h4{margin-bottom:.6rem}
+.rag-step p{margin:0;line-height:1.55}
+/* tableaux dans la charte */
+.data-table{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);margin:2rem 0}
+.data-table table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+.data-table th{text-align:left;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding:1rem 1.1rem;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.data-table td{padding:.9rem 1.1rem;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table td strong{color:var(--ink)}
+.data-table .n{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--accent-dark);white-space:nowrap}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .6rem;border-radius:6px;white-space:nowrap}
+.badge.yes{background:var(--success-soft);color:var(--success)}
+.badge.no{background:var(--warning-soft);color:var(--warning)}
+.badge.mid{background:var(--accent-soft);color:var(--accent-dark)}
+/* barre de répartition */
+.split{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);margin:2rem 0}
+.split h4{margin-bottom:1.2rem}
+.split-bar{display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden}
+.split-bar div{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:500;color:var(--on-accent);white-space:nowrap;overflow:hidden}
+.split-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem 1rem;margin-top:1.2rem;font-size:.88rem;color:var(--ink-soft)}
+.split-legend span{display:flex;align-items:center;gap:.5rem}
+.split-legend i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.split-legend b{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--ink);margin-left:auto}
+.split-note{font-size:.82rem;color:var(--ink-muted);margin:1rem 0 0;line-height:1.5}
+/* cartes : reprend .motors / .eeat */
+.motors,.eeat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:2rem 0}
+.motor-card,.eeat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-sm);min-width:0}
+.eeat-card{transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.eeat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motor-name{font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;color:var(--ink);letter-spacing:-.02em;margin-bottom:.3rem}
+.motor-by{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.motor-spec{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border-soft);font-size:.9rem;line-height:1.45}
+.motor-spec:last-child{border-bottom:0}
+.motor-spec-label{flex-shrink:0;width:78px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding-top:.2rem}
+.motor-spec-value{flex:1 1 0%;color:var(--ink-soft)}
+.eeat-letter{width:52px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1rem}
+.eeat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem}
+.eeat-card h4{margin-bottom:.8rem}
+.eeat-card>p{font-size:.95rem;line-height:1.55;margin-bottom:1.2rem}
+.eeat-music{background:var(--accent-soft);border-radius:var(--radius-sm);padding:1rem;font-size:.9rem;line-height:1.5;color:var(--ink);margin-top:auto}
+.eeat-music strong{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.eeat-music .out{color:var(--warning)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:740px){.eeat-grid,.motors,.grid3{grid-template-columns:1fr}}
+/* étapes : reprend .factors */
+.factors{display:flex;flex-direction:column;gap:1.2rem;margin:2rem 0}
+.factor{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.factor:hover{border-color:var(--accent-line)}
+.factor-num{flex-shrink:0;font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;width:50px;letter-spacing:-.03em}
+.factor.err .factor-num{color:var(--warning)}
+.factor>div:last-child{flex:1 1 0%;min-width:0}
+.factor h4{margin-bottom:.6rem}
+.factor p{font-size:.95rem;line-height:1.55;margin-bottom:1rem}
+.factor p:last-child{margin-bottom:0}
+.factor-detail{background:var(--accent-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.88rem;line-height:1.5;color:var(--ink)}
+.factor-detail strong{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.factor.err .factor-detail{background:var(--warning-soft)}
+.factor.err .factor-detail strong{color:var(--warning)}
+/* checklist : reprend .audit */
+.audit-intro{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm)}
+.audit-intro h3{margin-bottom:.8rem}
+.audit-intro p{margin:0;line-height:1.6}
+.audit-prompts{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.prompt-row{display:flex;gap:1.2rem;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.prompt-num{flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--accent);width:36px}
+.prompt-row>div:not(.prompt-num){flex:1 1 0%;min-width:0}
+.prompt-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.audit-check{flex-shrink:0;padding:.5rem .9rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s;font-family:Inter,sans-serif}
+.audit-check:hover{border-color:var(--accent-line)}
+.audit-check.checked{background:var(--success);color:var(--on-accent);border-color:var(--success);font-weight:600}
+.score{font-family:"JetBrains Mono",monospace;color:var(--success);font-weight:500}
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.faq details{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:border-color .2s}
+.faq details:hover,.faq details[open]{border-color:var(--accent-line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.5rem;font-family:Manrope,sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.faq details[open] summary::after{content:"−";background:var(--accent);color:var(--on-accent)}
+.faq .ans{padding:0 1.5rem 1.4rem;color:var(--ink-soft);font-size:.97rem;line-height:1.65}
+/* synthèse */
+.recap{background:var(--ink);color:var(--recap-text);padding:4rem 0;position:relative;overflow:hidden}
+.recap::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(91,20,255,.25) 0%,transparent 60%);border-radius:50%;pointer-events:none}
+.recap>.container-narrow{position:relative;z-index:1}
+.recap h3{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg-card);margin-bottom:1.5rem}
+.recap-list{list-style:none;counter-reset:item;display:flex;flex-direction:column;gap:1rem}
+.recap-list li{counter-increment:item;padding-left:3rem;position:relative;line-height:1.55;color:var(--recap-text)}
+.recap-list li::before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:Manrope,sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-line)}
+.recap-list li strong{color:var(--bg-card)}
+.next-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin:4rem auto;max-width:760px;text-align:center;box-shadow:var(--shadow-md)}
+.next-cta h3{margin-bottom:1rem}
+.next-cta p{margin-bottom:1.5rem;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.1rem 2.2rem;font-family:Manrope,sans-serif;font-size:1rem;font-weight:800;border-radius:999px;border:0;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+footer.site-footer{background:var(--ink);color:rgba(247,241,232,.55);padding:2.5rem 0;text-align:center;font-size:.85rem;border-top:1px solid rgba(247,241,232,.08);line-height:1.7}
+footer.site-footer .src{max-width:760px;margin:0 auto 1rem;font-size:.8rem;color:rgba(247,241,232,.45)}
+@media (max-width:860px){main>section.module{padding:4rem 0}.toc-section{padding:3rem 0}.module-header{margin-bottom:1.8rem}.module-lead{font-size:1.05rem;margin:1rem 0 1.8rem}.rag-step,.factor{padding:1.4rem;gap:1rem}.rag-step-circle{width:48px;height:48px;font-size:1.3rem}.factor-num{font-size:1.6rem;width:40px}.next-cta{padding:1.8rem 1.4rem}.recap-list li{padding-left:2.4rem}section.module::before{width:320px;height:320px}}
+@media (max-width:480px){.hero{padding:3rem 0 2.5rem}.hero h1{font-size:2rem}.rag-step,.factor{flex-direction:column;gap:.8rem}.prompt-row{flex-wrap:wrap}}
+html,body{width:100% !important;max-width:100% !important;overflow-x:hidden}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress-bar"></div>
+<header class="top-nav">
+  <div class="nav-inner">
+    <span class="brand-mark">MUZI<em>FORMA</em></span>
+    <div class="nav-meta"><span>Module 05 / 08</span><span>Muziforma</span></div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Module 05 · Diffuser et mesurer</span>
+    <h1>Planifier et automatiser tes <em>publications</em>.</h1>
+    <p class="hero-lead">Tu sais créer du contenu. Reste à le publier avec régularité, sans dépendre de ta motivation du jour. Voici le système de publication que Tarik utilise au quotidien : une base Airtable remplie des semaines à l'avance et une routine de 5 minutes pour être présent sur tous tes réseaux.</p>
+    <div class="hero-chips"><span>Durée : 26 min</span><span>Formateur : Tarik Hamiche</span></div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">5 min</div><div class="stat-label">Par jour pour publier sur tous ses réseaux</div></div>
+      <div class="stat-card"><div class="stat-num">43</div><div class="stat-label">Contenus prêts d'avance dans la base de Tarik</div></div>
+      <div class="stat-card"><div class="stat-num">120+</div><div class="stat-label">Publications déjà passées par le système</div></div>
+      <div class="stat-card"><div class="stat-num">2 mois</div><div class="stat-label">D'avance : le rythme de remplissage visé</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc-section">
+  <div class="container-narrow">
+    <div class="callout">
+      <div class="callout-tag">★ Objectifs pédagogiques</div>
+      <ul>
+        <li>Comprendre pourquoi la régularité compte plus que la fréquence</li>
+        <li>Organiser tes contenus dans une base Airtable : champs, filtres, tris et vues</li>
+        <li>Planifier tes publications plusieurs semaines à l'avance avec une vue calendrier</li>
+        <li>Mettre en place une routine quotidienne de publication multiplateforme en quelques minutes</li>
+      </ul>
+    </div>
+    <div class="section-label">Plan du cours</div>
+    <div class="toc-grid">
+      <a href="#regularite" class="toc-item"><span class="toc-num">01</span><span class="toc-title">La régularité, règle numéro un</span></a>
+      <a href="#airtable" class="toc-item"><span class="toc-num">02</span><span class="toc-title">Batching et Airtable</span></a>
+      <a href="#filtres" class="toc-item"><span class="toc-num">03</span><span class="toc-title">Bases, filtres et tris</span></a>
+      <a href="#vues" class="toc-item"><span class="toc-num">04</span><span class="toc-title">Les vues : calendrier et galerie</span></a>
+      <a href="#recycler" class="toc-item"><span class="toc-num">05</span><span class="toc-title">Recycler ses anciens contenus</span></a>
+      <a href="#champs" class="toc-item"><span class="toc-num">06</span><span class="toc-title">Le template et les types de champs</span></a>
+      <a href="#partage" class="toc-item"><span class="toc-num">07</span><span class="toc-title">Partager sa base en sécurité</span></a>
+      <a href="#routine" class="toc-item"><span class="toc-num">08</span><span class="toc-title">La routine de publication de 5 minutes</span></a>
+      <a href="#erreurs" class="toc-item"><span class="toc-num">09</span><span class="toc-title">Les 5 erreurs à éviter</span></a>
+      <a href="#checklist" class="toc-item"><span class="toc-num">10</span><span class="toc-title">Livrable : ta checklist</span></a>
+      <a href="#faq" class="toc-item"><span class="toc-num">11</span><span class="toc-title">FAQ</span></a>
+    </div>
+    <div class="data-table" style="margin-top:2.5rem;text-align:left"><table>
+      <thead><tr><th style="width:90px">Repère</th><th>Chapitre de la vidéo</th></tr></thead>
+      <tbody>
+        <tr><td class="n">00:00</td><td>La régularité, règle numéro un</td></tr>
+        <tr><td class="n">01:19</td><td>Batching et planification avec Airtable</td></tr>
+        <tr><td class="n">03:03</td><td>Bases, filtres et tris</td></tr>
+        <tr><td class="n">05:34</td><td>Les vues : calendrier et galerie</td></tr>
+        <tr><td class="n">07:31</td><td>Recycler ses anciens contenus</td></tr>
+        <tr><td class="n">09:31</td><td>Le template fourni et ses champs</td></tr>
+        <tr><td class="n">13:17</td><td>Personnaliser et partager sa base</td></tr>
+        <tr><td class="n">17:41</td><td>Démonstration : publier sur 5 réseaux</td></tr>
+        <tr><td class="n">25:02</td><td>La routine quotidienne de 5 minutes</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="module" id="regularite">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">01 / 11</span><h2>La régularité, <em>règle numéro un</em></h2></div>
+    <p class="module-lead">Toutes les plateformes aiment les créateurs <strong>constants</strong>, qui sont là sur la durée et visent le long terme. C'est l'une des règles principales pour obtenir de gros résultats sur les réseaux sociaux.</p>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Le bon réflexe</div><h4>Une fois par semaine, toute l'année</h4><p>Publier moins souvent mais sans jamais t'arrêter, pendant un an, voire dix ans.</p><div class="eeat-music"><strong>Résultat</strong>Les plateformes te font confiance.</div></div>
+      <div class="eeat-card"><div class="eeat-name">Le piège</div><h4>Tous les jours pendant 15 jours, puis plus rien</h4><p>Un sprint, six mois de silence, un nouveau sprint : l'irrégularité casse ta dynamique.</p><div class="eeat-music"><strong>Résultat</strong><span class="out">Aucune constance, aucun élan.</span></div></div>
+    </div>
+    <div class="prose">
+      <p>Le seul moyen de tenir ce rythme, c'est de <strong>ne pas compter sur ta motivation</strong> ni sur ton inspiration. Si tu te lèves chaque matin en te demandant quoi poster, tu auras de bonnes idées trois jours de suite, puis la flemme le quatrième, puis plus aucune idée le cinquième.</p>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>La régularité ne se décrète pas, elle <strong>s'organise</strong> : tu crées en masse, tu planifies à l'avance, et le jour J tu n'as plus qu'à exécuter.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="module" id="airtable">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">02 / 11</span><h2>Batching et <em>Airtable</em></h2></div>
+    <p class="module-lead">Le principe : créer beaucoup de contenus en peu de temps grâce au <strong>batching</strong> (vu précédemment), puis programmer leur publication plusieurs semaines, voire plusieurs mois à l'avance.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Créer</span><h4>Produire en série</h4><p>Tu bloques une plage de temps courte pour créer un grand nombre de contenus d'un coup.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Stocker</span><h4>Tout ranger dans une base</h4><p>Chaque contenu devient une fiche : titre, fichier, description, date de publication, statut.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Planifier</span><h4>Attribuer une date à chaque contenu</h4><p>Tu remplis ton calendrier par tranches (Tarik vise environ deux mois d'avance).</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">4</div><div><span class="step-tag">Publier</span><h4>Exécuter chaque jour sans réfléchir</h4><p>Le contenu du jour est prêt : tu le récupères et tu le diffuses.</p></div></div>
+    </div>
+    <div class="prose">
+      <p>L'outil proposé est <strong>Airtable</strong>, un gestionnaire de bases de données relationnelles. Dit simplement : c'est un Excel beaucoup plus puissant. La version gratuite suffit largement pour ce besoin. Tarik utilise une version payante (environ 20 € par mois) parce qu'il gère de grosses bases et connecte d'autres outils, ce qui n'est pas nécessaire pour démarrer.</p>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ Un système testé en conditions réelles</div>
+      <p>C'est la méthode que Tarik applique lui-même : au moment du tournage, sa base comptait <strong>43 contenus prêts d'avance</strong> et plus de 120 déjà publiés.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="module" id="filtres">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">03 / 11</span><h2>Bases, <em>filtres</em> et tris</h2></div>
+    <p class="module-lead">Airtable s'organise en <strong>bases</strong>, et chaque base contient des tables (des sous-bases). Tarik a par exemple une base dédiée à ses formats courts.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Champ de la table</th><th>À quoi il sert</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Titre</strong></td><td>Identifier rapidement le contenu</td></tr>
+        <tr><td><strong>Créative</strong></td><td>Le fichier à publier : vidéo, image, carrousel</td></tr>
+        <tr><td><strong>Description</strong></td><td>Le texte prêt à copier dans la publication</td></tr>
+        <tr><td><strong>Case « Fait »</strong></td><td>Cochée quand le contenu a été publié</td></tr>
+      </tbody>
+    </table></div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Filtrer</h4><p>Filtre sur la case « Fait » : cochée, tu vois ce qui est déjà publié ; vide, tu vois uniquement ce qui reste à publier. Tu peux filtrer sur n'importe quel champ, par exemple le type de fichier (image, texte, vidéo).</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Grouper</h4><p>Rassembler les contenus par catégorie quand c'est utile.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Trier</h4><p>Classer par date de publication, de la plus récente à la plus ancienne ou l'inverse. Tout ce que tu fais dans un tableur, tu peux le faire ici.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="module" id="vues">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">04 / 11</span><h2>Les vues : <em>calendrier</em> et galerie</h2></div>
+    <p class="module-lead">Une vue, c'est une façon d'afficher la même base selon ton besoin du moment. Tu en crées autant que tu veux, chacune avec ses filtres.</p>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-letter">1</div><div class="eeat-name">Vue « Contenus à publier »</div><h4>Filtre : case « Fait » vide</h4><p>Ton stock de contenus prêts. C'est là que tu pioches chaque jour.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">2</div><div class="eeat-name">Vue « Vidéos publiées »</div><h4>Filtre : case « Fait » cochée</h4><p>L'historique de tout ce qui est déjà sorti, utile pour recycler.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">3</div><div class="eeat-name">Vue calendrier</div><h4>Voir les trous et les doublons</h4><p>Tes publications placées sur les dates. Tu repères les jours vides, les jours à deux publications, et tu rééquilibres en déplaçant les contenus. Affichage possible à l'année pour remplir semaine par semaine.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">4</div><div class="eeat-name">Vue galerie</div><h4>Pour les contenus très visuels</h4><p>Les visuels s'affichent en vignettes et un clic ouvre la fiche complète. Tarik l'utilise aussi pour le catalogue de son label : pochettes, artiste, titre, année.</p></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Astuce</div>
+      <p>La vue calendrier te montre en un coup d'œil si tu es présent tous les jours ou plusieurs fois par semaine avec des jours d'écart. C'est l'outil idéal pour construire ton <strong>calendrier éditorial</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="module" id="recycler">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">05 / 11</span><h2>Recycler ses <em>anciens contenus</em></h2></div>
+    <p class="module-lead">Si ton stock est vide, ne laisse pas un mois sans rien publier. Va chercher dans ta vue « publiés » les contenus les plus anciens et remets-les en publication.</p>
+    <div class="prose">
+      <p>Qui se souvient de ce que tu as posté il y a deux ans ? Très peu de monde. Et même si quelqu'un s'en souvient, ce n'est pas bien grave. Une reprise bien réalisée il y a cinq ans, republiée aujourd'hui, sera accueillie comme un nouveau contenu par la grande majorité de ton public.</p>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ Ton historique est une réserve</div>
+      <p>Garder la trace de tout ce que tu as publié (case « Fait » cochée) transforme tes anciens contenus en <strong>stock de secours</strong> pour ne jamais casser ta régularité.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="module" id="champs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">06 / 11</span><h2>Le template et les <em>types de champs</em></h2></div>
+    <p class="module-lead">Un template Airtable de base est disponible dans les ressources de ce module. Il contient : titre, case « Fait », date de publication, plateformes, créative, description, hashtags et un champ qui assemble description et hashtags.</p>
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-name">Date de publication</div><h4>Le cœur du planning</h4><p>Format lisible en français, heure et fuseau horaire paramétrables. C'est elle qui alimente la vue calendrier.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Plateformes</div><h4>Sélection multiple</h4><p>Instagram, TikTok, YouTube, LinkedIn… Ajoute les tiennes (Snapchat, newsletter) en double-cliquant. Utile surtout si tu travailles en équipe.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Créative</div><h4>Pièce jointe</h4><p>Vidéo, photo, carrousel, PDF, et même audio si tu fais un podcast.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Description</div><h4>Texte long</h4><p>Retours à la ligne, gras, emojis : le texte prêt à coller.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Hashtags</div><h4>Champ séparé</h4><p>Une formule les ajoute automatiquement à la fin de la description.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Case « Fait »</div><h4>Le statut</h4><p>À cocher uniquement quand la publication est terminée partout.</p></div>
+    </div>
+    <div class="data-table"><table>
+      <thead><tr><th>Type de champ</th><th>Exemple d'usage</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Texte sur une ligne</strong></td><td>Titre, nom, sous-titre</td></tr>
+        <tr><td><strong>Texte long</strong></td><td>Description enrichie</td></tr>
+        <tr><td><strong>Pièce jointe</strong></td><td>La créative (vidéo, image, audio)</td></tr>
+        <tr><td><strong>Case à cocher</strong></td><td>Statut « Fait »</td></tr>
+        <tr><td><strong>Sélection multiple</strong></td><td>Les plateformes de diffusion</td></tr>
+        <tr><td><strong>Sélection unique</strong></td><td>Une seule valeur possible, par exemple un genre musical</td></tr>
+        <tr><td><strong>Utilisateur</strong></td><td>La personne de l'équipe chargée de la publication</td></tr>
+        <tr><td><strong>Date</strong></td><td>La date de mise en ligne</td></tr>
+        <tr><td><strong>URL, téléphone, nombre, devise, pourcentage</strong></td><td>Liens vers un article ou une vidéo YouTube, contacts, suivi chiffré</td></tr>
+        <tr><td><strong>Formule</strong></td><td>Assembler automatiquement description et hashtags (usage avancé)</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="module" id="partage">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">07 / 11</span><h2>Partager sa base <em>en sécurité</em></h2></div>
+    <p class="module-lead">Si tu travailles avec un community manager ou une équipe, tu peux partager une vue par un simple lien.</p>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Créer un lien de partage</h4><p>Depuis la vue, génère un lien et envoie-le aux membres de ton équipe.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Restreindre à un nom de domaine</h4><p>Seules les adresses e-mail de ton domaine (celui de ta structure) peuvent ouvrir le lien.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Ajouter un mot de passe</h4><p>On combine souvent les deux protections pour éviter les fuites.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="module" id="routine">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">08 / 11</span><h2>La routine de publication de <em>5 minutes</em></h2></div>
+    <p class="module-lead">Dans la vidéo, Tarik publie en direct un même contenu sur Instagram, TikTok, YouTube (Short), Facebook et LinkedIn depuis son téléphone. Temps total : environ cinq minutes, parce qu'il n'a <strong>rien à réfléchir</strong>.</p>
+    <div class="rag-flow">
+      <div class="rag-step alt"><div class="rag-step-circle">1</div><div><span class="step-tag">Déclencheur</span><h4>Un réveil à heure fixe</h4><p>Chaque jour à la même heure, c'est le moment de publier.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Récupérer</span><h4>Ouvrir l'app Airtable</h4><p>Dans la vue « Contenus à publier », ouvrir le contenu du jour, enregistrer la vidéo sur le téléphone et copier la description.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Publier</span><h4>Réseau par réseau</h4><p>Ajouter la vidéo, coller la description, publier. Pas besoin d'attendre la fin du téléversement : laisse l'application ouverte et passe au réseau suivant.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">4</div><div><span class="step-tag">Optimiser YouTube</span><h4>Titre, mots-clés, playlist, tags</h4><p>Sur le Short : un titre qui joue sur le mot-clé principal, un lieu, une vidéo associée, puis dans le Studio la description, une ou deux playlists et des tags (quelques tags récurrents plus ceux du sujet).</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">5</div><div><span class="step-tag">Clôturer</span><h4>Cocher la case « Fait »</h4><p>Seulement à la fin, quand le contenu est en ligne partout. Sinon il disparaît de ta vue alors que tu en as encore besoin.</p></div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>La miniature d'un format court n'est pas ce qui fait son succès : ce sont les <strong>trois premières secondes</strong>. Ne perds pas de temps à la peaufiner pendant ta routine.</p>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ Combiné aux outils de découpe</div>
+      <p>Le contenu de la démonstration était un format court extrait automatiquement d'une vidéo longue. Seuls les sous-titres ont été ajustés : création et publication s'enchaînent sans effort.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="module" id="erreurs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">09 / 11</span><h2>Les 5 erreurs <em>à éviter</em></h2></div>
+    <p class="module-lead">Celles qui cassent ta régularité ou te font perdre du temps.</p>
+    <div class="factors">
+      <div class="factor err"><div class="factor-num">01</div><div><h4>Publier au feeling</h4><p>Décider chaque matin quoi poster, c'est dépendre de ton inspiration et de ta motivation. Tôt ou tard, tu décroches.</p></div></div>
+      <div class="factor err"><div class="factor-num">02</div><div><h4>Alterner sprints et silences</h4><p>Quinze jours à fond puis six mois sans rien : mieux vaut un rythme plus modeste, tenu sur la durée.</p></div></div>
+      <div class="factor err"><div class="factor-num">03</div><div><h4>Laisser son stock s'épuiser</h4><p>Recharge ta base par tranches (environ deux mois) et, en cas de trou, recycle tes anciens contenus.</p></div></div>
+      <div class="factor err"><div class="factor-num">04</div><div><h4>Cocher « Fait » trop tôt</h4><p>Le contenu sort de ta vue « à publier » avant que tu aies terminé tous les réseaux, et tu perds le texte à copier.</p></div></div>
+      <div class="factor err"><div class="factor-num">05</div><div><h4>Compliquer l'outil dès le départ</h4><p>Formules et automatisations avancées ne sont pas nécessaires. Commence avec le template, la version gratuite et quelques vues simples.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="module" id="checklist">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">10 / 11</span><h2>Livrable : ta <em>checklist</em></h2></div>
+    <div class="audit-intro">
+      <h3>Clique sur les cases au fur et à mesure</h3>
+      <p>Ce travail alimente directement le calendrier de l'exercice « Benchmark, personas et calendrier de son projet » du Module 5. Progression : <span class="score" id="score">0 / 7</span></p>
+    </div>
+    <div class="audit-prompts" id="checklist-list">
+      <div class="prompt-row"><div class="prompt-num">C01</div><div><div class="prompt-text">J'ai défini un rythme de publication que je peux tenir toute l'année</div></div><button type="button" class="audit-check" id="c1">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C02</div><div><div class="prompt-text">J'ai créé mon compte Airtable et récupéré le template du module</div></div><button type="button" class="audit-check" id="c2">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C03</div><div><div class="prompt-text">J'ai adapté les champs (plateformes, hashtags, créative) à mon projet</div></div><button type="button" class="audit-check" id="c3">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C04</div><div><div class="prompt-text">J'ai créé les vues « Contenus à publier », « Publiés » et une vue calendrier</div></div><button type="button" class="audit-check" id="c4">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C05</div><div><div class="prompt-text">J'ai rempli ma base avec au moins un mois de contenus datés</div></div><button type="button" class="audit-check" id="c5">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C06</div><div><div class="prompt-text">J'ai fixé un créneau quotidien (réveil) pour ma routine de publication</div></div><button type="button" class="audit-check" id="c6">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C07</div><div><div class="prompt-text">J'ai repéré 3 anciens contenus à recycler en cas de trou dans le calendrier</div></div><button type="button" class="audit-check" id="c7">⬚ Fait</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="module" id="faq">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">11 / 11</span><h2>Questions <em>fréquentes</em></h2></div>
+    <div class="faq">
+      <details><summary>Est-ce que je dois payer Airtable ?</summary><div class="ans">Non. La version gratuite suffit pour un calendrier de publication. La version payante n'est utile que pour de très grosses bases ou pour connecter d'autres outils. Vérifie les conditions actuelles de l'offre gratuite sur le site d'Airtable, elles peuvent évoluer.</div></details>
+      <details><summary>Je peux utiliser un simple tableur à la place ?</summary><div class="ans">Oui pour démarrer, mais tu perds les vues calendrier et galerie, les pièces jointes consultables depuis le téléphone et les filtres enregistrés. C'est précisément ce qui rend la routine quotidienne aussi rapide.</div></details>
+      <details><summary>Combien de contenus d'avance dois-je avoir ?</summary><div class="ans">Tarik recharge sa base par tranches d'environ deux mois. Au début, vise quelques semaines d'avance : l'important est de ne jamais te retrouver le matin sans rien de prêt.</div></details>
+      <details><summary>Republier un ancien contenu, ce n'est pas mal vu ?</summary><div class="ans">Très rarement. La plupart des gens ne se souviennent pas de ce que tu as posté il y a un ou deux ans. Si le contenu était bon, il le reste.</div></details>
+      <details><summary>Pourquoi ne pas programmer automatiquement les publications ?</summary><div class="ans">La méthode présentée repose sur une publication manuelle guidée : tout est prêt, tu n'as qu'à copier et coller. Cela te laisse ajuster chaque réseau (titre et tags sur YouTube, lieu, filtres) en quelques secondes.</div></details>
+      <details><summary>Faut-il publier le même contenu partout ?</summary><div class="ans">Dans la démonstration, un même format court est publié sur cinq réseaux avec la même description, en adaptant seulement les réglages propres à chaque plateforme. C'est ce qui permet d'être présent partout en quelques minutes.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="recap">
+  <div class="container-narrow">
+    <div class="section-label" style="color:var(--accent-line)">Synthèse</div>
+    <h3>Ce que tu dois retenir de ce cours</h3>
+    <ol class="recap-list">
+      <li>Les plateformes récompensent la <strong>régularité</strong> : mieux vaut un rythme modeste tenu sur la durée que des sprints.</li>
+      <li>La régularité s'organise : <strong>batching</strong> pour créer, planification pour publier, sans dépendre de ta motivation.</li>
+      <li><strong>Airtable</strong> centralise tes contenus : champs, filtres, tris et vues (à publier, publiés, calendrier, galerie).</li>
+      <li>Ton historique de publications est une <strong>réserve</strong> : recycle tes anciens contenus en cas de trou.</li>
+      <li>Une <strong>routine de 5 minutes</strong> à heure fixe suffit pour publier sur tous tes réseaux.</li>
+      <li>Coche la case « Fait » <strong>à la fin seulement</strong>, une fois le contenu en ligne partout.</li>
+    </ol>
+  </div>
+</section>
+
+<div class="container-narrow">
+  <div class="next-cta">
+    <h3>Prêt pour la <em>vidéo suivante</em> ?</h3>
+    <p>Définir ses indicateurs clés de performance.</p>
+    <span class="btn btn-primary">Continuer vers les indicateurs clés →</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="src">Support pédagogique de la formation « Structurer et développer une activité artistique musicale » (certification RS7398), Module 5 : Stratégie de création de contenus et communication digitale. Contenu issu de la vidéo de Tarik Hamiche « Mon système de publication de contenus au quotidien » ; les fonctionnalités et tarifs d'Airtable sont donnés à titre indicatif et peuvent évoluer.</p>
+    © 2026 Tarik Hamiche · Muziforma
+  </div>
+</footer>
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var btns=[].slice.call(document.querySelectorAll('#checklist-list .audit-check'));
+  var score=document.getElementById('score');var KEY='mz-rs7398-m5-12-planifier-automatiser-publications';var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function paint(b){var on=!!saved[b.id];b.classList.toggle('checked',on);b.textContent=(on?'✓':'⬚')+' Fait';b.setAttribute('aria-pressed',on?'true':'false');}
+  function upd(){score.textContent=btns.filter(function(b){return saved[b.id]}).length+' / '+btns.length;}
+  btns.forEach(function(b){paint(b);b.addEventListener('click',function(){saved[b.id]=!saved[b.id];try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}paint(b);upd();});});
+  upd();
+})();
+</script>
+</body>
+</html>

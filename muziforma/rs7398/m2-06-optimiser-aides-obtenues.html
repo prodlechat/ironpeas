@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Optimiser la gestion des aides obtenues · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Charte Muziforma : fond sable, violet #5B14FF, Manrope + Inter + JetBrains Mono. */
+:root{--bg:#F7F1E8;--bg-soft:#FCF8F2;--bg-card:#FFFFFF;--ink:#1F1A15;--ink-soft:#5C4F42;--ink-muted:#8A7A6A;--accent:#5B14FF;--accent-dark:#4910CC;--accent-soft:#EDE9FE;--accent-line:#A78BFA;--border:#E8DDC9;--border-soft:#F0E6D4;--warning:#C2410C;--warning-soft:#FFEDD5;--success:#15803D;--success-soft:#DCFCE7;--on-accent:#FFFFFF;--recap-text:rgba(247,241,232,.85);--shadow-sm:0 1px 2px rgba(31,26,21,.04);--shadow-md:0 4px 16px rgba(31,26,21,.06);--radius-sm:8px;--radius-md:14px;--radius-lg:24px;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Manrope,-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700}
+h4{font-size:1.15rem;font-weight:700;line-height:1.3}
+p{margin-bottom:1.1rem;color:var(--ink-soft)}
+strong{color:var(--ink);font-weight:700}
+em{font-style:normal;color:var(--accent);font-weight:800}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.container-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-line));z-index:9999}
+header.top-nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(247,241,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand-mark{font-family:Manrope,sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--ink)}
+.brand-mark em{color:var(--accent)}
+.nav-meta{display:flex;gap:1rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted)}
+.nav-meta span:not(:last-child)::after{content:"·";margin-left:1rem;color:var(--border)}
+@media (max-width:600px){.nav-meta{display:none}}
+.hero{padding:5rem 0 4rem;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;max-width:none;background:radial-gradient(circle,rgba(167,139,250,.22) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(91,20,255,.14) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1.8rem;box-shadow:var(--shadow-sm)}
+.hero h1{margin-bottom:1.5rem}
+.hero-lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:720px;margin:0 auto 1.5rem;line-height:1.55}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.hero-chips span{font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:.35rem .9rem}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:880px;margin:3rem auto 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-num{font-family:Manrope,sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em;margin-bottom:.5rem}
+.stat-label{font-size:.82rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.hero-stats{grid-template-columns:1fr}}
+.section-label{display:inline-block;font-family:Inter,sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:1.5rem}
+.toc-section{padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);text-align:center}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:800px;margin:1rem auto 0}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left;color:var(--ink);transition:.15s}
+.toc-item:hover{border-color:var(--accent);transform:translateX(2px);box-shadow:var(--shadow-sm);color:var(--ink)}
+.toc-num{font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);flex-shrink:0;width:36px}
+.toc-title{font-weight:600;font-size:.95rem;line-height:1.3}
+@media (max-width:600px){.toc-grid{grid-template-columns:1fr}}
+main>section.module{padding:6rem 0;position:relative;overflow:hidden}
+main>section.module:nth-of-type(odd){background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+section.module::before{content:"";position:absolute;top:10%;right:-180px;width:480px;height:480px;background:radial-gradient(circle,rgba(167,139,250,.16) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
+section.module>.container,section.module>.container-narrow{position:relative;z-index:1}
+.module-header{margin-bottom:2.5rem}
+.module-num{font-family:Manrope,sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.6rem;display:block}
+.module-lead{font-size:1.15rem;color:var(--ink-soft);margin:1.5rem 0 2.5rem;line-height:1.55;max-width:720px}
+.prose p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.3rem}
+.callout{background:var(--bg-card);border-left:4px solid var(--accent);border-radius:var(--radius-md);padding:1.6rem 1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm);text-align:left}
+.callout.warning{border-left-color:var(--warning);background:linear-gradient(135deg,var(--warning-soft) 0%,var(--bg-card) 60%)}
+.callout.success{border-left-color:var(--success);background:linear-gradient(135deg,var(--success-soft) 0%,var(--bg-card) 60%)}
+.callout-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.6rem}
+.callout.warning .callout-tag{color:var(--warning)}
+.callout.success .callout-tag{color:var(--success)}
+.callout p{margin:0;color:var(--ink);line-height:1.55}
+.callout ul{margin:.2rem 0 0 1.2rem;color:var(--ink);line-height:1.6}
+/* 3 casquettes : reprend .evolution */
+.evolution{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2rem 0}
+.evo-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;text-align:center;box-shadow:var(--shadow-sm)}
+.evo-col.featured{border:2px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg-card) 50%);transform:scale(1.02);box-shadow:var(--shadow-md)}
+.evo-acronym{font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;letter-spacing:-.04em;margin-bottom:.4rem}
+.evo-col:not(.featured) .evo-acronym{color:var(--ink-muted)}
+.evo-full{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:1rem;font-weight:600}
+.evo-col h4{margin-bottom:.6rem}
+.evo-col p{font-size:.92rem;line-height:1.55;text-align:left}
+.evo-target{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--border);text-align:left;font-size:.85rem;line-height:1.45;color:var(--ink)}
+.evo-target strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem;font-weight:800}
+@media (max-width:800px){.evolution{grid-template-columns:1fr}.evo-col.featured{transform:none}}
+/* circuit : reprend .rag-flow */
+.rag-flow{margin:2.5rem 0;display:flex;flex-direction:column;gap:1.5rem}
+.rag-step{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.rag-step:hover{border-color:var(--accent-line)}
+.rag-step-circle{flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.6rem;box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+.rag-step.alt .rag-step-circle{background:var(--warning);box-shadow:rgba(194,65,12,.3) 0 6px 20px}
+.rag-step>div:last-child{flex:1 1 0%;min-width:0}
+.step-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);margin-bottom:.4rem}
+.rag-step h4{margin-bottom:.6rem}
+.rag-step p{margin:0;line-height:1.55}
+/* tableaux dans la charte */
+.data-table{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);margin:2rem 0}
+.data-table table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+.data-table th{text-align:left;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding:1rem 1.1rem;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.data-table td{padding:.9rem 1.1rem;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table td strong{color:var(--ink)}
+.data-table .n{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--accent-dark);white-space:nowrap}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .6rem;border-radius:6px;white-space:nowrap}
+.badge.yes{background:var(--success-soft);color:var(--success)}
+.badge.no{background:var(--warning-soft);color:var(--warning)}
+.badge.mid{background:var(--accent-soft);color:var(--accent-dark)}
+/* barre de répartition */
+.split{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);margin:2rem 0}
+.split h4{margin-bottom:1.2rem}
+.split-bar{display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden}
+.split-bar div{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:500;color:var(--on-accent);white-space:nowrap;overflow:hidden}
+.split-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem 1rem;margin-top:1.2rem;font-size:.88rem;color:var(--ink-soft)}
+.split-legend span{display:flex;align-items:center;gap:.5rem}
+.split-legend i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.split-legend b{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--ink);margin-left:auto}
+.split-note{font-size:.82rem;color:var(--ink-muted);margin:1rem 0 0;line-height:1.5}
+/* cartes : reprend .motors / .eeat */
+.motors,.eeat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:2rem 0}
+.motor-card,.eeat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-sm);min-width:0}
+.eeat-card{transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.eeat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motor-name{font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;color:var(--ink);letter-spacing:-.02em;margin-bottom:.3rem}
+.motor-by{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.motor-spec{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border-soft);font-size:.9rem;line-height:1.45}
+.motor-spec:last-child{border-bottom:0}
+.motor-spec-label{flex-shrink:0;width:78px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding-top:.2rem}
+.motor-spec-value{flex:1 1 0%;color:var(--ink-soft)}
+.eeat-letter{width:52px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1rem}
+.eeat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem}
+.eeat-card h4{margin-bottom:.8rem}
+.eeat-card>p{font-size:.95rem;line-height:1.55;margin-bottom:1.2rem}
+.eeat-music{background:var(--accent-soft);border-radius:var(--radius-sm);padding:1rem;font-size:.9rem;line-height:1.5;color:var(--ink);margin-top:auto}
+.eeat-music strong{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.eeat-music .out{color:var(--warning)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:740px){.eeat-grid,.motors,.grid3{grid-template-columns:1fr}}
+/* étapes : reprend .factors */
+.factors{display:flex;flex-direction:column;gap:1.2rem;margin:2rem 0}
+.factor{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.factor:hover{border-color:var(--accent-line)}
+.factor-num{flex-shrink:0;font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;width:50px;letter-spacing:-.03em}
+.factor.err .factor-num{color:var(--warning)}
+.factor>div:last-child{flex:1 1 0%;min-width:0}
+.factor h4{margin-bottom:.6rem}
+.factor p{font-size:.95rem;line-height:1.55;margin-bottom:1rem}
+.factor p:last-child{margin-bottom:0}
+.factor-detail{background:var(--accent-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.88rem;line-height:1.5;color:var(--ink)}
+.factor-detail strong{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.factor.err .factor-detail{background:var(--warning-soft)}
+.factor.err .factor-detail strong{color:var(--warning)}
+/* checklist : reprend .audit */
+.audit-intro{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm)}
+.audit-intro h3{margin-bottom:.8rem}
+.audit-intro p{margin:0;line-height:1.6}
+.audit-prompts{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.prompt-row{display:flex;gap:1.2rem;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.prompt-num{flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--accent);width:36px}
+.prompt-row>div:not(.prompt-num){flex:1 1 0%;min-width:0}
+.prompt-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.audit-check{flex-shrink:0;padding:.5rem .9rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s;font-family:Inter,sans-serif}
+.audit-check:hover{border-color:var(--accent-line)}
+.audit-check.checked{background:var(--success);color:var(--on-accent);border-color:var(--success);font-weight:600}
+.score{font-family:"JetBrains Mono",monospace;color:var(--success);font-weight:500}
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.faq details{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:border-color .2s}
+.faq details:hover,.faq details[open]{border-color:var(--accent-line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.5rem;font-family:Manrope,sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.faq details[open] summary::after{content:"−";background:var(--accent);color:var(--on-accent)}
+.faq .ans{padding:0 1.5rem 1.4rem;color:var(--ink-soft);font-size:.97rem;line-height:1.65}
+/* synthèse */
+.recap{background:var(--ink);color:var(--recap-text);padding:4rem 0;position:relative;overflow:hidden}
+.recap::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(91,20,255,.25) 0%,transparent 60%);border-radius:50%;pointer-events:none}
+.recap>.container-narrow{position:relative;z-index:1}
+.recap h3{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg-card);margin-bottom:1.5rem}
+.recap-list{list-style:none;counter-reset:item;display:flex;flex-direction:column;gap:1rem}
+.recap-list li{counter-increment:item;padding-left:3rem;position:relative;line-height:1.55;color:var(--recap-text)}
+.recap-list li::before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:Manrope,sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-line)}
+.recap-list li strong{color:var(--bg-card)}
+.next-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin:4rem auto;max-width:760px;text-align:center;box-shadow:var(--shadow-md)}
+.next-cta h3{margin-bottom:1rem}
+.next-cta p{margin-bottom:1.5rem;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.1rem 2.2rem;font-family:Manrope,sans-serif;font-size:1rem;font-weight:800;border-radius:999px;border:0;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+footer.site-footer{background:var(--ink);color:rgba(247,241,232,.55);padding:2.5rem 0;text-align:center;font-size:.85rem;border-top:1px solid rgba(247,241,232,.08);line-height:1.7}
+footer.site-footer .src{max-width:760px;margin:0 auto 1rem;font-size:.8rem;color:rgba(247,241,232,.45)}
+@media (max-width:860px){main>section.module{padding:4rem 0}.toc-section{padding:3rem 0}.module-header{margin-bottom:1.8rem}.module-lead{font-size:1.05rem;margin:1rem 0 1.8rem}.rag-step,.factor{padding:1.4rem;gap:1rem}.rag-step-circle{width:48px;height:48px;font-size:1.3rem}.factor-num{font-size:1.6rem;width:40px}.next-cta{padding:1.8rem 1.4rem}.recap-list li{padding-left:2.4rem}section.module::before{width:320px;height:320px}}
+@media (max-width:480px){.hero{padding:3rem 0 2.5rem}.hero h1{font-size:2rem}.rag-step,.factor{flex-direction:column;gap:.8rem}.prompt-row{flex-wrap:wrap}}
+html,body{width:100% !important;max-width:100% !important;overflow-x:hidden}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress-bar"></div>
+<header class="top-nav">
+  <div class="nav-inner">
+    <span class="brand-mark">MUZI<em>FORMA</em></span>
+    <div class="nav-meta"><span>Module 02 / 08</span><span>Muziforma</span></div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Module 02 · Obtenir et gérer les aides</span>
+    <h1>Optimiser la gestion des <em>aides obtenues</em>.</h1>
+    <p class="hero-lead">L'aide est accordée : félicitations. Reste à respecter tes obligations, justifier chaque euro, cumuler intelligemment les financements et te construire une réputation qui facilitera tes prochaines demandes. Et si c'est un refus, à en tirer des leçons.</p>
+    <div class="hero-chips"><span>Durée : 43 min</span><span>Formateur : Tarik Hamiche</span></div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">20 000 €</div><div class="stat-label">Le budget d'album pris en exemple pour cumuler les aides</div></div>
+      <div class="stat-card"><div class="stat-num">2 000 €</div><div class="stat-label">Le vrai risque restant après aides, crédit d'impôt et financement participatif</div></div>
+      <div class="stat-card"><div class="stat-num">737</div><div class="stat-label">Projets aidés en 2024 dans le catalogue consulté en vidéo</div></div>
+      <div class="stat-card"><div class="stat-num">15 min</div><div class="stat-label">Par semaine pour entretenir ton réseau</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc-section">
+  <div class="container-narrow">
+    <div class="callout">
+      <div class="callout-tag">★ Objectifs pédagogiques</div>
+      <ul>
+        <li>Comprendre les obligations liées à une aide accordée (convention, communication, restitution)</li>
+        <li>Préparer les justificatifs attendus pour l'acompte et le solde</li>
+        <li>Rédiger des rapports d'activité qui valorisent ton projet auprès des financeurs</li>
+        <li>Identifier les aides cumulables et les compléments possibles</li>
+        <li>Construire ton réseau et analyser les projets aidés pour progresser après un refus</li>
+      </ul>
+    </div>
+    <div class="section-label">Plan du cours</div>
+    <div class="toc-grid">
+      <a href="#convention" class="toc-item"><span class="toc-num">01</span><span class="toc-title">Courrier d'accord et convention</span></a>
+      <a href="#justificatifs" class="toc-item"><span class="toc-num">02</span><span class="toc-title">Les justificatifs attendus</span></a>
+      <a href="#rapports" class="toc-item"><span class="toc-num">03</span><span class="toc-title">Rapports d'activité : documenter</span></a>
+      <a href="#visibilite" class="toc-item"><span class="toc-num">04</span><span class="toc-title">Délais et logo du financeur</span></a>
+      <a href="#cumul" class="toc-item"><span class="toc-num">05</span><span class="toc-title">Cumuler les aides et les compléments</span></a>
+      <a href="#reseau" class="toc-item"><span class="toc-num">06</span><span class="toc-title">Créer un réseau fort</span></a>
+      <a href="#analyse" class="toc-item"><span class="toc-num">07</span><span class="toc-title">Analyser les projets aidés</span></a>
+      <a href="#erreurs" class="toc-item"><span class="toc-num">08</span><span class="toc-title">Les 5 erreurs à éviter</span></a>
+      <a href="#checklist" class="toc-item"><span class="toc-num">09</span><span class="toc-title">Livrable : ta checklist</span></a>
+      <a href="#faq" class="toc-item"><span class="toc-num">10</span><span class="toc-title">FAQ</span></a>
+    </div>
+    <div class="data-table" style="margin-top:2.5rem;text-align:left"><table>
+      <thead><tr><th style="width:90px">Repère</th><th>Chapitre de la vidéo</th></tr></thead>
+      <tbody>
+        <tr><td class="n">00:00</td><td>Courrier d'accord et convention de financement</td></tr>
+        <tr><td class="n">05:17</td><td>Les justificatifs attendus</td></tr>
+        <tr><td class="n">09:35</td><td>Rapports d'activité : documenter son projet</td></tr>
+        <tr><td class="n">15:57</td><td>Délais de réalisation et logo du financeur</td></tr>
+        <tr><td class="n">17:29</td><td>Cumuler les aides et le crédit d'impôt phono</td></tr>
+        <tr><td class="n">23:02</td><td>Créer un réseau fort avec ses partenaires</td></tr>
+        <tr><td class="n">26:48</td><td>Participer aux assemblées générales</td></tr>
+        <tr><td class="n">32:36</td><td>Analyser les projets aidés</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="module" id="convention">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">01 / 10</span><h2>Courrier d'accord <em>et convention</em></h2></div>
+    <p class="module-lead">Quand une aide est accordée, tu reçois un <strong>courrier d'accord</strong>, puis une <strong>convention de financement</strong> à retourner signée. C'est elle qui valide juridiquement l'aide et te permet d'encaisser l'argent.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Réception</span><h4>Le courrier d'accord</h4><p>Il rappelle ton dossier et annonce la décision de la commission. Exemple montré : une aide de la Spedidam à la production d'un EPK. Il t'invite à imprimer la convention et à la renvoyer signée par courrier.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Lecture</span><h4>Le contenu de la convention</h4><p>Les parties, l'objet de l'aide, le montant accordé, les conditions de versement, tes obligations, et en annexe les critères de recevabilité : impossible ensuite de dire « je ne savais pas ».</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Retour</span><h4>Paraphée et signée</h4><p>Une fois la convention reçue, l'organisme ouvre le volet versement de ton interface.</p></div></div>
+    </div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Obligation</div><h4>La communication</h4><p>Faire apparaître le logo de l'organisme financeur sur tes supports, et si possible la mention prévue par la convention (par exemple en fin de description d'une vidéo).</p></div>
+      <div class="eeat-card"><div class="eeat-name">Obligation</div><h4>La restitution des sommes</h4><p>Si tu dépenses finalement moins que le budget présenté, la part de l'aide qui dépasse le pourcentage maximal autorisé doit être restituée. Sois transparent : ils l'apprécieront.</p></div>
+    </div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Les organismes se parlent</div>
+      <p>Une irrégularité découverte peut te priver de toute aide future, et les organismes échangent entre eux. Respecter les critères de recevabilité n'est pas négociable.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="module" id="justificatifs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">02 / 10</span><h2>Les justificatifs <em>attendus</em></h2></div>
+    <p class="module-lead">Avant de te verser l'argent, l'organisme demande des preuves. Leur nature dépend du moment du versement.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Moment</th><th>Justificatifs demandés</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Acompte</strong> (quand il existe)</td><td>Devis signés par les partenaires avec lesquels tu vas travailler</td></tr>
+        <tr><td><strong>Solde</strong> (projet réalisé)</td><td>Factures acquittées, signées et tamponnées</td></tr>
+        <tr><td><strong>Rémunérations</strong></td><td>Bulletins de salaire, déclarations sociales, attestations des organismes sociaux (Congés Spectacles, Audiens)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Joindre la preuve de paiement</h4><p>À chaque facture acquittée, ajoute le justificatif de virement. Chaque année, des dossiers sont contrôlés, surtout ceux qui soulèvent un doute : facture, virement et éventuelle attestation sur l'honneur ne laissent aucune place au doute.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Des dépenses réelles et cohérentes</h4><p>En cas de contrôle, on te demande tes flux comptables et financiers, et les sources sont recoupées. Déclarer une dépense que tu n'as pas réellement payée s'appelle une escroquerie.</p></div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>La transparence construit une <strong>réputation solide</strong>. Ceux qui trichent gagnent parfois à court terme, mais perdent à long terme l'accès aux financements.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="module" id="rapports">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">03 / 10</span><h2>Rapports d'activité : <em>documenter</em></h2></div>
+    <p class="module-lead">Presque toutes les aides, bourses et subventions demandent un rapport : ce qui s'est passé et en quoi l'aide t'a été utile. Prends-le au sérieux, c'est une vraie opportunité.</p>
+    <div class="prose">
+      <p>Pourquoi c'est si important ? Les budgets d'aide sont en partie votés au niveau du ministère de la Culture et en partie issus des droits collectés dans la filière. Les organismes ont des <strong>comptes à rendre</strong>. Des artistes qui documentent l'impact de l'aide, c'est leur meilleure justification.</p>
+    </div>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Semaine 1</span><h4>Le lancement</h4><p>Concept validé, équipe réunie, financement obtenu : tu racontes face caméra, comme dans un confessionnal, ce que l'aide va permettre.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Semaines 2 à 6</span><h4>Les étapes et les ajustements</h4><p>Accord avec un partenaire, budget revu, nouvelle idée, difficultés rencontrées et solutions trouvées.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Semaine 8</span><h4>Les résultats</h4><p>Exemple cité : de 1 500 à 2 500 abonnés, trois dates vendues, une collaboration en cours. Et un merci à l'organisme qui l'a rendu possible.</p></div></div>
+    </div>
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-name">Format recommandé</div><h4>La vidéo</h4><p>Courte, hebdomadaire, simple à faire, elle montre clairement l'évolution.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Alternative</div><h4>L'audio</h4><p>Un point vocal régulier suffit aussi à documenter le projet.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Alternative</div><h4>Le journal de bord écrit</h4><p>Un onglet par semaine dans ton outil de notes. Un outil de dictée vocale peut te faire gagner beaucoup de temps.</p></div>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ À retenir</div>
+      <p>Beaucoup ne le font pas. Les commissions se souviendront de toi, et ta prochaine demande sera beaucoup plus facilement finançable.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="module" id="visibilite">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">04 / 10</span><h2>Délais et <em>logo du financeur</em></h2></div>
+    <p class="module-lead">Deux obligations tombent sous le sens, et pourtant certains les négligent.</p>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Réaliser le projet dans les délais</h4><p>Obtenir une aide pour un EP et ne toujours rien avoir sorti deux ans plus tard, c'est s'exposer à des problèmes. Personne ne t'oublie.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Apposer le logo, partout où c'est possible</h4><p>C'est une obligation prévue par les conventions. Personne ne vérifiera chaque publication, mais fais-le vraiment : les organismes y sont sensibles.</p><div class="factor-detail"><strong>Bonnes pratiques</strong>Taguer les organismes dans tes publications (« rendu possible grâce au soutien de… »), les citer au générique de ton clip avec leurs logos.</div></div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Pourquoi ça compte</div>
+      <p>Comme les rapports d'activité, la visibilité que tu donnes aux financeurs leur permet de justifier leur impact sur le développement de la filière musicale.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="module" id="cumul">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">05 / 10</span><h2>Cumuler les aides et <em>les compléments</em></h2></div>
+    <p class="module-lead">Beaucoup d'aides sont cumulables. Pour un album, tu peux combiner SCPP ou SPPF, CNM et Adami. Pour un clip, SCPP ou SPPF, CNM et CNC. Puis ajouter d'autres leviers pour réduire encore ta prise de risque.</p>
+    <div class="split">
+      <h4>Exemple cité : un album à 20 000 €</h4>
+      <div class="split-bar">
+        <div style="width:25%;background:var(--accent)">25 %</div>
+        <div style="width:15%;background:var(--accent-dark)">15 %</div>
+        <div style="width:10%;background:var(--accent-line)">10 %</div>
+        <div style="width:15%;background:var(--success)">15 %</div>
+        <div style="width:25%;background:var(--warning)">25 %</div>
+        <div style="width:10%;background:var(--ink-muted)">10 %</div>
+      </div>
+      <div class="split-legend">
+        <span><i style="background:var(--accent)"></i>Aide SCPP <b>5 000 €</b></span>
+        <span><i style="background:var(--accent-dark)"></i>Aide CNM <b>3 000 €</b></span>
+        <span><i style="background:var(--accent-line)"></i>Aide Adami <b>2 000 €</b></span>
+        <span><i style="background:var(--success)"></i>Crédit d'impôt phono <b>3 000 €</b></span>
+        <span><i style="background:var(--warning)"></i>Financement participatif <b>5 000 €</b></span>
+        <span><i style="background:var(--ink-muted)"></i>Risque réel restant <b>2 000 €</b></span>
+      </div>
+      <p class="split-note">Sans les deux derniers leviers, ton apport de producteur serait de 10 000 €. Avec le crédit d'impôt obtenu l'année suivante et une campagne de financement participatif avant la sortie, il ne reste que 2 000 € réellement investis à risque. Montants illustratifs tirés de la vidéo.</p>
+    </div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Le crédit d'impôt phono en complément</h4><p>Il permet de récupérer une part de tes dépenses de production, jusqu'à 40 % pour les très petites structures selon la vidéo (taux à vérifier). Il se demande en amont, par agrément.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Un seuil de rentabilité atteignable</h4><p>Avec seulement 2 000 € à risque, quelques centaines d'albums vendus ou une année de recettes numériques peuvent suffire à rentrer dans tes frais, avant même les droits voisins, l'édition ou les concerts.</p></div></div>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ À retenir</div>
+      <p>On se sert des aides comme de <strong>blocs</strong> pour bâtir le projet, puis on actionne tous les leviers possibles pour devenir rentable plus vite.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="module" id="reseau">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">06 / 10</span><h2>Créer un <em>réseau fort</em></h2></div>
+    <p class="module-lead">Les commissions sont faites de personnes. Plus elles te connaissent et te voient impliqué dans la filière, plus elles ont envie de te soutenir.</p>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-letter">1</div><div class="eeat-name">Partenaires</div><h4>Engager son entourage</h4><p>Éditeur, tourneur, manager, SMAC : qu'ils relaient tes projets aidés et rédigent des lettres d'engagement détaillées (plan promo, priorités). Cela incite d'autres organismes à apporter un complément.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">2</div><div class="eeat-name">Pôles aides</div><h4>Échanger avec les responsables</h4><p>Appelle ou écris avant de déposer : « je suis dans un cas particulier, pouvez-vous m'aider ? ». C'est leur mission, et ils te diront parfois quelle pièce fournir pour que ton dossier passe.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">3</div><div class="eeat-name">Vie des organismes</div><h4>Participer aux assemblées générales</h4><p>Vote, participe, sois présent. Les organismes voient qui s'implique, et un membre actif est plus valorisé qu'un inconnu inscrit depuis deux semaines.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">4</div><div class="eeat-name">Commissions</div><h4>Rencontrer leurs membres</h4><p>Les membres des commissions sont souvent présents aux AG, et leurs noms sont publics. Repère-les, suis-les sur les réseaux, commente intelligemment leurs publications.</p></div>
+    </div>
+    <div class="audit-intro">
+      <h3>La routine réseau</h3>
+      <p>Un quart d'heure par semaine, par exemple le vendredi en fin de journée : tu cibles une personne, tu regardes ce qu'elle publie sur LinkedIn, Instagram ou Facebook, tu interagis. Sur une publication qui a peu de réactions, un commentaire pertinent se remarque. Avec le temps, cela crée de la familiarité.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="module" id="analyse">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">07 / 10</span><h2>Analyser les <em>projets aidés</em></h2></div>
+    <p class="module-lead">Après un refus, ou avant une demande, étudie ce que les commissions financent. C'est le meilleur moyen d'identifier tes faiblesses et de comprendre ce qui est recherché.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Sources</span><h4>Catalogues et résultats de commission</h4><p>Les bases publiques de projets soutenus et les résultats publiés par chaque organisme (SPPF, SCPP, Sacem, CNM) après chaque commission, avec bénéficiaire, projet et montant.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Enquête</span><h4>Qui sont les bénéficiaires ?</h4><p>Recherche la structure (ancienneté, activité), écoute le projet, regarde les clips, repère l'esthétique musicale, le label et le distributeur.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Leçons</span><h4>Ce que tu en tires</h4><p>Les esthétiques et les distributeurs les plus soutenus, des structures avec qui collaborer, et surtout un ordre d'idée des montants cohérents à demander.</p></div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Demander le bon montant</div>
+      <p>Certains indépendants demandent pour leur premier dossier des montants réservés aux très gros cotisants. Les grosses structures reçoivent plus parce qu'elles génèrent beaucoup plus de droits. Pour un premier dossier, vise des montants modestes : demande un peu plus que nécessaire, et un accord partiel reste une victoire.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="module" id="erreurs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">08 / 10</span><h2>Les 5 erreurs <em>à éviter</em></h2></div>
+    <p class="module-lead">Celles qui compromettent une aide déjà obtenue, ou les suivantes.</p>
+    <div class="factors">
+      <div class="factor err"><div class="factor-num">01</div><div><h4>Tarder à renvoyer la convention</h4><p>Sans convention signée, pas de volet versement ouvert, donc pas d'argent.</p></div></div>
+      <div class="factor err"><div class="factor-num">02</div><div><h4>Fournir des justificatifs incomplets</h4><p>Une facture sans preuve de virement attire l'attention en cas de contrôle. Joins toujours les deux.</p></div></div>
+      <div class="factor err"><div class="factor-num">03</div><div><h4>Bâcler le rapport d'activité</h4><p>C'est ta vitrine auprès de la commission pour les demandes suivantes.</p></div></div>
+      <div class="factor err"><div class="factor-num">04</div><div><h4>Oublier les financeurs dans sa communication</h4><p>Pas de logo, pas de mention : tu manques à une obligation et tu te prives de leur bienveillance.</p></div></div>
+      <div class="factor err"><div class="factor-num">05</div><div><h4>Rester un inconnu</h4><p>Ne jamais appeler les pôles aides, ne jamais aller en AG : à dossier égal, la commission soutient plus volontiers quelqu'un qu'elle connaît.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="module" id="checklist">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">09 / 10</span><h2>Livrable : ta <em>checklist</em></h2></div>
+    <div class="audit-intro">
+      <h3>Clique sur les cases au fur et à mesure</h3>
+      <p>Ce travail prépare l'exercice « Présélection des aides pour son projet » du Module 2. Progression : <span class="score" id="score">0 / 7</span></p>
+    </div>
+    <div class="audit-prompts" id="checklist-list">
+      <div class="prompt-row"><div class="prompt-num">C01</div><div><div class="prompt-text">J'ai repéré, pour mes aides présélectionnées, les obligations prévues par leur convention</div></div><button type="button" class="audit-check" id="c1">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C02</div><div><div class="prompt-text">J'ai prévu de conserver pour chaque dépense la facture acquittée et la preuve de virement</div></div><button type="button" class="audit-check" id="c2">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C03</div><div><div class="prompt-text">J'ai choisi le format de mon rapport d'activité (vidéo, audio ou journal) et son rythme</div></div><button type="button" class="audit-check" id="c3">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C04</div><div><div class="prompt-text">J'ai identifié les aides cumulables pour mon projet et les compléments possibles (crédit d'impôt, financement participatif)</div></div><button type="button" class="audit-check" id="c4">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C05</div><div><div class="prompt-text">J'ai noté les coordonnées des pôles aides des organismes que je vais solliciter</div></div><button type="button" class="audit-check" id="c5">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C06</div><div><div class="prompt-text">J'ai consulté les résultats d'au moins une commission et relevé les montants accordés à des projets proches du mien</div></div><button type="button" class="audit-check" id="c6">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C07</div><div><div class="prompt-text">J'ai bloqué 15 minutes par semaine pour ma routine réseau</div></div><button type="button" class="audit-check" id="c7">⬚ Fait</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="module" id="faq">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">10 / 10</span><h2>Questions <em>fréquentes</em></h2></div>
+    <div class="faq">
+      <details><summary>Que se passe-t-il si je dépense moins que prévu ?</summary><div class="ans">L'aide est recalculée : la part qui dépasse le pourcentage maximal autorisé doit être restituée (ou n'est pas versée au solde). Sois transparent avec l'organisme.</div></details>
+      <details><summary>Les petits dossiers sont-ils contrôlés ?</summary><div class="ans">Rarement, mais cela peut arriver, notamment en cas de doute. Les contrôles portent sur les flux comptables et financiers, et les organismes recoupent plusieurs sources.</div></details>
+      <details><summary>Le rapport d'activité doit-il forcément être en vidéo ?</summary><div class="ans">Non. La vidéo est recommandée car elle est simple et parlante, mais un rapport audio ou un journal de bord écrit fonctionnent aussi.</div></details>
+      <details><summary>Est-ce vraiment utile d'appeler les responsables des aides ?</summary><div class="ans">Oui. Les accompagner fait partie de leur mission, et un échange peut t'apprendre quelle pièce fournir dans ton cas particulier. Quand ton dossier arrive en commission, ils savent déjà qui tu es.</div></details>
+      <details><summary>Où trouver les projets aidés ?</summary><div class="ans">Dans les bases publiques de projets soutenus et dans les résultats de commission que chaque organisme publie sur son site (rubriques actualités ou communiqués).</div></details>
+      <details><summary>J'ai essuyé un refus. Par quoi commencer ?</summary><div class="ans">Analyse les projets aidés lors de la même commission : montants, esthétiques, structures. Compare avec ton dossier pour repérer tes faiblesses, échange avec le pôle aides, puis représente un dossier amélioré ou sollicite un autre organisme compatible.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="recap">
+  <div class="container-narrow">
+    <div class="section-label" style="color:var(--accent-line)">Synthèse</div>
+    <h3>Ce que tu dois retenir de ce cours</h3>
+    <ol class="recap-list">
+      <li>La <strong>convention signée</strong> valide l'aide : lis tes obligations et renvoie-la vite.</li>
+      <li>Chaque dépense se justifie par une <strong>facture acquittée et une preuve de paiement</strong>.</li>
+      <li>Un <strong>rapport d'activité</strong> documenté marque les commissions et facilite tes prochaines demandes.</li>
+      <li>Réalise le projet <strong>dans les délais</strong> et affiche le logo de tes financeurs partout.</li>
+      <li><strong>Cumule</strong> les aides compatibles et ajoute crédit d'impôt et financement participatif pour limiter ton risque.</li>
+      <li>Construis ton <strong>réseau</strong> et analyse les projets aidés pour progresser, surtout après un refus.</li>
+    </ol>
+  </div>
+</section>
+
+<div class="container-narrow">
+  <div class="next-cta">
+    <h3>Prêt pour la <em>suite</em> ?</h3>
+    <p>Fiche pratique : répertoire des aides et dispositifs.</p>
+    <span class="btn btn-primary">Continuer vers la fiche pratique →</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="src">Support pédagogique de la formation « Structurer et développer une activité artistique musicale » (certification RS7398), Module 2 : Dispositifs d'aide et financement de la création. Contenu issu de la vidéo de Tarik Hamiche ; les montants et taux cités sont illustratifs et doivent être vérifiés auprès des organismes et de l'administration fiscale.</p>
+    © 2026 Tarik Hamiche · Muziforma
+  </div>
+</footer>
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var btns=[].slice.call(document.querySelectorAll('#checklist-list .audit-check'));
+  var score=document.getElementById('score');var KEY='mz-rs7398-m2-06-optimiser-aides-obtenues';var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function paint(b){var on=!!saved[b.id];b.classList.toggle('checked',on);b.textContent=(on?'✓':'⬚')+' Fait';b.setAttribute('aria-pressed',on?'true':'false');}
+  function upd(){score.textContent=btns.filter(function(b){return saved[b.id]}).length+' / '+btns.length;}
+  btns.forEach(function(b){paint(b);b.addEventListener('click',function(){saved[b.id]=!saved[b.id];try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}paint(b);upd();});});
+  upd();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Gérer les droits d'auteur et les droits voisins · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Charte Muziforma : fond sable, violet #5B14FF, Manrope + Inter + JetBrains Mono. */
+:root{--bg:#F7F1E8;--bg-soft:#FCF8F2;--bg-card:#FFFFFF;--ink:#1F1A15;--ink-soft:#5C4F42;--ink-muted:#8A7A6A;--accent:#5B14FF;--accent-dark:#4910CC;--accent-soft:#EDE9FE;--accent-line:#A78BFA;--border:#E8DDC9;--border-soft:#F0E6D4;--warning:#C2410C;--warning-soft:#FFEDD5;--success:#15803D;--success-soft:#DCFCE7;--on-accent:#FFFFFF;--recap-text:rgba(247,241,232,.85);--shadow-sm:0 1px 2px rgba(31,26,21,.04);--shadow-md:0 4px 16px rgba(31,26,21,.06);--radius-sm:8px;--radius-md:14px;--radius-lg:24px;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Manrope,-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700}
+h4{font-size:1.15rem;font-weight:700;line-height:1.3}
+p{margin-bottom:1.1rem;color:var(--ink-soft)}
+strong{color:var(--ink);font-weight:700}
+em{font-style:normal;color:var(--accent);font-weight:800}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.container-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-line));z-index:9999}
+header.top-nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(247,241,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand-mark{font-family:Manrope,sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--ink)}
+.brand-mark em{color:var(--accent)}
+.nav-meta{display:flex;gap:1rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted)}
+.nav-meta span:not(:last-child)::after{content:"·";margin-left:1rem;color:var(--border)}
+@media (max-width:600px){.nav-meta{display:none}}
+.hero{padding:5rem 0 4rem;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;max-width:none;background:radial-gradient(circle,rgba(167,139,250,.22) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(91,20,255,.14) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1.8rem;box-shadow:var(--shadow-sm)}
+.hero h1{margin-bottom:1.5rem}
+.hero-lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:720px;margin:0 auto 1.5rem;line-height:1.55}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.hero-chips span{font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:.35rem .9rem}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:880px;margin:3rem auto 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-num{font-family:Manrope,sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em;margin-bottom:.5rem}
+.stat-label{font-size:.82rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.hero-stats{grid-template-columns:1fr}}
+.section-label{display:inline-block;font-family:Inter,sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:1.5rem}
+.toc-section{padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);text-align:center}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:800px;margin:1rem auto 0}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left;color:var(--ink);transition:.15s}
+.toc-item:hover{border-color:var(--accent);transform:translateX(2px);box-shadow:var(--shadow-sm);color:var(--ink)}
+.toc-num{font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);flex-shrink:0;width:36px}
+.toc-title{font-weight:600;font-size:.95rem;line-height:1.3}
+@media (max-width:600px){.toc-grid{grid-template-columns:1fr}}
+main>section.module{padding:6rem 0;position:relative;overflow:hidden}
+main>section.module:nth-of-type(odd){background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+section.module::before{content:"";position:absolute;top:10%;right:-180px;width:480px;height:480px;background:radial-gradient(circle,rgba(167,139,250,.16) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
+section.module>.container,section.module>.container-narrow{position:relative;z-index:1}
+.module-header{margin-bottom:2.5rem}
+.module-num{font-family:Manrope,sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.6rem;display:block}
+.module-lead{font-size:1.15rem;color:var(--ink-soft);margin:1.5rem 0 2.5rem;line-height:1.55;max-width:720px}
+.prose p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.3rem}
+.callout{background:var(--bg-card);border-left:4px solid var(--accent);border-radius:var(--radius-md);padding:1.6rem 1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm);text-align:left}
+.callout.warning{border-left-color:var(--warning);background:linear-gradient(135deg,var(--warning-soft) 0%,var(--bg-card) 60%)}
+.callout.success{border-left-color:var(--success);background:linear-gradient(135deg,var(--success-soft) 0%,var(--bg-card) 60%)}
+.callout-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.6rem}
+.callout.warning .callout-tag{color:var(--warning)}
+.callout.success .callout-tag{color:var(--success)}
+.callout p{margin:0;color:var(--ink);line-height:1.55}
+.callout ul{margin:.2rem 0 0 1.2rem;color:var(--ink);line-height:1.6}
+/* 3 casquettes : reprend .evolution */
+.evolution{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2rem 0}
+.evo-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;text-align:center;box-shadow:var(--shadow-sm)}
+.evo-col.featured{border:2px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg-card) 50%);transform:scale(1.02);box-shadow:var(--shadow-md)}
+.evo-acronym{font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;letter-spacing:-.04em;margin-bottom:.4rem}
+.evo-col:not(.featured) .evo-acronym{color:var(--ink-muted)}
+.evo-full{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:1rem;font-weight:600}
+.evo-col h4{margin-bottom:.6rem}
+.evo-col p{font-size:.92rem;line-height:1.55;text-align:left}
+.evo-target{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--border);text-align:left;font-size:.85rem;line-height:1.45;color:var(--ink)}
+.evo-target strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem;font-weight:800}
+@media (max-width:800px){.evolution{grid-template-columns:1fr}.evo-col.featured{transform:none}}
+/* circuit : reprend .rag-flow */
+.rag-flow{margin:2.5rem 0;display:flex;flex-direction:column;gap:1.5rem}
+.rag-step{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.rag-step:hover{border-color:var(--accent-line)}
+.rag-step-circle{flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.6rem;box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+.rag-step.alt .rag-step-circle{background:var(--warning);box-shadow:rgba(194,65,12,.3) 0 6px 20px}
+.rag-step>div:last-child{flex:1 1 0%;min-width:0}
+.step-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);margin-bottom:.4rem}
+.rag-step h4{margin-bottom:.6rem}
+.rag-step p{margin:0;line-height:1.55}
+/* tableaux dans la charte */
+.data-table{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);margin:2rem 0}
+.data-table table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+.data-table th{text-align:left;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding:1rem 1.1rem;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.data-table td{padding:.9rem 1.1rem;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table td strong{color:var(--ink)}
+.data-table .n{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--accent-dark);white-space:nowrap}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .6rem;border-radius:6px;white-space:nowrap}
+.badge.yes{background:var(--success-soft);color:var(--success)}
+.badge.no{background:var(--warning-soft);color:var(--warning)}
+.badge.mid{background:var(--accent-soft);color:var(--accent-dark)}
+/* barre de répartition */
+.split{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);margin:2rem 0}
+.split h4{margin-bottom:1.2rem}
+.split-bar{display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden}
+.split-bar div{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:500;color:var(--on-accent);white-space:nowrap;overflow:hidden}
+.split-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem 1rem;margin-top:1.2rem;font-size:.88rem;color:var(--ink-soft)}
+.split-legend span{display:flex;align-items:center;gap:.5rem}
+.split-legend i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.split-legend b{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--ink);margin-left:auto}
+.split-note{font-size:.82rem;color:var(--ink-muted);margin:1rem 0 0;line-height:1.5}
+/* cartes : reprend .motors / .eeat */
+.motors,.eeat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:2rem 0}
+.motor-card,.eeat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-sm);min-width:0}
+.eeat-card{transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.eeat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motor-name{font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;color:var(--ink);letter-spacing:-.02em;margin-bottom:.3rem}
+.motor-by{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.motor-spec{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border-soft);font-size:.9rem;line-height:1.45}
+.motor-spec:last-child{border-bottom:0}
+.motor-spec-label{flex-shrink:0;width:78px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding-top:.2rem}
+.motor-spec-value{flex:1 1 0%;color:var(--ink-soft)}
+.eeat-letter{width:52px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1rem}
+.eeat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem}
+.eeat-card h4{margin-bottom:.8rem}
+.eeat-card>p{font-size:.95rem;line-height:1.55;margin-bottom:1.2rem}
+.eeat-music{background:var(--accent-soft);border-radius:var(--radius-sm);padding:1rem;font-size:.9rem;line-height:1.5;color:var(--ink);margin-top:auto}
+.eeat-music strong{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.eeat-music .out{color:var(--warning)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:740px){.eeat-grid,.motors,.grid3{grid-template-columns:1fr}}
+/* étapes : reprend .factors */
+.factors{display:flex;flex-direction:column;gap:1.2rem;margin:2rem 0}
+.factor{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.factor:hover{border-color:var(--accent-line)}
+.factor-num{flex-shrink:0;font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;width:50px;letter-spacing:-.03em}
+.factor.err .factor-num{color:var(--warning)}
+.factor>div:last-child{flex:1 1 0%;min-width:0}
+.factor h4{margin-bottom:.6rem}
+.factor p{font-size:.95rem;line-height:1.55;margin-bottom:1rem}
+.factor p:last-child{margin-bottom:0}
+.factor-detail{background:var(--accent-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.88rem;line-height:1.5;color:var(--ink)}
+.factor-detail strong{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.factor.err .factor-detail{background:var(--warning-soft)}
+.factor.err .factor-detail strong{color:var(--warning)}
+/* checklist : reprend .audit */
+.audit-intro{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm)}
+.audit-intro h3{margin-bottom:.8rem}
+.audit-intro p{margin:0;line-height:1.6}
+.audit-prompts{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.prompt-row{display:flex;gap:1.2rem;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.prompt-num{flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--accent);width:36px}
+.prompt-row>div:not(.prompt-num){flex:1 1 0%;min-width:0}
+.prompt-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.audit-check{flex-shrink:0;padding:.5rem .9rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s;font-family:Inter,sans-serif}
+.audit-check:hover{border-color:var(--accent-line)}
+.audit-check.checked{background:var(--success);color:var(--on-accent);border-color:var(--success);font-weight:600}
+.score{font-family:"JetBrains Mono",monospace;color:var(--success);font-weight:500}
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.faq details{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:border-color .2s}
+.faq details:hover,.faq details[open]{border-color:var(--accent-line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.5rem;font-family:Manrope,sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.faq details[open] summary::after{content:"−";background:var(--accent);color:var(--on-accent)}
+.faq .ans{padding:0 1.5rem 1.4rem;color:var(--ink-soft);font-size:.97rem;line-height:1.65}
+/* synthèse */
+.recap{background:var(--ink);color:var(--recap-text);padding:4rem 0;position:relative;overflow:hidden}
+.recap::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(91,20,255,.25) 0%,transparent 60%);border-radius:50%;pointer-events:none}
+.recap>.container-narrow{position:relative;z-index:1}
+.recap h3{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg-card);margin-bottom:1.5rem}
+.recap-list{list-style:none;counter-reset:item;display:flex;flex-direction:column;gap:1rem}
+.recap-list li{counter-increment:item;padding-left:3rem;position:relative;line-height:1.55;color:var(--recap-text)}
+.recap-list li::before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:Manrope,sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-line)}
+.recap-list li strong{color:var(--bg-card)}
+.next-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin:4rem auto;max-width:760px;text-align:center;box-shadow:var(--shadow-md)}
+.next-cta h3{margin-bottom:1rem}
+.next-cta p{margin-bottom:1.5rem;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.1rem 2.2rem;font-family:Manrope,sans-serif;font-size:1rem;font-weight:800;border-radius:999px;border:0;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+footer.site-footer{background:var(--ink);color:rgba(247,241,232,.55);padding:2.5rem 0;text-align:center;font-size:.85rem;border-top:1px solid rgba(247,241,232,.08);line-height:1.7}
+footer.site-footer .src{max-width:760px;margin:0 auto 1rem;font-size:.8rem;color:rgba(247,241,232,.45)}
+@media (max-width:860px){main>section.module{padding:4rem 0}.toc-section{padding:3rem 0}.module-header{margin-bottom:1.8rem}.module-lead{font-size:1.05rem;margin:1rem 0 1.8rem}.rag-step,.factor{padding:1.4rem;gap:1rem}.rag-step-circle{width:48px;height:48px;font-size:1.3rem}.factor-num{font-size:1.6rem;width:40px}.next-cta{padding:1.8rem 1.4rem}.recap-list li{padding-left:2.4rem}section.module::before{width:320px;height:320px}}
+@media (max-width:480px){.hero{padding:3rem 0 2.5rem}.hero h1{font-size:2rem}.rag-step,.factor{flex-direction:column;gap:.8rem}.prompt-row{flex-wrap:wrap}}
+html,body{width:100% !important;max-width:100% !important;overflow-x:hidden}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress-bar"></div>
+<header class="top-nav">
+  <div class="nav-inner">
+    <span class="brand-mark">MUZI<em>FORMA</em></span>
+    <div class="nav-meta"><span>Module 04 / 08</span><span>Muziforma</span></div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Module 04 · Outils et processus</span>
+    <h1>Gérer ses droits d'auteur et ses <em>droits voisins</em>.</h1>
+    <p class="hero-lead">Droits d'auteur, droits voisins des artistes-interprètes, droits voisins des producteurs, droits éditoriaux : quatre familles de revenus, quatre organismes à connaître. Comment adhérer, déclarer tes œuvres, répartir les parts et vérifier que tout ce qui t'est dû arrive bien sur ton compte.</p>
+    <div class="hero-chips"><span>Durée : 319 min (4 vidéos)</span><span>Formateur : Tarik Hamiche</span></div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">70 ans</div><div class="stat-label">De protection après la mort du dernier ayant droit vivant</div></div>
+      <div class="stat-card"><div class="stat-num">1/3</div><div class="stat-label">Par catégorie sur les diffusions, si tu ne coches pas la clé phono</div></div>
+      <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">Phonogrammes commercialisés pour adhérer comme producteur</div></div>
+      <div class="stat-card"><div class="stat-num">5 ans</div><div class="stat-label">Pour réclamer des droits en attente à la Sacem</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc-section">
+  <div class="container-narrow">
+    <div class="callout">
+      <div class="callout-tag">★ Objectifs pédagogiques</div>
+      <ul>
+        <li>Distinguer droits d'auteur, droits voisins (interprètes et producteurs) et droits éditoriaux</li>
+        <li>Adhérer aux bons organismes (Sacem, Adami, Spedidam, SCPP ou SPPF) et y déclarer tes œuvres</li>
+        <li>Maîtriser les clés de répartition, notamment la différence entre clé phono et clé statutaire</li>
+        <li>Analyser tes relevés et formuler une demande de vérification efficace</li>
+        <li>Comprendre le rôle d'un éditeur et les 4 questions à se poser devant un contrat d'édition</li>
+      </ul>
+    </div>
+    <div class="section-label">Plan du cours</div>
+    <div class="toc-grid">
+      <a href="#familles" class="toc-item"><span class="toc-num">01</span><span class="toc-title">Les familles de droits dans la musique</span></a>
+      <a href="#auteur" class="toc-item"><span class="toc-num">02</span><span class="toc-title">Le droit d'auteur : ce qu'il protège</span></a>
+      <a href="#sacem" class="toc-item"><span class="toc-num">03</span><span class="toc-title">La Sacem : adhérer et utiliser ton espace</span></a>
+      <a href="#repartition" class="toc-item"><span class="toc-num">04</span><span class="toc-title">Déclarer une œuvre et répartir les parts</span></a>
+      <a href="#releves" class="toc-item"><span class="toc-num">05</span><span class="toc-title">Relevés et demandes de vérification</span></a>
+      <a href="#interpretes" class="toc-item"><span class="toc-num">06</span><span class="toc-title">Droits voisins des artistes-interprètes</span></a>
+      <a href="#producteurs" class="toc-item"><span class="toc-num">07</span><span class="toc-title">Droits voisins des producteurs</span></a>
+      <a href="#edition" class="toc-item"><span class="toc-num">08</span><span class="toc-title">L'édition musicale et les droits éditoriaux</span></a>
+      <a href="#erreurs" class="toc-item"><span class="toc-num">09</span><span class="toc-title">Les 6 erreurs à éviter</span></a>
+      <a href="#checklist" class="toc-item"><span class="toc-num">10</span><span class="toc-title">Livrable : ta checklist</span></a>
+      <a href="#faq" class="toc-item"><span class="toc-num">11</span><span class="toc-title">FAQ</span></a>
+    </div>
+    <div class="data-table" style="margin-top:2.5rem;text-align:left"><table>
+      <thead><tr><th style="width:90px">Repère</th><th>Chapitre de la vidéo</th></tr></thead>
+      <tbody>
+        <tr><td class="n"></td><td><strong>Vidéo 1 · Les droits d'auteur</strong></td></tr>
+        <tr><td class="n">00:00</td><td>Introduction et programme de la session</td></tr>
+        <tr><td class="n">02:32</td><td>Copie privée et rémunération équitable</td></tr>
+        <tr><td class="n">07:29</td><td>Le droit d'auteur : droits moraux et patrimoniaux</td></tr>
+        <tr><td class="n">11:06</td><td>Durée de protection et rôle de la Sacem</td></tr>
+        <tr><td class="n">16:00</td><td>Adhérer à la Sacem pas à pas</td></tr>
+        <tr><td class="n">29:14</td><td>Prendre en main l'espace membre sacem.fr</td></tr>
+        <tr><td class="n">34:05</td><td>Œuvres, catalogue et programmes</td></tr>
+        <tr><td class="n">36:25</td><td>Répartitions et œuvres non identifiées</td></tr>
+        <tr><td class="n">41:07</td><td>Données de diffusion et estimation des droits</td></tr>
+        <tr><td class="n">48:19</td><td>Déclarer une œuvre sur sacem.fr</td></tr>
+        <tr><td class="n">57:12</td><td>Répartir les droits : les bases</td></tr>
+        <tr><td class="n">60:48</td><td>Droits mécaniques et droits d'exécution publique</td></tr>
+        <tr><td class="n">63:49</td><td>Exemple chiffré : clé phono ou clé statutaire</td></tr>
+        <tr><td class="n">74:07</td><td>Le mythe de la part éditoriale perdue</td></tr>
+        <tr><td class="n">77:18</td><td>Analyser ses relevés de droits</td></tr>
+        <tr><td class="n">84:11</td><td>Faire une demande de vérification</td></tr>
+        <tr><td class="n">90:02</td><td>Automatiser ses dépôts avec Muzisecur</td></tr>
+        <tr><td class="n"></td><td><strong>Vidéo 2 · Les droits voisins des artistes-interprètes</strong></td></tr>
+        <tr><td class="n">00:00</td><td>Introduction : qu'est-ce que le droit voisin ?</td></tr>
+        <tr><td class="n">01:06</td><td>Qui est artiste-interprète ?</td></tr>
+        <tr><td class="n">02:02</td><td>Rémunération équitable et copie privée</td></tr>
+        <tr><td class="n">05:10</td><td>Relevés de diffusion horodatés</td></tr>
+        <tr><td class="n">12:30</td><td>Schéma de répartition et montants collectés</td></tr>
+        <tr><td class="n">16:15</td><td>Adhérer à l'Adami pas à pas</td></tr>
+        <tr><td class="n">43:01</td><td>Adhérer à la Spedidam</td></tr>
+        <tr><td class="n">50:28</td><td>L'espace Adami : répertoire et déclarations</td></tr>
+        <tr><td class="n">57:36</td><td>Règlements et relevés de paiement Adami</td></tr>
+        <tr><td class="n">65:13</td><td>L'espace mySpedidam et les relevés fiscaux</td></tr>
+        <tr><td class="n">68:08</td><td>Déclarer un enregistrement à la Spedidam</td></tr>
+        <tr><td class="n">74:45</td><td>Centraliser ses dépôts avec Muzisecur</td></tr>
+        <tr><td class="n"></td><td><strong>Vidéo 3 · Les droits voisins des producteurs</strong></td></tr>
+        <tr><td class="n">00:00</td><td>Rappel : rémunération équitable et copie privée</td></tr>
+        <tr><td class="n">02:28</td><td>SCPP ou SPPF : lequel choisir ?</td></tr>
+        <tr><td class="n">04:30</td><td>Conditions et étapes d'adhésion à la SCPP</td></tr>
+        <tr><td class="n">07:31</td><td>Remplir le formulaire SCPP</td></tr>
+        <tr><td class="n">08:47</td><td>Convention collective et musiciens</td></tr>
+        <tr><td class="n">18:46</td><td>Les mandats de la SCPP</td></tr>
+        <tr><td class="n">28:59</td><td>Adhérer à la SPPF</td></tr>
+        <tr><td class="n">36:39</td><td>Les mandats de gestion de la SPPF</td></tr>
+        <tr><td class="n">41:00</td><td>Convention collective, capital et envoi</td></tr>
+        <tr><td class="n">43:42</td><td>Prendre en main l'espace SCPP</td></tr>
+        <tr><td class="n">47:37</td><td>Déclarer un phonogramme à la SCPP</td></tr>
+        <tr><td class="n">55:11</td><td>Prendre en main l'espace SPPF</td></tr>
+        <tr><td class="n">59:30</td><td>Pré-achat et livraison des clips</td></tr>
+        <tr><td class="n">65:13</td><td>BMAT et diffusions non reconnues</td></tr>
+        <tr><td class="n">74:07</td><td>Déclarer un titre avec la matrice SPPF</td></tr>
+        <tr><td class="n">84:48</td><td>Lire ses relevés de répartition</td></tr>
+        <tr><td class="n"></td><td><strong>Vidéo 4 · L'édition musicale et les droits éditoriaux</strong></td></tr>
+        <tr><td class="n">00:00</td><td>Introduction et objectifs de la session</td></tr>
+        <tr><td class="n">01:22</td><td>Définition et rôle de l'édition musicale</td></tr>
+        <tr><td class="n">03:49</td><td>Les trois couches de droits et leurs titulaires</td></tr>
+        <tr><td class="n">07:39</td><td>Droit moral et droits patrimoniaux</td></tr>
+        <tr><td class="n">10:07</td><td>Les sources des droits éditoriaux</td></tr>
+        <tr><td class="n">13:49</td><td>Les missions de l'éditeur</td></tr>
+        <tr><td class="n">16:38</td><td>Le contrat de cession et d'édition</td></tr>
+        <tr><td class="n">19:57</td><td>Répartition : clé statutaire ou conventionnelle</td></tr>
+        <tr><td class="n">25:28</td><td>SDRM, synchro, sous-édition et durée</td></tr>
+        <tr><td class="n">30:41</td><td>Cinq idées clés à retenir</td></tr>
+        <tr><td class="n">34:02</td><td>Les erreurs fréquentes</td></tr>
+        <tr><td class="n">38:23</td><td>Cas pratique et quiz</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="module" id="familles">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">01 / 11</span><h2>Les familles de <em>droits</em> dans la musique</h2></div>
+    <p class="module-lead">Un même titre génère plusieurs couches de revenus, qui rémunèrent des métiers différents. Tant que tu ne sais pas les distinguer, tu laisses forcément de l'argent sur la table.</p>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-letter">A</div><div class="eeat-name">Droit d'auteur</div><h4>L'œuvre : texte et musique</h4><p>Il rémunère les auteurs (paroles) et les compositeurs (musique, y compris la mélodie vocale). Géré en France par la Sacem.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">I</div><div class="eeat-name">Droit voisin des interprètes</div><h4>L'interprétation</h4><p>Chanteurs, musiciens, choristes, chefs d'orchestre, directeurs artistiques… et les beatmakers qui jouent ou programment. Géré par l'Adami et la Spedidam.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">P</div><div class="eeat-name">Droit voisin des producteurs</div><h4>La fixation : le master</h4><p>Il rémunère celui qui a financé l'enregistrement. Géré par la SCPP ou la SPPF (tu adhères à l'une <strong>ou</strong> l'autre).</p></div>
+      <div class="eeat-card"><div class="eeat-letter">E</div><div class="eeat-name">Droits éditoriaux</div><h4>La part de l'éditeur</h4><p>Une part des droits d'auteur qui rémunère le travail d'administration, de tracking et de valorisation du catalogue.</p></div>
+    </div>
+    <div class="prose"><p>Derrière ces familles, deux mécanismes alimentent une grande partie des droits :</p></div>
+    <div class="motors">
+      <div class="motor-card">
+        <div class="motor-name">Rémunération équitable</div>
+        <div class="motor-by">Payée par les diffuseurs</div>
+        <div class="motor-spec"><span class="motor-spec-label">Qui paie</span><span class="motor-spec-value">Radios, télés, discothèques, bars, restaurants, commerces, salles de concert, lieux sonorisés</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Collecte</span><span class="motor-spec-value">La SPRE, puis répartition aux interprètes et aux producteurs (moitié chacun)</span></div>
+      </div>
+      <div class="motor-card">
+        <div class="motor-name">Copie privée</div>
+        <div class="motor-by">Prélevée sur les supports</div>
+        <div class="motor-spec"><span class="motor-spec-label">Qui paie</span><span class="motor-spec-value">La vente de tout support de stockage : téléphones, ordinateurs, disques durs, clés USB, CD vierges</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Collecte</span><span class="motor-spec-value">Copie France, puis répartition aux auteurs, interprètes et producteurs, en s'appuyant sur la déclaration annuelle des ventes</span></div>
+      </div>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ Le cas de l'artiste en autoproduction</div>
+      <p>Si tu es à la fois auteur, compositeur, interprète et producteur, tu peux récupérer <strong>l'ensemble des droits générés</strong> (moins les frais de gestion des organismes), à condition d'être membre de la Sacem, de l'Adami et de la Spedidam, et de la SCPP ou de la SPPF.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="module" id="auteur">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">02 / 11</span><h2>Le droit d'auteur : <em>ce qu'il protège</em></h2></div>
+    <p class="module-lead">En France, le droit d'auteur protège le <strong>créateur</strong>, pas seulement l'œuvre. C'est la grande différence avec le copyright américain, où l'œuvre peut changer de « paternité ».</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Famille de droits</th><th>Ce qu'elle couvre</th><th>Cessible ?</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Droits moraux</strong></td><td>Être reconnu comme auteur, s'opposer à une modification ou une adaptation, décider quand et comment l'œuvre est rendue publique, la retirer dans certains cas</td><td><span class="badge no">Jamais</span></td></tr>
+        <tr><td><strong>Droits patrimoniaux</strong></td><td>Reproduire l'œuvre (fabrication, streaming), la représenter (concert, radio, télé), autoriser ou interdire une utilisation, être rémunéré</td><td><span class="badge yes">Oui</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Une protection quasi automatique</h4><p>Si tu peux prouver que tu as créé une œuvre originale, tes droits te sont reconnus. Le dépôt à la Sacem sert surtout à organiser la collecte et à dater ta déclaration.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Le dépôt Sacem est déclaratif</h4><p>Il ne « fait pas foi » à lui seul en cas de conflit : quelqu'un qui prouve avoir créé l'œuvre avant toi (enregistrements, témoignages) l'emporte. Garde tes preuves de création.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Une durée longue</h4><p>Les droits courent toute la vie des auteurs, puis 70 ans après la mort du <strong>dernier ayant droit vivant</strong>. Tes descendants en profitent, puis l'œuvre entre dans le domaine public.</p><div class="factor-detail"><strong>À vérifier</strong>Durée légale citée dans la vidéo : vérifie-la sur une source officielle (Code de la propriété intellectuelle), les règles peuvent évoluer.</div></div></div>
+    </div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Beatmakers et ventes « exclusives »</div>
+      <p>Adhérer à la Sacem implique d'y apporter <strong>toutes</strong> tes œuvres. Vendre une instru en laissant l'acheteur la signer à son nom, comme sur les plateformes pensées pour le copyright, n'est pas compatible avec le droit d'auteur français.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="module" id="sacem">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">03 / 11</span><h2>La Sacem : adhérer et utiliser <em>ton espace</em></h2></div>
+    <p class="module-lead">La Sacem gère les droits des auteurs, compositeurs et éditeurs qui lui donnent mandat. Trois missions : <strong>collecter</strong>, <strong>répartir</strong>, <strong>protéger</strong>. L'adhésion se fait en ligne en quelques minutes.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Sur sacem.fr</span><h4>Devenir membre, adhérer en ligne</h4><p>Choisis ton rôle (auteur, compositeur, éditeur) et les territoires confiés. Tu peux faire des « apports fragmentés » : la Sacem pour la France, un homologue pour un autre pays.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Justificatifs</span><h4>Une pièce d'identité et une preuve d'exploitation</h4><p>Pas besoin d'être de nationalité française. Une preuve parmi quatre : capture d'une vidéo à 1 000 vues minimum, capture d'une plateforme de streaming (avec les crédits), jaquette d'un support, ou attestation de diffusion.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Signature</span><h4>Acte d'adhésion et attestation sur l'honneur</h4><p>Tu signes avec un code reçu par SMS ou e-mail. Déclare des informations exactes : c'est une attestation sur l'honneur.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">4</div><div><span class="step-tag">Paiement</span><h4>Frais d'admission, puis accès à ton espace</h4><p>La vidéo mentionne 100 € de frais d'admission (montant à vérifier sur sacem.fr, il peut avoir évolué).</p></div></div>
+    </div>
+    <div class="prose"><p>Une fois membre, ton espace sacem.fr contient des outils que peu d'artistes exploitent :</p></div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Répartitions</div><h4>Relevés, synthèses, historique</h4><p>Télécharge chaque relevé. Tes coordonnées bancaires doivent être à jour au moins un mois avant la répartition suivante.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Œuvres non identifiées</div><h4>De l'argent qui attend son ayant droit</h4><p>Des œuvres exploitées n'ont jamais été réclamées. Cherche ton nom et revendique avec preuves : tu disposes de 5 ans pour récupérer ces sommes.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Données de diffusion</div><h4>Tracer tes diffusions</h4><p>Recherche par radio, télé ou discothèque et par période. Si des diffusions apparaissent mais pas dans tes relevés, tu tiens une preuve pour réclamer.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Programmes et dates</div><h4>Déclarer tes concerts</h4><p>Dépose un programme type (par exemple « saison 1 »), puis déclare chaque date en quelques clics.</p></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Astuce</div>
+      <p>Le catalogue Sacem te donne les ayants droit et éditeurs d'une œuvre : pratique pour savoir qui contacter avant une reprise ou une adaptation. L'outil d'estimation des droits donne un ordre de grandeur, pas un montant fiable.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="module" id="repartition">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">04 / 11</span><h2>Déclarer une œuvre et <em>répartir les parts</em></h2></div>
+    <p class="module-lead">La déclaration se fait dans « Déclarer une œuvre » : genre, statut (inédite ou éditée), durée, fichier audio, paroles en PDF, contrat d'édition le cas échéant, puis les crédits et la clé de répartition. Chaque ayant droit signe par SMS ou e-mail.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Type d'œuvre</th><th>Répartition par défaut</th><th>Obligatoire ?</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Inédite</strong> (sans éditeur)</td><td>50 % auteur(s), 50 % compositeur(s)</td><td><span class="badge mid">Convention</span></td></tr>
+        <tr><td><strong>Éditée</strong> : droits mécaniques (DRM : pressage, fabrication)</td><td>25 % auteur, 25 % compositeur, 50 % éditeur : c'est la <strong>clé phono</strong></td><td><span class="badge mid">Convention</span></td></tr>
+        <tr><td><strong>Éditée</strong> : exécution publique (DEP : radio, télé, club, concerts)</td><td>1/3 auteurs, 1/3 compositeurs, 1/3 éditeurs, partagé à parts égales dans chaque catégorie</td><td><span class="badge no">Statutaire, sauf case cochée</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="prose"><p><strong>La règle d'or : le total doit toujours faire 100.</strong> Pour le reste, tout se négocie, du moment que tout le monde est d'accord. Mais attention à la clé DEP : si tu ne coches pas la case qui aligne la répartition des DEP sur la clé phono, la Sacem applique sa clé statutaire sur les diffusions, qui représentent l'essentiel des droits.</p></div>
+    <div class="data-table"><table>
+      <thead><tr><th>Exemple de la vidéo, 100 000 € de droits</th><th>Clé phono</th><th>Si la clé phono s'applique</th><th>Clé statutaire DEP</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Pierre</strong> (auteur)</td><td class="n">20 %</td><td class="n">20 000 €</td><td class="n">16 667 €</td></tr>
+        <tr><td><strong>Malik</strong> (auteur)</td><td class="n">5 %</td><td class="n">5 000 €</td><td class="n">16 667 €</td></tr>
+        <tr><td><strong>Sandrine</strong> (compositrice)</td><td class="n">25 %</td><td class="n">25 000 €</td><td class="n">33 333 €</td></tr>
+        <tr><td><strong>Éditeur A</strong> (édite Pierre)</td><td class="n">20 %</td><td class="n">20 000 €</td><td class="n">13 333 €</td></tr>
+        <tr><td><strong>Éditeur B</strong> (édite Malik)</td><td class="n">5 %</td><td class="n">5 000 €</td><td class="n">3 333 €</td></tr>
+        <tr><td><strong>Éditeur C</strong> (édite Sandrine)</td><td class="n">25 %</td><td class="n">25 000 €</td><td class="n">16 667 €</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Ce que montre l'exemple</div>
+      <p>Malik, qui a « accepté » 5 points, touche plus de trois fois plus sur les diffusions. Pierre perd environ un quart. Vérifie toujours la case d'alignement de la clé DEP sur la clé phono avant de signer un dépôt.</p>
+    </div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Mythe</div><h4>« Sans éditeur, je perds la moitié »</h4><p>Faux. Sans éditeur, la totalité est répartie entre auteurs et compositeurs. Rien ne dort dans une boîte noire.</p><div class="eeat-music"><strong>Seule exception</strong>Les droits réservés : la part éditoriale est mise en attente, pour négocier un futur contrat d'édition ou monter ta propre structure.</div></div>
+      <div class="eeat-card"><div class="eeat-name">Top line</div><h4>La mélodie vocale compte en composition</h4><p>Un interprète qui crée une mélodie vocale peut prétendre à des parts de compositeur. Un compositeur qui influence le texte, à des parts d'auteur.</p><div class="eeat-music"><strong>Réflexe</strong>Fixe la clé de répartition par écrit avant la session studio (e-mail ou mémo signé par tous).</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="module" id="releves">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">05 / 11</span><h2>Relevés et demandes de <em>vérification</em></h2></div>
+    <p class="module-lead">Tu ne touches pas automatiquement 100 % de tes droits. Sans démarche proactive (lire tes relevés, réclamer), une partie peut ne jamais arriver.</p>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Lire ton relevé par type de diffusion</h4><p>Radio, TV, plateformes (DSP), concerts, films : repère d'où vient le gros de tes droits.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Comparer par période, par œuvre, par territoire</h4><p>Toutes les répartitions n'ont pas le même poids. Repère les œuvres et les pays qui rapportent, et ce qui manque (un live, une synchro, une date).</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Vérifier que personne ne touche à ta place</h4><p>Anecdote de la vidéo : un co-auteur avait déposé l'instrumental seul, sous le même titre, pendant le mix. Le vrai dépôt a été rejeté comme doublon et c'est lui qui a encaissé. Seule une demande de vérification a permis de corriger.</p></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Archiver chaque relevé</h4><p>Télécharge et classe tous tes relevés, tiens un tableur de suivi, et déclare tous tes concerts.</p></div></div>
+    </div>
+    <div class="audit-intro">
+      <h3>Une demande de vérification efficace</h3>
+      <p>Cible une œuvre précise (pas « vérifiez tout mon catalogue »), indique son code ISWC, les dates et lieux de diffusion, les diffuseurs, tes preuves (affiches, programmes signés, captures de vues, relevés de diffusion) et joins ton relevé. Passe par l'espace membre : Contact, Faire une réclamation, motif (relevé manquant, droit non perçu, erreur de répartition). Accusé de réception rapide, traitement annoncé de 2 à 8 semaines, régularisation sur la répartition suivante.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="module" id="interpretes">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">06 / 11</span><h2>Droits voisins des <em>artistes-interprètes</em></h2></div>
+    <p class="module-lead">Est artiste-interprète toute personne qui apporte quelque chose de créatif à l'interprétation. Le beatmaker qui programme une batterie ou joue une basse au clavier en fait partie.</p>
+    <div class="motors">
+      <div class="motor-card">
+        <div class="motor-name">Adami</div>
+        <div class="motor-by">Adhésion en ligne en 7 étapes</div>
+        <div class="motor-spec"><span class="motor-spec-label">Piège</span><span class="motor-spec-value">Créer un compte ne fait pas de toi un membre : lance la « demande d'admission »</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Preuve</span><span class="motor-spec-value">Un enregistrement commercialisé où ton nom apparaît (capture avec crédits, livret, contrat)</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Espace</span><span class="motor-spec-value">Répertoire, déclaration d'œuvre manquante (ventes, diffusions radio, clips), règlements et attestations fiscales</span></div>
+      </div>
+      <div class="motor-card">
+        <div class="motor-name">Spedidam</div>
+        <div class="motor-by">Formulaire « devenir associé »</div>
+        <div class="motor-spec"><span class="motor-spec-label">Preuve</span><span class="motor-spec-value">Justificatif d'activité (fiche de paie, contrat) ou attestation d'autoproduction sur l'honneur, plus une preuve d'enregistrement</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Déclarer</span><span class="motor-spec-value">« Nouvel enregistrement » : titre, rôle, session d'enregistrement (date, horaires, lieu), producteur, justificatif</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Espace</span><span class="motor-spec-value">Répartitions détaillées et relevés fiscaux à transmettre à ton comptable</span></div>
+      </div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Adhère <strong>aux deux</strong> : chacune collecte des droits. Pour l'international, un seul des deux organismes te représente. Le conseil de Tarik : confier le monde à l'Adami au départ, puis retirer progressivement des territoires pour les confier à des homologues locaux quand un pays décolle.</p>
+    </div>
+    <div class="prose"><p><strong>Les relevés horodatés changent la donne.</strong> Des outils de pige comme BMAT ou Yacast listent chaque passage radio ou télé (jour, heure, durée). Avec ces relevés, tu peux déclarer à l'Adami des diffusions qui n'avaient pas été rattachées à tes enregistrements, avec un rattrapage possible sur plusieurs années. Vérifie aussi que l'empreinte de tes titres anciens figure bien dans la base BMAT.</p></div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="module" id="producteurs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">07 / 11</span><h2>Droits voisins des <em>producteurs</em></h2></div>
+    <p class="module-lead">SCPP ou SPPF ? Pour Tarik, les deux font aujourd'hui le même travail : compare leurs interfaces, leurs aides et l'accueil qu'on te réserve, puis choisis. Tu ne peux être membre que d'une seule.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Étape</th><th>SCPP</th><th>SPPF</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Condition clé</strong></td><td>Avoir produit et commercialisé au moins 5 phonogrammes</td><td>Pièces d'identité, contrats d'artiste, de licence ou de distribution, ou attestations d'autoproduction et d'autodistribution</td></tr>
+        <tr><td><strong>Procédure</strong></td><td>Formulaire, signature électronique, conseil d'administration mensuel, mandats, puis déclaration des titres</td><td>Création d'un accès, dossier en 3 étapes, mandats, envoi du dossier</td></tr>
+        <tr><td><strong>Mandats</strong></td><td>3 obligatoires, 2 facultatifs</td><td>2 obligatoires, les autres facultatifs</td></tr>
+        <tr><td><strong>Apport au capital</strong> (à vérifier)</td><td>150 € cités dans la vidéo</td><td>153 € cités dans la vidéo</td></tr>
+        <tr><td><strong>Déclarer un titre</strong></td><td>Formulaire en ligne : support, label, partage de rémunération, interprètes, titres</td><td>Matrice Excel envoyée par e-mail avec la pochette et une capture de la sortie</td></tr>
+      </tbody>
+    </table></div>
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-name">Mandats</div><h4>Signe-les tous</h4><p>Les obligatoires permettent la collecte (rémunération équitable, copie privée). Les facultatifs couvrent le digital, la sonorisation, l'attente téléphonique : autant de sources en plus. Un mandat facultatif reste révocable.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Convention collective</div><h4>La rémunération complémentaire</h4><p>Les musiciens et choristes sous contrat de travail de droit français peuvent percevoir 6 % des sommes du droit exclusif (chiffre de la vidéo, à vérifier). Déclare-les avec tes titres.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Clips</div><h4>Pré-achat et livraison</h4><p>Certaines chaînes peuvent pré-acheter des diffusions de ton clip. La livraison se fait de façon dématérialisée ; pour certaines chaînes, un contrat papier reste exigé.</p></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Astuce</div>
+      <p>Dans l'espace SPPF, l'onglet « Reconnaissance » liste les diffusions non reconnues : tape le nom de tes artistes, repère ce qui t'appartient et envoie une requête. Surveille aussi les dates de fin de contrat de licence pour récupérer 100 % de tes droits voisins à l'échéance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="module" id="edition">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">08 / 11</span><h2>L'édition musicale et les <em>droits éditoriaux</em></h2></div>
+    <p class="module-lead">L'éditeur ne produit pas : il prend des œuvres qu'on lui confie et fait tout pour qu'elles rapportent dans le temps. Ses droits portent sur <strong>l'œuvre</strong>, pas sur le master.</p>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-letter">1</div><div class="eeat-name">Donner les moyens</div><h4>Avance, réseau, writing camps</h4><p>Il aide le créateur à créer, notamment via une avance dans un pacte de préférence.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">2</div><div class="eeat-name">Exploiter</div><h4>Faire vivre le catalogue</h4><p>Promotion, placements en synchro (pub, film, série, jeu vidéo), sous-édition à l'étranger.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">3</div><div class="eeat-name">Administrer</div><h4>Déposer et autoriser</h4><p>Contrats, signatures, dépôts, autorisations SDRM de fabrication, clearing des samples.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">4</div><div class="eeat-name">Tracker</div><h4>Suivre chaque utilisation</h4><p>Relevés horodatés, programmes de concerts, déclarations de dates : s'assurer que chaque droit dû est bien collecté.</p></div>
+    </div>
+    <div class="prose"><p>Devant un contrat de cession et d'édition, pose-toi <strong>quatre questions</strong> :</p></div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Quels droits je cède ?</h4><p>Tu peux fragmenter : une seule œuvre ou un catalogue, uniquement la synchro, uniquement le live…</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Pour combien de temps ?</h4><p>5, 10, 15 ans… ou la durée légale. Une durée limitée permet de changer de partenaire s'il ne fait pas le travail.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Sur quels territoires ?</h4><p>Ne concède pas un pays où l'éditeur ne fera rien. Mieux vaut des partenaires locaux par territoire.</p></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Qu'est-ce que ça me rapporte ?</h4><p>Montant de l'avance, pourcentage pris sur les revenus secondaires, répartition des cachets négociés (synchro, utilisations spéciales).</p></div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ La sous-édition en un exemple</div>
+      <p>Une œuvre éditée au Japon génère des droits en France. L'éditeur japonais confie la gestion à un éditeur français, qui dépose, suit et collecte, puis reverse le solde après sa commission (négociée, par exemple 10 à 20 % selon la vidéo). Choisis des partenaires solides : un sous-éditeur en faillite, ce sont des droits perdus.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="module" id="erreurs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">09 / 11</span><h2>Les 6 erreurs <em>à éviter</em></h2></div>
+    <p class="module-lead">Celles qui coûtent le plus cher, souvent sans même que tu t'en rendes compte.</p>
+    <div class="factors">
+      <div class="factor err"><div class="factor-num">01</div><div><h4>Signer un dépôt sans regarder la clé DEP</h4><p>Sans la case d'alignement sur la clé phono, la répartition statutaire s'applique aux diffusions, qui font l'essentiel des droits.</p></div></div>
+      <div class="factor err"><div class="factor-num">02</div><div><h4>Négocier les parts après le studio</h4><p>Quand le titre sent le tube, les appétits grandissent. Fixe la clé avant, par écrit.</p></div></div>
+      <div class="factor err"><div class="factor-num">03</div><div><h4>N'adhérer qu'à un seul organisme</h4><p>Sacem seule, Adami sans Spedidam, pas de SCPP ni de SPPF : chaque organisme oublié, ce sont des droits jamais perçus.</p></div></div>
+      <div class="factor err"><div class="factor-num">04</div><div><h4>Déposer en retard</h4><p>Un dépôt fait avec un an de retard peut faire perdre des revenus, notamment sur le streaming.</p></div></div>
+      <div class="factor err"><div class="factor-num">05</div><div><h4>Ne jamais lire ses relevés</h4><p>Doublons, diffusions oubliées, concerts non déclarés : sans contrôle, personne ne corrigera à ta place.</p></div></div>
+      <div class="factor err"><div class="factor-num">06</div><div><h4>Confondre producteur et éditeur</h4><p>Le producteur finance le master (droits voisins), l'éditeur administre et valorise l'œuvre (droits éditoriaux). Deux métiers, deux contrats.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="module" id="checklist">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">10 / 11</span><h2>Livrable : ta <em>checklist</em></h2></div>
+    <div class="audit-intro">
+      <h3>Clique sur les cases au fur et à mesure</h3>
+      <p>Ce travail alimente l'exercice « Tableau de bord et organigramme de prestataires de son projet » du Module 4 : chaque organisme de gestion collective y figure comme un partenaire, avec ton numéro de membre et ton statut. Progression : <span class="score" id="score">0 / 8</span></p>
+    </div>
+    <div class="audit-prompts" id="checklist-list">
+      <div class="prompt-row"><div class="prompt-num">C01</div><div><div class="prompt-text">J'ai listé mes rôles sur chaque titre (auteur, compositeur, interprète, producteur, éditeur)</div></div><button type="button" class="audit-check" id="c1">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C02</div><div><div class="prompt-text">Je suis membre de la Sacem, ou j'ai préparé mon dossier d'adhésion</div></div><button type="button" class="audit-check" id="c2">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C03</div><div><div class="prompt-text">J'ai lancé mes adhésions à l'Adami et à la Spedidam</div></div><button type="button" class="audit-check" id="c3">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C04</div><div><div class="prompt-text">J'ai choisi entre SCPP et SPPF et vérifié que j'ai les 5 phonogrammes ou les justificatifs demandés</div></div><button type="button" class="audit-check" id="c4">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C05</div><div><div class="prompt-text">J'ai vérifié la clé de répartition (et la case clé DEP) de mes derniers dépôts</div></div><button type="button" class="audit-check" id="c5">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C06</div><div><div class="prompt-text">J'ai cherché mon nom dans les œuvres non identifiées et les diffusions non reconnues</div></div><button type="button" class="audit-check" id="c6">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C07</div><div><div class="prompt-text">J'ai téléchargé et archivé mes relevés, et créé un tableur de suivi</div></div><button type="button" class="audit-check" id="c7">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C08</div><div><div class="prompt-text">J'ai ajouté chaque organisme (et un éventuel éditeur) à l'organigramme de prestataires de mon projet</div></div><button type="button" class="audit-check" id="c8">⬚ Fait</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="module" id="faq">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">11 / 11</span><h2>Questions <em>fréquentes</em></h2></div>
+    <div class="faq">
+      <details><summary>Dois-je être de nationalité française pour adhérer à la Sacem, l'Adami ou la Spedidam ?</summary><div class="ans">Non. On te demande une pièce d'identité, pas une nationalité. Les justificatifs portent sur ton activité et sur un enregistrement exploité.</div></details>
+      <details><summary>Je n'ai encore rien sorti. Comment prouver mon activité ?</summary><div class="ans">Pour la Sacem, une vidéo à 1 000 vues minimum peut suffire. Pour l'Adami, il faut un enregistrement commercialisé où ton nom apparaît : une première sortie digitale, avec des crédits corrects, est la solution la plus simple.</div></details>
+      <details><summary>Je suis beatmaker. Ai-je droit aux droits voisins ?</summary><div class="ans">Oui. Programmer une batterie, jouer une basse ou un clavier fait de toi un artiste-interprète. Tu peux donc percevoir des droits via l'Adami et la Spedidam, en plus de tes droits de compositeur.</div></details>
+      <details><summary>Faut-il absolument un éditeur pour toucher 100 % de mes droits d'auteur ?</summary><div class="ans">Non. Sans éditeur, la Sacem répartit la totalité entre auteurs et compositeurs. Un éditeur se justifie par le travail qu'il apporte (exploitation, synchro, tracking, international), pas pour « débloquer » une part.</div></details>
+      <details><summary>Puis-je être membre de la SCPP et de la SPPF en même temps ?</summary><div class="ans">Non, tu choisis l'une ou l'autre. En revanche, certains de tes titres peuvent être gérés par l'autre organisme dans le cadre d'une licence ou d'une coproduction.</div></details>
+      <details><summary>Combien de temps prend une demande de vérification ?</summary><div class="ans">Dans la vidéo, Tarik annonce un accusé de réception en un jour environ, puis 2 à 8 semaines de traitement selon le nombre d'œuvres et de diffuseurs. Si elle est justifiée, la régularisation arrive sur la répartition suivante.</div></details>
+      <details><summary>Existe-t-il un moyen d'éviter de ressaisir mes titres dans chaque organisme ?</summary><div class="ans">Oui : des plateformes de gestion (Tarik présente Muzisecur dans les vidéos) centralisent les informations d'une œuvre et transmettent les dépôts aux différents organismes. Tu peux aussi tout faire toi-même depuis chaque espace membre.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="recap">
+  <div class="container-narrow">
+    <div class="section-label" style="color:var(--accent-line)">Synthèse</div>
+    <h3>Ce que tu dois retenir de ce cours</h3>
+    <ol class="recap-list">
+      <li>Un titre génère des <strong>droits d'auteur, des droits voisins (interprètes et producteurs) et des droits éditoriaux</strong> : chacun a son organisme.</li>
+      <li>Rémunération équitable et copie privée alimentent les droits voisins : adhère à la <strong>Sacem, l'Adami, la Spedidam et la SCPP ou la SPPF</strong>.</li>
+      <li>Le total d'une répartition fait toujours <strong>100</strong>, tout le reste se négocie, idéalement avant la session studio.</li>
+      <li>Sans la case d'alignement, la <strong>clé statutaire DEP</strong> (un tiers par catégorie) s'applique aux diffusions.</li>
+      <li>Lis tes relevés, cherche les <strong>œuvres non identifiées</strong> et fais des demandes de vérification ciblées et documentées.</li>
+      <li>Un contrat d'édition se lit avec <strong>4 questions</strong> : quels droits, combien de temps, quels territoires, quelle contrepartie.</li>
+    </ol>
+  </div>
+</section>
+
+<div class="container-narrow">
+  <div class="next-cta">
+    <h3>Prêt pour la <em>vidéo suivante</em> ?</h3>
+    <p>Percevoir et répartir les revenus d'exploitation.</p>
+    <span class="btn btn-primary">Continuer vers les revenus d'exploitation →</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="src">Support pédagogique de la formation « Structurer et développer une activité artistique musicale » (certification RS7398), Module 4 : Gérer et piloter son activité musicale. Contenu issu des vidéos de Tarik Hamiche (droits d'auteur, droits voisins des artistes-interprètes, droits voisins des producteurs, édition musicale) ; les montants, durées et pourcentages cités sont ceux des vidéos et sont à vérifier auprès des organismes concernés, car ils peuvent avoir évolué.</p>
+    © 2026 Tarik Hamiche · Muziforma
+  </div>
+</footer>
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var btns=[].slice.call(document.querySelectorAll('#checklist-list .audit-check'));
+  var score=document.getElementById('score');var KEY='mz-rs7398-m4-03-droits-auteur-droits-voisins';var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function paint(b){var on=!!saved[b.id];b.classList.toggle('checked',on);b.textContent=(on?'✓':'⬚')+' Fait';b.setAttribute('aria-pressed',on?'true':'false');}
+  function upd(){score.textContent=btns.filter(function(b){return saved[b.id]}).length+' / '+btns.length;}
+  btns.forEach(function(b){paint(b);b.addEventListener('click',function(){saved[b.id]=!saved[b.id];try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}paint(b);upd();});});
+  upd();
+})();
+</script>
+</body>
+</html>

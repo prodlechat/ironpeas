@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Planifier les tournages de contenus · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Charte Muziforma : fond sable, violet #5B14FF, Manrope + Inter + JetBrains Mono. */
+:root{--bg:#F7F1E8;--bg-soft:#FCF8F2;--bg-card:#FFFFFF;--ink:#1F1A15;--ink-soft:#5C4F42;--ink-muted:#8A7A6A;--accent:#5B14FF;--accent-dark:#4910CC;--accent-soft:#EDE9FE;--accent-line:#A78BFA;--border:#E8DDC9;--border-soft:#F0E6D4;--warning:#C2410C;--warning-soft:#FFEDD5;--success:#15803D;--success-soft:#DCFCE7;--on-accent:#FFFFFF;--recap-text:rgba(247,241,232,.85);--shadow-sm:0 1px 2px rgba(31,26,21,.04);--shadow-md:0 4px 16px rgba(31,26,21,.06);--radius-sm:8px;--radius-md:14px;--radius-lg:24px;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Manrope,-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700}
+h4{font-size:1.15rem;font-weight:700;line-height:1.3}
+p{margin-bottom:1.1rem;color:var(--ink-soft)}
+strong{color:var(--ink);font-weight:700}
+em{font-style:normal;color:var(--accent);font-weight:800}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.container-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-line));z-index:9999}
+header.top-nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(247,241,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand-mark{font-family:Manrope,sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--ink)}
+.brand-mark em{color:var(--accent)}
+.nav-meta{display:flex;gap:1rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted)}
+.nav-meta span:not(:last-child)::after{content:"·";margin-left:1rem;color:var(--border)}
+@media (max-width:600px){.nav-meta{display:none}}
+.hero{padding:5rem 0 4rem;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;max-width:none;background:radial-gradient(circle,rgba(167,139,250,.22) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(91,20,255,.14) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1.8rem;box-shadow:var(--shadow-sm)}
+.hero h1{margin-bottom:1.5rem}
+.hero-lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:720px;margin:0 auto 1.5rem;line-height:1.55}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.hero-chips span{font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:.35rem .9rem}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:880px;margin:3rem auto 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-num{font-family:Manrope,sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em;margin-bottom:.5rem}
+.stat-label{font-size:.82rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.hero-stats{grid-template-columns:1fr}}
+.section-label{display:inline-block;font-family:Inter,sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:1.5rem}
+.toc-section{padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);text-align:center}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:800px;margin:1rem auto 0}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left;color:var(--ink);transition:.15s}
+.toc-item:hover{border-color:var(--accent);transform:translateX(2px);box-shadow:var(--shadow-sm);color:var(--ink)}
+.toc-num{font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);flex-shrink:0;width:36px}
+.toc-title{font-weight:600;font-size:.95rem;line-height:1.3}
+@media (max-width:600px){.toc-grid{grid-template-columns:1fr}}
+main>section.module{padding:6rem 0;position:relative;overflow:hidden}
+main>section.module:nth-of-type(odd){background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+section.module::before{content:"";position:absolute;top:10%;right:-180px;width:480px;height:480px;background:radial-gradient(circle,rgba(167,139,250,.16) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
+section.module>.container,section.module>.container-narrow{position:relative;z-index:1}
+.module-header{margin-bottom:2.5rem}
+.module-num{font-family:Manrope,sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.6rem;display:block}
+.module-lead{font-size:1.15rem;color:var(--ink-soft);margin:1.5rem 0 2.5rem;line-height:1.55;max-width:720px}
+.prose p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.3rem}
+.callout{background:var(--bg-card);border-left:4px solid var(--accent);border-radius:var(--radius-md);padding:1.6rem 1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm);text-align:left}
+.callout.warning{border-left-color:var(--warning);background:linear-gradient(135deg,var(--warning-soft) 0%,var(--bg-card) 60%)}
+.callout.success{border-left-color:var(--success);background:linear-gradient(135deg,var(--success-soft) 0%,var(--bg-card) 60%)}
+.callout-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.6rem}
+.callout.warning .callout-tag{color:var(--warning)}
+.callout.success .callout-tag{color:var(--success)}
+.callout p{margin:0;color:var(--ink);line-height:1.55}
+.callout ul{margin:.2rem 0 0 1.2rem;color:var(--ink);line-height:1.6}
+/* 3 casquettes : reprend .evolution */
+.evolution{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2rem 0}
+.evo-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;text-align:center;box-shadow:var(--shadow-sm)}
+.evo-col.featured{border:2px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg-card) 50%);transform:scale(1.02);box-shadow:var(--shadow-md)}
+.evo-acronym{font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;letter-spacing:-.04em;margin-bottom:.4rem}
+.evo-col:not(.featured) .evo-acronym{color:var(--ink-muted)}
+.evo-full{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:1rem;font-weight:600}
+.evo-col h4{margin-bottom:.6rem}
+.evo-col p{font-size:.92rem;line-height:1.55;text-align:left}
+.evo-target{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--border);text-align:left;font-size:.85rem;line-height:1.45;color:var(--ink)}
+.evo-target strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem;font-weight:800}
+@media (max-width:800px){.evolution{grid-template-columns:1fr}.evo-col.featured{transform:none}}
+/* circuit : reprend .rag-flow */
+.rag-flow{margin:2.5rem 0;display:flex;flex-direction:column;gap:1.5rem}
+.rag-step{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.rag-step:hover{border-color:var(--accent-line)}
+.rag-step-circle{flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.6rem;box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+.rag-step.alt .rag-step-circle{background:var(--warning);box-shadow:rgba(194,65,12,.3) 0 6px 20px}
+.rag-step>div:last-child{flex:1 1 0%;min-width:0}
+.step-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);margin-bottom:.4rem}
+.rag-step h4{margin-bottom:.6rem}
+.rag-step p{margin:0;line-height:1.55}
+/* tableaux dans la charte */
+.data-table{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);margin:2rem 0}
+.data-table table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+.data-table th{text-align:left;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding:1rem 1.1rem;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.data-table td{padding:.9rem 1.1rem;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table td strong{color:var(--ink)}
+.data-table .n{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--accent-dark);white-space:nowrap}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .6rem;border-radius:6px;white-space:nowrap}
+.badge.yes{background:var(--success-soft);color:var(--success)}
+.badge.no{background:var(--warning-soft);color:var(--warning)}
+.badge.mid{background:var(--accent-soft);color:var(--accent-dark)}
+/* barre de répartition */
+.split{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);margin:2rem 0}
+.split h4{margin-bottom:1.2rem}
+.split-bar{display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden}
+.split-bar div{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:500;color:var(--on-accent);white-space:nowrap;overflow:hidden}
+.split-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem 1rem;margin-top:1.2rem;font-size:.88rem;color:var(--ink-soft)}
+.split-legend span{display:flex;align-items:center;gap:.5rem}
+.split-legend i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.split-legend b{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--ink);margin-left:auto}
+.split-note{font-size:.82rem;color:var(--ink-muted);margin:1rem 0 0;line-height:1.5}
+/* cartes : reprend .motors / .eeat */
+.motors,.eeat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:2rem 0}
+.motor-card,.eeat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-sm);min-width:0}
+.eeat-card{transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.eeat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motor-name{font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;color:var(--ink);letter-spacing:-.02em;margin-bottom:.3rem}
+.motor-by{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.motor-spec{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border-soft);font-size:.9rem;line-height:1.45}
+.motor-spec:last-child{border-bottom:0}
+.motor-spec-label{flex-shrink:0;width:78px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding-top:.2rem}
+.motor-spec-value{flex:1 1 0%;color:var(--ink-soft)}
+.eeat-letter{width:52px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1rem}
+.eeat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem}
+.eeat-card h4{margin-bottom:.8rem}
+.eeat-card>p{font-size:.95rem;line-height:1.55;margin-bottom:1.2rem}
+.eeat-music{background:var(--accent-soft);border-radius:var(--radius-sm);padding:1rem;font-size:.9rem;line-height:1.5;color:var(--ink);margin-top:auto}
+.eeat-music strong{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.eeat-music .out{color:var(--warning)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:740px){.eeat-grid,.motors,.grid3{grid-template-columns:1fr}}
+/* étapes : reprend .factors */
+.factors{display:flex;flex-direction:column;gap:1.2rem;margin:2rem 0}
+.factor{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.factor:hover{border-color:var(--accent-line)}
+.factor-num{flex-shrink:0;font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;width:50px;letter-spacing:-.03em}
+.factor.err .factor-num{color:var(--warning)}
+.factor>div:last-child{flex:1 1 0%;min-width:0}
+.factor h4{margin-bottom:.6rem}
+.factor p{font-size:.95rem;line-height:1.55;margin-bottom:1rem}
+.factor p:last-child{margin-bottom:0}
+.factor-detail{background:var(--accent-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.88rem;line-height:1.5;color:var(--ink)}
+.factor-detail strong{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.factor.err .factor-detail{background:var(--warning-soft)}
+.factor.err .factor-detail strong{color:var(--warning)}
+/* checklist : reprend .audit */
+.audit-intro{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm)}
+.audit-intro h3{margin-bottom:.8rem}
+.audit-intro p{margin:0;line-height:1.6}
+.audit-prompts{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.prompt-row{display:flex;gap:1.2rem;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.prompt-num{flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--accent);width:36px}
+.prompt-row>div:not(.prompt-num){flex:1 1 0%;min-width:0}
+.prompt-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.audit-check{flex-shrink:0;padding:.5rem .9rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s;font-family:Inter,sans-serif}
+.audit-check:hover{border-color:var(--accent-line)}
+.audit-check.checked{background:var(--success);color:var(--on-accent);border-color:var(--success);font-weight:600}
+.score{font-family:"JetBrains Mono",monospace;color:var(--success);font-weight:500}
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.faq details{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:border-color .2s}
+.faq details:hover,.faq details[open]{border-color:var(--accent-line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.5rem;font-family:Manrope,sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.faq details[open] summary::after{content:"−";background:var(--accent);color:var(--on-accent)}
+.faq .ans{padding:0 1.5rem 1.4rem;color:var(--ink-soft);font-size:.97rem;line-height:1.65}
+/* synthèse */
+.recap{background:var(--ink);color:var(--recap-text);padding:4rem 0;position:relative;overflow:hidden}
+.recap::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(91,20,255,.25) 0%,transparent 60%);border-radius:50%;pointer-events:none}
+.recap>.container-narrow{position:relative;z-index:1}
+.recap h3{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg-card);margin-bottom:1.5rem}
+.recap-list{list-style:none;counter-reset:item;display:flex;flex-direction:column;gap:1rem}
+.recap-list li{counter-increment:item;padding-left:3rem;position:relative;line-height:1.55;color:var(--recap-text)}
+.recap-list li::before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:Manrope,sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-line)}
+.recap-list li strong{color:var(--bg-card)}
+.next-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin:4rem auto;max-width:760px;text-align:center;box-shadow:var(--shadow-md)}
+.next-cta h3{margin-bottom:1rem}
+.next-cta p{margin-bottom:1.5rem;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.1rem 2.2rem;font-family:Manrope,sans-serif;font-size:1rem;font-weight:800;border-radius:999px;border:0;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+footer.site-footer{background:var(--ink);color:rgba(247,241,232,.55);padding:2.5rem 0;text-align:center;font-size:.85rem;border-top:1px solid rgba(247,241,232,.08);line-height:1.7}
+footer.site-footer .src{max-width:760px;margin:0 auto 1rem;font-size:.8rem;color:rgba(247,241,232,.45)}
+@media (max-width:860px){main>section.module{padding:4rem 0}.toc-section{padding:3rem 0}.module-header{margin-bottom:1.8rem}.module-lead{font-size:1.05rem;margin:1rem 0 1.8rem}.rag-step,.factor{padding:1.4rem;gap:1rem}.rag-step-circle{width:48px;height:48px;font-size:1.3rem}.factor-num{font-size:1.6rem;width:40px}.next-cta{padding:1.8rem 1.4rem}.recap-list li{padding-left:2.4rem}section.module::before{width:320px;height:320px}}
+@media (max-width:480px){.hero{padding:3rem 0 2.5rem}.hero h1{font-size:2rem}.rag-step,.factor{flex-direction:column;gap:.8rem}.prompt-row{flex-wrap:wrap}}
+html,body{width:100% !important;max-width:100% !important;overflow-x:hidden}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress-bar"></div>
+<header class="top-nav">
+  <div class="nav-inner">
+    <span class="brand-mark">MUZI<em>FORMA</em></span>
+    <div class="nav-meta"><span>Module 05 / 08</span><span>Muziforma</span></div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Module 05 · Produire ses contenus</span>
+    <h1>Planifier tes <em>tournages</em> de contenus.</h1>
+    <p class="hero-lead">Tu es artiste, pas youtubeur : tu n'as pas à passer ta vie à créer du contenu. Avec une bonne stratégie, un plan de tournage et des sessions groupées, tu peux produire un mois de contenus en quelques heures, puis les décliner sur tous les formats.</p>
+    <div class="hero-chips"><span>Durée : 37 min</span><span>Formateur : Tarik Hamiche</span></div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">2 h</div><div class="stat-label">Minimum par bloc de tournage</div></div>
+      <div class="stat-card"><div class="stat-num">10</div><div class="stat-label">Vidéos courtes possibles en 1 h bien préparée</div></div>
+      <div class="stat-card"><div class="stat-num">6 h</div><div class="stat-label">Pour un mois de contenus, tous formats confondus</div></div>
+      <div class="stat-card"><div class="stat-num">5 jours</div><div class="stat-label">Pour produire un an de contenus, selon Tarik</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc-section">
+  <div class="container-narrow">
+    <div class="callout">
+      <div class="callout-tag">★ Objectifs pédagogiques</div>
+      <ul>
+        <li>Choisir entre découper un format long et créer des concepts sur mesure</li>
+        <li>Trouver des idées de contenus à partir des recherches réelles ou de ta veille</li>
+        <li>Préparer un plan de tournage et organiser des sessions groupées</li>
+        <li>Décliner chaque vidéo en contenus écrits et visuels</li>
+        <li>Planifier tes blocs de production dans ton agenda</li>
+      </ul>
+    </div>
+    <div class="section-label">Plan du cours</div>
+    <div class="toc-grid">
+      <a href="#pourquoi" class="toc-item"><span class="toc-num">01</span><span class="toc-title">Pourquoi planifier ta production</span></a>
+      <a href="#decoupage" class="toc-item"><span class="toc-num">02</span><span class="toc-title">Stratégie 1 : découper un format long</span></a>
+      <a href="#sur-mesure" class="toc-item"><span class="toc-num">03</span><span class="toc-title">Stratégie 2 : des concepts sur mesure</span></a>
+      <a href="#idees" class="toc-item"><span class="toc-num">04</span><span class="toc-title">Trouver ses idées de contenus</span></a>
+      <a href="#plan" class="toc-item"><span class="toc-num">05</span><span class="toc-title">Préparer son plan de tournage</span></a>
+      <a href="#batching" class="toc-item"><span class="toc-num">06</span><span class="toc-title">Tourner par blocs : le batching</span></a>
+      <a href="#declinaison" class="toc-item"><span class="toc-num">07</span><span class="toc-title">Une vidéo, cinq formats</span></a>
+      <a href="#agenda" class="toc-item"><span class="toc-num">08</span><span class="toc-title">Planifier ses blocs et passer à l'action</span></a>
+      <a href="#erreurs" class="toc-item"><span class="toc-num">09</span><span class="toc-title">Les 5 erreurs à éviter</span></a>
+      <a href="#checklist" class="toc-item"><span class="toc-num">10</span><span class="toc-title">Livrable : ta checklist</span></a>
+      <a href="#faq" class="toc-item"><span class="toc-num">11</span><span class="toc-title">FAQ</span></a>
+    </div>
+    <div class="data-table" style="margin-top:2.5rem;text-align:left"><table>
+      <thead><tr><th style="width:90px">Repère</th><th>Chapitre de la vidéo</th></tr></thead>
+      <tbody>
+        <tr><td class="n">00:00</td><td>Objectif : un mois de contenu en quelques heures</td></tr>
+        <tr><td class="n">01:00</td><td>Stratégie 1 : découper un format long</td></tr>
+        <tr><td class="n">05:07</td><td>Appliquer le découpage à un artiste</td></tr>
+        <tr><td class="n">05:51</td><td>Stratégie 2 : créer des concepts sur mesure</td></tr>
+        <tr><td class="n">06:36</td><td>Choisir ses idées grâce aux mots clés</td></tr>
+        <tr><td class="n">11:32</td><td>Décliner un concept repéré en veille</td></tr>
+        <tr><td class="n">13:35</td><td>Préparer son plan de tournage</td></tr>
+        <tr><td class="n">16:37</td><td>Tourner par blocs : le batching</td></tr>
+        <tr><td class="n">18:20</td><td>Décliner ses vidéos à l'écrit et en carrousel</td></tr>
+        <tr><td class="n">20:08</td><td>Estimer et planifier ses blocs de travail</td></tr>
+        <tr><td class="n">21:26</td><td>Exemple en direct, du tournage au carrousel</td></tr>
+        <tr><td class="n">32:32</td><td>Récapitulatif de la méthode</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="module" id="pourquoi">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">01 / 11</span><h2>Pourquoi planifier <em>ta production</em></h2></div>
+    <p class="module-lead">Ton public le sait : tu as autre chose à faire que raconter ta vie en ligne toute la journée. L'objectif est de produire des contenus qui captent l'attention, entretiennent la relation et convertissent quand c'est utile, en y consacrant <strong>le moins de temps possible</strong>.</p>
+    <div class="prose"><p>La clé, c'est l'organisation. Tarik propose un déroulé en étapes : choisir une stratégie, choisir ses idées, préparer le tournage, grouper les sessions, décliner les contenus, puis planifier les blocs dans l'agenda.</p></div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Un mois de contenus, c'est quelques blocs de travail bien préparés, pas un effort quotidien. C'est comme ça que Tarik produit un mois de contenus en une demi-journée à une journée.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="module" id="decoupage">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">02 / 11</span><h2>Stratégie 1 : découper un <em>format long</em></h2></div>
+    <p class="module-lead">Tu produis un contenu long une fois, puis tu en tires de nombreux formats courts. Des chaînes d'actualité et des podcasts fonctionnent entièrement ainsi.</p>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-letter">1</div><div class="eeat-name">Live</div><h4>Une captation de concert</h4><p>Un live de 45 minutes bien filmé donne des dizaines d'extraits à publier régulièrement.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">2</div><div class="eeat-name">Interview</div><h4>Une interview d'une heure</h4><p>Chaque réponse forte devient un format court.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">3</div><div class="eeat-name">Questions-réponses</div><h4>Un live avec ton public</h4><p>Un format court par question traitée.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">4</div><div class="eeat-name">Making of</div><h4>Les coulisses d'un projet</h4><p>Studio, tournage de clip, préparation de concert : découpe et publie au fil des semaines.</p></div>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ L'aide de l'IA</div>
+      <p>Des outils de découpage automatique (Tarik utilise Submagic) repèrent les meilleurs passages, sous-titrent et exportent. Tu n'as plus qu'à choisir, ajuster et publier, pour un coût bien inférieur à un montage manuel.</p>
+    </div>
+    <div class="prose"><p>Cette stratégie sert surtout l'acquisition, mais elle colle moins à la logique de veille et de concepts à potentiel viral. Tarik l'utilise notamment quand il manque d'idées ou d'envie de tourner.</p></div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="module" id="sur-mesure">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">03 / 11</span><h2>Stratégie 2 : des concepts <em>sur mesure</em></h2></div>
+    <p class="module-lead">Grâce à ta veille, tu as identifié des idées de formats alignées avec toi. Tu les produis une à une en vidéo verticale.</p>
+    <div class="motors">
+      <div class="motor-card">
+        <div class="motor-name">Découpage</div>
+        <div class="motor-by">Stratégie 1</div>
+        <div class="motor-spec"><span class="motor-spec-label">Point fort</span><span class="motor-spec-value">Rapide, s'appuie sur des contenus que tu as déjà ou que tu vas publier de toute façon</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Limite</span><span class="motor-spec-value">Moins adapté aux concepts à potentiel viral</span></div>
+      </div>
+      <div class="motor-card">
+        <div class="motor-name">Sur mesure</div>
+        <div class="motor-by">Stratégie 2</div>
+        <div class="motor-spec"><span class="motor-spec-label">Point fort</span><span class="motor-spec-value">Chaque contenu est pensé pour un concept, un thème ou un mot clé précis</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Limite</span><span class="motor-spec-value">Demande de la préparation et un vrai temps de tournage</span></div>
+      </div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Le choix de Tarik</div>
+      <p>Il fait les deux. Les deux fonctionnent : choisis selon ce que tu aimes faire, ton temps et ton projet, ou combine-les.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="module" id="idees">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">04 / 11</span><h2>Trouver ses <em>idées</em> de contenus</h2></div>
+    <p class="module-lead">Deux méthodes : partir de ce que les gens recherchent vraiment, ou décliner un concept repéré pendant ta veille.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Méthode 1 · Référencement</span><h4>Lister des mots clés de ta niche</h4><p>Un nom de plateforme, un organisme, un style (« rap du moment », « playlist trap »…).</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Méthode 1 · Référencement</span><h4>Relever les questions que les gens posent</h4><p>Dans Google, le bloc des questions associées affiche de vraies requêtes. Clique sur une question : d'autres apparaissent. Tu obtiens vite une vingtaine d'idées.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Méthode 1 · Référencement</span><h4>Transformer chaque requête en contenu</h4><p>Une question devient un titre, avec une accroche plus intrigante si tu vises aussi la viralité. Certaines idées peuvent devenir un rendez-vous récurrent, par exemple un top mensuel des sons du moment.</p></div></div>
+      <div class="rag-step alt"><div class="rag-step-circle">4</div><div><span class="step-tag">Méthode 2 · Veille</span><h4>Détourner un concept qui a fonctionné</h4><p>Une artiste peintre retourne lentement sa toile pour créer le suspense ? Tu retournes un vinyle, ou un livre : « voici ce qui a changé ma vie ». Tu peux aussi copier une idée en l'améliorant.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="module" id="plan">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">05 / 11</span><h2>Préparer son <em>plan de tournage</em></h2></div>
+    <p class="module-lead">Pour chaque vidéo, trois informations à fixer avant de lancer la caméra.</p>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Le script ou les grandes idées</h4><p>Un script clé en main (vu dans une vidéo précédente) ou, a minima, la liste des idées à évoquer.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Le décor et la tenue</h4><p>Si tu tournes 50 vidéos dans la matinée au même endroit, change de tenue (haut, casquette, parfois le bas et les chaussures) pour éviter l'effet « tout tourné à la chaîne ». Maquillage et coiffure demandent aussi d'être prévus.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Le temps de réalisation</h4><p>Fais un essai chronométré, ajoute les prises ratées et une marge de sécurité.</p><div class="factor-detail"><strong>Exemple de Tarik</strong>Une vidéo de 20 à 25 secondes, cinq prises : environ 3 minutes, 5 avec la marge. Dix vidéos de ce type tiennent en une heure.</div></div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Astuce</div>
+      <p>Au début, tu vas te tromper dans tes estimations, dans un sens ou dans l'autre. Avec l'expérience, tes prévisions deviennent fiables.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="module" id="batching">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">06 / 11</span><h2>Tourner par blocs : le <em>batching</em></h2></div>
+    <p class="module-lead">Lumières, pied, caméra, balance des blancs, micro : l'installation est longue et pénible. Une fois le matériel en place, rentabilise-le au maximum en enchaînant les vidéos.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Organisation</th><th>Temps d'installation</th><th>Résultat</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Une vidéo à la fois</strong></td><td>30 à 45 min à chaque vidéo</td><td>Près d'1 h par vidéo : environ 30 h de production par mois pour une publication par jour, avant même le montage</td><td><span class="badge no">Intenable</span></td></tr>
+        <tr><td><strong>Par blocs</strong></td><td>30 à 45 min une seule fois</td><td>2 à 3 h de tournage enchaîné, soit 20 à 30 vidéos</td><td><span class="badge yes">Efficace</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout success">
+      <div class="callout-tag">✓ La règle</div>
+      <p>Groupe les vidéos à tourner par blocs de <strong>2 heures minimum</strong>. Idéalement, laisse ton matériel pré-installé pour gagner encore du temps.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="module" id="declinaison">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">07 / 11</span><h2>Une vidéo, <em>cinq formats</em></h2></div>
+    <p class="module-lead">Ne te contente pas de tes vidéos : leurs scripts deviennent des contenus écrits et visuels. Le temps de tournage est ainsi multiplié.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Vidéo</span><h4>Formats courts verticaux</h4><p>Reels Instagram, TikTok, Shorts YouTube : les formats qui captent un public qui ne te connaît pas encore.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Transcription</span><h4>Récupérer le texte de ce que tu as dit</h4><p>Un outil de dictée comme Whisper transcrit ta voix pendant le tournage ; sinon, fais transcrire la vidéo.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Écrit long</span><h4>Un article de newsletter ou de blog</h4><p>Une IA conversationnelle reformule le script. Le même texte sert de publication pour LinkedIn, Facebook et l'onglet communauté YouTube.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">4</div><div><span class="step-tag">Écrit court</span><h4>Un fil pour X et Threads</h4><p>L'IA découpe l'article en messages courts respectant les limites de caractères.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">5</div><div><span class="step-tag">Visuel</span><h4>Un carrousel</h4><p>Reprends chaque morceau de texte dans un modèle graphique (Tarik utilise Canva, texte blanc sur fond noir), duplique la page, et publie sur Instagram, voire LinkedIn et TikTok.</p></div></div>
+    </div>
+    <div class="data-table"><table>
+      <thead><tr><th>Pour 10 vidéos tournées en 1 h</th><th>Contenus obtenus</th></tr></thead>
+      <tbody>
+        <tr><td>Vidéos format court</td><td class="n">10</td></tr>
+        <tr><td>Articles de newsletter ou de blog</td><td class="n">10</td></tr>
+        <tr><td>Publications écrites (LinkedIn, Facebook, communauté YouTube)</td><td class="n">10</td></tr>
+        <tr><td>Fils pour X et Threads</td><td class="n">10</td></tr>
+        <tr><td>Carrousels</td><td class="n">10</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <div class="callout-tag">★ Pourquoi varier les formats</div>
+      <p>Les vidéos courtes attirent de nouvelles personnes ; les carrousels et les textes entretiennent le lien avec tes abonnés. Un nouvel abonné ne passe pas trois semaines sans te voir.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="module" id="agenda">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">08 / 11</span><h2>Planifier ses blocs et <em>passer à l'action</em></h2></div>
+    <p class="module-lead">Savoir combien de temps ça prend ne suffit pas : il faut que ce soit inscrit dans ton agenda.</p>
+    <div class="split">
+      <h4>Exemple de Tarik : 6 h de travail pour un mois de contenus</h4>
+      <div class="split-bar">
+        <div style="width:50%;background:var(--accent)">Tournage 3 h</div>
+        <div style="width:25%;background:var(--accent-dark)">Écrit 1 h 30</div>
+        <div style="width:25%;background:var(--warning)">Visuels 1 h 30</div>
+      </div>
+      <div class="split-legend">
+        <span><i style="background:var(--accent)"></i>Tournage des vidéos<b>3 h</b></span>
+        <span><i style="background:var(--accent-dark)"></i>Articles et textes<b>1 h 30</b></span>
+        <span><i style="background:var(--warning)"></i>Carrousels<b>1 h 30</b></span>
+      </div>
+      <p class="split-note">Répartition donnée à titre d'exemple dans la vidéo, avec l'aide d'outils d'IA.</p>
+    </div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Additionne le temps de chaque étape</h4><p>Tournage, déclinaison écrite, déclinaison visuelle.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Découpe en blocs</h4><p>Par exemple un bloc de 3 h de tournage, puis deux blocs d'1 h 30 : à ton rythme.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Place les blocs dans ton agenda</h4><p>Demain de 13 h à 16 h, après-demain de 10 h à 12 h… Des créneaux précis, comme un rendez-vous.</p></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Le jour J, tu exécutes</h4><p>Tout est préparé : il ne reste qu'à tourner. Une fois par mois suffit pour alimenter tous tes réseaux.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="module" id="erreurs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">09 / 11</span><h2>Les 5 erreurs <em>à éviter</em></h2></div>
+    <p class="module-lead">Celles qui transforment la création de contenus en corvée quotidienne.</p>
+    <div class="factors">
+      <div class="factor err"><div class="factor-num">01</div><div><h4>Tourner au jour le jour</h4><p>Réinstaller le matériel pour chaque vidéo te coûte près d'une heure à chaque fois.</p></div></div>
+      <div class="factor err"><div class="factor-num">02</div><div><h4>Lancer la caméra sans plan</h4><p>Sans script ni idées listées, tu multiplies les prises et tu perds le fil.</p></div></div>
+      <div class="factor err"><div class="factor-num">03</div><div><h4>Garder la même tenue sur toute la série</h4><p>Ton audience voit tout de suite que tout a été tourné le même jour.</p></div></div>
+      <div class="factor err"><div class="factor-num">04</div><div><h4>N'exploiter que la vidéo</h4><p>Chaque script non décliné, ce sont des articles, des publications et des carrousels perdus.</p></div></div>
+      <div class="factor err"><div class="factor-num">05</div><div><h4>Ne pas bloquer les créneaux</h4><p>Un temps de production qui n'est pas dans l'agenda finit toujours par être repoussé.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="module" id="checklist">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">10 / 11</span><h2>Livrable : ta <em>checklist</em></h2></div>
+    <div class="audit-intro">
+      <h3>Clique sur les cases au fur et à mesure</h3>
+      <p>Ce travail alimente l'exercice « Benchmark, personas et calendrier de son projet » du Module 5 : tes blocs de tournage et de déclinaison deviennent des jalons de ton calendrier. Progression : <span class="score" id="score">0 / 7</span></p>
+    </div>
+    <div class="audit-prompts" id="checklist-list">
+      <div class="prompt-row"><div class="prompt-num">C01</div><div><div class="prompt-text">J'ai choisi ma stratégie : découpage, sur mesure ou les deux</div></div><button type="button" class="audit-check" id="c1">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C02</div><div><div class="prompt-text">J'ai listé au moins 10 idées à partir des recherches Google ou de ma veille</div></div><button type="button" class="audit-check" id="c2">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C03</div><div><div class="prompt-text">Pour chaque idée, j'ai noté le script ou les grandes idées, le décor et la tenue</div></div><button type="button" class="audit-check" id="c3">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C04</div><div><div class="prompt-text">J'ai chronométré une vidéo test et estimé le temps total de tournage</div></div><button type="button" class="audit-check" id="c4">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C05</div><div><div class="prompt-text">J'ai prévu comment décliner chaque vidéo à l'écrit et en carrousel</div></div><button type="button" class="audit-check" id="c5">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C06</div><div><div class="prompt-text">J'ai bloqué dans mon agenda un bloc de tournage d'au moins 2 h</div></div><button type="button" class="audit-check" id="c6">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C07</div><div><div class="prompt-text">J'ai bloqué les créneaux de déclinaison écrite et visuelle</div></div><button type="button" class="audit-check" id="c7">⬚ Fait</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="module" id="faq">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">11 / 11</span><h2>Questions <em>fréquentes</em></h2></div>
+    <div class="faq">
+      <details><summary>Je n'ai pas de contenu long. Puis-je utiliser la stratégie du découpage ?</summary><div class="ans">Oui, dès que tu en crées un : un live filmé, une interview, une session de questions-réponses avec ton public ou un making of suffisent pour démarrer.</div></details>
+      <details><summary>Dois-je écrire un script complet pour chaque vidéo ?</summary><div class="ans">Pas forcément. Lister les grandes idées suffit souvent. Dans l'exemple en direct de la vidéo, Tarik improvise à partir d'une question et garde la prise.</div></details>
+      <details><summary>Combien de temps prévoir pour un bloc de tournage ?</summary><div class="ans">Au minimum 2 heures, pour que les 30 à 45 minutes d'installation soient rentabilisées.</div></details>
+      <details><summary>Comment obtenir le texte de mes vidéos sans tout retaper ?</summary><div class="ans">Utilise un outil de transcription ou de dictée (Tarik utilise Whisper), puis demande à une IA conversationnelle de reformuler le texte en article, puis de le découper en fil court.</div></details>
+      <details><summary>Faut-il publier les mêmes contenus sur tous les réseaux ?</summary><div class="ans">Le même fond, oui, mais au bon format : vidéo courte pour les réseaux vidéo, texte pour LinkedIn, Facebook, X ou Threads, carrousel pour Instagram. C'est ce qui démultiplie ta présence sans multiplier ton temps de travail.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="recap">
+  <div class="container-narrow">
+    <div class="section-label" style="color:var(--accent-line)">Synthèse</div>
+    <h3>Ce que tu dois retenir de ce cours</h3>
+    <ol class="recap-list">
+      <li>Deux stratégies : <strong>découper un format long</strong> ou <strong>créer des concepts sur mesure</strong>, voire les deux.</li>
+      <li>Tes idées viennent des <strong>recherches réelles</strong> de ton public ou des <strong>concepts repérés en veille</strong>.</li>
+      <li>Chaque vidéo a son plan : <strong>script, décor, tenue, temps</strong>.</li>
+      <li>Tourne par <strong>blocs de 2 heures minimum</strong> pour rentabiliser l'installation.</li>
+      <li>Décline chaque script en <strong>article, publication, fil et carrousel</strong>.</li>
+      <li>Inscris tes blocs dans ton <strong>agenda</strong> : quelques heures par mois suffisent.</li>
+    </ol>
+  </div>
+</section>
+
+<div class="container-narrow">
+  <div class="next-cta">
+    <h3>Prêt pour la <em>vidéo suivante</em> ?</h3>
+    <p>Créer des contenus de qualité.</p>
+    <span class="btn btn-primary">Continuer vers les contenus de qualité →</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="src">Support pédagogique de la formation « Structurer et développer une activité artistique musicale » (certification RS7398), Module 5 : Stratégie de création de contenus et communication digitale. Contenu issu de la vidéo de Tarik Hamiche sur la planification de la création de contenus ; les durées citées sont des ordres de grandeur tirés de son expérience.</p>
+    © 2026 Tarik Hamiche · Muziforma
+  </div>
+</footer>
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var btns=[].slice.call(document.querySelectorAll('#checklist-list .audit-check'));
+  var score=document.getElementById('score');var KEY='mz-rs7398-m5-06-planifier-tournages';var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function paint(b){var on=!!saved[b.id];b.classList.toggle('checked',on);b.textContent=(on?'✓':'⬚')+' Fait';b.setAttribute('aria-pressed',on?'true':'false');}
+  function upd(){score.textContent=btns.filter(function(b){return saved[b.id]}).length+' / '+btns.length;}
+  btns.forEach(function(b){paint(b);b.addEventListener('click',function(){saved[b.id]=!saved[b.id];try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}paint(b);upd();});});
+  upd();
+})();
+</script>
+</body>
+</html>

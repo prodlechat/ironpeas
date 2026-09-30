@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Protéger juridiquement le système d'acquisition · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Charte Muziforma : fond sable, violet #5B14FF, Manrope + Inter + JetBrains Mono. */
+:root{--bg:#F7F1E8;--bg-soft:#FCF8F2;--bg-card:#FFFFFF;--ink:#1F1A15;--ink-soft:#5C4F42;--ink-muted:#8A7A6A;--accent:#5B14FF;--accent-dark:#4910CC;--accent-soft:#EDE9FE;--accent-line:#A78BFA;--border:#E8DDC9;--border-soft:#F0E6D4;--warning:#C2410C;--warning-soft:#FFEDD5;--success:#15803D;--success-soft:#DCFCE7;--on-accent:#FFFFFF;--recap-text:rgba(247,241,232,.85);--shadow-sm:0 1px 2px rgba(31,26,21,.04);--shadow-md:0 4px 16px rgba(31,26,21,.06);--radius-sm:8px;--radius-md:14px;--radius-lg:24px;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Manrope,-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700}
+h4{font-size:1.15rem;font-weight:700;line-height:1.3}
+p{margin-bottom:1.1rem;color:var(--ink-soft)}
+strong{color:var(--ink);font-weight:700}
+em{font-style:normal;color:var(--accent);font-weight:800}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.container-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-line));z-index:9999}
+header.top-nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(247,241,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand-mark{font-family:Manrope,sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--ink)}
+.brand-mark em{color:var(--accent)}
+.nav-meta{display:flex;gap:1rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted)}
+.nav-meta span:not(:last-child)::after{content:"·";margin-left:1rem;color:var(--border)}
+@media (max-width:600px){.nav-meta{display:none}}
+.hero{padding:5rem 0 4rem;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;max-width:none;background:radial-gradient(circle,rgba(167,139,250,.22) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(91,20,255,.14) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1.8rem;box-shadow:var(--shadow-sm)}
+.hero h1{margin-bottom:1.5rem}
+.hero-lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:720px;margin:0 auto 1.5rem;line-height:1.55}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.hero-chips span{font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:.35rem .9rem}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:880px;margin:3rem auto 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-num{font-family:Manrope,sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em;margin-bottom:.5rem}
+.stat-label{font-size:.82rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.hero-stats{grid-template-columns:1fr}}
+.section-label{display:inline-block;font-family:Inter,sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:1.5rem}
+.toc-section{padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);text-align:center}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:800px;margin:1rem auto 0}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left;color:var(--ink);transition:.15s}
+.toc-item:hover{border-color:var(--accent);transform:translateX(2px);box-shadow:var(--shadow-sm);color:var(--ink)}
+.toc-num{font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);flex-shrink:0;width:36px}
+.toc-title{font-weight:600;font-size:.95rem;line-height:1.3}
+@media (max-width:600px){.toc-grid{grid-template-columns:1fr}}
+main>section.module{padding:6rem 0;position:relative;overflow:hidden}
+main>section.module:nth-of-type(odd){background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+section.module::before{content:"";position:absolute;top:10%;right:-180px;width:480px;height:480px;background:radial-gradient(circle,rgba(167,139,250,.16) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
+section.module>.container,section.module>.container-narrow{position:relative;z-index:1}
+.module-header{margin-bottom:2.5rem}
+.module-num{font-family:Manrope,sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.6rem;display:block}
+.module-lead{font-size:1.15rem;color:var(--ink-soft);margin:1.5rem 0 2.5rem;line-height:1.55;max-width:720px}
+.prose p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.3rem}
+.callout{background:var(--bg-card);border-left:4px solid var(--accent);border-radius:var(--radius-md);padding:1.6rem 1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm);text-align:left}
+.callout.warning{border-left-color:var(--warning);background:linear-gradient(135deg,var(--warning-soft) 0%,var(--bg-card) 60%)}
+.callout.success{border-left-color:var(--success);background:linear-gradient(135deg,var(--success-soft) 0%,var(--bg-card) 60%)}
+.callout-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.6rem}
+.callout.warning .callout-tag{color:var(--warning)}
+.callout.success .callout-tag{color:var(--success)}
+.callout p{margin:0;color:var(--ink);line-height:1.55}
+.callout ul{margin:.2rem 0 0 1.2rem;color:var(--ink);line-height:1.6}
+/* 3 casquettes : reprend .evolution */
+.evolution{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2rem 0}
+.evo-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;text-align:center;box-shadow:var(--shadow-sm)}
+.evo-col.featured{border:2px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg-card) 50%);transform:scale(1.02);box-shadow:var(--shadow-md)}
+.evo-acronym{font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;letter-spacing:-.04em;margin-bottom:.4rem}
+.evo-col:not(.featured) .evo-acronym{color:var(--ink-muted)}
+.evo-full{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:1rem;font-weight:600}
+.evo-col h4{margin-bottom:.6rem}
+.evo-col p{font-size:.92rem;line-height:1.55;text-align:left}
+.evo-target{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--border);text-align:left;font-size:.85rem;line-height:1.45;color:var(--ink)}
+.evo-target strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem;font-weight:800}
+@media (max-width:800px){.evolution{grid-template-columns:1fr}.evo-col.featured{transform:none}}
+/* circuit : reprend .rag-flow */
+.rag-flow{margin:2.5rem 0;display:flex;flex-direction:column;gap:1.5rem}
+.rag-step{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.rag-step:hover{border-color:var(--accent-line)}
+.rag-step-circle{flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.6rem;box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+.rag-step.alt .rag-step-circle{background:var(--warning);box-shadow:rgba(194,65,12,.3) 0 6px 20px}
+.rag-step>div:last-child{flex:1 1 0%;min-width:0}
+.step-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);margin-bottom:.4rem}
+.rag-step h4{margin-bottom:.6rem}
+.rag-step p{margin:0;line-height:1.55}
+/* tableaux dans la charte */
+.data-table{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);margin:2rem 0}
+.data-table table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+.data-table th{text-align:left;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding:1rem 1.1rem;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.data-table td{padding:.9rem 1.1rem;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table td strong{color:var(--ink)}
+.data-table .n{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--accent-dark);white-space:nowrap}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .6rem;border-radius:6px;white-space:nowrap}
+.badge.yes{background:var(--success-soft);color:var(--success)}
+.badge.no{background:var(--warning-soft);color:var(--warning)}
+.badge.mid{background:var(--accent-soft);color:var(--accent-dark)}
+/* barre de répartition */
+.split{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);margin:2rem 0}
+.split h4{margin-bottom:1.2rem}
+.split-bar{display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden}
+.split-bar div{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:500;color:var(--on-accent);white-space:nowrap;overflow:hidden}
+.split-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem 1rem;margin-top:1.2rem;font-size:.88rem;color:var(--ink-soft)}
+.split-legend span{display:flex;align-items:center;gap:.5rem}
+.split-legend i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.split-legend b{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--ink);margin-left:auto}
+.split-note{font-size:.82rem;color:var(--ink-muted);margin:1rem 0 0;line-height:1.5}
+/* cartes : reprend .motors / .eeat */
+.motors,.eeat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:2rem 0}
+.motor-card,.eeat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-sm);min-width:0}
+.eeat-card{transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.eeat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motor-name{font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;color:var(--ink);letter-spacing:-.02em;margin-bottom:.3rem}
+.motor-by{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.motor-spec{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border-soft);font-size:.9rem;line-height:1.45}
+.motor-spec:last-child{border-bottom:0}
+.motor-spec-label{flex-shrink:0;width:78px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding-top:.2rem}
+.motor-spec-value{flex:1 1 0%;color:var(--ink-soft)}
+.eeat-letter{width:52px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1rem}
+.eeat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem}
+.eeat-card h4{margin-bottom:.8rem}
+.eeat-card>p{font-size:.95rem;line-height:1.55;margin-bottom:1.2rem}
+.eeat-music{background:var(--accent-soft);border-radius:var(--radius-sm);padding:1rem;font-size:.9rem;line-height:1.5;color:var(--ink);margin-top:auto}
+.eeat-music strong{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.eeat-music .out{color:var(--warning)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:740px){.eeat-grid,.motors,.grid3{grid-template-columns:1fr}}
+/* étapes : reprend .factors */
+.factors{display:flex;flex-direction:column;gap:1.2rem;margin:2rem 0}
+.factor{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.factor:hover{border-color:var(--accent-line)}
+.factor-num{flex-shrink:0;font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;width:50px;letter-spacing:-.03em}
+.factor.err .factor-num{color:var(--warning)}
+.factor>div:last-child{flex:1 1 0%;min-width:0}
+.factor h4{margin-bottom:.6rem}
+.factor p{font-size:.95rem;line-height:1.55;margin-bottom:1rem}
+.factor p:last-child{margin-bottom:0}
+.factor-detail{background:var(--accent-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.88rem;line-height:1.5;color:var(--ink)}
+.factor-detail strong{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.factor.err .factor-detail{background:var(--warning-soft)}
+.factor.err .factor-detail strong{color:var(--warning)}
+/* checklist : reprend .audit */
+.audit-intro{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm)}
+.audit-intro h3{margin-bottom:.8rem}
+.audit-intro p{margin:0;line-height:1.6}
+.audit-prompts{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.prompt-row{display:flex;gap:1.2rem;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.prompt-num{flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--accent);width:36px}
+.prompt-row>div:not(.prompt-num){flex:1 1 0%;min-width:0}
+.prompt-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.audit-check{flex-shrink:0;padding:.5rem .9rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s;font-family:Inter,sans-serif}
+.audit-check:hover{border-color:var(--accent-line)}
+.audit-check.checked{background:var(--success);color:var(--on-accent);border-color:var(--success);font-weight:600}
+.score{font-family:"JetBrains Mono",monospace;color:var(--success);font-weight:500}
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.faq details{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:border-color .2s}
+.faq details:hover,.faq details[open]{border-color:var(--accent-line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.5rem;font-family:Manrope,sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.faq details[open] summary::after{content:"−";background:var(--accent);color:var(--on-accent)}
+.faq .ans{padding:0 1.5rem 1.4rem;color:var(--ink-soft);font-size:.97rem;line-height:1.65}
+/* synthèse */
+.recap{background:var(--ink);color:var(--recap-text);padding:4rem 0;position:relative;overflow:hidden}
+.recap::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(91,20,255,.25) 0%,transparent 60%);border-radius:50%;pointer-events:none}
+.recap>.container-narrow{position:relative;z-index:1}
+.recap h3{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg-card);margin-bottom:1.5rem}
+.recap-list{list-style:none;counter-reset:item;display:flex;flex-direction:column;gap:1rem}
+.recap-list li{counter-increment:item;padding-left:3rem;position:relative;line-height:1.55;color:var(--recap-text)}
+.recap-list li::before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:Manrope,sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-line)}
+.recap-list li strong{color:var(--bg-card)}
+.next-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin:4rem auto;max-width:760px;text-align:center;box-shadow:var(--shadow-md)}
+.next-cta h3{margin-bottom:1rem}
+.next-cta p{margin-bottom:1.5rem;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.1rem 2.2rem;font-family:Manrope,sans-serif;font-size:1rem;font-weight:800;border-radius:999px;border:0;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+footer.site-footer{background:var(--ink);color:rgba(247,241,232,.55);padding:2.5rem 0;text-align:center;font-size:.85rem;border-top:1px solid rgba(247,241,232,.08);line-height:1.7}
+footer.site-footer .src{max-width:760px;margin:0 auto 1rem;font-size:.8rem;color:rgba(247,241,232,.45)}
+@media (max-width:860px){main>section.module{padding:4rem 0}.toc-section{padding:3rem 0}.module-header{margin-bottom:1.8rem}.module-lead{font-size:1.05rem;margin:1rem 0 1.8rem}.rag-step,.factor{padding:1.4rem;gap:1rem}.rag-step-circle{width:48px;height:48px;font-size:1.3rem}.factor-num{font-size:1.6rem;width:40px}.next-cta{padding:1.8rem 1.4rem}.recap-list li{padding-left:2.4rem}section.module::before{width:320px;height:320px}}
+@media (max-width:480px){.hero{padding:3rem 0 2.5rem}.hero h1{font-size:2rem}.rag-step,.factor{flex-direction:column;gap:.8rem}.prompt-row{flex-wrap:wrap}}
+html,body{width:100% !important;max-width:100% !important;overflow-x:hidden}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress-bar"></div>
+<header class="top-nav">
+  <div class="nav-inner">
+    <span class="brand-mark">MUZI<em>FORMA</em></span>
+    <div class="nav-meta"><span>Module 06 / 08</span><span>Muziforma</span></div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Module 06 · Optimiser son système</span>
+    <h1>Protéger <em>juridiquement</em> le système d'acquisition.</h1>
+    <p class="hero-lead">Pas le sujet le plus excitant, mais un sujet fondamental. Dès que tu collectes des coordonnées ou que tu encaisses le moindre centime en ligne, tu as des obligations. Cinq points à maîtriser pour avancer sereinement.</p>
+    <div class="hero-chips"><span>Durée : 47 min</span><span>Formateur : Tarik Hamiche</span></div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">Obligations à mettre en place sur ton système</div></div>
+      <div class="stat-card"><div class="stat-num">14 jours</div><div class="stat-label">De droit de rétractation pour les particuliers (à vérifier)</div></div>
+      <div class="stat-card"><div class="stat-num">100 à 300 €</div><div class="stat-label">Par an pour adhérer à un médiateur de la consommation</div></div>
+      <div class="stat-card"><div class="stat-num">2018</div><div class="stat-label">Entrée en application du RGPD dans l'Union européenne</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc-section">
+  <div class="container-narrow">
+    <div class="callout">
+      <div class="callout-tag">★ Objectifs pédagogiques</div>
+      <ul>
+        <li>Identifier les 5 obligations : mentions légales, politique de confidentialité, CGV, médiateur, RGPD</li>
+        <li>Savoir ce que chaque document doit contenir</li>
+        <li>Connaître les risques en cas de manquement et le rôle des contrôles (DGCCRF, CNIL)</li>
+        <li>Mettre tes pages de capture et de vente en conformité</li>
+      </ul>
+    </div>
+    <div class="section-label">Plan du cours</div>
+    <div class="toc-grid">
+      <a href="#cinq" class="toc-item"><span class="toc-num">01</span><span class="toc-title">Les 5 points et comment s'y prendre</span></a>
+      <a href="#mentions" class="toc-item"><span class="toc-num">02</span><span class="toc-title">Les mentions légales</span></a>
+      <a href="#confidentialite" class="toc-item"><span class="toc-num">03</span><span class="toc-title">La politique de confidentialité</span></a>
+      <a href="#cgv" class="toc-item"><span class="toc-num">04</span><span class="toc-title">Les CGV : à quoi elles servent</span></a>
+      <a href="#contenu" class="toc-item"><span class="toc-num">05</span><span class="toc-title">Contenu des CGV et risques</span></a>
+      <a href="#mediateur" class="toc-item"><span class="toc-num">06</span><span class="toc-title">Le médiateur de la consommation</span></a>
+      <a href="#rgpd" class="toc-item"><span class="toc-num">07</span><span class="toc-title">Le RGPD</span></a>
+      <a href="#conformite" class="toc-item"><span class="toc-num">08</span><span class="toc-title">Se mettre en conformité</span></a>
+      <a href="#erreurs" class="toc-item"><span class="toc-num">09</span><span class="toc-title">Les 5 erreurs à éviter</span></a>
+      <a href="#checklist" class="toc-item"><span class="toc-num">10</span><span class="toc-title">Livrable : ta checklist</span></a>
+      <a href="#faq" class="toc-item"><span class="toc-num">11</span><span class="toc-title">FAQ</span></a>
+    </div>
+    <div class="data-table" style="margin-top:2.5rem;text-align:left"><table>
+      <thead><tr><th style="width:90px">Repère</th><th>Chapitre de la vidéo</th></tr></thead>
+      <tbody>
+        <tr><td class="n">00:00</td><td>Les 5 points pour protéger son système</td></tr>
+        <tr><td class="n">01:00</td><td>S'inspirer de modèles, puis consulter un avocat</td></tr>
+        <tr><td class="n">04:47</td><td>Les mentions légales</td></tr>
+        <tr><td class="n">08:14</td><td>La politique de confidentialité</td></tr>
+        <tr><td class="n">16:36</td><td>Les conditions générales de vente</td></tr>
+        <tr><td class="n">22:30</td><td>Le contenu des CGV et les risques sans CGV</td></tr>
+        <tr><td class="n">28:34</td><td>Le médiateur de la consommation</td></tr>
+        <tr><td class="n">37:14</td><td>Le RGPD : à quoi il sert</td></tr>
+        <tr><td class="n">40:16</td><td>Se mettre en conformité avec le RGPD</td></tr>
+        <tr><td class="n">45:46</td><td>Ce qu'il faut afficher sur tes pages</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="module" id="cinq">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">01 / 11</span><h2>Les 5 points <em>et comment s'y prendre</em></h2></div>
+    <p class="module-lead">Quand tu déploies ton système d'acquisition, tu dois traiter cinq sujets. Tarik met à ta disposition des modèles dans les ressources de la vidéo.</p>
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-letter">1</div><div class="eeat-name">Mentions légales</div><h4>Qui édite le site</h4><p>Obligatoires sur toute page web.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">2</div><div class="eeat-name">Confidentialité</div><h4>Ce que tu fais des données</h4><p>Dès que tu collectes une donnée ou poses un cookie.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">3</div><div class="eeat-name">CGV</div><h4>Les règles de la vente</h4><p>Dès que tu encaisses le moindre centime.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">4</div><div class="eeat-name">Médiateur</div><h4>Un recours pour tes clients</h4><p>Dès que tu vends à des particuliers.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">5</div><div class="eeat-name">RGPD</div><h4>Le cadre européen</h4><p>Pour tous ceux qui collectent des données personnelles.</p></div>
+    </div>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Pour démarrer</span><h4>S'inspirer de modèles</h4><p>Pars des modèles fournis, de documents types, ou regarde comment sont construites les pages légales de plusieurs sites d'artistes et de marques françaises. Attention : les modèles de Tarik ont été rédigés pour ses propres besoins.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Quand ça grandit</span><h4>Faire appel à un avocat</h4><p>Quand tes fans se comptent par milliers et que ton volume d'affaires augmente, investir quelques centaines à un peu plus d'un millier d'euros pour des documents rédigés par un avocat devient indispensable.</p></div></div>
+    </div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Ce support n'est pas un avis juridique</div>
+      <p>Les obligations et montants cités ici proviennent de la vidéo et peuvent avoir évolué. Vérifie-les sur les sources officielles (service-public.fr, economie.gouv.fr, cnil.fr) ou auprès d'un professionnel du droit.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="module" id="mentions">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">02 / 11</span><h2>Les <em>mentions légales</em></h2></div>
+    <p class="module-lead">Toute plateforme web, site ou page doit permettre de savoir qui l'édite, qui l'héberge et qui est responsable de la publication. C'est une obligation, pas une option.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>À indiquer</th><th>Détail</th></tr></thead>
+      <tbody>
+        <tr><td><strong>L'éditeur</strong></td><td>Nom et prénom, ou raison sociale de ta structure ; adresse, numéro d'immatriculation, téléphone, email</td></tr>
+        <tr><td><strong>Le directeur de la publication</strong></td><td>Pour un indépendant : le dirigeant de la structure, ou toi si tu exerces en nom propre</td></tr>
+        <tr><td><strong>L'hébergeur</strong></td><td>Ses coordonnées (fournies par ton outil de funnel ou ton hébergeur)</td></tr>
+        <tr><td><strong>Pour une société</strong></td><td>Forme juridique, capital social, numéro de TVA</td></tr>
+        <tr><td><strong>Les données personnelles</strong></td><td>Un renvoi vers ta politique de confidentialité, et les coordonnées de ton médiateur</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <div class="callout-tag">★ Comment se passent les contrôles</div>
+      <p>À ton échelle, un contrôle de la DGCCRF est le plus souvent déclenché par un signalement. Selon l'expérience de Tarik, un premier contrôle est souvent bienveillant si tu es de bonne foi et corriges rapidement. Mais si tu promets une mise en conformité et qu'elle n'est pas faite au contrôle suivant, l'amende tombe. La vidéo évoque des amendes pouvant atteindre plusieurs dizaines de milliers d'euros pour une structure : montants à vérifier sur source officielle.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="module" id="confidentialite">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">03 / 11</span><h2>La politique <em>de confidentialité</em></h2></div>
+    <p class="module-lead">Elle explique quelles données tu collectes, comment tu les utilises, combien de temps tu les gardes, avec qui tu les partages et quels droits ont les personnes concernées.</p>
+    <div class="prose">
+      <p>Elle est obligatoire dès que tu collectes une donnée personnelle : un simple formulaire d'inscription, une newsletter, une vente en ligne, et aussi dès que tu installes un <strong>pixel</strong>, car il utilise des cookies. Elle te met en conformité avec le RGPD, t'évite des sanctions de la CNIL et renforce la confiance : un site sans politique de confidentialité ressemble vite à une arnaque.</p>
+    </div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Les données collectées</h4><p>Prénom, nom, email, téléphone, pays, adresse IP… y compris ce que collecte le pixel.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Les finalités</h4><p>Newsletter, retargeting, gestion des commandes, promotion, statistiques.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>La base légale du traitement</h4><p>Le consentement (la case à cocher), l'intérêt légitime (la taille d'un vêtement pour l'envoyer) ou l'obligation légale (les informations d'une facture).</p></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>La durée de conservation et les destinataires</h4><p>Un an, cinq ans… et à qui les données sont transmises : hébergeur, outil de funnel, prestataires, partenaires.</p></div></div>
+      <div class="factor"><div class="factor-num">05</div><div><h4>Les droits et le contact</h4><p>Accès, rectification, suppression, opposition, et une adresse pour exercer ces droits. Plus la gestion des cookies.</p></div></div>
+    </div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Imparfaite vaut mieux qu'absente</div>
+      <p>Les sanctions les plus lourdes du RGPD (jusqu'à 20 millions d'euros ou un pourcentage du chiffre d'affaires, à vérifier sur cnil.fr) visent surtout les grandes structures. Mais une politique imparfaite est bien mieux accueillie par un contrôleur qu'une absence totale, et elle limite les plaintes d'utilisateurs.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="module" id="cgv">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">04 / 11</span><h2>Les CGV : <em>à quoi elles servent</em></h2></div>
+    <p class="module-lead">Dès que tu encaisses de l'argent en ligne, tes conditions générales de vente encadrent la relation avec tes acheteurs : prix, livraison, garanties, remboursement, rétractation.</p>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Fixer les règles du jeu</div><h4>Sans règles, tout est permis</h4><p>Exemple : une garantie « satisfait ou remboursé » de 14 jours, inconditionnelle, mais plus aucun remboursement au-delà.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Te protéger en cas de litige</div><h4>La preuve de l'acceptation</h4><p>Quand un client conteste un paiement auprès de sa banque, tu montres qu'il a accepté tes CGV et l'article concerné. La banque te donne raison.</p></div>
+    </div>
+    <div class="prose">
+      <p>Les CGV se « blindent » au fil des expériences. Tarik a ainsi précisé qu'une garantie de satisfaction ne s'applique plus au-delà d'une certaine part de la formation consommée, ou après un avis positif laissé par le client, après avoir fait face à des demandes de mauvaise foi.</p>
+    </div>
+    <div class="data-table"><table>
+      <thead><tr><th>Tu vends à…</th><th>CGV obligatoires ?</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Des professionnels</strong></td><td><span class="badge mid">Fortement recommandées</span> souvent en annexe d'un contrat</td></tr>
+        <tr><td><strong>Des particuliers</strong></td><td><span class="badge yes">Obligatoires</span> et, comme tu vends en ligne sans savoir qui achète, c'est ton cas</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Tes CGV doivent être <strong>accessibles avant l'achat</strong>, <strong>datées</strong> (et redatées à chaque modification) et acceptées par une case à cocher du type « J'ai lu et j'accepte les conditions générales de vente ».</p>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="module" id="contenu">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">05 / 11</span><h2>Contenu des CGV <em>et risques</em></h2></div>
+    <p class="module-lead">Voici ce que doivent contenir tes conditions générales de vente, et ce que tu risques sans elles.</p>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">À faire figurer</div><h4>Le contenu minimum</h4><p>Ton identité de vendeur ; les produits ou services concernés ; les prix HT ou TTC et frais supplémentaires ; les modalités de paiement ; les délais et conditions de livraison ; le droit de rétractation (14 jours pour les particuliers selon la vidéo, à vérifier) ; les garanties légales ; la procédure de réclamation et le médiateur ; éventuellement une clause de réserve de propriété ; le tribunal compétent.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Sans CGV</div><h4>Les risques</h4><p>Des litiges difficiles à résoudre (aucune règle opposable) ; une amende ou une injonction de mise en conformité ; une perte de confiance des acheteurs ; des plaintes contre lesquelles tu n'es pas protégé.</p><div class="eeat-music"><strong>Le tribunal compétent</strong>Prévoir le droit français et un tribunal proche de chez toi décourage les procédures lointaines et coûteuses.</div></div>
+    </div>
+    <div class="audit-intro">
+      <h3>L'anecdote du livre « jamais reçu »</h3>
+      <p>Quand Tarik vendait son premier livre en direct, sans CGV, un acheteur a affirmé trois fois ne pas l'avoir reçu malgré le suivi indiquant une livraison en boîte aux lettres. Il a ensuite envoyé un courrier recommandé exigeant remboursement ou renvoi. Faute de CGV opposables, Tarik a dû le rembourser, et son avocate l'a prévenu qu'il aurait même pu réclamer des dommages et intérêts.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="module" id="mediateur">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">06 / 11</span><h2>Le médiateur <em>de la consommation</em></h2></div>
+    <p class="module-lead">Dès que tu vends un bien ou un service à des particuliers, tu dois désigner un médiateur : un tiers neutre vers lequel un acheteur mécontent peut se tourner avant d'aller en justice.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Qui est concerné</span><h4>Tout professionnel qui vend à des particuliers</h4><p>Un artiste en autoproduction qui vend à son public agit dans une démarche professionnelle : il est concerné. (Entre professionnels, c'est le droit commercial qui s'applique.)</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Adhérer</span><h4>Choisir un organisme agréé</h4><p>La liste officielle des médiateurs est disponible en ligne (liste fournie en ressources). L'adhésion coûte, selon la vidéo, entre 100 et 300 € par an ; c'est gratuit pour le client.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Afficher</span><h4>Indiquer ses coordonnées</h4><p>Dans tes CGV et tes mentions légales en priorité, et éventuellement dans ta politique de confidentialité, tes emails de confirmation et tes factures.</p></div></div>
+    </div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Pour toi</div><h4>Un frein aux procédures</h4><p>Le médiateur rappelle factuellement le cadre à un client énervé : si tes CGV sont respectées, il lui explique qu'une procédure risque de lui coûter cher.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Sans médiateur</div><h4>Une infraction au droit de la consommation</h4><p>La vidéo évoque une amende pouvant aller jusqu'à 15 000 € en cas de contrôle après avertissement : montant à vérifier sur source officielle.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="module" id="rgpd">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">07 / 11</span><h2>Le <em>RGPD</em></h2></div>
+    <p class="module-lead">Le Règlement général sur la protection des données, en application depuis 2018 dans l'Union européenne, encadre la collecte, le traitement, le stockage et la protection des données personnelles.</p>
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-name">Protéger</div><h4>Les droits de tes futurs fans</h4><p>Limiter les abus : revente, démarchage, piratage.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Informer</div><h4>Obliger à la transparence</h4><p>Chacun doit savoir ce qui est fait de ses données, et choisir en connaissance de cause.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Responsabiliser</div><h4>Sécuriser les données</h4><p>Les professionnels doivent protéger ce qu'ils collectent, a fortiori les données sensibles.</p></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Tu es concerné</div>
+      <p>Si tu demandes un prénom sur internet, tu dois être en conformité. Prénom, email, téléphone, cookies, pixels, adresse IP de tes clients : dès que ton système d'acquisition est en place, le RGPD s'applique à toi.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="module" id="conformite">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">08 / 11</span><h2>Se mettre <em>en conformité</em></h2></div>
+    <p class="module-lead">Pour une petite structure, la mise en conformité tient en quelques étapes simples.</p>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Informer</h4><p>Dans ta politique de confidentialité : qui collecte (souvent toi), dans quel but, combien de temps, à qui c'est transmis (par exemple un commercial qui prospecte pour toi), et quels sont les droits des personnes.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Recueillir un consentement explicite</h4><p>La case à cocher avant validation du formulaire, le double opt-in pour les emails, le bandeau cookies (souvent fourni par ton outil de funnel).</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Permettre l'exercice des droits</h4><p>Accès, rectification, suppression, opposition, portabilité, via une adresse de contact.</p></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Sécuriser les données</h4><p>Hébergement sécurisé, mots de passe forts sur tes comptes, sauvegarde régulière de ta base sur un support déconnecté, accès limités au strict nécessaire pour tes prestataires.</p></div></div>
+      <div class="factor"><div class="factor-num">05</div><div><h4>Tenir un registre des traitements</h4><p>Un simple tableur : pour chaque donnée, qui la collecte, qui y a accès, ce qu'on en fait, combien de temps on la garde. La désignation d'un délégué à la protection des données (DPO) n'est en général pas requise pour un petit artiste indépendant, sauf données sensibles ou grande structure.</p></div></div>
+    </div>
+    <div class="audit-intro">
+      <h3>Ce que tu dois afficher sur tes pages</h3>
+      <p>Une politique de confidentialité conforme au RGPD ; un bandeau cookies avec consentement explicite ; une case à cocher sur la collecte des données ; un moyen simple de te contacter pour modifier, supprimer ou consulter ses données. Avec cela, ton système est protégé face à la grande majorité des risques.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="module" id="erreurs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">09 / 11</span><h2>Les 5 erreurs <em>à éviter</em></h2></div>
+    <p class="module-lead">Celles qui t'exposent à des amendes, des litiges ou une perte de confiance.</p>
+    <div class="factors">
+      <div class="factor err"><div class="factor-num">01</div><div><h4>Publier une page de capture sans mentions légales</h4><p>C'est obligatoire sur toute page web, même un simple funnel.</p></div></div>
+      <div class="factor err"><div class="factor-num">02</div><div><h4>Installer un pixel sans politique de confidentialité</h4><p>Le pixel utilise des cookies : il doit être mentionné et consenti.</p></div></div>
+      <div class="factor err"><div class="factor-num">03</div><div><h4>Vendre sans CGV datées et acceptées</h4><p>Sans elles, tu n'as aucune règle à opposer en cas de litige.</p></div></div>
+      <div class="factor err"><div class="factor-num">04</div><div><h4>Oublier le médiateur</h4><p>C'est une obligation dès que tu vends à des particuliers, même s'il n'intervient jamais.</p></div></div>
+      <div class="factor err"><div class="factor-num">05</div><div><h4>Copier les documents d'un autre sans les adapter</h4><p>Les modèles sont un point de départ : adapte-les à ton activité, puis fais-les valider quand ton activité grandit.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="module" id="checklist">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">10 / 11</span><h2>Livrable : ta <em>checklist</em></h2></div>
+    <div class="audit-intro">
+      <h3>Clique sur les cases au fur et à mesure</h3>
+      <p>Ce travail prépare l'exercice « Conception de son système d'acquisition » du Module 6 (volet conformité). Progression : <span class="score" id="score">0 / 8</span></p>
+    </div>
+    <div class="audit-prompts" id="checklist-list">
+      <div class="prompt-row"><div class="prompt-num">C01</div><div><div class="prompt-text">J'ai rédigé mes mentions légales (éditeur, directeur de publication, hébergeur)</div></div><button type="button" class="audit-check" id="c1">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C02</div><div><div class="prompt-text">J'ai rédigé ma politique de confidentialité, pixel et cookies compris</div></div><button type="button" class="audit-check" id="c2">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C03</div><div><div class="prompt-text">J'ai rédigé et daté mes CGV si je vends quoi que ce soit</div></div><button type="button" class="audit-check" id="c3">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C04</div><div><div class="prompt-text">J'ai choisi et adhéré à un médiateur de la consommation</div></div><button type="button" class="audit-check" id="c4">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C05</div><div><div class="prompt-text">J'ai ajouté la case de consentement et le bandeau cookies sur mes pages</div></div><button type="button" class="audit-check" id="c5">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C06</div><div><div class="prompt-text">J'ai indiqué une adresse de contact pour l'exercice des droits sur les données</div></div><button type="button" class="audit-check" id="c6">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C07</div><div><div class="prompt-text">J'ai sécurisé mes comptes (mots de passe forts) et prévu une sauvegarde régulière de ma base</div></div><button type="button" class="audit-check" id="c7">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C08</div><div><div class="prompt-text">J'ai créé mon registre des traitements dans un tableur</div></div><button type="button" class="audit-check" id="c8">⬚ Fait</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="module" id="faq">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">11 / 11</span><h2>Questions <em>fréquentes</em></h2></div>
+    <div class="faq">
+      <details><summary>Je ne vends rien, je collecte juste des emails. Suis-je concerné ?</summary><div class="ans">Oui pour les mentions légales, la politique de confidentialité et le RGPD. Les CGV et le médiateur deviennent obligatoires dès que tu vends quelque chose.</div></details>
+      <details><summary>Puis-je utiliser les modèles fournis tels quels ?</summary><div class="ans">Ils ont été rédigés pour les besoins de Tarik. Utilise-les comme point de départ, adapte-les à ton activité, puis fais-les valider par un avocat quand ton volume d'affaires augmente.</div></details>
+      <details><summary>Mon outil de funnel gère déjà les cookies. Dois-je faire autre chose ?</summary><div class="ans">Le bandeau cookies et certaines protections sont souvent fournis par l'outil, mais tu restes responsable de ta politique de confidentialité, de ta case de consentement et de l'information des utilisateurs.</div></details>
+      <details><summary>Que faire en cas de contrôle ?</summary><div class="ans">Rester de bonne foi, reconnaître ce qui manque et corriger dans le délai annoncé. Selon l'expérience de Tarik, un premier contrôle est souvent pédagogique ; c'est l'absence de correction qui entraîne une amende.</div></details>
+      <details><summary>Les montants et délais cités sont-ils à jour ?</summary><div class="ans">Ils proviennent de la vidéo et la réglementation évolue. Vérifie-les sur les sites officiels (service-public.fr, economie.gouv.fr, cnil.fr) avant de t'y fier.</div></details>
+      <details><summary>Faut-il nommer un DPO ?</summary><div class="ans">En général non pour un petit artiste indépendant. C'est surtout requis pour les grandes structures ou celles qui traitent des données sensibles à grande échelle. Vérifie ta situation sur cnil.fr.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="recap">
+  <div class="container-narrow">
+    <div class="section-label" style="color:var(--accent-line)">Synthèse</div>
+    <h3>Ce que tu dois retenir de ce cours</h3>
+    <ol class="recap-list">
+      <li>Cinq obligations : <strong>mentions légales, politique de confidentialité, CGV, médiateur, RGPD</strong>.</li>
+      <li>Commence avec des <strong>modèles adaptés</strong>, puis passe par un avocat quand ton activité grandit.</li>
+      <li>Dès qu'il y a un formulaire ou un pixel, il faut une <strong>politique de confidentialité</strong>.</li>
+      <li>Des <strong>CGV datées et acceptées</strong> te protègent en cas de litige.</li>
+      <li>Vendre à des particuliers impose un <strong>médiateur de la consommation</strong>.</li>
+      <li>RGPD : informer, recueillir le consentement, permettre l'exercice des droits, sécuriser, tenir un registre.</li>
+    </ol>
+  </div>
+</section>
+
+<div class="container-narrow">
+  <div class="next-cta">
+    <h3>Prêt pour la <em>vidéo suivante</em> ?</h3>
+    <p>Monétiser les contenus sur les plateformes.</p>
+    <span class="btn btn-primary">Continuer vers la monétisation →</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="src">Support pédagogique de la formation « Structurer et développer une activité artistique musicale » (certification RS7398), Module 6 : Acquisition de fans et développement de communauté. Contenu issu de la vidéo de Tarik Hamiche « Protéger son système d'acquisition de fans » ; les obligations, montants et délais cités sont à vérifier sur les sources officielles, car la réglementation peut avoir évolué. Ce support ne constitue pas un conseil juridique.</p>
+    © 2026 Tarik Hamiche · Muziforma
+  </div>
+</footer>
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var btns=[].slice.call(document.querySelectorAll('#checklist-list .audit-check'));
+  var score=document.getElementById('score');var KEY='mz-rs7398-m6-06-proteger-systeme-acquisition';var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function paint(b){var on=!!saved[b.id];b.classList.toggle('checked',on);b.textContent=(on?'✓':'⬚')+' Fait';b.setAttribute('aria-pressed',on?'true':'false');}
+  function upd(){score.textContent=btns.filter(function(b){return saved[b.id]}).length+' / '+btns.length;}
+  btns.forEach(function(b){paint(b);b.addEventListener('click',function(){saved[b.id]=!saved[b.id];try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}paint(b);upd();});});
+  upd();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mettre en place un système d'acquisition de fans · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Charte Muziforma : fond sable, violet #5B14FF, Manrope + Inter + JetBrains Mono. */
+:root{--bg:#F7F1E8;--bg-soft:#FCF8F2;--bg-card:#FFFFFF;--ink:#1F1A15;--ink-soft:#5C4F42;--ink-muted:#8A7A6A;--accent:#5B14FF;--accent-dark:#4910CC;--accent-soft:#EDE9FE;--accent-line:#A78BFA;--border:#E8DDC9;--border-soft:#F0E6D4;--warning:#C2410C;--warning-soft:#FFEDD5;--success:#15803D;--success-soft:#DCFCE7;--on-accent:#FFFFFF;--recap-text:rgba(247,241,232,.85);--shadow-sm:0 1px 2px rgba(31,26,21,.04);--shadow-md:0 4px 16px rgba(31,26,21,.06);--radius-sm:8px;--radius-md:14px;--radius-lg:24px;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Manrope,-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700}
+h4{font-size:1.15rem;font-weight:700;line-height:1.3}
+p{margin-bottom:1.1rem;color:var(--ink-soft)}
+strong{color:var(--ink);font-weight:700}
+em{font-style:normal;color:var(--accent);font-weight:800}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.container-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-line));z-index:9999}
+header.top-nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(247,241,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand-mark{font-family:Manrope,sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--ink)}
+.brand-mark em{color:var(--accent)}
+.nav-meta{display:flex;gap:1rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted)}
+.nav-meta span:not(:last-child)::after{content:"·";margin-left:1rem;color:var(--border)}
+@media (max-width:600px){.nav-meta{display:none}}
+.hero{padding:5rem 0 4rem;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;max-width:none;background:radial-gradient(circle,rgba(167,139,250,.22) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(91,20,255,.14) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1.8rem;box-shadow:var(--shadow-sm)}
+.hero h1{margin-bottom:1.5rem}
+.hero-lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:720px;margin:0 auto 1.5rem;line-height:1.55}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.hero-chips span{font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:.35rem .9rem}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:880px;margin:3rem auto 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-num{font-family:Manrope,sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em;margin-bottom:.5rem}
+.stat-label{font-size:.82rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.hero-stats{grid-template-columns:1fr}}
+.section-label{display:inline-block;font-family:Inter,sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:1.5rem}
+.toc-section{padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);text-align:center}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:800px;margin:1rem auto 0}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left;color:var(--ink);transition:.15s}
+.toc-item:hover{border-color:var(--accent);transform:translateX(2px);box-shadow:var(--shadow-sm);color:var(--ink)}
+.toc-num{font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);flex-shrink:0;width:36px}
+.toc-title{font-weight:600;font-size:.95rem;line-height:1.3}
+@media (max-width:600px){.toc-grid{grid-template-columns:1fr}}
+main>section.module{padding:6rem 0;position:relative;overflow:hidden}
+main>section.module:nth-of-type(odd){background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+section.module::before{content:"";position:absolute;top:10%;right:-180px;width:480px;height:480px;background:radial-gradient(circle,rgba(167,139,250,.16) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
+section.module>.container,section.module>.container-narrow{position:relative;z-index:1}
+.module-header{margin-bottom:2.5rem}
+.module-num{font-family:Manrope,sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.6rem;display:block}
+.module-lead{font-size:1.15rem;color:var(--ink-soft);margin:1.5rem 0 2.5rem;line-height:1.55;max-width:720px}
+.prose p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.3rem}
+.callout{background:var(--bg-card);border-left:4px solid var(--accent);border-radius:var(--radius-md);padding:1.6rem 1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm);text-align:left}
+.callout.warning{border-left-color:var(--warning);background:linear-gradient(135deg,var(--warning-soft) 0%,var(--bg-card) 60%)}
+.callout.success{border-left-color:var(--success);background:linear-gradient(135deg,var(--success-soft) 0%,var(--bg-card) 60%)}
+.callout-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.6rem}
+.callout.warning .callout-tag{color:var(--warning)}
+.callout.success .callout-tag{color:var(--success)}
+.callout p{margin:0;color:var(--ink);line-height:1.55}
+.callout ul{margin:.2rem 0 0 1.2rem;color:var(--ink);line-height:1.6}
+/* 3 casquettes : reprend .evolution */
+.evolution{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2rem 0}
+.evo-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;text-align:center;box-shadow:var(--shadow-sm)}
+.evo-col.featured{border:2px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg-card) 50%);transform:scale(1.02);box-shadow:var(--shadow-md)}
+.evo-acronym{font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;letter-spacing:-.04em;margin-bottom:.4rem}
+.evo-col:not(.featured) .evo-acronym{color:var(--ink-muted)}
+.evo-full{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:1rem;font-weight:600}
+.evo-col h4{margin-bottom:.6rem}
+.evo-col p{font-size:.92rem;line-height:1.55;text-align:left}
+.evo-target{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--border);text-align:left;font-size:.85rem;line-height:1.45;color:var(--ink)}
+.evo-target strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem;font-weight:800}
+@media (max-width:800px){.evolution{grid-template-columns:1fr}.evo-col.featured{transform:none}}
+/* circuit : reprend .rag-flow */
+.rag-flow{margin:2.5rem 0;display:flex;flex-direction:column;gap:1.5rem}
+.rag-step{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.rag-step:hover{border-color:var(--accent-line)}
+.rag-step-circle{flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.6rem;box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+.rag-step.alt .rag-step-circle{background:var(--warning);box-shadow:rgba(194,65,12,.3) 0 6px 20px}
+.rag-step>div:last-child{flex:1 1 0%;min-width:0}
+.step-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);margin-bottom:.4rem}
+.rag-step h4{margin-bottom:.6rem}
+.rag-step p{margin:0;line-height:1.55}
+/* tableaux dans la charte */
+.data-table{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);margin:2rem 0}
+.data-table table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+.data-table th{text-align:left;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding:1rem 1.1rem;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.data-table td{padding:.9rem 1.1rem;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table td strong{color:var(--ink)}
+.data-table .n{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--accent-dark);white-space:nowrap}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .6rem;border-radius:6px;white-space:nowrap}
+.badge.yes{background:var(--success-soft);color:var(--success)}
+.badge.no{background:var(--warning-soft);color:var(--warning)}
+.badge.mid{background:var(--accent-soft);color:var(--accent-dark)}
+/* barre de répartition */
+.split{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);margin:2rem 0}
+.split h4{margin-bottom:1.2rem}
+.split-bar{display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden}
+.split-bar div{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:500;color:var(--on-accent);white-space:nowrap;overflow:hidden}
+.split-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem 1rem;margin-top:1.2rem;font-size:.88rem;color:var(--ink-soft)}
+.split-legend span{display:flex;align-items:center;gap:.5rem}
+.split-legend i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.split-legend b{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--ink);margin-left:auto}
+.split-note{font-size:.82rem;color:var(--ink-muted);margin:1rem 0 0;line-height:1.5}
+/* cartes : reprend .motors / .eeat */
+.motors,.eeat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:2rem 0}
+.motor-card,.eeat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-sm);min-width:0}
+.eeat-card{transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.eeat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motor-name{font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;color:var(--ink);letter-spacing:-.02em;margin-bottom:.3rem}
+.motor-by{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.motor-spec{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border-soft);font-size:.9rem;line-height:1.45}
+.motor-spec:last-child{border-bottom:0}
+.motor-spec-label{flex-shrink:0;width:78px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding-top:.2rem}
+.motor-spec-value{flex:1 1 0%;color:var(--ink-soft)}
+.eeat-letter{width:52px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1rem}
+.eeat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem}
+.eeat-card h4{margin-bottom:.8rem}
+.eeat-card>p{font-size:.95rem;line-height:1.55;margin-bottom:1.2rem}
+.eeat-music{background:var(--accent-soft);border-radius:var(--radius-sm);padding:1rem;font-size:.9rem;line-height:1.5;color:var(--ink);margin-top:auto}
+.eeat-music strong{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.eeat-music .out{color:var(--warning)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:740px){.eeat-grid,.motors,.grid3{grid-template-columns:1fr}}
+/* étapes : reprend .factors */
+.factors{display:flex;flex-direction:column;gap:1.2rem;margin:2rem 0}
+.factor{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.factor:hover{border-color:var(--accent-line)}
+.factor-num{flex-shrink:0;font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;width:50px;letter-spacing:-.03em}
+.factor.err .factor-num{color:var(--warning)}
+.factor>div:last-child{flex:1 1 0%;min-width:0}
+.factor h4{margin-bottom:.6rem}
+.factor p{font-size:.95rem;line-height:1.55;margin-bottom:1rem}
+.factor p:last-child{margin-bottom:0}
+.factor-detail{background:var(--accent-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.88rem;line-height:1.5;color:var(--ink)}
+.factor-detail strong{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.factor.err .factor-detail{background:var(--warning-soft)}
+.factor.err .factor-detail strong{color:var(--warning)}
+/* checklist : reprend .audit */
+.audit-intro{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm)}
+.audit-intro h3{margin-bottom:.8rem}
+.audit-intro p{margin:0;line-height:1.6}
+.audit-prompts{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.prompt-row{display:flex;gap:1.2rem;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.prompt-num{flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--accent);width:36px}
+.prompt-row>div:not(.prompt-num){flex:1 1 0%;min-width:0}
+.prompt-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.audit-check{flex-shrink:0;padding:.5rem .9rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s;font-family:Inter,sans-serif}
+.audit-check:hover{border-color:var(--accent-line)}
+.audit-check.checked{background:var(--success);color:var(--on-accent);border-color:var(--success);font-weight:600}
+.score{font-family:"JetBrains Mono",monospace;color:var(--success);font-weight:500}
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.faq details{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:border-color .2s}
+.faq details:hover,.faq details[open]{border-color:var(--accent-line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.5rem;font-family:Manrope,sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.faq details[open] summary::after{content:"−";background:var(--accent);color:var(--on-accent)}
+.faq .ans{padding:0 1.5rem 1.4rem;color:var(--ink-soft);font-size:.97rem;line-height:1.65}
+/* synthèse */
+.recap{background:var(--ink);color:var(--recap-text);padding:4rem 0;position:relative;overflow:hidden}
+.recap::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(91,20,255,.25) 0%,transparent 60%);border-radius:50%;pointer-events:none}
+.recap>.container-narrow{position:relative;z-index:1}
+.recap h3{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg-card);margin-bottom:1.5rem}
+.recap-list{list-style:none;counter-reset:item;display:flex;flex-direction:column;gap:1rem}
+.recap-list li{counter-increment:item;padding-left:3rem;position:relative;line-height:1.55;color:var(--recap-text)}
+.recap-list li::before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:Manrope,sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-line)}
+.recap-list li strong{color:var(--bg-card)}
+.next-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin:4rem auto;max-width:760px;text-align:center;box-shadow:var(--shadow-md)}
+.next-cta h3{margin-bottom:1rem}
+.next-cta p{margin-bottom:1.5rem;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.1rem 2.2rem;font-family:Manrope,sans-serif;font-size:1rem;font-weight:800;border-radius:999px;border:0;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+footer.site-footer{background:var(--ink);color:rgba(247,241,232,.55);padding:2.5rem 0;text-align:center;font-size:.85rem;border-top:1px solid rgba(247,241,232,.08);line-height:1.7}
+footer.site-footer .src{max-width:760px;margin:0 auto 1rem;font-size:.8rem;color:rgba(247,241,232,.45)}
+@media (max-width:860px){main>section.module{padding:4rem 0}.toc-section{padding:3rem 0}.module-header{margin-bottom:1.8rem}.module-lead{font-size:1.05rem;margin:1rem 0 1.8rem}.rag-step,.factor{padding:1.4rem;gap:1rem}.rag-step-circle{width:48px;height:48px;font-size:1.3rem}.factor-num{font-size:1.6rem;width:40px}.next-cta{padding:1.8rem 1.4rem}.recap-list li{padding-left:2.4rem}section.module::before{width:320px;height:320px}}
+@media (max-width:480px){.hero{padding:3rem 0 2.5rem}.hero h1{font-size:2rem}.rag-step,.factor{flex-direction:column;gap:.8rem}.prompt-row{flex-wrap:wrap}}
+html,body{width:100% !important;max-width:100% !important;overflow-x:hidden}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress-bar"></div>
+<header class="top-nav">
+  <div class="nav-inner">
+    <span class="brand-mark">MUZI<em>FORMA</em></span>
+    <div class="nav-meta"><span>Module 06 / 08</span><span>Muziforma</span></div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Module 06 · Système d'acquisition</span>
+    <h1>Mettre en place un <em>système d'acquisition</em> de fans.</h1>
+    <p class="hero-lead">Un système d'acquisition, c'est le parcours qui mène un inconnu de ton contenu jusqu'à ta base de contacts. Tout commence par un dessin : si tu ne sais pas visualiser ce parcours, tu ne pourras pas le construire.</p>
+    <div class="hero-chips"><span>Durée : 55 min</span><span>Formateur : Tarik Hamiche</span></div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">2</div><div class="stat-label">Pages suffisent : capture et remerciement</div></div>
+      <div class="stat-card"><div class="stat-num">20 %</div><div class="stat-label">Le taux d'inscription à viser au départ</div></div>
+      <div class="stat-card"><div class="stat-num">2 M</div><div class="stat-label">De vues sur la vidéo buzz de l'étude de cas</div></div>
+      <div class="stat-card"><div class="stat-num">200 000</div><div class="stat-label">Personnes qui ont récupéré le single offert</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc-section">
+  <div class="container-narrow">
+    <div class="callout">
+      <div class="callout-tag">★ Objectifs pédagogiques</div>
+      <ul>
+        <li>Schématiser le parcours d'un fan, du contenu jusqu'à ta base</li>
+        <li>Comprendre le rôle de l'appel à l'action et du lead magnet</li>
+        <li>Construire les deux pages d'un funnel : capture et remerciement</li>
+        <li>Savoir ce qui se passe « sous le capot » : formulaire, autorépondeur, double opt-in, pixel</li>
+        <li>Mesurer le coût d'un fan et la rentabilité du système</li>
+      </ul>
+    </div>
+    <div class="section-label">Plan du cours</div>
+    <div class="toc-grid">
+      <a href="#parcours" class="toc-item"><span class="toc-num">01</span><span class="toc-title">Le parcours du public</span></a>
+      <a href="#cta" class="toc-item"><span class="toc-num">02</span><span class="toc-title">L'appel à l'action</span></a>
+      <a href="#magnet" class="toc-item"><span class="toc-num">03</span><span class="toc-title">Le lead magnet, un aimant à fans</span></a>
+      <a href="#cas" class="toc-item"><span class="toc-num">04</span><span class="toc-title">Étude de cas : le single offert</span></a>
+      <a href="#capture" class="toc-item"><span class="toc-num">05</span><span class="toc-title">La page de capture</span></a>
+      <a href="#merci" class="toc-item"><span class="toc-num">06</span><span class="toc-title">La page de remerciement</span></a>
+      <a href="#capot" class="toc-item"><span class="toc-num">07</span><span class="toc-title">Sous le capot : l'autorépondeur</span></a>
+      <a href="#pixel" class="toc-item"><span class="toc-num">08</span><span class="toc-title">Le pixel et le retargeting</span></a>
+      <a href="#rentabilite" class="toc-item"><span class="toc-num">09</span><span class="toc-title">Coût par fan et rentabilité</span></a>
+      <a href="#erreurs" class="toc-item"><span class="toc-num">10</span><span class="toc-title">Les 5 erreurs à éviter</span></a>
+      <a href="#checklist" class="toc-item"><span class="toc-num">11</span><span class="toc-title">Livrable : ta checklist</span></a>
+      <a href="#faq" class="toc-item"><span class="toc-num">12</span><span class="toc-title">FAQ</span></a>
+    </div>
+    <div class="data-table" style="margin-top:2.5rem;text-align:left"><table>
+      <thead><tr><th style="width:90px">Repère</th><th>Chapitre de la vidéo</th></tr></thead>
+      <tbody>
+        <tr><td class="n">00:00</td><td>Les 3 temps pour bâtir son système</td></tr>
+        <tr><td class="n">01:46</td><td>Le parcours du public jusqu'au profil</td></tr>
+        <tr><td class="n">05:06</td><td>L'appel à l'action</td></tr>
+        <tr><td class="n">10:27</td><td>Le lead magnet, un aimant à fans</td></tr>
+        <tr><td class="n">15:01</td><td>Étude de cas : le single offert avant sa sortie</td></tr>
+        <tr><td class="n">21:09</td><td>D'autres idées de lead magnet</td></tr>
+        <tr><td class="n">24:44</td><td>La page de capture</td></tr>
+        <tr><td class="n">29:38</td><td>La page de remerciement et le double opt-in</td></tr>
+        <tr><td class="n">32:13</td><td>Rediriger vers les réseaux ou une offre</td></tr>
+        <tr><td class="n">36:55</td><td>Sous le capot : formulaire et autorépondeur</td></tr>
+        <tr><td class="n">42:34</td><td>Le pixel et le retargeting</td></tr>
+        <tr><td class="n">47:18</td><td>Coût par fan et rentabilité du système</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="module" id="parcours">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">01 / 12</span><h2>Le parcours <em>du public</em></h2></div>
+    <p class="module-lead">Le public vit sa vie et ne fait pas attention à toi. Puis, un jour, il tombe sur un de tes contenus, et ce contenu l'amène sur ton profil.</p>
+    <div class="prose">
+      <p>Arrivé sur ton profil (Instagram, TikTok, YouTube, LinkedIn), il a trois options : <strong>s'abonner</strong>, <strong>interagir</strong> avec le contenu, ou <strong>ne rien faire</strong>. Parfois les deux premières à la fois.</p>
+    </div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ La visibilité n'est qu'un prêt</div>
+      <p>Si tu t'arrêtes là, tu stimules tes réseaux, mais tu n'as pas de fans en base. Les réseaux et les médias te <strong>prêtent</strong> de la visibilité : si tu ne la convertis pas, elle repart aussi vite qu'elle est venue. C'est pourquoi des artistes à un million de vues il y a quelques années peinent aujourd'hui à dépasser quelques dizaines de milliers.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="module" id="cta">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">02 / 12</span><h2>L'appel <em>à l'action</em></h2></div>
+    <p class="module-lead">L'appel à l'action (CTA, <em>call to action</em>) incite immédiatement le public à faire ce que tu veux qu'il fasse, au lieu de simplement s'abonner ou liker.</p>
+    <div class="prose">
+      <p>La grande majorité des artistes n'en font pas : on leur a appris que gagner des vues et des abonnés suffisait. Or quelqu'un qui vient d'être convaincu par ton contenu doit avoir une option pour <strong>aller plus loin tout de suite</strong>. Sinon, il repart dans les méandres d'internet, clique sur une autre suggestion, et tu l'as perdu.</p>
+    </div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Sans appel à l'action</div><h4>Un like, peut-être un abonnement, puis plus rien</h4><p>Tu n'es pas au contrôle : impossible de savoir quand ce contact reverra un de tes contenus.</p><div class="eeat-music"><strong>Résultat</strong><span class="out">Contact perdu.</span></div></div>
+      <div class="eeat-card"><div class="eeat-name">Avec appel à l'action</div><h4>« Clique sur le lien dans ma bio pour récupérer le son »</h4><p>Tu sors la personne du bruit de la plateforme et tu l'amènes chez toi.</p><div class="eeat-music"><strong>Résultat</strong>Un nouveau fan en base.</div></div>
+    </div>
+    <div class="audit-intro">
+      <h3>L'image du violoniste dans le métro</h3>
+      <p>Tu joues dans le métro. Applaudir, c'est interagir ; mettre une pièce, c'est s'abonner. Maintenant, imagine une porte : « Vous avez aimé ? Entrez dans la pièce à côté, je vous offre un concert privé. » Une partie du public entre et s'assoit, loin du bruit. C'est exactement le rôle de l'appel à l'action.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="module" id="magnet">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">03 / 12</span><h2>Le lead magnet, <em>un aimant à fans</em></h2></div>
+    <p class="module-lead">Pour sortir quelqu'un de son divertissement, il faut quelque chose de très puissant : un aimant. Le lead magnet est ce que tu offres en échange de ses coordonnées.</p>
+    <div class="prose">
+      <p>La puissance de l'aimant fait tout. Un rapport de 190 pages sur des statistiques sans intérêt ne déclenche rien. Une formation gratuite qui promet de tout savoir en deux heures et demie pour se lancer comme éditeur, si c'est ta cible, déclenche le clic.</p>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Le lead magnet doit être un « no brainer »</div>
+      <p>Une offre à laquelle on dit oui sans réfléchir, comme une place de cinéma à 1 € ou une paire de baskets de marque à 20 €. Aligne-le non pas sur ce que <strong>toi</strong> tu es prêt à donner, mais sur ce pour quoi <strong>ton public</strong> serait prêt à payer, et qu'il obtient gratuitement et facilement.</p>
+    </div>
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-name">Idée</div><h4>Le son avant sa sortie</h4><p>Le titre que le public réclame, offert en avant-première.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Idée</div><h4>Une place sur le tournage du clip</h4><p>Par exemple trois fans invités, voyage et hébergement compris, via un jeu concours.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Idée</div><h4>Studio, concert, rencontre</h4><p>Tout ce qui rapproche le fan de toi a de la valeur, même si tu es émergent.</p></div>
+    </div>
+    <div class="prose">
+      <p>Un fan se moque de savoir si tu as 10 ou 10 millions d'abonnés pour être fan de toi. Le moindre lead magnet qui lui permet de se rapprocher de toi l'intéresse.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="module" id="cas">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">04 / 12</span><h2>Étude de cas : <em>le single offert</em></h2></div>
+    <p class="module-lead">Un artiste en phase d'émergence (aujourd'hui plus de 2 millions d'abonnés) publie une série de vidéos autour d'un titre qui ne sort que trois semaines plus tard.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Le buzz</span><h4>Une vidéo dépasse les 2 millions de vues</h4><p>Vers la 16e ou 17e vidéo, l'une d'elles explose. L'appel à l'action du profil est faible : « Clique ici pour recevoir l'actualité de l'artiste ».</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">L'écoute du public</span><h4>Lire les commentaires</h4><p>Parmi des milliers de commentaires, une demande revient sans cesse : « On veut le son en entier, où peut-on le trouver ? »</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Le lead magnet</span><h4>Offrir le single avant sa sortie</h4><p>Un commentaire épinglé renvoie vers la bio, où un lien propose de récupérer le titre gratuitement. Des campagnes de retargeting sur les personnes ayant vu la vidéo répètent le message.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">4</div><div><span class="step-tag">Le résultat</span><h4>Des centaines de milliers de coordonnées</h4><p>Environ 200 000 personnes récupèrent le son au départ, et bien plus ensuite.</p></div></div>
+    </div>
+    <div class="data-table"><table>
+      <thead><tr><th>Objection de la maison de disques</th><th>Réponse</th></tr></thead>
+      <tbody>
+        <tr><td><strong>« Ça va tuer l'effet de surprise »</strong></td><td>C'est vrai, mais la valeur d'une fan base est sans commune mesure avec ce risque à court terme.</td></tr>
+        <tr><td><strong>« Ça va faire baisser les streams »</strong></td><td>Qui écoute encore un fichier sur clé USB ? Les gens préfèrent lancer le titre sur leur plateforme de streaming.</td></tr>
+        <tr><td><strong>« On perd des ventes »</strong></td><td>À la sortie, un simple message suffit pour inviter des dizaines de milliers de fans à écouter et ajouter le titre à leurs playlists dès la première heure.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="module" id="capture">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">05 / 12</span><h2>La page <em>de capture</em></h2></div>
+    <p class="module-lead">Pour délivrer le lead magnet et récupérer les coordonnées, tu crées un <strong>funnel</strong> (entonnoir). Deux pages suffisent. La première est la page de capture, ou <em>landing page</em>.</p>
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-letter">1</div><div class="eeat-name">Contenu</div><h4>Un titre, souvent une vidéo</h4><p>« Voici comment récupérer le morceau gratuitement », pour confirmer à la personne qu'elle est au bon endroit. Une courte vidéo d'accueil de l'artiste renforce le lien.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">2</div><div class="eeat-name">Formulaire</div><h4>Très simple</h4><p>Prénom et email, éventuellement numéro de téléphone.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">3</div><div class="eeat-name">Bouton</div><h4>Un seul appel à l'action</h4><p>« Valider », « Obtenir le morceau », « Recevoir le titre ». Les formulations se testent.</p></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Astuce</div>
+      <p>Tutoiement ou vouvoiement, « Valider » ou « Clique ici pour valider » : tu découvriras ce qui convertit le mieux sur ton public en faisant des tests, abordés dans la vidéo sur l'optimisation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="module" id="merci">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">06 / 12</span><h2>La page <em>de remerciement</em></h2></div>
+    <p class="module-lead">Après avoir cliqué, le fan arrive sur la page de remerciement (<em>thank you page</em>) : un titre et une vidéo, sans formulaire.</p>
+    <div class="prose">
+      <p>Le titre : « Merci pour ta confiance », « Bienvenue ». La vidéo explique <strong>comment récupérer le contenu</strong> : aller dans sa boîte mail, cliquer sur le lien de confirmation, puis recevoir automatiquement le morceau.</p>
+    </div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Ne donne pas le contenu sur cette page</div>
+      <p>Si le fan récupère le titre directement, il n'ouvrira pas ton email de confirmation. Or sans ce <strong>double opt-in</strong> (double validation de l'inscription), tes futurs emails risquent de finir en spam. Même logique sur les listes de diffusion WhatsApp : un contact qui n'a pas ouvert ton message risque de ne plus recevoir les suivants.</p>
+    </div>
+    <div class="prose"><p>Tu peux ajouter un appel à l'action optionnel sur cette page :</p></div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Vers tes réseaux sociaux</h4><p>« Avant de récupérer le son, suis-moi sur le réseau où tu passes le plus de temps et envoie-moi un petit message. »</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Vers une offre</h4><p>Boutique en ligne, prévente, crowdfunding, page de vente d'un produit unique. Par exemple un code promo de 30 % valable 72 heures. À 70 %, l'offre devient irrésistible.</p><div class="factor-detail"><strong>Pourquoi accepter une petite marge</strong>Un fan qui sort sa carte bancaire pour toi devient un fan acheteur : sa place dans ta fan base n'est plus la même.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="module" id="capot">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">07 / 12</span><h2>Sous le capot : <em>l'autorépondeur</em></h2></div>
+    <p class="module-lead">Ce que le public ne voit pas : le formulaire de la page de capture transmet les coordonnées à un logiciel appelé autorépondeur, qui fait tout le travail automatiquement.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Stocker</span><h4>Les coordonnées entrent dans ta base</h4><p>Premier rôle de l'autorépondeur : récupérer et stocker prénom, email et téléphone. C'est ta fan base.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Email 1</span><h4>La demande de confirmation</h4><p>« Merci pour ton inscription. Pour recevoir le morceau, clique sur ce lien pour confirmer. »</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Email 2</span><h4>La livraison du lead magnet</h4><p>Dès la confirmation, le fan reçoit automatiquement le lien de téléchargement. Invite-le aussi à te répondre sur WhatsApp : tu t'assures que tout est bien arrivé.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">4</div><div><span class="step-tag">Ensuite</span><h4>Communiquer quand tu veux</h4><p>Personnalisation au prénom, séquences conditionnelles (s'il clique sur l'email A, envoyer B, sinon C trois jours plus tard) : tout est programmé d'avance.</p></div></div>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ Une fois en place, il tourne seul</div>
+      <p>Ton seul travail devient de capter l'attention. Le logiciel de création de funnel que tu verras ensuite intègre un autorépondeur, utilisable jusqu'à une certaine limite.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="module" id="pixel">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">08 / 12</span><h2>Le pixel et <em>le retargeting</em></h2></div>
+    <p class="module-lead">Sur 100 visiteurs, jamais 100 ne s'inscrivent. Le pixel te permet de ne pas perdre ceux qui repartent.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Taux d'inscription sur la page de capture</th><th>Ce que ça signifie</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td><strong>10 %</strong></td><td>Page ou ciblage à retravailler</td><td><span class="badge no">Faible</span></td></tr>
+        <tr><td><strong>20 %</strong></td><td>L'objectif de départ</td><td><span class="badge mid">Objectif</span></td></tr>
+        <tr><td><strong>30 % et plus</strong></td><td>Très bon ; 40 à 50 % possibles en retargeting</td><td><span class="badge yes">Excellent</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="prose">
+      <p>Le <strong>pixel</strong> est un petit bout de code fourni par chaque régie publicitaire (Meta, Google, Snapchat, LinkedIn…) que tu installes sur tes deux pages. Il a deux intérêts :</p>
+    </div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-letter">1</div><div class="eeat-name">Relancer</div><h4>Retrouver les 80 % qui n'ont pas converti</h4><p>Ils ont vu ton contenu, ton profil, ton lead magnet, cliqué, puis hésité. La régie peut leur remontrer une publicité. Comme un client qui sort d'une boutique sans acheter : c'est un prospect très intéressant.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">2</div><div class="eeat-name">Mesurer</div><h4>Savoir si c'est rentable</h4><p>Avec du trafic organique, les inscrits ne t'ont rien coûté. Avec du trafic payant, le pixel te dit combien te coûte chaque fan.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="module" id="rentabilite">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">09 / 12</span><h2>Coût par fan <em>et rentabilité</em></h2></div>
+    <p class="module-lead">Quand tu paies du trafic, la question devient : combien dois-je dépenser pour obtenir un fan en base, et est-ce que je le récupère ?</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Campagne</th><th>Budget</th><th>Fans en base</th><th>Coût par fan</th><th>Décision</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Campagne 1</strong></td><td class="n">100 €</td><td class="n">50</td><td class="n">2 €</td><td><span class="badge no">À couper</span></td></tr>
+        <tr><td><strong>Campagne 2</strong></td><td class="n">50 €</td><td class="n">50</td><td class="n">1 €</td><td><span class="badge yes">À garder</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="prose">
+      <p>Ajoute une <strong>page de vente</strong> derrière la page de remerciement. Exemple de Tarik : 100 fans à 2 € (200 € de pub), un vinyle collector à 50 €, 3 % d'acheteurs, soit 3 ventes et 150 €. Tu es à perte de 50 € par jour, mais tu gagnes des fans en base.</p>
+      <p>Grâce au pixel installé sur la page de vente, tu relances ensuite en retargeting les 97 qui n'ont pas acheté (« édition limitée, bientôt terminée », « -30 % pendant 24 h »). Quelques ventes de plus suffisent souvent à <strong>amortir le système</strong> : tu ne gagnes pas d'argent, tu n'en perds pas, et ta base grossit.</p>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Le minimum de tout artiste</div>
+      <p>Page de capture avec lead magnet, titre, vidéo, formulaire et bouton ; page de remerciement avec titre et vidéo ; autorépondeur avec deux emails ; pixel installé. C'est ce que tu vas construire concrètement dans les vidéos suivantes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="module" id="erreurs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">10 / 12</span><h2>Les 5 erreurs <em>à éviter</em></h2></div>
+    <p class="module-lead">Celles qui font fuir tes futurs fans ou rendent ton système inefficace.</p>
+    <div class="factors">
+      <div class="factor err"><div class="factor-num">01</div><div><h4>Publier sans appel à l'action</h4><p>Des vues et des abonnés sans chemin vers ta base, c'est de la visibilité prêtée qui repart.</p></div></div>
+      <div class="factor err"><div class="factor-num">02</div><div><h4>Un lead magnet sans valeur</h4><p>« Recevoir l'actualité de l'artiste » n'intéresse presque personne. Pars de ce que ton public réclame.</p></div></div>
+      <div class="factor err"><div class="factor-num">03</div><div><h4>Livrer le contenu sur la page de remerciement</h4><p>Sans confirmation par email, tes messages suivants risquent de ne jamais arriver.</p></div></div>
+      <div class="factor err"><div class="factor-num">04</div><div><h4>Oublier le pixel</h4><p>Sans lui, les visiteurs qui n'ont pas converti sont perdus et tu ne peux pas mesurer ton coût par fan.</p></div></div>
+      <div class="factor err"><div class="factor-num">05</div><div><h4>Commencer sans schéma</h4><p>Sans dessin du parcours, tu ne sais pas quels outils, étapes et contenus préparer.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="module" id="checklist">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">11 / 12</span><h2>Livrable : ta <em>checklist</em></h2></div>
+    <div class="audit-intro">
+      <h3>Clique sur les cases au fur et à mesure</h3>
+      <p>Ce travail prépare l'exercice « Conception de son système d'acquisition » du Module 6. Progression : <span class="score" id="score">0 / 8</span></p>
+    </div>
+    <div class="audit-prompts" id="checklist-list">
+      <div class="prompt-row"><div class="prompt-num">C01</div><div><div class="prompt-text">J'ai dessiné le schéma de mon système : contenu, profil, appel à l'action, capture, remerciement</div></div><button type="button" class="audit-check" id="c1">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C02</div><div><div class="prompt-text">J'ai rédigé l'appel à l'action que je placerai dans ma bio et mes contenus</div></div><button type="button" class="audit-check" id="c2">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C03</div><div><div class="prompt-text">J'ai choisi mon lead magnet en partant de ce que mon public réclame</div></div><button type="button" class="audit-check" id="c3">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C04</div><div><div class="prompt-text">J'ai écrit le titre, le script de la vidéo et le texte du bouton de ma page de capture</div></div><button type="button" class="audit-check" id="c4">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C05</div><div><div class="prompt-text">J'ai écrit le script de ma vidéo de remerciement (où trouver l'email, quoi cliquer)</div></div><button type="button" class="audit-check" id="c5">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C06</div><div><div class="prompt-text">J'ai rédigé mes deux emails : confirmation, puis livraison du lead magnet</div></div><button type="button" class="audit-check" id="c6">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C07</div><div><div class="prompt-text">J'ai décidé de l'appel à l'action optionnel de ma page de remerciement</div></div><button type="button" class="audit-check" id="c7">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C08</div><div><div class="prompt-text">J'ai créé (ou prévu de créer) mon pixel publicitaire pour l'installer sur mes pages</div></div><button type="button" class="audit-check" id="c8">⬚ Fait</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="module" id="faq">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">12 / 12</span><h2>Questions <em>fréquentes</em></h2></div>
+    <div class="faq">
+      <details><summary>Offrir mon titre avant sa sortie, ce n'est pas me tirer une balle dans le pied ?</summary><div class="ans">Non, selon l'expérience de Tarik. Les gens écoutent sur leur plateforme de streaming plutôt qu'en fichier, et à la sortie tu peux mobiliser d'un coup toute ta nouvelle base pour soutenir le titre.</div></details>
+      <details><summary>Combien de pages faut-il pour un système d'acquisition ?</summary><div class="ans">Deux suffisent : une page de capture et une page de remerciement. Une troisième (boutique, prévente, crowdfunding) est optionnelle.</div></details>
+      <details><summary>C'est quoi le double opt-in ?</summary><div class="ans">C'est la double validation de l'inscription : la personne remplit le formulaire, puis confirme en cliquant sur le lien reçu par email. Cela améliore la délivrabilité de tes messages et correspond aux exigences de consentement, que tu verras dans la vidéo sur la protection juridique.</div></details>
+      <details><summary>Quel taux d'inscription viser ?</summary><div class="ans">Autour de 20 % pour commencer. En dessous de 10 %, retravaille ta page ou ton ciblage. Au-delà de 30 %, tu es très bon.</div></details>
+      <details><summary>Je n'ai pas de budget pub. Le pixel sert quand même ?</summary><div class="ans">Oui : installe-le dès le départ. Il accumule les visiteurs de tes pages, que tu pourras recibler le jour où tu lanceras une campagne.</div></details>
+      <details><summary>Est-ce que je peux utiliser WhatsApp en plus de l'email ?</summary><div class="ans">Oui, si tu collectes le numéro. Invite le fan à te répondre pour confirmer la réception : cela crée du lien et améliore la délivrabilité de tes prochains messages.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="recap">
+  <div class="container-narrow">
+    <div class="section-label" style="color:var(--accent-line)">Synthèse</div>
+    <h3>Ce que tu dois retenir de ce cours</h3>
+    <ol class="recap-list">
+      <li>Un système d'acquisition commence par un <strong>schéma du parcours</strong> du fan.</li>
+      <li>Sans <strong>appel à l'action</strong>, la visibilité que te prêtent les réseaux repart aussitôt.</li>
+      <li>Le <strong>lead magnet</strong> doit être irrésistible aux yeux de ton public, pas aux tiens.</li>
+      <li>Deux pages suffisent : <strong>capture</strong> (contenu, formulaire, bouton) et <strong>remerciement</strong> (titre, vidéo).</li>
+      <li>L'<strong>autorépondeur</strong> stocke les contacts et envoie automatiquement confirmation puis contenu.</li>
+      <li>Le <strong>pixel</strong> permet de relancer ceux qui n'ont pas converti et de mesurer ton coût par fan.</li>
+    </ol>
+  </div>
+</section>
+
+<div class="container-narrow">
+  <div class="next-cta">
+    <h3>Prêt pour la <em>vidéo suivante</em> ?</h3>
+    <p>Maîtriser les outils d'acquisition : lead magnet, LearnyBox et Systeme.io.</p>
+    <span class="btn btn-primary">Continuer vers les outils →</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="src">Support pédagogique de la formation « Structurer et développer une activité artistique musicale » (certification RS7398), Module 6 : Acquisition de fans et développement de communauté. Contenu issu de la vidéo de Tarik Hamiche « L'anatomie d'un système d'acquisition de fans » ; les taux et coûts cités sont indicatifs et varient selon les projets.</p>
+    © 2026 Tarik Hamiche · Muziforma
+  </div>
+</footer>
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var btns=[].slice.call(document.querySelectorAll('#checklist-list .audit-check'));
+  var score=document.getElementById('score');var KEY='mz-rs7398-m6-02-systeme-acquisition-fans';var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function paint(b){var on=!!saved[b.id];b.classList.toggle('checked',on);b.textContent=(on?'✓':'⬚')+' Fait';b.setAttribute('aria-pressed',on?'true':'false');}
+  function upd(){score.textContent=btns.filter(function(b){return saved[b.id]}).length+' / '+btns.length;}
+  btns.forEach(function(b){paint(b);b.addEventListener('click',function(){saved[b.id]=!saved[b.id];try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}paint(b);upd();});});
+  upd();
+})();
+</script>
+</body>
+</html>

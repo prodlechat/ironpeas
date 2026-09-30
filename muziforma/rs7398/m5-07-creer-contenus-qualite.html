@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Créer des contenus de qualité · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Charte Muziforma : fond sable, violet #5B14FF, Manrope + Inter + JetBrains Mono. */
+:root{--bg:#F7F1E8;--bg-soft:#FCF8F2;--bg-card:#FFFFFF;--ink:#1F1A15;--ink-soft:#5C4F42;--ink-muted:#8A7A6A;--accent:#5B14FF;--accent-dark:#4910CC;--accent-soft:#EDE9FE;--accent-line:#A78BFA;--border:#E8DDC9;--border-soft:#F0E6D4;--warning:#C2410C;--warning-soft:#FFEDD5;--success:#15803D;--success-soft:#DCFCE7;--on-accent:#FFFFFF;--recap-text:rgba(247,241,232,.85);--shadow-sm:0 1px 2px rgba(31,26,21,.04);--shadow-md:0 4px 16px rgba(31,26,21,.06);--radius-sm:8px;--radius-md:14px;--radius-lg:24px;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Manrope,-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700}
+h4{font-size:1.15rem;font-weight:700;line-height:1.3}
+p{margin-bottom:1.1rem;color:var(--ink-soft)}
+strong{color:var(--ink);font-weight:700}
+em{font-style:normal;color:var(--accent);font-weight:800}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.container-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-line));z-index:9999}
+header.top-nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(247,241,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand-mark{font-family:Manrope,sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--ink)}
+.brand-mark em{color:var(--accent)}
+.nav-meta{display:flex;gap:1rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted)}
+.nav-meta span:not(:last-child)::after{content:"·";margin-left:1rem;color:var(--border)}
+@media (max-width:600px){.nav-meta{display:none}}
+.hero{padding:5rem 0 4rem;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;max-width:none;background:radial-gradient(circle,rgba(167,139,250,.22) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(91,20,255,.14) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1.8rem;box-shadow:var(--shadow-sm)}
+.hero h1{margin-bottom:1.5rem}
+.hero-lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:720px;margin:0 auto 1.5rem;line-height:1.55}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.hero-chips span{font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:.35rem .9rem}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:880px;margin:3rem auto 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-num{font-family:Manrope,sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em;margin-bottom:.5rem}
+.stat-label{font-size:.82rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.hero-stats{grid-template-columns:1fr}}
+.section-label{display:inline-block;font-family:Inter,sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:1.5rem}
+.toc-section{padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);text-align:center}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:800px;margin:1rem auto 0}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left;color:var(--ink);transition:.15s}
+.toc-item:hover{border-color:var(--accent);transform:translateX(2px);box-shadow:var(--shadow-sm);color:var(--ink)}
+.toc-num{font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);flex-shrink:0;width:36px}
+.toc-title{font-weight:600;font-size:.95rem;line-height:1.3}
+@media (max-width:600px){.toc-grid{grid-template-columns:1fr}}
+main>section.module{padding:6rem 0;position:relative;overflow:hidden}
+main>section.module:nth-of-type(odd){background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+section.module::before{content:"";position:absolute;top:10%;right:-180px;width:480px;height:480px;background:radial-gradient(circle,rgba(167,139,250,.16) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
+section.module>.container,section.module>.container-narrow{position:relative;z-index:1}
+.module-header{margin-bottom:2.5rem}
+.module-num{font-family:Manrope,sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.6rem;display:block}
+.module-lead{font-size:1.15rem;color:var(--ink-soft);margin:1.5rem 0 2.5rem;line-height:1.55;max-width:720px}
+.prose p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.3rem}
+.callout{background:var(--bg-card);border-left:4px solid var(--accent);border-radius:var(--radius-md);padding:1.6rem 1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm);text-align:left}
+.callout.warning{border-left-color:var(--warning);background:linear-gradient(135deg,var(--warning-soft) 0%,var(--bg-card) 60%)}
+.callout.success{border-left-color:var(--success);background:linear-gradient(135deg,var(--success-soft) 0%,var(--bg-card) 60%)}
+.callout-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.6rem}
+.callout.warning .callout-tag{color:var(--warning)}
+.callout.success .callout-tag{color:var(--success)}
+.callout p{margin:0;color:var(--ink);line-height:1.55}
+.callout ul{margin:.2rem 0 0 1.2rem;color:var(--ink);line-height:1.6}
+/* 3 casquettes : reprend .evolution */
+.evolution{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2rem 0}
+.evo-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;text-align:center;box-shadow:var(--shadow-sm)}
+.evo-col.featured{border:2px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg-card) 50%);transform:scale(1.02);box-shadow:var(--shadow-md)}
+.evo-acronym{font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;letter-spacing:-.04em;margin-bottom:.4rem}
+.evo-col:not(.featured) .evo-acronym{color:var(--ink-muted)}
+.evo-full{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:1rem;font-weight:600}
+.evo-col h4{margin-bottom:.6rem}
+.evo-col p{font-size:.92rem;line-height:1.55;text-align:left}
+.evo-target{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--border);text-align:left;font-size:.85rem;line-height:1.45;color:var(--ink)}
+.evo-target strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem;font-weight:800}
+@media (max-width:800px){.evolution{grid-template-columns:1fr}.evo-col.featured{transform:none}}
+/* circuit : reprend .rag-flow */
+.rag-flow{margin:2.5rem 0;display:flex;flex-direction:column;gap:1.5rem}
+.rag-step{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.rag-step:hover{border-color:var(--accent-line)}
+.rag-step-circle{flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.6rem;box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+.rag-step.alt .rag-step-circle{background:var(--warning);box-shadow:rgba(194,65,12,.3) 0 6px 20px}
+.rag-step>div:last-child{flex:1 1 0%;min-width:0}
+.step-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);margin-bottom:.4rem}
+.rag-step h4{margin-bottom:.6rem}
+.rag-step p{margin:0;line-height:1.55}
+/* tableaux dans la charte */
+.data-table{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);margin:2rem 0}
+.data-table table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+.data-table th{text-align:left;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding:1rem 1.1rem;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.data-table td{padding:.9rem 1.1rem;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table td strong{color:var(--ink)}
+.data-table .n{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--accent-dark);white-space:nowrap}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .6rem;border-radius:6px;white-space:nowrap}
+.badge.yes{background:var(--success-soft);color:var(--success)}
+.badge.no{background:var(--warning-soft);color:var(--warning)}
+.badge.mid{background:var(--accent-soft);color:var(--accent-dark)}
+/* barre de répartition */
+.split{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);margin:2rem 0}
+.split h4{margin-bottom:1.2rem}
+.split-bar{display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden}
+.split-bar div{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:500;color:var(--on-accent);white-space:nowrap;overflow:hidden}
+.split-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem 1rem;margin-top:1.2rem;font-size:.88rem;color:var(--ink-soft)}
+.split-legend span{display:flex;align-items:center;gap:.5rem}
+.split-legend i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.split-legend b{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--ink);margin-left:auto}
+.split-note{font-size:.82rem;color:var(--ink-muted);margin:1rem 0 0;line-height:1.5}
+/* cartes : reprend .motors / .eeat */
+.motors,.eeat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:2rem 0}
+.motor-card,.eeat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-sm);min-width:0}
+.eeat-card{transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.eeat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motor-name{font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;color:var(--ink);letter-spacing:-.02em;margin-bottom:.3rem}
+.motor-by{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.motor-spec{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border-soft);font-size:.9rem;line-height:1.45}
+.motor-spec:last-child{border-bottom:0}
+.motor-spec-label{flex-shrink:0;width:78px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding-top:.2rem}
+.motor-spec-value{flex:1 1 0%;color:var(--ink-soft)}
+.eeat-letter{width:52px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1rem}
+.eeat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem}
+.eeat-card h4{margin-bottom:.8rem}
+.eeat-card>p{font-size:.95rem;line-height:1.55;margin-bottom:1.2rem}
+.eeat-music{background:var(--accent-soft);border-radius:var(--radius-sm);padding:1rem;font-size:.9rem;line-height:1.5;color:var(--ink);margin-top:auto}
+.eeat-music strong{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.eeat-music .out{color:var(--warning)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:740px){.eeat-grid,.motors,.grid3{grid-template-columns:1fr}}
+/* étapes : reprend .factors */
+.factors{display:flex;flex-direction:column;gap:1.2rem;margin:2rem 0}
+.factor{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.factor:hover{border-color:var(--accent-line)}
+.factor-num{flex-shrink:0;font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;width:50px;letter-spacing:-.03em}
+.factor.err .factor-num{color:var(--warning)}
+.factor>div:last-child{flex:1 1 0%;min-width:0}
+.factor h4{margin-bottom:.6rem}
+.factor p{font-size:.95rem;line-height:1.55;margin-bottom:1rem}
+.factor p:last-child{margin-bottom:0}
+.factor-detail{background:var(--accent-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.88rem;line-height:1.5;color:var(--ink)}
+.factor-detail strong{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.factor.err .factor-detail{background:var(--warning-soft)}
+.factor.err .factor-detail strong{color:var(--warning)}
+/* checklist : reprend .audit */
+.audit-intro{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm)}
+.audit-intro h3{margin-bottom:.8rem}
+.audit-intro p{margin:0;line-height:1.6}
+.audit-prompts{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.prompt-row{display:flex;gap:1.2rem;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.prompt-num{flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--accent);width:36px}
+.prompt-row>div:not(.prompt-num){flex:1 1 0%;min-width:0}
+.prompt-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.audit-check{flex-shrink:0;padding:.5rem .9rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s;font-family:Inter,sans-serif}
+.audit-check:hover{border-color:var(--accent-line)}
+.audit-check.checked{background:var(--success);color:var(--on-accent);border-color:var(--success);font-weight:600}
+.score{font-family:"JetBrains Mono",monospace;color:var(--success);font-weight:500}
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.faq details{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:border-color .2s}
+.faq details:hover,.faq details[open]{border-color:var(--accent-line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.5rem;font-family:Manrope,sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.faq details[open] summary::after{content:"−";background:var(--accent);color:var(--on-accent)}
+.faq .ans{padding:0 1.5rem 1.4rem;color:var(--ink-soft);font-size:.97rem;line-height:1.65}
+/* synthèse */
+.recap{background:var(--ink);color:var(--recap-text);padding:4rem 0;position:relative;overflow:hidden}
+.recap::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(91,20,255,.25) 0%,transparent 60%);border-radius:50%;pointer-events:none}
+.recap>.container-narrow{position:relative;z-index:1}
+.recap h3{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg-card);margin-bottom:1.5rem}
+.recap-list{list-style:none;counter-reset:item;display:flex;flex-direction:column;gap:1rem}
+.recap-list li{counter-increment:item;padding-left:3rem;position:relative;line-height:1.55;color:var(--recap-text)}
+.recap-list li::before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:Manrope,sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-line)}
+.recap-list li strong{color:var(--bg-card)}
+.next-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin:4rem auto;max-width:760px;text-align:center;box-shadow:var(--shadow-md)}
+.next-cta h3{margin-bottom:1rem}
+.next-cta p{margin-bottom:1.5rem;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.1rem 2.2rem;font-family:Manrope,sans-serif;font-size:1rem;font-weight:800;border-radius:999px;border:0;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+footer.site-footer{background:var(--ink);color:rgba(247,241,232,.55);padding:2.5rem 0;text-align:center;font-size:.85rem;border-top:1px solid rgba(247,241,232,.08);line-height:1.7}
+footer.site-footer .src{max-width:760px;margin:0 auto 1rem;font-size:.8rem;color:rgba(247,241,232,.45)}
+@media (max-width:860px){main>section.module{padding:4rem 0}.toc-section{padding:3rem 0}.module-header{margin-bottom:1.8rem}.module-lead{font-size:1.05rem;margin:1rem 0 1.8rem}.rag-step,.factor{padding:1.4rem;gap:1rem}.rag-step-circle{width:48px;height:48px;font-size:1.3rem}.factor-num{font-size:1.6rem;width:40px}.next-cta{padding:1.8rem 1.4rem}.recap-list li{padding-left:2.4rem}section.module::before{width:320px;height:320px}}
+@media (max-width:480px){.hero{padding:3rem 0 2.5rem}.hero h1{font-size:2rem}.rag-step,.factor{flex-direction:column;gap:.8rem}.prompt-row{flex-wrap:wrap}}
+html,body{width:100% !important;max-width:100% !important;overflow-x:hidden}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress-bar"></div>
+<header class="top-nav">
+  <div class="nav-inner">
+    <span class="brand-mark">MUZI<em>FORMA</em></span>
+    <div class="nav-meta"><span>Module 05 / 08</span><span>Muziforma</span></div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Module 05 · Produire ses contenus</span>
+    <h1>Créer des contenus de <em>qualité</em>.</h1>
+    <p class="hero-lead">Texte, image, vidéo longue, vidéo courte, carrousel, sondage, live : chaque format a un rôle précis dans ta stratégie. Tu vas apprendre à quoi sert chacun, comment les alterner et les combiner, et de quel matériel tu as vraiment besoin pour produire un contenu propre sans te ruiner.</p>
+    <div class="hero-chips"><span>Durée : 77 min</span><span>Formateur : Tarik Hamiche</span></div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">7</div><div class="stat-label">Formats de contenu à maîtriser (plus la story)</div></div>
+      <div class="stat-card"><div class="stat-num">35 à 45 min</div><div class="stat-label">La durée idéale d'une vidéo longue</div></div>
+      <div class="stat-card"><div class="stat-num">1 / jour</div><div class="stat-label">Le rythme idéal en vidéo courte</div></div>
+      <div class="stat-card"><div class="stat-num">96 %</div><div class="stat-label">Des vues d'un carrousel venues des abonnés (cas réel)</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc-section">
+  <div class="container-narrow">
+    <div class="callout">
+      <div class="callout-tag">★ Objectifs pédagogiques</div>
+      <ul>
+        <li>Connaître les 7 formats de contenu et le rôle de chacun (se faire découvrir ou remobiliser ses abonnés)</li>
+        <li>Structurer un texte avec une trame narrative et un levier émotionnel</li>
+        <li>Combiner et décliner un même contenu sur plusieurs formats et plateformes</li>
+        <li>Choisir les logiciels et le matériel de base pour produire à moindre coût</li>
+      </ul>
+    </div>
+    <div class="section-label">Plan du cours</div>
+    <div class="toc-grid">
+      <a href="#formats" class="toc-item"><span class="toc-num">01</span><span class="toc-title">Les 7 formats et leur rôle</span></a>
+      <a href="#texte" class="toc-item"><span class="toc-num">02</span><span class="toc-title">Le texte : un écrit, six réseaux</span></a>
+      <a href="#structures" class="toc-item"><span class="toc-num">03</span><span class="toc-title">Structurer un texte qui accroche</span></a>
+      <a href="#long" class="toc-item"><span class="toc-num">04</span><span class="toc-title">La vidéo longue</span></a>
+      <a href="#court" class="toc-item"><span class="toc-num">05</span><span class="toc-title">La vidéo courte</span></a>
+      <a href="#image" class="toc-item"><span class="toc-num">06</span><span class="toc-title">L'image et le carrousel</span></a>
+      <a href="#interaction" class="toc-item"><span class="toc-num">07</span><span class="toc-title">Sondage, live et story</span></a>
+      <a href="#combiner" class="toc-item"><span class="toc-num">08</span><span class="toc-title">Combiner et décliner les formats</span></a>
+      <a href="#materiel" class="toc-item"><span class="toc-num">09</span><span class="toc-title">Logiciels et matériel</span></a>
+      <a href="#erreurs" class="toc-item"><span class="toc-num">10</span><span class="toc-title">Les 5 erreurs à éviter</span></a>
+      <a href="#checklist" class="toc-item"><span class="toc-num">11</span><span class="toc-title">Livrable : ta checklist</span></a>
+      <a href="#faq" class="toc-item"><span class="toc-num">12</span><span class="toc-title">FAQ</span></a>
+    </div>
+    <div class="data-table" style="margin-top:2.5rem;text-align:left"><table>
+      <thead><tr><th style="width:90px">Repère</th><th>Chapitre de la vidéo</th></tr></thead>
+      <tbody>
+        <tr><td class="n">00:00</td><td>Les formats de contenu à connaître</td></tr>
+        <tr><td class="n">02:23</td><td>Le texte : un écrit, six réseaux</td></tr>
+        <tr><td class="n">05:00</td><td>Structurer un texte qui accroche</td></tr>
+        <tr><td class="n">16:54</td><td>La vidéo longue</td></tr>
+        <tr><td class="n">27:01</td><td>La vidéo courte</td></tr>
+        <tr><td class="n">32:48</td><td>L'image</td></tr>
+        <tr><td class="n">38:53</td><td>Le carrousel</td></tr>
+        <tr><td class="n">44:18</td><td>Le sondage</td></tr>
+        <tr><td class="n">49:44</td><td>Le live et la story</td></tr>
+        <tr><td class="n">57:42</td><td>Combiner et décliner les formats</td></tr>
+        <tr><td class="n">1:00:40</td><td>Logiciels et matériel</td></tr>
+        <tr><td class="n">1:13:34</td><td>Adapter chaque contenu à sa plateforme</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="module" id="formats">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">01 / 12</span><h2>Les 7 formats et <em>leur rôle</em></h2></div>
+    <p class="module-lead">Tous les formats ne servent pas à la même chose. Certains te font <strong>découvrir</strong> d'un public nouveau, d'autres <strong>remobilisent</strong> les gens qui te suivent déjà. Une stratégie efficace les alterne.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Format</th><th>Rôle principal</th><th>Plateformes phares</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Texte</strong></td><td>Toucher la psyché, créer de l'interaction</td><td>LinkedIn, Facebook, onglet Communauté YouTube, newsletter, Threads, X</td></tr>
+        <tr><td><strong>Vidéo longue (16:9)</strong></td><td>Créer une relation profonde, convertir</td><td>YouTube</td></tr>
+        <tr><td><strong>Vidéo courte (9:16)</strong></td><td><span class="badge yes">Découverte</span> le format le plus viral</td><td>TikTok, Reels, Shorts, Spotlight, LinkedIn</td></tr>
+        <tr><td><strong>Image</strong></td><td>Remobiliser tes abonnés, puis viralité possible</td><td>Instagram, LinkedIn, YouTube</td></tr>
+        <tr><td><strong>Carrousel</strong></td><td><span class="badge mid">Remobilisation</span> le levier numéro un auprès des abonnés</td><td>Instagram, LinkedIn, YouTube, Facebook, TikTok</td></tr>
+        <tr><td><strong>Sondage</strong></td><td>Écouter ton public, mieux connaître ton avatar</td><td>Stories Instagram, Communauté YouTube, LinkedIn</td></tr>
+        <tr><td><strong>Live</strong></td><td>Authenticité, échange direct, double impact</td><td>YouTube, Instagram, TikTok, LinkedIn</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>La <strong>story</strong> s'ajoute à cette liste : c'est moins un format qu'un canal qui reprend tous les autres (texte, image, sondage, vidéo). À alimenter tous les jours.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="module" id="texte">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">02 / 12</span><h2>Le texte : <em>un écrit, six réseaux</em></h2></div>
+    <p class="module-lead">Un texte bien structuré a un impact colossal sur ton public. Et surtout, un seul écrit peut partir dans de nombreuses directions.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Newsletter</span><h4>L'envoyer à ta liste</h4><p>Hebdomadaire, bimensuelle ou mensuelle. Tarik utilise Substack, gratuit, avec sur sa base un taux d'ouverture de 35 à 50 % et une délivrabilité proche de 100 %.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Réseaux</span><h4>Le republier tel quel</h4><p>En article LinkedIn, en post Facebook et dans l'onglet Communauté de YouTube.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Threads et X</span><h4>Le découper en fil</h4><p>Demande à une IA de le découper en messages courts : un premier post de deux ou trois lignes, puis la suite en réponses successives. Ce format « fil » est le plus viral sur X et Threads.</p></div></div>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ Le bon calcul</div>
+      <p>Un seul texte bien écrit te permet de couvrir <strong>six canaux</strong> : LinkedIn, YouTube, newsletter, Facebook, Threads et X.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="module" id="structures">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">03 / 12</span><h2>Structurer un texte <em>qui accroche</em></h2></div>
+    <p class="module-lead">Écrire sa pensée du moment au hasard, sans réflexion stratégique, est une erreur. Voici les techniques de copywriting que Tarik juge fondamentales.</p>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Parler à une seule personne</h4><p>Écris en pensant à ton avatar, comme si tu lui parlais directement. Si tu tutoies, tutoie. Le lecteur doit sentir que le message lui est adressé.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Le parcours du héros</h4><p>Situation initiale, élément perturbateur, appel du héros, refus, rencontre avec un mentor, péripéties, affrontement final. C'est la trame de Star Wars ou du Roi Lion, réutilisable dans tes textes.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Problème, empathie, fausses solutions, solution, appel à l'action</h4><p>Une variante de la méthode AIDA. Exemple musique : « Marre des places de concert hors de prix ? (problème) Moi aussi, ça me choque (empathie). Boycott, marché secondaire : ça ne marche pas (fausses solutions). Les concerts intimistes d'artistes authentiques (solution). Voici ma liste de salles par département, clique ici (appel à l'action). »</p><div class="factor-detail"><strong>L'effet toboggan</strong>La première phrase donne envie de lire la deuxième, qui donne envie de lire la troisième : le lecteur ne peut plus s'arrêter.</div></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Un levier émotionnel fort</h4><p>Plus tu touches une émotion, plus tu gagnes la bataille de l'attention. Une histoire vraie où tu t'es senti rabaissé, puis ta revanche, crée une empathie énorme : c'est ce qui a valu à Tarik des centaines de commentaires sur LinkedIn.</p></div></div>
+    </div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Astuce 1</div><h4>Modéliser les meilleurs copywriters</h4><p>Suis les meilleurs rédacteurs (idéalement anglophones) sur LinkedIn. Compare leurs posts à 50 likes et à 2 500 likes : isole la première ligne, la structure, la chute, et inspire-t'en.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Astuce 2</div><h4>Reprendre la structure des articles de presse</h4><p>Les titres et accroches des journalistes sont très travaillés. Garde la structure, change le sujet : « crash aérien » devient « flop commercial », avec le même impact émotionnel.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="module" id="long">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">04 / 12</span><h2>La <em>vidéo longue</em></h2></div>
+    <p class="module-lead">Tournée à l'horizontale, c'est le format idéal pour YouTube. En dessous de 8 à 10 minutes, l'impact est faible ; l'idéal se situe entre <strong>35 et 45 minutes</strong>.</p>
+    <div class="prose">
+      <p>Pourquoi si long ? Parce qu'une vidéo courte divertit mais ne laisse pas le temps de s'attacher. Quarante minutes avec quelqu'un, c'est comme une discussion en face à face dans un café. À force de regarder ses formats longs, on se sent proche de la personne, on lui fait confiance, et on devient client de ses concerts ou de ses offres.</p>
+    </div>
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-name">Idée 1</div><h4>Podcast, interview, débat</h4><p>Avec ou sans invité. Un débat sur un sujet qui parle à ton avatar, même hors musique (sport, économie, société) : un artiste a aussi des prises de position.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Idée 2</div><h4>Making of</h4><p>D'un album, d'un clip, d'une tournée, d'une préparation physique ou mentale, d'une formation suivie.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Idée 3</div><h4>Documenter son parcours</h4><p>Ton point de départ, puis chaque mois ton avancée, tes problèmes, tes contraintes. Ou trois mois pour te faire un nom dans une nouvelle ville.</p></div>
+    </div>
+    <div class="motors">
+      <div class="motor-card">
+        <div class="motor-name">Levier publicitaire</div>
+        <div class="motor-by">Jouer le jeu de la plateforme</div>
+        <div class="motor-spec"><span class="motor-spec-label">Principe</span><span class="motor-spec-value">Un clip de 3 minutes accepte environ trois publicités, une vidéo de 50 minutes beaucoup plus</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Effet</span><span class="motor-spec-value">À performance égale, la vidéo qui rapporte le plus à la régie est davantage mise en avant</span></div>
+      </div>
+      <div class="motor-card">
+        <div class="motor-name">Temps de visionnage</div>
+        <div class="motor-by">Se démarquer des autres chaînes</div>
+        <div class="motor-spec"><span class="motor-spec-label">Constat</span><span class="motor-spec-value">Une chaîne 100 % musicale plafonne souvent entre 1 et 2 minutes de visionnage moyen</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Effet</span><span class="motor-spec-value">Un format de 30 à 50 minutes par mois peut porter ta moyenne à 4 ou 5 minutes</span></div>
+      </div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Astuce</div>
+      <p>Les posts de l'onglet Communauté YouTube sont surtout vus par tes abonnés : ils les <strong>réchauffent</strong> avant la sortie d'un clip, qui sera ensuite vu par bien plus d'abonnés.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="module" id="court">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">05 / 12</span><h2>La <em>vidéo courte</em></h2></div>
+    <p class="module-lead">Verticale, c'est aujourd'hui le format le plus viral sur toutes les plateformes pour te faire découvrir d'un public qui ne te connaît pas encore.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Repère</th><th>Recommandation de la vidéo</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Durée</strong></td><td>Au minimum 30 à 40 secondes, idéalement entre 1 et 3 minutes (maximum actuel)</td></tr>
+        <tr><td><strong>Accroche</strong></td><td>Capter l'attention dans les 3 premières secondes, puis dans les 10 premières</td></tr>
+        <tr><td><strong>Rythme</strong></td><td>Idéalement une vidéo courte par jour</td></tr>
+        <tr><td><strong>Horaires</strong></td><td>Varier les heures (8 h, 12 h, 14 h, 18 h, 21 h…) pour trouver les créneaux où ton public réagit le plus</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Le passage à vide du démarrage sur YouTube</div>
+      <p>YouTube a deux algorithmes, un pour les formats longs, un pour les Shorts. Quand tu commences les Shorts, tes vidéos longues peuvent perdre en visibilité quelques jours, le temps que l'algorithme apprenne. Ne t'arrête pas : alimente les deux, ça se rééquilibre en quelques jours ou quelques semaines.</p>
+    </div>
+    <div class="prose">
+      <p>Les créneaux gagnants sont propres à chaque public. Chez Tarik, par exemple : YouTube entre 11 h et 12 h pour les Shorts, TikTok entre 19 h et 22 h, et 18 h à 20 h pour les formats longs. À toi de tester et de te plier à ce que ton public valide.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="module" id="image">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">06 / 12</span><h2>L'image et le <em>carrousel</em></h2></div>
+    <p class="module-lead">Une image sollicite d'abord tes abonnés (niveau 2 de la méthode ARC : entretenir la relation). Si elle devient virale, elle touche aussi des inconnus, via l'onglet Explorer d'Instagram par exemple.</p>
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-name">Image qui marche</div><h4>Le merci après concert</h4><p>Toi sur scène, le public, le nom de la ville : les spectateurs veulent montrer qu'ils y étaient et commentent.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Image qui marche</div><h4>Le lifestyle</h4><p>Même avec peu d'abonnés, tes fans sont curieux de ta vie. Partage dans la limite de ce que tu acceptes.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Image qui marche</div><h4>Les victoires</h4><p>Certification, programmation en festival, classement radio, étape de vie : les gens te félicitent en masse.</p></div>
+    </div>
+    <div class="prose">
+      <p>Une belle photo n'a pas forcément plus d'impact : ce qui compte, c'est <strong>l'émotion</strong> qui y est reliée. Un extrait d'article de presse avec une bonne accroche fonctionne aussi très bien.</p>
+      <p><strong>Le carrousel</strong> enchaîne plusieurs images que l'on fait défiler. Son atout : une viralité extrême auprès de <strong>tes propres abonnés</strong>.</p>
+    </div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Cas réel</div><h4>Une artiste en maison de disques</h4><p>Son équipe n'arrivait plus à mobiliser sa base d'abonnés. Un carrousel « bilan de l'année » en huit photos de moments clés a dépassé le million de vues.</p><div class="eeat-music"><strong>Résultat</strong>Environ 96 % des vues venaient des abonnés.</div></div>
+      <div class="eeat-card"><div class="eeat-name">Astuce</div><h4>Glisser une vidéo en position 2</h4><p>Photo en 1, ton Reel en 2, puis des images : la vidéo profite de la viralité du carrousel auprès de tes abonnés. Modèle à observer : les carrousels image forte plus texte des comptes de magazines musicaux.</p></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Pour annoncer un album, privilégie le <strong>carrousel</strong> : un abonné est bien plus susceptible d'acheter qu'un inconnu touché par un Reel. Appel à l'action possible : écouter, se faire notifier des préventes, soutenir un financement participatif.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="module" id="interaction">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">07 / 12</span><h2>Sondage, live et <em>story</em></h2></div>
+    <p class="module-lead">Trois formats pour ouvrir la communication dans l'autre sens : du public vers l'artiste.</p>
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-letter">1</div><div class="eeat-name">Sondage</div><h4>Impliquer et apprendre</h4><p>Faire choisir la pochette, le tracklisting ou le titre de l'album : le jour de la sortie, le public se sent fier d'avoir participé. Idéal en story Instagram, dans la Communauté YouTube et sur LinkedIn.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">2</div><div class="eeat-name">Live</div><h4>L'authenticité en direct</h4><p>Pas de coupe, pas de filtre : tu réponds aux questions et tu crées une proximité très forte. Sur YouTube, le replay reste visible et peut être monétisé.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">3</div><div class="eeat-name">Story</div><h4>Voir et être vu</h4><p>À poster chaque jour. Regarder les stories des autres (journalistes, artistes, médias) les ramène vers toi, et voir qui regarde les tiennes ouvre des collaborations.</p></div>
+    </div>
+    <div class="audit-intro">
+      <h3>Le sondage détourné pour connaître ton avatar</h3>
+      <p>Plutôt que « Tu as plus de 30 ans ? », joue la nostalgie : « Qui se souvient du magnétophone ? ». Une majorité de « moi » t'indique un public plus âgé. Autre exemple : proposer quatre artistes (un rappeur très connu, un rappeur underground, un rockeur, un artiste de variété) pour savoir si ton public est grand public ou pointu.</p>
+    </div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Un live trop court ne sert à rien</div>
+      <p>Arrêté au bout de 10 minutes, il ne décolle pas. Tenu une heure et demie, il s'affiche en continu aux abonnés qui se connectent et l'algorithme le pousse. Peu de créateurs font des lives et laissent le replay : ceux qui le font sont très recommandés.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="module" id="combiner">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">08 / 12</span><h2>Combiner et <em>décliner</em> les formats</h2></div>
+    <p class="module-lead">Le travail fait sur un format peut en alimenter plein d'autres. Exemple avec une vidéo longue d'une heure :</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Vidéos courtes</span><h4>Découpage automatique</h4><p>Un outil comme Submagic en extrait 10 à 30 extraits sous-titrés ; tu en gardes une quinzaine de bons.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Textes</span><h4>Transcription transformée par l'IA</h4><p>À partir de la transcription, une IA propose des dizaines d'articles thématiques : newsletter, LinkedIn, Communauté YouTube, Facebook, puis découpés en fils pour Threads et X.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Carrousels</span><h4>Fils mis en images sur Canva</h4><p>Les messages d'un fil deviennent les slides (Tarik : texte blanc sur fond noir), avec un extrait vidéo en position 2.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">4</div><div><span class="step-tag">Sondages</span><h4>Dix idées de sondages par thème</h4><p>Générées à partir des articles, pour prolonger la conversation.</p></div></div>
+    </div>
+    <div class="prose">
+      <p><strong>Adapter à chaque plateforme.</strong> Tu peux publier le même contenu partout, ou le retravailler : les accroches qui fonctionnent sur TikTok, Instagram et YouTube ne sont pas les mêmes. Tu peux tourner plusieurs intros pour une même vidéo, ajuster le montage et le rythme.</p>
+    </div>
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-name">Déclinaison 1</div><h4>Texte en voix off</h4><p>Ton texte viral dit à l'oral sur un montage vidéo dynamique.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Déclinaison 2</div><h4>Texte écrit et dit</h4><p>Le texte affiché à l'écran pendant que tu le prononces.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Déclinaison 3</div><h4>Texte sur ta musique</h4><p>Le texte à l'écran, sans voix, avec un de tes morceaux en fond.</p></div>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ Et dans l'autre sens</div>
+      <p>Une vidéo qui cartonne peut devenir un texte (newsletter, LinkedIn, Facebook), une story, un carrousel ou un fil. Tout s'adapte à toutes les plateformes, à condition d'en avoir la vision et les bons outils.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="module" id="materiel">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">09 / 12</span><h2>Logiciels et <em>matériel</em></h2></div>
+    <p class="module-lead">Pas besoin de beaucoup d'argent. Le set-up de base : <strong>un téléphone, un micro et un logiciel de montage</strong>. Une liste de matériel recommandé est fournie en ressource.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Outil</th><th>Usage</th><th>Coût</th></tr></thead>
+      <tbody>
+        <tr><td><strong>IA conversationnelle</strong> (ChatGPT, Claude, Grok)</td><td>Résumer, rédiger, découper en fils</td><td><span class="badge yes">Gratuit</span> ou abonnement mensuel</td></tr>
+        <tr><td><strong>CapCut</strong></td><td>Montage vidéo</td><td><span class="badge yes">Gratuit</span> (version pro optionnelle)</td></tr>
+        <tr><td><strong>Canva</strong></td><td>Carrousels, retouches, graphismes</td><td><span class="badge yes">Gratuit</span> (version pro optionnelle)</td></tr>
+        <tr><td><strong>Submagic</strong></td><td>Sous-titres dynamiques, découpe de formats longs en Shorts</td><td><span class="badge no">Payant</span> seul outil sans version gratuite</td></tr>
+        <tr><td><strong>Outil d'amélioration audio d'Adobe</strong></td><td>Nettoyer un son mal enregistré (vent, téléphone)</td><td>Voir le lien en ressource</td></tr>
+      </tbody>
+    </table></div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Un smartphone correct</h4><p>Les réseaux recompressent tout : inutile d'acheter une caméra à plusieurs milliers d'euros. C'est comme un mastering écouté sur téléphone.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Un micro</h4><p>Un micro cravate d'entrée de gamme (environ 40 €) fait le job pendant des années. Un micro sans fil branché sur le téléphone (environ 180 à 350 € selon les modèles cités) synchronise automatiquement son et image et fait gagner quelques minutes par montage.</p><div class="factor-detail"><strong>Astuce de synchro</strong>Avec un micro séparé, un clap en début de prise permet d'aligner le son en deux secondes au montage.</div></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Optimisation 1 : un trépied</h4><p>Un modèle simple coûte moins de 20 €. À défaut, une pile de livres fait très bien l'affaire.</p></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Optimisation 2 : l'éclairage</h4><p>Idéalement une lumière de chaque côté, une derrière toi et une vers le décor, plus des lumières d'ambiance (néons colorés) si tu veux une atmosphère.</p></div></div>
+      <div class="factor"><div class="factor-num">05</div><div><h4>Optimisation 3 : le fond vert</h4><p>Environ 50 à 80 € avec son support. Il te place dans le décor de ton choix, y compris un décor sur mesure créé par un graphiste freelance pour quelques dizaines de dollars.</p></div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Les prix cités sont des ordres de grandeur donnés dans la vidéo : vérifie-les au moment de ton achat, ils évoluent.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="module" id="erreurs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">10 / 12</span><h2>Les 5 erreurs <em>à éviter</em></h2></div>
+    <p class="module-lead">Celles qui gâchent tes efforts de création.</p>
+    <div class="factors">
+      <div class="factor err"><div class="factor-num">01</div><div><h4>Publier des textes au hasard</h4><p>Partager ta pensée du moment sans structure ni stratégie ne produit rien. Utilise une trame narrative et un levier émotionnel.</p></div></div>
+      <div class="factor err"><div class="factor-num">02</div><div><h4>Ne faire que des formats courts</h4><p>Ils divertissent mais ne créent pas de lien. Sans formats longs, difficile de construire la confiance qui mène à l'achat.</p></div></div>
+      <div class="factor err"><div class="factor-num">03</div><div><h4>Arrêter les Shorts après deux essais</h4><p>La baisse passagère de tes vidéos longues est normale. Si tu arrêtes, tu perds sur les deux tableaux.</p></div></div>
+      <div class="factor err"><div class="factor-num">04</div><div><h4>Annoncer un album uniquement en Reels</h4><p>Les Reels touchent surtout des inconnus. Pour mobiliser les gens prêts à acheter, utilise le carrousel.</p></div></div>
+      <div class="factor err"><div class="factor-num">05</div><div><h4>Attendre le matériel parfait</h4><p>Un téléphone et un micro cravate suffisent pour démarrer. Le reste est du confort.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="module" id="checklist">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">11 / 12</span><h2>Livrable : ta <em>checklist</em></h2></div>
+    <div class="audit-intro">
+      <h3>Clique sur les cases au fur et à mesure</h3>
+      <p>Ce travail prépare le mix de formats de ton calendrier dans l'exercice « Benchmark, personas et calendrier de son projet » du Module 5. Progression : <span class="score" id="score">0 / 7</span></p>
+    </div>
+    <div class="audit-prompts" id="checklist-list">
+      <div class="prompt-row"><div class="prompt-num">C01</div><div><div class="prompt-text">J'ai listé les formats que j'utilise et ceux qui me manquent</div></div><button type="button" class="audit-check" id="c1">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C02</div><div><div class="prompt-text">J'ai rédigé un texte avec la structure problème, empathie, fausses solutions, solution, appel à l'action</div></div><button type="button" class="audit-check" id="c2">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C03</div><div><div class="prompt-text">J'ai trouvé 3 idées de formats longs (podcast, making of, parcours documenté…)</div></div><button type="button" class="audit-check" id="c3">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C04</div><div><div class="prompt-text">J'ai prévu un carrousel pour ma prochaine actualité, avec une vidéo en position 2</div></div><button type="button" class="audit-check" id="c4">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C05</div><div><div class="prompt-text">J'ai préparé un sondage pour mieux connaître mon avatar</div></div><button type="button" class="audit-check" id="c5">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C06</div><div><div class="prompt-text">J'ai planifié la déclinaison d'un de mes contenus sur au moins 3 formats</div></div><button type="button" class="audit-check" id="c6">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C07</div><div><div class="prompt-text">J'ai vérifié mon set-up de base : téléphone, micro, logiciel de montage</div></div><button type="button" class="audit-check" id="c7">⬚ Fait</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="module" id="faq">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">12 / 12</span><h2>Questions <em>fréquentes</em></h2></div>
+    <div class="faq">
+      <details><summary>Je suis artiste : je ne peux publier que de la musique, non ?</summary><div class="ans">Non. Chansons, clips et interviews ne sont qu'une partie des possibilités. Débats, making of, parcours documenté, lifestyle, victoires : un artiste a aussi des idées, des valeurs et une vie qui intéressent son public.</div></details>
+      <details><summary>35 à 45 minutes, ce n'est pas trop long pour un artiste ?</summary><div class="ans">C'est plus difficile que pour un entrepreneur, mais jouable : une interview face caméra avec des questions préparées, un podcast ou un débat atteignent facilement cette durée. Commence au-dessus de 8 à 10 minutes, en dessous l'impact est faible.</div></details>
+      <details><summary>Quel format choisir pour me faire découvrir ?</summary><div class="ans">La vidéo courte verticale : c'est le format le plus viral sur toutes les plateformes pour toucher des gens qui ne te connaissent pas encore.</div></details>
+      <details><summary>Et pour faire acheter mon album ?</summary><div class="ans">Le carrousel, puis l'image et le sondage : ils remobilisent tes abonnés, bien plus susceptibles d'acheter qu'un public qui te découvre.</div></details>
+      <details><summary>Dois-je publier exactement le même contenu partout ?</summary><div class="ans">C'est possible et c'est un bon début. Pour aller plus loin, adapte l'accroche, le montage ou le rythme à chaque plateforme, car ce qui accroche sur TikTok n'est pas forcément ce qui accroche sur YouTube.</div></details>
+      <details><summary>Combien dois-je investir pour démarrer ?</summary><div class="ans">Presque rien : ton téléphone, un micro cravate d'entrée de gamme et les versions gratuites de CapCut et Canva. Trépied, lumières et fond vert viennent ensuite, selon ton confort.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="recap">
+  <div class="container-narrow">
+    <div class="section-label" style="color:var(--accent-line)">Synthèse</div>
+    <h3>Ce que tu dois retenir de ce cours</h3>
+    <ol class="recap-list">
+      <li>Chaque format a un rôle : la <strong>vidéo courte</strong> fait découvrir, le <strong>carrousel</strong>, l'image et le sondage remobilisent tes abonnés.</li>
+      <li>Un <strong>texte</strong> bien structuré (parcours du héros, problème et solution, levier émotionnel) peut couvrir six canaux.</li>
+      <li>La <strong>vidéo longue</strong> (idéalement 35 à 45 min) crée la relation de confiance qui mène à l'achat.</li>
+      <li><strong>Sondages, lives et stories</strong> ouvrent le dialogue avec ton public et t'aident à connaître ton avatar.</li>
+      <li>Un même contenu se <strong>combine et se décline</strong> sur tous les formats et toutes les plateformes.</li>
+      <li>Pour démarrer : <strong>un téléphone, un micro et un logiciel de montage</strong> suffisent.</li>
+    </ol>
+  </div>
+</section>
+
+<div class="container-narrow">
+  <div class="next-cta">
+    <h3>Prêt pour la <em>vidéo suivante</em> ?</h3>
+    <p>Optimiser les réglages de son smartphone pour la vidéo.</p>
+    <span class="btn btn-primary">Continuer vers les réglages du smartphone →</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="src">Support pédagogique de la formation « Structurer et développer une activité artistique musicale » (certification RS7398), Module 5 : Stratégie de création de contenus et communication digitale. Contenu issu de la vidéo de Tarik Hamiche « Créer des contenus de qualité » ; les durées, horaires, statistiques et prix cités sont indicatifs et peuvent évoluer selon les plateformes et les périodes.</p>
+    © 2026 Tarik Hamiche · Muziforma
+  </div>
+</footer>
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var btns=[].slice.call(document.querySelectorAll('#checklist-list .audit-check'));
+  var score=document.getElementById('score');var KEY='mz-rs7398-m5-07-creer-contenus-qualite';var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function paint(b){var on=!!saved[b.id];b.classList.toggle('checked',on);b.textContent=(on?'✓':'⬚')+' Fait';b.setAttribute('aria-pressed',on?'true':'false');}
+  function upd(){score.textContent=btns.filter(function(b){return saved[b.id]}).length+' / '+btns.length;}
+  btns.forEach(function(b){paint(b);b.addEventListener('click',function(){saved[b.id]=!saved[b.id];try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}paint(b);upd();});});
+  upd();
+})();
+</script>
+</body>
+</html>

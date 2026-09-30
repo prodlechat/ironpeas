@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Gérer le suivi des dossiers et respecter les délais · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Charte Muziforma : fond sable, violet #5B14FF, Manrope + Inter + JetBrains Mono. */
+:root{--bg:#F7F1E8;--bg-soft:#FCF8F2;--bg-card:#FFFFFF;--ink:#1F1A15;--ink-soft:#5C4F42;--ink-muted:#8A7A6A;--accent:#5B14FF;--accent-dark:#4910CC;--accent-soft:#EDE9FE;--accent-line:#A78BFA;--border:#E8DDC9;--border-soft:#F0E6D4;--warning:#C2410C;--warning-soft:#FFEDD5;--success:#15803D;--success-soft:#DCFCE7;--on-accent:#FFFFFF;--recap-text:rgba(247,241,232,.85);--shadow-sm:0 1px 2px rgba(31,26,21,.04);--shadow-md:0 4px 16px rgba(31,26,21,.06);--radius-sm:8px;--radius-md:14px;--radius-lg:24px;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Manrope,-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700}
+h4{font-size:1.15rem;font-weight:700;line-height:1.3}
+p{margin-bottom:1.1rem;color:var(--ink-soft)}
+strong{color:var(--ink);font-weight:700}
+em{font-style:normal;color:var(--accent);font-weight:800}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.container-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-line));z-index:9999}
+header.top-nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(247,241,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand-mark{font-family:Manrope,sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--ink)}
+.brand-mark em{color:var(--accent)}
+.nav-meta{display:flex;gap:1rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted)}
+.nav-meta span:not(:last-child)::after{content:"·";margin-left:1rem;color:var(--border)}
+@media (max-width:600px){.nav-meta{display:none}}
+.hero{padding:5rem 0 4rem;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;max-width:none;background:radial-gradient(circle,rgba(167,139,250,.22) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(91,20,255,.14) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1.8rem;box-shadow:var(--shadow-sm)}
+.hero h1{margin-bottom:1.5rem}
+.hero-lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:720px;margin:0 auto 1.5rem;line-height:1.55}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.hero-chips span{font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:.35rem .9rem}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:880px;margin:3rem auto 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-num{font-family:Manrope,sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em;margin-bottom:.5rem}
+.stat-label{font-size:.82rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.hero-stats{grid-template-columns:1fr}}
+.section-label{display:inline-block;font-family:Inter,sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:1.5rem}
+.toc-section{padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);text-align:center}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:800px;margin:1rem auto 0}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left;color:var(--ink);transition:.15s}
+.toc-item:hover{border-color:var(--accent);transform:translateX(2px);box-shadow:var(--shadow-sm);color:var(--ink)}
+.toc-num{font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);flex-shrink:0;width:36px}
+.toc-title{font-weight:600;font-size:.95rem;line-height:1.3}
+@media (max-width:600px){.toc-grid{grid-template-columns:1fr}}
+main>section.module{padding:6rem 0;position:relative;overflow:hidden}
+main>section.module:nth-of-type(odd){background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+section.module::before{content:"";position:absolute;top:10%;right:-180px;width:480px;height:480px;background:radial-gradient(circle,rgba(167,139,250,.16) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
+section.module>.container,section.module>.container-narrow{position:relative;z-index:1}
+.module-header{margin-bottom:2.5rem}
+.module-num{font-family:Manrope,sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.6rem;display:block}
+.module-lead{font-size:1.15rem;color:var(--ink-soft);margin:1.5rem 0 2.5rem;line-height:1.55;max-width:720px}
+.prose p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.3rem}
+.callout{background:var(--bg-card);border-left:4px solid var(--accent);border-radius:var(--radius-md);padding:1.6rem 1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm);text-align:left}
+.callout.warning{border-left-color:var(--warning);background:linear-gradient(135deg,var(--warning-soft) 0%,var(--bg-card) 60%)}
+.callout.success{border-left-color:var(--success);background:linear-gradient(135deg,var(--success-soft) 0%,var(--bg-card) 60%)}
+.callout-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.6rem}
+.callout.warning .callout-tag{color:var(--warning)}
+.callout.success .callout-tag{color:var(--success)}
+.callout p{margin:0;color:var(--ink);line-height:1.55}
+.callout ul{margin:.2rem 0 0 1.2rem;color:var(--ink);line-height:1.6}
+/* 3 casquettes : reprend .evolution */
+.evolution{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2rem 0}
+.evo-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;text-align:center;box-shadow:var(--shadow-sm)}
+.evo-col.featured{border:2px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg-card) 50%);transform:scale(1.02);box-shadow:var(--shadow-md)}
+.evo-acronym{font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;letter-spacing:-.04em;margin-bottom:.4rem}
+.evo-col:not(.featured) .evo-acronym{color:var(--ink-muted)}
+.evo-full{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:1rem;font-weight:600}
+.evo-col h4{margin-bottom:.6rem}
+.evo-col p{font-size:.92rem;line-height:1.55;text-align:left}
+.evo-target{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--border);text-align:left;font-size:.85rem;line-height:1.45;color:var(--ink)}
+.evo-target strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem;font-weight:800}
+@media (max-width:800px){.evolution{grid-template-columns:1fr}.evo-col.featured{transform:none}}
+/* circuit : reprend .rag-flow */
+.rag-flow{margin:2.5rem 0;display:flex;flex-direction:column;gap:1.5rem}
+.rag-step{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.rag-step:hover{border-color:var(--accent-line)}
+.rag-step-circle{flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.6rem;box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+.rag-step.alt .rag-step-circle{background:var(--warning);box-shadow:rgba(194,65,12,.3) 0 6px 20px}
+.rag-step>div:last-child{flex:1 1 0%;min-width:0}
+.step-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);margin-bottom:.4rem}
+.rag-step h4{margin-bottom:.6rem}
+.rag-step p{margin:0;line-height:1.55}
+/* tableaux dans la charte */
+.data-table{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);margin:2rem 0}
+.data-table table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+.data-table th{text-align:left;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding:1rem 1.1rem;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.data-table td{padding:.9rem 1.1rem;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table td strong{color:var(--ink)}
+.data-table .n{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--accent-dark);white-space:nowrap}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .6rem;border-radius:6px;white-space:nowrap}
+.badge.yes{background:var(--success-soft);color:var(--success)}
+.badge.no{background:var(--warning-soft);color:var(--warning)}
+.badge.mid{background:var(--accent-soft);color:var(--accent-dark)}
+/* barre de répartition */
+.split{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);margin:2rem 0}
+.split h4{margin-bottom:1.2rem}
+.split-bar{display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden}
+.split-bar div{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:500;color:var(--on-accent);white-space:nowrap;overflow:hidden}
+.split-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem 1rem;margin-top:1.2rem;font-size:.88rem;color:var(--ink-soft)}
+.split-legend span{display:flex;align-items:center;gap:.5rem}
+.split-legend i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.split-legend b{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--ink);margin-left:auto}
+.split-note{font-size:.82rem;color:var(--ink-muted);margin:1rem 0 0;line-height:1.5}
+/* cartes : reprend .motors / .eeat */
+.motors,.eeat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:2rem 0}
+.motor-card,.eeat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-sm);min-width:0}
+.eeat-card{transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.eeat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motor-name{font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;color:var(--ink);letter-spacing:-.02em;margin-bottom:.3rem}
+.motor-by{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.motor-spec{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border-soft);font-size:.9rem;line-height:1.45}
+.motor-spec:last-child{border-bottom:0}
+.motor-spec-label{flex-shrink:0;width:78px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding-top:.2rem}
+.motor-spec-value{flex:1 1 0%;color:var(--ink-soft)}
+.eeat-letter{width:52px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1rem}
+.eeat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem}
+.eeat-card h4{margin-bottom:.8rem}
+.eeat-card>p{font-size:.95rem;line-height:1.55;margin-bottom:1.2rem}
+.eeat-music{background:var(--accent-soft);border-radius:var(--radius-sm);padding:1rem;font-size:.9rem;line-height:1.5;color:var(--ink);margin-top:auto}
+.eeat-music strong{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.eeat-music .out{color:var(--warning)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:740px){.eeat-grid,.motors,.grid3{grid-template-columns:1fr}}
+/* étapes : reprend .factors */
+.factors{display:flex;flex-direction:column;gap:1.2rem;margin:2rem 0}
+.factor{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.factor:hover{border-color:var(--accent-line)}
+.factor-num{flex-shrink:0;font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;width:50px;letter-spacing:-.03em}
+.factor.err .factor-num{color:var(--warning)}
+.factor>div:last-child{flex:1 1 0%;min-width:0}
+.factor h4{margin-bottom:.6rem}
+.factor p{font-size:.95rem;line-height:1.55;margin-bottom:1rem}
+.factor p:last-child{margin-bottom:0}
+.factor-detail{background:var(--accent-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.88rem;line-height:1.5;color:var(--ink)}
+.factor-detail strong{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.factor.err .factor-detail{background:var(--warning-soft)}
+.factor.err .factor-detail strong{color:var(--warning)}
+/* checklist : reprend .audit */
+.audit-intro{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm)}
+.audit-intro h3{margin-bottom:.8rem}
+.audit-intro p{margin:0;line-height:1.6}
+.audit-prompts{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.prompt-row{display:flex;gap:1.2rem;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.prompt-num{flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--accent);width:36px}
+.prompt-row>div:not(.prompt-num){flex:1 1 0%;min-width:0}
+.prompt-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.audit-check{flex-shrink:0;padding:.5rem .9rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s;font-family:Inter,sans-serif}
+.audit-check:hover{border-color:var(--accent-line)}
+.audit-check.checked{background:var(--success);color:var(--on-accent);border-color:var(--success);font-weight:600}
+.score{font-family:"JetBrains Mono",monospace;color:var(--success);font-weight:500}
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.faq details{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:border-color .2s}
+.faq details:hover,.faq details[open]{border-color:var(--accent-line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.5rem;font-family:Manrope,sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.faq details[open] summary::after{content:"−";background:var(--accent);color:var(--on-accent)}
+.faq .ans{padding:0 1.5rem 1.4rem;color:var(--ink-soft);font-size:.97rem;line-height:1.65}
+/* synthèse */
+.recap{background:var(--ink);color:var(--recap-text);padding:4rem 0;position:relative;overflow:hidden}
+.recap::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(91,20,255,.25) 0%,transparent 60%);border-radius:50%;pointer-events:none}
+.recap>.container-narrow{position:relative;z-index:1}
+.recap h3{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg-card);margin-bottom:1.5rem}
+.recap-list{list-style:none;counter-reset:item;display:flex;flex-direction:column;gap:1rem}
+.recap-list li{counter-increment:item;padding-left:3rem;position:relative;line-height:1.55;color:var(--recap-text)}
+.recap-list li::before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:Manrope,sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-line)}
+.recap-list li strong{color:var(--bg-card)}
+.next-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin:4rem auto;max-width:760px;text-align:center;box-shadow:var(--shadow-md)}
+.next-cta h3{margin-bottom:1rem}
+.next-cta p{margin-bottom:1.5rem;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.1rem 2.2rem;font-family:Manrope,sans-serif;font-size:1rem;font-weight:800;border-radius:999px;border:0;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+footer.site-footer{background:var(--ink);color:rgba(247,241,232,.55);padding:2.5rem 0;text-align:center;font-size:.85rem;border-top:1px solid rgba(247,241,232,.08);line-height:1.7}
+footer.site-footer .src{max-width:760px;margin:0 auto 1rem;font-size:.8rem;color:rgba(247,241,232,.45)}
+@media (max-width:860px){main>section.module{padding:4rem 0}.toc-section{padding:3rem 0}.module-header{margin-bottom:1.8rem}.module-lead{font-size:1.05rem;margin:1rem 0 1.8rem}.rag-step,.factor{padding:1.4rem;gap:1rem}.rag-step-circle{width:48px;height:48px;font-size:1.3rem}.factor-num{font-size:1.6rem;width:40px}.next-cta{padding:1.8rem 1.4rem}.recap-list li{padding-left:2.4rem}section.module::before{width:320px;height:320px}}
+@media (max-width:480px){.hero{padding:3rem 0 2.5rem}.hero h1{font-size:2rem}.rag-step,.factor{flex-direction:column;gap:.8rem}.prompt-row{flex-wrap:wrap}}
+html,body{width:100% !important;max-width:100% !important;overflow-x:hidden}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress-bar"></div>
+<header class="top-nav">
+  <div class="nav-inner">
+    <span class="brand-mark">MUZI<em>FORMA</em></span>
+    <div class="nav-meta"><span>Module 02 / 08</span><span>Muziforma</span></div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Module 02 · Obtenir et gérer les aides</span>
+    <h1>Suivre ses dossiers et <em>respecter les délais</em>.</h1>
+    <p class="hero-lead">Une aide à laquelle tu avais droit peut t'échapper pour une date limite ratée ou une attestation arrivée trop tard. Voici une méthode simple pour tout anticiper, et un plan B quand la réponse est non.</p>
+    <div class="hero-chips"><span>Durée : 24 min</span><span>Formateur : Tarik Hamiche</span></div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">½ jour</div><div class="stat-label">Par an, fin janvier, pour planifier toute l'année</div></div>
+      <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Organismes à solliciter en parallèle pour un même besoin</div></div>
+      <div class="stat-card"><div class="stat-num">50 €</div><div class="stat-label">La contribution moyenne sur une campagne de financement participatif</div></div>
+      <div class="stat-card"><div class="stat-num">15 à 30 %</div><div class="stat-label">De l'objectif atteint, et la plateforme commence à relayer ton projet</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc-section">
+  <div class="container-narrow">
+    <div class="callout">
+      <div class="callout-tag">★ Objectifs pédagogiques</div>
+      <ul>
+        <li>Construire un calendrier annuel des dates limites de dépôt et des commissions</li>
+        <li>Planifier les sessions de préparation et anticiper les pièces à obtenir</li>
+        <li>Mettre en place un système de rappels et de relances</li>
+        <li>Constituer un dossier de pièces réutilisables</li>
+        <li>Préparer des solutions de financement en cas de refus</li>
+      </ul>
+    </div>
+    <div class="section-label">Plan du cours</div>
+    <div class="toc-grid">
+      <a href="#enjeu" class="toc-item"><span class="toc-num">01</span><span class="toc-title">Pourquoi le suivi fait la différence</span></a>
+      <a href="#calendrier" class="toc-item"><span class="toc-num">02</span><span class="toc-title">Repérer les dates dès janvier</span></a>
+      <a href="#preparation" class="toc-item"><span class="toc-num">03</span><span class="toc-title">Planifier les sessions de préparation</span></a>
+      <a href="#automatiser" class="toc-item"><span class="toc-num">04</span><span class="toc-title">Automatiser rappels et relances</span></a>
+      <a href="#pieces" class="toc-item"><span class="toc-num">05</span><span class="toc-title">Un dossier de pièces réutilisables</span></a>
+      <a href="#planb" class="toc-item"><span class="toc-num">06</span><span class="toc-title">Plan B : solliciter d'autres organismes</span></a>
+      <a href="#alternatives" class="toc-item"><span class="toc-num">07</span><span class="toc-title">Financer autrement</span></a>
+      <a href="#erreurs" class="toc-item"><span class="toc-num">08</span><span class="toc-title">Les 5 erreurs à éviter</span></a>
+      <a href="#checklist" class="toc-item"><span class="toc-num">09</span><span class="toc-title">Livrable : ta checklist</span></a>
+      <a href="#faq" class="toc-item"><span class="toc-num">10</span><span class="toc-title">FAQ</span></a>
+    </div>
+    <div class="data-table" style="margin-top:2.5rem;text-align:left"><table>
+      <thead><tr><th style="width:90px">Repère</th><th>Chapitre de la vidéo</th></tr></thead>
+      <tbody>
+        <tr><td class="n">00:00</td><td>Repérer les dates limites et de commission</td></tr>
+        <tr><td class="n">05:41</td><td>Planifier des sessions de préparation</td></tr>
+        <tr><td class="n">07:52</td><td>Automatiser rappels et relances</td></tr>
+        <tr><td class="n">11:14</td><td>Préparer un dossier de pièces réutilisables</td></tr>
+        <tr><td class="n">13:26</td><td>Plan B : solliciter d'autres organismes</td></tr>
+        <tr><td class="n">14:49</td><td>Ventes prédictives et projet en formation</td></tr>
+        <tr><td class="n">18:33</td><td>Négocier un deal avec ses partenaires</td></tr>
+        <tr><td class="n">22:34</td><td>Être créatif pour boucler son budget</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="module" id="enjeu">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">01 / 10</span><h2>Pourquoi le suivi <em>fait la différence</em></h2></div>
+    <p class="module-lead">La plupart des gens avancent sur leur projet, puis cherchent en cours d'année à quoi ils ont droit. Trop tard : la date limite est souvent déjà passée.</p>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Sans méthode</div><h4>On découvre l'aide en mars</h4><p>Tu réalises que tu es parfaitement éligible à l'aide à l'écriture et à la composition du CNM, mais la date limite est dépassée depuis trois semaines.</p><div class="eeat-music"><strong>Résultat</strong><span class="out">5 000 € perdus alors que tu remplissais toutes les conditions.</span></div></div>
+      <div class="eeat-card"><div class="eeat-name">Avec méthode</div><h4>On planifie dès janvier</h4><p>Toutes les dates sont dans ton agenda, les pièces sont prêtes, les relances programmées. Tu sais à tout moment quelle aide est ouverte et si tu es dans les temps.</p><div class="eeat-music"><strong>Résultat</strong>Tu passes devant tous ceux qui ne font pas ce travail.</div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Cette méthode est celle de Tarik. Tu es libre d'adopter ton propre système, à condition qu'il te ressemble et que tu sois capable de <strong>le tenir toute l'année</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="module" id="calendrier">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">02 / 10</span><h2>Repérer les dates <em>dès janvier</em></h2></div>
+    <p class="module-lead">Très souvent, les organismes publient leurs dates de commission et de dépôt vers la deuxième ou troisième semaine de janvier. C'est le moment de tout reporter dans ton agenda.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Bloquer du temps</span><h4>Une demi-journée autour du 20 janvier</h4><p>Planifie ce créneau dans ton agenda comme un vrai rendez-vous : « planning de suivi des aides et des commissions ». Certaines dates ne seront pas encore annoncées : note de revenir vérifier dans l'année.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Reporter</span><h4>Chaque date avec son code couleur</h4><p>Un outil d'agenda comme Google Agenda suffit. Exemple de code : les commissions en rouge, les dates limites de dépôt en orange (souvent environ trois semaines avant la commission).</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Anticiper la réponse</span><h4>Un créneau de vérification après la commission</h4><p>Si la réponse est attendue la semaine suivante, note 20 à 30 minutes « résultat commission aide X » dans une couleur plus discrète.</p></div></div>
+    </div>
+    <div class="data-table"><table>
+      <thead><tr><th>Type d'événement</th><th>Couleur suggérée</th><th>Ce que tu fais</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Date limite de dépôt</strong></td><td><span class="badge no">Orange</span></td><td>Dossier envoyé avant, jamais le jour même</td></tr>
+        <tr><td><strong>Date de commission</strong></td><td><span class="badge no">Rouge</span></td><td>Vérifier que le dossier est bien complet avant la séance</td></tr>
+        <tr><td><strong>Vérification du résultat</strong></td><td><span class="badge mid">Discrète</span></td><td>Consulter l'interface, puis relancer si besoin</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Consulter avant de relancer</div>
+      <p>Pas de nouvelles après la commission ? Connecte-toi d'abord à ton interface (Adami, SCPP, SPPF…) : la réponse y est peut-être déjà. Relance seulement si le dossier est toujours « en cours » alors que la commission est passée. Souvent, une absence de retour signifie un refus.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="module" id="preparation">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">03 / 10</span><h2>Planifier les <em>sessions de préparation</em></h2></div>
+    <p class="module-lead">Repérer les dates ne sert à rien si tu prépares ton dossier la veille. Place un bloc de préparation bien en amont de chaque date limite.</p>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Créer l'événement « préparation aide X »</h4><p>Pour une date limite au 30 janvier, planifie par exemple une matinée de préparation une à deux semaines avant.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Lister les pièces dans la description</h4><p>Dans la description de l'événement, écris la liste à puces de tout ce dont tu as besoin : contrats, factures, attestations, devis.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Repérer ce qui manque, tôt</h4><p>En préparant dès le 12 janvier, tu découvres à temps qu'il te manque le contrat du distributeur ou la facture du réalisateur. Tu as encore le temps de les réclamer.</p><div class="factor-detail"><strong>Exemple</strong>Une attestation de vigilance demandée à France Travail le 28 pour une date limite le 30 peut arriver une semaine après. Aide perdue pour un document en retard.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="module" id="automatiser">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">04 / 10</span><h2>Automatiser <em>rappels et relances</em></h2></div>
+    <p class="module-lead">Le but : ne plus avoir à penser à ce que tu dois faire, seulement suivre le système que tu as monté une fois pour toutes.</p>
+    <div class="motors">
+      <div class="motor-card">
+        <div class="motor-name">Agenda</div>
+        <div class="motor-by">Les notifications</div>
+        <div class="motor-spec"><span class="motor-spec-label">Rappels</span><span class="motor-spec-value">Un e-mail la veille, un autre une heure avant, une notification sur le téléphone 15 minutes avant</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Équipe</span><span class="motor-spec-value">Inviter les membres de ton équipe à l'événement, ajouter un lien de visioconférence</span></div>
+      </div>
+      <div class="motor-card">
+        <div class="motor-name">Messagerie</div>
+        <div class="motor-by">Les e-mails programmés</div>
+        <div class="motor-spec"><span class="motor-spec-label">Principe</span><span class="motor-spec-value">Rédiger à l'avance un e-mail qui liste les pièces à réclamer, et programmer son envoi</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Exemple</span><span class="motor-spec-value">Le 19 janvier à 11 h, un rappel pour demander à chaque partenaire (réalisateur, distributeur) les documents qui le concernent</span></div>
+      </div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Après le dépôt</div>
+      <p>Ce système apporte un niveau de suivi bien plus précis que de ne rien faire. C'est comme ça qu'on évite les erreurs et les oublis, et qu'on obtient un suivi des dossiers et des délais irréprochable.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="module" id="pieces">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">05 / 10</span><h2>Un dossier de <em>pièces réutilisables</em></h2></div>
+    <p class="module-lead">On te demande très souvent les mêmes documents, pour presque toutes les aides. Range-les une fois dans un dossier « Documents indispensables pour les aides » et réutilise-les.</p>
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-name">Structure</div><h4>Statuts du label</h4><p>Ils ne coûtent rien à sortir et ne changent pas d'une demande à l'autre.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Distribution</div><h4>Contrat de distribution</h4><p>Une fois signé avec un distributeur reconnu, il reste le même. Demande aussi une attestation du distributeur valable sur la durée du contrat.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Écoute</div><h4>Extraits sonores</h4><p>Un lien d'écoute privé que tu mets à jour d'une demande à l'autre.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Artistes</div><h4>CV des artistes</h4><p>Demande un CV à jour en début d'année aux artistes principaux : il reste représentatif pendant plusieurs mois.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Social</div><h4>Attestations</h4><p>Attestations de vigilance, Kbis récent : note leur date de validité pour les renouveler à temps.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Projet</div><h4>Bio et présentation</h4><p>Biographie, présentation de la structure, revue de presse : une base à adapter à chaque dossier.</p></div>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ À retenir</div>
+      <p>Plus tu prépares en amont, plus tu gagnes de temps à chaque demande, et plus tu te protèges contre les oublis.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="module" id="planb">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">06 / 10</span><h2>Plan B : solliciter <em>d'autres organismes</em></h2></div>
+    <p class="module-lead">Beaucoup d'aides sont compatibles entre elles. Plutôt que de tout miser sur un seul financeur, dépose la même demande à plusieurs endroits en même temps.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Identifier</span><h4>Les compatibilités entre organismes</h4><p>Exemple cité : pour un clip, tu peux solliciter la SCPP, mais aussi le CNM et le CNC.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Déposer</span><h4>Trois demandes en parallèle</h4><p>Une aide sur trois, c'est bien. Deux sur trois, c'est mieux. Trois sur trois, c'est idéal.</p></div></div>
+      <div class="rag-step alt"><div class="rag-step-circle">3</div><div><span class="step-tag">Accepter</span><h4>Aucun regret, même en cas de refus</h4><p>Si aucune ne passe, tu sais que tu as frappé à toutes les portes possibles pour ce projet.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="module" id="alternatives">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">07 / 10</span><h2>Financer <em>autrement</em></h2></div>
+    <p class="module-lead">Quand les aides ne suffisent pas, d'autres leviers existent. Exemple cité : un EP chiffré à 8 000 €, 3 000 € disponibles, 5 000 € à trouver.</p>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Les ventes prédictives : financement participatif</h4><p>Tes proches, qui n'osent pas te donner de l'argent directement, participent volontiers à une campagne. Une fois 15 à 30 % de l'objectif atteints, la plateforme relaie ton projet auprès d'inconnus. Certains organismes financent aussi des campagnes (souvent avec un plafond).</p><div class="factor-detail"><strong>Calcul cité</strong>Contribution moyenne de 50 € : 100 contributeurs, et tu as 5 000 €.</div></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>La prévente de l'album</h4><p>Avec une fan base conséquente et une offre irrésistible, tu peux vendre ton album avant même de l'avoir terminé, en partageant un ou deux extraits pour donner le ton.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Produire son projet au travers d'une formation</h4><p>Certaines formations permettent de travailler sur ton propre projet, avec accès au matériel, aux studios et à des professionnels. À prévoir dès le test de positionnement. Idéal pour un premier EP.</p></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Négocier un deal avec ses partenaires</h4><p>Réalisateur, studio, attaché de presse : tu règles les frais fixes, le partenaire investit son temps en échange d'une part des recettes d'exploitation (coproduction, coexploitation). Formalise toujours l'accord par écrit.</p><div class="factor-detail"><strong>Exemple vécu</strong>À ses débuts, Tarik a proposé ses services à un studio en échange d'un accès gratuit aux heures creuses pour produire ses propres artistes. Un deal gagnant-gagnant, encadré par une convention.</div></div></div>
+      <div class="factor"><div class="factor-num">05</div><div><h4>Être créatif</h4><p>Mécènes, placements de produit rémunérés, renégociation : par exemple, prévoir avec les musiciens un cachet plus élevé si l'aide est obtenue, et un ajustement si elle ne l'est pas. Toujours dans le respect des minima conventionnels.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="module" id="erreurs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">08 / 10</span><h2>Les 5 erreurs <em>à éviter</em></h2></div>
+    <p class="module-lead">Celles qui font perdre une aide pour une simple question d'organisation.</p>
+    <div class="factors">
+      <div class="factor err"><div class="factor-num">01</div><div><h4>Chercher ses aides en cours d'année</h4><p>Sans calendrier posé en janvier, tu découvres les aides quand leurs dates limites sont passées.</p></div></div>
+      <div class="factor err"><div class="factor-num">02</div><div><h4>Préparer le dossier la veille</h4><p>La moindre pièce manquante devient bloquante. Prépare une à deux semaines avant la date limite.</p></div></div>
+      <div class="factor err"><div class="factor-num">03</div><div><h4>Demander ses attestations au dernier moment</h4><p>Les organismes sociaux ont leurs propres délais. Une attestation en retard suffit à faire tomber un dossier.</p></div></div>
+      <div class="factor err"><div class="factor-num">04</div><div><h4>Relancer sans avoir consulté son interface</h4><p>La réponse est souvent déjà disponible en ligne. Vérifie avant de relancer.</p></div></div>
+      <div class="factor err"><div class="factor-num">05</div><div><h4>Tout miser sur un seul financeur</h4><p>Un refus unique bloque tout le projet. Sollicite plusieurs organismes compatibles et prépare un plan B.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="module" id="checklist">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">09 / 10</span><h2>Livrable : ta <em>checklist</em></h2></div>
+    <div class="audit-intro">
+      <h3>Clique sur les cases au fur et à mesure</h3>
+      <p>Ce travail prépare l'exercice « Présélection des aides pour son projet » du Module 2. Progression : <span class="score" id="score">0 / 7</span></p>
+    </div>
+    <div class="audit-prompts" id="checklist-list">
+      <div class="prompt-row"><div class="prompt-num">C01</div><div><div class="prompt-text">J'ai bloqué une demi-journée fin janvier pour planifier les aides de l'année</div></div><button type="button" class="audit-check" id="c1">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C02</div><div><div class="prompt-text">J'ai reporté dans mon agenda les dates limites et de commission des aides présélectionnées, avec un code couleur</div></div><button type="button" class="audit-check" id="c2">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C03</div><div><div class="prompt-text">J'ai créé un bloc de préparation avant chaque date limite, avec la liste des pièces</div></div><button type="button" class="audit-check" id="c3">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C04</div><div><div class="prompt-text">J'ai programmé les rappels et l'e-mail de demande de pièces à mes partenaires</div></div><button type="button" class="audit-check" id="c4">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C05</div><div><div class="prompt-text">J'ai créé mon dossier « Documents indispensables » avec les pièces réutilisables</div></div><button type="button" class="audit-check" id="c5">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C06</div><div><div class="prompt-text">J'ai identifié au moins deux organismes compatibles pour chaque besoin de financement</div></div><button type="button" class="audit-check" id="c6">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C07</div><div><div class="prompt-text">J'ai écrit mon plan B en cas de refus (financement participatif, prévente, deal partenaire)</div></div><button type="button" class="audit-check" id="c7">⬚ Fait</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="module" id="faq">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">10 / 10</span><h2>Questions <em>fréquentes</em></h2></div>
+    <div class="faq">
+      <details><summary>Quand les dates de commission sont-elles publiées ?</summary><div class="ans">Très souvent dans la deuxième ou troisième semaine de janvier. Certaines dates sont annoncées plus tard : prévois de revérifier régulièrement dans l'année.</div></details>
+      <details><summary>Faut-il relancer l'organisme après la commission ?</summary><div class="ans">Seulement après avoir consulté ton interface. Si le dossier est toujours en cours de traitement alors que la commission est passée, tu peux relancer poliment. Une absence de réponse correspond souvent à un refus.</div></details>
+      <details><summary>Que peut-on automatiser concrètement ?</summary><div class="ans">Tes rappels (notifications et e-mails de l'agenda) et tes demandes de pièces (e-mails programmés à l'avance). La consultation de l'état de ton dossier sur l'interface de l'organisme reste une vérification à faire toi-même.</div></details>
+      <details><summary>Le financement participatif, ça marche vraiment ?</summary><div class="ans">Oui, selon la vidéo : tes proches participent plus facilement à une campagne qu'à un don direct, et une fois une partie de l'objectif atteinte, la plateforme te fait connaître au-delà de ton cercle.</div></details>
+      <details><summary>Un deal avec un partenaire, comment le sécuriser ?</summary><div class="ans">Par un contrat écrit qui précise qui paie quoi et comment les recettes sont partagées (coproduction, coexploitation). Chacun est ainsi intéressé au succès du projet, et personne n'a de mauvaise surprise.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="recap">
+  <div class="container-narrow">
+    <div class="section-label" style="color:var(--accent-line)">Synthèse</div>
+    <h3>Ce que tu dois retenir de ce cours</h3>
+    <ol class="recap-list">
+      <li>Pose <strong>toutes les dates</strong> de dépôt et de commission dans ton agenda dès fin janvier.</li>
+      <li>Planifie une <strong>session de préparation</strong> bien avant chaque date limite, avec la liste des pièces.</li>
+      <li>Automatise tes <strong>rappels</strong> et tes demandes de pièces, mais vérifie tes interfaces à la main.</li>
+      <li>Garde un <strong>dossier de pièces réutilisables</strong> à jour pour gagner du temps et éviter les oublis.</li>
+      <li>Sollicite <strong>plusieurs organismes</strong> pour un même besoin et prépare toujours un plan B.</li>
+      <li>Financement participatif, prévente, deals partenaires : <strong>sois créatif</strong> pour boucler ton budget.</li>
+    </ol>
+  </div>
+</section>
+
+<div class="container-narrow">
+  <div class="next-cta">
+    <h3>Prêt pour la <em>vidéo suivante</em> ?</h3>
+    <p>Optimiser la gestion des aides obtenues.</p>
+    <span class="btn btn-primary">Continuer vers l'optimisation →</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="src">Support pédagogique de la formation « Structurer et développer une activité artistique musicale » (certification RS7398), Module 2 : Dispositifs d'aide et financement de la création. Contenu issu de la vidéo de Tarik Hamiche ; les outils cités (agenda, messagerie) sont des exemples, et les calendriers des organismes sont à vérifier chaque année.</p>
+    © 2026 Tarik Hamiche · Muziforma
+  </div>
+</footer>
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var btns=[].slice.call(document.querySelectorAll('#checklist-list .audit-check'));
+  var score=document.getElementById('score');var KEY='mz-rs7398-m2-05-suivi-dossiers-delais';var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function paint(b){var on=!!saved[b.id];b.classList.toggle('checked',on);b.textContent=(on?'✓':'⬚')+' Fait';b.setAttribute('aria-pressed',on?'true':'false');}
+  function upd(){score.textContent=btns.filter(function(b){return saved[b.id]}).length+' / '+btns.length;}
+  btns.forEach(function(b){paint(b);b.addEventListener('click',function(){saved[b.id]=!saved[b.id];try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}paint(b);upd();});});
+  upd();
+})();
+</script>
+</body>
+</html>

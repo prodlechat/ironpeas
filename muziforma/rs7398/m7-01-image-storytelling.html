@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Maîtriser son image et son storytelling · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Charte Muziforma : fond sable, violet #5B14FF, Manrope + Inter + JetBrains Mono. */
+:root{--bg:#F7F1E8;--bg-soft:#FCF8F2;--bg-card:#FFFFFF;--ink:#1F1A15;--ink-soft:#5C4F42;--ink-muted:#8A7A6A;--accent:#5B14FF;--accent-dark:#4910CC;--accent-soft:#EDE9FE;--accent-line:#A78BFA;--border:#E8DDC9;--border-soft:#F0E6D4;--warning:#C2410C;--warning-soft:#FFEDD5;--success:#15803D;--success-soft:#DCFCE7;--on-accent:#FFFFFF;--recap-text:rgba(247,241,232,.85);--shadow-sm:0 1px 2px rgba(31,26,21,.04);--shadow-md:0 4px 16px rgba(31,26,21,.06);--radius-sm:8px;--radius-md:14px;--radius-lg:24px;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Manrope,-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700}
+h4{font-size:1.15rem;font-weight:700;line-height:1.3}
+p{margin-bottom:1.1rem;color:var(--ink-soft)}
+strong{color:var(--ink);font-weight:700}
+em{font-style:normal;color:var(--accent);font-weight:800}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.container-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-line));z-index:9999}
+header.top-nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(247,241,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand-mark{font-family:Manrope,sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--ink)}
+.brand-mark em{color:var(--accent)}
+.nav-meta{display:flex;gap:1rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted)}
+.nav-meta span:not(:last-child)::after{content:"·";margin-left:1rem;color:var(--border)}
+@media (max-width:600px){.nav-meta{display:none}}
+.hero{padding:5rem 0 4rem;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;max-width:none;background:radial-gradient(circle,rgba(167,139,250,.22) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(91,20,255,.14) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1.8rem;box-shadow:var(--shadow-sm)}
+.hero h1{margin-bottom:1.5rem}
+.hero-lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:720px;margin:0 auto 1.5rem;line-height:1.55}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.hero-chips span{font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:.35rem .9rem}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:880px;margin:3rem auto 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-num{font-family:Manrope,sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em;margin-bottom:.5rem}
+.stat-label{font-size:.82rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.hero-stats{grid-template-columns:1fr}}
+.section-label{display:inline-block;font-family:Inter,sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:1.5rem}
+.toc-section{padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);text-align:center}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:800px;margin:1rem auto 0}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left;color:var(--ink);transition:.15s}
+.toc-item:hover{border-color:var(--accent);transform:translateX(2px);box-shadow:var(--shadow-sm);color:var(--ink)}
+.toc-num{font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);flex-shrink:0;width:36px}
+.toc-title{font-weight:600;font-size:.95rem;line-height:1.3}
+@media (max-width:600px){.toc-grid{grid-template-columns:1fr}}
+main>section.module{padding:6rem 0;position:relative;overflow:hidden}
+main>section.module:nth-of-type(odd){background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+section.module::before{content:"";position:absolute;top:10%;right:-180px;width:480px;height:480px;background:radial-gradient(circle,rgba(167,139,250,.16) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
+section.module>.container,section.module>.container-narrow{position:relative;z-index:1}
+.module-header{margin-bottom:2.5rem}
+.module-num{font-family:Manrope,sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.6rem;display:block}
+.module-lead{font-size:1.15rem;color:var(--ink-soft);margin:1.5rem 0 2.5rem;line-height:1.55;max-width:720px}
+.prose p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.3rem}
+.callout{background:var(--bg-card);border-left:4px solid var(--accent);border-radius:var(--radius-md);padding:1.6rem 1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm);text-align:left}
+.callout.warning{border-left-color:var(--warning);background:linear-gradient(135deg,var(--warning-soft) 0%,var(--bg-card) 60%)}
+.callout.success{border-left-color:var(--success);background:linear-gradient(135deg,var(--success-soft) 0%,var(--bg-card) 60%)}
+.callout-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.6rem}
+.callout.warning .callout-tag{color:var(--warning)}
+.callout.success .callout-tag{color:var(--success)}
+.callout p{margin:0;color:var(--ink);line-height:1.55}
+.callout ul{margin:.2rem 0 0 1.2rem;color:var(--ink);line-height:1.6}
+/* 3 casquettes : reprend .evolution */
+.evolution{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2rem 0}
+.evo-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;text-align:center;box-shadow:var(--shadow-sm)}
+.evo-col.featured{border:2px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg-card) 50%);transform:scale(1.02);box-shadow:var(--shadow-md)}
+.evo-acronym{font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;letter-spacing:-.04em;margin-bottom:.4rem}
+.evo-col:not(.featured) .evo-acronym{color:var(--ink-muted)}
+.evo-full{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:1rem;font-weight:600}
+.evo-col h4{margin-bottom:.6rem}
+.evo-col p{font-size:.92rem;line-height:1.55;text-align:left}
+.evo-target{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--border);text-align:left;font-size:.85rem;line-height:1.45;color:var(--ink)}
+.evo-target strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem;font-weight:800}
+@media (max-width:800px){.evolution{grid-template-columns:1fr}.evo-col.featured{transform:none}}
+/* circuit : reprend .rag-flow */
+.rag-flow{margin:2.5rem 0;display:flex;flex-direction:column;gap:1.5rem}
+.rag-step{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.rag-step:hover{border-color:var(--accent-line)}
+.rag-step-circle{flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.6rem;box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+.rag-step.alt .rag-step-circle{background:var(--warning);box-shadow:rgba(194,65,12,.3) 0 6px 20px}
+.rag-step>div:last-child{flex:1 1 0%;min-width:0}
+.step-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);margin-bottom:.4rem}
+.rag-step h4{margin-bottom:.6rem}
+.rag-step p{margin:0;line-height:1.55}
+/* tableaux dans la charte */
+.data-table{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);margin:2rem 0}
+.data-table table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+.data-table th{text-align:left;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding:1rem 1.1rem;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.data-table td{padding:.9rem 1.1rem;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table td strong{color:var(--ink)}
+.data-table .n{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--accent-dark);white-space:nowrap}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .6rem;border-radius:6px;white-space:nowrap}
+.badge.yes{background:var(--success-soft);color:var(--success)}
+.badge.no{background:var(--warning-soft);color:var(--warning)}
+.badge.mid{background:var(--accent-soft);color:var(--accent-dark)}
+/* barre de répartition */
+.split{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);margin:2rem 0}
+.split h4{margin-bottom:1.2rem}
+.split-bar{display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden}
+.split-bar div{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:500;color:var(--on-accent);white-space:nowrap;overflow:hidden}
+.split-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem 1rem;margin-top:1.2rem;font-size:.88rem;color:var(--ink-soft)}
+.split-legend span{display:flex;align-items:center;gap:.5rem}
+.split-legend i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.split-legend b{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--ink);margin-left:auto}
+.split-note{font-size:.82rem;color:var(--ink-muted);margin:1rem 0 0;line-height:1.5}
+/* cartes : reprend .motors / .eeat */
+.motors,.eeat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:2rem 0}
+.motor-card,.eeat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-sm);min-width:0}
+.eeat-card{transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.eeat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motor-name{font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;color:var(--ink);letter-spacing:-.02em;margin-bottom:.3rem}
+.motor-by{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.motor-spec{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border-soft);font-size:.9rem;line-height:1.45}
+.motor-spec:last-child{border-bottom:0}
+.motor-spec-label{flex-shrink:0;width:78px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding-top:.2rem}
+.motor-spec-value{flex:1 1 0%;color:var(--ink-soft)}
+.eeat-letter{width:52px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1rem}
+.eeat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem}
+.eeat-card h4{margin-bottom:.8rem}
+.eeat-card>p{font-size:.95rem;line-height:1.55;margin-bottom:1.2rem}
+.eeat-music{background:var(--accent-soft);border-radius:var(--radius-sm);padding:1rem;font-size:.9rem;line-height:1.5;color:var(--ink);margin-top:auto}
+.eeat-music strong{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.eeat-music .out{color:var(--warning)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:740px){.eeat-grid,.motors,.grid3{grid-template-columns:1fr}}
+/* étapes : reprend .factors */
+.factors{display:flex;flex-direction:column;gap:1.2rem;margin:2rem 0}
+.factor{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.factor:hover{border-color:var(--accent-line)}
+.factor-num{flex-shrink:0;font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;width:50px;letter-spacing:-.03em}
+.factor.err .factor-num{color:var(--warning)}
+.factor>div:last-child{flex:1 1 0%;min-width:0}
+.factor h4{margin-bottom:.6rem}
+.factor p{font-size:.95rem;line-height:1.55;margin-bottom:1rem}
+.factor p:last-child{margin-bottom:0}
+.factor-detail{background:var(--accent-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.88rem;line-height:1.5;color:var(--ink)}
+.factor-detail strong{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.factor.err .factor-detail{background:var(--warning-soft)}
+.factor.err .factor-detail strong{color:var(--warning)}
+/* checklist : reprend .audit */
+.audit-intro{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm)}
+.audit-intro h3{margin-bottom:.8rem}
+.audit-intro p{margin:0;line-height:1.6}
+.audit-prompts{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.prompt-row{display:flex;gap:1.2rem;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.prompt-num{flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--accent);width:36px}
+.prompt-row>div:not(.prompt-num){flex:1 1 0%;min-width:0}
+.prompt-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.audit-check{flex-shrink:0;padding:.5rem .9rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s;font-family:Inter,sans-serif}
+.audit-check:hover{border-color:var(--accent-line)}
+.audit-check.checked{background:var(--success);color:var(--on-accent);border-color:var(--success);font-weight:600}
+.score{font-family:"JetBrains Mono",monospace;color:var(--success);font-weight:500}
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.faq details{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:border-color .2s}
+.faq details:hover,.faq details[open]{border-color:var(--accent-line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.5rem;font-family:Manrope,sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.faq details[open] summary::after{content:"−";background:var(--accent);color:var(--on-accent)}
+.faq .ans{padding:0 1.5rem 1.4rem;color:var(--ink-soft);font-size:.97rem;line-height:1.65}
+/* synthèse */
+.recap{background:var(--ink);color:var(--recap-text);padding:4rem 0;position:relative;overflow:hidden}
+.recap::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(91,20,255,.25) 0%,transparent 60%);border-radius:50%;pointer-events:none}
+.recap>.container-narrow{position:relative;z-index:1}
+.recap h3{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg-card);margin-bottom:1.5rem}
+.recap-list{list-style:none;counter-reset:item;display:flex;flex-direction:column;gap:1rem}
+.recap-list li{counter-increment:item;padding-left:3rem;position:relative;line-height:1.55;color:var(--recap-text)}
+.recap-list li::before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:Manrope,sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-line)}
+.recap-list li strong{color:var(--bg-card)}
+.next-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin:4rem auto;max-width:760px;text-align:center;box-shadow:var(--shadow-md)}
+.next-cta h3{margin-bottom:1rem}
+.next-cta p{margin-bottom:1.5rem;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.1rem 2.2rem;font-family:Manrope,sans-serif;font-size:1rem;font-weight:800;border-radius:999px;border:0;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+footer.site-footer{background:var(--ink);color:rgba(247,241,232,.55);padding:2.5rem 0;text-align:center;font-size:.85rem;border-top:1px solid rgba(247,241,232,.08);line-height:1.7}
+footer.site-footer .src{max-width:760px;margin:0 auto 1rem;font-size:.8rem;color:rgba(247,241,232,.45)}
+@media (max-width:860px){main>section.module{padding:4rem 0}.toc-section{padding:3rem 0}.module-header{margin-bottom:1.8rem}.module-lead{font-size:1.05rem;margin:1rem 0 1.8rem}.rag-step,.factor{padding:1.4rem;gap:1rem}.rag-step-circle{width:48px;height:48px;font-size:1.3rem}.factor-num{font-size:1.6rem;width:40px}.next-cta{padding:1.8rem 1.4rem}.recap-list li{padding-left:2.4rem}section.module::before{width:320px;height:320px}}
+@media (max-width:480px){.hero{padding:3rem 0 2.5rem}.hero h1{font-size:2rem}.rag-step,.factor{flex-direction:column;gap:.8rem}.prompt-row{flex-wrap:wrap}}
+html,body{width:100% !important;max-width:100% !important;overflow-x:hidden}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress-bar"></div>
+<header class="top-nav">
+  <div class="nav-inner">
+    <span class="brand-mark">MUZI<em>FORMA</em></span>
+    <div class="nav-meta"><span>Module 07 / 08</span><span>Muziforma</span></div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Module 07 · Préparer sa campagne</span>
+    <h1>Maîtriser son image et son <em>storytelling</em>.</h1>
+    <p class="hero-lead">Avant de lancer la moindre campagne, il faut savoir qui tu es, comment on te perçoit et quelle histoire tu racontes. Une image cohérente et un récit bien construit, c'est ce qui fait qu'on te remarque, qu'on te retient et qu'on a envie de te suivre.</p>
+    <div class="hero-chips"><span>Durée : 123 min</span><span>Formateur : Tarik Hamiche</span></div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Piliers d'un bon storytelling</div></div>
+      <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">Archétypes de personnages à connaître</div></div>
+      <div class="stat-card"><div class="stat-num">11</div><div class="stat-label">Ingrédients qui font vibrer une histoire</div></div>
+      <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">Valeurs à lister pour poser ton identité</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc-section">
+  <div class="container-narrow">
+    <div class="callout">
+      <div class="callout-tag">★ Objectifs pédagogiques</div>
+      <ul>
+        <li>Comprendre ce que recouvrent l'image d'un artiste et le storytelling, et pourquoi ils conditionnent ta visibilité</li>
+        <li>Construire ton identité artistique à partir de tes valeurs, de tes influences et de ton positionnement</li>
+        <li>Utiliser l'arbre de l'identité pour relier qui tu es à ce que tu publies</li>
+        <li>Identifier les archétypes et les ingrédients narratifs qui correspondent à ton parcours</li>
+        <li>Structurer ton histoire en étapes pour écrire une biographie qui captive</li>
+      </ul>
+    </div>
+    <div class="section-label">Plan du cours</div>
+    <div class="toc-grid">
+      <a href="#definitions" class="toc-item"><span class="toc-num">01</span><span class="toc-title">Image et storytelling : de quoi parle-t-on ?</span></a>
+      <a href="#apple" class="toc-item"><span class="toc-num">02</span><span class="toc-title">Étude de cas : Apple contre Samsung</span></a>
+      <a href="#roles" class="toc-item"><span class="toc-num">03</span><span class="toc-title">Les 5 rôles de l'image</span></a>
+      <a href="#identite" class="toc-item"><span class="toc-num">04</span><span class="toc-title">Construire ton identité</span></a>
+      <a href="#arbre" class="toc-item"><span class="toc-num">05</span><span class="toc-title">L'arbre de l'identité</span></a>
+      <a href="#archetypes" class="toc-item"><span class="toc-num">06</span><span class="toc-title">Piliers et archétypes du storytelling</span></a>
+      <a href="#ingredients" class="toc-item"><span class="toc-num">07</span><span class="toc-title">Les 11 ingrédients d'une histoire</span></a>
+      <a href="#structure" class="toc-item"><span class="toc-num">08</span><span class="toc-title">La structure d'un récit captivant</span></a>
+      <a href="#erreurs" class="toc-item"><span class="toc-num">09</span><span class="toc-title">Les 5 erreurs à éviter</span></a>
+      <a href="#checklist" class="toc-item"><span class="toc-num">10</span><span class="toc-title">Livrable : ta checklist</span></a>
+      <a href="#faq" class="toc-item"><span class="toc-num">11</span><span class="toc-title">FAQ</span></a>
+    </div>
+    <div class="data-table" style="margin-top:2.5rem;text-align:left"><table>
+      <thead><tr><th style="width:90px">Repère</th><th>Chapitre de la vidéo</th></tr></thead>
+      <tbody>
+        <tr><td class="n">00:00</td><td>Image et storytelling : les définitions</td></tr>
+        <tr><td class="n">05:04</td><td>Pourquoi l'image et le storytelling comptent</td></tr>
+        <tr><td class="n">09:30</td><td>Étude de cas : Apple contre Samsung</td></tr>
+        <tr><td class="n">20:01</td><td>Les leçons d'Apple pour ton projet musical</td></tr>
+        <tr><td class="n">24:47</td><td>L'image, première accroche avant la musique</td></tr>
+        <tr><td class="n">30:30</td><td>L'image guide toute ta stratégie</td></tr>
+        <tr><td class="n">35:18</td><td>Opportunités pro et image qui dure</td></tr>
+        <tr><td class="n">39:51</td><td>Construire son identité : les valeurs</td></tr>
+        <tr><td class="n">44:20</td><td>Influences et positionnement</td></tr>
+        <tr><td class="n">53:40</td><td>L'exercice de l'arbre de l'identité</td></tr>
+        <tr><td class="n">62:33</td><td>Les 3 piliers du storytelling</td></tr>
+        <tr><td class="n">64:44</td><td>Les 6 archétypes de personnages</td></tr>
+        <tr><td class="n">82:54</td><td>Les 11 ingrédients d'une histoire</td></tr>
+        <tr><td class="n">104:26</td><td>La structure d'un récit captivant</td></tr>
+        <tr><td class="n">106:59</td><td>Exemple : le storytelling de Tarik</td></tr>
+        <tr><td class="n">116:44</td><td>Les grands motifs narratifs</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="module" id="definitions">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">01 / 11</span><h2>Image et storytelling : <em>de quoi parle-t-on</em> ?</h2></div>
+    <p class="module-lead">L'image, c'est la manière dont <strong>les médias et le public te perçoivent</strong>. Le storytelling, c'est <strong>l'art de raconter une histoire pour vendre</strong>. Les deux avancent ensemble.</p>
+    <div class="motors">
+      <div class="motor-card">
+        <div class="motor-name">L'image</div>
+        <div class="motor-by">Comment on te perçoit</div>
+        <div class="motor-spec"><span class="motor-spec-label">Définition</span><span class="motor-spec-value">Un ensemble cohérent entre le son, les visuels, la vidéo, la personnalité et les valeurs que tu véhicules</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Signal d'alerte</span><span class="motor-spec-value">« Ce n'est pas cohérent » : dans le jargon des médias et des labels, ça veut dire qu'on ne comprend pas ce que tu fais</span></div>
+      </div>
+      <div class="motor-card">
+        <div class="motor-name">Le storytelling</div>
+        <div class="motor-by">Comment tu racontes</div>
+        <div class="motor-spec"><span class="motor-spec-label">Définition</span><span class="motor-spec-value">Prendre une histoire et la raconter d'une manière qui accroche, captive et reste en tête</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Exemple</span><span class="motor-spec-value">Le Roi Lion : résumée à plat, l'histoire ne donne pas envie. Racontée avec des personnages, des émotions et une trame précise, elle marque des générations</span></div>
+      </div>
+    </div>
+    <div class="prose">
+      <p><strong>Le public range les artistes dans des cases</strong>, avant même les médias. Demande à quelqu'un de citer trois rappeurs puis trois chanteurs de variété : il change radicalement de case. Orelsan ou Soprano ont construit leur image dans le rap puis l'ont fait évoluer vers la variété, sans changer de style. C'est ça, maîtriser son image : la faire évoluer sans la brouiller.</p>
+      <p>Pourquoi c'est essentiel ? Parce que depuis toujours, l'humain transmet l'information par des histoires : on se souvient de toi quand on se souvient de ton histoire. Et parce qu'internet est un média <strong>libre mais sans filtre</strong> : personne ne te dira que ton post ne colle pas à ton image. Si tu publies dans tous les sens, l'algorithme est incapable de mettre en face de toi le bon public.</p>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Si je dis « burger », tu penses à McDonald's, alors qu'ils vendent aussi des glaces et des salades. Une image maîtrisée, c'est quelques éléments distinctifs qui te rendent <strong>facile à identifier</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="module" id="apple">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">02 / 11</span><h2>Étude de cas : <em>Apple contre Samsung</em></h2></div>
+    <p class="module-lead">Deux géants de la tech, deux façons de communiquer. L'un raconte une vision, l'autre parle d'un produit. La comparaison éclaire directement ton projet d'artiste.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Critère</th><th>Apple</th><th>Samsung</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Storytelling</strong></td><td>Partage la vision du fondateur : simple, élégant, « cool ». Chaque lancement est un événement émotionnel</td><td>Parle de caractéristiques : processeur, batterie, pixels. Détaillé mais peu mémorable</td></tr>
+        <tr><td><strong>Image de marque</strong></td><td>Icône culturelle, logo simple, univers visuel ultra cohérent et minimaliste</td><td>Fabricant technologique, ligne graphique discontinue, facile à copier</td></tr>
+        <tr><td><strong>Relation client</strong></td><td>Une tribu : sentiment d'appartenance fort, les clients deviennent ambassadeurs</td><td>Un rapport qualité prix : « ça fait ce que ça doit faire »</td></tr>
+        <tr><td><strong>Innovation</strong></td><td>Lente mais marquante (iPod, iPhone, AirPods)</td><td>Rapide mais perçue comme des gadgets</td></tr>
+        <tr><td><strong>Offre</strong></td><td>Peu de modèles, écosystème verrouillé, « soit tu suis, soit tu fuis »</td><td>Beaucoup de choix pour que chacun trouve son modèle</td></tr>
+      </tbody>
+    </table></div>
+    <div class="prose"><p>Transposé à la musique, cela donne cinq leçons :</p></div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Incarne une vision, pas un produit</h4><p>Ton image doit porter une mission, une cause, une émotion qui fait réagir ta cible. On peut t'aimer ou te détester, mais pas rester indifférent.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Crée de la cohérence</h4><p>Ton ADN doit être aligné avec tes visuels, ton ton de voix, ce que tu dis, la manière dont tu le dis et les sujets que tu traites.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Donne un sentiment d'appartenance</h4><p>Fais en sorte que tes fans aient l'impression d'appartenir à un clan, à une tribu.</p></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Simplifie ton message</h4><p>Inutile de tout expliquer : ce que tu proposes doit être assez clair pour qu'on le comprenne intuitivement et qu'on s'en souvienne.</p></div></div>
+      <div class="factor"><div class="factor-num">05</div><div><h4>Transforme chaque sortie en événement</h4><p>Single, clip, intervention publique, vidéo : chaque moment doit être pensé et inscrit dans une stratégie.</p><div class="factor-detail"><strong>Le parallèle de la salle de sport</strong>Publier tous les jours sans stratégie, c'est comme aller à la salle en touchant à tout : impossible de progresser. Avec un plan, on mesure, on repère les plafonds et on corrige.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="module" id="roles">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">03 / 11</span><h2>Les 5 rôles de <em>l'image</em></h2></div>
+    <p class="module-lead">Dans une époque de course au contenu, où des clips, des images et des titres sortent en masse chaque jour, miser uniquement sur la musique ne suffit plus.</p>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-letter">1</div><div class="eeat-name">Première accroche</div><h4>On te voit avant de t'écouter</h4><p>Un programmateur radio regarde d'abord ton email, puis la page sur laquelle il arrive. Ses yeux travaillent avant ses oreilles. Code visuel, esthétique, attitude : tu dois être reconnaissable.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">2</div><div class="eeat-name">Identification</div><h4>Le lien émotionnel</h4><p>Un public ne suit jamais un artiste uniquement pour sa musique. Il suit une personnalité, un parcours, des valeurs. Un titre qui décrit la vie d'un homme de 60 ans ne touchera pas une cible de 12 à 25 ans.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">3</div><div class="eeat-name">Cap stratégique</div><h4>Elle guide tous tes choix</h4><p>Pochettes, séances photo, clips, tenues, collaborations, histoire racontée : tout part de ton image. Sans elle, rien ne t'empêche de passer du costume au maillot de bain, et plus personne ne comprend.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">4</div><div class="eeat-name">Opportunités pro</div><h4>Elle augmente ta valeur perçue</h4><p>Radios, médias, marques, festivals et labels préfèrent travailler avec des artistes à l'univers clair et impactant. Une image forte te rend plus visible, plus crédible, et te permet de te vendre plus cher.</p></div>
+    </div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-letter">5</div><div class="eeat-name">Ce qui reste</div><h4>Même quand la musique s'arrête</h4><p>Entre deux albums ou après une carrière, c'est l'image qui fait que le public reste connecté. On continue d'écouter Michael Jordan ou Dr. Dre parce qu'ils incarnent quelque chose de plus grand qu'eux.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Image et personnage</div><h4>Amplifier, pas inventer</h4><p>Beaucoup d'artistes construisent un personnage médiatique plus marqué que leur personnalité réelle. Pour tenir dans le temps, ce personnage doit partir de tes valeurs : on amplifie certains traits, on n'invente pas une autre personne.</p><div class="eeat-music"><strong>Exemple cité</strong>Un influenceur formé au métier de comédien, qui a bâti un personnage exagéré mais cohérent et oriente toute sa stratégie à partir de lui.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="module" id="identite">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">04 / 11</span><h2>Construire ton <em>identité</em></h2></div>
+    <p class="module-lead">L'image d'un artiste, c'est son identité artistique et marketing : l'addition de ses <strong>valeurs</strong>, de ses <strong>influences</strong>, de son <strong>univers</strong> et de son <strong>positionnement</strong>. Ce travail d'introspection, personne ne peut le faire à ta place.</p>
+    <div class="evolution">
+      <div class="evo-col featured">
+        <div class="evo-acronym">Valeurs</div>
+        <div class="evo-full">Ce qui te définit</div>
+        <h4>Le tronc</h4>
+        <p>Ce qui guide tes décisions. Liste-les sans tricher, idéalement cinq. Un « défaut » assumé peut aussi être une valeur.</p>
+        <div class="evo-target"><strong>Exemple de Tarik</strong>La famille, le dépassement de soi, la liberté que procure l'argent.</div>
+      </div>
+      <div class="evo-col">
+        <div class="evo-acronym">Influences</div>
+        <div class="evo-full">Ce qui t'a construit</div>
+        <h4>Les racines</h4>
+        <p>Ta famille, ton parcours de vie, ta culture, ce que tu écoutais plus jeune.</p>
+        <div class="evo-target"><strong>Exemple de Tarik</strong>Un parcours qui l'a fait sortir de son quartier, une culture musicale blues.</div>
+      </div>
+      <div class="evo-col">
+        <div class="evo-acronym">Position</div>
+        <div class="evo-full">Tes combats</div>
+        <h4>Ce que tu défends</h4>
+        <p>Tes prises de position, ce contre quoi tu te bats, ce qui te distingue de la masse.</p>
+        <div class="evo-target"><strong>Exemple de Tarik</strong>Pro indépendant, anticonformiste, plus d'importance au fond qu'à la forme.</div>
+      </div>
+    </div>
+    <div class="audit-intro">
+      <h3>Les questions à te poser</h3>
+      <p>Qui suis-je, comment je fonctionne ? Quelles valeurs comptent vraiment pour moi, pas pour faire bien ? Qu'est-ce qui me pousse à faire de la musique ? À qui je veux parler, et pourquoi à eux ? Qu'est-ce que je veux leur transmettre ? Fais ensuite valider tes réponses par des proches qui te connaissent bien.</p>
+    </div>
+    <div class="prose">
+      <p><strong>La cohérence</strong> est le mot clé : ce que tu dis, ce que tu montres, ce que tu fais et ce que tu penses doivent aller dans le même sens. Si ta musique est hardcore et ton attitude timide, il y a un problème. Booba ou Marilyn Manson sont des exemples d'alignement total entre musique, visuels, attitude, thèmes et paroles : impossible de se tromper sur leur case.</p>
+    </div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Ne cherche pas à plaire à tout le monde</div>
+      <p>Vouloir être aimé de tous est le meilleur moyen de n'être aimé de personne. Une segmentation assumée crée des gens qui <strong>adorent</strong> ce que tu fais, et d'autres qui détestent. C'est ce qui rend une communication puissante.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="module" id="arbre">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">05 / 11</span><h2>L'exercice de <em>l'arbre de l'identité</em></h2></div>
+    <p class="module-lead">Un exercice simple, à faire sur une feuille, que Tarik considère comme fondamental. Le dessin n'a pas besoin d'être beau : il sert à relier qui tu es à ce que tu vas créer.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Les racines</span><h4>Liste tes influences</h4><p>Famille, parcours de vie, esthétique musicale, sport pratiqué, culture : tout ce qui a fait de toi ce que tu es.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Le tronc</span><h4>Liste tes valeurs</h4><p>Toutes celles qui comptent pour toi, sans chercher à bien paraître.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Les branches</span><h4>Traduis-les en choses concrètes</h4><p>Chaque branche relie une racine et une valeur à une réalisation : une esthétique visuelle ou sonore, une idée de contenu, un visuel, une prise de position.</p></div></div>
+    </div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Exemple de branche</div><h4>Fond plutôt que forme + blues</h4><p>Des vidéos simples, centrées sur le propos, avec du blues en fond musical.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Exemple de branche</div><h4>Famille (racine et valeur)</h4><p>Une vidéo « Pourquoi j'ai mis fin à ma carrière musicale le jour où mon fils est né » : elle ne touchera pas tout le monde, mais elle crée un lien fort avec ceux qui partagent cette valeur.</p></div>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ Le déclic</div>
+      <p>Plus tu fais l'exercice, plus les branches apparaissent. Ton image se construit presque seule, puis tu finis par <strong>l'incarner</strong>. Et quand tu incarnes ton image, tout devient plus simple et plus cohérent.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="module" id="archetypes">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">06 / 11</span><h2>Piliers et <em>archétypes</em> du storytelling</h2></div>
+    <p class="module-lead">Une fois ton image posée, il faut savoir la raconter. Un bon storytelling repose sur trois piliers et s'appuie sur des personnages que tout le monde reconnaît.</p>
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-letter">1</div><div class="eeat-name">Sincérité</div><h4>Ne mens pas</h4><p>Le public le voit tout de suite. Et s'il le découvre plus tard, c'est pire.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">2</div><div class="eeat-name">Structure</div><h4>Un mode opératoire</h4><p>Des événements qui s'enchaînent dans un ordre précis.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">3</div><div class="eeat-name">Émotion</div><h4>Ce qui accroche</h4><p>C'est l'émotion qui fait qu'une histoire reste en tête.</p></div>
+    </div>
+    <div class="prose"><p>Les <strong>archétypes</strong> résonnent avec l'imaginaire collectif : on a tous grandi avec eux, à travers les textes, les fables et les films. Repère ceux qui existent réellement dans ton parcours.</p></div>
+    <div class="data-table"><table>
+      <thead><tr><th>Archétype</th><th>Ce qu'il apporte</th><th>Exemples cités</th><th>Usage</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Le héros malgré lui</strong></td><td>Il subit les événements avant de s'élever. Sa vulnérabilité attire le soutien du public</td><td>Orelsan, Simba</td><td><span class="badge yes">Recommandé</span></td></tr>
+        <tr><td><strong>Le petit génie</strong></td><td>Un talent naturel. Plus dur de s'attacher à lui : il faut lui ajouter humilité ou lutte</td><td>Mozart, Michael Jackson, Usain Bolt</td><td><span class="badge no">Avec précaution</span></td></tr>
+        <tr><td><strong>Le mentor</strong></td><td>La figure qui te fait passer un cap, parfois un père de substitution</td><td>Jay-Z pour Rihanna et Kanye West</td><td><span class="badge yes">Recommandé</span></td></tr>
+        <tr><td><strong>Le bouffon</strong></td><td>Humour, rythme et proximité</td><td>Les séries humoristiques, les duos complices</td><td><span class="badge mid">Plus rare en musique</span></td></tr>
+        <tr><td><strong>Le vrai méchant</strong></td><td>Un adversaire ou une idéologie à combattre, que ton public partage avec toi</td><td>Keny Arkana (antisystème), Roger Waters</td><td><span class="badge yes">Recommandé</span></td></tr>
+        <tr><td><strong>Le cercle des pros</strong></td><td>Une équipe valorisée qui donne envie d'en faire partie</td><td>Les Avengers, Sexion d'Assaut</td><td><span class="badge yes">Recommandé</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <div class="callout-tag">★ L'exemple de Tarik</div>
+      <p>Il retrouve trois archétypes sur six dans son histoire : le <strong>héros malgré lui</strong> (il s'est mis au beatmaking pour dépanner un ami rappeur), le <strong>mentor</strong> (un producteur légendaire qui l'a pris sous son aile) et le <strong>vrai méchant</strong> (le système des maisons de disques et les escrocs de l'industrie). Trois sur six, c'est déjà très bien.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="module" id="ingredients">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">07 / 11</span><h2>Les 11 ingrédients qui <em>font vibrer</em> une histoire</h2></div>
+    <p class="module-lead">Quelle que soit ta sensibilité, il existe un ingrédient qui te ressemble, et un artiste l'a déjà utilisé avec succès. Liste ceux que tu peux utiliser honnêtement.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Ingrédient</th><th>Effet recherché</th><th>Exemples cités</th></tr></thead>
+      <tbody>
+        <tr><td><strong>L'humour</strong></td><td>Légèreté et capital sympathie, le meilleur moyen de créer de l'empathie</td><td>Eminem, Freddie Mercury</td></tr>
+        <tr><td><strong>L'espoir</strong></td><td>Donner une raison d'y croire, une lumière au bout du tunnel</td><td>Coldplay</td></tr>
+        <tr><td><strong>Le mystère</strong></td><td>Éveiller la curiosité, créer une légende</td><td>Daft Punk, PNL</td></tr>
+        <tr><td><strong>Le désir</strong></td><td>Jouer sur l'attirance, de façon suggérée ou explicite</td><td>Serge Gainsbourg</td></tr>
+        <tr><td><strong>L'humiliation</strong></td><td>Se confier sur ses échecs : très puissant pour créer une connexion, à condition d'être vrai</td><td>Le clip « Formidable » de Stromae</td></tr>
+        <tr><td><strong>La transformation</strong></td><td>Montrer l'avant et l'après, visuellement ou dans le récit</td><td>Lady Gaga, Céline Dion</td></tr>
+        <tr><td><strong>La mission</strong></td><td>Se battre pour une cause qui en vaut la peine</td><td>Manu Chao, Keny Arkana</td></tr>
+        <tr><td><strong>Le secret des dieux</strong></td><td>Donner l'impression d'accéder à un savoir réservé. Très dur à maîtriser</td><td>Les informations obtenues auprès des plateformes</td></tr>
+        <tr><td><strong>La crédibilité</strong></td><td>Rendre l'histoire authentique, souvent en atténuant les faits trop incroyables</td><td>Ben Mazué</td></tr>
+        <tr><td><strong>La conclusion ouverte</strong></td><td>Laisser le public tirer ses propres conclusions</td><td>Radiohead</td></tr>
+        <tr><td><strong>Le statut social</strong></td><td>Des hauts et des bas, une chute puis une remontée. L'un des plus efficaces dans la musique</td><td>Orelsan, Rocky</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <div class="callout-tag">★ Astuce crédibilité</div>
+      <p>Une histoire vraie peut sembler incroyable. Tarik raconte avoir parlé au téléphone avec Quincy Jones sans savoir qui il était : racontée telle quelle, personne ne le croit. La version « j'avais besoin de ses droits, j'ai appelé son bureau et je suis tombé sur lui » passe beaucoup mieux. <strong>Crédible vaut mieux que spectaculaire.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="module" id="structure">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">08 / 11</span><h2>La structure d'un <em>récit captivant</em></h2></div>
+    <p class="module-lead">Les grandes histoires suivent la même trame. Reprends ton parcours et place chaque événement réel dans la bonne étape.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Situation initiale</span><h4>Une vie normale</h4><p>Tu es monsieur ou madame tout le monde, dans un contexte ordinaire.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Événement déclencheur</span><h4>Le déclic</h4><p>Une rencontre, un accident, un déclic qui t'oblige à réagir, souvent malgré toi.</p></div></div>
+      <div class="rag-step alt"><div class="rag-step-circle">3</div><div><span class="step-tag">Obstacles</span><h4>Les galères et les échecs</h4><p>Concerts ratés, refus, déceptions : des étapes où tu ne triomphes pas.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">4</div><div><span class="step-tag">Le mentor</span><h4>La rencontre qui fait progresser</h4><p>Au fond du trou, une figure d'autorité te pousse à évoluer.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">5</div><div><span class="step-tag">Préparation et bataille</span><h4>Les efforts et les risques</h4><p>L'entraînement intense, puis les combats à livrer.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">6</div><div><span class="step-tag">Face-à-face final</span><h4>Le moment de vérité</h4><p>Ça passe ou ça casse.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">7</div><div><span class="step-tag">Dénouement</span><h4>La réussite et le message</h4><p>Le succès, puis la phrase qui résume ce que tu veux dire au monde.</p></div></div>
+    </div>
+    <div class="audit-intro">
+      <h3>Le récit de Tarik, étape par étape</h3>
+      <p>Lycéen dans une ville difficile, il fait du breakdance. Un ami du groupe se lance dans le rap, il le suit mais n'est pas bon. Un ingénieur du son lui offre un logiciel de MAO et l'initie au beatmaking : il compose des heures par jour. Il fait un disque d'or sans être crédité. Il rencontre un producteur légendaire qui le forme au métier. Il monte son label. Moment de vérité : tous les labels refusent le titre « Doucement ». Il le promeut en indépendant sur internet, le titre explose et devient un tube de l'été 2015.</p>
+    </div>
+    <div class="prose"><p>Pour aller plus loin, glisse dans ton histoire un des grands <strong>motifs narratifs</strong> qui fonctionnent depuis des siècles :</p></div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Le péché originel</div><h4>Du côté sombre au bon côté</h4><p>Un départ trouble qui se transforme en quelque chose de positif. Ça intrigue et ça humanise.</p></div>
+      <div class="eeat-card"><div class="eeat-name">La crise dramatique</div><h4>Toucher le fond</h4><p>Plus les enjeux sont concrets, plus l'empathie est forte (par exemple : avoir donné tout son matériel pour arrêter la musique).</p></div>
+      <div class="eeat-card"><div class="eeat-name">Le voyage initiatique</div><h4>Du point A au point B</h4><p>Raconter comment un départ, une expatriation ou une expérience t'ont transformé.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Le retour au village</div><h4>Revenir là où tout a commencé</h4><p>Rendre à son quartier ou à sa ville ce qu'on a construit ailleurs.</p></div>
+    </div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ La bio que personne ne lit</div>
+      <p>« Il est né là, il a grandi là, il a découvert la musique, il a appris la guitare… » : ce format n'intéresse personne. Une situation initiale, un déclencheur, des échecs, un mentor, une bataille et une victoire, là ça devient captivant.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="module" id="erreurs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">09 / 11</span><h2>Les 5 erreurs <em>à éviter</em></h2></div>
+    <p class="module-lead">Celles qui brouillent ton image et rendent ton histoire oubliable.</p>
+    <div class="factors">
+      <div class="factor err"><div class="factor-num">01</div><div><h4>Tout miser sur la musique</h4><p>Sans image ni lien émotionnel, tu es une boîte de céréales parmi des centaines dans le rayon : on passe devant sans s'arrêter.</p></div></div>
+      <div class="factor err"><div class="factor-num">02</div><div><h4>Partir dans toutes les directions</h4><p>Plusieurs styles, des visuels sans lien, des posts au hasard : ni le public ni l'algorithme ne comprennent qui tu es.</p></div></div>
+      <div class="factor err"><div class="factor-num">03</div><div><h4>Viser un public incohérent avec ton propos</h4><p>Ce que tu racontes doit parler à la cible que tu vises, sinon personne ne s'identifie.</p></div></div>
+      <div class="factor err"><div class="factor-num">04</div><div><h4>Inventer une histoire</h4><p>Romancer, oui. Mentir, non : le public finit toujours par le découvrir, et l'humiliation ou la transformation ne s'inventent pas.</p></div></div>
+      <div class="factor err"><div class="factor-num">05</div><div><h4>Publier sans stratégie</h4><p>Des mois de posts quotidiens sans plan ni analyse ne produisent rien. Si tes contenus plafonnent, demande-toi ce qui bloque.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="module" id="checklist">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">10 / 11</span><h2>Livrable : ta <em>checklist</em></h2></div>
+    <div class="audit-intro">
+      <h3>Clique sur les cases au fur et à mesure</h3>
+      <p>Ce travail prépare l'exercice « Production et diffusion d'un contenu de campagne » du Module 7 : ton image et ton récit sont la base de tout contenu de campagne. Progression : <span class="score" id="score">0 / 7</span></p>
+    </div>
+    <div class="audit-prompts" id="checklist-list">
+      <div class="prompt-row"><div class="prompt-num">C01</div><div><div class="prompt-text">J'ai listé mes 5 valeurs fondamentales, sans tricher</div></div><button type="button" class="audit-check" id="c1">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C02</div><div><div class="prompt-text">J'ai listé mes influences (parcours, culture, musiques qui m'ont construit)</div></div><button type="button" class="audit-check" id="c2">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C03</div><div><div class="prompt-text">J'ai formulé mon positionnement et au moins un combat que je défends</div></div><button type="button" class="audit-check" id="c3">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C04</div><div><div class="prompt-text">J'ai dessiné mon arbre de l'identité avec au moins 3 branches concrètes</div></div><button type="button" class="audit-check" id="c4">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C05</div><div><div class="prompt-text">J'ai identifié les archétypes réellement présents dans mon parcours</div></div><button type="button" class="audit-check" id="c5">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C06</div><div><div class="prompt-text">J'ai choisi les ingrédients narratifs que je peux utiliser honnêtement</div></div><button type="button" class="audit-check" id="c6">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C07</div><div><div class="prompt-text">J'ai réécrit ma biographie en suivant la structure du récit en 7 étapes</div></div><button type="button" class="audit-check" id="c7">⬚ Fait</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="module" id="faq">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">11 / 11</span><h2>Questions <em>fréquentes</em></h2></div>
+    <div class="faq">
+      <details><summary>Je fais plusieurs styles de musique. Dois-je en abandonner ?</summary><div class="ans">Pas forcément, mais ton image doit rester lisible. Commence par t'installer dans une case claire, comme Orelsan ou Soprano l'ont fait dans le rap, puis fais évoluer ton image progressivement. Changer d'image n'oblige pas à changer de style.</div></details>
+      <details><summary>Construire un personnage, n'est-ce pas mentir ?</summary><div class="ans">Non, tant que le personnage part de tes vraies valeurs et de ton vrai parcours. On amplifie certains traits, on choisit ce qu'on raconte et ce qu'on garde pour soi. Ce qui est interdit, c'est d'inventer des faits : le public finit toujours par le découvrir.</div></details>
+      <details><summary>Et si je ne trouve aucun archétype dans mon histoire ?</summary><div class="ans">Reprends ton parcours avec des proches : les archétypes apparaissent souvent dans des détails qu'on juge anodins (quelqu'un qui t'a lancé, une personne qui t'a formé, un obstacle à combattre). Tarik n'en a trouvé que trois sur six, et c'est suffisant.</div></details>
+      <details><summary>Faut-il raconter toute mon histoire dès la première rencontre ?</summary><div class="ans">Non. Certains éléments se partagent avec ton audience au fil du temps, quand tu vas plus en profondeur. Ton histoire n'est pas figée : tu ajoutes, retires et réorganises des éléments jusqu'à obtenir un récit qui accroche.</div></details>
+      <details><summary>Est-ce grave de déplaire à une partie du public ?</summary><div class="ans">Non, c'est même souhaitable. Une image polarisante crée des fans qui adorent ce que tu fais. Vouloir plaire à tout le monde produit un public tiède qui ne s'engage pas.</div></details>
+      <details><summary>Qui peut m'aider à faire l'arbre de l'identité ?</summary><div class="ans">Une ou deux personnes qui te connaissent bien. Elles repèrent ce que tu ne vois pas et valident que ce que tu écris te ressemble vraiment.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="recap">
+  <div class="container-narrow">
+    <div class="section-label" style="color:var(--accent-line)">Synthèse</div>
+    <h3>Ce que tu dois retenir de ce cours</h3>
+    <ol class="recap-list">
+      <li>L'image, c'est <strong>la façon dont on te perçoit</strong> : elle doit être cohérente pour que tu sois facile à identifier.</li>
+      <li>On te voit avant de t'écouter : l'image est ta <strong>première accroche</strong> et elle guide toute ta stratégie.</li>
+      <li>Ton identité se construit à partir de tes <strong>valeurs, tes influences et ton positionnement</strong>, reliés grâce à l'arbre de l'identité.</li>
+      <li>Un bon storytelling repose sur <strong>sincérité, structure et émotion</strong>.</li>
+      <li>Archétypes et ingrédients narratifs rendent ton histoire mémorable, à condition de rester <strong>vrai et crédible</strong>.</li>
+      <li>Structure ton récit : situation initiale, déclencheur, obstacles, mentor, bataille, <strong>moment de vérité</strong>, dénouement.</li>
+    </ol>
+  </div>
+</section>
+
+<div class="container-narrow">
+  <div class="next-cta">
+    <h3>Prêt pour la <em>vidéo suivante</em> ?</h3>
+    <p>Développer des stratégies de promotion pour chaque canal médiatique.</p>
+    <span class="btn btn-primary">Continuer vers les canaux médiatiques →</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="src">Support pédagogique de la formation « Structurer et développer une activité artistique musicale » (certification RS7398), Module 7 : Campagnes de promotion inclusives, éco-responsables et optimisées. Contenu issu de la vidéo de Tarik Hamiche ; les exemples d'artistes illustrent les notions abordées et reflètent l'analyse du formateur.</p>
+    © 2026 Tarik Hamiche · Muziforma
+  </div>
+</footer>
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var btns=[].slice.call(document.querySelectorAll('#checklist-list .audit-check'));
+  var score=document.getElementById('score');var KEY='mz-rs7398-m7-01-image-storytelling';var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function paint(b){var on=!!saved[b.id];b.classList.toggle('checked',on);b.textContent=(on?'✓':'⬚')+' Fait';b.setAttribute('aria-pressed',on?'true':'false');}
+  function upd(){score.textContent=btns.filter(function(b){return saved[b.id]}).length+' / '+btns.length;}
+  btns.forEach(function(b){paint(b);b.addEventListener('click',function(){saved[b.id]=!saved[b.id];try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}paint(b);upd();});});
+  upd();
+})();
+</script>
+</body>
+</html>

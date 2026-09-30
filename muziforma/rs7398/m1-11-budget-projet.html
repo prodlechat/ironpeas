@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Élaborer un budget de projet · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Charte Muziforma : fond sable, violet #5B14FF, Manrope + Inter + JetBrains Mono. */
+:root{--bg:#F7F1E8;--bg-soft:#FCF8F2;--bg-card:#FFFFFF;--ink:#1F1A15;--ink-soft:#5C4F42;--ink-muted:#8A7A6A;--accent:#5B14FF;--accent-dark:#4910CC;--accent-soft:#EDE9FE;--accent-line:#A78BFA;--border:#E8DDC9;--border-soft:#F0E6D4;--warning:#C2410C;--warning-soft:#FFEDD5;--success:#15803D;--success-soft:#DCFCE7;--on-accent:#FFFFFF;--recap-text:rgba(247,241,232,.85);--shadow-sm:0 1px 2px rgba(31,26,21,.04);--shadow-md:0 4px 16px rgba(31,26,21,.06);--radius-sm:8px;--radius-md:14px;--radius-lg:24px;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Manrope,-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700}
+h4{font-size:1.15rem;font-weight:700;line-height:1.3}
+p{margin-bottom:1.1rem;color:var(--ink-soft)}
+strong{color:var(--ink);font-weight:700}
+em{font-style:normal;color:var(--accent);font-weight:800}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.container-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-line));z-index:9999}
+header.top-nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(247,241,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand-mark{font-family:Manrope,sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--ink)}
+.brand-mark em{color:var(--accent)}
+.nav-meta{display:flex;gap:1rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted)}
+.nav-meta span:not(:last-child)::after{content:"·";margin-left:1rem;color:var(--border)}
+@media (max-width:600px){.nav-meta{display:none}}
+.hero{padding:5rem 0 4rem;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;max-width:none;background:radial-gradient(circle,rgba(167,139,250,.22) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(91,20,255,.14) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1.8rem;box-shadow:var(--shadow-sm)}
+.hero h1{margin-bottom:1.5rem}
+.hero-lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:720px;margin:0 auto 1.5rem;line-height:1.55}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.hero-chips span{font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:.35rem .9rem}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:880px;margin:3rem auto 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-num{font-family:Manrope,sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em;margin-bottom:.5rem}
+.stat-label{font-size:.82rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.hero-stats{grid-template-columns:1fr}}
+.section-label{display:inline-block;font-family:Inter,sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:1.5rem}
+.toc-section{padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);text-align:center}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:800px;margin:1rem auto 0}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left;color:var(--ink);transition:.15s}
+.toc-item:hover{border-color:var(--accent);transform:translateX(2px);box-shadow:var(--shadow-sm);color:var(--ink)}
+.toc-num{font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);flex-shrink:0;width:36px}
+.toc-title{font-weight:600;font-size:.95rem;line-height:1.3}
+@media (max-width:600px){.toc-grid{grid-template-columns:1fr}}
+main>section.module{padding:6rem 0;position:relative;overflow:hidden}
+main>section.module:nth-of-type(odd){background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+section.module::before{content:"";position:absolute;top:10%;right:-180px;width:480px;height:480px;background:radial-gradient(circle,rgba(167,139,250,.16) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
+section.module>.container,section.module>.container-narrow{position:relative;z-index:1}
+.module-header{margin-bottom:2.5rem}
+.module-num{font-family:Manrope,sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.6rem;display:block}
+.module-lead{font-size:1.15rem;color:var(--ink-soft);margin:1.5rem 0 2.5rem;line-height:1.55;max-width:720px}
+.prose p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.3rem}
+.callout{background:var(--bg-card);border-left:4px solid var(--accent);border-radius:var(--radius-md);padding:1.6rem 1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm);text-align:left}
+.callout.warning{border-left-color:var(--warning);background:linear-gradient(135deg,var(--warning-soft) 0%,var(--bg-card) 60%)}
+.callout.success{border-left-color:var(--success);background:linear-gradient(135deg,var(--success-soft) 0%,var(--bg-card) 60%)}
+.callout-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.6rem}
+.callout.warning .callout-tag{color:var(--warning)}
+.callout.success .callout-tag{color:var(--success)}
+.callout p{margin:0;color:var(--ink);line-height:1.55}
+.callout ul{margin:.2rem 0 0 1.2rem;color:var(--ink);line-height:1.6}
+/* 3 casquettes : reprend .evolution */
+.evolution{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2rem 0}
+.evo-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;text-align:center;box-shadow:var(--shadow-sm)}
+.evo-col.featured{border:2px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg-card) 50%);transform:scale(1.02);box-shadow:var(--shadow-md)}
+.evo-acronym{font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;letter-spacing:-.04em;margin-bottom:.4rem}
+.evo-col:not(.featured) .evo-acronym{color:var(--ink-muted)}
+.evo-full{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:1rem;font-weight:600}
+.evo-col h4{margin-bottom:.6rem}
+.evo-col p{font-size:.92rem;line-height:1.55;text-align:left}
+.evo-target{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--border);text-align:left;font-size:.85rem;line-height:1.45;color:var(--ink)}
+.evo-target strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem;font-weight:800}
+@media (max-width:800px){.evolution{grid-template-columns:1fr}.evo-col.featured{transform:none}}
+/* circuit : reprend .rag-flow */
+.rag-flow{margin:2.5rem 0;display:flex;flex-direction:column;gap:1.5rem}
+.rag-step{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.rag-step:hover{border-color:var(--accent-line)}
+.rag-step-circle{flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.6rem;box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+.rag-step.alt .rag-step-circle{background:var(--warning);box-shadow:rgba(194,65,12,.3) 0 6px 20px}
+.rag-step>div:last-child{flex:1 1 0%;min-width:0}
+.step-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);margin-bottom:.4rem}
+.rag-step h4{margin-bottom:.6rem}
+.rag-step p{margin:0;line-height:1.55}
+/* tableaux dans la charte */
+.data-table{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);margin:2rem 0}
+.data-table table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+.data-table th{text-align:left;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding:1rem 1.1rem;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.data-table td{padding:.9rem 1.1rem;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table td strong{color:var(--ink)}
+.data-table .n{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--accent-dark);white-space:nowrap}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .6rem;border-radius:6px;white-space:nowrap}
+.badge.yes{background:var(--success-soft);color:var(--success)}
+.badge.no{background:var(--warning-soft);color:var(--warning)}
+.badge.mid{background:var(--accent-soft);color:var(--accent-dark)}
+/* barre de répartition */
+.split{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);margin:2rem 0}
+.split h4{margin-bottom:1.2rem}
+.split-bar{display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden}
+.split-bar div{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:500;color:var(--on-accent);white-space:nowrap;overflow:hidden}
+.split-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem 1rem;margin-top:1.2rem;font-size:.88rem;color:var(--ink-soft)}
+.split-legend span{display:flex;align-items:center;gap:.5rem}
+.split-legend i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.split-legend b{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--ink);margin-left:auto}
+.split-note{font-size:.82rem;color:var(--ink-muted);margin:1rem 0 0;line-height:1.5}
+/* cartes : reprend .motors / .eeat */
+.motors,.eeat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:2rem 0}
+.motor-card,.eeat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-sm);min-width:0}
+.eeat-card{transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.eeat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motor-name{font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;color:var(--ink);letter-spacing:-.02em;margin-bottom:.3rem}
+.motor-by{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.motor-spec{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border-soft);font-size:.9rem;line-height:1.45}
+.motor-spec:last-child{border-bottom:0}
+.motor-spec-label{flex-shrink:0;width:78px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding-top:.2rem}
+.motor-spec-value{flex:1 1 0%;color:var(--ink-soft)}
+.eeat-letter{width:52px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1rem}
+.eeat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem}
+.eeat-card h4{margin-bottom:.8rem}
+.eeat-card>p{font-size:.95rem;line-height:1.55;margin-bottom:1.2rem}
+.eeat-music{background:var(--accent-soft);border-radius:var(--radius-sm);padding:1rem;font-size:.9rem;line-height:1.5;color:var(--ink);margin-top:auto}
+.eeat-music strong{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.eeat-music .out{color:var(--warning)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:740px){.eeat-grid,.motors,.grid3{grid-template-columns:1fr}}
+/* étapes : reprend .factors */
+.factors{display:flex;flex-direction:column;gap:1.2rem;margin:2rem 0}
+.factor{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.factor:hover{border-color:var(--accent-line)}
+.factor-num{flex-shrink:0;font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;width:50px;letter-spacing:-.03em}
+.factor.err .factor-num{color:var(--warning)}
+.factor>div:last-child{flex:1 1 0%;min-width:0}
+.factor h4{margin-bottom:.6rem}
+.factor p{font-size:.95rem;line-height:1.55;margin-bottom:1rem}
+.factor p:last-child{margin-bottom:0}
+.factor-detail{background:var(--accent-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.88rem;line-height:1.5;color:var(--ink)}
+.factor-detail strong{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.factor.err .factor-detail{background:var(--warning-soft)}
+.factor.err .factor-detail strong{color:var(--warning)}
+/* checklist : reprend .audit */
+.audit-intro{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm)}
+.audit-intro h3{margin-bottom:.8rem}
+.audit-intro p{margin:0;line-height:1.6}
+.audit-prompts{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.prompt-row{display:flex;gap:1.2rem;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.prompt-num{flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--accent);width:36px}
+.prompt-row>div:not(.prompt-num){flex:1 1 0%;min-width:0}
+.prompt-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.audit-check{flex-shrink:0;padding:.5rem .9rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s;font-family:Inter,sans-serif}
+.audit-check:hover{border-color:var(--accent-line)}
+.audit-check.checked{background:var(--success);color:var(--on-accent);border-color:var(--success);font-weight:600}
+.score{font-family:"JetBrains Mono",monospace;color:var(--success);font-weight:500}
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.faq details{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:border-color .2s}
+.faq details:hover,.faq details[open]{border-color:var(--accent-line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.5rem;font-family:Manrope,sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.faq details[open] summary::after{content:"−";background:var(--accent);color:var(--on-accent)}
+.faq .ans{padding:0 1.5rem 1.4rem;color:var(--ink-soft);font-size:.97rem;line-height:1.65}
+/* synthèse */
+.recap{background:var(--ink);color:var(--recap-text);padding:4rem 0;position:relative;overflow:hidden}
+.recap::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(91,20,255,.25) 0%,transparent 60%);border-radius:50%;pointer-events:none}
+.recap>.container-narrow{position:relative;z-index:1}
+.recap h3{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg-card);margin-bottom:1.5rem}
+.recap-list{list-style:none;counter-reset:item;display:flex;flex-direction:column;gap:1rem}
+.recap-list li{counter-increment:item;padding-left:3rem;position:relative;line-height:1.55;color:var(--recap-text)}
+.recap-list li::before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:Manrope,sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-line)}
+.recap-list li strong{color:var(--bg-card)}
+.next-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin:4rem auto;max-width:760px;text-align:center;box-shadow:var(--shadow-md)}
+.next-cta h3{margin-bottom:1rem}
+.next-cta p{margin-bottom:1.5rem;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.1rem 2.2rem;font-family:Manrope,sans-serif;font-size:1rem;font-weight:800;border-radius:999px;border:0;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+footer.site-footer{background:var(--ink);color:rgba(247,241,232,.55);padding:2.5rem 0;text-align:center;font-size:.85rem;border-top:1px solid rgba(247,241,232,.08);line-height:1.7}
+footer.site-footer .src{max-width:760px;margin:0 auto 1rem;font-size:.8rem;color:rgba(247,241,232,.45)}
+@media (max-width:860px){main>section.module{padding:4rem 0}.toc-section{padding:3rem 0}.module-header{margin-bottom:1.8rem}.module-lead{font-size:1.05rem;margin:1rem 0 1.8rem}.rag-step,.factor{padding:1.4rem;gap:1rem}.rag-step-circle{width:48px;height:48px;font-size:1.3rem}.factor-num{font-size:1.6rem;width:40px}.next-cta{padding:1.8rem 1.4rem}.recap-list li{padding-left:2.4rem}section.module::before{width:320px;height:320px}}
+@media (max-width:480px){.hero{padding:3rem 0 2.5rem}.hero h1{font-size:2rem}.rag-step,.factor{flex-direction:column;gap:.8rem}.prompt-row{flex-wrap:wrap}}
+html,body{width:100% !important;max-width:100% !important;overflow-x:hidden}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress-bar"></div>
+<header class="top-nav">
+  <div class="nav-inner">
+    <span class="brand-mark">MUZI<em>FORMA</em></span>
+    <div class="nav-meta"><span>Module 01 / 08</span><span>Muziforma</span></div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Module 01 · Piloter financièrement</span>
+    <h1>Élaborer un <em>budget</em> de projet.</h1>
+    <p class="hero-lead">Un single, un EP, un album ou le développement complet d'un artiste : avant de poser la première pierre, liste tout ce que ton projet va coûter. Avec un template prêt à l'emploi, poste par poste, de la maquette jusqu'au merch.</p>
+    <div class="hero-chips"><span>Durée : 26 min</span><span>Formateur : Tarik Hamiche</span></div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">Grands pôles de dépenses dans le budget</div></div>
+      <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Phases de production : pré-production, fixation, post-production</div></div>
+      <div class="stat-card"><div class="stat-num">10 %</div><div class="stat-label">La certitude maximale qu'on peut avoir sur des recettes prévisionnelles</div></div>
+      <div class="stat-card"><div class="stat-num">8 × 500 €</div><div class="stat-label">L'exemple du calcul automatique : 8 jours de studio</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc-section">
+  <div class="container-narrow">
+    <div class="callout">
+      <div class="callout-tag">★ Objectifs pédagogiques</div>
+      <ul>
+        <li>Structurer le budget d'un projet musical en grands pôles de dépenses</li>
+        <li>N'oublier aucun poste, de la maquette à la distribution</li>
+        <li>Utiliser et adapter un template de budget dans une base de données</li>
+        <li>Comprendre pourquoi un budget de production est avant tout un budget d'investissement</li>
+      </ul>
+    </div>
+    <div class="section-label">Plan du cours</div>
+    <div class="toc-grid">
+      <a href="#pourquoi" class="toc-item"><span class="toc-num">01</span><span class="toc-title">Pourquoi budgéter avant de produire</span></a>
+      <a href="#outil" class="toc-item"><span class="toc-num">02</span><span class="toc-title">Le template et son fonctionnement</span></a>
+      <a href="#preprod" class="toc-item"><span class="toc-num">03</span><span class="toc-title">La pré-production</span></a>
+      <a href="#fixation" class="toc-item"><span class="toc-num">04</span><span class="toc-title">La fixation</span></a>
+      <a href="#postprod" class="toc-item"><span class="toc-num">05</span><span class="toc-title">La post-production</span></a>
+      <a href="#admin" class="toc-item"><span class="toc-num">06</span><span class="toc-title">Frais administratifs et techniques</span></a>
+      <a href="#promo" class="toc-item"><span class="toc-num">07</span><span class="toc-title">Promotion et marketing</span></a>
+      <a href="#autres" class="toc-item"><span class="toc-num">08</span><span class="toc-title">Les autres dépenses</span></a>
+      <a href="#erreurs" class="toc-item"><span class="toc-num">09</span><span class="toc-title">Les 5 erreurs à éviter</span></a>
+      <a href="#checklist" class="toc-item"><span class="toc-num">10</span><span class="toc-title">Livrable : ta checklist</span></a>
+      <a href="#faq" class="toc-item"><span class="toc-num">11</span><span class="toc-title">FAQ</span></a>
+    </div>
+    <div class="data-table" style="margin-top:2.5rem;text-align:left"><table>
+      <thead><tr><th style="width:90px">Repère</th><th>Chapitre de la vidéo</th></tr></thead>
+      <tbody>
+        <tr><td class="n">00:00</td><td>Présentation du template de budget</td></tr>
+        <tr><td class="n">03:33</td><td>Les dépenses de préproduction</td></tr>
+        <tr><td class="n">06:02</td><td>Les dépenses de fixation</td></tr>
+        <tr><td class="n">10:12</td><td>La post-production</td></tr>
+        <tr><td class="n">12:41</td><td>Frais administratifs et techniques</td></tr>
+        <tr><td class="n">18:04</td><td>Dépenses de promotion et marketing</td></tr>
+        <tr><td class="n">22:22</td><td>Autres dépenses : pressage, merch, distribution</td></tr>
+        <tr><td class="n">23:55</td><td>Pourquoi ne pas budgéter de recettes</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="module" id="pourquoi">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">01 / 11</span><h2>Pourquoi budgéter <em>avant de produire</em></h2></div>
+    <p class="module-lead">Le budget te donne une vision globale de toutes les dépenses liées à ton projet, et te permet de savoir ce qu'il va coûter <strong>avant même d'avoir commencé</strong>.</p>
+    <div class="prose">
+      <p>Un budget ne démarre pas le jour où tu entres en studio. Il commence dès la maquette et se poursuit bien après le mastering : promotion, supports, distribution. Beaucoup de projets déraillent parce qu'une partie de ces postes n'a jamais été anticipée.</p>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Et les recettes ?</div>
+      <p>Tarik ne met volontairement pas de pôle « recettes » en face. Dans l'industrie musicale, on est incapable de prévoir avec plus de <strong>10 % de certitude</strong> combien de dates, de produits dérivés ou de droits un projet rapportera. Pour lui, un budget de production est avant tout un <strong>budget d'investissement</strong> dans ton projet.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="module" id="outil">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">02 / 11</span><h2>Le template et <em>son fonctionnement</em></h2></div>
+    <p class="module-lead">Le budget est construit dans Airtable, un gestionnaire de bases de données relationnelles gratuit pour cet usage : « comme Excel, en mille fois mieux ». Tu récupères le template via le lien sous la vidéo, après avoir créé ton compte.</p>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-letter">1</div><div class="eeat-name">Vue générale</div><h4>Tous les postes d'un coup d'œil</h4><p>Le descriptif de chaque poste de dépense, classé par pôle et par sous-catégorie.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">2</div><div class="eeat-name">Vues par pôle</div><h4>Production, admin, promo, autres</h4><p>Chaque vue regroupe les lignes d'un pôle avec son total.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">3</div><div class="eeat-name">Toutes les dépenses</div><h4>La liste complète</h4><p>Chaque ligne avec son type et sa catégorie.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">4</div><div class="eeat-name">Total global</div><h4>Le coût du projet</h4><p>Calculé automatiquement à partir de toutes les lignes.</p></div>
+    </div>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Intitulé</span><h4>Nomme la dépense</h4><p>Par exemple « Location de studio » ou « Assistant ingénieur du son ».</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Montant unitaire</span><h4>Indique le prix d'une unité</h4><p>Au format devise, en euros.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Unité</span><h4>Choisis l'unité de calcul</h4><p>Au kilomètre, à l'heure, au jour, à l'exemplaire, à la semaine, par personne, par morceau... Tu peux en ajouter autant que tu veux.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">4</div><div><span class="step-tag">Nombre</span><h4>Indique la quantité</h4><p>Le montant global se calcule seul : montant unitaire × nombre. Exemple : 500 € par jour de studio × 8 jours.</p></div></div>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ Un budget à ton image</div>
+      <p>Tarik a construit ce budget à partir de son expérience. Certaines lignes ne te serviront pas, d'autres manqueront : ajoute, supprime, crée tes propres catégories. Tout est relié, c'est tout l'intérêt d'une base relationnelle.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="module" id="preprod">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">03 / 11</span><h2>La <em>pré-production</em></h2></div>
+    <p class="module-lead">Si tu mets trois jours à créer un titre en studio, tu paies trois jours de studio pour une version qui ne sera même pas forcément exploitable. D'où l'importance de budgéter la maquette.</p>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>La production des maquettes</h4><p>En studio professionnel ou dans un studio plus abordable, suffisant pour une maquette.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Le matériel et les instruments virtuels</h4><p>Home studio (micro, carte son, enceintes), plugins et instruments virtuels.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Les auteurs et compositeurs</h4><p>Achat d'instrumentales, rémunération d'auteurs.</p></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Les déplacements de préparation</h4><p>Transport, hébergement, repas.</p></div></div>
+      <div class="factor"><div class="factor-num">05</div><div><h4>Les besoins administratifs et légaux</h4><p>Adhésions aux organismes de gestion collective, abonnement à un service de gestion administrative, montage d'un dossier de subvention.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="module" id="fixation">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">04 / 11</span><h2>La <em>fixation</em></h2></div>
+    <p class="module-lead">On entre vraiment dans la production : tout ce qui sert à enregistrer le projet dans sa forme finale.</p>
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-name">Studio</div><h4>Location et ingénieur du son</h4><p>Le cœur des dépenses de fixation.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Réalisation</div><h4>Réalisateur artistique</h4><p>Celui qui transforme ta maquette en son final, souvent appelé arrangeur par les artistes.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Voix</div><h4>Coach vocal</h4><p>Pendant les sessions, en amont ou en aval.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Interprètes</div><h4>Musiciens et choristes</h4><p>Cachets des intervenants sur l'enregistrement.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Ponctuel</div><h4>Matériel et spécialistes</h4><p>Un instrument rare loué une demi-journée, un accordeur, un traducteur pour vérifier une prononciation.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Logistique</div><h4>Transport et séjour</h4><p>Transport de matériel (un pianiste peut faire livrer un piano), hébergement, repas, déplacements.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="module" id="postprod">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">05 / 11</span><h2>La <em>post-production</em></h2></div>
+    <p class="module-lead">Tout ce qui se passe après l'enregistrement pour obtenir des titres prêts à sortir.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Poste</th><th>Ce que ça recouvre</th><th>Unité conseillée</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Édition des pistes et arrangements</strong></td><td>Obtenir la bonne structure instrumentale et vocale</td><td>Au forfait ou au jour</td></tr>
+        <tr><td><strong>Versions alternatives</strong></td><td>Radio edit de moins de trois minutes, club extended, versions censurées : on n'y pense pas assez</td><td>Par version</td></tr>
+        <tr><td><strong>Mixage</strong></td><td>Exemple de la vidéo : 150 € par morceau × 12 titres</td><td>Par morceau</td></tr>
+        <tr><td><strong>Mastering</strong></td><td>Exemple de la vidéo : 70 € par morceau</td><td>Par morceau ou par projet</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <div class="callout-tag">★ Pourquoi trois blocs de production</div>
+      <p>La pré-production prépare le travail de fixation, la fixation est une organisation à part entière, et la post-production finalise. Séparer les trois te permet de voir où part réellement ton argent.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="module" id="admin">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">06 / 11</span><h2>Frais administratifs <em>et techniques</em></h2></div>
+    <p class="module-lead">Tout ce qui gravite autour de la production une fois le projet terminé, et qu'on oublie souvent de chiffrer.</p>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Logiciels et abonnements</h4><p>Service d'accompagnement au dépôt des œuvres, outils d'IA pour créer des contenus ou structurer ton plan d'action.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Stockage et sauvegarde</h4><p>Disques durs, sauvegarde dans le cloud : Tarik en achète plusieurs par précaution.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Honoraires</h4><p>Avocat (contrat de licence ou de distribution à négocier), comptable (bulletins de salaire, déclarations des cachets), services administratifs (dépôt du nom d'artiste à l'INPI, dossiers de subvention), consulting.</p></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Frais avancés par le manager</h4><p>Un salon professionnel à l'étranger, par exemple : s'il les avance avec ton accord, il faudra les lui rembourser.</p></div></div>
+      <div class="factor"><div class="factor-num">05</div><div><h4>Frais de clearing</h4><p>Si tu as samplé ou repris des fragments d'œuvres existantes, il faut obtenir l'autorisation des ayants droit. Parfois gratuit, parfois payant : provisionne par morceau concerné.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="module" id="promo">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">07 / 11</span><h2>Promotion <em>et marketing</em></h2></div>
+    <p class="module-lead">Chaque action de visibilité a un coût à budgéter à l'avance, avant de t'investir dans le projet.</p>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Contenus</div><h4>Création de contenus</h4><p>Tournage, montage de formats courts, location de caméra et de lieux, maquillage, logiciels.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Réseaux</div><h4>Community management</h4><p>Forfait de community manager, outils d'automatisation, logiciels de montage.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Médias</div><h4>Attaché de presse</h4><p>Forfait, primes de résultat, participation à des opérations avec les médias.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Web marketing</div><h4>Campagnes publicitaires</h4><p>Meta, Google, Snapchat, TikTok, encarts, mises en avant sur les plateformes.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Lancement</div><h4>Release party</h4><p>Répétitions, cachets, salle, matériel, promotion de la soirée, déplacement des invités et des médias.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Supports</div><h4>Clip, photos, visuels</h4><p>Production du clip, séance photo, cover, matériel vidéo et lumière, costumes, maquillage, styliste, voyages.</p></div>
+    </div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Prévois une petite marge d'imprévus</div>
+      <p>Sans surbudgéter, garde une ligne pour les frais surprises, surtout à l'étranger : amende, fourrière, casse de matériel.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="module" id="autres">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">08 / 11</span><h2>Les <em>autres dépenses</em></h2></div>
+    <p class="module-lead">Le dernier pôle regroupe ce qui vient à côté des trois grands blocs.</p>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Pressage et packaging</h4><p>CD promo, vinyles, albums, cassettes.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Merchandising</h4><p>T-shirts, casquettes, clés USB, affiches, posters, cartes postales.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Expédition et stockage</h4><p>Un partenaire qui stocke et expédie à la commande facture l'entrepôt, la logistique, l'assurance. Des frais modestes, mais réels.</p></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Mise en ligne et distribution</h4><p>Un agrégateur si tu n'as pas de distributeur, et parfois des frais cachés de sortie chez un distributeur.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="module" id="erreurs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">09 / 11</span><h2>Les 5 erreurs <em>à éviter</em></h2></div>
+    <p class="module-lead">Celles qui font exploser un budget en cours de route.</p>
+    <div class="factors">
+      <div class="factor err"><div class="factor-num">01</div><div><h4>Commencer le budget à l'entrée en studio</h4><p>La maquette, le matériel et les déplacements de préparation passent à la trappe.</p></div></div>
+      <div class="factor err"><div class="factor-num">02</div><div><h4>Oublier les versions alternatives</h4><p>Radio edit, version club, version censurée : autant de mixages et de masterings en plus.</p></div></div>
+      <div class="factor err"><div class="factor-num">03</div><div><h4>Négliger le clearing des samples</h4><p>Un titre qui ne peut pas sortir faute d'autorisation, ou une facture imprévue.</p></div></div>
+      <div class="factor err"><div class="factor-num">04</div><div><h4>Sous-estimer la logistique</h4><p>Transport, hébergement et repas des équipes, stockage et expédition des supports physiques.</p></div></div>
+      <div class="factor err"><div class="factor-num">05</div><div><h4>Construire le budget sur des recettes imaginaires</h4><p>Des ventes ou des dates espérées ne financent rien : raisonne en investissement.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="module" id="checklist">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">10 / 11</span><h2>Livrable : ta <em>checklist</em></h2></div>
+    <div class="audit-intro">
+      <h3>Clique sur les cases au fur et à mesure</h3>
+      <p>Ce budget alimente le volet financier de l'exercice « Première analyse multicritères de son projet » du Module 1. Progression : <span class="score" id="score">0 / 7</span></p>
+    </div>
+    <div class="audit-prompts" id="checklist-list">
+      <div class="prompt-row"><div class="prompt-num">C01</div><div><div class="prompt-text">J'ai récupéré le template et créé mon compte sur l'outil</div></div><button type="button" class="audit-check" id="c1">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C02</div><div><div class="prompt-text">J'ai défini le périmètre de mon projet (single, EP, album, développement)</div></div><button type="button" class="audit-check" id="c2">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C03</div><div><div class="prompt-text">J'ai chiffré la pré-production, la fixation et la post-production</div></div><button type="button" class="audit-check" id="c3">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C04</div><div><div class="prompt-text">J'ai chiffré les frais administratifs, techniques et juridiques</div></div><button type="button" class="audit-check" id="c4">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C05</div><div><div class="prompt-text">J'ai chiffré la promotion, le marketing et les supports de communication</div></div><button type="button" class="audit-check" id="c5">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C06</div><div><div class="prompt-text">J'ai supprimé les lignes inutiles et ajouté celles propres à mon projet</div></div><button type="button" class="audit-check" id="c6">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C07</div><div><div class="prompt-text">J'ai obtenu le coût total de mon projet et identifié les postes les plus lourds</div></div><button type="button" class="audit-check" id="c7">⬚ Fait</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="module" id="faq">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">11 / 11</span><h2>Questions <em>fréquentes</em></h2></div>
+    <div class="faq">
+      <details><summary>L'outil est-il payant ?</summary><div class="ans">Pour l'usage présenté dans la vidéo, il est gratuit. Un forfait payant ne devient utile que si tu stockes beaucoup de données.</div></details>
+      <details><summary>Je peux faire ce budget dans un simple tableur ?</summary><div class="ans">Oui, la logique reste la même : des pôles, des lignes, un montant unitaire, une unité et une quantité. La base de données facilite simplement les vues par pôle et les catégories reliées.</div></details>
+      <details><summary>Les montants de l'exemple (studio, mix, mastering) sont-ils des références ?</summary><div class="ans">Ce sont des exemples pour montrer le calcul. Remplace-les par les devis réels de tes prestataires ; les tarifs moyens de la profession sont présentés dans le cours sur le cadre légal (partie 4).</div></details>
+      <details><summary>Pourquoi ne pas prévoir de recettes ?</summary><div class="ans">Parce qu'on ne peut pas les estimer avec une certitude suffisante : ventes, dates, merch, droits dépendent du succès du projet. Le budget sert à connaître ton investissement ; les financements (aides, crowdfunding, licences) se travaillent à part.</div></details>
+      <details><summary>Comment ajouter une nouvelle catégorie ?</summary><div class="ans">En tapant un nouveau nom dans le champ de catégorie d'une ligne : l'option est créée et devient disponible pour toutes les autres lignes.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="recap">
+  <div class="container-narrow">
+    <div class="section-label" style="color:var(--accent-line)">Synthèse</div>
+    <h3>Ce que tu dois retenir de ce cours</h3>
+    <ol class="recap-list">
+      <li>Un budget se construit <strong>avant</strong> de produire, dès la maquette.</li>
+      <li>Quatre pôles : <strong>production</strong>, <strong>administratif et technique</strong>, <strong>promotion et marketing</strong>, <strong>autres dépenses</strong>.</li>
+      <li>La production se découpe en <strong>pré-production, fixation, post-production</strong>.</li>
+      <li>Chaque ligne = <strong>montant unitaire × nombre</strong>, avec l'unité adaptée.</li>
+      <li>Le template est une base : <strong>adapte-le</strong> à ton projet.</li>
+      <li>Un budget de production est un <strong>budget d'investissement</strong>, pas une promesse de recettes.</li>
+    </ol>
+  </div>
+</section>
+
+<div class="container-narrow">
+  <div class="next-cta">
+    <h3>Prêt pour la <em>vidéo suivante</em> ?</h3>
+    <p>Anticiper les obligations fiscales et sociales.</p>
+    <span class="btn btn-primary">Continuer vers les obligations fiscales →</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="src">Support pédagogique de la formation « Structurer et développer une activité artistique musicale » (certification RS7398), Module 1 : Structuration juridique, cadre légal et gestion financière. Contenu issu de la vidéo « Élaborer un budget de production » de Tarik Hamiche ; les montants cités sont des exemples de démonstration, à remplacer par les devis de tes prestataires.</p>
+    © 2026 Tarik Hamiche · Muziforma
+  </div>
+</footer>
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var btns=[].slice.call(document.querySelectorAll('#checklist-list .audit-check'));
+  var score=document.getElementById('score');var KEY='mz-rs7398-m1-11-budget-projet';var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function paint(b){var on=!!saved[b.id];b.classList.toggle('checked',on);b.textContent=(on?'✓':'⬚')+' Fait';b.setAttribute('aria-pressed',on?'true':'false');}
+  function upd(){score.textContent=btns.filter(function(b){return saved[b.id]}).length+' / '+btns.length;}
+  btns.forEach(function(b){paint(b);b.addEventListener('click',function(){saved[b.id]=!saved[b.id];try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}paint(b);upd();});});
+  upd();
+})();
+</script>
+</body>
+</html>

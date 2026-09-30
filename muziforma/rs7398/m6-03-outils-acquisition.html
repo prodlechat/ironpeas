@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Maîtriser les outils d'acquisition · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Charte Muziforma : fond sable, violet #5B14FF, Manrope + Inter + JetBrains Mono. */
+:root{--bg:#F7F1E8;--bg-soft:#FCF8F2;--bg-card:#FFFFFF;--ink:#1F1A15;--ink-soft:#5C4F42;--ink-muted:#8A7A6A;--accent:#5B14FF;--accent-dark:#4910CC;--accent-soft:#EDE9FE;--accent-line:#A78BFA;--border:#E8DDC9;--border-soft:#F0E6D4;--warning:#C2410C;--warning-soft:#FFEDD5;--success:#15803D;--success-soft:#DCFCE7;--on-accent:#FFFFFF;--recap-text:rgba(247,241,232,.85);--shadow-sm:0 1px 2px rgba(31,26,21,.04);--shadow-md:0 4px 16px rgba(31,26,21,.06);--radius-sm:8px;--radius-md:14px;--radius-lg:24px;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Manrope,-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700}
+h4{font-size:1.15rem;font-weight:700;line-height:1.3}
+p{margin-bottom:1.1rem;color:var(--ink-soft)}
+strong{color:var(--ink);font-weight:700}
+em{font-style:normal;color:var(--accent);font-weight:800}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.container-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-line));z-index:9999}
+header.top-nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(247,241,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand-mark{font-family:Manrope,sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--ink)}
+.brand-mark em{color:var(--accent)}
+.nav-meta{display:flex;gap:1rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted)}
+.nav-meta span:not(:last-child)::after{content:"·";margin-left:1rem;color:var(--border)}
+@media (max-width:600px){.nav-meta{display:none}}
+.hero{padding:5rem 0 4rem;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;max-width:none;background:radial-gradient(circle,rgba(167,139,250,.22) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(91,20,255,.14) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1.8rem;box-shadow:var(--shadow-sm)}
+.hero h1{margin-bottom:1.5rem}
+.hero-lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:720px;margin:0 auto 1.5rem;line-height:1.55}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.hero-chips span{font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:.35rem .9rem}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:880px;margin:3rem auto 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-num{font-family:Manrope,sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em;margin-bottom:.5rem}
+.stat-label{font-size:.82rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.hero-stats{grid-template-columns:1fr}}
+.section-label{display:inline-block;font-family:Inter,sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:1.5rem}
+.toc-section{padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);text-align:center}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:800px;margin:1rem auto 0}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left;color:var(--ink);transition:.15s}
+.toc-item:hover{border-color:var(--accent);transform:translateX(2px);box-shadow:var(--shadow-sm);color:var(--ink)}
+.toc-num{font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);flex-shrink:0;width:36px}
+.toc-title{font-weight:600;font-size:.95rem;line-height:1.3}
+@media (max-width:600px){.toc-grid{grid-template-columns:1fr}}
+main>section.module{padding:6rem 0;position:relative;overflow:hidden}
+main>section.module:nth-of-type(odd){background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+section.module::before{content:"";position:absolute;top:10%;right:-180px;width:480px;height:480px;background:radial-gradient(circle,rgba(167,139,250,.16) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
+section.module>.container,section.module>.container-narrow{position:relative;z-index:1}
+.module-header{margin-bottom:2.5rem}
+.module-num{font-family:Manrope,sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.6rem;display:block}
+.module-lead{font-size:1.15rem;color:var(--ink-soft);margin:1.5rem 0 2.5rem;line-height:1.55;max-width:720px}
+.prose p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.3rem}
+.callout{background:var(--bg-card);border-left:4px solid var(--accent);border-radius:var(--radius-md);padding:1.6rem 1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm);text-align:left}
+.callout.warning{border-left-color:var(--warning);background:linear-gradient(135deg,var(--warning-soft) 0%,var(--bg-card) 60%)}
+.callout.success{border-left-color:var(--success);background:linear-gradient(135deg,var(--success-soft) 0%,var(--bg-card) 60%)}
+.callout-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.6rem}
+.callout.warning .callout-tag{color:var(--warning)}
+.callout.success .callout-tag{color:var(--success)}
+.callout p{margin:0;color:var(--ink);line-height:1.55}
+.callout ul{margin:.2rem 0 0 1.2rem;color:var(--ink);line-height:1.6}
+/* 3 casquettes : reprend .evolution */
+.evolution{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2rem 0}
+.evo-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;text-align:center;box-shadow:var(--shadow-sm)}
+.evo-col.featured{border:2px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg-card) 50%);transform:scale(1.02);box-shadow:var(--shadow-md)}
+.evo-acronym{font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;letter-spacing:-.04em;margin-bottom:.4rem}
+.evo-col:not(.featured) .evo-acronym{color:var(--ink-muted)}
+.evo-full{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:1rem;font-weight:600}
+.evo-col h4{margin-bottom:.6rem}
+.evo-col p{font-size:.92rem;line-height:1.55;text-align:left}
+.evo-target{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--border);text-align:left;font-size:.85rem;line-height:1.45;color:var(--ink)}
+.evo-target strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem;font-weight:800}
+@media (max-width:800px){.evolution{grid-template-columns:1fr}.evo-col.featured{transform:none}}
+/* circuit : reprend .rag-flow */
+.rag-flow{margin:2.5rem 0;display:flex;flex-direction:column;gap:1.5rem}
+.rag-step{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.rag-step:hover{border-color:var(--accent-line)}
+.rag-step-circle{flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.6rem;box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+.rag-step.alt .rag-step-circle{background:var(--warning);box-shadow:rgba(194,65,12,.3) 0 6px 20px}
+.rag-step>div:last-child{flex:1 1 0%;min-width:0}
+.step-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);margin-bottom:.4rem}
+.rag-step h4{margin-bottom:.6rem}
+.rag-step p{margin:0;line-height:1.55}
+/* tableaux dans la charte */
+.data-table{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);margin:2rem 0}
+.data-table table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+.data-table th{text-align:left;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding:1rem 1.1rem;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.data-table td{padding:.9rem 1.1rem;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table td strong{color:var(--ink)}
+.data-table .n{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--accent-dark);white-space:nowrap}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .6rem;border-radius:6px;white-space:nowrap}
+.badge.yes{background:var(--success-soft);color:var(--success)}
+.badge.no{background:var(--warning-soft);color:var(--warning)}
+.badge.mid{background:var(--accent-soft);color:var(--accent-dark)}
+/* barre de répartition */
+.split{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);margin:2rem 0}
+.split h4{margin-bottom:1.2rem}
+.split-bar{display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden}
+.split-bar div{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:500;color:var(--on-accent);white-space:nowrap;overflow:hidden}
+.split-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem 1rem;margin-top:1.2rem;font-size:.88rem;color:var(--ink-soft)}
+.split-legend span{display:flex;align-items:center;gap:.5rem}
+.split-legend i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.split-legend b{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--ink);margin-left:auto}
+.split-note{font-size:.82rem;color:var(--ink-muted);margin:1rem 0 0;line-height:1.5}
+/* cartes : reprend .motors / .eeat */
+.motors,.eeat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:2rem 0}
+.motor-card,.eeat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-sm);min-width:0}
+.eeat-card{transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.eeat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motor-name{font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;color:var(--ink);letter-spacing:-.02em;margin-bottom:.3rem}
+.motor-by{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.motor-spec{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border-soft);font-size:.9rem;line-height:1.45}
+.motor-spec:last-child{border-bottom:0}
+.motor-spec-label{flex-shrink:0;width:78px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding-top:.2rem}
+.motor-spec-value{flex:1 1 0%;color:var(--ink-soft)}
+.eeat-letter{width:52px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1rem}
+.eeat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem}
+.eeat-card h4{margin-bottom:.8rem}
+.eeat-card>p{font-size:.95rem;line-height:1.55;margin-bottom:1.2rem}
+.eeat-music{background:var(--accent-soft);border-radius:var(--radius-sm);padding:1rem;font-size:.9rem;line-height:1.5;color:var(--ink);margin-top:auto}
+.eeat-music strong{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.eeat-music .out{color:var(--warning)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:740px){.eeat-grid,.motors,.grid3{grid-template-columns:1fr}}
+/* étapes : reprend .factors */
+.factors{display:flex;flex-direction:column;gap:1.2rem;margin:2rem 0}
+.factor{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.factor:hover{border-color:var(--accent-line)}
+.factor-num{flex-shrink:0;font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;width:50px;letter-spacing:-.03em}
+.factor.err .factor-num{color:var(--warning)}
+.factor>div:last-child{flex:1 1 0%;min-width:0}
+.factor h4{margin-bottom:.6rem}
+.factor p{font-size:.95rem;line-height:1.55;margin-bottom:1rem}
+.factor p:last-child{margin-bottom:0}
+.factor-detail{background:var(--accent-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.88rem;line-height:1.5;color:var(--ink)}
+.factor-detail strong{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.factor.err .factor-detail{background:var(--warning-soft)}
+.factor.err .factor-detail strong{color:var(--warning)}
+/* checklist : reprend .audit */
+.audit-intro{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm)}
+.audit-intro h3{margin-bottom:.8rem}
+.audit-intro p{margin:0;line-height:1.6}
+.audit-prompts{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.prompt-row{display:flex;gap:1.2rem;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.prompt-num{flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--accent);width:36px}
+.prompt-row>div:not(.prompt-num){flex:1 1 0%;min-width:0}
+.prompt-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.audit-check{flex-shrink:0;padding:.5rem .9rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s;font-family:Inter,sans-serif}
+.audit-check:hover{border-color:var(--accent-line)}
+.audit-check.checked{background:var(--success);color:var(--on-accent);border-color:var(--success);font-weight:600}
+.score{font-family:"JetBrains Mono",monospace;color:var(--success);font-weight:500}
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.faq details{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:border-color .2s}
+.faq details:hover,.faq details[open]{border-color:var(--accent-line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.5rem;font-family:Manrope,sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.faq details[open] summary::after{content:"−";background:var(--accent);color:var(--on-accent)}
+.faq .ans{padding:0 1.5rem 1.4rem;color:var(--ink-soft);font-size:.97rem;line-height:1.65}
+/* synthèse */
+.recap{background:var(--ink);color:var(--recap-text);padding:4rem 0;position:relative;overflow:hidden}
+.recap::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(91,20,255,.25) 0%,transparent 60%);border-radius:50%;pointer-events:none}
+.recap>.container-narrow{position:relative;z-index:1}
+.recap h3{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg-card);margin-bottom:1.5rem}
+.recap-list{list-style:none;counter-reset:item;display:flex;flex-direction:column;gap:1rem}
+.recap-list li{counter-increment:item;padding-left:3rem;position:relative;line-height:1.55;color:var(--recap-text)}
+.recap-list li::before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:Manrope,sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-line)}
+.recap-list li strong{color:var(--bg-card)}
+.next-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin:4rem auto;max-width:760px;text-align:center;box-shadow:var(--shadow-md)}
+.next-cta h3{margin-bottom:1rem}
+.next-cta p{margin-bottom:1.5rem;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.1rem 2.2rem;font-family:Manrope,sans-serif;font-size:1rem;font-weight:800;border-radius:999px;border:0;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+footer.site-footer{background:var(--ink);color:rgba(247,241,232,.55);padding:2.5rem 0;text-align:center;font-size:.85rem;border-top:1px solid rgba(247,241,232,.08);line-height:1.7}
+footer.site-footer .src{max-width:760px;margin:0 auto 1rem;font-size:.8rem;color:rgba(247,241,232,.45)}
+@media (max-width:860px){main>section.module{padding:4rem 0}.toc-section{padding:3rem 0}.module-header{margin-bottom:1.8rem}.module-lead{font-size:1.05rem;margin:1rem 0 1.8rem}.rag-step,.factor{padding:1.4rem;gap:1rem}.rag-step-circle{width:48px;height:48px;font-size:1.3rem}.factor-num{font-size:1.6rem;width:40px}.next-cta{padding:1.8rem 1.4rem}.recap-list li{padding-left:2.4rem}section.module::before{width:320px;height:320px}}
+@media (max-width:480px){.hero{padding:3rem 0 2.5rem}.hero h1{font-size:2rem}.rag-step,.factor{flex-direction:column;gap:.8rem}.prompt-row{flex-wrap:wrap}}
+html,body{width:100% !important;max-width:100% !important;overflow-x:hidden}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress-bar"></div>
+<header class="top-nav">
+  <div class="nav-inner">
+    <span class="brand-mark">MUZI<em>FORMA</em></span>
+    <div class="nav-meta"><span>Module 06 / 08</span><span>Muziforma</span></div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Module 06 · Système d'acquisition</span>
+    <h1>Maîtriser les <em>outils</em> d'acquisition.</h1>
+    <p class="hero-lead">Trois vidéos pour passer à la pratique : choisir un lead magnet vraiment irrésistible, puis prendre en main les deux plateformes françaises qui permettent de construire ton système d'acquisition, LearnyBox et Systeme.io.</p>
+    <div class="hero-chips"><span>Durée : 2 h 28 min (3 vidéos)</span><span>Formateur : Tarik Hamiche</span></div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Objectifs d'un lead magnet : attirer, apporter de la valeur, fidéliser</div></div>
+      <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">Idées de lead magnet adaptées aux artistes</div></div>
+      <div class="stat-card"><div class="stat-num">28 €</div><div class="stat-label">Panier moyen observé au stand après un concert à caution</div></div>
+      <div class="stat-card"><div class="stat-num">2 000</div><div class="stat-label">Contacts dans l'offre gratuite de Systeme.io (au moment du tournage)</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc-section">
+  <div class="container-narrow">
+    <div class="callout">
+      <div class="callout-tag">★ Objectifs pédagogiques</div>
+      <ul>
+        <li>Concevoir un lead magnet qui attire, apporte de la valeur et fidélise</li>
+        <li>Choisir parmi 5 formats : morceau offert, crowdfunding, événement avec caution, rencontre studio, free shipping</li>
+        <li>Comparer LearnyBox et Systeme.io pour choisir ton outil</li>
+        <li>Savoir paramétrer tunnel, séquences d'emails, formulaires, tests A/B et pixel</li>
+      </ul>
+    </div>
+    <div class="section-label">Plan du cours</div>
+    <div class="toc-grid">
+      <a href="#objectifs" class="toc-item"><span class="toc-num">01</span><span class="toc-title">Les 3 objectifs d'un lead magnet</span></a>
+      <a href="#idees" class="toc-item"><span class="toc-num">02</span><span class="toc-title">Morceau offert et crowdfunding</span></a>
+      <a href="#caution" class="toc-item"><span class="toc-num">03</span><span class="toc-title">L'événement gratuit avec caution</span></a>
+      <a href="#shipping" class="toc-item"><span class="toc-num">04</span><span class="toc-title">Le free shipping</span></a>
+      <a href="#choisir" class="toc-item"><span class="toc-num">05</span><span class="toc-title">Quel outil choisir ?</span></a>
+      <a href="#learnybox" class="toc-item"><span class="toc-num">06</span><span class="toc-title">LearnyBox : tunnels et emails</span></a>
+      <a href="#learnybox2" class="toc-item"><span class="toc-num">07</span><span class="toc-title">LearnyBox : optimiser et vendre</span></a>
+      <a href="#systemeio" class="toc-item"><span class="toc-num">08</span><span class="toc-title">Prise en main de Systeme.io</span></a>
+      <a href="#erreurs" class="toc-item"><span class="toc-num">09</span><span class="toc-title">Les 5 erreurs à éviter</span></a>
+      <a href="#checklist" class="toc-item"><span class="toc-num">10</span><span class="toc-title">Livrable : ta checklist</span></a>
+      <a href="#faq" class="toc-item"><span class="toc-num">11</span><span class="toc-title">FAQ</span></a>
+    </div>
+    <div class="data-table" style="margin-top:2.5rem;text-align:left"><table>
+      <thead><tr><th style="width:90px">Repère</th><th>Chapitre de la vidéo</th></tr></thead>
+      <tbody>
+        <tr><td class="n"></td><td><strong>Vidéo 1 · Le lead magnet : idées et conseils</strong></td></tr>
+        <tr><td class="n">00:00</td><td>Les 3 objectifs d'un lead magnet</td></tr>
+        <tr><td class="n">05:08</td><td>Idée 1 : le morceau offert</td></tr>
+        <tr><td class="n">11:35</td><td>Idée 2 : greffer un crowdfunding</td></tr>
+        <tr><td class="n">15:59</td><td>Idée 3 : l'événement gratuit avec caution</td></tr>
+        <tr><td class="n">20:30</td><td>Le concert privé en deux étapes</td></tr>
+        <tr><td class="n">25:26</td><td>Convertir sur place grâce à la caution</td></tr>
+        <tr><td class="n">29:38</td><td>Idée 4 : la rencontre en studio</td></tr>
+        <tr><td class="n">34:41</td><td>Idée 5 : le free shipping</td></tr>
+        <tr><td class="n">39:06</td><td>Le free shipping avec un produit dérivé</td></tr>
+        <tr><td class="n">44:05</td><td>À retenir : une valeur perçue immense</td></tr>
+        <tr><td class="n"></td><td><strong>Vidéo 2 · Prise en main de LearnyBox</strong></td></tr>
+        <tr><td class="n">00:00</td><td>Les outils pour créer ses funnels</td></tr>
+        <tr><td class="n">02:18</td><td>Créer son compte et choisir sa formule</td></tr>
+        <tr><td class="n">06:02</td><td>Tableau de bord et espace formation</td></tr>
+        <tr><td class="n">09:31</td><td>L'onglet marketing et les tunnels de vente</td></tr>
+        <tr><td class="n">19:35</td><td>Les séquences d'emails</td></tr>
+        <tr><td class="n">30:28</td><td>Formulaires de capture et sondages</td></tr>
+        <tr><td class="n">37:01</td><td>Les popups et les notifications</td></tr>
+        <tr><td class="n">43:34</td><td>Mettre en place un test A/B</td></tr>
+        <tr><td class="n">49:09</td><td>La base utilisateurs (CRM)</td></tr>
+        <tr><td class="n">51:58</td><td>Site, ventes, offres et paiements</td></tr>
+        <tr><td class="n">1:04:09</td><td>Paramètres et intégrations, dont le pixel</td></tr>
+        <tr><td class="n">1:12:32</td><td>Conclusion : pratiquer pour maîtriser</td></tr>
+        <tr><td class="n"></td><td><strong>Vidéo 3 · Prise en main de Systeme.io</strong></td></tr>
+        <tr><td class="n">00:00</td><td>Créer son compte Systeme.io</td></tr>
+        <tr><td class="n">01:17</td><td>L'offre gratuite et l'offre Startup</td></tr>
+        <tr><td class="n">07:02</td><td>Tableau de bord, contacts et tags</td></tr>
+        <tr><td class="n">08:32</td><td>Les pipelines de suivi</td></tr>
+        <tr><td class="n">14:37</td><td>Créer son tunnel d'acquisition</td></tr>
+        <tr><td class="n">18:06</td><td>Newsletters, campagnes et automatisations</td></tr>
+        <tr><td class="n">23:21</td><td>Produits, communauté et ventes</td></tr>
+        <tr><td class="n">27:30</td><td>Systeme.io ou LearnyBox : comment choisir</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="module" id="objectifs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">01 / 11</span><h2>Les 3 objectifs <em>d'un lead magnet</em></h2></div>
+    <p class="module-lead">Le lead magnet, c'est ce que tu offres gratuitement au public qui te découvre, en échange de ses coordonnées. Un bon lead magnet remplit trois objectifs à la fois.</p>
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-letter">1</div><div class="eeat-name">Attirer</div><h4>Donner envie de laisser ses coordonnées</h4><p>« Je peux vous aider ? » ne donne envie de rien. Un plateau de chocolats à goûter, puis une boîte offerte contre un petit formulaire : là, on se laisse tenter.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">2</div><div class="eeat-name">Apporter de la valeur</div><h4>Un gain immédiat et mesurable</h4><p>La personne vit une expérience et repart avec quelque chose qui a une vraie valeur à ses yeux, sans rien payer.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">3</div><div class="eeat-name">Fidéliser</div><h4>Transformer l'essai en habitude</h4><p>Des chocolats offerts à l'hôtel, puis achetés en quantité au moment de repartir. Un premier vol en classe affaires offert, puis racheté plusieurs fois.</p></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Ce que tu proposes doit avoir une <strong>valeur perçue immense</strong> par rapport au simple fait de laisser un prénom et un email. Réfléchis toujours en termes de valeur pour ton public.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="module" id="idees">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">02 / 11</span><h2>Morceau offert <em>et crowdfunding</em></h2></div>
+    <p class="module-lead">Les deux premières idées sont les plus simples à mettre en place, et elles se combinent très bien.</p>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Le morceau offert</h4><p>Une vidéo avec un extrait de 35 à 50 secondes s'emballe, et le public demande où trouver le titre. Tu le lui offres avant sa sortie. Il attire (le public le réclame), apporte de la valeur (un morceau a coûté du studio, du mix, du mastering, une pochette) et fidélise : quand on aime un titre, on écoute les autres, comme on regarde la filmographie d'un acteur qu'on découvre.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Greffer un crowdfunding</h4><p>Juste après l'inscription, vendre frontalement (« l'album sort, achète-le ») braque le nouveau fan. Proposer de participer à une campagne de financement participatif, c'est <strong>vendre sans vendre</strong> : le fan grave son nom sur ton projet et accède aux coulisses (studio, écriture, mix, tournage).</p><div class="factor-detail"><strong>Les repères cités par Tarik</strong>Panier moyen d'environ 50 € ; 2 à 3 % de conversion sur un public froid, autour de 10 à 12 % sur un public qui te connaît déjà.</div></div></div>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ Un tremplin pour tes proches</div>
+      <p>Des amis, cousins ou collègues qui veulent te soutenir sans oser te donner de l'argent trouvent dans le crowdfunding une manière naturelle de le faire. Tu verras comment monter une campagne dans les ressources du module.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="module" id="caution">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">03 / 11</span><h2>L'événement gratuit <em>avec caution</em></h2></div>
+    <p class="module-lead">Un concert privé, un séminaire ou une rencontre en studio : l'accès est gratuit, mais une caution remboursable évite les réservations fantômes. Et elle ouvre la porte à une offre irrésistible sur place.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Étape 1</span><h4>Une page de capture « concert gratuit »</h4><p>Une date, une ville ; le lieu est communiqué quelques jours avant. Le fan laisse ses coordonnées pour passer à l'étape suivante.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Étape 2</span><h4>Une seconde page qui explique la caution</h4><p>« La place est gratuite, mais le concert a un coût (lieu, technique, musiciens). Pour valider ta place, une caution de 20 € te sera rendue dans les 24 h si tu es présent. » Les conditions de remboursement sont écrites noir sur blanc.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Organisation</span><h4>Trois salles en option pour la même date</h4><p>Une petite, une moyenne, une grande (par exemple 100, 200 et 300 places). Tu gardes celle qui correspond aux réservations et tu annules les autres : tu n'es jamais à perte.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">4</div><div><span class="step-tag">Le soir même</span><h4>L'offre qui remplace la caution</h4><p>« J'ai pressé exactement autant de vinyles numérotés que vous êtes dans la salle. Au stand, repartez avec le vôtre et la caution reste chez nous, ou récupérez votre caution et repartez les mains vides. »</p></div></div>
+    </div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Ce qu'a observé Tarik</div><h4>Presque tout le public repart avec le vinyle</h4><p>À condition d'avoir été bon sur scène. Et le stand de produits dérivés voisin fait monter le panier moyen à environ 28 € au lieu de 20 €.</p><div class="eeat-music"><strong>Bonus</strong>Les inscrits de l'étape 1 qui n'ont pas payé la caution restent des contacts intéressants à travailler.</div></div>
+      <div class="eeat-card"><div class="eeat-name">Variante</div><h4>La rencontre en studio</h4><p>Une demi-journée avec une vingtaine de fans : séance d'écoute, vote pour le tracklisting final, mini-showcase, apéritif. Gratuit, avec caution (par exemple 50 €), et « premier arrivé, premier servi » avec liste d'attente.</p><div class="eeat-music"><strong>Effet</strong>Les places sont limitées, mais l'étape 1 peut faire entrer des centaines de fans en base.</div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Astuce</div>
+      <p>Présente l'événement comme un showcase de lancement : certaines aides au showcase, vues au module sur les financements, peuvent réduire fortement le coût de la salle.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="module" id="shipping">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">04 / 11</span><h2>Le <em>free shipping</em></h2></div>
+    <p class="module-lead">Tu offres le produit, le fan ne paie que les frais d'envoi. Un format qui fait entrer beaucoup de contacts et crée des fans acheteurs.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Page 1</span><h4>Le formulaire</h4><p>« Je t'offre mon album, dis-moi où l'envoyer. » Prénom, nom, adresse, téléphone, email.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Page 2</span><h4>Les frais d'envoi</h4><p>« Le produit est bien gratuit ; seuls les frais d'envoi, calculés sur ton adresse, sont à ta charge. » Annonce-le clairement dès la vidéo de lancement.</p></div></div>
+    </div>
+    <div class="motors">
+      <div class="motor-card">
+        <div class="motor-name">Livre ou CD</div>
+        <div class="motor-by">Bonne conversion</div>
+        <div class="motor-spec"><span class="motor-spec-label">Principe</span><span class="motor-spec-value">Le coût de fabrication peut être intégré aux frais d'envoi : l'opération ne coûte rien</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Gain</span><span class="motor-spec-value">Des coordonnées complètes et un objet chez le fan</span></div>
+      </div>
+      <div class="motor-card">
+        <div class="motor-name">Produit dérivé</div>
+        <div class="motor-by">Ce qui marche le mieux</div>
+        <div class="motor-spec"><span class="motor-spec-label">Principe</span><span class="motor-spec-value">Un sweat à capuche vendu 35 à 55 € habituellement : sa valeur perçue écrase quelques euros de frais d'envoi</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Gain</span><span class="motor-spec-value">Un fan acheteur, et ton nom porté dans la rue : un impact fort quand tu es émergent</span></div>
+      </div>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ Des fans plus engagés</div>
+      <p>Une fan base construite via un concert, une rencontre ou un produit dérivé en free shipping est généralement bien plus engagée qu'une base construite uniquement sur un morceau offert.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="module" id="choisir">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">05 / 11</span><h2>Quel <em>outil</em> choisir ?</h2></div>
+    <p class="module-lead">Pour construire tes pages, ton formulaire et ton autorépondeur, tu as besoin d'une plateforme de création de funnels. Tarik en retient deux, françaises et performantes.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Outil</th><th>Points forts</th><th>Limites</th></tr></thead>
+      <tbody>
+        <tr><td><strong>ClickFunnels</strong></td><td>La référence mondiale</td><td>Cher, en anglais, sans support francophone</td></tr>
+        <tr><td><strong>LearnyBox</strong></td><td>Très complet, support français réactif, nombreuses intégrations (SMS, autorépondeurs externes, Shopify…)</td><td>Payant après l'essai gratuit</td></tr>
+        <tr><td><strong>Systeme.io</strong></td><td>Offre gratuite généreuse, prise en main très simple</td><td>Écosystème fermé, intégrations très limitées</td></tr>
+      </tbody>
+    </table></div>
+    <div class="data-table"><table>
+      <thead><tr><th>Formule citée dans la vidéo</th><th>Prix indiqué</th><th>Contacts</th><th>Repères</th></tr></thead>
+      <tbody>
+        <tr><td><strong>LearnyBox Essentiel</strong></td><td>29 € HT / mois en mensuel</td><td class="n">7 500</td><td>10 séquences d'emails, 5 tunnels de 25 pages, suffisant selon Tarik</td></tr>
+        <tr><td><strong>Systeme.io gratuit</strong></td><td>0 €</td><td class="n">2 000</td><td>Emails illimités, 1 campagne, 1 règle d'automatisation</td></tr>
+        <tr><td><strong>Systeme.io Startup</strong></td><td>Moins cher que LearnyBox</td><td class="n">5 000</td><td>10 campagnes, 3 tunnels de 15 pages, 1 test A/B à la fois</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Tarifs à vérifier</div>
+      <p>Ces prix et limites sont ceux indiqués au moment du tournage : ils peuvent avoir évolué. Vérifie les conditions actuelles sur le site officiel de chaque outil. Conseil de Tarik : commence en <strong>mensuel</strong> (l'annuel est prélevé en une fois après l'essai), et ne passe à l'annuel qu'une fois l'outil adopté.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="module" id="learnybox">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">06 / 11</span><h2>LearnyBox : <em>tunnels et emails</em></h2></div>
+    <p class="module-lead">L'essentiel pour ton système d'acquisition se trouve dans l'onglet Marketing : tunnels de vente, email marketing et formulaires.</p>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Les tunnels de vente</h4><p>Tu y crées ta page de capture et ta page de remerciement. Pour chaque page : nom, adresse URL, publication ou non, pixels, référencement, duplication, réinitialisation des statistiques entre deux tests, enregistrement comme modèle réutilisable.</p><div class="factor-detail"><strong>Restrictions d'accès</strong>Fermer une page à une date donnée (fin d'offre), afficher un compte à rebours, rediriger un contact déjà inscrit ou rediriger tout le tunnel vers une version plus récente.</div></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Les séquences d'emails</h4><p>Un email à l'inscription (le lien du morceau), puis d'autres à J+7, à une heure précise, ou un jour fixe (Saint-Valentin, fêtes de fin d'année) pour remontrer une offre qui a bien converti aux nouveaux inscrits.</p><div class="factor-detail"><strong>Conditions et tags</strong>Un tag « client » posé à l'achat peut sortir le contact d'une séquence de relance et le faire entrer dans une séquence « fan acheteur ».</div></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Les formulaires et sondages</h4><p>Un formulaire par page de capture, relié à une séquence, un tag et une redirection. Les sondages servent à affiner ton avatar : questions à choix unique, et questions ouvertes qui te donnent le vocabulaire exact de ton public.</p><div class="factor-detail"><strong>Exemple</strong>Si ta cible dit « track » plutôt que « morceau », teste ce mot sur ta page de capture.</div></div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Astuce</div>
+      <p>Avant de programmer une séquence, dessine le parcours utilisateur : il s'inscrit, puis il paie les frais d'envoi (client) ou non (on lui parle autrement, par exemple pour comprendre ce qui l'a bloqué).</p>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="module" id="learnybox2">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">07 / 11</span><h2>LearnyBox : <em>optimiser et vendre</em></h2></div>
+    <p class="module-lead">Au-delà de la capture, LearnyBox propose tout ce qu'il faut pour améliorer tes taux de conversion, connaître ta base et encaisser.</p>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Popups</div><h4>Rattraper ceux qui partent</h4><p>Une fenêtre qui rassure (« Pas de panique, ce n'est pas une arnaque ») ou propose un contact direct, par exemple WhatsApp, pour lever une objection.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Tests A/B</div><h4>Comparer deux versions d'une page</h4><p>50 % du trafic sur chaque version, une seule différence (par exemple « 95 % » ou « 99 % » dans le titre), une règle de victoire (nombre de visites, écart de conversion). Réinitialise les statistiques avant de lancer.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Utilisateurs (CRM)</div><h4>Filtrer et exporter ta base</h4><p>Par ville ou code postal pour un concert, par valeur générée pour une offre de fidélité ; export pour la publicité et les audiences similaires.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Ventes et offres</div><h4>Encaisser sans outil externe</h4><p>Formulaires de paiement, stock, codes promo limités, relance de panier abandonné, email de confirmation d'expédition, factures et affiliation. Règles de TVA à valider avec ton comptable.</p></div>
+    </div>
+    <div class="prose">
+      <p>Dans <strong>Intégrations externes</strong>, tu connectes ton pixel Meta : dans le gestionnaire d'événements de ton compte publicitaire, tu copies l'identifiant du pixel, tu le colles dans LearnyBox, puis tu l'ajoutes à chaque page. D'autres intégrations existent : envoi de SMS automatisés, Shopify, Google Analytics, autorépondeurs externes quand tu dépasseras les limites de l'outil interne.</p>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Au début, tu utiliseras l'outil à 10 % de son potentiel et tu mettras du temps à créer un tunnel simple. C'est normal : c'est en pratiquant que tu iras plus vite.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="module" id="systemeio">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">08 / 11</span><h2>Prise en main de <em>Systeme.io</em></h2></div>
+    <p class="module-lead">Même logique que LearnyBox, avec une interface différente et une offre gratuite qui suffit pour démarrer.</p>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Contacts et tags</h4><p>Un CRM filtrable (email, pays, région…) et des tags, par exemple « fan base », pour segmenter.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Les pipelines</h4><p>Des colonnes qui représentent les étapes d'un parcours : fan en base, fan acheteur d'un premier produit dérivé… Très utile aussi pour le booking : prospect, email d'info envoyé, appel, date validée, contrat envoyé, contrat et avance reçus, appel de fidélisation.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Le tunnel</h4><p>À la création, Systeme.io génère une page de capture et une page de remerciement. Tu choisis un modèle, tu personnalises, tu ajoutes si besoin page de vente et page de paiement.</p></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Emails et automatisations</h4><p>Newsletters, campagnes (email de bienvenue, puis J+15…), statistiques d'ouverture, de clic, de spam et de rebond. Des règles « si… alors… » et des workflows : si le fan clique, envoyer l'email B ; sinon, renvoyer le premier.</p></div></div>
+      <div class="factor"><div class="factor-num">05</div><div><h4>Produits, communauté, ventes</h4><p>Fiches produits (prix, stock, frais de livraison), contenus numériques, espace communauté réservé aux membres, suivi des commandes et programme d'affiliation. Les options de vente en un clic existent, mais Tarik s'en méfie : elles peuvent créer de la frustration.</p></div></div>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ Le conseil de Tarik</div>
+      <p>Pour démarrer, Systeme.io permet de générer tes 2 000 premiers fans en base sans frais. Ouvre un compte sur les deux outils, teste, et garde celui avec lequel tu es le plus à l'aise.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="module" id="erreurs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">09 / 11</span><h2>Les 5 erreurs <em>à éviter</em></h2></div>
+    <p class="module-lead">Celles qui font échouer un lead magnet ou te font perdre du temps avec les outils.</p>
+    <div class="factors">
+      <div class="factor err"><div class="factor-num">01</div><div><h4>Vendre juste après l'inscription</h4><p>Un nouveau fan à qui l'on vend frontalement se sent braqué. Préfère le crowdfunding ou une offre très généreuse.</p></div></div>
+      <div class="factor err"><div class="factor-num">02</div><div><h4>Cacher la caution ou les frais d'envoi</h4><p>Explique clairement le pourquoi et les conditions de remboursement. La transparence protège ta réputation.</p></div></div>
+      <div class="factor err"><div class="factor-num">03</div><div><h4>Réserver une seule salle trop grande</h4><p>Prends plusieurs options et décide selon les réservations, pour ne jamais être à perte.</p></div></div>
+      <div class="factor err"><div class="factor-num">04</div><div><h4>S'engager à l'année sur un outil sans l'avoir testé</h4><p>Commence en mensuel ou en gratuit, puis décide.</p></div></div>
+      <div class="factor err"><div class="factor-num">05</div><div><h4>Garder des contacts inactifs dans une base limitée</h4><p>Une règle de suppression (par exemple après 10 emails non ouverts) préserve ta limite de contacts et ta délivrabilité.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="module" id="checklist">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">10 / 11</span><h2>Livrable : ta <em>checklist</em></h2></div>
+    <div class="audit-intro">
+      <h3>Clique sur les cases au fur et à mesure</h3>
+      <p>Ce travail prépare l'exercice « Conception de son système d'acquisition » du Module 6. Progression : <span class="score" id="score">0 / 8</span></p>
+    </div>
+    <div class="audit-prompts" id="checklist-list">
+      <div class="prompt-row"><div class="prompt-num">C01</div><div><div class="prompt-text">J'ai évalué mon lead magnet sur les 3 objectifs : attirer, apporter de la valeur, fidéliser</div></div><button type="button" class="audit-check" id="c1">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C02</div><div><div class="prompt-text">J'ai choisi un format parmi les 5 idées et noté pourquoi il convient à mon public</div></div><button type="button" class="audit-check" id="c2">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C03</div><div><div class="prompt-text">J'ai prévu l'offre (vente, crowdfunding, produit) qui suivra mon lead magnet</div></div><button type="button" class="audit-check" id="c3">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C04</div><div><div class="prompt-text">J'ai comparé LearnyBox et Systeme.io et vérifié leurs tarifs actuels</div></div><button type="button" class="audit-check" id="c4">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C05</div><div><div class="prompt-text">J'ai ouvert un compte et créé mon tunnel : page de capture et page de remerciement</div></div><button type="button" class="audit-check" id="c5">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C06</div><div><div class="prompt-text">J'ai relié le formulaire à une séquence avec email de confirmation et email de livraison</div></div><button type="button" class="audit-check" id="c6">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C07</div><div><div class="prompt-text">J'ai créé au moins un tag pour distinguer inscrits et acheteurs</div></div><button type="button" class="audit-check" id="c7">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C08</div><div><div class="prompt-text">J'ai connecté mon pixel publicitaire à mes pages</div></div><button type="button" class="audit-check" id="c8">⬚ Fait</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="module" id="faq">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">11 / 11</span><h2>Questions <em>fréquentes</em></h2></div>
+    <div class="faq">
+      <details><summary>Quel lead magnet choisir quand on débute ?</summary><div class="ans">Le morceau offert est le plus simple à mettre en place. Si tu es à l'aise sur scène, l'événement gratuit avec caution est l'un des plus puissants, car il crée des fans très engagés et peut être rentable dès le premier soir.</div></details>
+      <details><summary>La caution, est-ce légal ?</summary><div class="ans">Oui, à condition d'être transparent : montant, conditions de remboursement et délais doivent être écrits clairement dans ton offre et tes conditions générales de vente. Une caution doit être rendue si les conditions sont remplies. Tu verras le cadre juridique dans la vidéo sur la protection du système.</div></details>
+      <details><summary>LearnyBox ou Systeme.io ?</summary><div class="ans">Systeme.io pour démarrer sans frais et simplement ; LearnyBox si tu as besoin d'intégrations (SMS automatisés, autorépondeur externe, boutique). Le mieux est de tester les deux.</div></details>
+      <details><summary>Les prix donnés dans la vidéo sont-ils toujours valables ?</summary><div class="ans">Pas forcément : les éditeurs de logiciels font évoluer leurs formules. Vérifie les tarifs et limites actuels sur leurs sites officiels avant de t'engager.</div></details>
+      <details><summary>À quoi sert un test A/B ?</summary><div class="ans">À comparer deux versions d'une page qui ne diffèrent que par un seul élément, pour savoir laquelle convertit le mieux. Tu verras la méthode complète dans la vidéo sur l'optimisation.</div></details>
+      <details><summary>Dois-je gérer la TVA dans l'outil ?</summary><div class="ans">Les outils proposent plusieurs réglages de TVA. Les règles dépendent de ta situation et de tes clients : valide ton paramétrage avec ton comptable.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="recap">
+  <div class="container-narrow">
+    <div class="section-label" style="color:var(--accent-line)">Synthèse</div>
+    <h3>Ce que tu dois retenir de ce cours</h3>
+    <ol class="recap-list">
+      <li>Un lead magnet doit <strong>attirer, apporter de la valeur et fidéliser</strong>.</li>
+      <li>Le <strong>morceau offert</strong> est le plus simple ; le <strong>crowdfunding</strong> permet de vendre sans vendre.</li>
+      <li>L'<strong>événement gratuit avec caution</strong> et le <strong>free shipping</strong> créent des fans acheteurs très engagés.</li>
+      <li><strong>LearnyBox</strong> est complet et ouvert aux intégrations, <strong>Systeme.io</strong> gratuit et simple pour démarrer.</li>
+      <li>Tunnel, séquences, tags, tests A/B et pixel sont les briques de ton système.</li>
+      <li>Les tarifs évoluent : <strong>vérifie-les</strong> et commence sans engagement long.</li>
+    </ol>
+  </div>
+</section>
+
+<div class="container-narrow">
+  <div class="next-cta">
+    <h3>Prêt pour la <em>vidéo suivante</em> ?</h3>
+    <p>Attirer un trafic de fans potentiels à l'entrée de ton système.</p>
+    <span class="btn btn-primary">Continuer vers le trafic →</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="src">Support pédagogique de la formation « Structurer et développer une activité artistique musicale » (certification RS7398), Module 6 : Acquisition de fans et développement de communauté. Contenu issu des vidéos de Tarik Hamiche « Le lead magnet : quelques idées et conseils », « Prise en main de l'outil LearnyBox » et « Prise en main de l'outil Systeme.io » ; les tarifs et limites des logiciels sont ceux du tournage et peuvent avoir évolué.</p>
+    © 2026 Tarik Hamiche · Muziforma
+  </div>
+</footer>
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var btns=[].slice.call(document.querySelectorAll('#checklist-list .audit-check'));
+  var score=document.getElementById('score');var KEY='mz-rs7398-m6-03-outils-acquisition';var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function paint(b){var on=!!saved[b.id];b.classList.toggle('checked',on);b.textContent=(on?'✓':'⬚')+' Fait';b.setAttribute('aria-pressed',on?'true':'false');}
+  function upd(){score.textContent=btns.filter(function(b){return saved[b.id]}).length+' / '+btns.length;}
+  btns.forEach(function(b){paint(b);b.addEventListener('click',function(){saved[b.id]=!saved[b.id];try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}paint(b);upd();});});
+  upd();
+})();
+</script>
+</body>
+</html>

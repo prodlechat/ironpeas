@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Proposer des ajustements : études de cas commentées · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Charte reprise à l'identique du support « Cité par les IA » : fond sable, violet #5B14FF, Manrope + Inter + JetBrains Mono. Thème clair unique, choisi volontairement. */
+:root{--bg:#F7F1E8;--bg-soft:#FCF8F2;--bg-card:#FFFFFF;--ink:#1F1A15;--ink-soft:#5C4F42;--ink-muted:#8A7A6A;--accent:#5B14FF;--accent-dark:#4910CC;--accent-soft:#EDE9FE;--accent-line:#A78BFA;--border:#E8DDC9;--border-soft:#F0E6D4;--warning:#C2410C;--warning-soft:#FFEDD5;--success:#15803D;--success-soft:#DCFCE7;--on-accent:#FFFFFF;--recap-text:rgba(247,241,232,.85);--shadow-sm:0 1px 2px rgba(31,26,21,.04);--shadow-md:0 4px 16px rgba(31,26,21,.06);--radius-sm:8px;--radius-md:14px;--radius-lg:24px;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Manrope,-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700}
+h4{font-size:1.15rem;font-weight:700;line-height:1.3}
+p{margin-bottom:1.1rem;color:var(--ink-soft)}
+strong{color:var(--ink);font-weight:700}
+em{font-style:normal;color:var(--accent);font-weight:800}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.container-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-line));z-index:9999}
+header.top-nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(247,241,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand-mark{font-family:Manrope,sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--ink)}
+.brand-mark em{color:var(--accent)}
+.nav-meta{display:flex;gap:1rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted)}
+.nav-meta span:not(:last-child)::after{content:"·";margin-left:1rem;color:var(--border)}
+@media (max-width:600px){.nav-meta{display:none}}
+.hero{padding:5rem 0 4rem;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;max-width:none;background:radial-gradient(circle,rgba(167,139,250,.22) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(91,20,255,.14) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1.8rem;box-shadow:var(--shadow-sm)}
+.hero h1{margin-bottom:1.5rem}
+.hero-lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:720px;margin:0 auto 1.5rem;line-height:1.55}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.hero-chips span{font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:.35rem .9rem}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:880px;margin:3rem auto 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-num{font-family:Manrope,sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em;margin-bottom:.5rem}
+.stat-label{font-size:.82rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.hero-stats{grid-template-columns:1fr}}
+.section-label{display:inline-block;font-family:Inter,sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:1.5rem}
+.toc-section{padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);text-align:center}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:800px;margin:1rem auto 0}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left;color:var(--ink);transition:.15s}
+.toc-item:hover{border-color:var(--accent);transform:translateX(2px);box-shadow:var(--shadow-sm);color:var(--ink)}
+.toc-num{font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);flex-shrink:0;width:36px}
+.toc-title{font-weight:600;font-size:.95rem;line-height:1.3}
+@media (max-width:600px){.toc-grid{grid-template-columns:1fr}}
+main>section.module{padding:6rem 0;position:relative;overflow:hidden}
+main>section.module:nth-of-type(odd){background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+section.module::before{content:"";position:absolute;top:10%;right:-180px;width:480px;height:480px;background:radial-gradient(circle,rgba(167,139,250,.16) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
+section.module>.container,section.module>.container-narrow{position:relative;z-index:1}
+.module-header{margin-bottom:2.5rem}
+.module-num{font-family:Manrope,sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.6rem;display:block}
+.module-lead{font-size:1.15rem;color:var(--ink-soft);margin:1.5rem 0 2.5rem;line-height:1.55;max-width:720px}
+.prose p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.3rem}
+.callout{background:var(--bg-card);border-left:4px solid var(--accent);border-radius:var(--radius-md);padding:1.6rem 1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm);text-align:left}
+.callout.warning{border-left-color:var(--warning);background:linear-gradient(135deg,var(--warning-soft) 0%,var(--bg-card) 60%)}
+.callout.success{border-left-color:var(--success);background:linear-gradient(135deg,var(--success-soft) 0%,var(--bg-card) 60%)}
+.callout-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.6rem}
+.callout.warning .callout-tag{color:var(--warning)}
+.callout.success .callout-tag{color:var(--success)}
+.callout p{margin:0;color:var(--ink);line-height:1.55}
+.callout ul{margin:.2rem 0 0 1.2rem;color:var(--ink);line-height:1.6}
+/* 3 casquettes : reprend .evolution */
+.evolution{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2rem 0}
+.evo-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;text-align:center;box-shadow:var(--shadow-sm)}
+.evo-col.featured{border:2px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg-card) 50%);transform:scale(1.02);box-shadow:var(--shadow-md)}
+.evo-acronym{font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;letter-spacing:-.04em;margin-bottom:.4rem}
+.evo-col:not(.featured) .evo-acronym{color:var(--ink-muted)}
+.evo-full{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:1rem;font-weight:600}
+.evo-col h4{margin-bottom:.6rem}
+.evo-col p{font-size:.92rem;line-height:1.55;text-align:left}
+.evo-target{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--border);text-align:left;font-size:.85rem;line-height:1.45;color:var(--ink)}
+.evo-target strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem;font-weight:800}
+@media (max-width:800px){.evolution{grid-template-columns:1fr}.evo-col.featured{transform:none}}
+/* circuit : reprend .rag-flow */
+.rag-flow{margin:2.5rem 0;display:flex;flex-direction:column;gap:1.5rem}
+.rag-step{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.rag-step:hover{border-color:var(--accent-line)}
+.rag-step-circle{flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.6rem;box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+.rag-step.alt .rag-step-circle{background:var(--warning);box-shadow:rgba(194,65,12,.3) 0 6px 20px}
+.rag-step>div:last-child{flex:1 1 0%;min-width:0}
+.step-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);margin-bottom:.4rem}
+.rag-step h4{margin-bottom:.6rem}
+.rag-step p{margin:0;line-height:1.55}
+/* tableaux dans la charte */
+.data-table{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);margin:2rem 0}
+.data-table table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+.data-table th{text-align:left;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding:1rem 1.1rem;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.data-table td{padding:.9rem 1.1rem;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table td strong{color:var(--ink)}
+.data-table .n{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--accent-dark);white-space:nowrap}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .6rem;border-radius:6px;white-space:nowrap}
+.badge.yes{background:var(--success-soft);color:var(--success)}
+.badge.no{background:var(--warning-soft);color:var(--warning)}
+.badge.mid{background:var(--accent-soft);color:var(--accent-dark)}
+/* barre de répartition */
+.split{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);margin:2rem 0}
+.split h4{margin-bottom:1.2rem}
+.split-bar{display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden}
+.split-bar div{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:500;color:var(--on-accent);white-space:nowrap;overflow:hidden}
+.split-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem 1rem;margin-top:1.2rem;font-size:.88rem;color:var(--ink-soft)}
+.split-legend span{display:flex;align-items:center;gap:.5rem}
+.split-legend i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.split-legend b{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--ink);margin-left:auto}
+.split-note{font-size:.82rem;color:var(--ink-muted);margin:1rem 0 0;line-height:1.5}
+/* cartes : reprend .motors / .eeat */
+.motors,.eeat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:2rem 0}
+.motor-card,.eeat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-sm);min-width:0}
+.eeat-card{transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.eeat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motor-name{font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;color:var(--ink);letter-spacing:-.02em;margin-bottom:.3rem}
+.motor-by{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.motor-spec{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border-soft);font-size:.9rem;line-height:1.45}
+.motor-spec:last-child{border-bottom:0}
+.motor-spec-label{flex-shrink:0;width:78px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding-top:.2rem}
+.motor-spec-value{flex:1 1 0%;color:var(--ink-soft)}
+.eeat-letter{width:52px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1rem}
+.eeat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem}
+.eeat-card h4{margin-bottom:.8rem}
+.eeat-card>p{font-size:.95rem;line-height:1.55;margin-bottom:1.2rem}
+.eeat-music{background:var(--accent-soft);border-radius:var(--radius-sm);padding:1rem;font-size:.9rem;line-height:1.5;color:var(--ink);margin-top:auto}
+.eeat-music strong{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.eeat-music .out{color:var(--warning)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:740px){.eeat-grid,.motors,.grid3{grid-template-columns:1fr}}
+/* étapes : reprend .factors */
+.factors{display:flex;flex-direction:column;gap:1.2rem;margin:2rem 0}
+.factor{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.factor:hover{border-color:var(--accent-line)}
+.factor-num{flex-shrink:0;font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;width:50px;letter-spacing:-.03em}
+.factor.err .factor-num{color:var(--warning)}
+.factor>div:last-child{flex:1 1 0%;min-width:0}
+.factor h4{margin-bottom:.6rem}
+.factor p{font-size:.95rem;line-height:1.55;margin-bottom:1rem}
+.factor p:last-child{margin-bottom:0}
+.factor-detail{background:var(--accent-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.88rem;line-height:1.5;color:var(--ink)}
+.factor-detail strong{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.factor.err .factor-detail{background:var(--warning-soft)}
+.factor.err .factor-detail strong{color:var(--warning)}
+/* checklist : reprend .audit */
+.audit-intro{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm)}
+.audit-intro h3{margin-bottom:.8rem}
+.audit-intro p{margin:0;line-height:1.6}
+.audit-prompts{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.prompt-row{display:flex;gap:1.2rem;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.prompt-num{flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--accent);width:36px}
+.prompt-row>div:not(.prompt-num){flex:1 1 0%;min-width:0}
+.prompt-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.audit-check{flex-shrink:0;padding:.5rem .9rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s;font-family:Inter,sans-serif}
+.audit-check:hover{border-color:var(--accent-line)}
+.audit-check.checked{background:var(--success);color:var(--on-accent);border-color:var(--success);font-weight:600}
+.score{font-family:"JetBrains Mono",monospace;color:var(--success);font-weight:500}
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.faq details{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:border-color .2s}
+.faq details:hover,.faq details[open]{border-color:var(--accent-line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.5rem;font-family:Manrope,sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.faq details[open] summary::after{content:"−";background:var(--accent);color:var(--on-accent)}
+.faq .ans{padding:0 1.5rem 1.4rem;color:var(--ink-soft);font-size:.97rem;line-height:1.65}
+/* synthèse */
+.recap{background:var(--ink);color:var(--recap-text);padding:4rem 0;position:relative;overflow:hidden}
+.recap::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(91,20,255,.25) 0%,transparent 60%);border-radius:50%;pointer-events:none}
+.recap>.container-narrow{position:relative;z-index:1}
+.recap h3{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg-card);margin-bottom:1.5rem}
+.recap-list{list-style:none;counter-reset:item;display:flex;flex-direction:column;gap:1rem}
+.recap-list li{counter-increment:item;padding-left:3rem;position:relative;line-height:1.55;color:var(--recap-text)}
+.recap-list li::before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:Manrope,sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-line)}
+.recap-list li strong{color:var(--bg-card)}
+.next-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin:4rem auto;max-width:760px;text-align:center;box-shadow:var(--shadow-md)}
+.next-cta h3{margin-bottom:1rem}
+.next-cta p{margin-bottom:1.5rem;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.1rem 2.2rem;font-family:Manrope,sans-serif;font-size:1rem;font-weight:800;border-radius:999px;border:0;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+footer.site-footer{background:var(--ink);color:rgba(247,241,232,.55);padding:2.5rem 0;text-align:center;font-size:.85rem;border-top:1px solid rgba(247,241,232,.08);line-height:1.7}
+footer.site-footer .src{max-width:760px;margin:0 auto 1rem;font-size:.8rem;color:rgba(247,241,232,.45)}
+@media (max-width:860px){main>section.module{padding:4rem 0}.toc-section{padding:3rem 0}.module-header{margin-bottom:1.8rem}.module-lead{font-size:1.05rem;margin:1rem 0 1.8rem}.rag-step,.factor{padding:1.4rem;gap:1rem}.rag-step-circle{width:48px;height:48px;font-size:1.3rem}.factor-num{font-size:1.6rem;width:40px}.next-cta{padding:1.8rem 1.4rem}.recap-list li{padding-left:2.4rem}section.module::before{width:320px;height:320px}}
+@media (max-width:480px){.hero{padding:3rem 0 2.5rem}.hero h1{font-size:2rem}.rag-step,.factor{flex-direction:column;gap:.8rem}.prompt-row{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<style>
+.case{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem 2rem 1.4rem;margin:2.5rem 0;box-shadow:var(--shadow-md)}
+.case-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.6rem 1rem;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.case-kicker{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);display:block;margin-bottom:.3rem}
+.case-head h3{font-size:1.4rem}
+.case-contract{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;background:var(--accent-soft);color:var(--accent-dark);border-radius:999px;padding:.35rem .8rem;white-space:nowrap}
+.case-context{font-size:.98rem;line-height:1.6;margin-bottom:1rem}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.2rem 0}
+.ba .callout{margin:0;padding:1.3rem 1.4rem}
+.clause{font-family:Georgia,"Times New Roman",serif;font-size:.97rem;line-height:1.6;color:var(--ink);margin:0}
+.case-analysis{display:flex;flex-wrap:wrap;gap:.5rem 1rem;align-items:center;background:var(--bg-soft);border:1px solid var(--border-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.92rem;line-height:1.5;color:var(--ink);margin:1rem 0}
+.case-analysis .lbl{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted)}
+.case-analysis p{flex:1 1 100%;margin:0;color:var(--ink-soft)}
+.case .callout{box-shadow:none}
+@media (max-width:760px){.ba{grid-template-columns:1fr}.case{padding:1.4rem 1.2rem 1rem}}
+</style>
+
+<div class="progress-bar" id="progress-bar"></div>
+<header class="top-nav">
+  <div class="nav-inner">
+    <span class="brand-mark">MUZI<em>FORMA</em></span>
+    <div class="nav-meta"><span>Module 03 / 08</span><span>Muziforma</span></div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Module 03 · Maîtriser les contrats de la musique</span>
+    <h1>Proposer des <em>ajustements</em> : études de cas commentées.</h1>
+    <p class="hero-lead">Refuser un contrat ne sert à rien si tu ne sais pas dire ce que tu veux à la place. Dans ce cours, tu vois six clauses réelles dans leur logique, réécrites pour qu'elles te protègent sans faire fuir l'autre partie.</p>
+    <div class="hero-chips"><span>Durée : 40 min</span><span>6 clauses réécrites</span><span>Avant / après</span></div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">Contrats différents, une clause sensible chacun</div></div>
+      <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">Étapes pour rédiger un ajustement</div></div>
+      <div class="stat-card"><div class="stat-num">5 ans</div><div class="stat-label">Plafond légal d'un pacte de préférence en édition (ou 5 œuvres par genre)</div></div>
+      <div class="stat-card"><div class="stat-num">70 ans</div><div class="stat-label">Durée des droits du producteur : d'où l'enjeu d'une licence limitée dans le temps</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc-section">
+  <div class="container-narrow">
+    <div class="callout">
+      <div class="callout-tag">★ Objectifs pédagogiques</div>
+      <ul>
+        <li>Lire une clause avec une grille réutilisable et qualifier son niveau de risque</li>
+        <li>Choisir le bon levier d'ajustement : délimiter, plafonner, conditionner, limiter dans le temps</li>
+        <li>Rédiger une contre-proposition précise, prête à être intégrée au contrat</li>
+        <li>Argumenter pour que l'ajustement soit acceptable par l'autre partie</li>
+      </ul>
+    </div>
+    <div class="section-label">Plan du cours</div>
+    <div class="toc-grid">
+      <a href="#ajuster" class="toc-item"><span class="toc-num">01</span><span class="toc-title">Ajuster plutôt que refuser</span></a>
+      <a href="#grille" class="toc-item"><span class="toc-num">02</span><span class="toc-title">La grille de lecture d'une clause</span></a>
+      <a href="#niveau" class="toc-item"><span class="toc-num">03</span><span class="toc-title">Mesurer le niveau de risque</span></a>
+      <a href="#methode" class="toc-item"><span class="toc-num">04</span><span class="toc-title">Rédiger un ajustement en 5 étapes</span></a>
+      <a href="#leviers" class="toc-item"><span class="toc-num">05</span><span class="toc-title">Les 6 leviers d'ajustement</span></a>
+      <a href="#cas" class="toc-item"><span class="toc-num">06</span><span class="toc-title">Cas pratiques : 6 clauses réécrites</span></a>
+      <a href="#tableau" class="toc-item"><span class="toc-num">07</span><span class="toc-title">Les 6 cas en un tableau</span></a>
+      <a href="#erreurs" class="toc-item"><span class="toc-num">08</span><span class="toc-title">Les 5 erreurs à éviter</span></a>
+      <a href="#checklist" class="toc-item"><span class="toc-num">09</span><span class="toc-title">Livrable : ta fiche d'ajustements</span></a>
+      <a href="#faq" class="toc-item"><span class="toc-num">10</span><span class="toc-title">FAQ</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="module" id="ajuster">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">01 / 10</span><h2>Ajuster plutôt que <em>refuser</em></h2></div>
+    <p class="module-lead">Un contrat proposé est une première version. Ton travail : transformer chaque clause dangereuse en clause que <strong>les deux parties</strong> peuvent signer.</p>
+    <div class="prose">
+      <p>Un label, un éditeur ou un manager rédige son contrat pour se protéger lui. C'est normal. Il couvre tous les cas, prend le maximum de droits, le plus longtemps possible. Il s'attend à ce que tu poses des questions.</p>
+      <p>Dire « cette clause ne me va pas » ouvre une discussion. Dire « je propose cette rédaction, pour cette raison » la fait avancer. La différence tient en trois choses : une clause précise, une nouvelle rédaction, un argument qui parle aux intérêts de l'autre.</p>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ Ce qu'est un bon ajustement</div>
+      <p>Il <strong>réduit ton risque</strong> sans retirer à l'autre partie ce dont elle a vraiment besoin pour rentabiliser son investissement. Si ta demande lui coûte peu et te protège beaucoup, elle a toutes les chances d'être acceptée.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="module" id="grille">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">02 / 10</span><h2>La grille de <em>lecture</em> d'une clause</h2></div>
+    <p class="module-lead">Sept questions, toujours les mêmes, quel que soit le contrat. Garde ce tableau à côté de toi quand tu lis.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Question</th><th>Ce que tu cherches</th><th>Signal d'alerte</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1. Quoi ?</strong></td><td>Les titres, œuvres ou droits concernés, cités un par un</td><td>« Toutes les œuvres », « l'ensemble du catalogue », « les œuvres futures »</td></tr>
+        <tr><td><strong>2. Combien de temps ?</strong></td><td>Une durée chiffrée et une date de fin</td><td>« Toute la durée de protection », renouvellement tacite sans sortie</td></tr>
+        <tr><td><strong>3. Où et sur quels supports ?</strong></td><td>Territoires et modes d'exploitation listés</td><td>« Monde entier », « tous supports connus et inconnus »</td></tr>
+        <tr><td><strong>4. Avec qui d'autre ?</strong></td><td>Le périmètre exact de l'exclusivité</td><td>Interdiction de toute collaboration, featuring compris</td></tr>
+        <tr><td><strong>5. Combien et sur quelle base ?</strong></td><td>Taux, assiette, frais déductibles, dates de paiement</td><td>Frais « sans plafond », assiette non définie, forfait unique pour tout</td></tr>
+        <tr><td><strong>6. Qui contrôle ?</strong></td><td>Relevés de comptes, droit de regard, validation des modifications</td><td>Relevés « sur demande », modifications « jugées utiles » par l'autre partie</td></tr>
+        <tr><td><strong>7. Comment on en sort ?</strong></td><td>Résiliation, retour des droits, sort des revenus après la fin</td><td>Aucune sortie possible, commission ou droits sans limite après la fin</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <div class="callout-tag">★ Ce que dit la loi pour les auteurs</div>
+      <p>Pour une cession de droits d'auteur, chaque droit cédé doit être mentionné distinctement, avec son étendue, sa destination, son lieu et sa durée (CPI, art. L131-3). La cession globale des œuvres futures est nulle (art. L131-1). Les questions 1 à 3 de la grille vérifient exactement ça.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="module" id="niveau">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">03 / 10</span><h2>Mesurer le <em>niveau</em> de risque</h2></div>
+    <p class="module-lead">Toutes les clauses ne méritent pas le même combat. Classe-les avant de négocier : tu sauras où insister et où lâcher.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Niveau</th><th>Critère</th><th>Exemple</th><th>Attitude</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge yes">Faible</span></td><td>Gêne limitée, facile à corriger plus tard</td><td>Délai de paiement à 60 jours au lieu de 30</td><td>Monnaie d'échange : tu peux céder</td></tr>
+        <tr><td><span class="badge mid">Moyen</span></td><td>Coûte de l'argent ou de la liberté, sans bloquer ta carrière</td><td>Relevés de comptes annuels au lieu de semestriels</td><td>Négocie, accepte un compromis</td></tr>
+        <tr><td><span class="badge no">Élevé</span></td><td>Engage ta carrière sur des années ou tes droits sans retour</td><td>Licence pour toute la durée des droits, option sur 4 albums</td><td>Non négociable : ajustement obligatoire avant signature</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Le test des trois questions</div>
+      <p>Pour chaque clause : <strong>combien ça peut me coûter</strong> au pire, <strong>combien de temps</strong> ça me lie, et <strong>puis-je revenir en arrière</strong>. Deux réponses inquiétantes sur trois : risque élevé.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="module" id="methode">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">04 / 10</span><h2>Rédiger un ajustement en <em>5 étapes</em></h2></div>
+    <p class="module-lead">C'est la méthode appliquée aux six cas de ce cours. Utilise-la telle quelle dans ton mail de retour ou ton tableau de commentaires.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Citer</span><h4>Désigne la clause exacte</h4><p>Numéro d'article et phrase concernée. « L'article 4.2 » vaut mieux que « la partie sur la durée ».</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Nommer</span><h4>Explique le risque en une phrase</h4><p>Type de risque (artistique, financier, moral) et niveau. Reste factuel, sans reproche.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Rédiger</span><h4>Propose la nouvelle rédaction complète</h4><p>Une phrase prête à coller dans le contrat, avec des chiffres, des délais, des conditions. Jamais « à revoir ».</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">4</div><div><span class="step-tag">Justifier</span><h4>Montre ce que l'autre partie garde</h4><p>Elle doit voir que son intérêt principal est préservé : rentabiliser son investissement, garder l'exclusivité utile, être rémunérée pour son travail.</p></div></div>
+      <div class="rag-step alt"><div class="rag-step-circle">5</div><div><span class="step-tag">Prévoir</span><h4>Garde une position de repli</h4><p>Avant d'envoyer, décide jusqu'où tu peux aller. Exemple : tu demandes 5 ans, tu acceptes 7 ans avec retour des droits garanti.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="module" id="leviers">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">05 / 10</span><h2>Les 6 <em>leviers</em> d'ajustement</h2></div>
+    <p class="module-lead">Presque tous les ajustements reposent sur l'un de ces six gestes. Tu les retrouveras dans chaque cas pratique.</p>
+  </div>
+  <div class="container">
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-letter">D</div><div class="eeat-name">Délimiter</div><h4>Réduire le périmètre</h4><p>Titres listés, territoires nommés, supports précis au lieu de « tout, partout ».</p><div class="eeat-music"><strong>Exemple</strong>Licence limitée à la France, la Belgique, la Suisse et le Luxembourg</div></div>
+      <div class="eeat-card"><div class="eeat-letter">T</div><div class="eeat-name">Limiter dans le temps</div><h4>Fixer une fin</h4><p>Durée chiffrée, fin automatique, retour des droits à l'échéance.</p><div class="eeat-music"><strong>Exemple</strong>7 ans à compter de la première commercialisation</div></div>
+      <div class="eeat-card"><div class="eeat-letter">P</div><div class="eeat-name">Plafonner</div><h4>Mettre un chiffre maximum</h4><p>Sur les frais déductibles, une commission, un nombre d'œuvres ou d'options.</p><div class="eeat-music"><strong>Exemple</strong>Frais marketing déductibles dans la limite d'un budget validé</div></div>
+      <div class="eeat-card"><div class="eeat-letter">C</div><div class="eeat-name">Conditionner</div><h4>Lier un droit à un résultat</h4><p>L'autre partie garde un droit tant qu'elle remplit une obligation.</p><div class="eeat-music"><strong>Exemple</strong>Retour de l'œuvre si elle n'est pas exploitée sous 24 mois</div></div>
+      <div class="eeat-card"><div class="eeat-letter">V</div><div class="eeat-name">Valider</div><h4>Garder un droit de regard</h4><p>Accord écrit préalable pour les modifications, les usages sensibles, les dépenses.</p><div class="eeat-music"><strong>Exemple</strong>Toute modification du montage soumise à ton accord écrit</div></div>
+      <div class="eeat-card"><div class="eeat-letter">R</div><div class="eeat-name">Rendre transparent</div><h4>Voir les comptes</h4><p>Relevés réguliers et détaillés, droit de vérifier les chiffres.</p><div class="eeat-music"><strong>Exemple</strong>Relevés trimestriels ligne par ligne, par titre et par plateforme</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="module" id="cas">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">06 / 10</span><h2>Cas pratiques : 6 clauses <em>réécrites</em></h2></div>
+    <p class="module-lead">Six artistes, six esthétiques, six contrats. Les clauses « avant » sont fictives mais typiques de ce que tu peux recevoir. Pour chaque cas : contexte, clause d'origine, analyse, clause proposée, commentaire.</p>
+  </div>
+  <div class="container">
+
+    <!-- Cas 1 -->
+    <article class="case">
+      <div class="case-head"><div><span class="case-kicker">Cas 1 · Reggae</span><h3>Naya et la licence sans fin</h3></div><span class="case-contract">Contrat de licence</span></div>
+      <p class="case-context">Naya a autoproduit son premier album reggae. Un label indépendant veut le sortir, avec une avance et un budget promo. Elle reste propriétaire du master et concède une licence.</p>
+      <div class="ba">
+        <div class="callout warning"><div class="callout-tag">⚠ Avant</div><p class="clause">« Article 3. La présente licence est concédée à titre exclusif pour le monde entier et pour toute la durée de protection des droits du producteur sur les Enregistrements. »</p></div>
+        <div class="callout success"><div class="callout-tag">✓ Après</div><p class="clause">« Article 3. La présente licence est concédée à titre exclusif pour la France, la Belgique, la Suisse et le Luxembourg, pour une durée de sept (7) ans à compter de la première commercialisation. Tout autre territoire pourra être ajouté par avenant, à condition que le Licencié y commercialise les Enregistrements dans les douze (12) mois. À l'expiration, tous les droits reviennent au Concédant, le Licencié disposant d'un délai de six (6) mois, sans exclusivité, pour écouler les stocks physiques. »</p></div>
+      </div>
+      <div class="case-analysis"><span class="lbl">Analyse</span><span class="badge no">Risque élevé</span><span class="badge mid">Artistique et financier</span><p>Les droits du producteur durent 70 ans : Naya perdrait la main sur son album pour sa vie entière. Le « monde entier » bloque des sorties à l'étranger que le label n'assurera peut-être jamais.</p></div>
+      <div class="callout"><div class="callout-tag">★ Pourquoi le label peut l'accepter</div><p>Un label récupère l'essentiel de son investissement dans les premières années d'exploitation. Sept ans lui laissent le temps d'amortir l'avance et la promo. Il garde une porte ouverte vers d'autres pays, s'il s'y engage vraiment, et le délai d'écoulement protège son stock.</p></div>
+    </article>
+
+    <!-- Cas 2 -->
+    <article class="case">
+      <div class="case-head"><div><span class="case-kicker">Cas 2 · Rock</span><h3>Basalte et la commission à vie</h3></div><span class="case-contract">Contrat de management</span></div>
+      <p class="case-context">Basalte, quatre musiciens rock, signe avec un manager qui veut structurer leur carrière : label, tournées, partenariats. Le contrat prévoit sa commission.</p>
+      <div class="ba">
+        <div class="callout warning"><div class="callout-tag">⚠ Avant</div><p class="clause">« Article 5. Le Manager perçoit une commission de 20 % sur l'ensemble des revenus bruts de l'Artiste, de quelque nature qu'ils soient, pendant la durée du contrat et, sans limitation de durée, sur tous les revenus issus de contrats conclus pendant celle-ci. »</p></div>
+        <div class="callout success"><div class="callout-tag">✓ Après</div><p class="clause">« Article 5. Le Manager perçoit une commission de 15 % sur les revenus de l'Artiste, déduction faite des frais directs de production et de tournée (transport, hébergement, techniciens, location de matériel) et des cachets des musiciens additionnels. Après la fin du contrat, la commission reste due sur les contrats conclus pendant sa durée, à taux plein la première année, à 50 % la deuxième année, puis s'éteint. »</p></div>
+      </div>
+      <div class="case-analysis"><span class="lbl">Analyse</span><span class="badge no">Risque élevé</span><span class="badge mid">Financier</span><p>Une commission sur le brut s'applique aussi à l'argent qui sert à payer les frais. Et « sans limitation de durée », le manager serait payé pendant des décennies sur un contrat signé en quelques mois.</p></div>
+    <div class="split">
+      <h4>Le calcul sur une tournée : 40 000 € de cachets, 22 000 € de frais</h4>
+      <p style="font-size:.9rem;margin-bottom:.6rem"><strong>Avant</strong> : 20 % du brut = 8 000 € pour le manager</p>
+      <div class="split-bar">
+        <div style="width:55%;background:var(--ink-muted)">Frais 22 000 €</div>
+        <div style="width:20%;background:var(--warning)">8 000 €</div>
+        <div style="width:25%;background:var(--accent)">10 000 €</div>
+      </div>
+      <p style="font-size:.9rem;margin:1.2rem 0 .6rem"><strong>Après</strong> : 15 % du net (18 000 €) = 2 700 € pour le manager</p>
+      <div class="split-bar">
+        <div style="width:55%;background:var(--ink-muted)">Frais 22 000 €</div>
+        <div style="width:6.75%;background:var(--warning)"></div>
+        <div style="width:38.25%;background:var(--accent)">15 300 €</div>
+      </div>
+      <div class="split-legend">
+        <span><i style="background:var(--ink-muted)"></i>Frais de tournée <b>22 000 €</b></span>
+        <span><i style="background:var(--warning)"></i>Manager <b>8 000 € → 2 700 €</b></span>
+        <span><i style="background:var(--accent)"></i>Reste au groupe <b>10 000 € → 15 300 €</b></span>
+      </div>
+      <p class="split-note">Exemple fictif. Avant : 40 000 € moins 22 000 € de frais moins 8 000 € de commission = 10 000 €, soit 2 500 € par musicien. Après : 18 000 × 15 % = 2 700 €, reste 15 300 €, soit 3 825 € par musicien. Les taux de commission varient selon les accords : 15 à 20 % sont fréquents, sur une assiette à négocier.</p>
+    </div>
+    <div class="callout"><div class="callout-tag">★ Pourquoi le manager peut l'accepter</div><p>Il reste payé sur ce qui rapporte vraiment au groupe, et reste intéressé au succès. La période après la fin reconnaît le travail qu'il a accompli, sans le rémunérer indéfiniment. Si le manager démarche aussi des dates, le contrat relève alors des règles de l'agent artistique (Code du travail, art. L7121-9 et suivants), avec un mandat écrit et des plafonds de commission.</p></div>
+    </article>
+
+    <!-- Cas 3 -->
+    <article class="case">
+      <div class="case-head"><div><span class="case-kicker">Cas 3 · Pop</span><h3>Lou et le pacte de préférence</h3></div><span class="case-contract">Contrat d'édition</span></div>
+      <p class="case-context">Lou, autrice-compositrice pop, signe un contrat d'édition pour trois chansons. L'éditeur ajoute une clause sur ses chansons futures.</p>
+      <div class="ba">
+        <div class="callout warning"><div class="callout-tag">⚠ Avant</div><p class="clause">« Article 9. L'Auteur s'engage à céder à l'Éditeur l'ensemble des œuvres qu'il créera pendant une durée de dix (10) ans à compter de la signature. »</p></div>
+        <div class="callout success"><div class="callout-tag">✓ Après</div><p class="clause">« Article 9. L'Auteur accorde à l'Éditeur un droit de préférence sur ses œuvres nouvelles du genre chanson, limité à trois (3) œuvres ou à la production réalisée dans un délai de trois (3) ans à compter de la signature, la première de ces limites atteinte mettant fin au droit. L'Éditeur fait connaître sa décision dans un délai de deux (2) mois à compter de la remise de chaque œuvre ; à défaut, l'Auteur en dispose librement. »</p></div>
+      </div>
+      <div class="case-analysis"><span class="lbl">Analyse</span><span class="badge no">Risque élevé</span><span class="badge mid">Artistique et financier</span><p>Céder globalement ses œuvres futures est nul (CPI, art. L131-1). Le droit de préférence, lui, est permis mais plafonné à cinq œuvres nouvelles par genre ou à cinq ans de production (art. L132-4). La clause d'origine dépasse ces deux limites.</p></div>
+      <div class="callout"><div class="callout-tag">★ Pourquoi l'éditeur peut l'accepter</div><p>Il garde une priorité sur les prochaines chansons de Lou, ce qu'il cherchait vraiment. Une clause illégale risque d'être annulée en cas de conflit : une rédaction conforme le protège aussi. Le délai de réponse l'oblige seulement à décider vite.</p></div>
+    </article>
+
+    <!-- Cas 4 -->
+    <article class="case">
+      <div class="case-head"><div><span class="case-kicker">Cas 4 · Variété</span><h3>Hélène et la publicité sans limite</h3></div><span class="case-contract">Contrat de synchronisation</span></div>
+      <p class="case-context">Hélène chante et écrit de la variété. Elle est autrice, compositrice et productrice de son titre. Une marque veut l'utiliser dans un spot publicitaire et propose un forfait.</p>
+      <div class="ba">
+        <div class="callout warning"><div class="callout-tag">⚠ Avant</div><p class="clause">« Article 2. Le Titulaire autorise l'Annonceur à utiliser l'Œuvre et l'Enregistrement dans le film publicitaire, sur tous supports et tous médias, dans le monde entier et sans limitation de durée, y compris toute modification, adaptation ou coupe que l'Annonceur jugera utile, moyennant un forfait de 3 000 € HT. »</p></div>
+        <div class="callout success"><div class="callout-tag">✓ Après</div><p class="clause">« Article 2. Le Titulaire autorise l'Annonceur à utiliser un extrait de l'Œuvre et de l'Enregistrement dans le film publicitaire, en versions de 30 et 15 secondes, à la télévision et sur internet (réseaux sociaux, sites de l'Annonceur, plateformes vidéo), en France, pour douze (12) mois à compter de la première diffusion, moyennant 3 000 € HT. Toute prolongation ou extension fera l'objet d'un avenant et d'une rémunération complémentaire. Aucune modification des paroles ou de la mélodie n'est autorisée ; tout autre montage est soumis à l'accord écrit préalable du Titulaire. »</p></div>
+      </div>
+      <div class="case-analysis"><span class="lbl">Analyse</span><span class="badge no">Risque élevé</span><span class="badge mid">Moral et financier</span><p>Pour 3 000 €, la marque pourrait utiliser la chanson partout, pour toujours, et la transformer. Le droit moral de l'auteur, notamment le respect de l'œuvre, est inaliénable (CPI, art. L121-1) : une autorisation générale de modifier « ce que l'Annonceur jugera utile » est fragile et dangereuse pour l'image de l'artiste.</p></div>
+      <div class="callout"><div class="callout-tag">★ Pourquoi l'annonceur peut l'accepter</div><p>Il obtient exactement ce qu'il lui faut pour sa campagne : formats, médias, pays, durée. Si la campagne marche, il prolonge par avenant, sans repartir de zéro. Le prix de départ ne bouge pas, ce qui rend la demande facile à valider en interne.</p></div>
+    </article>
+
+    <!-- Cas 5 -->
+    <article class="case">
+      <div class="case-head"><div><span class="case-kicker">Cas 5 · Urbain</span><h3>Nabil et les featurings interdits</h3></div><span class="case-contract">Contrat d'artiste</span></div>
+      <p class="case-context">Nabil, rappeur, signe en contrat d'artiste avec un label qui financera et produira ses projets. Sa carrière repose en partie sur les collaborations.</p>
+      <div class="ba">
+        <div class="callout warning"><div class="callout-tag">⚠ Avant</div><p class="clause">« Article 4. Le Producteur dispose d'une option exclusive sur quatre (4) albums supplémentaires, exerçable à sa seule discrétion. Pendant toute la durée du contrat, l'Artiste s'interdit de participer à tout enregistrement pour un tiers. »</p></div>
+        <div class="callout success"><div class="callout-tag">✓ Après</div><p class="clause">« Article 4. Le contrat porte sur un (1) album ferme. Le Producteur dispose de deux (2) options d'un album chacune, à lever par écrit dans les trois (3) mois suivant la commercialisation de l'album précédent ; à défaut, le contrat prend fin. L'Artiste peut participer à des enregistrements de tiers en qualité d'invité, sous réserve d'en informer le Producteur quinze (15) jours à l'avance et de faire figurer la mention « avec l'aimable autorisation de [Producteur] », hors album d'un autre artiste sortant dans le mois précédant ou suivant un album de l'Artiste. »</p></div>
+      </div>
+      <div class="case-analysis"><span class="lbl">Analyse</span><span class="badge no">Risque élevé</span><span class="badge mid">Artistique</span><p>Cinq albums au total, sans délai pour lever les options : le contrat peut durer dix ans ou plus, au rythme choisi par le label. L'interdiction totale de featurings coupe Nabil d'un levier majeur de visibilité dans les musiques urbaines.</p></div>
+      <div class="callout"><div class="callout-tag">★ Pourquoi le label peut l'accepter</div><p>Il garde l'exclusivité sur les projets de Nabil et la possibilité de continuer si ça marche. Les featurings exposent l'artiste à d'autres publics, ce qui profite aux ventes du label, avec sa mention en crédit. Le délai de levée d'option l'oblige seulement à décider, pas à investir plus.</p></div>
+    </article>
+
+    <!-- Cas 6 -->
+    <article class="case">
+      <div class="case-head"><div><span class="case-kicker">Cas 6 · Dance · électro</span><h3>Léna et les frais sans plafond</h3></div><span class="case-contract">Contrat de distribution</span></div>
+      <p class="case-context">Léna, productrice électro, sort un EP tous les trois mois. Un distributeur lui propose ses services de livraison aux plateformes et de marketing.</p>
+      <div class="ba">
+        <div class="callout warning"><div class="callout-tag">⚠ Avant</div><p class="clause">« Article 6. Le Distributeur peut déduire des sommes dues au Producteur l'ensemble des frais de marketing qu'il engage, sans plafond. Les relevés sont adressés au Producteur sur sa demande. Le contrat se renouvelle tacitement par périodes de trois (3) ans. »</p></div>
+        <div class="callout success"><div class="callout-tag">✓ Après</div><p class="clause">« Article 6. Seuls sont déductibles les frais de marketing validés par écrit par le Producteur avant leur engagement, dans la limite du budget validé pour chaque sortie. Le Distributeur met à disposition des relevés trimestriels détaillés par titre, par plateforme et par territoire. Le contrat se renouvelle par périodes d'un (1) an, chaque partie pouvant y mettre fin par écrit avec un préavis de trois (3) mois avant l'échéance ; le Distributeur retire alors le catalogue des plateformes dans les soixante (60) jours. »</p></div>
+      </div>
+      <div class="case-analysis"><span class="lbl">Analyse</span><span class="badge mid">Risque moyen à élevé</span><span class="badge mid">Financier</span><p>Sans plafond ni accord préalable, les frais peuvent absorber tous les revenus. Sans relevés réguliers, Léna ne peut rien vérifier. Trois ans renouvelés tacitement, c'est facile d'oublier la date et de rester bloquée.</p></div>
+      <div class="callout"><div class="callout-tag">★ Pourquoi le distributeur peut l'accepter</div><p>Il peut toujours investir en marketing, et récupérer ses frais, dès que Léna est d'accord. Les relevés détaillés existent souvent déjà dans son outil. Un engagement annuel l'incite à garder une artiste qui sort beaucoup de musique en lui rendant un bon service.</p></div>
+    </article>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="module" id="tableau">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">07 / 10</span><h2>Les 6 cas en <em>un tableau</em></h2></div>
+    <p class="module-lead">Même problème de fond, leviers différents. Voici ce qu'il faut retenir de chaque ajustement.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Cas</th><th>Contrat</th><th>Clause</th><th>Leviers utilisés</th><th>Risque avant</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Naya</strong> · reggae</td><td>Licence</td><td>Durée et territoire</td><td>Limiter dans le temps, délimiter, conditionner</td><td><span class="badge no">Élevé</span></td></tr>
+        <tr><td><strong>Basalte</strong> · rock</td><td>Management</td><td>Commission</td><td>Plafonner l'assiette, limiter dans le temps</td><td><span class="badge no">Élevé</span></td></tr>
+        <tr><td><strong>Lou</strong> · pop</td><td>Édition</td><td>Œuvres futures</td><td>Plafonner, limiter dans le temps, conditionner</td><td><span class="badge no">Élevé</span></td></tr>
+        <tr><td><strong>Hélène</strong> · variété</td><td>Synchronisation</td><td>Étendue et modifications</td><td>Délimiter, limiter dans le temps, valider</td><td><span class="badge no">Élevé</span></td></tr>
+        <tr><td><strong>Nabil</strong> · urbain</td><td>Artiste</td><td>Options et exclusivité</td><td>Plafonner, conditionner, délimiter</td><td><span class="badge no">Élevé</span></td></tr>
+        <tr><td><strong>Léna</strong> · électro</td><td>Distribution</td><td>Frais, relevés, durée</td><td>Valider, rendre transparent, limiter dans le temps</td><td><span class="badge mid">Moyen à élevé</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout success">
+      <div class="callout-tag">✓ Le point commun</div>
+      <p>Dans chaque cas, l'ajustement <strong>ne retire pas</strong> à l'autre partie la raison pour laquelle elle signe. Il retire seulement ce qu'elle prenait « au cas où ».</p>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="module" id="erreurs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">08 / 10</span><h2>Les 5 erreurs <em>à éviter</em></h2></div>
+    <p class="module-lead">Elles font échouer des négociations qui auraient pu aboutir, ou laissent passer des clauses dangereuses.</p>
+    <div class="factors">
+      <div class="factor err"><div class="factor-num">01</div><div><h4>Tout contester en même temps</h4><p>Trente remarques de même importance noient l'essentiel. Classe tes demandes et mets en avant les deux ou trois clauses à risque élevé.</p></div></div>
+      <div class="factor err"><div class="factor-num">02</div><div><h4>Formuler une demande vague</h4><p>« Je voudrais une durée plus courte » ne se signe pas. Donne un chiffre, une condition, une rédaction complète.</p></div></div>
+      <div class="factor err"><div class="factor-num">03</div><div><h4>Accepter une promesse orale</h4><p>« Cette clause, on ne l'applique jamais. » Si elle ne s'applique pas, elle peut être retirée ou modifiée par écrit.</p></div></div>
+      <div class="factor err"><div class="factor-num">04</div><div><h4>Oublier les clauses liées</h4><p>Modifier la durée sans vérifier la clause de renouvellement, ou la commission sans vérifier la définition des revenus : l'ajustement ne sert plus à rien.</p></div></div>
+      <div class="factor err"><div class="factor-num">05</div><div><h4>Perdre le fil des versions</h4><p>Relis toujours la version finale en entier avant de signer. Une modification acceptée par mail peut ne jamais avoir été reportée dans le contrat.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="module" id="checklist">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">09 / 10</span><h2>Livrable : ta fiche <em>d'ajustements</em></h2></div>
+    <div class="audit-intro">
+      <h3>Applique la méthode à un contrat de ton projet</h3>
+      <p>Prends un contrat que tu as reçu ou que tu vas recevoir. Ce travail prépare l'exercice d'analyse de fin de module. Progression : <span class="score" id="score">0 / 7</span></p>
+    </div>
+    <div class="audit-prompts" id="checklist-list">
+      <div class="prompt-row"><div class="prompt-num">A01</div><div><div class="prompt-text">J'ai passé chaque clause sensible dans la grille des 7 questions</div></div><button type="button" class="audit-check" id="c1">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">A02</div><div><div class="prompt-text">J'ai classé chaque clause en risque faible, moyen ou élevé</div></div><button type="button" class="audit-check" id="c2">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">A03</div><div><div class="prompt-text">J'ai choisi un levier pour chaque clause à risque élevé</div></div><button type="button" class="audit-check" id="c3">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">A04</div><div><div class="prompt-text">J'ai rédigé la clause « après » complète, prête à coller</div></div><button type="button" class="audit-check" id="c4">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">A05</div><div><div class="prompt-text">J'ai écrit, pour chaque ajustement, ce que l'autre partie garde</div></div><button type="button" class="audit-check" id="c5">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">A06</div><div><div class="prompt-text">J'ai fixé ma position de repli et ce que je peux céder en échange</div></div><button type="button" class="audit-check" id="c6">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">A07</div><div><div class="prompt-text">J'ai vérifié les clauses liées (définitions, renouvellement, fin)</div></div><button type="button" class="audit-check" id="c7">⬚ Fait</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="module" id="faq">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">10 / 10</span><h2>Questions <em>fréquentes</em></h2></div>
+    <div class="faq">
+      <details><summary>Est-ce que demander des modifications risque de faire capoter le deal ?</summary><div class="ans">Rarement, si tes demandes sont précises, argumentées et limitées à l'essentiel. Un partenaire qui refuse toute discussion sur une clause à risque élevé te donne une information utile sur la relation à venir.</div></details>
+      <details><summary>Sous quelle forme envoyer mes ajustements ?</summary><div class="ans">Un tableau à trois colonnes fonctionne bien : article et texte d'origine, rédaction proposée, justification. Tu peux aussi utiliser le mode « suivi des modifications » dans le fichier du contrat. Dans les deux cas, garde une trace datée de chaque version.</div></details>
+      <details><summary>Puis-je reprendre telles quelles les clauses « après » de ce cours ?</summary><div class="ans">Elles montrent une logique, pas une vérité universelle. Les durées, pourcentages et délais sont des exemples : adapte-les à ton projet, à l'investissement de l'autre partie et aux usages de ton secteur.</div></details>
+      <details><summary>Que faire si l'autre partie refuse un ajustement sur un risque élevé ?</summary><div class="ans">Propose ta position de repli. Si le refus persiste, demande-toi si le contrat reste acceptable avec ce risque. Pour un engagement long ou une cession large, fais relire par un avocat spécialisé avant de trancher.</div></details>
+      <details><summary>Une clause illégale est-elle automatiquement sans effet ?</summary><div class="ans">Une clause contraire à la loi peut être annulée par un juge, mais il faut souvent aller jusqu'au conflit pour l'obtenir. Mieux vaut la corriger avant de signer que compter sur sa nullité plus tard.</div></details>
+      <details><summary>Faut-il accepter un ajustement proposé par l'autre partie en retour ?</summary><div class="ans">Analyse-le avec la même grille. Une négociation est un échange : céder sur une clause à risque faible pour obtenir gain de cause sur une clause à risque élevé est souvent une bonne affaire.</div></details>
+      <details><summary>Un avenant peut-il corriger une clause après la signature ?</summary><div class="ans">Oui, si les deux parties le signent. Mais ton pouvoir de négociation est souvent plus fort avant la signature, quand l'autre partie veut encore conclure.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="recap">
+  <div class="container-narrow">
+    <div class="section-label" style="color:var(--accent-line)">Synthèse</div>
+    <h3>Ce que tu dois retenir de ce cours</h3>
+    <ol class="recap-list">
+      <li>Un contrat proposé est une <strong>première version</strong> : l'ajuster est normal et attendu.</li>
+      <li>Lis chaque clause avec la <strong>grille des 7 questions</strong>, puis classe son risque : faible, moyen, élevé.</li>
+      <li>Un ajustement se rédige en <strong>5 étapes</strong> : citer, nommer le risque, rédiger, justifier, prévoir un repli.</li>
+      <li>Six leviers suffisent presque toujours : <strong>délimiter, limiter dans le temps, plafonner, conditionner, valider, rendre transparent</strong>.</li>
+      <li>Un bon ajustement laisse à l'autre partie <strong>la raison pour laquelle elle signe</strong>.</li>
+      <li>Toute modification acceptée se retrouve <strong>par écrit</strong> dans la version finale que tu relis avant de signer.</li>
+    </ol>
+  </div>
+</section>
+
+<div class="container-narrow">
+  <div class="next-cta">
+    <h3>Prêt pour la <em>vidéo suivante</em> ?</h3>
+    <p>Mobiliser des ressources juridiques spécialisées : guides, modèles, juristes et avocats.</p>
+    <span class="btn btn-primary">Continuer vers les ressources juridiques →</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="src">Références : Code de la propriété intellectuelle (art. L121-1, L131-1, L131-3, L132-4, L211-4) · Code du travail (art. L7121-9 et suivants). Support pédagogique de la formation « Structurer et développer une activité artistique musicale ». Il ne remplace pas un conseil juridique personnalisé.</p>
+    © 2026 Tarik Hamiche · Muziforma
+  </div>
+</footer>
+
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var btns=[].slice.call(document.querySelectorAll('#checklist-list .audit-check'));
+  var score=document.getElementById('score');var KEY='contrats-etudes-de-cas-checklist';var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function paint(b){var on=!!saved[b.id];b.classList.toggle('checked',on);b.textContent=(on?'✓':'⬚')+' Fait';b.setAttribute('aria-pressed',on?'true':'false');}
+  function upd(){score.textContent=btns.filter(function(b){return saved[b.id]}).length+' / '+btns.length;}
+  btns.forEach(function(b){paint(b);b.addEventListener('click',function(){saved[b.id]=!saved[b.id];try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}paint(b);upd();});});
+  upd();
+})();
+</script>
+
+
+</body>
+</html>

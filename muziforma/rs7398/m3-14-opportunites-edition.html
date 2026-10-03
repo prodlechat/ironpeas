@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Explorer les opportunités d'édition · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Charte reprise à l'identique du support « Cité par les IA » : fond sable, violet #5B14FF, Manrope + Inter + JetBrains Mono. Thème clair unique, choisi volontairement. */
+:root{--bg:#F7F1E8;--bg-soft:#FCF8F2;--bg-card:#FFFFFF;--ink:#1F1A15;--ink-soft:#5C4F42;--ink-muted:#8A7A6A;--accent:#5B14FF;--accent-dark:#4910CC;--accent-soft:#EDE9FE;--accent-line:#A78BFA;--border:#E8DDC9;--border-soft:#F0E6D4;--warning:#C2410C;--warning-soft:#FFEDD5;--success:#15803D;--success-soft:#DCFCE7;--on-accent:#FFFFFF;--recap-text:rgba(247,241,232,.85);--shadow-sm:0 1px 2px rgba(31,26,21,.04);--shadow-md:0 4px 16px rgba(31,26,21,.06);--radius-sm:8px;--radius-md:14px;--radius-lg:24px;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Manrope,-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700}
+h4{font-size:1.15rem;font-weight:700;line-height:1.3}
+p{margin-bottom:1.1rem;color:var(--ink-soft)}
+strong{color:var(--ink);font-weight:700}
+em{font-style:normal;color:var(--accent);font-weight:800}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.container-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-line));z-index:9999}
+header.top-nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(247,241,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand-mark{font-family:Manrope,sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--ink)}
+.brand-mark em{color:var(--accent)}
+.nav-meta{display:flex;gap:1rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted)}
+.nav-meta span:not(:last-child)::after{content:"·";margin-left:1rem;color:var(--border)}
+@media (max-width:600px){.nav-meta{display:none}}
+.hero{padding:5rem 0 4rem;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;max-width:none;background:radial-gradient(circle,rgba(167,139,250,.22) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(91,20,255,.14) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1.8rem;box-shadow:var(--shadow-sm)}
+.hero h1{margin-bottom:1.5rem}
+.hero-lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:720px;margin:0 auto 1.5rem;line-height:1.55}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.hero-chips span{font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:.35rem .9rem}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:880px;margin:3rem auto 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-num{font-family:Manrope,sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em;margin-bottom:.5rem}
+.stat-label{font-size:.82rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.hero-stats{grid-template-columns:1fr}}
+.section-label{display:inline-block;font-family:Inter,sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:1.5rem}
+.toc-section{padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);text-align:center}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:800px;margin:1rem auto 0}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left;color:var(--ink);transition:.15s}
+.toc-item:hover{border-color:var(--accent);transform:translateX(2px);box-shadow:var(--shadow-sm);color:var(--ink)}
+.toc-num{font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);flex-shrink:0;width:36px}
+.toc-title{font-weight:600;font-size:.95rem;line-height:1.3}
+@media (max-width:600px){.toc-grid{grid-template-columns:1fr}}
+main>section.module{padding:6rem 0;position:relative;overflow:hidden}
+main>section.module:nth-of-type(odd){background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+section.module::before{content:"";position:absolute;top:10%;right:-180px;width:480px;height:480px;background:radial-gradient(circle,rgba(167,139,250,.16) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
+section.module>.container,section.module>.container-narrow{position:relative;z-index:1}
+.module-header{margin-bottom:2.5rem}
+.module-num{font-family:Manrope,sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.6rem;display:block}
+.module-lead{font-size:1.15rem;color:var(--ink-soft);margin:1.5rem 0 2.5rem;line-height:1.55;max-width:720px}
+.prose p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.3rem}
+.callout{background:var(--bg-card);border-left:4px solid var(--accent);border-radius:var(--radius-md);padding:1.6rem 1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm);text-align:left}
+.callout.warning{border-left-color:var(--warning);background:linear-gradient(135deg,var(--warning-soft) 0%,var(--bg-card) 60%)}
+.callout.success{border-left-color:var(--success);background:linear-gradient(135deg,var(--success-soft) 0%,var(--bg-card) 60%)}
+.callout-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.6rem}
+.callout.warning .callout-tag{color:var(--warning)}
+.callout.success .callout-tag{color:var(--success)}
+.callout p{margin:0;color:var(--ink);line-height:1.55}
+.callout ul{margin:.2rem 0 0 1.2rem;color:var(--ink);line-height:1.6}
+/* 3 casquettes : reprend .evolution */
+.evolution{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2rem 0}
+.evo-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;text-align:center;box-shadow:var(--shadow-sm)}
+.evo-col.featured{border:2px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg-card) 50%);transform:scale(1.02);box-shadow:var(--shadow-md)}
+.evo-acronym{font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;letter-spacing:-.04em;margin-bottom:.4rem}
+.evo-col:not(.featured) .evo-acronym{color:var(--ink-muted)}
+.evo-full{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:1rem;font-weight:600}
+.evo-col h4{margin-bottom:.6rem}
+.evo-col p{font-size:.92rem;line-height:1.55;text-align:left}
+.evo-target{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--border);text-align:left;font-size:.85rem;line-height:1.45;color:var(--ink)}
+.evo-target strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem;font-weight:800}
+@media (max-width:800px){.evolution{grid-template-columns:1fr}.evo-col.featured{transform:none}}
+/* circuit : reprend .rag-flow */
+.rag-flow{margin:2.5rem 0;display:flex;flex-direction:column;gap:1.5rem}
+.rag-step{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.rag-step:hover{border-color:var(--accent-line)}
+.rag-step-circle{flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.6rem;box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+.rag-step.alt .rag-step-circle{background:var(--warning);box-shadow:rgba(194,65,12,.3) 0 6px 20px}
+.rag-step>div:last-child{flex:1 1 0%;min-width:0}
+.step-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);margin-bottom:.4rem}
+.rag-step h4{margin-bottom:.6rem}
+.rag-step p{margin:0;line-height:1.55}
+/* tableaux dans la charte */
+.data-table{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);margin:2rem 0}
+.data-table table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+.data-table th{text-align:left;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding:1rem 1.1rem;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.data-table td{padding:.9rem 1.1rem;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table td strong{color:var(--ink)}
+.data-table .n{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--accent-dark);white-space:nowrap}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .6rem;border-radius:6px;white-space:nowrap}
+.badge.yes{background:var(--success-soft);color:var(--success)}
+.badge.no{background:var(--warning-soft);color:var(--warning)}
+.badge.mid{background:var(--accent-soft);color:var(--accent-dark)}
+/* barre de répartition */
+.split{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);margin:2rem 0}
+.split h4{margin-bottom:1.2rem}
+.split-bar{display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden}
+.split-bar div{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:500;color:var(--on-accent);white-space:nowrap;overflow:hidden}
+.split-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem 1rem;margin-top:1.2rem;font-size:.88rem;color:var(--ink-soft)}
+.split-legend span{display:flex;align-items:center;gap:.5rem}
+.split-legend i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.split-legend b{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--ink);margin-left:auto}
+.split-note{font-size:.82rem;color:var(--ink-muted);margin:1rem 0 0;line-height:1.5}
+/* cartes : reprend .motors / .eeat */
+.motors,.eeat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:2rem 0}
+.motor-card,.eeat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-sm);min-width:0}
+.eeat-card{transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.eeat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motor-name{font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;color:var(--ink);letter-spacing:-.02em;margin-bottom:.3rem}
+.motor-by{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.motor-spec{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border-soft);font-size:.9rem;line-height:1.45}
+.motor-spec:last-child{border-bottom:0}
+.motor-spec-label{flex-shrink:0;width:78px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding-top:.2rem}
+.motor-spec-value{flex:1 1 0%;color:var(--ink-soft)}
+.eeat-letter{width:52px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1rem}
+.eeat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem}
+.eeat-card h4{margin-bottom:.8rem}
+.eeat-card>p{font-size:.95rem;line-height:1.55;margin-bottom:1.2rem}
+.eeat-music{background:var(--accent-soft);border-radius:var(--radius-sm);padding:1rem;font-size:.9rem;line-height:1.5;color:var(--ink);margin-top:auto}
+.eeat-music strong{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.eeat-music .out{color:var(--warning)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:740px){.eeat-grid,.motors,.grid3{grid-template-columns:1fr}}
+/* étapes : reprend .factors */
+.factors{display:flex;flex-direction:column;gap:1.2rem;margin:2rem 0}
+.factor{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.factor:hover{border-color:var(--accent-line)}
+.factor-num{flex-shrink:0;font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;width:50px;letter-spacing:-.03em}
+.factor.err .factor-num{color:var(--warning)}
+.factor>div:last-child{flex:1 1 0%;min-width:0}
+.factor h4{margin-bottom:.6rem}
+.factor p{font-size:.95rem;line-height:1.55;margin-bottom:1rem}
+.factor p:last-child{margin-bottom:0}
+.factor-detail{background:var(--accent-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.88rem;line-height:1.5;color:var(--ink)}
+.factor-detail strong{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.factor.err .factor-detail{background:var(--warning-soft)}
+.factor.err .factor-detail strong{color:var(--warning)}
+/* checklist : reprend .audit */
+.audit-intro{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm)}
+.audit-intro h3{margin-bottom:.8rem}
+.audit-intro p{margin:0;line-height:1.6}
+.audit-prompts{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.prompt-row{display:flex;gap:1.2rem;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.prompt-num{flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--accent);width:36px}
+.prompt-row>div:not(.prompt-num){flex:1 1 0%;min-width:0}
+.prompt-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.audit-check{flex-shrink:0;padding:.5rem .9rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s;font-family:Inter,sans-serif}
+.audit-check:hover{border-color:var(--accent-line)}
+.audit-check.checked{background:var(--success);color:var(--on-accent);border-color:var(--success);font-weight:600}
+.score{font-family:"JetBrains Mono",monospace;color:var(--success);font-weight:500}
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.faq details{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:border-color .2s}
+.faq details:hover,.faq details[open]{border-color:var(--accent-line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.5rem;font-family:Manrope,sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.faq details[open] summary::after{content:"−";background:var(--accent);color:var(--on-accent)}
+.faq .ans{padding:0 1.5rem 1.4rem;color:var(--ink-soft);font-size:.97rem;line-height:1.65}
+/* synthèse */
+.recap{background:var(--ink);color:var(--recap-text);padding:4rem 0;position:relative;overflow:hidden}
+.recap::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(91,20,255,.25) 0%,transparent 60%);border-radius:50%;pointer-events:none}
+.recap>.container-narrow{position:relative;z-index:1}
+.recap h3{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg-card);margin-bottom:1.5rem}
+.recap-list{list-style:none;counter-reset:item;display:flex;flex-direction:column;gap:1rem}
+.recap-list li{counter-increment:item;padding-left:3rem;position:relative;line-height:1.55;color:var(--recap-text)}
+.recap-list li::before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:Manrope,sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-line)}
+.recap-list li strong{color:var(--bg-card)}
+.next-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin:4rem auto;max-width:760px;text-align:center;box-shadow:var(--shadow-md)}
+.next-cta h3{margin-bottom:1rem}
+.next-cta p{margin-bottom:1.5rem;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.1rem 2.2rem;font-family:Manrope,sans-serif;font-size:1rem;font-weight:800;border-radius:999px;border:0;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+footer.site-footer{background:var(--ink);color:rgba(247,241,232,.55);padding:2.5rem 0;text-align:center;font-size:.85rem;border-top:1px solid rgba(247,241,232,.08);line-height:1.7}
+footer.site-footer .src{max-width:760px;margin:0 auto 1rem;font-size:.8rem;color:rgba(247,241,232,.45)}
+@media (max-width:860px){main>section.module{padding:4rem 0}.toc-section{padding:3rem 0}.module-header{margin-bottom:1.8rem}.module-lead{font-size:1.05rem;margin:1rem 0 1.8rem}.rag-step,.factor{padding:1.4rem;gap:1rem}.rag-step-circle{width:48px;height:48px;font-size:1.3rem}.factor-num{font-size:1.6rem;width:40px}.next-cta{padding:1.8rem 1.4rem}.recap-list li{padding-left:2.4rem}section.module::before{width:320px;height:320px}}
+@media (max-width:480px){.hero{padding:3rem 0 2.5rem}.hero h1{font-size:2rem}.rag-step,.factor{flex-direction:column;gap:.8rem}.prompt-row{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<style>
+.chain{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin:2rem 0;position:relative}
+.chain-step{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.4rem 1.2rem;box-shadow:var(--shadow-sm);position:relative;display:flex;flex-direction:column;gap:.5rem}
+.chain-step:not(:last-child)::after{content:"→";position:absolute;right:-1rem;top:50%;transform:translate(50%,-50%);width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;z-index:2}
+.chain-kicker{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted)}
+.chain-title{font-family:Manrope,sans-serif;font-weight:800;font-size:1.15rem;color:var(--ink);letter-spacing:-.02em}
+.chain-contract{margin-top:auto;background:var(--accent-soft);border-radius:var(--radius-sm);padding:.7rem .8rem;font-size:.85rem;line-height:1.4;color:var(--ink)}
+.chain-contract strong{display:block;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.2rem}
+@media (max-width:800px){.chain{grid-template-columns:1fr 1fr}.chain-step:nth-child(2)::after{display:none}}
+@media (max-width:480px){.chain{grid-template-columns:1fr}.chain-step::after{display:none}}
+.quiz{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.quiz-row{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.3rem 1.4rem;box-shadow:var(--shadow-sm)}
+.quiz-head{display:flex;gap:1rem;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.quiz-q{flex:1 1 320px;min-width:0}
+.quiz-genre{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.quiz-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.reveal{flex-shrink:0;padding:.55rem 1rem;border-radius:999px;border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-dark);font-family:Manrope,sans-serif;font-weight:800;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;cursor:pointer}
+.reveal:hover{background:var(--accent);color:var(--on-accent)}
+.quiz-answer{margin-top:1rem;background:var(--success-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.92rem;line-height:1.5;color:var(--ink)}
+.quiz-answer strong{color:var(--success)}
+</style>
+
+<div class="progress-bar" id="progress-bar"></div>
+<header class="top-nav">
+  <div class="nav-inner">
+    <span class="brand-mark">MUZI<em>FORMA</em></span>
+    <div class="nav-meta"><span>Module 03 / 08</span><span>Muziforma</span></div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Module 03 · Maîtriser les contrats de la musique</span>
+    <h1>Explorer les opportunités d'<em>édition</em>.</h1>
+    <p class="hero-lead">L'éditeur de musique fait vivre tes œuvres : il les place, les déclare, suit leurs droits et te rend des comptes. Signer avec un éditeur, rester sans éditeur ou créer ta propre structure d'édition : trois voies, trois stratégies.</p>
+    <div class="hero-chips"><span>Durée : 30 min</span><span>Auteurs, compositeurs</span><span>Créer sa structure d'édition</span></div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">1/3</div><div class="stat-label">Part de l'éditeur sur les droits d'exécution publique à la SACEM</div></div>
+      <div class="stat-card"><div class="stat-num">2 fois</div><div class="stat-label">Par an : la reddition des comptes prévue par le Code des usages de 2017</div></div>
+      <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">Œuvres éditées et exploitées au minimum pour être admis comme éditeur à la SACEM</div></div>
+      <div class="stat-card"><div class="stat-num">30 %</div><div class="stat-label">Taux du crédit d'impôt édition musicale pour les petites et moyennes entreprises</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc-section">
+  <div class="container-narrow">
+    <div class="callout">
+      <div class="callout-tag">★ Objectifs pédagogiques</div>
+      <ul>
+        <li>Distinguer l'éditeur de musique du producteur phonographique</li>
+        <li>Connaître le rôle, les obligations et la rémunération de l'éditeur</li>
+        <li>Repérer les opportunités qu'un éditeur peut ouvrir à tes œuvres</li>
+        <li>Choisir ta voie : signer, rester sans éditeur ou créer ta structure d'édition</li>
+      </ul>
+    </div>
+    <div class="section-label">Plan du cours</div>
+    <div class="toc-grid">
+      <a href="#vocabulaire" class="toc-item"><span class="toc-num">01</span><span class="toc-title">Éditeur ou producteur : deux métiers</span></a>
+      <a href="#role" class="toc-item"><span class="toc-num">02</span><span class="toc-title">Le rôle de l'éditeur</span></a>
+      <a href="#obligations" class="toc-item"><span class="toc-num">03</span><span class="toc-title">Ses obligations envers toi</span></a>
+      <a href="#remuneration" class="toc-item"><span class="toc-num">04</span><span class="toc-title">Comment l'éditeur est rémunéré</span></a>
+      <a href="#opportunites" class="toc-item"><span class="toc-num">05</span><span class="toc-title">Les opportunités qu'il ouvre</span></a>
+      <a href="#voies" class="toc-item"><span class="toc-num">06</span><span class="toc-title">Trois voies possibles</span></a>
+      <a href="#structure" class="toc-item"><span class="toc-num">07</span><span class="toc-title">Créer ta structure d'édition</span></a>
+      <a href="#cas" class="toc-item"><span class="toc-num">08</span><span class="toc-title">Cas pratiques</span></a>
+      <a href="#erreurs" class="toc-item"><span class="toc-num">09</span><span class="toc-title">Les 5 erreurs à éviter</span></a>
+      <a href="#checklist" class="toc-item"><span class="toc-num">10</span><span class="toc-title">Livrable : ta stratégie d'édition</span></a>
+      <a href="#faq" class="toc-item"><span class="toc-num">11</span><span class="toc-title">FAQ</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="module" id="vocabulaire">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">01 / 11</span><h2>Éditeur ou producteur : <em>deux métiers</em></h2></div>
+    <p class="module-lead">Une chanson, c'est deux objets : l'<strong>œuvre</strong> (paroles et musique) et l'<strong>enregistrement</strong> (le master). L'éditeur s'occupe du premier, le producteur du second.</p>
+    <div class="data-table"><table>
+      <thead><tr><th></th><th>Éditeur de musique</th><th>Producteur phonographique</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Ce qu'il gère</strong></td><td>L'œuvre : paroles et musique</td><td>L'enregistrement : le master</td></tr>
+        <tr><td><strong>Ses partenaires</strong></td><td>Auteurs et compositeurs</td><td>Artistes-interprètes</td></tr>
+        <tr><td><strong>Le contrat</strong></td><td>Contrat de cession et d'édition</td><td>Contrat d'artiste, de licence, de distribution</td></tr>
+        <tr><td><strong>Les droits</strong></td><td>Droits d'auteur</td><td>Droits voisins</td></tr>
+        <tr><td><strong>La société de gestion</strong></td><td>SACEM</td><td>SCPP ou SPPF</td></tr>
+        <tr><td><strong>Le code d'identification</strong></td><td>ISWC, pour l'œuvre</td><td>ISRC, pour l'enregistrement</td></tr>
+        <tr><td><strong>Les organisations professionnelles</strong></td><td>CSDEM, CEMF, ULM</td><td>SNEP, UPFI</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Attention au vocabulaire</div>
+      <p>Le SNEP s'appelle « Syndicat national de l'édition phonographique », mais il réunit des <strong>producteurs de disques</strong>, c'est-à-dire des labels. Dans ce cours, « éditeur » désigne l'<strong>éditeur de musique</strong> : celui qui administre et développe les œuvres des auteurs et des compositeurs.</p>
+    </div>
+    <div class="prose">
+      <p>Une même personne peut porter les deux casquettes : beaucoup de labels ont aussi une structure d'édition. Ce sont pourtant deux contrats, deux flux de revenus et deux séries d'obligations.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="module" id="role">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">02 / 11</span><h2>Le <em>rôle</em> de l'éditeur</h2></div>
+    <p class="module-lead">Par le contrat d'édition, tu cèdes à l'éditeur le droit d'exploiter ton œuvre. En échange, il s'engage à la faire vivre.</p>
+    <div class="prose">
+      <p>Le Code de la propriété intellectuelle définit le contrat d'édition à l'article <strong>L132-1</strong> : l'auteur cède à l'éditeur le droit de fabriquer des exemplaires de l'œuvre, à charge pour lui d'en assurer la publication et la diffusion. Le <strong>Code des usages et des bonnes pratiques de l'édition des œuvres musicales</strong>, signé le 4 octobre 2017 par les organisations d'auteurs et d'éditeurs, précise ce rôle : publier, diffuser, exploiter l'œuvre, puis suivre et verser les rémunérations à l'auteur. Ces fonctions forment un tout.</p>
+    </div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-letter">A</div><div class="eeat-name">Accompagner</div><h4>La création</h4><p>Conseils sur les titres, mises en relation, séminaires d'écriture, financement de maquettes.</p><div class="eeat-music"><strong>Pour toi</strong>Du temps, un réseau et parfois une avance</div></div>
+      <div class="eeat-card"><div class="eeat-letter">P</div><div class="eeat-name">Placer</div><h4>L'exploitation</h4><p>Proposer tes œuvres à des interprètes, à des labels, à l'audiovisuel, à la publicité, au jeu vidéo.</p><div class="eeat-music"><strong>Pour toi</strong>De nouvelles utilisations de tes œuvres</div></div>
+      <div class="eeat-card"><div class="eeat-letter">D</div><div class="eeat-name">Déclarer</div><h4>L'administration</h4><p>Déclarer les œuvres à la SACEM, tenir à jour la documentation, gérer les contrats et les autorisations.</p><div class="eeat-music"><strong>Pour toi</strong>Des œuvres bien identifiées, en France et à l'étranger</div></div>
+      <div class="eeat-card"><div class="eeat-letter">S</div><div class="eeat-name">Suivre</div><h4>Les droits</h4><p>Vérifier que chaque exploitation est bien collectée, réclamer les droits manquants, te rendre des comptes.</p><div class="eeat-music"><strong>Pour toi</strong>Moins de droits perdus en route</div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ L'éditeur vu par la SACEM</div>
+      <p>Dans son guide pratique, la SACEM présente l'éditeur comme le cessionnaire des droits d'exploitation des œuvres. Il en assure l'exploitation commerciale, les déclare auprès des organismes de gestion collective et vérifie que toutes les exploitations sont bien collectées.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="module" id="obligations">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">03 / 11</span><h2>Ses <em>obligations</em> envers toi</h2></div>
+    <p class="module-lead">Un éditeur n'est pas un simple collecteur. La loi et le Code des usages lui imposent des actes concrets.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Obligation</th><th>Ce que ça veut dire</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Publier l'œuvre</strong></td><td>Édition graphique (partition) dans l'année qui suit la remise du matériel par l'auteur. Deux ans en musique classique et en librairie musicale</td><td>Code des usages, art. 3.3</td></tr>
+        <tr><td><strong>Exploitation permanente et suivie</strong></td><td>Faire vivre l'œuvre dans la durée, avec une diffusion commerciale conforme aux usages</td><td>CPI, art. L132-12</td></tr>
+        <tr><td><strong>Rendre des comptes</strong></td><td>Au moins une fois par an selon la loi. Deux fois par an selon le Code des usages, œuvre par œuvre et droit par droit</td><td>CPI, art. L132-13 · Code des usages, art. 3.6</td></tr>
+        <tr><td><strong>Payer</strong></td><td>Versement dans les 45 jours qui suivent la reddition des comptes</td><td>Code des usages, art. 3.6</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <div class="callout-tag">★ « Exploitation permanente et suivie », concrètement</div>
+      <p>En variété et en musique à l'image, le Code des usages attend de l'éditeur qu'il présente l'œuvre dans son catalogue, la rende accessible en ligne, et mène <strong>au moins trois actions</strong> parmi : propositions à des interprètes, playlists de promotion, placements audiovisuels ou publicitaires, démarches à l'export, sous-édition.</p>
+    </div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Si l'éditeur ne fait rien</h4><p>Tu lui écris en recommandé. Le Code des usages prévoit une résiliation de plein droit s'il ne régularise pas dans les <strong>3 mois</strong> : œuvre non publiée, comptes non rendus, sommes non payées.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Si le dialogue est bloqué</h4><p>Une commission de conciliation réunit trois représentants des auteurs et trois des éditeurs. Elle peut être saisie avant d'aller au tribunal.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Si tu as reçu une avance</h4><p>Elle se rembourse sur tes droits, sans intérêts. Le contrat doit dire sur quels revenus et sur quelles œuvres elle se récupère.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="module" id="remuneration">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">04 / 11</span><h2>Comment l'éditeur est <em>rémunéré</em></h2></div>
+    <p class="module-lead">L'éditeur ne te facture rien. Il touche une part des droits que l'œuvre génère. S'il ne se passe rien, il ne gagne rien.</p>
+    <div class="split">
+      <h4>Droits d'exécution publique : concerts, radio, télévision, lieux publics</h4>
+      <div class="split-bar" role="img" aria-label="Un tiers pour l'auteur, un tiers pour le compositeur, un tiers pour l'éditeur.">
+        <div style="width:33.33%;background:var(--accent-line)">Auteur 1/3</div>
+        <div style="width:33.33%;background:var(--accent-dark)">Compositeur 1/3</div>
+        <div style="width:33.34%;background:var(--accent)">Éditeur 1/3</div>
+      </div>
+      <p class="split-note">Règle générale des statuts de la SACEM : partage par tiers entre l'auteur, le compositeur et l'éditeur.</p>
+    </div>
+    <div class="split">
+      <h4>Droits de reproduction mécanique : disques, streaming, téléchargement</h4>
+      <div class="split-bar" role="img" aria-label="Exemple courant : 25 % pour l'auteur, 25 % pour le compositeur, 50 % pour l'éditeur.">
+        <div style="width:25%;background:var(--accent-line)">Auteur 25 %</div>
+        <div style="width:25%;background:var(--accent-dark)">Compositeur 25 %</div>
+        <div style="width:50%;background:var(--accent)">Éditeur 50 %</div>
+      </div>
+      <p class="split-note">Partage fixé par le contrat. La répartition 25 / 25 / 50 est la plus courante, et elle se négocie.</p>
+    </div>
+    <div class="prose">
+      <p><strong>Exemple.</strong> Une œuvre génère sur un an 9 000 € de droits d'exécution publique et 4 000 € de droits de reproduction mécanique, soit 13 000 €.</p>
+    </div>
+    <div class="data-table"><table>
+      <thead><tr><th>Répartition</th><th style="text-align:right">Auteur</th><th style="text-align:right">Compositeur</th><th style="text-align:right">Éditeur</th></tr></thead>
+      <tbody>
+        <tr><td>Exécution publique : 9 000 €, par tiers</td><td class="n">3 000 €</td><td class="n">3 000 €</td><td class="n">3 000 €</td></tr>
+        <tr><td>Reproduction mécanique : 4 000 €, en 25 / 25 / 50</td><td class="n">1 000 €</td><td class="n">1 000 €</td><td class="n">2 000 €</td></tr>
+        <tr><td><strong>Total avec éditeur</strong></td><td class="n"><strong>4 000 €</strong></td><td class="n"><strong>4 000 €</strong></td><td class="n"><strong>5 000 €</strong></td></tr>
+        <tr><td><strong>Total sans éditeur</strong></td><td class="n"><strong>6 500 €</strong></td><td class="n"><strong>6 500 €</strong></td><td class="n">0 €</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout success">
+      <div class="callout-tag">✓ La vraie question à te poser</div>
+      <p>Avec un éditeur, les créateurs gardent ici 8 000 € sur 13 000 €. Pour qu'ils retrouvent leurs 13 000 €, l'œuvre doit générer 21 125 €, soit <strong>62,5 % de droits en plus</strong>. Un éditeur vaut sa part s'il t'apporte au moins cela : placements, synchros, droits récupérés à l'étranger, avance.</p>
+    </div>
+    <div class="prose">
+      <p>La <strong>synchronisation</strong> (film, série, publicité, jeu vidéo) fonctionne à part : l'éditeur négocie le prix directement avec le client, puis le partage avec toi selon le contrat. Un partage à parts égales entre l'éditeur et les créateurs est fréquent, sans être une règle.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="module" id="opportunites">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">05 / 11</span><h2>Les <em>opportunités</em> qu'il ouvre</h2></div>
+    <p class="module-lead">Voici ce qu'un éditeur actif peut déclencher pour une œuvre. Sers-toi de cette liste pour évaluer une proposition.</p>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-letter">I</div><div class="eeat-name">Interprètes</div><h4>Placer tes titres</h4><p>L'éditeur propose tes œuvres à des artistes et à leurs directeurs artistiques. Une chanson peut vivre par plusieurs voix.</p><div class="eeat-music"><strong>À demander</strong>Quels placements il a obtenus récemment</div></div>
+      <div class="eeat-card"><div class="eeat-letter">S</div><div class="eeat-name">Synchronisation</div><h4>Film, série, pub, jeu vidéo</h4><p>Il présente son catalogue aux superviseurs musicaux et aux agences, puis négocie l'autorisation sur l'œuvre.</p><div class="eeat-music"><strong>À savoir</strong>Le producteur du master donne son accord de son côté</div></div>
+      <div class="eeat-card"><div class="eeat-letter">C</div><div class="eeat-name">Co-écriture</div><h4>Séminaires et rencontres</h4><p>Il t'associe à d'autres auteurs, compositeurs et beatmakers, en France ou à l'étranger.</p><div class="eeat-music"><strong>À prévoir</strong>La répartition entre co-auteurs, par écrit, dès la séance</div></div>
+      <div class="eeat-card"><div class="eeat-letter">E</div><div class="eeat-name">Export</div><h4>La sous-édition</h4><p>Il confie ton œuvre à un sous-éditeur local, qui la défend et suit les droits dans son territoire.</p><div class="eeat-music"><strong>À vérifier</strong>Le territoire, la durée et la part prise par le sous-éditeur</div></div>
+      <div class="eeat-card"><div class="eeat-letter">T</div><div class="eeat-name">Tracking</div><h4>Retrouver les droits perdus</h4><p>Il contrôle les relevés, repère les exploitations non réparties et dépose les réclamations.</p><div class="eeat-music"><strong>Pour toi</strong>Des revenus que tu n'aurais pas réclamés seul</div></div>
+      <div class="eeat-card"><div class="eeat-letter">A</div><div class="eeat-name">Avance</div><h4>Du temps pour créer</h4><p>Une avance sur tes droits futurs peut financer une période d'écriture ou du matériel.</p><div class="eeat-music"><strong>À lire</strong>Les conditions de récupération dans le contrat</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="module" id="voies">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">06 / 11</span><h2>Trois <em>voies</em> possibles</h2></div>
+    <p class="module-lead">Tu n'es pas obligé d'avoir un éditeur. Et tu peux devenir le tien.</p>
+    <div class="data-table"><table>
+      <thead><tr><th></th><th>Rester sans éditeur</th><th>Signer avec un éditeur</th><th>Créer ta structure d'édition</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Part éditoriale</strong></td><td>Elle revient aux créateurs</td><td>Elle va à l'éditeur</td><td>Elle va à ta structure</td></tr>
+        <tr><td><strong>Travail de placement</strong></td><td>À ta charge</td><td>À la charge de l'éditeur</td><td>À ta charge, avec un cadre professionnel</td></tr>
+        <tr><td><strong>Administration</strong></td><td>Tu déclares tes œuvres toi-même</td><td>L'éditeur déclare et suit</td><td>Ta structure déclare et suit</td></tr>
+        <tr><td><strong>Coût</strong></td><td><span class="badge yes">Aucun</span></td><td><span class="badge mid">Une part de tes droits</span></td><td><span class="badge no">Une structure à créer et à gérer</span></td></tr>
+        <tr><td><strong>Adapté si</strong></td><td>Tu débutes, ou tes œuvres ne sont jouées que par toi</td><td>L'éditeur a un réseau et un plan concret pour tes œuvres</td><td>Tu as un catalogue qui tourne et le goût de la gestion</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <div class="callout-tag">★ La coédition, une quatrième piste</div>
+      <p>Ta structure et un éditeur établi éditent l'œuvre ensemble et se partagent la part éditoriale. Tu gardes une partie de l'édition, il apporte son réseau. Le contrat de coédition précise le territoire, la durée, le partage et qui gère au quotidien.</p>
+    </div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Avant de signer, demande un plan</h4><p>Quelles actions, pour quelles œuvres, dans quels délais ? Un éditeur sérieux sait te répondre.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Limite ce que tu cèdes</h4><p>Œuvre par œuvre plutôt que tout ton catalogue. Le pacte de préférence est encadré par l'article L132-4 du CPI, tu l'as vu dans la vidéo sur le contrat d'édition.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Prévois la sortie</h4><p>Durée, clause de retour des droits si l'œuvre n'est pas exploitée, sort de l'avance en cas de résiliation.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="module" id="structure">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">07 / 11</span><h2>Créer ta <em>structure</em> d'édition</h2></div>
+    <p class="module-lead">Devenir ton propre éditeur, c'est récupérer la part éditoriale. C'est aussi accepter les obligations d'un éditeur.</p>
+  </div>
+  <div class="container">
+    <div class="chain">
+      <div class="chain-step"><span class="chain-kicker">Étape 1</span><span class="chain-title">Créer</span><p style="margin:0;font-size:.9rem">Une structure dont l'objet mentionne l'édition musicale.</p><div class="chain-contract"><strong>Documents</strong>Statuts, extrait Kbis, SIREN et SIRET</div></div>
+      <div class="chain-step"><span class="chain-kicker">Étape 2</span><span class="chain-title">Signer</span><p style="margin:0;font-size:.9rem">Un contrat de cession et d'édition pour chaque œuvre.</p><div class="chain-contract"><strong>Y compris</strong>Avec toi-même, en tant qu'auteur</div></div>
+      <div class="chain-step"><span class="chain-kicker">Étape 3</span><span class="chain-title">Adhérer</span><p style="margin:0;font-size:.9rem">Demande d'admission à la SACEM comme éditeur.</p><div class="chain-contract"><strong>Seuil</strong>4 œuvres éditées, avec un début d'exploitation</div></div>
+      <div class="chain-step"><span class="chain-kicker">Étape 4</span><span class="chain-title">Gérer</span><p style="margin:0;font-size:.9rem">Déclarer, placer, suivre, rendre des comptes.</p><div class="chain-contract"><strong>Outils</strong>Déclaration en ligne, relevés de droits</div></div>
+    </div>
+  </div>
+  <div class="container-narrow">
+    <div class="callout">
+      <div class="callout-tag">★ Les conditions d'admission à la SACEM</div>
+      <p>Les statuts de la SACEM demandent à l'éditeur de présenter les contrats d'édition d'<strong>au moins quatre œuvres</strong>, de prouver qu'elles font l'objet d'une exploitation (streaming, disque, concert) et de régler un droit d'entrée, dont le montant est fixé chaque année. Vérifie la liste des pièces à jour sur sacem.fr avant de monter ton dossier.</p>
+    </div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Le crédit d'impôt édition musicale</h4><p>Pour les entreprises d'édition soumises à l'impôt sur les sociétés qui développent de <strong>nouveaux talents</strong> : 15 % des dépenses éligibles, <strong>30 %</strong> pour les petites et moyennes entreprises (Code général des impôts, art. 220 septdecies).</p><div class="factor-detail"><strong>Prudence</strong>Agrément du Centre national de la musique, conditions strictes : fais valider ton éligibilité par ton expert-comptable.</div></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Les aides au développement éditorial</h4><p>Le Centre national de la musique et la SACEM proposent des programmes d'aide aux éditeurs, sur dossier.</p><div class="factor-detail"><strong>À vérifier</strong>Critères, calendrier et pièces sur cnm.fr et sacem.fr.</div></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Les organisations d'éditeurs</h4><p>La CSDEM, la CEMF et l'ULM informent leurs adhérents, proposent des modèles et défendent la profession.</p><div class="factor-detail"><strong>Utile</strong>Pour te former au métier et rencontrer d'autres éditeurs.</div></div></div>
+    </div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Éditer les œuvres des autres</div>
+      <p>Dès que tu édites un autre auteur, tu lui dois tout ce que tu attends d'un éditeur : exploitation permanente et suivie, comptes réguliers, paiement dans les délais. Prendre la part éditoriale sans travailler l'œuvre t'expose à une résiliation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="module" id="cas">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">08 / 11</span><h2>Cas <em>pratiques</em></h2></div>
+    <p class="module-lead">Six situations, six esthétiques. Réfléchis, puis clique pour voir la réponse.</p>
+    <div class="quiz">
+      <div class="quiz-row"><div class="quiz-head"><div class="quiz-q"><div class="quiz-genre">Pop</div><div class="quiz-text">Inès écrit pour d'autres artistes. Un éditeur lui propose de signer tout son catalogue, passé et futur.</div></div><button type="button" class="reveal" aria-expanded="false">Voir la réponse</button></div><div class="quiz-answer" hidden><strong>Limiter et demander un plan.</strong> Elle propose une cession œuvre par œuvre, ou un pacte de préférence dans les limites de l'article L132-4. Elle demande à l'éditeur quels interprètes il compte démarcher et dans quels délais.</div></div>
+      <div class="quiz-row"><div class="quiz-head"><div class="quiz-q"><div class="quiz-genre">Reggae</div><div class="quiz-text">Joël chante uniquement ses propres titres, sur scène et en streaming. Un ami lui conseille de trouver un éditeur.</div></div><button type="button" class="reveal" aria-expanded="false">Voir la réponse</button></div><div class="quiz-answer" hidden><strong>Rester sans éditeur pour l'instant.</strong> Ses œuvres ne sont exploitées que par lui : un éditeur prendrait une part sans rien ajouter. Il déclare ses œuvres lui-même et reconsidère la question si une opportunité de placement ou d'export se présente.</div></div>
+      <div class="quiz-row"><div class="quiz-head"><div class="quiz-q"><div class="quiz-genre">Urbain</div><div class="quiz-text">Sy a un label et produit six artistes qui écrivent leurs textes. Il veut aussi toucher une part sur les œuvres.</div></div><button type="button" class="reveal" aria-expanded="false">Voir la réponse</button></div><div class="quiz-answer" hidden><strong>Créer une structure d'édition, avec les obligations qui vont avec.</strong> Il signe un contrat d'édition distinct du contrat d'artiste, adhère à la SACEM comme éditeur, puis déclare, place et rend des comptes. Sans travail éditorial réel, ses contrats sont fragiles.</div></div>
+      <div class="quiz-row"><div class="quiz-head"><div class="quiz-q"><div class="quiz-genre">Variété · musique à l'image</div><div class="quiz-text">Claire compose des musiques d'illustration. Une agence de publicité veut utiliser un de ses thèmes.</div></div><button type="button" class="reveal" aria-expanded="false">Voir la réponse</button></div><div class="quiz-answer" hidden><strong>Synchronisation.</strong> Son éditeur négocie l'autorisation sur l'œuvre et le prix, puis partage la somme selon le contrat. Si Claire n'a pas d'éditeur, elle négocie elle-même. Le propriétaire de l'enregistrement donne son accord à part.</div></div>
+      <div class="quiz-row"><div class="quiz-head"><div class="quiz-q"><div class="quiz-genre">Rock</div><div class="quiz-text">Les Falaises ont signé il y a trois ans. Depuis, aucun relevé de comptes et aucune nouvelle de l'éditeur.</div></div><button type="button" class="reveal" aria-expanded="false">Voir la réponse</button></div><div class="quiz-answer" hidden><strong>Mise en demeure.</strong> Ils écrivent en recommandé pour demander les comptes et la preuve des actions menées. Sans régularisation dans les 3 mois, le Code des usages ouvre la voie à la résiliation. Ils peuvent aussi saisir la commission de conciliation.</div></div>
+      <div class="quiz-row"><div class="quiz-head"><div class="quiz-q"><div class="quiz-genre">Dance · électro</div><div class="quiz-text">Le titre de Malo marche en Allemagne et au Brésil. Il s'auto-édite et ne voit presque rien arriver de ces pays.</div></div><button type="button" class="reveal" aria-expanded="false">Voir la réponse</button></div><div class="quiz-answer" hidden><strong>Sous-édition ou coédition.</strong> Il confie l'œuvre à un sous-éditeur pour ces territoires, pour une durée limitée, ou s'associe à un éditeur déjà implanté à l'international. Dans les deux cas, il garde une part de l'édition.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="module" id="erreurs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">09 / 11</span><h2>Les 5 erreurs <em>à éviter</em></h2></div>
+    <p class="module-lead">Elles coûtent des années de droits, ou bloquent une œuvre.</p>
+    <div class="factors">
+      <div class="factor err"><div class="factor-num">01</div><div><h4>Confondre éditeur et producteur</h4><p>Céder l'édition dans un contrat d'artiste sans s'en rendre compte. Ce sont deux contrats et deux contreparties.</p></div></div>
+      <div class="factor err"><div class="factor-num">02</div><div><h4>Signer sans plan d'exploitation</h4><p>Un éditeur qui ne dit pas ce qu'il va faire pour tes œuvres prend une part pour un travail que tu feras seul.</p></div></div>
+      <div class="factor err"><div class="factor-num">03</div><div><h4>Ne jamais réclamer les comptes</h4><p>Les relevés te sont dus. Ne pas les demander, c'est ne pas savoir ce que tes œuvres rapportent.</p></div></div>
+      <div class="factor err"><div class="factor-num">04</div><div><h4>Céder tout ton catalogue d'un coup</h4><p>Une cession œuvre par œuvre te laisse la liberté de travailler avec plusieurs éditeurs, ou de t'éditer toi-même.</p></div></div>
+      <div class="factor err"><div class="factor-num">05</div><div><h4>Créer une structure d'édition « pour la part »</h4><p>Sans placement, sans suivi et sans comptes, tu ajoutes des frais et des risques sans créer de valeur.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="module" id="checklist">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">10 / 11</span><h2>Livrable : ta <em>stratégie</em> d'édition</h2></div>
+    <div class="audit-intro">
+      <h3>Clique sur les cases au fur et à mesure</h3>
+      <p>Ce travail alimente le volet « analyse de contrats » de ton dossier de projet. Progression : <span class="score" id="score">0 / 7</span></p>
+    </div>
+    <div class="audit-prompts" id="checklist-list">
+      <div class="prompt-row"><div class="prompt-num">P01</div><div><div class="prompt-text">J'ai listé mes œuvres et, pour chacune, qui en est l'éditeur (ou « non éditée »)</div></div><button type="button" class="audit-check" id="c1">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">P02</div><div><div class="prompt-text">J'ai vérifié que chaque œuvre est déclarée à la SACEM avec la bonne répartition</div></div><button type="button" class="audit-check" id="c2">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">P03</div><div><div class="prompt-text">Pour mes œuvres éditées, j'ai mes derniers relevés de comptes</div></div><button type="button" class="audit-check" id="c3">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">P04</div><div><div class="prompt-text">J'ai noté les actions concrètes menées par mon éditeur sur les 12 derniers mois</div></div><button type="button" class="audit-check" id="c4">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">P05</div><div><div class="prompt-text">J'ai simulé le partage de mes droits avec et sans éditeur, avec mes propres chiffres</div></div><button type="button" class="audit-check" id="c5">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">P06</div><div><div class="prompt-text">J'ai choisi ma voie pour les 12 prochains mois : sans éditeur, signature, coédition ou structure d'édition</div></div><button type="button" class="audit-check" id="c6">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">P07</div><div><div class="prompt-text">J'ai préparé mes questions à poser à un éditeur avant toute signature</div></div><button type="button" class="audit-check" id="c7">⬚ Fait</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="module" id="faq">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">11 / 11</span><h2>Questions <em>fréquentes</em></h2></div>
+    <div class="faq">
+      <details><summary>Faut-il un éditeur pour toucher ses droits SACEM ?</summary><div class="ans">Non. Tu adhères à la SACEM comme auteur ou compositeur, tu déclares tes œuvres et tu touches tes droits. Sans éditeur, la part éditoriale revient aux créateurs.</div></details>
+      <details><summary>Mon label peut-il être aussi mon éditeur ?</summary><div class="ans">Oui, c'est courant. Mais l'édition fait l'objet d'un contrat à part, avec ses propres obligations. Rien ne t'oblige à confier l'édition à ton label : c'est un point de négociation.</div></details>
+      <details><summary>Un éditeur peut-il me demander de l'argent ?</summary><div class="ans">Non. L'éditeur se rémunère sur sa part des droits. Une structure qui te fait payer pour « éditer » tes œuvres ne fait pas un travail d'éditeur.</div></details>
+      <details><summary>Quelle différence entre édition et gestion ?</summary><div class="ans">En édition, tu cèdes tes droits d'exploitation à l'éditeur. Dans un contrat de gestion ou d'administration, tu restes éditeur et tu confies seulement le suivi administratif à un prestataire, contre une commission.</div></details>
+      <details><summary>Combien de temps dure un contrat d'édition ?</summary><div class="ans">La durée se négocie. En pratique, beaucoup de contrats sont proposés pour toute la durée de protection de l'œuvre. Tu peux demander une durée plus courte ou une clause de retour des droits si l'œuvre n'est pas exploitée.</div></details>
+      <details><summary>Puis-je être mon propre éditeur sans société ?</summary><div class="ans">L'admission comme éditeur à la SACEM suppose une structure immatriculée dont l'objet mentionne l'édition musicale, avec les justificatifs correspondants. Vérifie les formes acceptées et les pièces demandées sur sacem.fr.</div></details>
+      <details><summary>Que fait le SNEP, alors ?</summary><div class="ans">Le SNEP représente des producteurs de disques. Il publie les chiffres du marché et les classements, et délivre les disques d'or et de platine. Il ne s'occupe pas de l'édition des œuvres.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="recap">
+  <div class="container-narrow">
+    <div class="section-label" style="color:var(--accent-line)">Synthèse</div>
+    <h3>Ce que tu dois retenir de ce cours</h3>
+    <ol class="recap-list">
+      <li>L'<strong>éditeur</strong> gère l'œuvre, le <strong>producteur</strong> gère l'enregistrement : deux métiers, deux contrats.</li>
+      <li>L'éditeur doit <strong>publier, exploiter de façon permanente et suivie, et rendre des comptes</strong>.</li>
+      <li>Il touche <strong>1/3</strong> des droits d'exécution publique et, le plus souvent, <strong>50 %</strong> des droits de reproduction mécanique.</li>
+      <li>Sa part se justifie par ce qu'il apporte : <strong>placements, synchro, export, suivi des droits, avance</strong>.</li>
+      <li>Trois voies : <strong>sans éditeur, avec un éditeur, ou ta propre structure</strong>. La coédition combine les deux dernières.</li>
+      <li>Admission comme éditeur à la SACEM : <strong>4 œuvres éditées</strong> et exploitées, et une structure dédiée.</li>
+    </ol>
+  </div>
+</section>
+
+<div class="container-narrow">
+  <div class="next-cta">
+    <h3>Prêt pour les <em>fiches pratiques</em> ?</h3>
+    <p>Fiches pratiques : contrats types commentés. Tu retrouves chaque contrat du module, clause par clause.</p>
+    <span class="btn btn-primary">Continuer vers les fiches pratiques →</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="src">Sources : SACEM, statuts et règlement général 2026 et guide pratique de l'éditeur (sacem.fr) · Code des usages et des bonnes pratiques de l'édition des œuvres musicales du 4 octobre 2017 (SNAC, UCMF, UNAC, CSDEM, CEMF, ULM) · ministère de la Culture et Centre national de la musique (crédit d'impôt pour dépenses d'édition d'œuvres musicales) · SNEP (snepmusique.com). Références : Code de la propriété intellectuelle (art. L131-4, L132-1, L132-4, L132-12, L132-13) · Code général des impôts (art. 220 septdecies) · décret n° 2022-1424 du 10 novembre 2022. Support pédagogique de la formation « Structurer et développer une activité artistique musicale ». Il ne remplace pas un conseil juridique personnalisé.</p>
+    © 2026 Tarik Hamiche · Muziforma
+  </div>
+</footer>
+
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  [].slice.call(document.querySelectorAll('.quiz-row')).forEach(function(row){
+    var btn=row.querySelector('.reveal'),ans=row.querySelector('.quiz-answer');
+    btn.addEventListener('click',function(){var open=ans.hidden;ans.hidden=!open;btn.textContent=open?'Masquer':'Voir la réponse';btn.setAttribute('aria-expanded',open?'true':'false');});
+  });
+  var btns=[].slice.call(document.querySelectorAll('#checklist-list .audit-check'));
+  var score=document.getElementById('score');var KEY='edition-musicale-opportunites-checklist';var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function paint(b){var on=!!saved[b.id];b.classList.toggle('checked',on);b.textContent=(on?'✓':'⬚')+' Fait';b.setAttribute('aria-pressed',on?'true':'false');}
+  function upd(){score.textContent=btns.filter(function(b){return saved[b.id]}).length+' / '+btns.length;}
+  btns.forEach(function(b){paint(b);b.addEventListener('click',function(){saved[b.id]=!saved[b.id];try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}paint(b);upd();});});
+  upd();
+})();
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Le statut d'artiste-auteur · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Charte reprise à l'identique du support « Cité par les IA » : fond sable, violet #5B14FF, Manrope + Inter + JetBrains Mono. Thème clair unique, choisi volontairement. */
+:root{--bg:#F7F1E8;--bg-soft:#FCF8F2;--bg-card:#FFFFFF;--ink:#1F1A15;--ink-soft:#5C4F42;--ink-muted:#8A7A6A;--accent:#5B14FF;--accent-dark:#4910CC;--accent-soft:#EDE9FE;--accent-line:#A78BFA;--border:#E8DDC9;--border-soft:#F0E6D4;--warning:#C2410C;--warning-soft:#FFEDD5;--success:#15803D;--success-soft:#DCFCE7;--on-accent:#FFFFFF;--recap-text:rgba(247,241,232,.85);--shadow-sm:0 1px 2px rgba(31,26,21,.04);--shadow-md:0 4px 16px rgba(31,26,21,.06);--radius-sm:8px;--radius-md:14px;--radius-lg:24px;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Manrope,-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700}
+h4{font-size:1.15rem;font-weight:700;line-height:1.3}
+p{margin-bottom:1.1rem;color:var(--ink-soft)}
+strong{color:var(--ink);font-weight:700}
+em{font-style:normal;color:var(--accent);font-weight:800}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.container-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-line));z-index:9999}
+header.top-nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(247,241,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand-mark{font-family:Manrope,sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--ink)}
+.brand-mark em{color:var(--accent)}
+.nav-meta{display:flex;gap:1rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted)}
+.nav-meta span:not(:last-child)::after{content:"·";margin-left:1rem;color:var(--border)}
+@media (max-width:600px){.nav-meta{display:none}}
+.hero{padding:5rem 0 4rem;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;max-width:none;background:radial-gradient(circle,rgba(167,139,250,.22) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(91,20,255,.14) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1.8rem;box-shadow:var(--shadow-sm)}
+.hero h1{margin-bottom:1.5rem}
+.hero-lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:720px;margin:0 auto 1.5rem;line-height:1.55}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.hero-chips span{font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:.35rem .9rem}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:880px;margin:3rem auto 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-num{font-family:Manrope,sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em;margin-bottom:.5rem}
+.stat-label{font-size:.82rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.hero-stats{grid-template-columns:1fr}}
+.section-label{display:inline-block;font-family:Inter,sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:1.5rem}
+.toc-section{padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);text-align:center}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:800px;margin:1rem auto 0}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left;color:var(--ink);transition:.15s}
+.toc-item:hover{border-color:var(--accent);transform:translateX(2px);box-shadow:var(--shadow-sm);color:var(--ink)}
+.toc-num{font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);flex-shrink:0;width:36px}
+.toc-title{font-weight:600;font-size:.95rem;line-height:1.3}
+@media (max-width:600px){.toc-grid{grid-template-columns:1fr}}
+main>section.module{padding:6rem 0;position:relative;overflow:hidden}
+main>section.module:nth-of-type(odd){background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+section.module::before{content:"";position:absolute;top:10%;right:-180px;width:480px;height:480px;background:radial-gradient(circle,rgba(167,139,250,.16) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
+section.module>.container,section.module>.container-narrow{position:relative;z-index:1}
+.module-header{margin-bottom:2.5rem}
+.module-num{font-family:Manrope,sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.6rem;display:block}
+.module-lead{font-size:1.15rem;color:var(--ink-soft);margin:1.5rem 0 2.5rem;line-height:1.55;max-width:720px}
+.prose p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.3rem}
+.callout{background:var(--bg-card);border-left:4px solid var(--accent);border-radius:var(--radius-md);padding:1.6rem 1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm);text-align:left}
+.callout.warning{border-left-color:var(--warning);background:linear-gradient(135deg,var(--warning-soft) 0%,var(--bg-card) 60%)}
+.callout.success{border-left-color:var(--success);background:linear-gradient(135deg,var(--success-soft) 0%,var(--bg-card) 60%)}
+.callout-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.6rem}
+.callout.warning .callout-tag{color:var(--warning)}
+.callout.success .callout-tag{color:var(--success)}
+.callout p{margin:0;color:var(--ink);line-height:1.55}
+.callout ul{margin:.2rem 0 0 1.2rem;color:var(--ink);line-height:1.6}
+/* 3 casquettes : reprend .evolution */
+.evolution{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2rem 0}
+.evo-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;text-align:center;box-shadow:var(--shadow-sm)}
+.evo-col.featured{border:2px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg-card) 50%);transform:scale(1.02);box-shadow:var(--shadow-md)}
+.evo-acronym{font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;letter-spacing:-.04em;margin-bottom:.4rem}
+.evo-col:not(.featured) .evo-acronym{color:var(--ink-muted)}
+.evo-full{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:1rem;font-weight:600}
+.evo-col h4{margin-bottom:.6rem}
+.evo-col p{font-size:.92rem;line-height:1.55;text-align:left}
+.evo-target{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--border);text-align:left;font-size:.85rem;line-height:1.45;color:var(--ink)}
+.evo-target strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem;font-weight:800}
+@media (max-width:800px){.evolution{grid-template-columns:1fr}.evo-col.featured{transform:none}}
+/* circuit : reprend .rag-flow */
+.rag-flow{margin:2.5rem 0;display:flex;flex-direction:column;gap:1.5rem}
+.rag-step{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.rag-step:hover{border-color:var(--accent-line)}
+.rag-step-circle{flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.6rem;box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+.rag-step.alt .rag-step-circle{background:var(--warning);box-shadow:rgba(194,65,12,.3) 0 6px 20px}
+.rag-step>div:last-child{flex:1 1 0%;min-width:0}
+.step-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);margin-bottom:.4rem}
+.rag-step h4{margin-bottom:.6rem}
+.rag-step p{margin:0;line-height:1.55}
+/* tableaux dans la charte */
+.data-table{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);margin:2rem 0}
+.data-table table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+.data-table th{text-align:left;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding:1rem 1.1rem;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.data-table td{padding:.9rem 1.1rem;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table td strong{color:var(--ink)}
+.data-table .n{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--accent-dark);white-space:nowrap}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .6rem;border-radius:6px;white-space:nowrap}
+.badge.yes{background:var(--success-soft);color:var(--success)}
+.badge.no{background:var(--warning-soft);color:var(--warning)}
+.badge.mid{background:var(--accent-soft);color:var(--accent-dark)}
+/* barre de répartition */
+.split{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);margin:2rem 0}
+.split h4{margin-bottom:1.2rem}
+.split-bar{display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden}
+.split-bar div{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:500;color:var(--on-accent);white-space:nowrap;overflow:hidden}
+.split-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem 1rem;margin-top:1.2rem;font-size:.88rem;color:var(--ink-soft)}
+.split-legend span{display:flex;align-items:center;gap:.5rem}
+.split-legend i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.split-legend b{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--ink);margin-left:auto}
+.split-note{font-size:.82rem;color:var(--ink-muted);margin:1rem 0 0;line-height:1.5}
+/* cartes : reprend .motors / .eeat */
+.motors,.eeat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:2rem 0}
+.motor-card,.eeat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-sm);min-width:0}
+.eeat-card{transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.eeat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motor-name{font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;color:var(--ink);letter-spacing:-.02em;margin-bottom:.3rem}
+.motor-by{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.motor-spec{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border-soft);font-size:.9rem;line-height:1.45}
+.motor-spec:last-child{border-bottom:0}
+.motor-spec-label{flex-shrink:0;width:78px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding-top:.2rem}
+.motor-spec-value{flex:1 1 0%;color:var(--ink-soft)}
+.eeat-letter{width:52px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1rem}
+.eeat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem}
+.eeat-card h4{margin-bottom:.8rem}
+.eeat-card>p{font-size:.95rem;line-height:1.55;margin-bottom:1.2rem}
+.eeat-music{background:var(--accent-soft);border-radius:var(--radius-sm);padding:1rem;font-size:.9rem;line-height:1.5;color:var(--ink);margin-top:auto}
+.eeat-music strong{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.eeat-music .out{color:var(--warning)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:740px){.eeat-grid,.motors,.grid3{grid-template-columns:1fr}}
+/* étapes : reprend .factors */
+.factors{display:flex;flex-direction:column;gap:1.2rem;margin:2rem 0}
+.factor{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.factor:hover{border-color:var(--accent-line)}
+.factor-num{flex-shrink:0;font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;width:50px;letter-spacing:-.03em}
+.factor.err .factor-num{color:var(--warning)}
+.factor>div:last-child{flex:1 1 0%;min-width:0}
+.factor h4{margin-bottom:.6rem}
+.factor p{font-size:.95rem;line-height:1.55;margin-bottom:1rem}
+.factor p:last-child{margin-bottom:0}
+.factor-detail{background:var(--accent-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.88rem;line-height:1.5;color:var(--ink)}
+.factor-detail strong{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.factor.err .factor-detail{background:var(--warning-soft)}
+.factor.err .factor-detail strong{color:var(--warning)}
+/* checklist : reprend .audit */
+.audit-intro{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm)}
+.audit-intro h3{margin-bottom:.8rem}
+.audit-intro p{margin:0;line-height:1.6}
+.audit-prompts{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.prompt-row{display:flex;gap:1.2rem;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.prompt-num{flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--accent);width:36px}
+.prompt-row>div:not(.prompt-num){flex:1 1 0%;min-width:0}
+.prompt-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.audit-check{flex-shrink:0;padding:.5rem .9rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s;font-family:Inter,sans-serif}
+.audit-check:hover{border-color:var(--accent-line)}
+.audit-check.checked{background:var(--success);color:var(--on-accent);border-color:var(--success);font-weight:600}
+.score{font-family:"JetBrains Mono",monospace;color:var(--success);font-weight:500}
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.faq details{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:border-color .2s}
+.faq details:hover,.faq details[open]{border-color:var(--accent-line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.5rem;font-family:Manrope,sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.faq details[open] summary::after{content:"−";background:var(--accent);color:var(--on-accent)}
+.faq .ans{padding:0 1.5rem 1.4rem;color:var(--ink-soft);font-size:.97rem;line-height:1.65}
+/* synthèse */
+.recap{background:var(--ink);color:var(--recap-text);padding:4rem 0;position:relative;overflow:hidden}
+.recap::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(91,20,255,.25) 0%,transparent 60%);border-radius:50%;pointer-events:none}
+.recap>.container-narrow{position:relative;z-index:1}
+.recap h3{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg-card);margin-bottom:1.5rem}
+.recap-list{list-style:none;counter-reset:item;display:flex;flex-direction:column;gap:1rem}
+.recap-list li{counter-increment:item;padding-left:3rem;position:relative;line-height:1.55;color:var(--recap-text)}
+.recap-list li::before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:Manrope,sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-line)}
+.recap-list li strong{color:var(--bg-card)}
+.next-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin:4rem auto;max-width:760px;text-align:center;box-shadow:var(--shadow-md)}
+.next-cta h3{margin-bottom:1rem}
+.next-cta p{margin-bottom:1.5rem;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.1rem 2.2rem;font-family:Manrope,sans-serif;font-size:1rem;font-weight:800;border-radius:999px;border:0;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+footer.site-footer{background:var(--ink);color:rgba(247,241,232,.55);padding:2.5rem 0;text-align:center;font-size:.85rem;border-top:1px solid rgba(247,241,232,.08);line-height:1.7}
+footer.site-footer .src{max-width:760px;margin:0 auto 1rem;font-size:.8rem;color:rgba(247,241,232,.45)}
+@media (max-width:860px){main>section.module{padding:4rem 0}.toc-section{padding:3rem 0}.module-header{margin-bottom:1.8rem}.module-lead{font-size:1.05rem;margin:1rem 0 1.8rem}.rag-step,.factor{padding:1.4rem;gap:1rem}.rag-step-circle{width:48px;height:48px;font-size:1.3rem}.factor-num{font-size:1.6rem;width:40px}.next-cta{padding:1.8rem 1.4rem}.recap-list li{padding-left:2.4rem}section.module::before{width:320px;height:320px}}
+@media (max-width:480px){.hero{padding:3rem 0 2.5rem}.hero h1{font-size:2rem}.rag-step,.factor{flex-direction:column;gap:.8rem}.prompt-row{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress-bar"></div>
+<header class="top-nav">
+  <div class="nav-inner">
+    <span class="brand-mark">MUZI<em>FORMA</em></span>
+    <div class="nav-meta"><span>Module 01 / 08</span><span>Muziforma</span></div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Module 01 · Cadre légal et statuts</span>
+    <h1>Le statut d'<em>artiste-auteur</em>.</h1>
+    <p class="hero-lead">Tu écris, tu composes, tu arranges ou tu fais des prods ? Chaque euro de droits d'auteur que tu touches relève d'un régime social et fiscal précis. Ce que ça te coûte, ce que ça te protège, et comment être en règle. Sans jargon.</p>
+    <div class="hero-chips"><span>Durée : 25 min</span><span>Barèmes 2026</span></div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">1er €</div><div class="stat-label">Tu es affilié au régime dès le premier euro de droits</div></div>
+      <div class="stat-card"><div class="stat-num">≈ 16 %</div><div class="stat-label">Cotisations sociales sur tes droits SACEM</div></div>
+      <div class="stat-card"><div class="stat-num">6,5 %</div><div class="stat-label">Retraite complémentaire RACL précomptée par la SACEM</div></div>
+      <div class="stat-card"><div class="stat-num">600</div><div class="stat-label">SMIC horaires pour valider 4 trimestres de retraite</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc-section">
+  <div class="container-narrow">
+    <div class="callout">
+      <div class="callout-tag">★ Objectifs pédagogiques</div>
+      <ul>
+        <li>Identifier si tes revenus musicaux relèvent du statut d'artiste-auteur</li>
+        <li>Comprendre les droits et obligations sociales et fiscales de ce régime</li>
+        <li>Accomplir les démarches pour être en règle (Urssaf, IRCEC, impôts)</li>
+        <li>Intégrer ce statut dans l'analyse multicritères de ton projet</li>
+      </ul>
+    </div>
+    <div class="section-label">Plan du cours</div>
+    <div class="toc-grid">
+      <a href="#qui" class="toc-item"><span class="toc-num">01</span><span class="toc-title">Qui est artiste-auteur dans la musique ?</span></a>
+      <a href="#revenus" class="toc-item"><span class="toc-num">02</span><span class="toc-title">Les revenus concernés</span></a>
+      <a href="#circuit" class="toc-item"><span class="toc-num">03</span><span class="toc-title">Le circuit d'un euro de droits d'auteur</span></a>
+      <a href="#cotisations" class="toc-item"><span class="toc-num">04</span><span class="toc-title">Tes cotisations en 2026</span></a>
+      <a href="#protection" class="toc-item"><span class="toc-num">05</span><span class="toc-title">Ce que le statut te donne</span></a>
+      <a href="#impots" class="toc-item"><span class="toc-num">06</span><span class="toc-title">Côté impôts</span></a>
+      <a href="#demarches" class="toc-item"><span class="toc-num">07</span><span class="toc-title">Tes démarches, étape par étape</span></a>
+      <a href="#cas" class="toc-item"><span class="toc-num">08</span><span class="toc-title">Cas pratiques, du reggae à l'électro</span></a>
+      <a href="#erreurs" class="toc-item"><span class="toc-num">09</span><span class="toc-title">Les 5 erreurs à éviter</span></a>
+      <a href="#checklist" class="toc-item"><span class="toc-num">10</span><span class="toc-title">Livrable : ta checklist de mise en règle</span></a>
+      <a href="#faq" class="toc-item"><span class="toc-num">11</span><span class="toc-title">FAQ</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="module" id="qui">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">01 / 11</span><h2>Qui est <em>artiste-auteur</em> dans la musique ?</h2></div>
+    <p class="module-lead">Tu es artiste-auteur quand tu es payé <strong>en tant que créateur</strong> d'une œuvre. Pas quand tu la joues. Pas quand tu la produis.</p>
+    <div class="prose">
+      <p>Le Code de la sécurité sociale (article L382-1) rattache au régime des artistes-auteurs les créateurs d'œuvres de l'esprit, dont les <strong>œuvres musicales</strong>. Concrètement : parolier, compositeur, auteur-compositeur, arrangeur déclaré, compositeur de musique à l'image, beatmaker qui compose l'instru.</p>
+      <p>Le piège, c'est qu'un même musicien porte souvent <strong>trois casquettes</strong>. Et chacune a son propre régime.</p>
+    </div>
+    <div class="evolution">
+      <div class="evo-col featured">
+        <div class="evo-acronym">CRÉER</div>
+        <div class="evo-full">Tu écris · tu composes</div>
+        <h4>Artiste-auteur</h4>
+        <p>Payé en droits d'auteur : SACEM, éditeur, commande d'œuvre.</p>
+        <div class="evo-target"><strong>Ce cours</strong>Régime des artistes-auteurs (Urssaf)</div>
+      </div>
+      <div class="evo-col">
+        <div class="evo-acronym">JOUER</div>
+        <div class="evo-full">Tu chantes · tu joues</div>
+        <h4>Artiste-interprète</h4>
+        <p>Payé en cachets : concerts, séances studio.</p>
+        <div class="evo-target"><strong>Vidéo suivante</strong>Salarié, intermittent du spectacle</div>
+      </div>
+      <div class="evo-col">
+        <div class="evo-acronym">PRODUIRE</div>
+        <div class="evo-full">Tu finances le master</div>
+        <h4>Producteur</h4>
+        <p>Payé sur les ventes et streams, part producteur.</p>
+        <div class="evo-target"><strong>Chapitre 2</strong>Entreprise (micro, société, association)</div>
+      </div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Le statut d'artiste-auteur ne couvre que ta casquette de <strong>créateur</strong>. Tes cachets et tes revenus de producteur relèvent d'autres régimes, même si c'est la même chanson.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="module" id="revenus">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">02 / 11</span><h2>Les revenus <em>concernés</em></h2></div>
+    <p class="module-lead">Le régime distingue les <strong>revenus artistiques principaux</strong>, issus de tes œuvres, et quelques <strong>revenus accessoires</strong> admis dans certaines limites. Tout le reste sort du statut.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Ce que tu encaisses</th><th>Exemple</th><th>Artiste-auteur ?</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Droits d'exécution publique et de reproduction</strong></td><td>Ton titre passe en radio, en club, en streaming : la SACEM te reverse ta part</td><td><span class="badge yes">Oui · principal</span></td></tr>
+        <tr><td><strong>Avance éditoriale</strong></td><td>Un éditeur te verse 2 000 € à la signature, à valoir sur tes droits</td><td><span class="badge yes">Oui · principal</span></td></tr>
+        <tr><td><strong>Prime de commande</strong></td><td>Une agence te commande un jingle pub ou un générique</td><td><span class="badge yes">Oui · principal</span></td></tr>
+        <tr><td><strong>Bourse, prix, résidence de création</strong></td><td>Aide à l'écriture, résidence en SMAC consacrée surtout à la création</td><td><span class="badge yes">Oui · principal</span></td></tr>
+        <tr><td><strong>Atelier, rencontre autour de ton œuvre</strong></td><td>Atelier chanson en MJC, masterclass sur ton album</td><td><span class="badge mid">Accessoire · plafonné</span></td></tr>
+        <tr><td><strong>Cachets</strong></td><td>Date en festival, session guitare sur l'album d'un autre</td><td><span class="badge no">Non · salaire</span></td></tr>
+        <tr><td><strong>Ventes et streams du master</strong></td><td>Reversements de ton distributeur sur ton EP autoproduit</td><td><span class="badge no">Non · producteur</span></td></tr>
+        <tr><td><strong>Prestations, cours réguliers, merch</strong></td><td>Mixage à façon, cours de piano hebdo, t-shirts</td><td><span class="badge no">Non · autre activité</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Les revenus accessoires</div>
+      <p>Ateliers, rencontres, lectures publiques : leur liste et leurs plafonds sont fixés par décret. Vérifie ta situation sur <strong>artistes-auteurs.urssaf.fr</strong> avant de les déclarer dans ce régime.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="module" id="circuit">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">03 / 11</span><h2>Le circuit d'un euro de <em>droits d'auteur</em></h2></div>
+    <p class="module-lead">Ton titre tourne. Voici le chemin que suit l'argent jusqu'à ton compte, et <strong>l'endroit exact</strong> où partent tes cotisations.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Diffusion</span><h4>Ton œuvre est exploitée</h4><p>Radio, streaming, concerts, clubs, synchro : chaque utilisation génère des droits.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Collecte</span><h4>La SACEM encaisse</h4><p>Elle perçoit les droits auprès des diffuseurs : radios, plateformes, salles, organisateurs.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Répartition</span><h4>Ta part est calculée</h4><p>Selon ta déclaration d'œuvre et les clés de partage entre auteurs, compositeurs et éditeurs.</p></div></div>
+      <div class="rag-step alt"><div class="rag-step-circle">4</div><div><span class="step-tag">Précompte</span><h4>Tes cotisations sont retenues à la source</h4><p>Cotisations Urssaf et retraite complémentaire RACL (6,5 %). La SACEM verse aussi sa propre contribution de 1,1 %, qui ne réduit pas ce que tu touches.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">5</div><div><span class="step-tag">Versement</span><h4>Tu reçois ton net</h4><p>Puis, chaque année, tu déclares tes revenus artistiques à l'Urssaf et à l'impôt sur le revenu.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="module" id="cotisations">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">04 / 11</span><h2>Tes <em>cotisations</em> en 2026</h2></div>
+    <p class="module-lead">Tes cotisations dépendent de la façon dont tes revenus sont déclarés au fisc : en <strong>traitements et salaires</strong> (le cas le plus courant quand tout passe par la SACEM ou un éditeur) ou en <strong>BNC</strong>.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Cotisation</th><th style="text-align:right">Taux 2026</th><th>Assiette traitements et salaires</th><th>Assiette BNC</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Vieillesse plafonnée</strong></td><td class="n">6,15 %</td><td>100 % des revenus, jusqu'à 48 060 €</td><td>Bénéfice + 15 %</td></tr>
+        <tr><td><strong>Vieillesse déplafonnée</strong></td><td class="n">0 %</td><td colspan="2">0,40 %, entièrement pris en charge par l'État</td></tr>
+        <tr><td><strong>CSG</strong></td><td class="n">9,20 %</td><td>98,25 % des revenus</td><td>Bénéfice + 15 %</td></tr>
+        <tr><td><strong>CRDS</strong></td><td class="n">0,50 %</td><td>98,25 % des revenus</td><td>Bénéfice + 15 %</td></tr>
+        <tr><td><strong>Formation professionnelle</strong></td><td class="n">0,35 %</td><td>100 % des revenus</td><td>Bénéfice + 15 %</td></tr>
+      </tbody>
+    </table></div>
+    <div class="split">
+      <h4>Exemple : 10 000 € de droits SACEM, déclarés en traitements et salaires</h4>
+      <div class="split-bar" role="img" aria-label="Sur 10 000 euros : 7 747 euros nets, 615 euros de vieillesse, 953 euros de CSG et CRDS, 35 euros de formation, 650 euros de RACL.">
+        <div style="width:77.47%;background:var(--success)">7 747 € net</div>
+        <div style="width:6.15%;background:var(--accent)"></div>
+        <div style="width:9.53%;background:var(--accent-line)">953 €</div>
+        <div style="width:.35%;background:var(--ink-muted)"></div>
+        <div style="width:6.5%;background:var(--warning)"></div>
+      </div>
+      <div class="split-legend">
+        <span><i style="background:var(--success)"></i>Net avant impôt<b>7 747 €</b></span>
+        <span><i style="background:var(--accent)"></i>Vieillesse<b>615 €</b></span>
+        <span><i style="background:var(--accent-line)"></i>CSG + CRDS<b>953 €</b></span>
+        <span><i style="background:var(--ink-muted)"></i>Formation<b>35 €</b></span>
+        <span><i style="background:var(--warning)"></i>Retraite RACL<b>650 €</b></span>
+      </div>
+      <p class="split-note">Calcul pédagogique : 6,15 % × 10 000 + 9,70 % × 9 825 + 0,35 % × 10 000 + 6,5 % × 10 000. À 10 000 €, tu restes sous le seuil d'affiliation au RAAP (10 692 € en 2026). Une partie de la CSG est déductible de ton revenu imposable.</p>
+    </div>
+    <div class="prose"><p>À cela s'ajoute ta <strong>retraite complémentaire</strong>, gérée par l'IRCEC. Dans la musique, deux régimes peuvent te concerner :</p></div>
+    <div class="motors">
+      <div class="motor-card">
+        <div class="motor-name">RACL</div>
+        <div class="motor-by">Auteurs et compositeurs</div>
+        <div class="motor-spec"><span class="motor-spec-label">Taux</span><span class="motor-spec-value">6,5 % du montant brut de tes droits</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Seuil</span><span class="motor-spec-value">À partir de 3 170,46 € de droits par an</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Paiement</span><span class="motor-spec-value">Précompté par la SACEM</span></div>
+      </div>
+      <div class="motor-card">
+        <div class="motor-name">RAAP</div>
+        <div class="motor-by">Tous les artistes-auteurs</div>
+        <div class="motor-spec"><span class="motor-spec-label">Taux</span><span class="motor-spec-value">8 %, ou 4 % sur option avant le 30 novembre si ton assiette ne dépasse pas 32 076 €</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Seuil</span><span class="motor-spec-value">Dès 10 692 € d'assiette sociale</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Cumul</span><span class="motor-spec-value">Taux aménagé de 4 % sur les revenus déjà soumis au RACL</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="module" id="protection">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">05 / 11</span><h2>Ce que le statut <em>te donne</em></h2></div>
+    <p class="module-lead">Le régime est rattaché au <strong>régime général</strong> de la sécurité sociale. Tes cotisations t'ouvrent des droits bien réels.</p>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-letter">S</div><div class="eeat-name">Santé</div><h4>Maladie, maternité, paternité</h4><p>Remboursement des soins, et indemnités journalières sous condition d'un niveau minimum de revenus.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">R</div><div class="eeat-name">Retraite</div><h4>Des trimestres validés</h4><p>150 SMIC horaires de revenus valident 1 trimestre. 600 SMIC horaires valident les 4 trimestres de l'année, soit environ 7 100 € en 2026.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">F</div><div class="eeat-name">Formation</div><h4>Accès à l'AFDAS</h4><p>Ta contribution de 0,35 % ouvre des droits au financement de formations par l'AFDAS, sous conditions de revenus.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">×</div><div class="eeat-name">Attention</div><h4>Pas d'assurance chômage</h4><p>Les droits d'auteur n'ouvrent aucun droit au chômage. C'est la grande différence avec tes cachets d'intermittent.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="module" id="impots">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">06 / 11</span><h2>Côté <em>impôts</em></h2></div>
+    <p class="module-lead">Même revenu, trois façons d'être imposé. Tout dépend de <strong>qui déclare</strong> tes droits au fisc.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Régime</th><th>Quand ?</th><th>Imposition</th><th>SIRET</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Traitements et salaires</strong></td><td>Tes droits sont intégralement déclarés par des tiers (SACEM, éditeur, producteur)</td><td>Abattement de 10 % ou frais réels</td><td>Non</td></tr>
+        <tr><td><strong>Micro-BNC</strong></td><td>Revenus non déclarés par des tiers (ou sur option), recettes jusqu'à 83 600 €</td><td>Abattement forfaitaire de 34 %</td><td>Oui</td></tr>
+        <tr><td><strong>BNC déclaration contrôlée</strong></td><td>Au-delà du seuil, ou sur option</td><td>Recettes moins dépenses réelles (liasse 2035)</td><td>Oui</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ La TVA</div>
+      <p>Les droits d'auteur ont un régime de TVA spécifique, avec un seuil de franchise propre et un taux réduit. Ces seuils changent régulièrement : vérifie-les chaque année sur <strong>impots.gouv.fr</strong> ou avec ton comptable.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="module" id="demarches">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">07 / 11</span><h2>Tes démarches, <em>étape par étape</em></h2></div>
+    <p class="module-lead">Six gestes à connaître pour être en règle dès le premier euro.</p>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Obtenir ton SIRET, si tu déclares en BNC</h4><p>Déclaration de début d'activité sur le guichet unique : formalites.entreprises.gouv.fr. En traitements et salaires, ton numéro de sécurité sociale suffit.</p><div class="factor-detail"><strong>Quand</strong>Au démarrage</div></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Créer ton espace Urssaf et adhérer à la SACEM</h4><p>Ouvre ton compte sur artistes-auteurs.urssaf.fr. Adhère à la SACEM et déclare chacune de tes œuvres.</p><div class="factor-detail"><strong>Quand</strong>Au démarrage</div></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Laisser le précompte faire, ou demander une dispense</h4><p>Tes diffuseurs retiennent tes cotisations à la source. En BNC, tu peux demander une dispense de précompte et payer directement l'Urssaf.</p><div class="factor-detail"><strong>Quand</strong>Toute l'année</div></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Déclarer tes revenus aux impôts</h4><p>En traitements et salaires ou en BNC, selon ton régime.</p><div class="factor-detail"><strong>Quand</strong>Au printemps</div></div></div>
+      <div class="factor"><div class="factor-num">05</div><div><h4>Déclarer tes revenus artistiques à l'Urssaf</h4><p>Même si tout a été précompté : c'est cette déclaration qui régularise tes cotisations et valide tes droits à la retraite.</p><div class="factor-detail"><strong>Quand</strong>Chaque année</div></div></div>
+      <div class="factor"><div class="factor-num">06</div><div><h4>Opter pour le taux réduit RAAP</h4><p>Si ton assiette ne dépasse pas 32 076 €, tu peux opter pour le taux de 4 % auprès de l'IRCEC.</p><div class="factor-detail"><strong>Quand</strong>Avant le 30 novembre</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="module" id="cas">
+  <div class="container">
+    <div class="container-narrow" style="padding:0">
+      <div class="module-header"><span class="module-num">08 / 11</span><h2>Cas pratiques, du <em>reggae</em> à l'électro</h2></div>
+      <p class="module-lead">Six profils, six esthétiques. Pour chacun : ce qui relève du statut d'artiste-auteur, et ce qui <strong>n'en relève pas</strong>.</p>
+    </div>
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-name">Reggae</div><h4>Kaya, auteure-compositrice-interprète</h4><p>Ses titres tournent en radio et en sound system : 4 200 € de droits SACEM par an. Elle joue aussi 20 dates par an.</p><div class="eeat-music"><strong>Artiste-auteur</strong>Ses droits SACEM.<br><span class="out">Hors statut : ses cachets de concert.</span></div></div>
+      <div class="eeat-card"><div class="eeat-name">Urbain</div><h4>Nox, beatmaker</h4><p>Il compose des instrus pour des rappeurs, déclarées à la SACEM, vend des licences d'instrus en ligne et mixe à la demande.</p><div class="eeat-music"><strong>Artiste-auteur</strong>Droits de compositeur, licences d'exploitation de ses œuvres.<br><span class="out">Hors statut : le mixage à façon.</span></div></div>
+      <div class="eeat-card"><div class="eeat-name">Pop</div><h4>Inès, parolière</h4><p>Elle co-écrit le single d'un artiste signé. Son éditeur lui verse une avance, puis la SACEM lui reverse sa part.</p><div class="eeat-music"><strong>Artiste-auteur</strong>Avance éditoriale et droits SACEM, déclarés en traitements et salaires.</div></div>
+      <div class="eeat-card"><div class="eeat-name">Rock</div><h4>Les Rivages, quatre musiciens</h4><p>Les quatre membres co-signent leurs morceaux. Le groupe tourne et vend son merch via une association.</p><div class="eeat-music"><strong>Artiste-auteur</strong>La part de droits de chacun.<br><span class="out">Hors statut : cachets et merch.</span></div></div>
+      <div class="eeat-card"><div class="eeat-name">Dance · électro</div><h4>Malo, DJ-producteur</h4><p>Il compose et produit ses tracks, sortis via un distributeur, et joue en club le week-end.</p><div class="eeat-music"><strong>Artiste-auteur</strong>Ses droits de compositeur.<br><span class="out">Hors statut : part producteur du master, sets en club.</span></div></div>
+      <div class="eeat-card"><div class="eeat-name">Variété · musique à l'image</div><h4>Claire, compositrice</h4><p>Une chaîne lui commande le générique d'une émission, une agence un jingle radio.</p><div class="eeat-music"><strong>Artiste-auteur</strong>Primes de commande et droits de diffusion.</div></div>
+    </div>
+    <div class="container-narrow" style="padding:0">
+      <div class="callout warning">
+        <div class="callout-tag">⚠ Cas limite : vendre des instrus en ligne</div>
+        <p>Ça relève du statut quand tu concèdes une <strong>licence d'exploitation de ton œuvre</strong>. Si tu vends un service (prod sur mesure, mixage), c'est une autre activité. Fais valider ton montage par un professionnel.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="module" id="erreurs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">09 / 11</span><h2>Les 5 erreurs <em>à éviter</em></h2></div>
+    <p class="module-lead">Celles qu'on voit le plus souvent chez les artistes qui démarrent.</p>
+    <div class="factors">
+      <div class="factor err"><div class="factor-num">01</div><div><h4>Confondre droits d'auteur et cachets</h4><p>Une date de concert se paie en salaire, jamais en droits d'auteur.</p></div></div>
+      <div class="factor err"><div class="factor-num">02</div><div><h4>Encaisser ses droits via une micro-entreprise</h4><p>Pour le social, tes droits relèvent du régime des artistes-auteurs. Le micro-BNC est un régime fiscal, pas un statut social.</p></div></div>
+      <div class="factor err"><div class="factor-num">03</div><div><h4>Zapper la déclaration Urssaf annuelle</h4><p>« La SACEM a déjà tout prélevé. » Sans cette déclaration, tes trimestres de retraite peuvent ne pas être validés.</p></div></div>
+      <div class="factor err"><div class="factor-num">04</div><div><h4>Ignorer l'IRCEC</h4><p>Le RACL est précompté, mais le RAAP fait l'objet d'appels de cotisations séparés dès que tu passes le seuil.</p></div></div>
+      <div class="factor err"><div class="factor-num">05</div><div><h4>Faire entrer des revenus non artistiques dans le statut</h4><p>Prestations techniques, cours réguliers, merch, revenus de producteur : chacun a son propre régime.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="module" id="checklist">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">10 / 11</span><h2>Livrable : ta <em>checklist</em> de mise en règle</h2></div>
+    <div class="audit-intro">
+      <h3>Clique sur les cases au fur et à mesure</h3>
+      <p>Ce travail alimente directement l'exercice « Première analyse multicritères de son projet » du Module 1. Progression : <span class="score" id="score">0 / 8</span></p>
+    </div>
+    <div class="audit-prompts" id="checklist-list">
+      <div class="prompt-row"><div class="prompt-num">C01</div><div><div class="prompt-text">J'ai listé mes revenus et identifié ceux qui relèvent du statut</div></div><button type="button" class="audit-check" id="c1">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C02</div><div><div class="prompt-text">Je suis membre de la SACEM et mes œuvres sont déclarées</div></div><button type="button" class="audit-check" id="c2">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C03</div><div><div class="prompt-text">J'ai créé mon espace sur artistes-auteurs.urssaf.fr</div></div><button type="button" class="audit-check" id="c3">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C04</div><div><div class="prompt-text">Je sais si je déclare en traitements et salaires ou en BNC</div></div><button type="button" class="audit-check" id="c4">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C05</div><div><div class="prompt-text">Si je suis en BNC : j'ai mon SIRET</div></div><button type="button" class="audit-check" id="c5">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C06</div><div><div class="prompt-text">Je connais ma situation à l'IRCEC (RACL, RAAP)</div></div><button type="button" class="audit-check" id="c6">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C07</div><div><div class="prompt-text">J'ai noté mes échéances (impôts, Urssaf, option RAAP)</div></div><button type="button" class="audit-check" id="c7">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C08</div><div><div class="prompt-text">Je sais quels revenus relèvent d'autres statuts</div></div><button type="button" class="audit-check" id="c8">⬚ Fait</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="module" id="faq">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">11 / 11</span><h2>Questions <em>fréquentes</em></h2></div>
+    <div class="faq">
+      <details><summary>Dois-je créer une entreprise pour être artiste-auteur ?</summary><div class="ans">Non. Le statut d'artiste-auteur n'est pas une société. Si tes revenus sont déclarés en BNC, tu déclares simplement ton début d'activité sur le guichet unique pour obtenir un SIRET. En traitements et salaires, aucune immatriculation n'est nécessaire.</div></details>
+      <details><summary>Je touche très peu de droits. Suis-je quand même concerné ?</summary><div class="ans">Oui. Tu es affilié dès le premier euro et tes cotisations sont proportionnelles à tes revenus. Seules certaines cotisations, comme le RAAP, ne s'appliquent qu'au-delà d'un seuil.</div></details>
+      <details><summary>Je suis intermittent. Puis-je aussi être artiste-auteur ?</summary><div class="ans">Oui, c'est très courant. Tes cachets relèvent de l'intermittence, tes droits d'auteur du régime des artistes-auteurs. Chaque revenu est déclaré dans son propre régime.</div></details>
+      <details><summary>La SACEM prélève déjà. Pourquoi déclarer à l'Urssaf ?</summary><div class="ans">Le précompte est un paiement à la source. La déclaration annuelle permet à l'Urssaf de connaître l'ensemble de tes revenus artistiques, de régulariser tes cotisations et de valider tes droits (retraite, indemnités).</div></details>
+      <details><summary>Mes droits d'auteur m'ouvrent-ils des droits au chômage ?</summary><div class="ans">Non. Le régime des artistes-auteurs ne comporte pas d'assurance chômage. Seuls tes cachets d'artiste-interprète peuvent t'ouvrir des droits à l'intermittence.</div></details>
+      <details><summary>Je suis arrangeur. Est-ce que je touche des droits d'auteur ?</summary><div class="ans">Oui, si ton arrangement est original et déclaré à la SACEM avec l'accord des ayants droit de l'œuvre. Un arrangement réalisé comme simple prestation technique est rémunéré autrement.</div></details>
+      <details><summary>Puis-je financer une formation grâce à ce statut ?</summary><div class="ans">Oui. Ta contribution à la formation professionnelle (0,35 %) te donne accès aux financements de l'AFDAS, sous conditions de revenus. Tu peux aussi mobiliser ton compte personnel de formation.</div></details>
+      <details><summary>Où vérifier les chiffres de ce cours ?</summary><div class="ans">Les taux et seuils évoluent chaque année. Sources de référence : artistes-auteurs.urssaf.fr, ircec.fr, impots.gouv.fr et service-public.fr. C'est aussi l'objet de la veille réglementaire que tu mettras en place au Module 8.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="recap">
+  <div class="container-narrow">
+    <div class="section-label" style="color:var(--accent-line)">Synthèse</div>
+    <h3>Ce que tu dois retenir de ce cours</h3>
+    <ol class="recap-list">
+      <li>Le statut d'artiste-auteur couvre ta casquette de <strong>créateur</strong> : paroles, compositions, arrangements déclarés, commandes d'œuvres.</li>
+      <li>Tes <strong>cachets</strong> et tes <strong>revenus de producteur</strong> relèvent d'autres régimes, même pour la même chanson.</li>
+      <li>Tu es affilié <strong>dès le premier euro</strong>, et la SACEM précompte l'essentiel de tes cotisations.</li>
+      <li>Compte environ <strong>16 % de cotisations sociales</strong>, plus 6,5 % de RACL, sur des droits déclarés en traitements et salaires.</li>
+      <li>Le statut te protège (santé, retraite, formation AFDAS) mais <strong>n'ouvre pas le chômage</strong>.</li>
+      <li>Ta <strong>déclaration annuelle Urssaf</strong> est obligatoire, même quand tout a été précompté.</li>
+    </ol>
+  </div>
+</section>
+
+<div class="container-narrow">
+  <div class="next-cta">
+    <h3>Prêt pour la <em>vidéo suivante</em> ?</h3>
+    <p>Le statut d'intermittent du spectacle : cachets, 507 heures et droits au chômage.</p>
+    <span class="btn btn-primary">Continuer vers l'intermittence →</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="src">Sources, barèmes 2026 : Code de la sécurité sociale art. L382-1 · artistes-auteurs.urssaf.fr · IRCEC, « Mon mémo IRCEC » 2026 · seuils micro-BNC 2026-2028 (impots.gouv.fr). Support pédagogique de la formation « Structurer et développer une activité artistique musicale ». Il ne remplace pas un conseil juridique, fiscal ou comptable personnalisé.</p>
+    © 2026 Tarik Hamiche · Muziforma
+  </div>
+</footer>
+
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var btns=[].slice.call(document.querySelectorAll('#checklist-list .audit-check'));
+  var score=document.getElementById('score');var KEY='aa-checklist-v2';var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function paint(b){var on=!!saved[b.id];b.classList.toggle('checked',on);b.textContent=(on?'✓':'⬚')+' Fait';b.setAttribute('aria-pressed',on?'true':'false');}
+  function upd(){score.textContent=btns.filter(function(b){return saved[b.id]}).length+' / '+btns.length;}
+  btns.forEach(function(b){paint(b);b.addEventListener('click',function(){saved[b.id]=!saved[b.id];try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}paint(b);upd();});});
+  upd();
+})();
+</script>
+
+
+</body>
+</html>

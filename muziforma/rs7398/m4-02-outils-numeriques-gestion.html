@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mettre en place les outils numériques de gestion · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Charte reprise à l'identique du support « Cité par les IA » : fond sable, violet #5B14FF, Manrope + Inter + JetBrains Mono. Thème clair unique, choisi volontairement. */
+:root{--bg:#F7F1E8;--bg-soft:#FCF8F2;--bg-card:#FFFFFF;--ink:#1F1A15;--ink-soft:#5C4F42;--ink-muted:#8A7A6A;--accent:#5B14FF;--accent-dark:#4910CC;--accent-soft:#EDE9FE;--accent-line:#A78BFA;--border:#E8DDC9;--border-soft:#F0E6D4;--warning:#C2410C;--warning-soft:#FFEDD5;--success:#15803D;--success-soft:#DCFCE7;--on-accent:#FFFFFF;--recap-text:rgba(247,241,232,.85);--shadow-sm:0 1px 2px rgba(31,26,21,.04);--shadow-md:0 4px 16px rgba(31,26,21,.06);--radius-sm:8px;--radius-md:14px;--radius-lg:24px;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Manrope,-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700}
+h4{font-size:1.15rem;font-weight:700;line-height:1.3}
+p{margin-bottom:1.1rem;color:var(--ink-soft)}
+strong{color:var(--ink);font-weight:700}
+em{font-style:normal;color:var(--accent);font-weight:800}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.container-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-line));z-index:9999}
+header.top-nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(247,241,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand-mark{font-family:Manrope,sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--ink)}
+.brand-mark em{color:var(--accent)}
+.nav-meta{display:flex;gap:1rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted)}
+.nav-meta span:not(:last-child)::after{content:"·";margin-left:1rem;color:var(--border)}
+@media (max-width:600px){.nav-meta{display:none}}
+.hero{padding:5rem 0 4rem;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;max-width:none;background:radial-gradient(circle,rgba(167,139,250,.22) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(91,20,255,.14) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1.8rem;box-shadow:var(--shadow-sm)}
+.hero h1{margin-bottom:1.5rem}
+.hero-lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:720px;margin:0 auto 1.5rem;line-height:1.55}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.hero-chips span{font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:.35rem .9rem}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:880px;margin:3rem auto 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-num{font-family:Manrope,sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em;margin-bottom:.5rem}
+.stat-label{font-size:.82rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.hero-stats{grid-template-columns:1fr}}
+.section-label{display:inline-block;font-family:Inter,sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:1.5rem}
+.toc-section{padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);text-align:center}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:800px;margin:1rem auto 0}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left;color:var(--ink);transition:.15s}
+.toc-item:hover{border-color:var(--accent);transform:translateX(2px);box-shadow:var(--shadow-sm);color:var(--ink)}
+.toc-num{font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);flex-shrink:0;width:36px}
+.toc-title{font-weight:600;font-size:.95rem;line-height:1.3}
+@media (max-width:600px){.toc-grid{grid-template-columns:1fr}}
+main>section.module{padding:6rem 0;position:relative;overflow:hidden}
+main>section.module:nth-of-type(odd){background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+section.module::before{content:"";position:absolute;top:10%;right:-180px;width:480px;height:480px;background:radial-gradient(circle,rgba(167,139,250,.16) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
+section.module>.container,section.module>.container-narrow{position:relative;z-index:1}
+.module-header{margin-bottom:2.5rem}
+.module-num{font-family:Manrope,sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.6rem;display:block}
+.module-lead{font-size:1.15rem;color:var(--ink-soft);margin:1.5rem 0 2.5rem;line-height:1.55;max-width:720px}
+.prose p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.3rem}
+.callout{background:var(--bg-card);border-left:4px solid var(--accent);border-radius:var(--radius-md);padding:1.6rem 1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm);text-align:left}
+.callout.warning{border-left-color:var(--warning);background:linear-gradient(135deg,var(--warning-soft) 0%,var(--bg-card) 60%)}
+.callout.success{border-left-color:var(--success);background:linear-gradient(135deg,var(--success-soft) 0%,var(--bg-card) 60%)}
+.callout-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.6rem}
+.callout.warning .callout-tag{color:var(--warning)}
+.callout.success .callout-tag{color:var(--success)}
+.callout p{margin:0;color:var(--ink);line-height:1.55}
+.callout ul{margin:.2rem 0 0 1.2rem;color:var(--ink);line-height:1.6}
+/* 3 casquettes : reprend .evolution */
+.evolution{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2rem 0}
+.evo-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;text-align:center;box-shadow:var(--shadow-sm)}
+.evo-col.featured{border:2px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg-card) 50%);transform:scale(1.02);box-shadow:var(--shadow-md)}
+.evo-acronym{font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;letter-spacing:-.04em;margin-bottom:.4rem}
+.evo-col:not(.featured) .evo-acronym{color:var(--ink-muted)}
+.evo-full{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:1rem;font-weight:600}
+.evo-col h4{margin-bottom:.6rem}
+.evo-col p{font-size:.92rem;line-height:1.55;text-align:left}
+.evo-target{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--border);text-align:left;font-size:.85rem;line-height:1.45;color:var(--ink)}
+.evo-target strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem;font-weight:800}
+@media (max-width:800px){.evolution{grid-template-columns:1fr}.evo-col.featured{transform:none}}
+/* circuit : reprend .rag-flow */
+.rag-flow{margin:2.5rem 0;display:flex;flex-direction:column;gap:1.5rem}
+.rag-step{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.rag-step:hover{border-color:var(--accent-line)}
+.rag-step-circle{flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.6rem;box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+.rag-step.alt .rag-step-circle{background:var(--warning);box-shadow:rgba(194,65,12,.3) 0 6px 20px}
+.rag-step>div:last-child{flex:1 1 0%;min-width:0}
+.step-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);margin-bottom:.4rem}
+.rag-step h4{margin-bottom:.6rem}
+.rag-step p{margin:0;line-height:1.55}
+/* tableaux dans la charte */
+.data-table{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);margin:2rem 0}
+.data-table table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+.data-table th{text-align:left;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding:1rem 1.1rem;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.data-table td{padding:.9rem 1.1rem;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table td strong{color:var(--ink)}
+.data-table .n{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--accent-dark);white-space:nowrap}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .6rem;border-radius:6px;white-space:nowrap}
+.badge.yes{background:var(--success-soft);color:var(--success)}
+.badge.no{background:var(--warning-soft);color:var(--warning)}
+.badge.mid{background:var(--accent-soft);color:var(--accent-dark)}
+/* barre de répartition */
+.split{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);margin:2rem 0}
+.split h4{margin-bottom:1.2rem}
+.split-bar{display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden}
+.split-bar div{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:500;color:var(--on-accent);white-space:nowrap;overflow:hidden}
+.split-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem 1rem;margin-top:1.2rem;font-size:.88rem;color:var(--ink-soft)}
+.split-legend span{display:flex;align-items:center;gap:.5rem}
+.split-legend i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.split-legend b{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--ink);margin-left:auto}
+.split-note{font-size:.82rem;color:var(--ink-muted);margin:1rem 0 0;line-height:1.5}
+/* cartes : reprend .motors / .eeat */
+.motors,.eeat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:2rem 0}
+.motor-card,.eeat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-sm);min-width:0}
+.eeat-card{transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.eeat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motor-name{font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;color:var(--ink);letter-spacing:-.02em;margin-bottom:.3rem}
+.motor-by{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.motor-spec{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border-soft);font-size:.9rem;line-height:1.45}
+.motor-spec:last-child{border-bottom:0}
+.motor-spec-label{flex-shrink:0;width:78px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding-top:.2rem}
+.motor-spec-value{flex:1 1 0%;color:var(--ink-soft)}
+.eeat-letter{width:52px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1rem}
+.eeat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem}
+.eeat-card h4{margin-bottom:.8rem}
+.eeat-card>p{font-size:.95rem;line-height:1.55;margin-bottom:1.2rem}
+.eeat-music{background:var(--accent-soft);border-radius:var(--radius-sm);padding:1rem;font-size:.9rem;line-height:1.5;color:var(--ink);margin-top:auto}
+.eeat-music strong{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.eeat-music .out{color:var(--warning)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:740px){.eeat-grid,.motors,.grid3{grid-template-columns:1fr}}
+/* étapes : reprend .factors */
+.factors{display:flex;flex-direction:column;gap:1.2rem;margin:2rem 0}
+.factor{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.factor:hover{border-color:var(--accent-line)}
+.factor-num{flex-shrink:0;font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;width:50px;letter-spacing:-.03em}
+.factor.err .factor-num{color:var(--warning)}
+.factor>div:last-child{flex:1 1 0%;min-width:0}
+.factor h4{margin-bottom:.6rem}
+.factor p{font-size:.95rem;line-height:1.55;margin-bottom:1rem}
+.factor p:last-child{margin-bottom:0}
+.factor-detail{background:var(--accent-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.88rem;line-height:1.5;color:var(--ink)}
+.factor-detail strong{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.factor.err .factor-detail{background:var(--warning-soft)}
+.factor.err .factor-detail strong{color:var(--warning)}
+/* checklist : reprend .audit */
+.audit-intro{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm)}
+.audit-intro h3{margin-bottom:.8rem}
+.audit-intro p{margin:0;line-height:1.6}
+.audit-prompts{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.prompt-row{display:flex;gap:1.2rem;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.prompt-num{flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--accent);width:36px}
+.prompt-row>div:not(.prompt-num){flex:1 1 0%;min-width:0}
+.prompt-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.audit-check{flex-shrink:0;padding:.5rem .9rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s;font-family:Inter,sans-serif}
+.audit-check:hover{border-color:var(--accent-line)}
+.audit-check.checked{background:var(--success);color:var(--on-accent);border-color:var(--success);font-weight:600}
+.score{font-family:"JetBrains Mono",monospace;color:var(--success);font-weight:500}
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.faq details{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:border-color .2s}
+.faq details:hover,.faq details[open]{border-color:var(--accent-line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.5rem;font-family:Manrope,sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.faq details[open] summary::after{content:"−";background:var(--accent);color:var(--on-accent)}
+.faq .ans{padding:0 1.5rem 1.4rem;color:var(--ink-soft);font-size:.97rem;line-height:1.65}
+/* synthèse */
+.recap{background:var(--ink);color:var(--recap-text);padding:4rem 0;position:relative;overflow:hidden}
+.recap::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(91,20,255,.25) 0%,transparent 60%);border-radius:50%;pointer-events:none}
+.recap>.container-narrow{position:relative;z-index:1}
+.recap h3{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg-card);margin-bottom:1.5rem}
+.recap-list{list-style:none;counter-reset:item;display:flex;flex-direction:column;gap:1rem}
+.recap-list li{counter-increment:item;padding-left:3rem;position:relative;line-height:1.55;color:var(--recap-text)}
+.recap-list li::before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:Manrope,sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-line)}
+.recap-list li strong{color:var(--bg-card)}
+.next-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin:4rem auto;max-width:760px;text-align:center;box-shadow:var(--shadow-md)}
+.next-cta h3{margin-bottom:1rem}
+.next-cta p{margin-bottom:1.5rem;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.1rem 2.2rem;font-family:Manrope,sans-serif;font-size:1rem;font-weight:800;border-radius:999px;border:0;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+footer.site-footer{background:var(--ink);color:rgba(247,241,232,.55);padding:2.5rem 0;text-align:center;font-size:.85rem;border-top:1px solid rgba(247,241,232,.08);line-height:1.7}
+footer.site-footer .src{max-width:760px;margin:0 auto 1rem;font-size:.8rem;color:rgba(247,241,232,.45)}
+@media (max-width:860px){main>section.module{padding:4rem 0}.toc-section{padding:3rem 0}.module-header{margin-bottom:1.8rem}.module-lead{font-size:1.05rem;margin:1rem 0 1.8rem}.rag-step,.factor{padding:1.4rem;gap:1rem}.rag-step-circle{width:48px;height:48px;font-size:1.3rem}.factor-num{font-size:1.6rem;width:40px}.next-cta{padding:1.8rem 1.4rem}.recap-list li{padding-left:2.4rem}section.module::before{width:320px;height:320px}}
+@media (max-width:480px){.hero{padding:3rem 0 2.5rem}.hero h1{font-size:2rem}.rag-step,.factor{flex-direction:column;gap:.8rem}.prompt-row{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+
+<style>
+.chain{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin:2rem 0;position:relative}
+.chain-step{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.4rem 1.2rem;box-shadow:var(--shadow-sm);position:relative;display:flex;flex-direction:column;gap:.5rem}
+.chain-step:not(:last-child)::after{content:"→";position:absolute;right:-1rem;top:50%;transform:translate(50%,-50%);width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;z-index:2}
+.chain-kicker{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted)}
+.chain-title{font-family:Manrope,sans-serif;font-weight:800;font-size:1.15rem;color:var(--ink);letter-spacing:-.02em}
+.chain-list{list-style:none;margin:.3rem 0 0;padding:0;display:flex;flex-direction:column;gap:.45rem}
+.chain-list li{font-size:.86rem;line-height:1.4;color:var(--ink-soft);padding-left:2.3rem;position:relative}
+.chain-list li b{position:absolute;left:0;top:0;font-family:"JetBrains Mono",monospace;font-weight:500;font-size:.78rem;color:var(--accent-dark)}
+@media (max-width:800px){.chain{grid-template-columns:1fr 1fr}.chain-step:nth-child(2)::after{display:none}}
+@media (max-width:480px){.chain{grid-template-columns:1fr}.chain-step::after{display:none}}
+</style>
+<div class="progress-bar" id="progress-bar"></div>
+<header class="top-nav"><div class="nav-inner"><span class="brand-mark">MUZI<em>FORMA</em></span><div class="nav-meta"><span>Module 04 / 08</span><span>Muziforma</span></div></div></header>
+<main>
+<section class="hero"><div class="hero-inner">
+<span class="hero-tag">Module 04 · Gérer et piloter son activité musicale</span>
+<h1>Tes outils <em>numériques</em> de gestion.</h1>
+<p class="hero-lead">Une activité musicale produit beaucoup d'informations : factures, contrats, fichiers audio, codes, contacts. Sans outils, elles se perdent. Avec trop d'outils, elles s'éparpillent. Voici comment t'équiper juste ce qu'il faut.</p>
+<div class="hero-chips"><span>Chapitre 1 · S'outiller</span></div>
+<div class="hero-stats"><div class="stat-card"><div class="stat-num">7</div><div class="stat-label">Fonctions à couvrir, pas forcément 7 logiciels</div></div><div class="stat-card"><div class="stat-num">1</div><div class="stat-label">Endroit unique pour chaque type d'information</div></div><div class="stat-card"><div class="stat-num">3-2-1</div><div class="stat-label">La règle de sauvegarde à connaître</div></div><div class="stat-card"><div class="stat-num">0</div><div class="stat-label">Outil choisi avant d'avoir défini le besoin</div></div></div>
+</div></section>
+<section class="toc-section"><div class="container-narrow"><div class="callout"><div class="callout-tag">★ Objectifs pédagogiques</div><ul><li>Identifier les fonctions de gestion à outiller dans un projet musical</li><li>Choisir un outil à partir de critères simples</li><li>Organiser ses fichiers et le registre de son catalogue</li><li>Sécuriser ses données et celles de ses contacts</li></ul></div><div class="section-label">Plan du cours</div><div class="toc-grid"><a href="#besoins" class="toc-item"><span class="toc-num">01</span><span class="toc-title">Les 7 fonctions à outiller</span></a><a href="#choisir" class="toc-item"><span class="toc-num">02</span><span class="toc-title">Choisir un outil</span></a><a href="#dossiers" class="toc-item"><span class="toc-num">03</span><span class="toc-title">Organiser ses dossiers</span></a><a href="#catalogue" class="toc-item"><span class="toc-num">04</span><span class="toc-title">Le registre du catalogue</span></a><a href="#facturation" class="toc-item"><span class="toc-num">05</span><span class="toc-title">Facturation et comptabilité</span></a><a href="#securite" class="toc-item"><span class="toc-num">06</span><span class="toc-title">Sécuriser ses données</span></a><a href="#deploiement" class="toc-item"><span class="toc-num">07</span><span class="toc-title">Mettre en place sans se perdre</span></a></div></div></section>
+<section class="module" id="besoins"><div class="container-narrow"><div class="module-header"><span class="module-num">01 / 07</span><h2>Les 7 <em>fonctions</em> à outiller</h2></div><p class="module-lead">Raisonne par fonction, pas par logiciel. Un même outil peut couvrir plusieurs fonctions.</p><div class="data-table"><table><thead><tr><th>Fonction</th><th>À quoi ça sert</th><th>Type d'outil</th></tr></thead><tbody><tr><td><strong>Facturer et encaisser</strong></td><td>Devis, factures, suivi des paiements</td><td>Logiciel de facturation</td></tr><tr><td><strong>Tenir ses comptes</strong></td><td>Recettes, dépenses, justificatifs, lien avec la banque</td><td>Logiciel de comptabilité ou tableur, compte bancaire dédié</td></tr><tr><td><strong>Stocker et partager</strong></td><td>Masters, visuels, contrats, pièces administratives</td><td>Stockage en ligne avec dossiers partagés</td></tr><tr><td><strong>Suivre son catalogue</strong></td><td>Titres, codes, ayants droit, parts</td><td>Registre du catalogue (tableur ou outil spécialisé)</td></tr><tr><td><strong>Planifier</strong></td><td>Tâches, échéances, rétroplannings</td><td>Outil de gestion de projet, agenda partagé</td></tr><tr><td><strong>Gérer ses contacts</strong></td><td>Partenaires, médias, programmateurs, fans</td><td>Carnet de contacts ou outil de relation client, outil d'e-mailing</td></tr><tr><td><strong>Signer et archiver</strong></td><td>Contrats, autorisations, feuilles de session</td><td>Signature électronique, coffre-fort de documents</td></tr></tbody></table></div><div class="callout"><div class="callout-tag">★ La règle d'or</div><p>Une information, <strong>un seul endroit</strong>. Si tes parts d'auteur existent dans trois fichiers, tu ne sais plus lequel est juste.</p></div></div></section>
+<section class="module" id="choisir"><div class="container-narrow"><div class="module-header"><span class="module-num">02 / 07</span><h2><em>Choisir</em> un outil</h2></div><p class="module-lead">Six questions à te poser avant de t'abonner à quoi que ce soit.</p><div class="factors"><div class="factor"><div class="factor-num">01</div><div><h4>Est-ce que j'en ai vraiment besoin ?</h4><p>Écris d'abord le problème à résoudre. Si un tableur suffit, garde le tableur.</p></div></div><div class="factor"><div class="factor-num">02</div><div><h4>Est-ce que je vais m'en servir ?</h4><p>L'outil le plus simple à ouvrir depuis ton téléphone gagnera toujours.</p></div></div><div class="factor"><div class="factor-num">03</div><div><h4>Combien ça coûte sur un an ?</h4><p>Additionne tous tes abonnements. Le total surprend souvent.</p></div></div><div class="factor"><div class="factor-num">04</div><div><h4>Puis-je récupérer mes données ?</h4><p>Vérifie l'export : tableur, PDF, fichiers d'origine. Sinon tu es prisonnier.</p></div></div><div class="factor"><div class="factor-num">05</div><div><h4>Mes partenaires peuvent-ils y accéder ?</h4><p>Comptable, manager, coauteurs : prévois des accès limités, pas ton mot de passe.</p></div></div><div class="factor"><div class="factor-num">06</div><div><h4>Où sont hébergées les données ?</h4><p>Regarde la politique de confidentialité, surtout pour des données personnelles.</p></div></div></div><div class="callout warning"><div class="callout-tag">⚠ Teste avant de payer</div><p>Utilise la période d'essai sur un vrai cas : une vraie facture, une vraie sortie. Une démonstration ne prouve rien.</p></div></div></section>
+<section class="module" id="dossiers"><div class="container-narrow"><div class="module-header"><span class="module-num">03 / 07</span><h2>Organiser ses <em>dossiers</em></h2></div><p class="module-lead">Une arborescence claire te fait gagner plus de temps que n'importe quel logiciel.</p><div class="data-table"><table><thead><tr><th>Dossier</th><th>Ce qu'il contient</th></tr></thead><tbody><tr><td><strong>01 Administratif</strong></td><td>Statuts, SIRET, attestations, banque, assurances</td></tr><tr><td><strong>02 Comptabilité</strong></td><td>Un sous-dossier par année : factures émises, factures reçues, relevés</td></tr><tr><td><strong>03 Contrats</strong></td><td>Un sous-dossier par partenaire, version signée uniquement</td></tr><tr><td><strong>04 Catalogue</strong></td><td>Un sous-dossier par titre ou par projet : masters, stems, paroles, crédits, feuilles de session</td></tr><tr><td><strong>05 Droits</strong></td><td>Déclarations aux sociétés de gestion collective, relevés de droits</td></tr><tr><td><strong>06 Promotion</strong></td><td>Visuels, biographie, photos, dossier de presse</td></tr><tr><td><strong>07 Aides</strong></td><td>Un sous-dossier par demande : dossier déposé, réponse, bilan</td></tr></tbody></table></div><div class="callout"><div class="callout-tag">★ Nommer ses fichiers</div><p>Adopte une règle et tiens-la : date à l'envers, objet, version. Exemple : 2026-10-04_contrat-distribution_signe.pdf. Tes fichiers se classent tout seuls.</p></div></div></section>
+<section class="module" id="catalogue"><div class="container-narrow"><div class="module-header"><span class="module-num">04 / 07</span><h2>Le registre du <em>catalogue</em></h2></div><p class="module-lead">C'est l'outil le plus rentable de ta gestion. Chaque titre y a sa ligne, dès le jour de sa création.</p><div class="data-table"><table><thead><tr><th>Colonne</th><th>Pourquoi elle compte</th></tr></thead><tbody><tr><td><strong>Titre, version, durée</strong></td><td>Identifier l'œuvre et l'enregistrement sans ambiguïté</td></tr><tr><td><strong>Auteurs, compositeurs, éditeurs et leurs parts</strong></td><td>Base de la déclaration de l'œuvre et de la répartition des droits d'auteur</td></tr><tr><td><strong>Code ISWC</strong></td><td>Identifiant de l'œuvre, attribué après la déclaration</td></tr><tr><td><strong>Interprètes et musiciens</strong></td><td>Base des droits voisins des artistes-interprètes</td></tr><tr><td><strong>Producteur, propriétaire du master</strong></td><td>Base des droits voisins du producteur</td></tr><tr><td><strong>Code ISRC</strong></td><td>Identifiant de l'enregistrement, exigé par les distributeurs</td></tr><tr><td><strong>Dates : création, déclaration, sortie</strong></td><td>Suivre ce qui est fait et ce qui reste à faire</td></tr><tr><td><strong>Contrats liés</strong></td><td>Savoir quel contrat s'applique à quel titre</td></tr></tbody></table></div><div class="callout warning"><div class="callout-tag">⚠ Les parts se fixent par écrit, le jour même</div><p>Fais signer la répartition entre coauteurs à la fin de la séance. Six mois plus tard, personne ne se souvient de la même chose.</p></div></div></section>
+<section class="module" id="facturation"><div class="container-narrow"><div class="module-header"><span class="module-num">05 / 07</span><h2>Facturation et <em>comptabilité</em></h2></div><p class="module-lead">La facturation et la comptabilité sont les deux fonctions où l'outil doit respecter des règles.</p><div class="factors"><div class="factor"><div class="factor-num">01</div><div><h4>Un compte bancaire dédié à l'activité</h4><p>Il sépare ton argent personnel de celui du projet et simplifie toute la comptabilité.</p></div></div><div class="factor"><div class="factor-num">02</div><div><h4>Des factures conformes</h4><p>Numérotation continue, mentions obligatoires, conservation. Un logiciel de facturation t'évite les oublis.</p></div></div><div class="factor"><div class="factor-num">03</div><div><h4>La facturation électronique</h4><p>La réforme s'applique progressivement aux entreprises à partir de septembre 2026. Vérifie sur impots.gouv.fr ce qui te concerne et à quelle date.</p></div></div><div class="factor"><div class="factor-num">04</div><div><h4>Les justificatifs rangés au fil de l'eau</h4><p>Photographie chaque ticket et dépose chaque facture le jour même dans le bon dossier.</p></div></div><div class="factor"><div class="factor-num">05</div><div><h4>Un accès pour ton expert-comptable</h4><p>Si tu en as un, demande-lui quel outil il préconise avant de choisir le tien.</p></div></div></div></div></section>
+<section class="module" id="securite"><div class="container-narrow"><div class="module-header"><span class="module-num">06 / 07</span><h2><em>Sécuriser</em> ses données</h2></div><p class="module-lead">Tes masters et ton fichier de fans sont ton capital. Protège-les comme tel.</p><div class="eeat-grid"><div class="eeat-card"><div class="eeat-letter">1</div><div class="eeat-name">Sauvegarde</div><h4>La règle 3-2-1</h4><p>Trois copies, sur deux supports différents, dont une hors de chez toi.</p></div><div class="eeat-card"><div class="eeat-letter">2</div><div class="eeat-name">Accès</div><h4>Un gestionnaire de mots de passe</h4><p>Un mot de passe différent par service, et la double authentification partout où elle existe.</p></div><div class="eeat-card"><div class="eeat-letter">3</div><div class="eeat-name">Partage</div><h4>Des accès nominatifs</h4><p>Chacun son compte. Tu retires un accès sans changer tous les mots de passe.</p></div><div class="eeat-card"><div class="eeat-letter">4</div><div class="eeat-name">Données personnelles</div><h4>Le fichier de tes fans</h4><p>Tu collectes des e-mails ? Tu dois informer les personnes, recueillir leur accord et permettre la désinscription (RGPD).</p></div></div><div class="callout warning"><div class="callout-tag">⚠ Les comptes au nom de la bonne personne</div><p>Distributeur, réseaux sociaux, nom de domaine : ils doivent être ouverts au nom de l'artiste ou de sa structure, jamais au nom d'un prestataire.</p></div></div></section>
+<section class="module" id="deploiement"><div class="container-narrow"><div class="module-header"><span class="module-num">07 / 07</span><h2>Mettre en place sans se <em>perdre</em></h2></div><p class="module-lead">Un outil mal installé est abandonné en trois semaines. Avance par étapes.</p><div class="rag-flow"><div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Étape 1</span><h4>Fais l'inventaire</h4><p>Liste tes outils actuels, leur coût et ce que tu y ranges.</p></div></div><div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Étape 2</span><h4>Choisis une fonction prioritaire</h4><p>Celle qui te fait perdre le plus d'argent ou de temps aujourd'hui.</p></div></div><div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Étape 3</span><h4>Installe et teste sur un cas réel</h4><p>Un mois d'essai, sur une vraie sortie ou un vrai mois de factures.</p></div></div><div class="rag-step alt"><div class="rag-step-circle">4</div><div><span class="step-tag">Étape 4</span><h4>Écris la règle d'usage</h4><p>Trois lignes : qui saisit quoi, quand, et où. Puis passe à la fonction suivante.</p></div></div></div></div></section>
+</main>
+<section class="recap"><div class="container-narrow"><div class="section-label" style="color:var(--accent-line)">À retenir</div><h3>Ce que tu dois retenir</h3><ol class="recap-list"><li>Raisonne par <strong>fonction</strong> : facturer, compter, stocker, suivre le catalogue, planifier, gérer les contacts, signer.</li><li>Une information, <strong>un seul endroit</strong>.</li><li>Le <strong>registre du catalogue</strong> est l'outil le plus rentable : une ligne par titre, avec parts et codes.</li><li>Un <strong>compte bancaire dédié</strong> et des factures conformes sont la base.</li><li>Sauvegarde <strong>3-2-1</strong>, mots de passe uniques, comptes à ton nom.</li></ol></div></section>
+<div class="container-narrow"><div class="next-cta"><h3>Prêt pour la <em>suite</em> ?</h3><p>Gérer les droits d'auteur et les droits voisins.</p><span class="btn btn-primary">Continuer vers les droits →</span></div></div>
+<footer class="site-footer"><div class="container"><p class="src">Sources : impots.gouv.fr (facturation électronique) · cnil.fr (RGPD) · sacem.fr. Support pédagogique de la formation « Structurer et développer une activité artistique musicale ». Il ne remplace pas un conseil juridique, fiscal ou comptable personnalisé.</p>© 2026 Tarik Hamiche · Muziforma</div></footer>
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+})();
+</script>
+
+</body>
+</html>

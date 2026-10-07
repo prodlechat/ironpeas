@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quasar Studio — Session du 7 octobre 2026 — Prospection et publicité</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED; --primary-dark:#4C1D95; --primary-light:#EDE9FE;
+  --accent:#F59E0B; --accent-light:#FEF3C7;
+  --success:#10B981; --success-light:#D1FAE5;
+  --danger:#EF4444; --danger-light:#FEE2E2;
+  --info:#3B82F6; --info-light:#DBEAFE;
+  --ink:#1A1523; --muted:#5B5670; --line:#E7E4EF; --bg:#FAF9FC; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+.progress-wrap{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(108,58,237,.12);z-index:999}
+#progress{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+.wrap{max-width:940px;margin:0 auto;padding-inline:20px}
+
+.hero{background:linear-gradient(140deg,#3B1D80 0%,#6C3AED 55%,#8B5CF6 100%);color:#fff;padding-block:60px 52px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{content:"";position:absolute;left:-60px;bottom:-120px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.05)}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:700;margin-bottom:14px;position:relative;z-index:2}
+.hero .sub{font-size:17px;opacity:.92;max-width:690px;position:relative;z-index:2}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;position:relative;z-index:2}
+.meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:7px 14px;border-radius:10px;font-size:13.5px;font-weight:500}
+
+/* LECTEUR */
+.player-wrap{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:-32px;position:relative;z-index:6;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.vid{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.chx{margin-top:16px;border:1px solid var(--line);border-radius:12px;background:#FBFAFE}
+.chx summary{cursor:pointer;padding:12px 16px;font-weight:650;font-size:14.5px;color:var(--primary-dark);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chx summary::-webkit-details-marker{display:none}
+.chx summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+.chx[open] summary::before{content:"▾ "}
+.chx summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+.chlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:2px;max-height:330px;overflow-y:auto;padding:0 10px 12px}
+.chlist button{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;background:transparent;border:0;border-radius:9px;padding:8px 10px;font-family:inherit;font-size:14.5px;color:var(--ink);cursor:pointer;line-height:1.45;transition:background .12s}
+.chlist button:hover{background:var(--primary-light);color:var(--primary-dark)}
+.chlist b{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;min-width:54px}
+button.seek{background:var(--primary-light);border:1px solid #DDD3FA;color:var(--primary-dark);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;cursor:pointer;font-variant-numeric:tabular-nums;transition:all .12s}
+button.seek:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.player-wrap + .toc{margin-top:26px}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:-32px;position:relative;z-index:5;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.toc h2{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:16px;color:var(--primary-dark)}
+.toc ol{list-style:none;counter-reset:toc;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.toc li{counter-increment:toc}
+.toc a{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink);padding:9px 10px;border-radius:10px;font-size:14.5px;transition:background .15s}
+.toc a:hover{background:var(--primary-light);color:var(--primary-dark)}
+.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);font-size:13px;flex-shrink:0;padding-top:1px}
+
+section.chap{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+section.chap>.bar{height:5px;background:var(--primary)}
+.chap[data-c="a"]>.bar{background:var(--accent)} .chap[data-c="g"]>.bar{background:var(--success)}
+.chap[data-c="b"]>.bar{background:var(--info)} .chap[data-c="r"]>.bar{background:var(--danger)}
+.chead{padding:26px 28px 0;display:flex;gap:14px;align-items:center}
+.cnum{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--primary-light);color:var(--primary-dark);display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px}
+.chap[data-c="a"] .cnum{background:var(--accent-light);color:#92400E}
+.chap[data-c="g"] .cnum{background:var(--success-light);color:#065F46}
+.chap[data-c="b"] .cnum{background:var(--info-light);color:#1E40AF}
+.chap[data-c="r"] .cnum{background:var(--danger-light);color:#991B1B}
+.chead h2{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.25;font-weight:700}
+.tc{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-top:3px}
+.cbody{padding:18px 28px 28px}
+.cbody p{margin-bottom:14px}
+.cbody h3{font-family:'Space Grotesk',sans-serif;font-size:16.5px;margin:22px 0 10px;color:var(--primary-dark)}
+.cbody ul,.cbody ol{margin:0 0 14px 20px}
+.cbody li{margin-bottom:7px}
+strong{font-weight:650;color:#2D2540}
+em.q{font-style:italic;color:#413655}
+
+.box{border-radius:12px;padding:16px 18px;margin:18px 0;border-left:4px solid;font-size:15px}
+.box .bt{display:block;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.box p:last-child{margin-bottom:0}
+.b-key{background:var(--primary-light);border-color:var(--primary)} .b-key .bt{color:var(--primary-dark)}
+.b-warn{background:var(--accent-light);border-color:var(--accent)} .b-warn .bt{color:#92400E}
+.b-tip{background:var(--success-light);border-color:var(--success)} .b-tip .bt{color:#065F46}
+.b-info{background:var(--info-light);border-color:var(--info)} .b-info .bt{color:#1E40AF}
+.b-danger{background:var(--danger-light);border-color:var(--danger)} .b-danger .bt{color:#991B1B}
+
+.tbl{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:12px 14px;font-weight:600;font-size:13.5px}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#FBFAFE}
+
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.pc>div{border-radius:12px;padding:16px 18px;font-size:14.5px}
+.pc .ok{background:var(--success-light);border:1px solid #A7F3D0}
+.pc .ko{background:var(--danger-light);border:1px solid #FECACA}
+.pc h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.pc .ok h4{color:#065F46} .pc .ko h4{color:#991B1B}
+.pc ul{margin:0 0 0 18px} .pc li{margin-bottom:5px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
+.card{background:#FBFAFE;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h4{font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:6px;color:var(--primary-dark)}
+.card p{font-size:14px;color:var(--muted);margin:0}
+.stat h4{font-size:22px;font-family:'Space Grotesk',sans-serif}
+
+.tl{list-style:none;margin:18px 0;padding-left:26px;border-left:2px dashed var(--line)}
+.tl li{position:relative;margin-bottom:16px;font-size:15px}
+.tl li::before{content:"";position:absolute;left:-33px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light)}
+.tl b{display:block;font-family:'Space Grotesk',sans-serif;color:var(--primary-dark)}
+
+details{border:1px solid var(--line);border-radius:12px;margin:14px 0;background:#FBFAFE}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:15px;color:var(--primary-dark);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+details[open] summary::before{content:"▾ "}
+details .dc{padding:0 18px 16px;font-size:14.5px}
+
+.pull{margin:22px 0;padding:20px 24px;border-radius:14px;background:linear-gradient(120deg,#2D1B69,#4C1D95);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:19px;line-height:1.45;font-weight:600}
+.pull span{display:block;margin-top:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;opacity:.7;letter-spacing:.03em}
+
+.faq{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+.faq>.bar{height:5px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.faqhead{padding:26px 28px 0}
+.faqhead h2{font-family:'Space Grotesk',sans-serif;font-size:26px;color:var(--primary-dark)}
+.faqhead p{color:var(--muted);font-size:15px;margin-top:4px}
+.faqbody{padding:18px 28px 28px}
+.faqcat{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.faqcat:first-child{margin-top:6px}
+.qa{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:#FDFCFF}
+.qa .q{background:linear-gradient(90deg,var(--primary-light),#F6F3FF);padding:13px 18px;font-weight:650;color:var(--primary-dark);font-size:15.5px;display:flex;gap:10px}
+.qa .q span{flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.qa .a{padding:15px 18px;font-size:15px}
+.qa .a p{margin-bottom:10px} .qa .a p:last-child{margin-bottom:0}
+
+.plan{background:linear-gradient(140deg,#0F172A,#1E1B4B);color:#fff;border-radius:18px;padding:30px 28px;margin-top:26px}
+.plan h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:8px}
+.plan>p{opacity:.8;margin-bottom:20px;font-size:15px}
+.phase{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin:22px 0 10px}
+.phase:first-of-type{margin-top:0}
+.chk{list-style:none;margin:0;padding:0}
+.chk li{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;margin-bottom:9px;font-size:15px;cursor:pointer;transition:background .15s}
+.chk li:hover{background:rgba(255,255,255,.09)}
+.chk .bx{flex-shrink:0;width:20px;height:20px;border:2px solid rgba(255,255,255,.4);border-radius:6px;margin-top:3px;display:grid;place-items:center;font-size:13px;font-weight:700;color:transparent}
+.chk li.done .bx{background:var(--success);border-color:var(--success);color:#fff}
+.chk li.done .tx{opacity:.5;text-decoration:line-through}
+.chk .tx b{display:block;font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.04em;text-transform:uppercase;opacity:.65;margin-bottom:2px}
+
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px;margin-top:26px}
+.quiz h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:6px;color:var(--primary-dark)}
+.quiz>p{color:var(--muted);margin-bottom:22px;font-size:15px}
+.qz{margin-bottom:24px;padding-bottom:22px;border-bottom:1px dashed var(--line)}
+.qz:last-of-type{border-bottom:none}
+.qz .qt{font-weight:650;margin-bottom:12px;font-size:15.5px}
+.opt{display:block;width:100%;text-align:left;background:#FBFAFE;border:1.5px solid var(--line);border-radius:10px;padding:11px 15px;margin-bottom:8px;cursor:pointer;font-family:inherit;font-size:14.5px;color:var(--ink);transition:all .15s}
+.opt:hover{border-color:var(--primary);background:var(--primary-light)}
+.opt.good{background:var(--success-light);border-color:var(--success);font-weight:600}
+.opt.bad{background:var(--danger-light);border-color:var(--danger)}
+.fb{display:none;margin-top:10px;padding:12px 15px;border-radius:10px;font-size:14.5px;background:var(--info-light);border-left:4px solid var(--info)}
+.fb.show{display:block}
+.score{margin-top:20px;padding:16px;border-radius:12px;background:var(--primary-light);text-align:center;font-weight:650;color:var(--primary-dark);display:none}
+.score.show{display:block}
+
+footer{text-align:center;padding-block:40px 50px;color:var(--muted);font-size:14px}
+footer b{color:var(--primary-dark);font-family:'Space Grotesk',sans-serif}
+
+@media(max-width:640px){
+  .pc{grid-template-columns:1fr}
+  .chead,.faqhead{padding:22px 18px 0} .cbody,.faqbody{padding:16px 18px 22px}
+  .toc{padding:22px 18px} .plan,.quiz{padding:24px 18px}
+  .hero h1{font-size:27px} .pull{font-size:17px;padding:18px}
+  .player-wrap{padding:14px} .chlist{grid-template-columns:1fr;max-height:280px}
+}
+@media print{
+  .progress-wrap{display:none} body{background:#fff}
+  section.chap,.toc,.quiz,.faq{box-shadow:none;break-inside:avoid}
+  .opt{display:none}
+  .vid{display:none} .player-wrap{box-shadow:none;margin-top:20px}
+  .chlist{max-height:none;overflow:visible} .chlist button{padding:3px 0}
+  button.seek{background:none;border:0;padding:0;color:var(--primary-dark)}
+}
+</style>
+</head>
+<body>
+<div class="progress-wrap"><div id="progress"></div></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">Mentorat Quasar Studio · 7 octobre 2026</div>
+    <h1>Où trouver des prospects —<br>et quoi leur dire</h1>
+    <p class="sub">Deux bases publiques et gratuites qui permettent de constituer une liste qualifiée en quelques heures, la méthode pour les transformer en audience publicitaire, et le travail préalable sans lequel aucune campagne ne convertit : comprendre ce qui pousse réellement quelqu'un à se former.</p>
+    <div class="meta">
+      <span>⏱ 1 h 28</span>
+      <span>🎙 Tarik Hamiche, Loïc &amp; Emma</span>
+      <span>📌 43 chapitres</span>
+      <span>🎯 Prospection, Meta Ads, financements</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="player-wrap">
+  <div class="vid">
+    <iframe id="vimeoPlayer"
+      src="https://player.vimeo.com/video/1233661536?h=5a6456383c"
+      title="Quasar Studio — Session du 7 octobre 2026"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  <details class="chx" id="chx">
+    <summary><span>Les 43 chapitres de la session</span><em>Cliquez un chapitre pour y aller</em></summary>
+    <div class="chlist" id="chlist"></div>
+  </details>
+</div>
+
+<nav class="toc">
+  <h2>Au programme</h2>
+  <ol>
+    <li><a href="#s1">Le blog : le sortir du site ou pas ?</a></li>
+    <li><a href="#s2">« Le contenu IA est mal référencé » : faux</a></li>
+    <li><a href="#s3">Trouver un contact chez un gros acteur</a></li>
+    <li><a href="#s4">data.gouv : les bases publiques</a></li>
+    <li><a href="#s5">Clap Talent : la mine de profils artistiques</a></li>
+    <li><a href="#s6">L'approche et sa limite légale</a></li>
+    <li><a href="#s7">Meta Ads : importer sa base</a></li>
+    <li><a href="#s8">Le pixel et les audiences similaires</a></li>
+    <li><a href="#s9">Le ciblage est facile, la créative est dure</a></li>
+    <li><a href="#s10">Cibler un problème, pas une formation</a></li>
+    <li><a href="#s11">L'avatar et les parcours à séparer</a></li>
+    <li><a href="#s12">Les financements : OPCO, Afdas, FIFPL</a></li>
+    <li><a href="#s13">Les questions à poser aux prospects</a></li>
+    <li><a href="#s14">Les contenus publicitaires sans caméra</a></li>
+    <li><a href="#faq">FAQ de la session</a></li>
+    <li><a href="#plan">Plan d'action</a></li>
+    <li><a href="#quiz">Quiz de validation</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="chap" id="s1" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">01</div><div><h2>Le blog : le sortir du site ou pas ?</h2><div class="tc">⏱ 2:36 – 9:11</div></div></div>
+  <div class="cbody">
+    <p>Le prestataire qui gère le site avance deux arguments contre le fait d'héberger le blog ailleurs : le contenu produit avec l'IA serait mal référencé, et un blog détaché ne profiterait pas du référencement du site.</p>
+    <div class="box b-warn"><span class="bt">Le premier réflexe à avoir</span><p>« Il faut que je fasse gaffe, même si c'est un ami, c'est un commercial avant tout. » <strong>Le point de vue d'un prestataire sur une solution qui le rend inutile n'est pas un avis neutre.</strong></p></div>
+    <h3>Ce qui est vrai dans son argument</h3>
+    <p>Un blog hébergé séparément ne bénéficie effectivement pas de l'historique de référencement du domaine principal. C'est un vrai coût.</p>
+    <div class="box b-key"><span class="bt">Mais la contrepartie compte autant</span><p>Un blog au design ingrat avec une mauvaise expérience utilisateur annule le bénéfice : <strong>vous pouvez être le mieux référencé du monde, si les gens cliquent et repartent deux secondes plus tard, ça ne sert à rien.</strong></p></div>
+    <h3>L'argument qui a été ajouté en session</h3>
+    <p>Afficher des tarifs de formation d'un côté et des tarifs producteurs de l'autre, sur le même site, peut troubler les deux publics. C'est une raison de détacher qui n'a rien à voir avec le SEO.</p>
+    <h3>Reprendre la main</h3>
+    <div class="pc">
+      <div class="ok"><h4>Ce qui a changé</h4><ul><li>Quelques prompts suffisent à créer un site</li><li>Un domaine coûte une dizaine d'euros par an</li><li>Une modification prend 30 secondes, sans tiers</li><li>Un site vitrine ne demande presque aucune mise à jour</li></ul></div>
+      <div class="ko"><h4>Les contraintes actuelles</h4><ul><li>Dépendance au prestataire pour chaque changement</li><li>WordPress impose ses codes</li><li>Sur d'autres sites du groupe, chaque modification passe par l'hébergeur</li></ul></div>
+    </div>
+    <div class="box b-info"><span class="bt">Le repère tarifaire donné</span><p>Une développeuse indépendante facture <strong>environ 1 500 € le site</strong>, fait avec l'IA : référencement de base, mentions légales carrées, et surtout la main rendue au client ensuite. Ça fait gagner du temps, pas plus.</p></div>
+    <div class="box b-tip"><span class="bt">Le verdict</span><p>« Plus tu es indépendant, mieux c'est. » Mais si c'est déjà en place, que ça fonctionne et que ça ne coûte rien, <strong>n'embrouillez pas tout</strong>. L'arbitrage change si vous payez un abonnement à 180 € par mois.</p></div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="chap" id="s2" data-c="r">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">02</div><div><h2>« Le contenu IA est mal référencé » : faux</h2><div class="tc">⏱ 9:11 – 11:35</div></div></div>
+  <div class="cbody">
+    <div class="box b-danger"><span class="bt">La réponse, sans détour</span><p>« Là, par contre, il a totalement tort. Je peux te le dire parce que je le pratique au quotidien. »</p></div>
+    <h3>La distinction qui change tout</h3>
+    <div class="pc">
+      <div class="ko"><h4>Ce qui est effectivement mal référencé</h4><ul><li>« Génère-moi 15 articles de blog », puis publication telle quelle</li><li>Aucun vécu, aucune expérience, aucun angle</li></ul></div>
+      <div class="ok"><h4>Ce qui est mieux référencé qu'un texte humain</h4><ul><li>De l'EAT : de l'expérience personnalisée</li><li>Fondé sur votre parcours, vos cas réels</li><li>Des positions que vous êtes seul à pouvoir tenir</li></ul></div>
+    </div>
+    <div class="box b-key"><span class="bt">La preuve avancée</span><p>Sur quasiment tous les mots-clés liés à la musique, dans quasiment tous les LLM, le nom ressort quelque part — pas toujours en premier, mais présent. <strong>Et le blog n'a que cinq mois d'existence.</strong> Google pousse cette logique encore plus fort depuis août.</p></div>
+    <h3>L'analogie des VST</h3>
+    <div class="box b-info"><span class="bt">Le même débat, vingt ans plus tôt</span><p>« Un ensemble de cuivres, tu n'arriveras jamais à avoir le même rendu avec un VST. » Si. Ça prend plus de temps, il faut une bonne oreille pour ajuster — <strong>mais sur un arrangement à quinze pistes, personne n'entend la différence.</strong></p><p>Même chose pour une ligne de piano en fond sur un couplet. Quand ce n'est pas l'élément principal, la différence n'existe pas.</p></div>
+    <div class="pull">« Soit c'est une méconnaissance de sa part, soit il défend une activité qu'il ne veut pas renouveler. Et ça peut s'entendre. »<span>Sur l'argument du prestataire</span></div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="chap" id="s3" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">03</div><div><h2>Trouver un contact chez un gros acteur</h2><div class="tc">⏱ 11:35 – 16:03</div></div></div>
+  <div class="cbody">
+    <p>Le besoin : joindre le nouveau directeur d'une grande structure audiovisuelle régionale. LinkedIn Premium a été pris pour ça, sans résultat — « ils n'arrêtent pas, moi non plus je ne réponds pas aux demandes LinkedIn ».</p>
+    <div class="box b-warn"><span class="bt">Sur les outils de recherche d'emails</span><p>Ils existent, mais <strong>ne sont plus recommandés aujourd'hui</strong> : tout le monde les utilise, le marché est saturé. Il y a un an et demi, c'était très intéressant. Les méthodes qui marchent maintenant sont ailleurs.</p></div>
+    <h3>Méthode 1 — déduire l'adresse</h3>
+    <div class="box b-key"><span class="bt">Les grandes structures ont toutes un schéma fixe</span><p>Dans les maisons de disques : <strong>première lettre du prénom + nom de famille + @domaine</strong>. Le DSI ne change pas ses habitudes : chaque nouvel arrivant reçoit exactement le même format.</p><p>« À la Matmut, c'est comme ça : tu connais le nom du type, tu mets @matmut.fr et bingo. »</p></div>
+    <h3>Méthode 2 — le hack de l'assistant</h3>
+    <p>Les directeurs ne prennent jamais les rendez-vous en direct : il y a toujours un assistant ou un secrétaire. C'est précisément ce qui rend l'appel facile.</p>
+    <div class="box b-tip"><span class="bt">La phrase</span><p><em class="q">« Est-ce que vous pourriez me mettre en contact avec l'assistant de Monsieur X ? J'ai un partenariat à lui soumettre. »</em></p><p><strong>On ne refuse jamais un assistant.</strong> C'est comme ça qu'un rendez-vous avec le patron d'un gros label a été obtenu : le prénom de l'assistant, capté dans une conférence, puis « est-ce que vous pouvez me passer Jean-Baptiste ? » — « Oui, tout de suite. »</p></div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="chap" id="s4" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">04</div><div><h2>data.gouv : les bases publiques</h2><div class="tc">⏱ 16:03 – 18:25</div></div></div>
+  <div class="cbody">
+    <div class="box b-key"><span class="bt">Le principe</span><p>L'État publie ses bases de données sur data.gouv.fr, et <strong>un MCP permet de connecter Claude directement à ces bases</strong>. On interroge, Claude trouve.</p></div>
+    <h3>Ce qu'on y trouve</h3>
+    <div class="cards">
+      <div class="card"><h4>Fonds d'aide au jeu vidéo</h4><p>Tous les bénéficiaires d'argent public, nommément</p></div>
+      <div class="card"><h4>Aides au cinéma</h4><p>Sociétés de production, montants obtenus, année, genre</p></div>
+      <div class="card"><h4>Aides au documentaire</h4><p>Et à la création audiovisuelle en général</p></div>
+    </div>
+    <div class="box b-tip"><span class="bt">Ce que Claude en fait</span><p>Il identifie les structures qui ont reçu des fonds, <strong>retrouve les porteurs de projets et les réalisateurs sur Internet, et alimente une base de contacts</strong> prête à être prospectée.</p></div>
+    <div class="box b-info"><span class="bt">Un usage ciblé pour un studio</span><p>Isoler les studios spécialisés en doublage — il n'y en a pas beaucoup — ou les boîtes de production qui ont ce marché, voir les fonds qu'elles ont obtenus, et en déduire à qui proposer quelque chose.</p><p>Même logique pour les entreprises du secteur au-dessus d'un certain chiffre d'affaires, susceptibles de commander des spots : <strong>toutes ces données sont accessibles</strong>, même si elles ne sont pas toujours à jour.</p></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="chap" id="s5" data-c="">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">05</div><div><h2>Clap Talent : la mine de profils artistiques</h2><div class="tc">⏱ 18:25 – 22:42</div></div></div>
+  <div class="cbody">
+    <div class="box b-key"><span class="bt">Ce que c'est</span><p>La base de France Travail, <strong>auparavant non publique, aujourd'hui ouverte</strong>. Dès qu'une personne cherche du travail et s'inscrit, elle y apparaît. La nouveauté : les profils artistiques ont été isolés du reste.</p><p>Compte gratuit, ouvert en cinq minutes.</p></div>
+    <h3>Ce qu'on obtient</h3>
+    <ul class="tl">
+      <li><b>La recherche</b>Par métier : monteur ou monteuse audiovisuel, assistant monteur, coloriste, mixeur, musicien… Les mots-clés auxquels on ne pense pas sont souvent les meilleurs.</li>
+      <li><b>Le profil</b>Pratiquement le CV : expériences, niveau d'études, école, mobilité géographique déclarée, parfois une vidéo.</li>
+      <li><b>Le contact</b>Nom, prénom, numéro de téléphone et adresse email.</li>
+      <li><b>Le cadre légal</b>Le cadre a été vérifié : <strong>on est parfaitement autorisé à les contacter, c'est fait pour ça.</strong></li>
+    </ul>
+    <div class="box b-tip"><span class="bt">Deux propriétés qui rendent la base précieuse</span><p><strong>Elle se renouvelle.</strong> Les profils visibles cette semaine ne seront pas les mêmes la semaine prochaine : un intermittent qui termine un CDDU et s'actualise réapparaît.</p><p><strong>Ils sont disponibles maintenant.</strong> Ils ont du temps, ils sont à l'écoute. C'est exactement le bon moment.</p></div>
+    <div class="box b-warn"><span class="bt">Le gisement Afdas</span><p>Beaucoup sont intermittents, donc finançables. Et sur l'expérience rapportée en session : <strong>80 % des personnes démarchées ne savaient même pas ce qu'était l'Afdas</strong> — elles ignoraient avoir accès à des fonds de formation et n'avaient même pas ouvert d'espace sur leur site.</p></div>
+    <h3>Automatiser</h3>
+    <p>À la main, profil par profil, ça fonctionne — « j'ai trouvé des centaines de profils comme ça ». Mais Claude peut parcourir le site, isoler les profils correspondants et nourrir une base de 100, 200, 300 contacts.</p>
+    <div class="box b-info"><span class="bt">Les filtres à lui donner</span><p>« Dès que tu vois quelqu'un qui sort de telle école reconnue, laisse tomber : il est déjà formé. » Ou, à l'inverse, « garde-le et propose-lui une compétence complémentaire sur la partie son. » <strong>C'est le filtrage qui fait la qualité de la base.</strong></p></div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="chap" id="s6" data-c="r">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">06</div><div><h2>L'approche et sa limite légale</h2><div class="tc">⏱ 20:38 – 30:00</div></div></div>
+  <div class="cbody">
+    <h3>La mécanique de l'approche</h3>
+    <ul class="tl">
+      <li><b>1. La question technique</b>« J'ai vu ton profil. Est-ce que tu es formé au montage en Dolby Atmos ? Sur tel outil ? » Une question précise, à laquelle il peut répondre non.</li>
+      <li><b>2. La prise de conscience</b>Il réalise lui-même qu'une compétence lui manque pour décrocher certains postes.</li>
+      <li><b>3. L'ouverture</b>« Nous, au studio, c'est un peu notre cœur de métier. Est-ce que tu serais contre faire une formation dans ce domaine ? »</li>
+    </ul>
+    <div class="box b-danger"><span class="bt">La question posée en séance — et elle est juste</span><p>« Ce n'est pas un peu une promesse d'emploi, de dire : vous n'êtes pas formé, nous on cherche des gens formés, donc venez vous former à l'étage ? »</p><p><strong>Réponse : oui, dit comme ça, c'est interdit.</strong></p></div>
+    <div class="pc">
+      <div class="ko"><h4>Illégal</h4><ul><li>Organiser un faux casting puis conclure « on ne peut pas te prendre, mais si tu fais cette formation, si »</li><li>Conditionner explicitement une embauche à une formation</li><li>Même fait de bonne foi, c'est illégal</li></ul></div>
+      <div class="ok"><h4>Légal</h4><ul><li>Demander à quelqu'un s'il a telle compétence</li><li>S'il répond non, lui proposer de monter en compétence</li><li>« C'est ce que tout bon formateur devrait faire »</li></ul></div>
+    </div>
+    <div class="box b-warn"><span class="bt">La règle pratique</span><p>Ne rien promettre. La différence entre les deux colonnes tient entièrement dans <strong>la subtilité de la formulation</strong> — et le premier mécontent qui vous dénonce rend la situation très difficile à gérer.</p></div>
+    <h3>L'approche douce, par Instagram</h3>
+    <div class="box b-tip"><span class="bt">La méthode préférée</span><p>Quand le nom de scène est identifiable : s'abonner sur Instagram, laisser un commentaire ici ou là. <strong>En général, ça suffit à les faire venir d'eux-mêmes.</strong></p><p>Sinon, un message direct : « Je vois que tu fais ça. Tu es dispo en ce moment ? Où tu en es dans ton parcours ? » — « et très souvent, ils adorent parler d'eux-mêmes ».</p><p>Au bout de cinq minutes, c'est eux qui demandent : « Et toi, tu fais quoi ? » <strong>« Je ne vends jamais rien à personne. »</strong> Quand il y a un besoin, ça se fait tout seul.</p></div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="chap" id="s7" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">07</div><div><h2>Meta Ads : importer sa base</h2><div class="tc">⏱ 30:00 – 33:06</div></div></div>
+  <div class="cbody">
+    <p>Une base de contacts n'est pas qu'une liste d'emails à envoyer. Démonstration écran partagé à partir d'une campagne en cours : une base d'environ 800 contacts extraite de Clap avant l'été, découpée en trois niveaux (générale, musique uniquement, prospects tièdes).</p>
+    <h3>La manipulation</h3>
+    <ul class="tl">
+      <li><b>1. Créer une audience</b>Dans le gestionnaire de publicités, importer un fichier CSV.</li>
+      <li><b>2. Mapper les colonnes</b>Meta détecte emails et téléphones seul. Pour le reste, on lui indique : ceci est un nom de famille, ceci un prénom, ceci un code postal, ceci un pays.</li>
+      <li><b>3. Écarter le bruit</b>Une colonne « année » prise pour une date de naissance, un code d'activation pris pour un numéro : on les exclut. L'adresse postale, on n'a pas le droit de l'importer.</li>
+      <li><b>4. Meta fait les correspondances</b>Pour peu que la personne n'ait pas de faux compte, elle est retrouvée.</li>
+    </ul>
+    <div class="box b-key"><span class="bt">Deux usages, et le second est le bon</span><p><strong>Le retargeting :</strong> montrer la publicité uniquement à ces personnes-là.</p><p><strong>Les audiences similaires :</strong> partir d'un fichier clients — par exemple un export Stripe, donc des gens qui payent — et demander à Meta « trouve-moi le 1 % des Français qui ressemblent le plus à cette base ». C'est bien plus puissant.</p></div>
+    <div class="box b-info"><span class="bt">Ce que Meta sait que vous ignorez</span><p>À partir des profils fournis, Meta recoupe. S'il détecte que 78 % d'entre eux font de la moto le dimanche, il le sait et vous non. Si ces gens parlent tous d'un même sujet sur WhatsApp, il le sait aussi.</p><p>Corollaire : <strong>partout où vous acceptez les cookies, tout ce que vous faites est tracé.</strong> Et pour les conversations sensibles, WhatsApp n'est pas le bon endroit — le chiffrement protège des particuliers, pas de Meta ni des autorités.</p></div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="chap" id="s8" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">08</div><div><h2>Le pixel du blog : le ciblage ultime</h2><div class="tc">⏱ 35:55 – 37:07</div></div></div>
+  <div class="cbody">
+    <div class="box b-key"><span class="bt">La raison d'être du blog, côté publicité</span><p>Un pixel Meta est posé <strong>sur chaque page du blog</strong> — toujours le même. On peut alors demander à Meta : « tout le trafic généré depuis six mois sur toutes les pages du blog, montre-lui ma publicité ».</p></div>
+    <p>Quelqu'un qui tape « formation scène mobile » dans un moteur de recherche, tombe sur votre article et le lit, est capté par le pixel. Vous connaissez son intention au moment précis où il l'a.</p>
+    <div class="pull">« C'est pour ça que Meta est aussi puissant et qu'on est tous prêts à payer des fortunes dessus : quand tu sais l'utiliser, ça te met en face des bonnes personnes. »<span>Sur le ciblage</span></div>
+    <div class="box b-warn"><span class="bt">Mais</span><p>« Par contre, il faut que ta pub soit pertinente. » Le ciblage ne compense jamais une créative faible.</p></div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="chap" id="s9" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">09</div><div><h2>Le ciblage est facile, la créative est dure</h2><div class="tc">⏱ 37:07 – 44:57</div></div></div>
+  <div class="cbody">
+    <div class="box b-key"><span class="bt">Le vrai partage du travail</span><p>Le ciblage est « un jeu d'enfant » — technique, mais une fois acquis, c'est réglé. <strong>Au bout de quelques campagnes, Meta sait mieux cibler que vous.</strong></p><p>Le travail difficile : trouver les angles marketing et fabriquer les publicités. Savoir quoi dire, dans quel ordre, à qui, pour déclencher un passage à l'action.</p></div>
+    <h3>Les suggestions à refuser systématiquement</h3>
+    <div class="box b-danger"><span class="bt">Position tranchée</span><p>« Je n'en accepte aucune. Jamais. J'ai testé au début : rien ne me permet d'améliorer mes résultats. » Y compris les <strong>formulaires instantanés</strong>, applaudis à leur sortie : ils amènent beaucoup de visiteurs qui ne servent à rien.</p><p>Mieux vaut diviser son taux de conversion par deux ou trois et n'avoir que des gens vraiment intéressés. Les leviers « performance optimisée » et autres optimisations IA : non, toujours.</p><p>La raison de fond : <strong>la plateforme est conçue aussi bien pour un fabricant de bijoux que pour un kiné.</strong> Elle n'est pas pensée pour ce métier.</p></div>
+    <h3>À quoi sert Meta — et à quoi il ne sert pas</h3>
+    <div class="pc">
+      <div class="ok"><h4>L'acquisition</h4><ul><li>Atteindre vite des gens qui ne vous connaissent pas</li><li>Leur offrir quelque chose qui les intéresse</li><li>En échange, obtenir le droit de leur parler</li></ul></div>
+      <div class="ko"><h4>Pas pour vendre à vos contacts</h4><ul><li>Si vous visez des producteurs qui répondent à vos emails, Meta ne sert à rien</li><li>Lancer des campagnes promotionnelles sans notoriété préalable ne marche pas</li></ul></div>
+    </div>
+    <div class="box b-tip"><span class="bt">L'exemple du SMS Black Friday</span><p>Pour les clients du studio dont vous avez déjà le numéro, un envoi automatisé par SMS sera <strong>bien plus efficace qu'une publicité Facebook</strong> :</p><p><em class="q">« Salut, c'est Loïc. D'habitude je ne le fais pas, mais cette année pour le Black Friday on fait ça. C'est limité aux 10 premiers. Si tu as un projet, dépêche-toi, clique ici. »</em></p><p>La publicité sert au cas inverse : quand vous n'avez pas le numéro, et qu'il faut donner envie de vous le confier.</p></div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="chap" id="s10" data-c="r">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">10</div><div><h2>Cibler un problème, pas une formation</h2><div class="tc">⏱ 44:57 – 48:43</div></div></div>
+  <div class="cbody">
+    <div class="box b-warn"><span class="bt">La question posée</span><p>« On ne peut pas faire une publicité pour la formation en mettant toutes les formations. Il faut cibler celle qui nous paraît la plus prometteuse ? »</p><p><strong>Réponse : « Cible un problème. »</strong> Pas une formation.</p></div>
+    <h3>Le cas concret traité en direct</h3>
+    <p>Trois demandes sont arrivées sur la formation doublage. Une personne au téléphone la veille : en reconversion professionnelle, elle veut devenir comédienne de doublage et devenir intermittente. Elle fait déjà du podcast, elle veut se professionnaliser.</p>
+    <div class="box b-danger"><span class="bt">Le piège</span><p>« Ce qui la freine, c'est le prix. » — <strong>Non.</strong> Le prix n'est jamais la réponse à la question « qu'est-ce qui te pousse à te former ».</p></div>
+    <h3>Reposer la question du pourquoi</h3>
+    <div class="box b-key"><span class="bt">L'entraînement à prendre</span><p>« J'entends, tu veux te professionnaliser. <strong>Mais qu'est-ce qui te pousse à penser que tu n'es pas professionnelle ?</strong> » C'est là qu'est le cœur du problème.</p><p>La réponse peut être : « Je n'ai pas envie de passer pour quelqu'un de pas crédible quand je vais candidater. » Il faut qu'elle le formalise <strong>avec ses mots à elle</strong>.</p></div>
+    <div class="box b-tip"><span class="bt">Ce que ça permet de construire</span><p>Un atelier d'initiation de 45 minutes sur Zoom, en petit groupe, destiné à « toute personne qui souhaite se reconvertir et qui pense ne pas être crédible pour répondre à des briefs de professionnels ».</p><p>Il y a peut-être <strong>1 000 personnes en France aujourd'hui dans cet état d'esprit exact</strong>. Si vous en captez une partie sur un live, vous vendez beaucoup de formations derrière — et là, toute une stratégie d'acquisition payante se justifie.</p></div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="chap" id="s11" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">11</div><div><h2>L'avatar et les parcours à séparer</h2><div class="tc">⏱ 48:43 – 52:03</div></div></div>
+  <div class="cbody">
+    <p>L'avatar, c'est le problème type — et les gens le formulent presque toujours de la même façon. Mais il y en a plusieurs.</p>
+    <div class="cards">
+      <div class="card"><h4>Avatar A — le manque de confiance</h4><p>Pense qu'une formation lui donnera les bases d'une confiance saine pour avancer</p></div>
+      <div class="card"><h4>Avatar B — la découverte</h4><p>« Je n'y connais rien, j'ai envie d'apprendre. Et peut-être qu'après, je ne voudrai même pas faire ce métier. »</p></div>
+      <div class="card"><h4>Avatar C — la professionnalisation</h4><p>Déjà intermittent, veut les dernières versions des logiciels et une mise à niveau</p></div>
+    </div>
+    <div class="box b-key"><span class="bt">Un avatar = une créative</span><p>« Dans une de mes publicités, ce n'est pas une vidéo, ce sont <strong>dix vidéos</strong>. Chacune a un angle marketing différent. » L'une dit « tu veux te professionnaliser, on va te montrer comment ». Une autre dit « tu n'y connais rien, on va te donner les bases et au moins tu sauras dans quoi tu mets les pieds ».</p></div>
+    <h3>Faut-il séparer les formations en deux ?</h3>
+    <p>La question posée : les formations sont ouvertes à tous, mais le public réel se divise entre grands débutants et professionnels en mise à jour. Deux modules ? Deux parcours ?</p>
+    <div class="box b-tip"><span class="bt">La réponse</span><p>Oui, ça peut être bien — <strong>si le marché le demande</strong>. Un parcours vraiment débutant, un parcours plus court pour les avancés : huit modules d'un côté, quatre de l'autre, ou des exercices d'implémentation différents.</p><p>Et ça change aussi la structure de coût : pour des débutants, l'encadrement peut être plus léger ; pour des professionnels, il faut un vrai directeur artistique et un comédien.</p></div>
+    <div class="box b-info"><span class="bt">Le point de vigilance métier</span><p><strong>Un bon comédien de théâtre n'est pas une bonne voix off.</strong> « À l'époque où je faisais beaucoup de post-production film, j'évitais les comédiens : ça joue faux derrière un micro. » Ils sont même déformés pour ce travail.</p><p>Et c'est un excellent angle publicitaire : <em class="q">« Sur les planches, vous êtes professionnel, vous savez vous exprimer. Mais qu'en est-il derrière un micro ? Comment place-t-on sa voix ? »</em></p></div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="chap" id="s12" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">12</div><div><h2>Les financements : OPCO, Afdas, FIFPL</h2><div class="tc">⏱ 52:03 – 61:04</div></div></div>
+  <div class="cbody">
+    <h3>OPCO et reconversion</h3>
+    <div class="box b-tip"><span class="bt">Ça passe plus souvent qu'on ne croit</span><p>« La formation n'était pas finançable par mon OPCO » : en fait, la plupart du temps, si. <strong>À partir du moment où une reconversion est motivée, l'OPCO accepte souvent</strong> — surtout quand le salarié cotise depuis des années et que les fonds existent.</p><p>Exemple cité : un salarié de la restauration exprimant un vrai souhait de reconversion, accepté. « Après, c'est toi et ton conseiller. » Certaines régions ne posent aucune question — La Réunion est citée : « tu peux être plombier et dire que tu veux devenir guitariste, aucun problème. »</p></div>
+    <h3>Transition Pro</h3>
+    <div class="box b-warn"><span class="bt">L'arbitrage</span><p>Organisme spécialisé dans la transition professionnelle, dépendant de France Travail. Mais le référencement demande <strong>une série d'audits qui ressemblent beaucoup à Qualiopi</strong> — une galère administrative et un vrai investissement.</p><p>Le contre-argument : « quand un endroit a un ticket d'entrée plus élevé que la moyenne, en général ce n'est pas mal. Une fois passé, tu es plutôt tranquille. » Reste à mesurer si le jeu en vaut la chandelle.</p></div>
+    <h3>Afdas : ce qui change</h3>
+    <div class="box b-key"><span class="bt">Le point important</span><p><strong>Pour les intermittents et les particuliers, rien ne change.</strong> L'Afdas paye l'organisme de formation, point.</p><p>Le changement ne concerne <strong>que les professionnels</strong> : désormais, c'est l'entreprise qui paye l'organisme, puis se fait rembourser par l'Afdas.</p></div>
+    <div class="box b-info"><span class="bt">Le mécanisme, pas à pas</span><p>1. Un producteur veut former ses trois techniciens, avec un accord de prise en charge Afdas.<br>
+    2. L'organisme lui envoie sa facture.<br>
+    3. L'entreprise paye.<br>
+    4. L'organisme renvoie la facture avec la mention <strong>« acquittée »</strong> et le tampon.<br>
+    5. L'entreprise présente cette preuve à l'Afdas, qui la rembourse.</p><p>Avant, l'organisme facturait directement l'Afdas et l'entreprise ne voyait rien passer.</p></div>
+    <div class="box b-warn"><span class="bt">Les autres fonds</span><p><strong>AGEFICE :</strong> ferme — pas de facture acquittée, pas de paiement. Le dirigeant avance, puis se fait rembourser sous 30 à 60 jours.</p><p><strong>FIFPL :</strong> variable selon les cas. Parfois ils demandent une facture acquittée, parfois ils règlent d'abord et vous demandent ensuite de payer le prestataire. <em>Point non tranché en séance</em> — à vérifier auprès d'eux.</p></div>
+    <div class="box b-danger"><span class="bt">Le risque à connaître</span><p>Quand le client avance les fonds, vous dépendez de sa solvabilité et de sa bonne foi. C'est un risque à évaluer selon avec qui vous travaillez. Pour un organisme qui travaille presque exclusivement avec des particuliers, ça ne change rien.</p></div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="chap" id="s13" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">13</div><div><h2>Les questions à poser aux prospects</h2><div class="tc">⏱ 61:04 – 78:10</div></div></div>
+  <div class="cbody">
+    <div class="box b-danger"><span class="bt">Ce qui arrive si on saute cette étape</span><p>« Beaucoup d'argent dépensé, beaucoup de clics, l'impression qu'il se passe des choses — <strong>et aucune vente.</strong> »</p></div>
+    <h3>La créative, une fois la psychologie comprise</h3>
+    <p>Un simple carrousel écrit suffit, s'il reprend le parcours mental de l'avatar :</p>
+    <ul class="tl">
+      <li><b>Slide 1</b>« Vous envisagez une reconversion dans le monde du spectacle… »</li>
+      <li><b>Slide 2</b>« S'engager sur une école d'un an ou deux dans un domaine dont vous n'êtes même pas certain qu'il vous plaise, ça peut freiner. Vous n'êtes pas le seul, et c'est normal. »</li>
+      <li><b>Slide 3</b>« Pourquoi ne pas vous tourner vers une formation courte de quelques jours, qui vous permettra d'acquérir les bases et de savoir ? »</li>
+      <li><b>Slide 4</b>« C'est justement ce que nous proposons. Cliquez ici / réservez un appel. »</li>
+    </ul>
+    <h3>Les deux questions à poser systématiquement</h3>
+    <div class="cards">
+      <div class="card"><h4>1. Le déclencheur, avec leurs mots</h4><p>« Qu'est-ce qui t'a poussé à chercher une formation ? Quel problème te fait penser qu'il faut que tu montes en compétence ? » — pas « où tu m'as trouvé »</p></div>
+      <div class="card"><h4>2. Les solutions déjà envisagées</h4><p>« J'avais vu telle formation, mais c'était loin de chez moi », « j'étais allé dans tel groupe Facebook », « j'ai parlé à untel »</p></div>
+    </div>
+    <div class="box b-tip"><span class="bt">Pourquoi la deuxième question vaut de l'or</span><p><strong>Elle révèle des partenariats possibles.</strong> Si une école parisienne reçoit des demandes de province que ces gens n'honoreront jamais, appelez-la : « envoyez-les-nous, on fait un deal, venez visiter le studio ». Même vingt par an, c'est toujours ça.</p><p>Et parfois ce n'est même pas un deal : une simple recommandation. « Vous êtes à Rouen ? Il y a des gens très bien là-bas, allez chez eux. »</p></div>
+    <div class="box b-key"><span class="bt">Et surtout : on réutilise leurs mots</span><p>Dans les contenus publicitaires : <em class="q">« J'imagine que, comme beaucoup, vous êtes allé dans tel groupe, vous avez parlé à telle personne, et vous avez fait ça. »</em></p><p>Réaction recherchée : <strong>« comment il sait ? »</strong> C'est ça qui crée la confiance et rend une publicité pertinente.</p></div>
+    <h3>Qui démarcher en priorité</h3>
+    <div class="pc">
+      <div class="ko"><h4>Les professionnels</h4><ul><li>Les plus durs à convertir</li><li>Quasiment certains de ne pas avoir besoin de se former</li></ul></div>
+      <div class="ok"><h4>Les ambitieux pas encore installés</h4><ul><li>Pas des amateurs : des gens qui veulent se dépasser</li><li>Pas encore au stade où ils se présentent comme professionnels</li><li>Leur démarche passe forcément par la formation</li></ul></div>
+    </div>
+    <div class="box b-info"><span class="bt">Deux profils, deux efforts</span><p><strong>Le prospect déjà chaud</strong> cherche des groupes, pose des questions, remonte le fil tout seul. Il vous trouvera sans que vous fassiez d'effort.</p><p><strong>Le prospect idéal</strong> est celui qui a envie mais qui est complètement perdu : « je ne connais personne, je n'ai pas de contact, je ne sais pas par où commencer ». La première personne qui l'inspire emporte la décision.</p></div>
+    <div class="box b-warn"><span class="bt">Une tendance de fond signalée</span><p>De plus en plus d'appels venant de personnes en reconversion tardive. L'exemple donné : une femme de 60 ans qui vient de vendre son entreprise dans un tout autre secteur et qui regrette depuis trente ans de ne pas avoir fait de carrière de chanteuse. <strong>Si ce profil revient, il y a un angle marketing entier à développer dessus.</strong></p></div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="chap" id="s14" data-c="">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">14</div><div><h2>Les contenus publicitaires sans caméra</h2><div class="tc">⏱ 78:10 – 84:33</div></div></div>
+  <div class="cbody">
+    <div class="box b-key"><span class="bt">La bonne nouvelle pour qui ne veut pas se filmer</span><p>« Même si vous êtes réticents à mettre une image publique face caméra, on peut créer des formats qui font <strong>des vidéos de qualité, qui fonctionnent en publicité et que Meta valide totalement</strong> pour la diffusion. »</p><p>Formats cités : carrousels écrits, visuels Canva, animations, images générées puis animées.</p></div>
+    <h3>Le retour d'expérience sur les avatars IA</h3>
+    <div class="box b-info"><span class="bt">Ce que ça donne vraiment</span><p>Testé, et <strong>ça fonctionne très bien</strong> — au point qu'un proche n'a pas su distinguer une vidéo IA d'une vraie. Mais ce n'est pas plus rapide à produire quand on tourne déjà en plan séquence sans montage.</p><p>Le seul défaut repérable : <strong>l'IA fait des gestes au mauvais moment.</strong> Par exemple recentrer un micro qui, à l'écran, est déjà centré. Il faut chercher pour le voir.</p><p>En revanche, les miniatures sont « quasiment que de l'IA aujourd'hui », générées au prompt.</p></div>
+    <h3>Le levier le plus sous-estimé : l'interview d'un pair</h3>
+    <div class="box b-tip"><span class="bt">Pourquoi ça marche</span><p>« Les publicités qui marchent le mieux, ce sont celles dans lesquelles la cible arrive à se projeter. » Interroger un professionnel reconnu — <em class="q">« je suis comédien, je veux passer à la voix off, quels seraient tes meilleurs conseils ? »</em> — et le laisser casser les idées reçues capte l'attention immédiatement.</p><p>Double usage : <strong>un article de blog</strong> (« on vient t'interviewer, tu as dix minutes ? ») <strong>et une créative publicitaire</strong>. Et par son expérience de terrain, cette personne sait déjà répondre à toutes vos questions sur le parcours psychologique de la cible.</p></div>
+    <div class="box b-warn"><span class="bt">Les données à relever au passage</span><p>Même grossières : plus de femmes que d'hommes ? Une tranche d'âge qui se dégage ? « Les moins de 25 ans, ça ne nous intéresse pas » est déjà un cadrage utile. <strong>Au début c'est normal que ça ne ressemble à rien</strong> — les schémas apparaissent avec le volume.</p></div>
+    <div class="pull">« Tout ce qui compte le plus, c'est la psychologie d'influence. Captez ce schéma-là et le reste est en place en une demi-journée. »<span>Le mot de la fin</span></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<div class="faq" id="faq">
+  <div class="bar"></div>
+  <div class="faqhead">
+    <h2>FAQ de la session</h2>
+    <p>Les questions posées pendant l'échange, et leurs réponses telles qu'elles ont été données.</p>
+  </div>
+  <div class="faqbody">
+
+    <div class="faqcat">Site web et référencement</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Mon prestataire dit qu'un blog détaché du site est mauvais pour le SEO. A-t-il raison ?</div><div class="a"><p>Sur ce point précis, oui : vous ne bénéficiez pas de l'historique de référencement du domaine. <strong>Mais il faut mettre en balance l'expérience utilisateur</strong> — un blog mal conçu sur lequel les gens repartent en deux secondes annule le bénéfice. Et son avis n'est pas neutre : c'est un commercial avant d'être un ami.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Et son argument « ce qui est fait par IA est mal référencé » ?</div><div class="a"><p>Faux. Il y a « fait par IA » et « fait par IA ». Quinze articles générés en appuyant sur un bouton : oui, mal référencés. <strong>Du contenu avec de l'EAT — votre expérience, votre parcours, vos cas réels — est même mieux référencé qu'un article humain générique.</strong> Un blog de cinq mois construit comme ça ressort déjà dans quasiment tous les LLM.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Faut-il reprendre la main sur le site ?</div><div class="a"><p>Le principe : plus vous êtes indépendant, mieux c'est. Un site se crée aujourd'hui avec quelques prompts, un domaine coûte une dizaine d'euros par an, une modification prend 30 secondes. <strong>Mais si ce qui existe fonctionne et ne vous coûte rien, n'embrouillez pas tout.</strong> L'arbitrage change si vous payez un abonnement mensuel élevé.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Combien coûte un site bien fait aujourd'hui ?</div><div class="a"><p>Repère donné : <strong>environ 1 500 €</strong> auprès d'une indépendante qui travaille avec l'IA — référencement de base, mentions légales en ordre, et la main rendue au client ensuite.</p></div></div>
+
+    <div class="faqcat">Trouver des contacts</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Les outils qui retrouvent une adresse email à partir d'un nom, ça marche ?</div><div class="a"><p>Ils existent, mais ne sont plus recommandés : <strong>tout le monde les utilise, le marché est saturé.</strong> Il y a un an et demi, c'était très efficace. Aujourd'hui, d'autres méthodes fonctionnent mieux.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Alors comment joindre quelqu'un dans une grosse structure ?</div><div class="a"><p>Deux voies. <strong>Déduire l'adresse</strong> : ces structures ont toutes un schéma fixe (souvent initiale du prénom + nom + domaine), reproduit à l'identique pour chaque nouvel arrivant. <strong>Ou passer par l'assistant</strong> : « pourriez-vous me mettre en contact avec l'assistant de Monsieur X ? J'ai un partenariat à lui soumettre. » On ne refuse jamais un assistant.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Qu'est-ce qu'on trouve sur data.gouv ?</div><div class="a"><p>Les bases de données publiques, interrogeables directement depuis Claude via un MCP. Notamment <strong>les bénéficiaires des fonds d'aide</strong> : jeu vidéo, cinéma, documentaire — avec les sociétés, les montants, l'année. Claude peut ensuite retrouver les porteurs de projets et alimenter une base de contacts.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Clap Talent, c'est quoi exactement ?</div><div class="a"><p>La base de France Travail, autrefois fermée, aujourd'hui publique — avec <strong>les profils artistiques isolés du reste</strong>. On y trouve le CV, le niveau d'études, la mobilité, le nom, le téléphone et l'email. Compte gratuit, ouvert en cinq minutes.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>On a le droit de les contacter ?</div><div class="a"><p>Oui, le cadre légal a été vérifié : <strong>c'est fait pour ça.</strong></p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Qu'est-ce qui rend cette base si intéressante ?</div><div class="a"><p>Trois choses. Les gens y sont <strong>disponibles au moment où ils y sont</strong> — ils ont du temps et ils écoutent. La base <strong>se renouvelle en permanence</strong>. Et beaucoup sont intermittents donc finançables : sur l'expérience rapportée, <strong>80 % ne savaient même pas ce qu'était l'Afdas.</strong></p></div></div>
+
+    <div class="faqcat">La limite légale</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Dire « on cherche des gens formés à ça, venez vous former chez nous », c'est légal ?</div><div class="a"><p><strong>Non.</strong> Dit comme ça, c'est une promesse d'emploi conditionnée à une formation, et c'est interdit. Le premier mécontent qui vous dénonce rend la situation très difficile.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Alors où est la frontière ?</div><div class="a"><p>Demander à quelqu'un s'il a telle compétence, qu'il réponde non, et lui proposer de monter en compétence : <strong>il n'y a rien d'illégal, c'est ce que tout bon formateur devrait faire.</strong> Ce qui est illégal : organiser un casting puis conclure « on ne peut pas te prendre, mais si tu fais cette formation, si ». Même fait de bonne foi.</p></div></div>
+
+    <div class="faqcat">Publicité et ciblage</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>On peut vraiment importer sa propre base dans Meta ?</div><div class="a"><p>Oui. On importe un CSV, Meta détecte seul les emails et les téléphones, et on lui indique les autres colonnes : nom, prénom, code postal, pays. Il retrouve ensuite les personnes — pour peu qu'elles n'aient pas de faux compte. <strong>L'adresse postale ne peut pas être importée.</strong></p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Retargeting ou audiences similaires ?</div><div class="a"><p>Les deux sont possibles, mais <strong>les audiences similaires sont bien plus puissantes</strong> : on part d'un fichier de clients qui payent et on demande le 1 % de Français qui leur ressemblent le plus. Meta recoupe des informations que vous n'avez pas — centres d'intérêt, habitudes, conversations.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>À quoi sert le pixel sur le blog ?</div><div class="a"><p>À cibler les gens par leur intention réelle. Quelqu'un qui cherche « formation scène mobile », tombe sur votre article et le lit est capté par le pixel. Vous pouvez alors demander à Meta de montrer votre publicité à <strong>tout le trafic du blog des six derniers mois.</strong></p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Faut-il accepter les suggestions d'optimisation de Meta ?</div><div class="a"><p>Non, aucune. « J'ai testé au début : rien ne me permet d'améliorer mes résultats. » Y compris les formulaires instantanés, qui amènent beaucoup de visiteurs inutiles. <strong>La plateforme est conçue aussi bien pour un vendeur de bijoux que pour un kiné</strong> — ses suggestions ne sont pas pensées pour ce métier.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Le ciblage, c'est le plus dur ?</div><div class="a"><p>Au contraire. C'est technique, mais une fois acquis c'est réglé — et au bout de quelques campagnes, Meta cible mieux que vous. <strong>Le vrai travail, c'est la créative</strong> : quoi dire, dans quel ordre, à qui.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Meta, pour quoi faire exactement ?</div><div class="a"><p>Pour l'acquisition : atteindre vite des gens qui ne vous connaissent pas. <strong>Pas pour vendre à ceux dont vous avez déjà les coordonnées</strong> — là, un SMS automatisé sera bien plus efficace qu'une publicité.</p></div></div>
+
+    <div class="faqcat">Offre, cible et financements</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>On fait une publicité par formation ou une seule pour toutes ?</div><div class="a"><p>Ni l'un ni l'autre. <strong>On cible un problème</strong>, pas une formation. Et un problème précis, formulé avec les mots de la cible.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Quelqu'un me dit que ce qui le freine, c'est le prix. Que faire ?</div><div class="a"><p>Reposer la question. Le prix n'est pas ce qui pousse quelqu'un à chercher une formation. La bonne question : <strong>« qu'est-ce qui te fait penser que tu n'es pas professionnel ? »</strong> — et il faut qu'il le formalise avec ses mots.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Faut-il séparer les formations débutants et professionnels ?</div><div class="a"><p>Possiblement, si le marché le demande. Deux parcours, ou des modules de longueur différente, ou des exercices d'implémentation distincts. <strong>Et ça change la structure de coût</strong> : un débutant demande moins d'encadrement qu'un professionnel, qui exige un vrai directeur artistique.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Un bon comédien fera-t-il une bonne voix off ?</div><div class="a"><p>Non, et c'est un excellent angle publicitaire. « Ça joue faux derrière un micro » — les comédiens sont même déformés pour ce travail. Le labial est plus adapté à leur profil.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Une reconversion est-elle finançable par un OPCO ?</div><div class="a"><p>Beaucoup plus souvent qu'on ne le croit. <strong>Dès lors que la reconversion est motivée, l'OPCO accepte souvent</strong>, surtout quand le salarié cotise depuis des années. Certaines régions ne posent aucune question.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Ce que l'Afdas a changé nous concerne-t-il ?</div><div class="a"><p>Si vous travaillez avec des intermittents et des particuliers : <strong>non, rien ne change</strong>, l'Afdas vous paye directement. Le changement ne touche que les professionnels : l'entreprise paye l'organisme, puis se fait rembourser.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Et concrètement, comment ça se passe pour une entreprise ?</div><div class="a"><p>L'organisme facture, l'entreprise paye, l'organisme renvoie <strong>une facture portant la mention « acquittée »</strong>, l'entreprise la présente à l'Afdas qui la rembourse. L'AGEFICE fonctionne pareil, et strictement : pas de facture acquittée, pas de paiement. Pour le FIFPL, le sens n'a pas été tranché en séance — à vérifier auprès d'eux.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Peut-on faire de la publicité sans se montrer face caméra ?</div><div class="a"><p>Oui. Carrousels écrits, visuels, formats animés : <strong>Meta les valide totalement</strong>. Les avatars IA fonctionnent aussi — le seul défaut repérable est qu'ils font parfois des gestes au mauvais moment.</p></div></div>
+
+  </div>
+</div>
+
+<!-- PLAN -->
+<div class="plan" id="plan">
+  <h2>Plan d'action</h2>
+  <p>Ce qui a été acté pour d'ici lundi, puis la suite. Cliquez pour cocher.</p>
+
+  <div class="phase">D'ici lundi — comprendre la cible</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Emma</b>Rappeler les deux prospects doublage et leur demander ce qui les a poussés à chercher une formation — avec leurs mots</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Emma</b>Leur demander aussi quelles solutions ils avaient déjà envisagées ou essayées</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Emma</b>Relancer la troisième personne qui a laissé son numéro sans donner suite</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Emma</b>Envoyer les devis, puis appeler « juste pour vérifier qu'il n'y a pas de question » et en profiter pour creuser</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Loïc</b>Appeler Jean-Marc pour recueillir sa vision du métier de voix off et les freins qu'il observe</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Loïc</b>Lui proposer l'interview sous l'angle « article de blog sur la difficulté pour un comédien de faire de la voix off »</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Les deux</b>Noter au passage les données démographiques : sexe, tranche d'âge, zone</span></li>
+  </ul>
+
+  <div class="phase">Lundi — construire la campagne</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Avatar</b>Formaliser 2 ou 3 avatars à partir de ce qui a été recueilli</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Créative</b>Écrire un carrousel par avatar, en reprenant leurs propres mots</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Créative</b>Produire les visuels sur Canva (abonnement déjà en place)</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Compte</b>Ouvrir un compte publicitaire dédié à l'activité formation, distinct de l'autre structure</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Ciblage</b>Paramétrer la campagne, ciblage local Rouen / Normandie</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Ciblage</b>Refuser toutes les suggestions d'optimisation proposées par Meta</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Budget</b>Lancer en phase de test à quelques euros par jour et mesurer</span></li>
+  </ul>
+
+  <div class="phase">En parallèle — constituer les bases</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Clap</b>Ouvrir un compte sur Clap Talent et tester les recherches par métier</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Clap</b>Essayer les mots-clés auxquels on ne pense pas : coloriste, assistant monteur, mixeur, musicien</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Clap</b>Faire isoler les profils par Claude et constituer une première base de 100 à 300 contacts</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Clap</b>Définir les filtres : quelle école déjà formée, quel niveau cible</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>data.gouv</b>Isoler les studios spécialisés en doublage et les boîtes de prod qui ont ce marché</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Meta</b>Importer la base dans le gestionnaire de publicités et créer une audience similaire</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Pixel</b>Vérifier que le pixel est bien posé sur toutes les pages du blog</span></li>
+  </ul>
+
+  <div class="phase">À arbitrer, sans urgence</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Site</b>Trancher : garder le blog chez le prestataire ou le détacher avec la charte graphique d'Emma</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Offre</b>Décider si les formations se scindent en parcours débutant et parcours professionnel</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Offre</b>Tester l'atelier d'initiation de 45 minutes sur Zoom comme produit d'appel</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Financement</b>Vérifier auprès du FIFPL qui avance les fonds, et décider pour Transition Pro</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Partenariats</b>Contacter les écoles parisiennes qui reçoivent des demandes de province</span></li>
+  </ul>
+</div>
+
+<!-- QUIZ -->
+<div class="quiz" id="quiz">
+  <h2>Quiz de validation</h2>
+  <p>Cinq questions pour vérifier que l'essentiel est passé.</p>
+
+  <div class="qz" data-good="1">
+    <div class="qt">1. « Le contenu écrit par IA est mal référencé. » Vrai ou faux ?</div>
+    <button class="opt">Vrai, Google pénalise systématiquement le contenu généré</button>
+    <button class="opt">Faux : avec de l'EAT, c'est même mieux référencé qu'un article humain générique</button>
+    <button class="opt">Vrai, mais seulement depuis la mise à jour d'août</button>
+    <button class="opt">Impossible à savoir aujourd'hui</button>
+    <div class="fb">Quinze articles générés en appuyant sur un bouton : oui, mal référencés. Du contenu nourri de votre expérience et de votre parcours : mieux référencé. Un blog de cinq mois construit comme ça ressort déjà dans quasiment tous les LLM.</div>
+  </div>
+
+  <div class="qz" data-good="2">
+    <div class="qt">2. Vous contactez un monteur repéré sur Clap Talent. Que pouvez-vous lui dire ?</div>
+    <button class="opt">« On cherche des gens formés à ça, formez-vous et on vous prend »</button>
+    <button class="opt">« On fait un casting » puis « vous n'avez pas la bonne formation »</button>
+    <button class="opt">« Est-ce que tu es formé à ça ? » — et s'il dit non, proposer de monter en compétence</button>
+    <button class="opt">Rien, il est interdit de contacter ces profils</button>
+    <div class="fb">Contacter ces profils est parfaitement légal, c'est fait pour ça. Ce qui est interdit, c'est de conditionner une embauche à une formation — même implicitement, même de bonne foi. Demander une compétence et proposer d'y remédier ne promet rien.</div>
+  </div>
+
+  <div class="qz" data-good="0">
+    <div class="qt">3. Dans une campagne Meta, qu'est-ce qui demande le plus de travail ?</div>
+    <button class="opt">La créative : quoi dire, à qui, dans quel ordre</button>
+    <button class="opt">Le ciblage démographique</button>
+    <button class="opt">Le choix du budget quotidien</button>
+    <button class="opt">Le paramétrage des optimisations suggérées</button>
+    <div class="fb">Le ciblage est technique mais vite acquis — et au bout de quelques campagnes, Meta cible mieux que vous. Les suggestions d'optimisation, elles, se refusent systématiquement : la plateforme est conçue pour tous les métiers, donc pour aucun en particulier.</div>
+  </div>
+
+  <div class="qz" data-good="3">
+    <div class="qt">4. Un prospect dit que ce qui le freine, c'est le prix. Que faites-vous ?</div>
+    <button class="opt">Vous proposez un paiement en plusieurs fois</button>
+    <button class="opt">Vous baissez le tarif pour ce premier client</button>
+    <button class="opt">Vous cherchez un financement OPCO à sa place</button>
+    <button class="opt">Vous reposez la question du pourquoi, jusqu'à ce qu'il formule son vrai problème</button>
+    <div class="fb">Le prix n'est jamais ce qui pousse quelqu'un à chercher une formation. La bonne question : « qu'est-ce qui te fait penser que tu n'es pas professionnel ? » — et il faut qu'il le formalise avec ses mots, parce que ce sont ces mots-là qui serviront à écrire la publicité.</div>
+  </div>
+
+  <div class="qz" data-good="1">
+    <div class="qt">5. Vous avez déjà les numéros de vos clients studio. Comment leur annoncer une offre Black Friday ?</div>
+    <button class="opt">Une campagne Meta ciblée sur votre base importée</button>
+    <button class="opt">Un SMS automatisé, personnel et limité en nombre de places</button>
+    <button class="opt">Un post sur la page Facebook du studio</button>
+    <button class="opt">Une audience similaire construite à partir de cette base</button>
+    <div class="fb">Meta sert à l'acquisition : atteindre des gens qui ne vous connaissent pas encore. Quand vous avez déjà le numéro, le SMS direct est bien plus efficace. L'audience similaire, elle, sert à trouver de nouveaux prospects qui ressemblent à ces clients.</div>
+  </div>
+
+  <div class="score" id="score"></div>
+</div>
+
+<footer>
+  <p>Support de session — <b>Quasar Studio</b> · 7 octobre 2026 · 1 h 28 · 43 chapitres</p>
+  <p>Producteur à Succès — Tarik Hamiche</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var CHAPITRES = [
+    [0,"Accueil : les demandes arrivent via France Travail"],
+    [156,"Le blog : le sortir du site ou pas ?"],
+    [272,"Reprendre la main sur son site"],
+    [335,"SEO historique contre expérience utilisateur"],
+    [415,"Ce que coûte un site bien fait avec l'IA"],
+    [551,"Contenu IA et SEO : le vrai critère, l'EAT"],
+    [620,"L'analogie des VST"],
+    [695,"Les outils de recherche d'emails saturés"],
+    [785,"Deviner une adresse email d'entreprise"],
+    [861,"Le hack de l'assistant"],
+    [963,"Botte secrète 1 : data.gouv et les aides publiques"],
+    [1105,"Clap Talent : la base des profils artistiques"],
+    [1181,"Ce qu'on trouve sur un profil, et le cadre légal"],
+    [1238,"L'approche par la compétence manquante"],
+    [1302,"Automatiser la collecte avec Claude"],
+    [1362,"Des intermittents qui ignorent leurs fonds"],
+    [1532,"La limite légale à ne pas franchir"],
+    [1707,"L'approche douce par Instagram"],
+    [1853,"Meta Ads : importer sa base de contacts"],
+    [1986,"Les audiences similaires"],
+    [2048,"Parenthèse : WhatsApp et vos données"],
+    [2155,"Le pixel du blog : le ciblage ultime"],
+    [2227,"Le ciblage est facile, la créative est dure"],
+    [2320,"Les suggestions Meta qu'il faut refuser"],
+    [2567,"Meta sert à l'acquisition, pas à tout"],
+    [2697,"Le SMS Black Friday plutôt que la pub"],
+    [2787,"Cibler un problème : le cas du doublage"],
+    [2875,"Le pourquoi, puis l'atelier d'initiation"],
+    [2923,"L'avatar : plusieurs profils, plusieurs pubs"],
+    [3014,"Débutants ou pros : séparer les parcours"],
+    [3123,"OPCO et reconversion : ça passe souvent"],
+    [3173,"Transition Pro : un ticket d'entrée élevé"],
+    [3263,"Afdas : ce qui change pour les entreprises"],
+    [3522,"Le mécanisme de la facture acquittée"],
+    [3597,"FIFPL et AGEFICE : qui avance l'argent"],
+    [3688,"Structurer d'abord : la créative en carrousel"],
+    [3786,"Comédien n'est pas voix off"],
+    [4012,"Les pros sont les plus durs à convertir"],
+    [4239,"Prospects chauds et prospects perdus"],
+    [4546,"Les questions à poser aux prospects"],
+    [4592,"Les partenariats avec d'autres écoles"],
+    [4690,"Faire des vidéos sans caméra"],
+    [5073,"Clôture et rendez-vous de lundi"]
+  ];
+
+  var frame = document.getElementById('vimeoPlayer');
+  function fmt(s){ var m = Math.floor(s/60), r = s%60; return m + ':' + (r<10?'0':'') + r; }
+
+  function seek(sec){
+    if (!frame || !frame.contentWindow) return;
+    try {
+      frame.contentWindow.postMessage(JSON.stringify({method:'setCurrentTime', value: sec}), '*');
+      frame.contentWindow.postMessage(JSON.stringify({method:'play'}), '*');
+    } catch(e){}
+    var top = frame.getBoundingClientRect().top + window.pageYOffset - 20;
+    window.scrollTo({top: top < 0 ? 0 : top, behavior:'smooth'});
+  }
+
+  var list = document.getElementById('chlist');
+  if (list) {
+    CHAPITRES.forEach(function(c){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.innerHTML = '<b>' + fmt(c[0]) + '</b><span></span>';
+      b.querySelector('span').textContent = c[1];
+      b.addEventListener('click', function(){ seek(c[0]); });
+      list.appendChild(b);
+    });
+  }
+
+  document.querySelectorAll('.tc').forEach(function(el){
+    var parts = el.textContent.split(/(\d+:\d{2})/);
+    if (parts.length < 2) return;
+    el.textContent = '';
+    parts.forEach(function(p){
+      if (/^\d+:\d{2}$/.test(p)) {
+        var mm = p.split(':');
+        var sec = parseInt(mm[0],10)*60 + parseInt(mm[1],10);
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'seek'; b.textContent = p;
+        b.title = 'Aller à ' + p + ' dans la vidéo';
+        b.addEventListener('click', function(){ seek(sec); });
+        el.appendChild(b);
+      } else {
+        el.appendChild(document.createTextNode(p));
+      }
+    });
+  });
+})();
+
+(function(){
+  var bar = document.getElementById('progress');
+  function upd(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', upd, {passive:true});
+  window.addEventListener('resize', upd);
+  upd();
+
+  document.querySelectorAll('.chk li').forEach(function(li){
+    li.addEventListener('click', function(){ li.classList.toggle('done'); });
+  });
+
+  var answered = 0, correct = 0;
+  var total = document.querySelectorAll('.qz').length;
+  document.querySelectorAll('.qz').forEach(function(q){
+    var good = parseInt(q.getAttribute('data-good'), 10);
+    var opts = q.querySelectorAll('.opt');
+    opts.forEach(function(o, i){
+      o.addEventListener('click', function(){
+        if (q.dataset.done) return;
+        q.dataset.done = '1';
+        answered++;
+        if (i === good) correct++;
+        opts.forEach(function(x, j){
+          if (j === good) x.classList.add('good');
+          else if (j === i) x.classList.add('bad');
+          x.style.cursor = 'default';
+        });
+        q.querySelector('.fb').classList.add('show');
+        if (answered === total) {
+          var s = document.getElementById('score');
+          s.textContent = 'Score : ' + correct + ' / ' + total + (correct === total ? ' — parfait 🎯' : (correct >= total - 1 ? ' — très bien 👏' : ' — une relecture des sections concernées s\'impose 📘'));
+          s.classList.add('show');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

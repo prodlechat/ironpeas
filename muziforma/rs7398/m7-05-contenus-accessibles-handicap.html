@@ -1,0 +1,962 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Produire des contenus accessibles aux publics en situation de handicap · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Charte Muziforma : fond sable, violet #5B14FF, Manrope + Inter + JetBrains Mono. */
+:root{--bg:#F7F1E8;--bg-soft:#FCF8F2;--bg-card:#FFFFFF;--ink:#1F1A15;--ink-soft:#5C4F42;--ink-muted:#8A7A6A;--accent:#5B14FF;--accent-dark:#4910CC;--accent-soft:#EDE9FE;--accent-line:#A78BFA;--border:#E8DDC9;--border-soft:#F0E6D4;--warning:#C2410C;--warning-soft:#FFEDD5;--success:#15803D;--success-soft:#DCFCE7;--on-accent:#FFFFFF;--recap-text:rgba(247,241,232,.85);--shadow-sm:0 1px 2px rgba(31,26,21,.04);--shadow-md:0 4px 16px rgba(31,26,21,.06);--radius-sm:8px;--radius-md:14px;--radius-lg:24px;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Manrope,-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700}
+h4{font-size:1.15rem;font-weight:700;line-height:1.3}
+p{margin-bottom:1.1rem;color:var(--ink-soft)}
+strong{color:var(--ink);font-weight:700}
+em{font-style:normal;color:var(--accent);font-weight:800}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.container-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-line));z-index:9999}
+header.top-nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(247,241,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand-mark{font-family:Manrope,sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--ink)}
+.brand-mark em{color:var(--accent)}
+.nav-meta{display:flex;gap:1rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted)}
+.nav-meta span:not(:last-child)::after{content:"·";margin-left:1rem;color:var(--border)}
+@media (max-width:600px){.nav-meta{display:none}}
+.hero{padding:5rem 0 4rem;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;max-width:none;background:radial-gradient(circle,rgba(167,139,250,.22) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(91,20,255,.14) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1.8rem;box-shadow:var(--shadow-sm)}
+.hero h1{margin-bottom:1.5rem}
+.hero-lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:720px;margin:0 auto 1.5rem;line-height:1.55}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.hero-chips span{font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:.35rem .9rem}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:880px;margin:3rem auto 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-num{font-family:Manrope,sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em;margin-bottom:.5rem}
+.stat-label{font-size:.82rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.hero-stats{grid-template-columns:1fr}}
+.section-label{display:inline-block;font-family:Inter,sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:1.5rem}
+.toc-section{padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);text-align:center}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:800px;margin:1rem auto 0}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left;color:var(--ink);transition:.15s}
+.toc-item:hover{border-color:var(--accent);transform:translateX(2px);box-shadow:var(--shadow-sm);color:var(--ink)}
+.toc-num{font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);flex-shrink:0;width:36px}
+.toc-title{font-weight:600;font-size:.95rem;line-height:1.3}
+@media (max-width:600px){.toc-grid{grid-template-columns:1fr}}
+main>section.module{padding:6rem 0;position:relative;overflow:hidden}
+main>section.module:nth-of-type(odd){background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+section.module::before{content:"";position:absolute;top:10%;right:-180px;width:480px;height:480px;background:radial-gradient(circle,rgba(167,139,250,.16) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
+section.module>.container,section.module>.container-narrow{position:relative;z-index:1}
+.module-header{margin-bottom:2.5rem}
+.module-num{font-family:Manrope,sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.6rem;display:block}
+.module-lead{font-size:1.15rem;color:var(--ink-soft);margin:1.5rem 0 2.5rem;line-height:1.55;max-width:720px}
+.prose p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.3rem}
+.callout{background:var(--bg-card);border-left:4px solid var(--accent);border-radius:var(--radius-md);padding:1.6rem 1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm);text-align:left}
+.callout.warning{border-left-color:var(--warning);background:linear-gradient(135deg,var(--warning-soft) 0%,var(--bg-card) 60%)}
+.callout.success{border-left-color:var(--success);background:linear-gradient(135deg,var(--success-soft) 0%,var(--bg-card) 60%)}
+.callout-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.6rem}
+.callout.warning .callout-tag{color:var(--warning)}
+.callout.success .callout-tag{color:var(--success)}
+.callout p{margin:0;color:var(--ink);line-height:1.55}
+.callout ul{margin:.2rem 0 0 1.2rem;color:var(--ink);line-height:1.6}
+/* 3 casquettes : reprend .evolution */
+.evolution{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2rem 0}
+.evo-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;text-align:center;box-shadow:var(--shadow-sm)}
+.evo-col.featured{border:2px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg-card) 50%);transform:scale(1.02);box-shadow:var(--shadow-md)}
+.evo-acronym{font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;letter-spacing:-.04em;margin-bottom:.4rem}
+.evo-col:not(.featured) .evo-acronym{color:var(--ink-muted)}
+.evo-full{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:1rem;font-weight:600}
+.evo-col h4{margin-bottom:.6rem}
+.evo-col p{font-size:.92rem;line-height:1.55;text-align:left}
+.evo-target{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--border);text-align:left;font-size:.85rem;line-height:1.45;color:var(--ink)}
+.evo-target strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem;font-weight:800}
+@media (max-width:800px){.evolution{grid-template-columns:1fr}.evo-col.featured{transform:none}}
+/* circuit : reprend .rag-flow */
+.rag-flow{margin:2.5rem 0;display:flex;flex-direction:column;gap:1.5rem}
+.rag-step{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.rag-step:hover{border-color:var(--accent-line)}
+.rag-step-circle{flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.6rem;box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+.rag-step.alt .rag-step-circle{background:var(--warning);box-shadow:rgba(194,65,12,.3) 0 6px 20px}
+.rag-step>div:last-child{flex:1 1 0%;min-width:0}
+.step-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);margin-bottom:.4rem}
+.rag-step h4{margin-bottom:.6rem}
+.rag-step p{margin:0;line-height:1.55}
+/* tableaux dans la charte */
+.data-table{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);margin:2rem 0}
+.data-table table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+.data-table th{text-align:left;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding:1rem 1.1rem;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.data-table td{padding:.9rem 1.1rem;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table td strong{color:var(--ink)}
+.data-table .n{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--accent-dark);white-space:nowrap}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .6rem;border-radius:6px;white-space:nowrap}
+.badge.yes{background:var(--success-soft);color:var(--success)}
+.badge.no{background:var(--warning-soft);color:var(--warning)}
+.badge.mid{background:var(--accent-soft);color:var(--accent-dark)}
+/* barre de répartition */
+.split{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);margin:2rem 0}
+.split h4{margin-bottom:1.2rem}
+.split-bar{display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden}
+.split-bar div{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:500;color:var(--on-accent);white-space:nowrap;overflow:hidden}
+.split-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem 1rem;margin-top:1.2rem;font-size:.88rem;color:var(--ink-soft)}
+.split-legend span{display:flex;align-items:center;gap:.5rem}
+.split-legend i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.split-legend b{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--ink);margin-left:auto}
+.split-note{font-size:.82rem;color:var(--ink-muted);margin:1rem 0 0;line-height:1.5}
+/* cartes : reprend .motors / .eeat */
+.motors,.eeat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:2rem 0}
+.motor-card,.eeat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-sm);min-width:0}
+.eeat-card{transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.eeat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motor-name{font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;color:var(--ink);letter-spacing:-.02em;margin-bottom:.3rem}
+.motor-by{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.motor-spec{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border-soft);font-size:.9rem;line-height:1.45}
+.motor-spec:last-child{border-bottom:0}
+.motor-spec-label{flex-shrink:0;width:78px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding-top:.2rem}
+.motor-spec-value{flex:1 1 0%;color:var(--ink-soft)}
+.eeat-letter{width:52px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1rem}
+.eeat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem}
+.eeat-card h4{margin-bottom:.8rem}
+.eeat-card>p{font-size:.95rem;line-height:1.55;margin-bottom:1.2rem}
+.eeat-music{background:var(--accent-soft);border-radius:var(--radius-sm);padding:1rem;font-size:.9rem;line-height:1.5;color:var(--ink);margin-top:auto}
+.eeat-music strong{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.eeat-music .out{color:var(--warning)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:740px){.eeat-grid,.motors,.grid3{grid-template-columns:1fr}}
+/* étapes : reprend .factors */
+.factors{display:flex;flex-direction:column;gap:1.2rem;margin:2rem 0}
+.factor{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.factor:hover{border-color:var(--accent-line)}
+.factor-num{flex-shrink:0;font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;width:50px;letter-spacing:-.03em}
+.factor.err .factor-num{color:var(--warning)}
+.factor>div:last-child{flex:1 1 0%;min-width:0}
+.factor h4{margin-bottom:.6rem}
+.factor p{font-size:.95rem;line-height:1.55;margin-bottom:1rem}
+.factor p:last-child{margin-bottom:0}
+.factor-detail{background:var(--accent-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.88rem;line-height:1.5;color:var(--ink)}
+.factor-detail strong{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.factor.err .factor-detail{background:var(--warning-soft)}
+.factor.err .factor-detail strong{color:var(--warning)}
+/* checklist : reprend .audit */
+.audit-intro{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm)}
+.audit-intro h3{margin-bottom:.8rem}
+.audit-intro p{margin:0;line-height:1.6}
+.audit-prompts{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.prompt-row{display:flex;gap:1.2rem;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.prompt-num{flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--accent);width:36px}
+.prompt-row>div:not(.prompt-num){flex:1 1 0%;min-width:0}
+.prompt-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.audit-check{flex-shrink:0;padding:.5rem .9rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s;font-family:Inter,sans-serif}
+.audit-check:hover{border-color:var(--accent-line)}
+.audit-check.checked{background:var(--success);color:var(--on-accent);border-color:var(--success);font-weight:600}
+.score{font-family:"JetBrains Mono",monospace;color:var(--success);font-weight:500}
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.faq details{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:border-color .2s}
+.faq details:hover,.faq details[open]{border-color:var(--accent-line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.5rem;font-family:Manrope,sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.faq details[open] summary::after{content:"−";background:var(--accent);color:var(--on-accent)}
+.faq .ans{padding:0 1.5rem 1.4rem;color:var(--ink-soft);font-size:.97rem;line-height:1.65}
+/* synthèse */
+.recap{background:var(--ink);color:var(--recap-text);padding:4rem 0;position:relative;overflow:hidden}
+.recap::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(91,20,255,.25) 0%,transparent 60%);border-radius:50%;pointer-events:none}
+.recap>.container-narrow{position:relative;z-index:1}
+.recap h3{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg-card);margin-bottom:1.5rem}
+.recap-list{list-style:none;counter-reset:item;display:flex;flex-direction:column;gap:1rem}
+.recap-list li{counter-increment:item;padding-left:3rem;position:relative;line-height:1.55;color:var(--recap-text)}
+.recap-list li::before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:Manrope,sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-line)}
+.recap-list li strong{color:var(--bg-card)}
+.next-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin:4rem auto;max-width:760px;text-align:center;box-shadow:var(--shadow-md)}
+.next-cta h3{margin-bottom:1rem}
+.next-cta p{margin-bottom:1.5rem;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.1rem 2.2rem;font-family:Manrope,sans-serif;font-size:1rem;font-weight:800;border-radius:999px;border:0;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+footer.site-footer{background:var(--ink);color:rgba(247,241,232,.55);padding:2.5rem 0;text-align:center;font-size:.85rem;border-top:1px solid rgba(247,241,232,.08);line-height:1.7}
+footer.site-footer .src{max-width:760px;margin:0 auto 1rem;font-size:.8rem;color:rgba(247,241,232,.45)}
+@media (max-width:860px){main>section.module{padding:4rem 0}.toc-section{padding:3rem 0}.module-header{margin-bottom:1.8rem}.module-lead{font-size:1.05rem;margin:1rem 0 1.8rem}.rag-step,.factor{padding:1.4rem;gap:1rem}.rag-step-circle{width:48px;height:48px;font-size:1.3rem}.factor-num{font-size:1.6rem;width:40px}.next-cta{padding:1.8rem 1.4rem}.recap-list li{padding-left:2.4rem}section.module::before{width:320px;height:320px}}
+@media (max-width:480px){.hero{padding:3rem 0 2.5rem}.hero h1{font-size:2rem}.rag-step,.factor{flex-direction:column;gap:.8rem}.prompt-row{flex-wrap:wrap}}
+html,body{width:100% !important;max-width:100% !important;overflow-x:hidden}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress-bar"></div>
+<header class="top-nav">
+  <div class="nav-inner">
+    <span class="brand-mark">MUZI<em>FORMA</em></span>
+    <div class="nav-meta"><span>Module 07 / 08</span><span>Muziforma</span></div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Module 07 · Produire une campagne responsable</span>
+    <h1>Produire des contenus <em>accessibles</em> aux publics en situation de handicap.</h1>
+    <p class="hero-lead">Une vidéo sans sous-titres, une affiche de concert dont la date n'existe que dans l'image, un post illisible pour un lecteur d'écran : autant de fans que tu laisses à la porte sans le savoir. Ce cours te montre, contenu par contenu, comment rendre ta campagne accessible avec les outils que tu as déjà, en quelques minutes par publication.</p>
+    <div class="hero-chips"><span>Durée : 93 min</span><span>Formateur : Tarik Hamiche</span></div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">7,6 M</div><div class="stat-label">Personnes de 15 ans ou plus en situation de handicap ou de dépendance en France, à domicile (DREES, à vérifier)</div></div>
+      <div class="stat-card"><div class="stat-num">4,5:1</div><div class="stat-label">Contraste minimal entre un texte courant et son fond (WCAG, niveau AA)</div></div>
+      <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Flashs par seconde : le plafond à ne jamais dépasser dans une vidéo</div></div>
+      <div class="stat-card"><div class="stat-num">10 min</div><div class="stat-label">La routine d'accessibilité à dérouler avant chaque publication</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc-section">
+  <div class="container-narrow">
+    <div class="callout">
+      <div class="callout-tag">★ Objectifs pédagogiques</div>
+      <ul>
+        <li>Identifier les grandes familles de besoins (auditif, visuel, moteur, cognitif et psychique, photosensibilité) et ce que chacune change dans un contenu</li>
+        <li>Situer le cadre de référence : loi du 11 février 2005, RGAA, WCAG, directive européenne sur l'accessibilité, et savoir ce qui s'applique ou non à un artiste indépendant</li>
+        <li>Rendre accessibles tes vidéos, visuels, posts, e-mails, pages de capture et publicités avec les réglages des plateformes</li>
+        <li>Rédiger un texte alternatif utile et vérifier un contraste</li>
+        <li>Appliquer une routine de contrôle avant publication à ton contenu de campagne</li>
+      </ul>
+    </div>
+    <div class="section-label">Plan du cours</div>
+    <div class="toc-grid">
+      <a href="#pourquoi" class="toc-item"><span class="toc-num">01</span><span class="toc-title">Pourquoi l'accessibilité te concerne</span></a>
+      <a href="#besoins" class="toc-item"><span class="toc-num">02</span><span class="toc-title">Les cinq familles de besoins</span></a>
+      <a href="#cadre" class="toc-item"><span class="toc-num">03</span><span class="toc-title">Le cadre : loi, RGAA, WCAG, directive européenne</span></a>
+      <a href="#sous-titres" class="toc-item"><span class="toc-num">04</span><span class="toc-title">Vidéo : les sous-titres</span></a>
+      <a href="#video" class="toc-item"><span class="toc-num">05</span><span class="toc-title">Vidéo et audio : image, flashs, clips, podcasts</span></a>
+      <a href="#visuels" class="toc-item"><span class="toc-num">06</span><span class="toc-title">Images et visuels</span></a>
+      <a href="#textes" class="toc-item"><span class="toc-num">07</span><span class="toc-title">Textes et posts</span></a>
+      <a href="#pages" class="toc-item"><span class="toc-num">08</span><span class="toc-title">Page de capture, site et e-mails</span></a>
+      <a href="#pubs" class="toc-item"><span class="toc-num">09</span><span class="toc-title">Publicités et communication de concert</span></a>
+      <a href="#outils" class="toc-item"><span class="toc-num">10</span><span class="toc-title">Où régler ça dans les outils</span></a>
+      <a href="#routine" class="toc-item"><span class="toc-num">11</span><span class="toc-title">La routine de 10 minutes</span></a>
+      <a href="#erreurs" class="toc-item"><span class="toc-num">12</span><span class="toc-title">Les 7 erreurs à éviter</span></a>
+      <a href="#checklist" class="toc-item"><span class="toc-num">13</span><span class="toc-title">Livrable : ta checklist</span></a>
+      <a href="#faq" class="toc-item"><span class="toc-num">14</span><span class="toc-title">FAQ</span></a>
+    </div>
+    <div class="data-table" style="margin-top:2.5rem;text-align:left"><table>
+      <thead><tr><th style="width:90px">Repère</th><th>Chapitre de la vidéo</th></tr></thead>
+      <tbody>
+        <tr><td class="n">00:00</td><td>Introduction et objectifs de la session</td></tr>
+        <tr><td class="n">02:26</td><td>Pourquoi l'accessibilité te concerne</td></tr>
+        <tr><td class="n">09:13</td><td>Les cinq familles de besoins</td></tr>
+        <tr><td class="n">19:13</td><td>Le cadre : loi de 2005, RGAA, WCAG, directive européenne</td></tr>
+        <tr><td class="n">25:00</td><td>Vidéo : les sous-titres</td></tr>
+        <tr><td class="n">29:38</td><td>Image, flashs, clips, audio et podcasts</td></tr>
+        <tr><td class="n">38:30</td><td>Images et visuels : le texte alternatif</td></tr>
+        <tr><td class="n">43:16</td><td>Le contraste et la lisibilité des visuels</td></tr>
+        <tr><td class="n">46:19</td><td>Textes et posts écrits</td></tr>
+        <tr><td class="n">56:14</td><td>Pages de capture, sites et e-mails</td></tr>
+        <tr><td class="n">1:04:46</td><td>Publicités accessibles</td></tr>
+        <tr><td class="n">1:09:04</td><td>Communiquer sur un concert accessible</td></tr>
+        <tr><td class="n">1:13:55</td><td>Où régler ça dans les outils</td></tr>
+        <tr><td class="n">1:20:14</td><td>La routine de 10 minutes</td></tr>
+        <tr><td class="n">1:24:52</td><td>Les 7 erreurs à éviter</td></tr>
+        <tr><td class="n">1:28:01</td><td>Ta checklist</td></tr>
+        <tr><td class="n">1:30:01</td><td>Synthèse</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warning" style="margin-top:1.5rem;text-align:left">
+      <div class="callout-tag">⚠ Des règles et des outils qui évoluent</div>
+      <p>Comme le précise Tarik dans la vidéo, les textes, seuils et chiffres sont donnés à titre indicatif, au jour d'<strong>octobre 2026</strong>. Les obligations légales évoluent et les interfaces des réseaux sociaux changent plusieurs fois par an : vérifie la règle en vigueur sur le site officiel concerné avant toute décision. Ce cours ne constitue pas un conseil juridique.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="module" id="pourquoi">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">01 / 14</span><h2>Pourquoi l'accessibilité <em>te concerne</em></h2></div>
+    <p class="module-lead">Rendre un contenu accessible, c'est faire en sorte que tout le monde puisse le percevoir, le comprendre et y réagir, quelles que soient ses capacités. Ce n'est pas un sujet réservé aux administrations : c'est une partie de ton public.</p>
+    <div class="prose">
+      <p>Selon la DREES, le service statistique du ministère chargé de la santé et des solidarités, <strong>7,6 millions de personnes de 15 ans ou plus vivant à domicile, soit 14 % de cette population</strong>, sont en situation de handicap ou de dépendance en France (édition 2023 du panorama « Le handicap en chiffres », à partir d'une enquête de 2021, à vérifier). Ce chiffre dépend de la définition retenue : il n'existe pas un nombre unique de « personnes handicapées », et les éditions plus récentes s'appuient sur d'autres enquêtes. Retiens l'ordre de grandeur : plusieurs millions de personnes, donc forcément une part de celles et ceux qui pourraient aimer ta musique.</p>
+      <p>Et l'accessibilité ne concerne pas que les handicaps durables. On distingue trois situations, qui appellent les mêmes solutions.</p>
+    </div>
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-letter">1</div><div class="eeat-name">Permanent</div><h4>Une situation durable</h4><p>Une personne sourde de naissance, une personne aveugle, une personne dyslexique, une personne qui ne peut pas utiliser une souris ou un écran tactile avec précision.</p><div class="eeat-music"><strong>Exemple</strong>Un fan sourd qui suit ton actualité uniquement par le texte et l'image.</div></div>
+      <div class="eeat-card"><div class="eeat-letter">2</div><div class="eeat-name">Temporaire</div><h4>Une situation passagère</h4><p>Un bras dans le plâtre, une otite, une opération des yeux, une migraine qui rend les écrans lumineux et les images qui clignotent insupportables.</p><div class="eeat-music"><strong>Exemple</strong>Une abonnée qui navigue d'une seule main pendant six semaines.</div></div>
+      <div class="eeat-card"><div class="eeat-letter">3</div><div class="eeat-name">Situationnel</div><h4>Une situation liée au contexte</h4><p>Le son coupé dans les transports ou au bureau, un écran en plein soleil, une connexion lente qui n'affiche pas les images, un bébé endormi dans les bras.</p><div class="eeat-music"><strong>Exemple</strong>Un fan qui découvre ton extrait dans le métro, téléphone en mode silencieux.</div></div>
+    </div>
+    <div class="prose">
+      <p>C'est ce qu'on appelle parfois l'<strong>effet de la rampe d'accès</strong> : une rampe est conçue pour les personnes en fauteuil roulant, et elle sert aussi aux poussettes, aux valises et aux livreurs. Des sous-titres pensés pour les personnes sourdes ou malentendantes servent aussi à toutes celles et ceux qui regardent sans le son. Un bon contraste pensé pour les personnes malvoyantes sert aussi à quiconque lit son téléphone dehors.</p>
+    </div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Tu élargis ton public au lieu de le trier</h4><p>Un contenu inaccessible n'envoie aucun message d'erreur : la personne concernée passe simplement au contenu suivant. Tu ne verras jamais dans tes statistiques celles et ceux que tu as perdus à cause d'une vidéo sans sous-titres ou d'une affiche illisible.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Tu donnes plus de matière au texte</h4><p>Des sous-titres, une transcription, une légende complète, un texte alternatif : tout cela ajoute des mots là où il n'y avait que de l'image et du son. Ces mots aident les spectateurs à comprendre plus vite de quoi tu parles, et ils peuvent aider les plateformes et les moteurs de recherche à mieux identifier le sujet de ton contenu. Ce n'est pas une promesse de portée : c'est un contenu plus compréhensible, pour les humains comme pour les machines.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Tu es cohérent avec ton image</h4><p>Au début de ce module, tu as travaillé ton image et ton récit. Une campagne qui se dit ouverte et qui exclut une partie du public par négligence fragilise ce récit. À l'inverse, des contenus soignés sur ce point montrent que tu respectes ton public.</p></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Tu prends de l'avance sur les attentes</h4><p>Les salles, les festivals, les collectivités, les financeurs publics et de plus en plus de partenaires regardent la manière dont un projet prend en compte l'inclusion. Savoir expliquer ce que tu fais concrètement est un atout dans un dossier ou un échange professionnel.</p><div class="factor-detail"><strong>À garder en tête</strong>L'accessibilité parfaite n'existe pas. Ce qu'on attend de toi, c'est une démarche : les bons réflexes sur chaque contenu, et l'écoute des retours.</div></div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>L'accessibilité n'est pas une version « spéciale » de ton contenu. C'est le <strong>même contenu, conçu pour être perçu par plusieurs canaux</strong> : ce qui s'entend doit aussi pouvoir se lire, ce qui se voit doit aussi pouvoir se lire ou s'entendre.</p>
+    </div>
+    <div class="audit-intro">
+      <h3>Une démarche, pas la perfection</h3>
+      <p>Ce qu'on attend de toi, ce n'est pas d'être parfait, c'est d'avoir une démarche et de commencer. Tarik l'applique à cette formation : sous-titres sur toutes les vidéos, supports visuels en plus de la vidéo, rythme adapté quand une personne a besoin de plus de temps, installation d'un lecteur d'écran avec les stagiaires qui en ont besoin. Ce n'est pas parfait, mais chaque retour devient un axe d'amélioration. Fais de même : avance par étapes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="module" id="besoins">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">02 / 14</span><h2>Les cinq familles <em>de besoins</em></h2></div>
+    <p class="module-lead">Tu n'as pas besoin de connaître chaque handicap en détail. Tu as besoin de savoir quels obstacles tes contenus peuvent créer, et pour qui. On peut les regrouper en cinq familles.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Famille</th><th>Qui est concerné</th><th>L'obstacle dans un contenu</th><th>Ce que tu fais</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Auditif</strong></td><td>Personnes sourdes ou malentendantes, personnes appareillées, acouphènes</td><td>Tout ce qui ne passe que par le son : voix, paroles, annonce orale, ambiance</td><td>Sous-titres, transcription, paroles affichées, informations clés écrites</td></tr>
+        <tr><td><strong>Visuel</strong></td><td>Personnes aveugles ou malvoyantes, daltonisme, fatigue visuelle</td><td>Tout ce qui ne passe que par l'image : texte incrusté dans un visuel, couleur porteuse de sens, petit texte peu contrasté</td><td>Texte alternatif, information reprise dans la légende, contraste, taille, description orale</td></tr>
+        <tr><td><strong>Moteur</strong></td><td>Personnes qui ne peuvent pas utiliser une souris ou viser précisément sur un écran tactile, tremblements, paralysie, fatigue</td><td>Boutons minuscules, liens trop rapprochés, formulaire impossible à remplir au clavier, délai trop court</td><td>Gros boutons espacés, navigation au clavier, formulaire court</td></tr>
+        <tr><td><strong>Cognitif et psychique</strong></td><td>Troubles dys (dyslexie, dyspraxie, dysphasie), troubles de l'attention, handicap intellectuel, troubles psychiques, fatigue, personnes qui lisent mal le français</td><td>Phrases longues, jargon, pavés de texte, trop d'informations à la fois, animations qui distraient, consignes floues</td><td>Langage clair, une idée par phrase, structure visible, un seul appel à l'action</td></tr>
+        <tr><td><strong>Photosensibilité</strong></td><td>Personnes épileptiques photosensibles, personnes migraineuses, troubles vestibulaires (vertiges)</td><td>Flashs, effets stroboscopiques, clignotements rapides, mouvements brusques et répétés</td><td>Pas de flashs rapides, avertissement en début de vidéo si un effet intense subsiste</td></tr>
+      </tbody>
+    </table></div>
+    <div class="prose">
+      <p>Deux précisions utiles pour ne pas te tromper de solution.</p>
+      <p><strong>Les personnes aveugles ou malvoyantes utilisent très souvent un lecteur d'écran.</strong> C'est un logiciel qui lit à voix haute ce qui est affiché : le texte d'un post, le nom d'un bouton, la description d'une image. Il est intégré gratuitement aux téléphones (VoiceOver sur iPhone, TalkBack sur Android) et aux ordinateurs. Un lecteur d'écran ne « voit » pas une image : il lit le texte alternatif que tu as rédigé, ou rien du tout. Il ne lit pas non plus le texte que tu as incrusté dans un visuel.</p>
+      <p><strong>Toutes les personnes sourdes ne sont pas à l'aise avec le français écrit.</strong> Pour une partie d'entre elles, la langue des signes française (LSF) est la première langue, et le français écrit une langue apprise ensuite. La LSF est reconnue comme une langue à part entière par la loi du 11 février 2005. Des sous-titres clairs, avec des phrases simples, sont donc préférables à une transcription mot à mot d'un discours embrouillé.</p>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ Le test en deux gestes</div>
+      <p>Pour chaque contenu, pose-toi deux questions. <strong>Son coupé</strong> : est-ce que je comprends encore le message et ce qu'on me demande de faire ? <strong>Yeux fermés</strong> (ou avec le lecteur d'écran de mon téléphone) : est-ce que j'ai encore accès à l'information essentielle ? Si la réponse est non à l'une des deux, tu sais quoi corriger.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="module" id="cadre">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">03 / 14</span><h2>Le cadre : loi, RGAA, WCAG, <em>directive européenne</em></h2></div>
+    <p class="module-lead">Quatre références reviennent dès qu'on parle d'accessibilité numérique. Tu dois savoir ce qu'elles sont, qui elles obligent, et pourquoi elles te servent même quand tu n'es pas légalement tenu de les appliquer.</p>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">France · 2005</div><h4>La loi du 11 février 2005</h4><p>La loi « pour l'égalité des droits et des chances, la participation et la citoyenneté des personnes handicapées ». Son article 47 pose l'obligation d'accessibilité des services de communication au public en ligne pour certains organismes.</p><div class="eeat-music"><strong>Qui est obligé (à vérifier)</strong>Les organismes publics, les organismes privés chargés d'une mission de service public, et les entreprises dont le chiffre d'affaires en France dépasse 250 millions d'euros.</div></div>
+      <div class="eeat-card"><div class="eeat-name">France · référentiel</div><h4>Le RGAA</h4><p>Le référentiel général d'amélioration de l'accessibilité : la méthode officielle française pour vérifier qu'un site respecte les exigences. La version en vigueur relevée est la 4.1.2 (à vérifier). Il s'appuie sur une norme européenne, elle-même fondée sur les WCAG.</p><div class="eeat-music"><strong>À quoi il te sert</strong>C'est une liste de critères vérifiables, publique et gratuite, utile si tu fais refaire ton site.</div></div>
+      <div class="eeat-card"><div class="eeat-name">International</div><h4>Les WCAG</h4><p>Les règles pour l'accessibilité des contenus web, publiées par le W3C, l'organisme qui définit les standards du web. Elles sont la base de presque toutes les lois dans le monde. Trois niveaux d'exigence : A, AA, AAA. Le niveau visé en pratique est le AA.</p><div class="eeat-music"><strong>À quoi elles te servent</strong>Elles donnent les seuils concrets de ce cours : contraste, flashs, sous-titres.</div></div>
+      <div class="eeat-card"><div class="eeat-name">Europe · 2025</div><h4>La directive européenne sur l'accessibilité</h4><p>La directive (UE) 2019/882, souvent appelée European Accessibility Act. Elle s'applique depuis le 28 juin 2025 à certains produits et services vendus aux consommateurs, y compris par des entreprises privées de taille moyenne.</p><div class="eeat-music"><strong>Services visés (extrait)</strong>Commerce électronique, services bancaires, livres numériques, téléphonie, accès aux médias audiovisuels, certains services de transport.</div></div>
+    </div>
+    <div class="prose">
+      <p>Les WCAG reposent sur <strong>quatre principes</strong>. Ils résument tout ce cours, et tu peux t'en servir comme grille de lecture pour n'importe quel contenu.</p>
+    </div>
+    <div class="data-table"><table>
+      <thead><tr><th>Principe</th><th>Ce qu'il veut dire</th><th>Dans tes contenus d'artiste</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Perceptible</strong></td><td>L'information doit pouvoir être perçue par au moins un sens disponible</td><td>Sous-titres, texte alternatif, contraste suffisant, date du concert écrite dans la légende</td></tr>
+        <tr><td><strong>Utilisable</strong></td><td>On doit pouvoir naviguer et agir, y compris sans souris, sans précision et sans danger</td><td>Page de capture utilisable au clavier, gros boutons, pas de flashs</td></tr>
+        <tr><td><strong>Compréhensible</strong></td><td>Le contenu et le fonctionnement doivent être clairs et prévisibles</td><td>Phrases courtes, un seul appel à l'action, formulaire qui explique ses erreurs</td></tr>
+        <tr><td><strong>Robuste</strong></td><td>Le contenu doit rester lisible par les navigateurs et les outils d'assistance</td><td>Du vrai texte plutôt que du texte en image, des caractères standards, un site construit proprement</td></tr>
+      </tbody>
+    </table></div>
+    <div class="prose">
+      <p><strong>Et toi, es-tu obligé ?</strong> Dans la très grande majorité des cas, un artiste indépendant n'entre pas dans le champ de l'article 47 de la loi de 2005, qui vise le secteur public et les très grandes entreprises. Pour la directive européenne, la situation mérite deux minutes d'attention si tu vends en ligne.</p>
+    </div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Tu publies des contenus sur les réseaux sociaux</h4><p>Tes posts, tes vidéos et tes stories ne sont pas, en eux-mêmes, un service visé par la directive. Tu n'es pas tenu légalement de les sous-titrer. C'est une bonne pratique, attendue par ton public, pas une obligation qui pèse sur toi.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Tu vends en ligne (billets, merchandising, musique) depuis ton propre site</h4><p>La vente en ligne aux consommateurs fait partie des services visés (commerce électronique). Mais la directive prévoit une exemption pour les très petites entreprises qui fournissent des services : selon la fiche de la DGCCRF, celles qui emploient moins de 10 personnes et dont le chiffre d'affaires annuel ne dépasse pas 2 millions d'euros (à vérifier). C'est le cas de l'immense majorité des artistes indépendants et des petits labels.</p><div class="factor-detail"><strong>Attention au vocabulaire</strong>La « microentreprise » de la directive est une catégorie de taille (effectif et chiffre d'affaires). Elle n'a rien à voir avec le régime fiscal de la micro-entreprise. Une petite société peut être une microentreprise au sens de la directive.</div></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Tu vends à travers une plateforme ou un prestataire</h4><p>Si ta billetterie, ta boutique ou ton outil d'e-mailing sont fournis par un prestataire, c'est d'abord lui qui est responsable de l'accessibilité de son interface, selon sa propre taille. De ton côté, tu restes responsable de ce que tu y mets : textes, images, vidéos.</p></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Tu travailles pour une structure publique ou subventionnée</h4><p>Une collectivité, une salle en régie publique ou un établissement public sont, eux, soumis à des obligations. Si tu leur fournis des contenus (vidéo de présentation, dossier, visuels), ils peuvent te demander des fichiers accessibles : vidéo sous-titrée, document lisible par un lecteur d'écran. Savoir le faire t'évite un refus ou un aller-retour.</p></div></div>
+    </div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Reste prudent sur le juridique</div>
+      <p>Les seuils et les exemptions dépendent de ta situation exacte (effectif, chiffre d'affaires, nature de ce que tu vends) et les textes évoluent. Si ton activité grandit ou si tu as un doute, vérifie sur les sources officielles : <a href="https://www.economie.gouv.fr/dgccrf/les-fiches-pratiques/professionnels-vos-produits-et-services-doivent-etre-conformes-la-directive-accessibilite" target="_blank" rel="noopener" style="text-decoration:underline">la fiche de la DGCCRF consacrée à la directive accessibilité</a> sur economie.gouv.fr, le site <a href="https://accessibilite.numerique.gouv.fr/" target="_blank" rel="noopener" style="text-decoration:underline">accessibilite.numerique.gouv.fr</a> pour le RGAA, et le <a href="https://www.arcom.fr/nous-connaitre/nos-missions/garantir-le-pluralisme-et-la-cohesion-sociale/les-droits-des-personnes-handicapees/accessibilite-des-sites-et-des-services-numeriques" target="_blank" rel="noopener" style="text-decoration:underline">site de l'Arcom</a>, l'autorité chargée du contrôle de l'accessibilité des services numériques. Ne déduis pas de ce cours que tu es « en règle » ou « hors la loi ».</p>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Pour toi, l'accessibilité est le plus souvent une <strong>bonne pratique professionnelle</strong> plutôt qu'une obligation légale. Les références officielles restent précieuses : elles te donnent des critères précis, au lieu d'un vague « faire attention ».</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="module" id="sous-titres">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">04 / 14</span><h2>Vidéo : les <em>sous-titres</em></h2></div>
+    <p class="module-lead">C'est le geste qui a le plus d'effet pour le moins d'effort. Toute vidéo dans laquelle quelqu'un parle ou chante doit pouvoir se comprendre sans le son.</p>
+    <div class="prose">
+      <p>Commence par distinguer deux choses qu'on confond souvent.</p>
+    </div>
+    <div class="motors">
+      <div class="motor-card">
+        <div class="motor-name">Sous-titres simples</div>
+        <div class="motor-by">Pour qui entend la bande-son</div>
+        <div class="motor-spec"><span class="motor-spec-label">Contenu</span><span class="motor-spec-value">Uniquement les paroles prononcées, souvent pour traduire une autre langue</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Manque</span><span class="motor-spec-value">Qui parle, la musique, les rires, les bruits qui donnent du sens</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Usage</span><span class="motor-spec-value">Vidéo en langue étrangère, visionnage sans le son</span></div>
+      </div>
+      <div class="motor-card">
+        <div class="motor-name">Sous-titres SME</div>
+        <div class="motor-by">Pour personnes sourdes et malentendantes</div>
+        <div class="motor-spec"><span class="motor-spec-label">Contenu</span><span class="motor-spec-value">Les paroles, plus tout ce qui s'entend et qui compte</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Ajouts</span><span class="motor-spec-value">Le nom de la personne qui parle, [musique douce au piano], [applaudissements], [silence], [voix hors champ]</span></div>
+        <div class="motor-spec"><span class="motor-spec-label">Usage</span><span class="motor-spec-value">La référence pour une vidéo accessible</span></div>
+      </div>
+    </div>
+    <div class="prose">
+      <p>Pour une vidéo face caméra de trente secondes où tu parles seul, la différence est faible : écris ce que tu dis, et signale la musique si elle porte une intention. Pour une interview à plusieurs voix, un documentaire de coulisses ou un clip, les indications sonores entre crochets changent vraiment la compréhension.</p>
+      <p>Deuxième distinction : la manière dont les sous-titres sont attachés à la vidéo.</p>
+    </div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Activables</div><h4>Les sous-titres en piste séparée</h4><p>Un fichier texte synchronisé avec la vidéo, que le spectateur active ou désactive. Chacun peut les agrandir ou changer leur apparence dans ses réglages. Ils peuvent être traduits, corrigés après publication et lus par certaines technologies d'assistance.</p><div class="eeat-music"><strong>Limite</strong><span class="out">Ils ne s'affichent pas partout, et ne suivent pas la vidéo si elle est téléchargée et republiée ailleurs.</span></div></div>
+      <div class="eeat-card"><div class="eeat-name">Incrustés</div><h4>Les sous-titres gravés dans l'image</h4><p>Le texte fait partie de la vidéo. Il est visible partout, tout le temps, y compris en lecture automatique sans le son dans un fil d'actualité. C'est le format le plus courant sur les vidéos verticales courtes.</p><div class="eeat-music"><strong>Limite</strong><span class="out">Le spectateur ne peut ni les agrandir ni les masquer, et une faute reste gravée : il faut réexporter la vidéo.</span></div></div>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ La combinaison qui fonctionne</div>
+      <p>Vidéos longues (YouTube, site) : privilégie la <strong>piste activable</strong>, relue et corrigée. Vidéos verticales courtes : <strong>incruste</strong> des sous-titres lisibles, et active en plus les sous-titres de la plateforme quand elle le propose. Évite simplement d'empiler deux couches de texte qui se chevauchent à l'écran.</p>
+    </div>
+    <div class="prose"><p><strong>Comment produire tes sous-titres, concrètement.</strong></p></div>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Générer</span><h4>Pars de la reconnaissance automatique</h4><p>YouTube, Instagram, TikTok, Facebook, LinkedIn et la plupart des applications de montage sur téléphone ou ordinateur savent transcrire automatiquement la voix. C'est un bon brouillon, qui te fait gagner l'essentiel du temps de saisie.</p></div></div>
+      <div class="rag-step alt"><div class="rag-step-circle">2</div><div><span class="step-tag">Relire</span><h4>Corrige toujours le résultat</h4><p>La machine se trompe précisément là où ça compte pour toi : ton nom d'artiste, le titre du morceau, le nom de la salle, les dates, les chiffres, les mots d'argot, les mots dans une autre langue, et tout ce qui est dit par-dessus la musique. Un nom de salle mal transcrit, c'est un fan qui ne trouve pas le concert.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Découper</span><h4>Fais des blocs courts et bien coupés</h4><p>Une à deux lignes par bloc, quelques mots à la fois, coupés là où la phrase respire (pas entre un article et son nom). Laisse chaque bloc affiché assez longtemps pour être lu une fois tranquillement. Évite les sous-titres « mot par mot » qui clignotent à toute vitesse : ils sont épuisants pour beaucoup de lecteurs.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">4</div><div><span class="step-tag">Compléter</span><h4>Ajoute ce qui s'entend et qui compte</h4><p>Entre crochets : [intro guitare], [le public reprend le refrain], [rires]. Indique qui parle quand ce n'est pas évident à l'image. Ponctue normalement, avec des majuscules en début de phrase.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">5</div><div><span class="step-tag">Vérifier</span><h4>Regarde la vidéo son coupé, sur ton téléphone</h4><p>C'est le seul test qui compte. Lis-tu tout sans effort ? Un sous-titre est-il caché par un bouton de l'application ? Le message et l'appel à l'action sont-ils compris sans le son ?</p></div></div>
+    </div>
+    <div class="prose"><p><strong>La lisibilité des sous-titres incrustés</strong> se joue sur quelques réglages simples.</p></div>
+    <div class="data-table"><table>
+      <thead><tr><th>Réglage</th><th>À faire</th><th>À éviter</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Police</strong></td><td>Une police simple, sans empattement, en graisse moyenne ou grasse</td><td>Polices manuscrites ou décoratives, lettres très fines, tout en capitales sur de longues phrases</td></tr>
+        <tr><td><strong>Taille</strong></td><td>Lisible à bout de bras sur un téléphone, sans plisser les yeux</td><td>Une taille choisie sur ton écran d'ordinateur, jamais vérifiée sur mobile</td></tr>
+        <tr><td><strong>Contraste</strong></td><td>Texte clair sur un bandeau sombre semi-opaque, ou texte avec un contour épais</td><td>Texte blanc posé directement sur une image claire ou changeante</td></tr>
+        <tr><td><strong>Couleur</strong></td><td>Une couleur de mise en avant au maximum, avec un contraste vérifié</td><td>Un mot de chaque couleur, des dégradés, du jaune sur blanc</td></tr>
+        <tr><td><strong>Animation</strong></td><td>Apparition simple, stable</td><td>Texte qui rebondit, tourne, grossit ou clignote à chaque mot</td></tr>
+        <tr><td><strong>Position</strong></td><td>Toujours au même endroit, dans la zone centrale basse de l'image</td><td>Texte qui change de place, ou collé aux bords</td></tr>
+      </tbody>
+    </table></div>
+    <div class="audit-intro">
+      <h3>Les zones de sécurité des formats verticaux</h3>
+      <p>Sur une vidéo verticale, l'application superpose ses propres éléments à ton image : en bas, ton nom de compte, la légende et le titre du son ; à droite, la colonne de boutons (aimer, commenter, partager) ; en haut, la barre de navigation. Tout texte placé dans ces zones sera masqué. Garde tes sous-titres et tes informations importantes dans la partie centrale de l'image, à bonne distance du bas, du haut et du bord droit. Chaque plateforme publie ses gabarits et propose un aperçu avant publication, y compris dans son gestionnaire de publicités : utilise-le, car les zones exactes varient d'une plateforme à l'autre et évoluent.</p>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ La méthode de Tarik : générer, corriger avec une IA, réimporter</div>
+      <p>Tarik met ses vidéos sur Vimeo, qui produit une transcription horodatée exportable au format <strong>.srt</strong>. Il la fait corriger par une IA, puis importe le fichier sur toutes les autres plateformes. Tu peux faire pareil avec les sous-titres automatiques de YouTube : copie-les dans Claude ou ChatGPT avec une consigne du type « Corrige ces sous-titres (noms d'artistes, titres, plateformes, argot), découpe-les en blocs courts et horodatés, ajoute qui parle et les sons importants, puis rends-moi un fichier .srt ». Relis toujours le résultat avant de l'importer.</p>
+    </div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Sous-titres incrustés</div><h4>Des outils dédiés, à petit prix</h4><p>Pour graver des sous-titres lisibles dans tes formats courts, Tarik cite des outils comme <a href="https://www.opus.pro/" target="_blank" rel="noopener" style="text-decoration:underline">Opus Clip</a> ou <a href="https://www.submagic.co/" target="_blank" rel="noopener" style="text-decoration:underline">Submagic</a> (payants, avec des offres d'essai : vérifie les tarifs du moment).</p></div>
+      <div class="eeat-card"><div class="eeat-name">Une référence à observer</div><h4>Les sous-titres pour sourds et malentendants</h4><p>Active ce mode sur une plateforme de films ou de séries : tu verras le nom de la personne qui parle et les sons qui comptent entre crochets (« musique inquiétante », « rires »). C'est le niveau à viser pour tes contenus parlés.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="module" id="video">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">05 / 14</span><h2>Vidéo et audio : image, flashs, <em>clips et podcasts</em></h2></div>
+    <p class="module-lead">Les sous-titres rendent le son lisible. Il reste à rendre l'image audible, à écarter ce qui peut être dangereux, et à traiter le cas particulier des clips et des contenus audio.</p>
+    <div class="prose">
+      <p><strong>Décris à l'oral ce qui se passe à l'image.</strong> L'audiodescription est une piste audio supplémentaire, dans laquelle une voix décrit, entre les dialogues, ce qui se voit et qui est nécessaire pour comprendre : les lieux, les actions, les textes affichés. C'est un travail de professionnel, justifié pour un film ou un documentaire. Pour tes contenus du quotidien, il existe une solution à ta portée : la <strong>description intégrée</strong>. Tu dis toi-même ce que l'image montre.</p>
+    </div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Sans description</div><h4>« Regardez ce qui vient d'arriver ! »</h4><p>Tu brandis un objet devant la caméra, tu souris, un texte s'affiche à l'écran avec une date. La musique monte.</p><div class="eeat-music"><strong>Pour une personne aveugle</strong><span class="out">Une voix enthousiaste, de la musique, et aucune information.</span></div></div>
+      <div class="eeat-card"><div class="eeat-name">Avec description intégrée</div><h4>« J'ai dans les mains le tout premier vinyle de l'album »</h4><p>« La pochette est bleu nuit, avec mon visage de profil. Il sort le 13 mars, et les précommandes ouvrent ce soir à 18 heures, lien dans ma bio. »</p><div class="eeat-music"><strong>Pour une personne aveugle</strong>L'objet, son aspect, la date et l'action à faire : tout y est.</div></div>
+    </div>
+    <div class="prose">
+      <p>La règle est simple : <strong>toute information affichée à l'écran doit aussi être dite</strong>, ou au minimum écrite dans la légende du post. Une date de concert qui apparaît seulement en texte animé, sans être prononcée ni reprise dans la légende, est perdue pour une partie de ton public. Pour une vidéo sans voix (extrait de clip, images de tournage en musique), mets la description dans la légende : deux phrases suffisent.</p>
+      <p><strong>Propose une transcription pour les contenus longs.</strong> Une transcription est le texte complet de ce qui est dit, sans synchronisation avec l'image, publié à côté de la vidéo ou de l'audio. Elle sert aux personnes sourdes ou malentendantes, aux personnes sourdaveugles qui lisent en braille, à celles qui préfèrent lire à leur rythme, et à quiconque cherche un passage précis. Pour une interview, une session de questions et réponses ou un épisode de podcast, colle-la dans la description, sur une page de ton site ou dans un document lié.</p>
+    </div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Flashs et effets stroboscopiques : une question de sécurité</div>
+      <p>Chez les personnes épileptiques photosensibles, des flashs lumineux rapides peuvent déclencher une crise. Les WCAG fixent une règle claire (niveau A, le plus fondamental) : un contenu ne doit <strong>rien contenir qui flashe plus de trois fois sur une période d'une seconde</strong>, sauf à rester sous des seuils techniques de surface et d'intensité qu'il est difficile de mesurer soi-même. En pratique : pas de stroboscope plein écran, pas d'alternance rapide entre images très claires et très sombres, prudence particulière avec les flashs rouges saturés. Vérifie aussi tes GIF et tes boucles.</p>
+    </div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Au montage, ralentis ou adoucis</h4><p>Si une séquence clignote, tu peux réduire la fréquence des coupes, baisser l'écart de luminosité entre les plans, réduire la surface de l'effet à l'écran, ou remplacer le stroboscope par un fondu. L'énergie du montage peut venir du rythme des plans et du mouvement plutôt que du clignotement.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Attention aux images de concert</h4><p>Les captations de scène avec stroboscopes sont le cas le plus fréquent chez les musiciens. Choisis pour tes extraits promotionnels des passages où l'éclairage est stable, ou recadre et retravaille l'image.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Si un effet intense subsiste, préviens</h4><p>Un avertissement écrit et lisible au tout début de la vidéo et dans la légende (« Attention : cette vidéo contient des effets lumineux clignotants ») laisse à chacun le choix de ne pas regarder. Un avertissement ne remplace pas la correction, d'autant que les vidéos se lancent seules dans les fils d'actualité : il vient en dernier recours.</p></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Pense aussi aux mouvements</h4><p>Les zooms brutaux répétés, les tremblements d'image volontaires et les rotations rapides peuvent provoquer nausées ou vertiges chez certaines personnes. Utilise-les comme un accent, pas comme un tapis.</p></div></div>
+    </div>
+    <div class="prose"><p><strong>Le cas des clips musicaux.</strong> Un clip est une œuvre : personne ne te demande d'en changer la direction artistique. Tu peux en revanche l'entourer de versions et d'éléments qui l'ouvrent à d'autres publics, et certaines sont de vraies pistes créatives.</p></div>
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-name">Simple</div><h4>Les paroles en sous-titres</h4><p>Ajoute les paroles en piste de sous-titres activables sur ton clip. Indique les passages instrumentaux : [solo de guitare], [pont instrumental]. Publie aussi les paroles dans la description.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Simple</div><h4>La vidéo de paroles</h4><p>La « lyric video » affiche les paroles en rythme. Soigne la taille, le contraste et la durée d'affichage : une vidéo de paroles illisible ne sert à personne.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Créatif</div><h4>Le chansigne</h4><p>Le chansigne est l'interprétation artistique d'une chanson en langue des signes : le sens, le rythme et l'émotion passent par le corps. Une version chansignée se construit avec un ou une artiste chansigneur, de préférence issu de la communauté sourde, rémunéré et crédité.</p></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Le chansigne ne s'improvise pas</div>
+      <p>Traduire une chanson en langue des signes demande une vraie adaptation, pas un mot à mot. Ne reproduis pas des signes appris dans une vidéo : fais appel à une personne compétente, et présente la version comme une collaboration artistique. C'est aussi une belle occasion de contenu pour ta campagne.</p>
+    </div>
+    <div class="prose">
+      <p><strong>Audio et podcasts.</strong> Un contenu purement sonore (épisode de podcast, message vocal publié, extrait audio) est inaccessible par nature aux personnes sourdes, et difficile pour les personnes malentendantes si le son est médiocre. Deux leviers.</p>
+    </div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Levier 1</div><h4>La transcription</h4><p>Publie le texte de l'épisode. Pars d'une transcription automatique (de nombreux outils d'enregistrement et de montage en proposent une), puis corrige les noms propres, les titres et les dates. Indique qui parle à chaque prise de parole.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Levier 2</div><h4>La qualité sonore</h4><p>Une voix nette aide tout le monde, et d'abord les personnes malentendantes ou appareillées : micro proche de la bouche, pièce calme et peu réverbérante, une seule personne à la fois, musique de fond très en dessous de la voix ou absente pendant les prises de parole, niveau régulier d'un bout à l'autre.</p></div>
+    </div>
+    <div class="prose">
+      <p>La même exigence vaut pour tes vidéos parlées : un tapis musical trop fort sous la voix est l'un des obstacles les plus fréquents. Les réglages de prise de son vus au Module 5 servent directement l'accessibilité.</p>
+    </div>
+    <div class="audit-intro">
+      <h3>Pourquoi Tarik filme en plan séquence</h3>
+      <p>À l'époque où une monteuse ajoutait des animations à ses vidéos, une personne lui a écrit en commentaire que ces effets la gênaient. Depuis, Tarik tourne le plus possible sans coupe ni effet : la personne a l'impression de l'avoir en face d'elle. Si une séquence clignote au montage, réduis sa fréquence, coupe moins et lisse les écarts de luminosité entre les plans (l'étalonnage).</p>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ L'audiodescription de ton clip, avec l'aide d'une IA</div>
+      <p>Décris ton clip scène par scène, joins le synopsis, et demande à une IA de t'aider à structurer une audiodescription adaptée aux personnes aveugles ou malvoyantes. Tu peux ensuite l'enregistrer en piste audio. Plus simple encore : mets cette description écrite dans la description de la vidéo. Un lecteur d'écran la lira, et la personne aura une idée de ce qui se passe à l'image. Tu pourrais être l'un des premiers artistes de ton style à le faire.</p>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Podcasts : deux versions valent mieux qu'une</div>
+      <p>Publie le texte de l'épisode quand la plateforme le permet. Pour la qualité sonore, Tarik suggère une version où la musique de fond est coupée et la voix remontée de quelques décibels, sans effet de réverbération au mixage. Rien ne t'empêche de proposer les deux versions de l'épisode.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="module" id="visuels">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">06 / 14</span><h2>Images <em>et visuels</em></h2></div>
+    <p class="module-lead">Pochette, affiche de concert, visuel d'annonce, carrousel, photo de presse : ce sont les contenus où l'information se retrouve le plus souvent enfermée dans l'image. Trois réflexes règlent l'essentiel.</p>
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-letter">1</div><div class="eeat-name">Décrire</div><h4>Le texte alternatif</h4><p>Une courte description de l'image, invisible à l'écran, lue par les lecteurs d'écran et affichée si l'image ne se charge pas.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">2</div><div class="eeat-name">Doubler</div><h4>L'information dans le texte</h4><p>Tout ce qui est écrit dans le visuel et qui compte (date, lieu, prix, lien) est aussi écrit dans la légende.</p></div>
+      <div class="eeat-card"><div class="eeat-letter">3</div><div class="eeat-name">Rendre lisible</div><h4>Contraste, taille, couleur</h4><p>Un texte assez contrasté, assez grand, et aucune information portée uniquement par une couleur.</p></div>
+    </div>
+    <div class="prose">
+      <p><strong>Rédiger un bon texte alternatif.</strong> Le texte alternatif (souvent abrégé « alt ») répond à une seule question : <strong>si l'image disparaissait, qu'est-ce que la personne devrait savoir ?</strong> Voici la méthode.</p>
+    </div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Dis l'essentiel en une ou deux phrases</h4><p>Commence par le type d'image si c'est utile (pochette, affiche, photo de scène), puis le sujet, puis ce qui porte le sens. Inutile d'écrire « image de » : le lecteur d'écran l'annonce déjà.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Recopie le texte présent dans l'image</h4><p>Titre, date, lieu, horaire, prix : si c'est écrit dans le visuel, cela doit figurer dans le texte alternatif, ou dans la légende si c'est long.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Décris ce qui sert le message, pas tout</h4><p>L'ambiance et les éléments marquants (couleur dominante, expression, décor) comptent pour un visuel artistique. Le détail de chaque objet en arrière-plan, non.</p></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Écris pour un humain</h4><p>Pas de liste de mots-clés, pas de hashtags, pas d'appel à l'action. Le texte alternatif n'est pas un espace de référencement ni de promotion : c'est une description.</p></div></div>
+      <div class="factor"><div class="factor-num">05</div><div><h4>Ne laisse pas la machine écrire seule</h4><p>Plusieurs plateformes génèrent un texte alternatif automatique. Il est souvent vague (« peut contenir : une personne, un instrument »). Remplace-le par le tien.</p></div></div>
+    </div>
+    <div class="prose"><p>Voici trois exemples, pour une artiste fictive, Lina Moreau, qui prépare la sortie de son album « Marées » et un concert dans une salle imaginaire.</p></div>
+    <div class="data-table"><table>
+      <thead><tr><th>Visuel</th><th>Texte alternatif à éviter</th><th>Texte alternatif utile</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Pochette d'album</strong></td><td>« Pochette » · « Image » · « marees_final_v3.jpg » · « Nouvel album pop chanson française streaming sortie »</td><td>« Pochette de l'album Marées de Lina Moreau : son visage de profil, en noir et blanc, sur un fond bleu nuit. Le titre est écrit en lettres blanches en bas. »</td></tr>
+        <tr><td><strong>Affiche de concert</strong></td><td>« Affiche du concert » · « Toutes les infos sur l'affiche ! »</td><td>« Affiche du concert de Lina Moreau, samedi 13 mars 2027 à 20 h 30, au Hangar, à Nantes. Première partie : Camille D. Tarif : 15 euros. Photo de Lina sur scène, guitare en main, sous une lumière orangée. »</td></tr>
+        <tr><td><strong>Visuel d'annonce</strong></td><td>« Grande nouvelle » · « Visuel annonce » · « Cliquez sur le lien en bio »</td><td>« Texte blanc sur fond bleu nuit : Marées, le nouvel album, sortie le 5 février 2027. En dessous, la liste des dix titres. » (et la liste des titres dans la légende)</td></tr>
+        <tr><td><strong>Photo de coulisses</strong></td><td>« Photo » · « Moi en studio »</td><td>« Lina Moreau assise au piano dans un studio d'enregistrement, casque sur les oreilles, en train de rire avec l'ingénieur du son. »</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Jamais une information uniquement dans l'image</div>
+      <p>Le texte alternatif ne suffit pas : beaucoup de personnes malvoyantes n'utilisent pas de lecteur d'écran, elles zooment. Un texte incrusté dans une image devient flou quand on l'agrandit, ne peut être ni copié, ni traduit, ni recherché, ni ajouté à un agenda. Pour chaque visuel d'annonce, <strong>écris dans la légende</strong> : quoi, quand (jour, date, heure), où (salle, ville), combien, et comment réserver. Idem pour un carrousel : résume dans la légende ce que disent les images.</p>
+    </div>
+    <div class="prose">
+      <p><strong>Le contraste.</strong> Le contraste est l'écart de luminosité entre le texte et son fond. Il s'exprime par un rapport qui va de 1:1 (même couleur) à 21:1 (noir sur blanc). Les WCAG fixent des seuils pour le niveau AA.</p>
+    </div>
+    <div class="data-table"><table>
+      <thead><tr><th>Élément</th><th>Rapport minimal (WCAG niveau AA, à vérifier)</th><th>Précision</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Texte courant</strong></td><td class="n">4,5:1</td><td>Vaut aussi pour le texte placé dans une image</td></tr>
+        <tr><td><strong>Grand texte</strong></td><td class="n">3:1</td><td>Défini par les WCAG comme un texte d'au moins 18 points, ou 14 points en gras</td></tr>
+        <tr><td><strong>Éléments graphiques utiles et composants d'interface</strong></td><td class="n">3:1</td><td>Contour d'un bouton, icône qui porte une information, bordure d'un champ de formulaire</td></tr>
+        <tr><td><strong>Logo, texte purement décoratif</strong></td><td>Pas d'exigence</td><td>Ton logo d'artiste n'a pas à respecter le seuil, mais l'information autour, si</td></tr>
+      </tbody>
+    </table></div>
+    <div class="prose">
+      <p>Les tailles en points ont un sens sur une page web. Sur un visuel destiné aux réseaux sociaux, qui sera affiché en petit sur un téléphone, elles ne veulent plus dire grand-chose : par prudence, <strong>vise 4,5:1 pour tout texte informatif</strong> et garde 3:1 pour les très gros titres. Tu ne peux pas évaluer un contraste à l'œil, surtout sur un bon écran, dans une pièce sombre. Il se mesure avec un outil gratuit (voir la partie 10).</p>
+    </div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Texte sur une photo : ajoute un support</h4><p>Une photo contient des zones claires et des zones sombres : aucun texte n'est contrasté partout. Place un aplat ou un bandeau semi-opaque sous le texte, assombris la photo, ou réserve une zone unie de l'image pour écrire.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Taille : teste en miniature</h4><p>Affiche ton visuel sur ton téléphone, à la taille réelle du fil d'actualité, sans zoomer. Si la date ou le lieu ne se lisent pas d'un coup d'œil, c'est trop petit. Mieux vaut moins de texte, plus gros, et le reste dans la légende.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Ne fais jamais reposer une information sur la seule couleur</h4><p>Une partie de la population distingue mal certaines couleurs, en particulier le rouge et le vert. « Les dates en rouge sont complètes » ne fonctionne pas pour elle. Double toujours la couleur d'un mot, d'un symbole ou d'une forme : écris « Complet » à côté de la date, ajoute une icône, barre le texte.</p><div class="factor-detail"><strong>Le test</strong>Passe ton visuel en noir et blanc (un filtre suffit). Si une information disparaît, c'est qu'elle ne tenait qu'à la couleur.</div></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Choisis des polices lisibles pour l'information</h4><p>Garde ta police d'identité, même très stylisée, pour ton nom et le titre. Pour les informations pratiques, utilise une police simple, avec un interlignage aéré, sans texte justifié, sans italique long et sans longues phrases en capitales.</p></div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Un visuel accessible, c'est un trio : <strong>l'image, son texte alternatif, et une légende qui reprend toute l'information utile</strong>. Si tu ne dois en faire qu'un seul aujourd'hui, fais la légende complète : elle sert à tout le monde.</p>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Le contraste en deux exemples</div>
+      <p>Le contraste s'exprime par un rapport. Un texte noir sur fond noir donne un rapport de <strong>1:1</strong> : illisible. Un texte noir sur fond blanc donne <strong>21:1</strong> : le maximum. Entre les deux, vise au moins 4,5:1 pour un texte courant et 3:1 pour un grand texte (repères des WCAG). Ne te fie jamais à ton œil : mesure avec un outil (voir la partie 10). Une IA peut aussi te proposer des combinaisons de couleurs plus contrastées à partir de ton visuel.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="module" id="textes">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">07 / 14</span><h2>Textes <em>et posts</em></h2></div>
+    <p class="module-lead">Le texte est le format le plus accessible qui soit, à condition de ne pas le saboter. Quelques habitudes d'écriture suffisent, et elles améliorent la lecture pour tout le monde.</p>
+    <div class="prose">
+      <p>La référence en matière de simplicité s'appelle le <strong>FALC, « facile à lire et à comprendre »</strong>. C'est une méthode d'écriture issue de règles européennes portées par l'association <a href="https://www.inclusion-europe.eu/easy-to-read/" target="_blank" rel="noopener" style="text-decoration:underline">Inclusion Europe</a> et diffusées en France notamment par l'<a href="https://www.unapei.org/document/explication-liste-verification-falc/" target="_blank" rel="noopener" style="text-decoration:underline">Unapei</a>. Elle est conçue d'abord pour les personnes en situation de handicap intellectuel, et un document n'est vraiment « FALC » que s'il a été relu par des personnes concernées. Tu n'as pas à écrire tes posts en FALC. Mais ses principes sont une excellente boussole : des mots courants, des phrases courtes, une idée par phrase, une mise en page aérée.</p>
+    </div>
+    <div class="data-table"><table>
+      <thead><tr><th>Réflexe</th><th>À éviter</th><th>À faire</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Langage clair</strong></td><td>« Rendez-vous imminent pour le dévoilement d'un nouvel opus dont la genèse fut longue »</td><td>« Mon nouvel album sort le 5 février. J'ai mis deux ans à l'écrire. »</td></tr>
+        <tr><td><strong>L'essentiel d'abord</strong></td><td>Trois paragraphes de contexte avant la date du concert</td><td>La date, le lieu et le lien dans les deux premières lignes, le récit ensuite</td></tr>
+        <tr><td><strong>Phrases courtes</strong></td><td>Une phrase de cinq lignes avec trois incises</td><td>Une idée par phrase, un paragraphe par sujet, des sauts de ligne</td></tr>
+        <tr><td><strong>Dates complètes</strong></td><td>« Samedi prochain », « le 13/03 »</td><td>« Samedi 13 mars 2027 à 20 h 30 »</td></tr>
+        <tr><td><strong>Sigles et jargon</strong></td><td>« Dispo en DSP, EP en pré-save »</td><td>« Tu peux déjà enregistrer le disque sur ta plateforme d'écoute pour le recevoir le jour de la sortie »</td></tr>
+        <tr><td><strong>Appel à l'action</strong></td><td>Quatre demandes dans le même post</td><td>Une seule action, formulée avec un verbe : « Réserve ta place avec le lien en bio »</td></tr>
+      </tbody>
+    </table></div>
+    <div class="prose"><p>Viennent ensuite quatre points techniques, propres aux réseaux sociaux, qui gênent directement les lecteurs d'écran et les personnes dyslexiques.</p></div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Hashtags : une majuscule à chaque mot</h4><p>Écris #NouvelAlbumMarées plutôt que #nouvelalbummarées. Avec les majuscules, le lecteur d'écran prononce des mots séparés, et l'œil d'une personne dyslexique repère les frontières entre les mots. Sans elles, c'est une suite de lettres. Place tes hashtags à la fin du texte plutôt qu'au milieu des phrases, et limite leur nombre.</p><div class="factor-detail"><strong>Cela ne change rien pour la plateforme</strong>Les hashtags ne tiennent pas compte des majuscules : #NouvelAlbum et #nouvelalbum mènent au même endroit.</div></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Emojis : avec modération, jamais à la place d'un mot</h4><p>Un lecteur d'écran lit le nom de chaque emoji à voix haute. Dix emojis identiques à la suite deviennent dix fois la même description. Un emoji qui remplace un mot rend la phrase incompréhensible si la personne ne le voit pas ou ne le connaît pas. Règle simple : un à trois emojis par post, en fin de phrase, et la phrase doit rester complète si on les retire. N'utilise pas non plus d'emoji comme puce de liste à chaque ligne.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Pas de caractères « fantaisie »</h4><p>Les générateurs de texte en « gras », en « italique » ou en lettres stylisées pour les réseaux sociaux n'appliquent pas une mise en forme : ils remplacent tes lettres par des symboles Unicode, souvent des symboles mathématiques, qui ressemblent à des lettres. Un lecteur d'écran les lit un par un avec leur nom technique, ou les ignore. Ces caractères échappent aussi à la recherche et à la traduction automatique. Écris ton nom d'artiste et tes textes en caractères normaux, y compris dans ta bio.</p></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Liens explicites</h4><p>Un lien ou un bouton doit dire où il mène, même lu seul, hors contexte. « Clique ici » ou « En savoir plus » ne disent rien. « Réserver pour le concert du 13 mars à Nantes » dit tout. Quand tu colles une adresse brute, préfère une adresse courte et lisible à une suite de caractères interminable, et annonce avant le lien ce qu'on y trouve.</p></div></div>
+    </div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Structure</div><h4>Aère et hiérarchise</h4><p>Des paragraphes de deux ou trois lignes, séparés par un saut de ligne. Dans un article, un e-mail ou une page, utilise de vrais titres et de vraies listes plutôt que du gras et des tirets tapés à la main : les lecteurs d'écran s'en servent pour naviguer.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Mise en forme</div><h4>Sobre et stable</h4><p>Texte aligné à gauche, jamais justifié. Pas de longues phrases en capitales ni en italique. Pas d'art fait de caractères (dessins en symboles), illisible pour un lecteur d'écran. Pas de texte important uniquement en story éphémère.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Ton</div><h4>Second degré et sous-entendus</h4><p>L'ironie, les références d'initiés et les jeux de mots sont plus difficiles à saisir pour certaines personnes. Garde ton style, mais assure-toi que l'information pratique est toujours dite au premier degré quelque part dans le post.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Vocabulaire</div><h4>Parle des personnes avec justesse</h4><p>« Personnes en situation de handicap », « personnes sourdes ou malentendantes », « personnes aveugles ou malvoyantes », « personnes à mobilité réduite ». Évite les formules apitoyées ou héroïsantes.</p></div>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ Le test de la lecture à voix haute</div>
+      <p>Avant de publier, lis ton post à voix haute, hashtags et emojis compris, en nommant chaque emoji. Si tu butes, si c'est ridicule ou si tu perds le fil, un lecteur d'écran et son utilisateur le perdront aussi.</p>
+    </div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Jargon</div><h4>« EP en presave dispo sur les DSP »</h4><p>Toi, tu te comprends. Une personne qui a déjà des difficultés de lecture ne cherchera pas à comprendre.</p><div class="eeat-music"><strong>Version claire</strong>« Enregistre le morceau sur ta plateforme d'écoute préférée pour le recevoir le jour de sa sortie. »</div></div>
+      <div class="eeat-card"><div class="eeat-name">Rythme</div><h4>8 à 12 mots par phrase</h4><p>Une idée par phrase, un paragraphe par sujet, des sauts de ligne. Et quand un terme technique est inévitable, explique-le dans la foulée : « les DSP, c'est-à-dire Spotify, Deezer, Apple Music… ». À force de répétition, ton public l'apprendra.</p><div class="eeat-music"><strong>Un seul appel à l'action</strong>Deux appels à l'action dans un même post divisent les clics, pour tout le monde.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="module" id="pages">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">08 / 14</span><h2>Page de capture, site <em>et e-mails</em></h2></div>
+    <p class="module-lead">Tes contenus envoient ton public vers ta page de capture, puis dans ta liste de contacts (Module 6). Si cette porte d'entrée est inaccessible, tout le travail fait en amont est perdu pour une partie de tes fans.</p>
+    <div class="prose">
+      <p>Tu n'as pas besoin de savoir coder. La plupart des points ci-dessous se règlent dans l'éditeur de ton outil de création de pages ou d'e-mailing, et les autres se vérifient en cinq minutes.</p>
+    </div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Des titres hiérarchisés</h4><p>Une page a un seul titre principal (le « titre 1 »), puis des sous-titres de niveau 2, puis éventuellement de niveau 3, sans sauter de niveau. Choisis le niveau pour sa logique, pas pour sa taille : un utilisateur de lecteur d'écran parcourt la page de titre en titre, comme toi tu la survoles des yeux. Un gros texte en gras n'est pas un titre pour lui.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Des formulaires avec de vraies étiquettes</h4><p>Chaque champ a une étiquette visible et permanente, placée au-dessus : « Ton prénom », « Ton adresse e-mail ». Le texte d'exemple en gris à l'intérieur du champ ne suffit pas : il disparaît dès qu'on tape, il est souvent trop pâle, et il n'est pas toujours lu par les lecteurs d'écran. Demande le moins d'informations possible, indique ce qui est obligatoire, et fais en sorte que le message d'erreur dise en mots ce qui ne va pas (« Il manque le @ dans l'adresse »), pas seulement un contour rouge.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Une navigation possible au clavier</h4><p>Beaucoup de personnes n'utilisent pas de souris : elles se déplacent avec la touche Tabulation, valident avec Entrée, et certaines pilotent leur appareil à la voix ou avec un contacteur. Fais le test sur ta page, sur ordinateur : avec la seule touche Tabulation, peux-tu atteindre le champ, le remplir, cocher la case de consentement et valider ? Vois-tu toujours où tu te trouves (un cadre ou un surlignage autour de l'élément actif) ? L'ordre suit-il la logique de la page ?</p></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Des boutons explicites, grands et espacés</h4><p>Le texte du bouton décrit l'action : « Recevoir le titre inédit », pas « Envoyer » ni « OK ». Sur mobile, le bouton doit être assez grand pour être touché sans viser, et assez éloigné des autres liens pour éviter les erreurs. Vérifie aussi son contraste : texte du bouton sur sa couleur de fond, et bouton sur le fond de la page.</p></div></div>
+      <div class="factor"><div class="factor-num">05</div><div><h4>Rien qui surprenne ou qui presse</h4><p>Pas de vidéo ni de musique qui démarre toute seule avec le son, pas de fenêtre surgissante impossible à fermer au clavier, pas de compte à rebours qui fait disparaître l'offre, pas de carrousel qui défile sans bouton de pause. Si tu intègres un lecteur vidéo ou audio, vérifie qu'il a des boutons de lecture et de pause accessibles.</p></div></div>
+      <div class="factor"><div class="factor-num">06</div><div><h4>Une page qui supporte le zoom</h4><p>Agrandis l'affichage de ton navigateur à 200 % : le texte doit rester lisible, sans se superposer ni obliger à faire défiler la page de gauche à droite. C'est le test le plus simple pour les personnes malvoyantes, et il révèle souvent des défauts d'affichage sur mobile.</p></div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Le choix de l'outil compte</div>
+      <p>Tu ne maîtrises pas le code que produit ton outil de création de pages, ton lecteur intégré ou ta billetterie. Au moment de choisir ou de changer d'outil, regarde s'il publie une page consacrée à l'accessibilité, et fais le test du clavier sur une de ses pages de démonstration. C'est un critère de choix au même titre que le prix.</p>
+    </div>
+    <div class="prose"><p><strong>Tes e-mails.</strong> Un e-mail est lu dans des conditions très variées : images bloquées par défaut dans certaines messageries, mode sombre, petit écran, lecteur d'écran. La règle d'or : <strong>ton e-mail doit se comprendre sans aucune image</strong>.</p></div>
+    <div class="data-table"><table>
+      <thead><tr><th>Point de contrôle</th><th>Ce que tu fais</th></tr></thead>
+      <tbody>
+        <tr><td><strong>L'information est en texte</strong></td><td>La date, le lieu, l'offre et le lien sont écrits en vrai texte dans le corps de l'e-mail. Jamais un e-mail composé d'une seule grande image (une affiche collée dans le message).</td></tr>
+        <tr><td><strong>Les images ont un texte alternatif</strong></td><td>Dans ton outil d'e-mailing, chaque image a un champ de description (souvent nommé « texte alternatif » ou « alt »). Remplis-le pour les images qui informent, laisse-le vide pour une image purement décorative.</td></tr>
+        <tr><td><strong>L'objet est clair</strong></td><td>Il dit de quoi parle l'e-mail : « Concert à Nantes le 13 mars : la billetterie est ouverte ». Pas d'objet composé uniquement d'emojis ou de majuscules.</td></tr>
+        <tr><td><strong>Le texte est lisible</strong></td><td>Une taille confortable sur mobile, aligné à gauche, des paragraphes courts, un contraste vérifié, une seule colonne.</td></tr>
+        <tr><td><strong>Les liens sont explicites</strong></td><td>Un bouton ou un lien dont le texte décrit la destination, assez grand pour être touché. Pas trois liens « ici » dans le même paragraphe.</td></tr>
+        <tr><td><strong>Le test final</strong></td><td>Envoie-toi l'e-mail, puis affiche-le images désactivées et en mode sombre. Si le message et le lien principal restent compréhensibles, c'est bon.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout success">
+      <div class="callout-tag">✓ Teste avec le lecteur d'écran de ton téléphone</div>
+      <p>Active une fois VoiceOver (iPhone) ou TalkBack (Android) dans les réglages d'accessibilité de ton téléphone, et parcours ta page de capture et ton dernier e-mail. Prends cinq minutes pour apprendre les gestes de base avant, car la navigation change quand le lecteur est actif. Tu entendras exactement ce qu'entend une personne aveugle : c'est la démonstration la plus parlante qui soit.</p>
+    </div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Une idée à tester</div><h4>Une version adaptée de ta page</h4><p>Tarik envisage de tester sur ses pages un bouton visible qui bascule vers une version adaptée : textes et champs agrandis au survol, contraste renforcé. C'est simple à mettre en place avec certains outils de création de pages, et c'est un signal fort pour ton public.</p></div>
+      <div class="eeat-card"><div class="eeat-name">Le test qui ne pardonne pas</div><h4>Se mettre derrière un lecteur d'écran</h4><p>L'idéal : contacter une association et parcourir ta page avec une personne qui utilise un lecteur d'écran. À défaut, active VoiceOver ou TalkBack sur ton téléphone et essaie de t'inscrire les yeux fermés. Tu verras tout de suite ce qui bloque.</p></div>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ La règle d'or de Tarik pour les e-mails</div>
+      <p>Pas de pièce jointe, pas d'image, pas de logo ni de signature en image : du texte, noir sur fond blanc, aligné à gauche, en paragraphes courts. Si tu dois transmettre un document, mets un lien explicite (« Clique ici pour ouvrir le dossier de presse en PDF »). Bonus : un e-mail sans pièce jointe ni image passe aussi plus facilement les filtres des messageries. Avant l'envoi, affiche-le images désactivées et en mode sombre.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="module" id="pubs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">09 / 14</span><h2>Publicités et <em>communication de concert</em></h2></div>
+    <p class="module-lead">Une publicité est un contenu comme un autre, que tu paies pour montrer à des inconnus. Une annonce de concert est une invitation à venir en personne. Dans les deux cas, l'accessibilité se joue sur les mêmes règles, avec quelques points en plus.</p>
+    <div class="prose">
+      <p><strong>Tes publicités.</strong> Dans les cours précédents de ce module, tu as appris à construire des campagnes sur Meta, TikTok et Google. Les visuels et vidéos de tes annonces, qu'on appelle les créatives, suivent exactement les règles de ce cours. Elles comptent même davantage : une publicité s'affiche le plus souvent en lecture automatique, son coupé, devant une personne qui ne te connaît pas et qui ne fera aucun effort pour te comprendre.</p>
+    </div>
+    <div class="data-table"><table>
+      <thead><tr><th>Élément de l'annonce</th><th>Ce que tu vérifies</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Vidéo</strong></td><td>Sous-titres incrustés ou piste de sous-titres ajoutée dans le gestionnaire de publicités. Le message et l'offre sont compris son coupé, dès les premières secondes. Aucun flash rapide.</td></tr>
+        <tr><td><strong>Zones de sécurité</strong></td><td>Texte et sous-titres hors des zones recouvertes par l'interface, vérifiés dans l'aperçu de chaque emplacement (fil, story, format vertical).</td></tr>
+        <tr><td><strong>Image</strong></td><td>Contraste vérifié, texte lisible en miniature sur mobile, information essentielle reprise dans le texte de l'annonce.</td></tr>
+        <tr><td><strong>Texte alternatif</strong></td><td>Certaines régies proposent un champ de texte alternatif pour les images d'annonce, selon les emplacements. Quand il existe, remplis-le. Quand il n'existe pas, le texte principal de l'annonce doit suffire à comprendre l'offre.</td></tr>
+        <tr><td><strong>Texte et titre</strong></td><td>Langage clair, pas de caractères fantaisie, emojis limités, date complète, un seul appel à l'action.</td></tr>
+        <tr><td><strong>Destination</strong></td><td>La page d'arrivée passe les tests de la partie 8. Une annonce accessible qui mène à un formulaire inutilisable ne sert à rien.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Les variantes automatiques</div>
+      <p>Les régies proposent de plus en plus de générer ou de modifier automatiquement tes créatives : recadrage, ajout de musique, fond étendu, variantes de texte, animation d'une image fixe. Ces options peuvent rogner tes sous-titres, placer du texte sur une zone peu contrastée ou ajouter des effets. Regarde les aperçus, et désactive les optimisations qui dégradent la lisibilité.</p>
+    </div>
+    <div class="prose">
+      <p><strong>Ta communication de concert.</strong> Pour une personne en situation de handicap, la question n'est pas seulement « ai-je envie d'y aller ? » mais « est-ce que je pourrai entrer, voir, entendre, et à qui demander ? ». Faute d'information, beaucoup renoncent. Tu n'es pas responsable de l'accessibilité de la salle, mais tu es responsable de l'information que tu donnes.</p>
+    </div>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Demander</span><h4>Interroge la salle ou l'organisateur</h4><p>Avant d'annoncer une date, pose quelques questions : l'entrée et la salle sont-elles accessibles en fauteuil roulant, par quel accès ? Y a-t-il des places réservées, des toilettes accessibles, un stationnement proche ? La salle est-elle équipée d'une boucle magnétique (un système qui envoie le son directement dans les appareils auditifs) ou d'autres dispositifs ? Le concert est-il debout ou assis ? Un tarif ou une place est-il prévu pour la personne accompagnante ? Qui contacter ?</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Écrire</span><h4>Ajoute un paragraphe « Accessibilité » à ton annonce</h4><p>En texte, dans la légende du post, la description de l'événement et la page de billetterie. Écris ce qui existe, sans embellir. Si la salle n'est pas accessible en fauteuil roulant, dis-le clairement : une information honnête évite un déplacement inutile.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Contacter</span><h4>Donne un contact pour les besoins spécifiques</h4><p>Une adresse e-mail ou un numéro, de préférence celui de la salle, avec une phrase simple : « Un besoin particulier ? Écris à cette adresse avant le concert. » Propose l'écrit en plus du téléphone, pour les personnes sourdes ou malentendantes.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">4</div><div><span class="step-tag">Prévenir</span><h4>Signale ce qui peut gêner</h4><p>Stroboscopes, fumée, volume sonore élevé, longue station debout : préviens dans l'annonce. Si tu maîtrises ton éclairage, tu peux aussi choisir de limiter les stroboscopes.</p></div></div>
+    </div>
+    <div class="audit-intro">
+      <h3>Exemple de paragraphe (situation fictive)</h3>
+      <p>« Accessibilité : la salle est accessible en fauteuil roulant par l'entrée principale, de plain-pied. Des places assises sont réservables sur demande. Le concert comporte des effets lumineux clignotants. Pour tout besoin particulier, écris à la salle avant le concert à l'adresse indiquée sur la page de billetterie. » Adapte chaque phrase à ce que la salle t'a réellement confirmé.</p>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Aller plus loin, quand c'est possible</div>
+      <p>Certaines salles et certains festivals proposent des concerts avec interprétation en langue des signes ou chansigne, des dispositifs vibrants qui transmettent les basses au corps, ou des séances adaptées avec un son et des lumières adoucis. Si l'occasion se présente, c'est un projet à construire avec la salle et avec des personnes concernées, et un vrai sujet de communication pour ta campagne.</p>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ Ce que Tarik a constaté sur les régies</div>
+      <p>Quand une régie propose un champ de texte alternatif pour une image publicitaire (Tarik cite Meta), remplis-le à chaque fois. Méfie-toi en revanche des recadrages, musiques de fond et variantes générées automatiquement : dans son expérience, ces recommandations ont dégradé l'accessibilité de ses publicités. Teste-les avant de les accepter, et regarde toujours ta pub son coupé.</p>
+    </div>
+    <div class="audit-intro">
+      <h3>L'anecdote du séminaire</h3>
+      <p>Lors d'un séminaire organisé par Tarik, le lieu était accessible partout sauf à un endroit où il fallait monter des marches, et un membre de son équipe était formé à l'accueil des personnes en situation de handicap. Faute de l'avoir annoncé, plusieurs personnes ne sont pas venues. Tarik le dit lui-même : c'était une faute de communication. Tu n'es pas responsable de l'accessibilité de la salle, mais tu l'es de la manière dont tu en parles.</p>
+    </div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">À demander à la salle</div><h4>Les bonnes questions</h4><p>Accès en fauteuil et places adaptées ? Places mieux situées pour les personnes malvoyantes ? Lumières stroboscopiques maîtrisables ? Boucle magnétique pour les personnes appareillées ? Possibilité d'être assis ? Référent handicap sur place ?</p></div>
+      <div class="eeat-card"><div class="eeat-name">Si tu organises</div><h4>Pense aux accompagnateurs</h4><p>Place de l'accompagnateur offerte ou à prix réduit, possibilité de venir avec deux accompagnateurs si nécessaire : fixe tes règles selon ce qui est possible, et annonce-les dans ta communication.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="module" id="outils">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">10 / 14</span><h2>Où régler ça <em>dans les outils</em></h2></div>
+    <p class="module-lead">Presque tout ce que tu viens de lire se règle avec des fonctions gratuites, déjà présentes dans les applications que tu utilises. Voici où les chercher.</p>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Les interfaces changent</div>
+      <p>Les noms de menus et l'emplacement des boutons évoluent souvent, et diffèrent entre le téléphone et l'ordinateur. Les chemins ci-dessous sont décrits de façon volontairement générale. Si tu ne trouves pas un réglage, cherche les mots « sous-titres », « texte alternatif » ou « accessibilité » dans les paramètres de la publication, ou dans le centre d'aide de la plateforme.</p>
+    </div>
+    <div class="prose"><p><strong>Les sous-titres.</strong></p></div>
+    <div class="data-table"><table>
+      <thead><tr><th>Plateforme</th><th>Où ça se passe</th><th>À savoir</th></tr></thead>
+      <tbody>
+        <tr><td><strong>YouTube</strong></td><td>Dans YouTube Studio, rubrique « Sous-titres » du menu, puis la vidéo concernée. Tu peux aussi les ajouter pendant la mise en ligne.</td><td>Trois méthodes selon l'aide de YouTube : importer un fichier de sous-titres, coller une transcription que YouTube synchronise, ou saisir à la main. Les sous-titres automatiques se corrigent en les dupliquant puis en les modifiant ligne par ligne. Indique bien la langue de la vidéo.</td></tr>
+        <tr><td><strong>Instagram</strong></td><td>Dans l'éditeur de Reels et de stories, parmi les outils de texte ou les stickers, une fonction de sous-titres génère le texte à partir de la voix. Les paramètres avancés de la publication proposent aussi d'afficher des sous-titres générés automatiquement.</td><td>Relis et corrige chaque bloc dans l'éditeur avant de publier, et place le texte hors des zones recouvertes par l'interface.</td></tr>
+        <tr><td><strong>TikTok</strong></td><td>Sur l'écran d'édition, après l'enregistrement ou l'import, un outil de sous-titres automatiques transcrit la voix.</td><td>Corrige le texte dans l'outil avant de publier. Vérifie dans les réglages de publication que les sous-titres restent affichables par les spectateurs.</td></tr>
+        <tr><td><strong>Facebook</strong></td><td>Au moment de publier une vidéo ou depuis les outils de gestion de ta page (Meta Business Suite), une option permet de générer des sous-titres automatiques ou d'importer un fichier.</td><td>Relis avant de valider. Les Reels disposent des mêmes outils que sur Instagram.</td></tr>
+        <tr><td><strong>LinkedIn</strong></td><td>À l'import d'une vidéo, dans les options de la vidéo : sous-titres automatiques ou import d'un fichier de sous-titres.</td><td>Utile si tu t'adresses à des professionnels (programmateurs, partenaires).</td></tr>
+      </tbody>
+    </table></div>
+    <div class="prose">
+      <p>Un <strong>fichier de sous-titres</strong> est un simple fichier texte qui contient chaque phrase et ses repères de temps (le format le plus répandu porte l'extension .srt). Tu peux l'exporter depuis YouTube Studio ou depuis ton logiciel de montage, puis le réutiliser sur d'autres plateformes : tu ne corriges ainsi qu'une seule fois.</p>
+      <p><strong>Le texte alternatif.</strong></p>
+    </div>
+    <div class="data-table"><table>
+      <thead><tr><th>Plateforme</th><th>Où ça se passe</th><th>À savoir</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Instagram</strong></td><td>Sur le dernier écran avant publication, dans les options avancées ou d'accessibilité : « Rédiger un texte alternatif ». Pour une publication déjà en ligne : menu de la publication, « Modifier », puis l'option de texte alternatif sur l'image.</td><td>Dans un carrousel, chaque image a son propre texte alternatif. Sans texte de ta part, Instagram génère une description automatique par reconnaissance d'image, souvent très vague.</td></tr>
+        <tr><td><strong>Facebook</strong></td><td>Après avoir ajouté la photo, bouton de modification de la photo, puis « Texte alternatif ». Modifiable aussi après publication depuis les options de la photo.</td><td>Remplace le texte généré automatiquement par ta propre description.</td></tr>
+        <tr><td><strong>LinkedIn</strong></td><td>Après avoir ajouté l'image au post, un bouton « ALT » ou « Texte alternatif » apparaît sous ou sur l'image.</td><td>Pense aussi aux documents et carrousels PDF : donne-leur un titre clair et reprends l'essentiel dans le texte du post.</td></tr>
+        <tr><td><strong>X</strong></td><td>Après avoir ajouté l'image, bouton « +ALT » sur l'image, puis saisie de la description.</td><td>Jusqu'à 1 000 caractères selon l'aide de X (à vérifier). Un badge « ALT » s'affiche ensuite sur l'image publiée.</td></tr>
+        <tr><td><strong>TikTok</strong></td><td>Pour les publications de photos, un champ de texte alternatif est proposé au moment de publier, et peut être ajouté après coup.</td><td>Fonction annoncée en 2025 : vérifie sa disponibilité sur ton compte.</td></tr>
+        <tr><td><strong>Outil d'e-mailing, site</strong></td><td>Dans les propriétés de chaque image : champ « Texte alternatif », « Alt » ou « Description ».</td><td>À remplir image par image, y compris dans tes modèles réutilisés.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="prose"><p><strong>Vérifier un contraste et tester une page.</strong> Voici quelques exemples d'outils gratuits et connus. Il en existe d'autres : l'important est d'en adopter un.</p></div>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-name">Contraste · en ligne</div><h4>Un vérificateur de contraste</h4><p>Par exemple le <a href="https://webaim.org/resources/contrastchecker/" target="_blank" rel="noopener" style="text-decoration:underline">Contrast Checker de WebAIM</a> : tu saisis le code de la couleur du texte et celui du fond, il affiche le rapport et indique s'il atteint les seuils AA pour le texte courant et le grand texte.</p><div class="eeat-music"><strong>Comment trouver tes codes couleur</strong>Dans ton logiciel de création graphique, sélectionne le texte puis le fond : le code commence par un dièse suivi de six caractères.</div></div>
+      <div class="eeat-card"><div class="eeat-name">Contraste · logiciel</div><h4>Une pipette de contraste</h4><p>Par exemple <a href="https://www.tpgi.com/color-contrast-checker/" target="_blank" rel="noopener" style="text-decoration:underline">Colour Contrast Analyser</a>, un logiciel gratuit pour ordinateur : avec sa pipette, tu prélèves les couleurs directement à l'écran, y compris sur une photo ou une vidéo en pause.</p><div class="eeat-music"><strong>Utile pour</strong>Un texte posé sur une image, où la couleur du fond varie : mesure la zone la plus défavorable.</div></div>
+      <div class="eeat-card"><div class="eeat-name">Page web</div><h4>Un outil d'évaluation automatique</h4><p>Par exemple <a href="https://wave.webaim.org/" target="_blank" rel="noopener" style="text-decoration:underline">WAVE</a>, proposé par WebAIM : tu indiques l'adresse de ta page, il signale les images sans texte alternatif, les champs sans étiquette, les contrastes insuffisants et la structure des titres.</p><div class="eeat-music"><strong>Limite</strong><span class="out">Un outil automatique ne détecte qu'une partie des problèmes. Il ne remplace ni le test au clavier ni le lecteur d'écran.</span></div></div>
+      <div class="eeat-card"><div class="eeat-name">Déjà dans ta poche</div><h4>Les réglages de ton téléphone</h4><p>Le lecteur d'écran (VoiceOver ou TalkBack), le mode noir et blanc ou les filtres de couleur, le grossissement du texte, la coupure du son : quatre tests gratuits, disponibles dans les réglages d'accessibilité.</p><div class="eeat-music"><strong>Astuce</strong>Ton logiciel de création graphique intègre peut-être aussi un vérificateur d'accessibilité : cherche-le dans ses menus.</div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Garde une petite fiche avec les codes de tes couleurs de marque et leurs combinaisons validées (texte et fond). Tu ne vérifies ton contraste qu'une fois, et tous tes visuels de campagne partent d'une base saine. Ajoute-la à la charte que tu as construite au Module 5.</p>
+    </div>
+    <div class="prose"><p><strong>Tous les liens du cours.</strong> Les outils et ressources cités dans la vidéo et dans ce support, regroupés au même endroit. Ils s'ouvrent dans un nouvel onglet.</p></div>
+    <div class="data-table"><table>
+      <thead><tr><th>Outil ou ressource</th><th>À quoi ça sert</th></tr></thead>
+      <tbody>
+        <tr><td colspan="2"><strong>Le cadre et les références</strong></td></tr>
+        <tr><td><strong><a href="https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000809647" target="_blank" rel="noopener" style="text-decoration:underline">Loi du 11 février 2005 (Légifrance)</a></strong></td><td>Le texte de la loi pour l'égalité des droits et des chances</td></tr>
+        <tr><td><strong><a href="https://accessibilite.numerique.gouv.fr/" target="_blank" rel="noopener" style="text-decoration:underline">RGAA</a></strong></td><td>Le référentiel officiel français, ses critères et sa méthode, gratuits</td></tr>
+        <tr><td><strong><a href="https://www.w3.org/WAI/standards-guidelines/wcag/fr" target="_blank" rel="noopener" style="text-decoration:underline">WCAG 2 : vue d'ensemble (W3C)</a></strong></td><td>Les règles internationales d'accessibilité des contenus web</td></tr>
+        <tr><td><strong><a href="https://www.w3.org/WAI/fundamentals/accessibility-principles/fr" target="_blank" rel="noopener" style="text-decoration:underline">Les 4 principes des WCAG</a></strong></td><td>Perceptible, utilisable, compréhensible, robuste</td></tr>
+        <tr><td><strong><a href="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32019L0882" target="_blank" rel="noopener" style="text-decoration:underline">Directive (UE) 2019/882 (EUR-Lex)</a></strong></td><td>Le texte de la directive européenne sur l'accessibilité</td></tr>
+        <tr><td><strong><a href="https://www.economie.gouv.fr/dgccrf/les-fiches-pratiques/professionnels-vos-produits-et-services-doivent-etre-conformes-la-directive-accessibilite" target="_blank" rel="noopener" style="text-decoration:underline">Fiche DGCCRF sur la directive</a></strong></td><td>Qui est concerné, quelles exemptions</td></tr>
+        <tr><td><strong><a href="https://www.arcom.fr/nous-connaitre/nos-missions/garantir-le-pluralisme-et-la-cohesion-sociale/les-droits-des-personnes-handicapees/accessibilite-des-sites-et-des-services-numeriques" target="_blank" rel="noopener" style="text-decoration:underline">Arcom : accessibilité numérique</a></strong></td><td>L'autorité chargée du contrôle</td></tr>
+        <tr><td><strong><a href="https://www.drees.solidarites-sante.gouv.fr/sites/default/files/2023-04/Handi23-Fiche%203-1%20-%20Limitations%20et%20handicap%20des%20adultes%20%C3%A0%20domicile.pdf" target="_blank" rel="noopener" style="text-decoration:underline">DREES : limitations et handicap des adultes</a></strong></td><td>La source du chiffre de 7,6 millions de personnes</td></tr>
+        <tr><td colspan="2"><strong>Les repères chiffrés</strong></td></tr>
+        <tr><td><strong><a href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html" target="_blank" rel="noopener" style="text-decoration:underline">WCAG : contraste minimum</a></strong></td><td>Les rapports 4,5:1 et 3:1 expliqués</td></tr>
+        <tr><td><strong><a href="https://www.w3.org/WAI/WCAG22/Understanding/three-flashes-or-below-threshold.html" target="_blank" rel="noopener" style="text-decoration:underline">WCAG : seuil des trois flashs</a></strong></td><td>Pas plus de trois flashs par seconde</td></tr>
+        <tr><td colspan="2"><strong>Vérifier tes contenus</strong></td></tr>
+        <tr><td><strong><a href="https://webaim.org/resources/contrastchecker/" target="_blank" rel="noopener" style="text-decoration:underline">Contrast Checker (WebAIM)</a></strong></td><td>Mesurer le contraste entre deux couleurs, en ligne</td></tr>
+        <tr><td><strong><a href="https://www.tpgi.com/color-contrast-checker/" target="_blank" rel="noopener" style="text-decoration:underline">Colour Contrast Analyser</a></strong></td><td>Logiciel gratuit avec pipette pour mesurer à l'écran</td></tr>
+        <tr><td><strong><a href="https://color.adobe.com/fr/create/color-contrast-analyzer" target="_blank" rel="noopener" style="text-decoration:underline">Adobe Color : contraste</a></strong></td><td>Une autre option en ligne, citée par Tarik</td></tr>
+        <tr><td><strong><a href="https://wave.webaim.org/" target="_blank" rel="noopener" style="text-decoration:underline">WAVE (WebAIM)</a></strong></td><td>Évaluer automatiquement une page web</td></tr>
+        <tr><td><strong><a href="https://support.apple.com/fr-fr/guide/iphone/iph3e2e415f/ios" target="_blank" rel="noopener" style="text-decoration:underline">VoiceOver sur iPhone</a></strong></td><td>Activer le lecteur d'écran de l'iPhone</td></tr>
+        <tr><td><strong><a href="https://support.google.com/accessibility/android/answer/6283677?hl=fr" target="_blank" rel="noopener" style="text-decoration:underline">TalkBack sur Android</a></strong></td><td>Premiers pas avec le lecteur d'écran d'Android</td></tr>
+        <tr><td colspan="2"><strong>Sous-titres et textes alternatifs</strong></td></tr>
+        <tr><td><strong><a href="https://support.google.com/youtube/answer/6392394?hl=fr" target="_blank" rel="noopener" style="text-decoration:underline">Aide YouTube : sous-titres</a></strong></td><td>Ajouter des sous-titres dans YouTube Studio</td></tr>
+        <tr><td><strong><a href="https://support.google.com/youtube/answer/2734705?hl=fr" target="_blank" rel="noopener" style="text-decoration:underline">Aide YouTube : modifier des sous-titres</a></strong></td><td>Corriger les sous-titres automatiques</td></tr>
+        <tr><td><strong><a href="https://help.instagram.com/503708446705527" target="_blank" rel="noopener" style="text-decoration:underline">Aide Instagram : texte alternatif</a></strong></td><td>Ajouter ou modifier le texte alternatif d'une photo</td></tr>
+        <tr><td><strong><a href="https://help.x.com/fr/using-x/add-image-descriptions" target="_blank" rel="noopener" style="text-decoration:underline">Aide X : descriptions d'images</a></strong></td><td>Le bouton « +ALT »</td></tr>
+        <tr><td><strong><a href="https://www.opus.pro/" target="_blank" rel="noopener" style="text-decoration:underline">Opus Clip</a></strong></td><td>Sous-titres incrustés pour formats courts (payant)</td></tr>
+        <tr><td><strong><a href="https://www.submagic.co/" target="_blank" rel="noopener" style="text-decoration:underline">Submagic</a></strong></td><td>Sous-titres incrustés pour formats courts (payant)</td></tr>
+        <tr><td colspan="2"><strong>Écrire simplement</strong></td></tr>
+        <tr><td><strong><a href="https://www.unapei.org/document/explication-liste-verification-falc/" target="_blank" rel="noopener" style="text-decoration:underline">FALC : liste de vérification (Unapei)</a></strong></td><td>Les règles du facile à lire et à comprendre</td></tr>
+        <tr><td><strong><a href="https://www.inclusion-europe.eu/easy-to-read/" target="_blank" rel="noopener" style="text-decoration:underline">Inclusion Europe : easy-to-read</a></strong></td><td>Les règles européennes d'origine (en anglais)</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="module" id="routine">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">11 / 14</span><h2>La routine <em>de 10 minutes</em></h2></div>
+    <p class="module-lead">L'accessibilité ne tient pas si elle reste une bonne intention. Elle tient si elle devient une étape fixe de ta production, juste avant la publication. Voici une routine à dérouler sur chaque contenu de campagne.</p>
+    <div class="prose">
+      <p>Les durées sont indicatives, pour un contenu court et une fois les réglages trouvés dans tes applications. La première fois, compte davantage. C'est cette routine que tu appliqueras au contenu produit dans l'exercice du module, « Production et diffusion d'un contenu de campagne ».</p>
+    </div>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">1 minute · le message</span><h4>Écris l'information essentielle en une phrase</h4><p>Quoi, quand, où, et quelle action tu attends. Cette phrase doit se retrouver telle quelle, en texte, dans la légende ou le corps du message. Si tu n'arrives pas à l'écrire, le contenu n'est pas prêt.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">3 minutes · le son</span><h4>Sous-titre et regarde son coupé</h4><p>Génère les sous-titres, corrige les noms propres, les dates et le titre, vérifie leur position hors des zones masquées. Regarde la vidéo une fois sans le son, sur ton téléphone. Pour un audio seul, prépare la transcription.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">2 minutes · l'image</span><h4>Décris et double</h4><p>Rédige le texte alternatif de chaque image. Vérifie que tout texte incrusté dans un visuel ou affiché dans la vidéo est repris dans la légende, ou dit à l'oral.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">4</div><div><span class="step-tag">1 minute · la lisibilité</span><h4>Contraste, taille, couleur</h4><p>Utilise tes combinaisons de couleurs déjà validées, ou mesure le contraste. Regarde le visuel en miniature sur ton téléphone. Aucune information ne repose sur la seule couleur.</p></div></div>
+      <div class="rag-step alt"><div class="rag-step-circle">5</div><div><span class="step-tag">1 minute · la sécurité</span><h4>Flashs et mouvements</h4><p>Regarde la vidéo en entier en cherchant les clignotements. Plus de trois flashs en une seconde : tu corriges au montage. Un effet intense subsiste : tu ajoutes un avertissement au début et dans la légende.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">6</div><div><span class="step-tag">1 minute · le texte</span><h4>Relis la légende à voix haute</h4><p>Phrases courtes, date complète, hashtags avec une majuscule à chaque mot et placés à la fin, emojis limités, aucun caractère fantaisie, lien annoncé clairement.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">7</div><div><span class="step-tag">1 minute · la destination</span><h4>Suis ton propre lien</h4><p>Clique sur le lien comme le ferait un fan. La page s'ouvre-t-elle, se lit-elle sur mobile, le formulaire a-t-il des étiquettes, le bouton dit-il ce qu'il fait ? Pour une page déjà testée, un coup d'œil suffit.</p></div></div>
+    </div>
+    <div class="prose"><p>Tous les contenus n'appellent pas toutes les étapes. Ce tableau t'indique les contrôles prioritaires par type de contenu.</p></div>
+    <div class="data-table"><table>
+      <thead><tr><th>Contenu</th><th>Sous-titres ou transcription</th><th>Texte alternatif</th><th>Info reprise en texte</th><th>Contraste</th><th>Flashs</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Vidéo face caméra</strong></td><td><span class="badge yes">Oui</span></td><td><span class="badge mid">Selon outil</span></td><td><span class="badge yes">Oui</span></td><td><span class="badge yes">Oui</span></td><td><span class="badge mid">À vérifier</span></td></tr>
+        <tr><td><strong>Extrait de clip ou de concert</strong></td><td><span class="badge yes">Oui</span></td><td><span class="badge mid">Selon outil</span></td><td><span class="badge yes">Oui</span></td><td><span class="badge yes">Oui</span></td><td><span class="badge no">Prioritaire</span></td></tr>
+        <tr><td><strong>Affiche, visuel d'annonce</strong></td><td><span class="badge mid">Sans objet</span></td><td><span class="badge yes">Oui</span></td><td><span class="badge no">Prioritaire</span></td><td><span class="badge yes">Oui</span></td><td><span class="badge mid">Sans objet</span></td></tr>
+        <tr><td><strong>Carrousel</strong></td><td><span class="badge mid">Sans objet</span></td><td><span class="badge yes">Oui, par image</span></td><td><span class="badge yes">Oui</span></td><td><span class="badge yes">Oui</span></td><td><span class="badge mid">Sans objet</span></td></tr>
+        <tr><td><strong>Podcast, audio</strong></td><td><span class="badge no">Prioritaire</span></td><td><span class="badge mid">Visuel associé</span></td><td><span class="badge yes">Oui</span></td><td><span class="badge mid">Visuel associé</span></td><td><span class="badge mid">Sans objet</span></td></tr>
+        <tr><td><strong>E-mail</strong></td><td><span class="badge mid">Sans objet</span></td><td><span class="badge yes">Oui</span></td><td><span class="badge no">Prioritaire</span></td><td><span class="badge yes">Oui</span></td><td><span class="badge mid">GIF à vérifier</span></td></tr>
+        <tr><td><strong>Publicité vidéo</strong></td><td><span class="badge no">Prioritaire</span></td><td><span class="badge mid">Selon régie</span></td><td><span class="badge yes">Oui</span></td><td><span class="badge yes">Oui</span></td><td><span class="badge yes">Oui</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Intègre la routine à ton calendrier éditorial</h4><p>Dans le calendrier construit au Module 5, ajoute une colonne « Accessibilité vérifiée » à côté de la date de publication. Un contenu n'est « prêt » que lorsque cette case est cochée.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Prépare tes gabarits une fois pour toutes</h4><p>Un modèle de sous-titres (police, taille, bandeau, position), deux ou trois combinaisons de couleurs validées, un modèle de légende avec le bloc d'informations pratiques, un paragraphe « Accessibilité » type pour les concerts. La routine descend alors nettement sous les dix minutes.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Écoute les retours et corrige</h4><p>Si une personne te signale qu'elle n'a pas pu lire, entendre ou utiliser un contenu, remercie-la, corrige quand c'est possible (ajouter un texte alternatif, des sous-titres ou une légende complète se fait après publication) et intègre le point à ta routine. C'est la source d'amélioration la plus fiable.</p><div class="factor-detail"><strong>Pour ton exercice</strong>Note dans ton compte rendu ce que tu as vérifié, ce que tu as corrigé, et ce que tu n'as pas pu régler (par exemple une limite de l'outil). C'est cette démarche qui est attendue, pas la perfection.</div></div></div>
+    </div>
+    <div class="callout success">
+      <div class="callout-tag">✓ Commence par les trois gestes qui comptent le plus</div>
+      <p>Si tu ne peux pas tout faire tout de suite : <strong>sous-titre</strong> chaque vidéo parlée, <strong>écris dans la légende</strong> toute information présente dans un visuel, et <strong>supprime les flashs rapides</strong>. Ajoute ensuite le texte alternatif, puis le contrôle du contraste. Un progrès régulier vaut mieux qu'une ambition abandonnée au bout d'une semaine.</p>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ 70 % du résultat pour 10 à 15 % de l'effort</div>
+      <p>C'est l'estimation de Tarik pour les trois gestes de base : des sous-titres sur chaque vidéo, ce que tu dis réécrit dans la légende ou la description, et aucun flash ni stroboscope. Commence par là. Et garde précieusement le contact de la personne qui te signale un problème : derrière elle, il y en a peut-être cent qui n'ont pas osé écrire. Elle peut t'aider à vérifier tes prochains contenus.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="module" id="erreurs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">12 / 14</span><h2>Les 7 erreurs <em>à éviter</em></h2></div>
+    <p class="module-lead">Celles qui excluent une partie de ton public sans que tu t'en aperçoives.</p>
+    <div class="factors">
+      <div class="factor err"><div class="factor-num">01</div><div><h4>Publier les sous-titres automatiques sans les relire</h4><p>Ton nom d'artiste déformé, le titre méconnaissable, la date fausse : des sous-titres erronés sur l'information clé sont parfois pires que pas de sous-titres. Deux minutes de relecture règlent le problème.</p></div></div>
+      <div class="factor err"><div class="factor-num">02</div><div><h4>Enfermer la date et le lieu dans l'affiche</h4><p>Une légende qui dit « Toutes les infos sur le visuel » exclut les utilisateurs de lecteur d'écran, gêne ceux qui zooment, et empêche de copier l'adresse ou de retrouver le post par la recherche.</p></div></div>
+      <div class="factor err"><div class="factor-num">03</div><div><h4>Laisser le texte alternatif vide, ou le remplir de mots-clés</h4><p>Vide, l'image n'existe pas pour une personne aveugle. Rempli de mots-clés ou de hashtags, il devient un bruit pénible à écouter. Une ou deux phrases descriptives suffisent.</p></div></div>
+      <div class="factor err"><div class="factor-num">04</div><div><h4>Juger le contraste à l'œil</h4><p>Sur ton écran, dans ton salon, tout paraît lisible. Un texte blanc sur une photo claire ou une couleur pastel sur fond blanc échouent presque toujours à la mesure. Vérifie avec un outil.</p></div></div>
+      <div class="factor err"><div class="factor-num">05</div><div><h4>Garder des flashs « parce que c'est le style »</h4><p>Un stroboscope plein écran dans un extrait qui se lance tout seul dans un fil d'actualité peut provoquer une crise chez une personne épileptique photosensible. C'est le seul point de ce cours qui relève de la sécurité : il n'est pas négociable.</p></div></div>
+      <div class="factor err"><div class="factor-num">06</div><div><h4>Écrire en caractères fantaisie et en hashtags collés</h4><p>Un nom d'artiste en faux gras Unicode dans la bio, une légende truffée d'emojis à la place des mots, des hashtags sans majuscules : autant d'obstacles pour les lecteurs d'écran et les personnes dyslexiques.</p></div></div>
+      <div class="factor err"><div class="factor-num">07</div><div><h4>Soigner le contenu et oublier la destination</h4><p>Une vidéo parfaitement sous-titrée qui mène à un formulaire sans étiquettes, impossible à remplir au clavier, ou à un e-mail fait d'une seule image : la chaîne est aussi accessible que son maillon le plus faible.</p><div class="factor-detail"><strong>Et une attitude à éviter</strong>Mettre en scène ta démarche pour te valoriser, ou parler à la place des personnes concernées. L'accessibilité se fait, elle ne s'affiche pas comme un argument de vente.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="module" id="checklist">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">13 / 14</span><h2>Livrable : ta <em>checklist</em></h2></div>
+    <div class="audit-intro">
+      <h3>Clique sur les cases au fur et à mesure</h3>
+      <p>Cette checklist accompagne l'exercice « Production et diffusion d'un contenu de campagne » du Module 7 : applique-la au contenu que tu produis pour l'exercice, avant de le diffuser, et garde la trace de ce que tu as vérifié et corrigé. Progression : <span class="score" id="score">0 / 10</span></p>
+    </div>
+    <div class="audit-prompts" id="checklist-list">
+      <div class="prompt-row"><div class="prompt-num">C01</div><div><div class="prompt-text">J'ai écrit en une phrase l'information essentielle de mon contenu (quoi, quand, où, quelle action) et elle figure en texte dans la légende</div></div><button type="button" class="audit-check" id="c1">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C02</div><div><div class="prompt-text">Ma vidéo est sous-titrée, j'ai relu et corrigé les sous-titres (noms propres, titre, dates), et elle se comprend son coupé</div></div><button type="button" class="audit-check" id="c2">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C03</div><div><div class="prompt-text">Mes sous-titres et mes textes sont placés hors des zones masquées par l'interface, vérifiés dans l'aperçu sur mobile</div></div><button type="button" class="audit-check" id="c3">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C04</div><div><div class="prompt-text">Tout ce qui est affiché à l'écran et qui compte est aussi dit à l'oral ou repris dans la légende</div></div><button type="button" class="audit-check" id="c4">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C05</div><div><div class="prompt-text">J'ai regardé ma vidéo en entier : aucun passage ne flashe plus de trois fois par seconde, ou je l'ai corrigé</div></div><button type="button" class="audit-check" id="c5">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C06</div><div><div class="prompt-text">Chaque image a un texte alternatif rédigé par moi, qui décrit l'image et reprend le texte qu'elle contient</div></div><button type="button" class="audit-check" id="c6">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C07</div><div><div class="prompt-text">J'ai mesuré le contraste de mes textes avec un outil (4,5:1 visé) et aucune information ne repose sur la seule couleur</div></div><button type="button" class="audit-check" id="c7">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C08</div><div><div class="prompt-text">Ma légende est en langage clair : phrases courtes, date complète, hashtags avec majuscules, emojis limités, aucun caractère fantaisie</div></div><button type="button" class="audit-check" id="c8">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C09</div><div><div class="prompt-text">J'ai testé la page de destination au clavier et sur mobile : champs étiquetés, bouton explicite, lisible à 200 %</div></div><button type="button" class="audit-check" id="c9">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C10</div><div><div class="prompt-text">Pour un concert, j'ai ajouté les informations d'accessibilité confirmées par la salle et un contact pour les besoins spécifiques</div></div><button type="button" class="audit-check" id="c10">⬚ Fait</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="module" id="faq">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">14 / 14</span><h2>Questions <em>fréquentes</em></h2></div>
+    <div class="faq">
+      <details><summary>Suis-je légalement obligé de rendre mes contenus accessibles ?</summary><div class="ans">Dans la plupart des cas, non. L'article 47 de la loi du 11 février 2005 vise les organismes publics, les organismes chargés d'une mission de service public et les très grandes entreprises. La directive européenne sur l'accessibilité, applicable depuis le 28 juin 2025, vise certains services comme le commerce électronique, mais prévoit une exemption pour les très petites entreprises de services (moins de 10 personnes et 2 millions d'euros de chiffre d'affaires au plus, selon la fiche de la DGCCRF, à vérifier). Tes publications sur les réseaux sociaux ne sont pas visées en tant que telles. Cela reste une bonne pratique attendue, et tes partenaires publics peuvent l'exiger pour les contenus que tu leur fournis. En cas de doute sur ta situation, vérifie auprès des sources officielles.</div></details>
+      <details><summary>Les sous-titres automatiques suffisent-ils ?</summary><div class="ans">Ils suffisent comme point de départ, pas comme résultat. La reconnaissance vocale se trompe sur les noms propres, les titres, les dates, les mots étrangers et tout ce qui est dit sur de la musique, c'est-à-dire sur l'essentiel de ce qu'un artiste a besoin de faire passer. Relis toujours, corrige, ajoute la ponctuation et les indications sonores utiles.</div></details>
+      <details><summary>Dois-je sous-titrer les paroles de mes chansons ?</summary><div class="ans">Oui, quand c'est possible. Pour un clip ou une session filmée, ajoute les paroles en piste de sous-titres activables et publie-les dans la description. Pour un extrait court destiné aux réseaux sociaux, afficher les paroles à l'écran aide aussi les personnes qui regardent sans le son. Indique les passages instrumentaux entre crochets.</div></details>
+      <details><summary>Quelle longueur pour un texte alternatif ?</summary><div class="ans">Une à deux phrases dans la plupart des cas. Si l'image contient beaucoup de texte (une affiche avec une tournée complète, un programme de festival), mets l'essentiel dans le texte alternatif et la liste complète dans la légende ou sur une page liée. Les plateformes fixent chacune une limite de caractères, qui évolue : X annonce par exemple 1 000 caractères (à vérifier).</div></details>
+      <details><summary>Ma charte graphique repose sur des couleurs peu contrastées. Dois-je tout changer ?</summary><div class="ans">Non. Garde tes couleurs pour l'identité : fonds, formes, logo, éléments décoratifs. Pour le texte qui porte une information, choisis dans ta palette la combinaison la plus contrastée, ou ajoute une variante plus sombre ou plus claire de ta couleur réservée au texte. Tu peux aussi poser le texte sur un aplat. L'identité reste, la lisibilité progresse.</div></details>
+      <details><summary>Je n'ai pas les moyens de faire une version en langue des signes. Est-ce grave ?</summary><div class="ans">Non. Une version en langue des signes ou en chansigne est une démarche forte, mais elle suppose de travailler avec une personne compétente et de la rémunérer. Ce n'est pas le premier geste attendu d'un artiste indépendant. Les sous-titres relus, les paroles disponibles en texte et une information de concert complète sont déjà un vrai progrès. Garde le chansigne comme une piste créative pour un projet où tu pourras le faire bien.</div></details>
+      <details><summary>Les sous-titres et les longues légendes ne vont-ils pas nuire à l'esthétique de mes contenus ?</summary><div class="ans">Des sous-titres sobres, toujours au même endroit, dans une police cohérente avec ton identité, font partie de l'image au même titre que le reste. Tu peux en faire un élément de style à condition de ne pas sacrifier la lisibilité. Quant à la légende, mets l'accroche et l'information essentielle dans les premières lignes : celles et ceux qui veulent le détail liront la suite, les autres ne sont pas gênés.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="recap">
+  <div class="container-narrow">
+    <div class="section-label" style="color:var(--accent-line)">Synthèse</div>
+    <h3>Ce que tu dois retenir de ce cours</h3>
+    <ol class="recap-list">
+      <li>L'accessibilité concerne <strong>plusieurs millions de personnes</strong> en France, et aussi toutes celles qui sont gênées de façon temporaire ou par le contexte : son coupé, écran au soleil, une seule main libre.</li>
+      <li>Le principe de base : <strong>plusieurs canaux pour la même information</strong>. Ce qui s'entend peut se lire (sous-titres, transcription), ce qui se voit peut se lire ou s'entendre (texte alternatif, légende complète, description orale).</li>
+      <li>Les repères chiffrés viennent des WCAG : contraste de <strong>4,5:1</strong> pour le texte courant et <strong>3:1</strong> pour le grand texte, jamais plus de <strong>trois flashs par seconde</strong>. Ils sont à vérifier car les normes évoluent.</li>
+      <li>La loi de 2005, le RGAA et la directive européenne obligent surtout le secteur public et les entreprises d'une certaine taille. Pour un artiste indépendant, c'est le plus souvent une <strong>bonne pratique attendue</strong>, à confirmer selon ta situation sur les sources officielles.</li>
+      <li>Les réglages existent déjà dans tes outils : <strong>sous-titres et texte alternatif</strong> sur chaque plateforme, vérificateurs de contraste gratuits, lecteur d'écran de ton téléphone pour tester.</li>
+      <li>L'accessibilité tient par la <strong>routine</strong> : dix minutes avant chaque publication, de la première phrase de la légende jusqu'à la page de destination, et l'écoute des retours.</li>
+    </ol>
+  </div>
+</section>
+
+<div class="container-narrow">
+  <div class="next-cta">
+    <h3>Prêt pour la <em>vidéo suivante</em> ?</h3>
+    <p>Intégrer les principes de sobriété numérique et d'éco-responsabilité.</p>
+    <span class="btn btn-primary">Continuer vers la sobriété numérique →</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="src">Support pédagogique de la formation « Structurer et développer une activité artistique musicale » (certification RS7398), Module 7 : Campagnes de promotion inclusives, éco-responsables et optimisées. Contenu issu de la vidéo de Tarik Hamiche « Produire des contenus accessibles aux publics en situation de handicap », complété par des sources officielles relevées en octobre 2026 (DREES, DGCCRF, Arcom, W3C, pages d'aide des plateformes) ; les chiffres, seuils et chemins de menus sont indicatifs et à vérifier. Exemples d'artiste et de salle fictifs. Ce support ne constitue pas un conseil juridique.</p>
+    © 2026 Tarik Hamiche · Muziforma
+  </div>
+</footer>
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var btns=[].slice.call(document.querySelectorAll('#checklist-list .audit-check'));
+  var score=document.getElementById('score');var KEY='mz-rs7398-m7-05-contenus-accessibles-handicap';var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function paint(b){var on=!!saved[b.id];b.classList.toggle('checked',on);b.textContent=(on?'✓':'⬚')+' Fait';b.setAttribute('aria-pressed',on?'true':'false');}
+  function upd(){score.textContent=btns.filter(function(b){return saved[b.id]}).length+' / '+btns.length;}
+  btns.forEach(function(b){paint(b);b.addEventListener('click',function(){saved[b.id]=!saved[b.id];try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}paint(b);upd();});});
+  upd();
+})();
+</script>
+</body>
+</html>

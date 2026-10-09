@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Piloter et analyser ses campagnes · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Charte Muziforma : fond sable, violet #5B14FF, Manrope + Inter + JetBrains Mono. */
+:root{--bg:#F7F1E8;--bg-soft:#FCF8F2;--bg-card:#FFFFFF;--ink:#1F1A15;--ink-soft:#5C4F42;--ink-muted:#8A7A6A;--accent:#5B14FF;--accent-dark:#4910CC;--accent-soft:#EDE9FE;--accent-line:#A78BFA;--border:#E8DDC9;--border-soft:#F0E6D4;--warning:#C2410C;--warning-soft:#FFEDD5;--success:#15803D;--success-soft:#DCFCE7;--on-accent:#FFFFFF;--recap-text:rgba(247,241,232,.85);--shadow-sm:0 1px 2px rgba(31,26,21,.04);--shadow-md:0 4px 16px rgba(31,26,21,.06);--radius-sm:8px;--radius-md:14px;--radius-lg:24px;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Manrope,-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700}
+h4{font-size:1.15rem;font-weight:700;line-height:1.3}
+p{margin-bottom:1.1rem;color:var(--ink-soft)}
+strong{color:var(--ink);font-weight:700}
+em{font-style:normal;color:var(--accent);font-weight:800}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.container-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-line));z-index:9999}
+header.top-nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(247,241,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand-mark{font-family:Manrope,sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--ink)}
+.brand-mark em{color:var(--accent)}
+.nav-meta{display:flex;gap:1rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted)}
+.nav-meta span:not(:last-child)::after{content:"·";margin-left:1rem;color:var(--border)}
+@media (max-width:600px){.nav-meta{display:none}}
+.hero{padding:5rem 0 4rem;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;max-width:none;background:radial-gradient(circle,rgba(167,139,250,.22) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(91,20,255,.14) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1.8rem;box-shadow:var(--shadow-sm)}
+.hero h1{margin-bottom:1.5rem}
+.hero-lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:720px;margin:0 auto 1.5rem;line-height:1.55}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.hero-chips span{font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:.35rem .9rem}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:880px;margin:3rem auto 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-num{font-family:Manrope,sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em;margin-bottom:.5rem}
+.stat-label{font-size:.82rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.hero-stats{grid-template-columns:1fr}}
+.section-label{display:inline-block;font-family:Inter,sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:1.5rem}
+.toc-section{padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);text-align:center}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:800px;margin:1rem auto 0}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left;color:var(--ink);transition:.15s}
+.toc-item:hover{border-color:var(--accent);transform:translateX(2px);box-shadow:var(--shadow-sm);color:var(--ink)}
+.toc-num{font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);flex-shrink:0;width:36px}
+.toc-title{font-weight:600;font-size:.95rem;line-height:1.3}
+@media (max-width:600px){.toc-grid{grid-template-columns:1fr}}
+main>section.module{padding:6rem 0;position:relative;overflow:hidden}
+main>section.module:nth-of-type(odd){background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+section.module::before{content:"";position:absolute;top:10%;right:-180px;width:480px;height:480px;background:radial-gradient(circle,rgba(167,139,250,.16) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
+section.module>.container,section.module>.container-narrow{position:relative;z-index:1}
+.module-header{margin-bottom:2.5rem}
+.module-num{font-family:Manrope,sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.6rem;display:block}
+.module-lead{font-size:1.15rem;color:var(--ink-soft);margin:1.5rem 0 2.5rem;line-height:1.55;max-width:720px}
+.prose p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.3rem}
+.callout{background:var(--bg-card);border-left:4px solid var(--accent);border-radius:var(--radius-md);padding:1.6rem 1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm);text-align:left}
+.callout.warning{border-left-color:var(--warning);background:linear-gradient(135deg,var(--warning-soft) 0%,var(--bg-card) 60%)}
+.callout.success{border-left-color:var(--success);background:linear-gradient(135deg,var(--success-soft) 0%,var(--bg-card) 60%)}
+.callout-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.6rem}
+.callout.warning .callout-tag{color:var(--warning)}
+.callout.success .callout-tag{color:var(--success)}
+.callout p{margin:0;color:var(--ink);line-height:1.55}
+.callout ul{margin:.2rem 0 0 1.2rem;color:var(--ink);line-height:1.6}
+/* 3 casquettes : reprend .evolution */
+.evolution{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2rem 0}
+.evo-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;text-align:center;box-shadow:var(--shadow-sm)}
+.evo-col.featured{border:2px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg-card) 50%);transform:scale(1.02);box-shadow:var(--shadow-md)}
+.evo-acronym{font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;letter-spacing:-.04em;margin-bottom:.4rem}
+.evo-col:not(.featured) .evo-acronym{color:var(--ink-muted)}
+.evo-full{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:1rem;font-weight:600}
+.evo-col h4{margin-bottom:.6rem}
+.evo-col p{font-size:.92rem;line-height:1.55;text-align:left}
+.evo-target{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--border);text-align:left;font-size:.85rem;line-height:1.45;color:var(--ink)}
+.evo-target strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem;font-weight:800}
+@media (max-width:800px){.evolution{grid-template-columns:1fr}.evo-col.featured{transform:none}}
+/* circuit : reprend .rag-flow */
+.rag-flow{margin:2.5rem 0;display:flex;flex-direction:column;gap:1.5rem}
+.rag-step{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.rag-step:hover{border-color:var(--accent-line)}
+.rag-step-circle{flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.6rem;box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+.rag-step.alt .rag-step-circle{background:var(--warning);box-shadow:rgba(194,65,12,.3) 0 6px 20px}
+.rag-step>div:last-child{flex:1 1 0%;min-width:0}
+.step-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);margin-bottom:.4rem}
+.rag-step h4{margin-bottom:.6rem}
+.rag-step p{margin:0;line-height:1.55}
+/* tableaux dans la charte */
+.data-table{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);margin:2rem 0}
+.data-table table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+.data-table th{text-align:left;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding:1rem 1.1rem;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.data-table td{padding:.9rem 1.1rem;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table td strong{color:var(--ink)}
+.data-table .n{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--accent-dark);white-space:nowrap}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .6rem;border-radius:6px;white-space:nowrap}
+.badge.yes{background:var(--success-soft);color:var(--success)}
+.badge.no{background:var(--warning-soft);color:var(--warning)}
+.badge.mid{background:var(--accent-soft);color:var(--accent-dark)}
+/* barre de répartition */
+.split{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);margin:2rem 0}
+.split h4{margin-bottom:1.2rem}
+.split-bar{display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden}
+.split-bar div{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:500;color:var(--on-accent);white-space:nowrap;overflow:hidden}
+.split-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem 1rem;margin-top:1.2rem;font-size:.88rem;color:var(--ink-soft)}
+.split-legend span{display:flex;align-items:center;gap:.5rem}
+.split-legend i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.split-legend b{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--ink);margin-left:auto}
+.split-note{font-size:.82rem;color:var(--ink-muted);margin:1rem 0 0;line-height:1.5}
+/* cartes : reprend .motors / .eeat */
+.motors,.eeat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:2rem 0}
+.motor-card,.eeat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-sm);min-width:0}
+.eeat-card{transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.eeat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motor-name{font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;color:var(--ink);letter-spacing:-.02em;margin-bottom:.3rem}
+.motor-by{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.motor-spec{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border-soft);font-size:.9rem;line-height:1.45}
+.motor-spec:last-child{border-bottom:0}
+.motor-spec-label{flex-shrink:0;width:78px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding-top:.2rem}
+.motor-spec-value{flex:1 1 0%;color:var(--ink-soft)}
+.eeat-letter{width:52px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1rem}
+.eeat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem}
+.eeat-card h4{margin-bottom:.8rem}
+.eeat-card>p{font-size:.95rem;line-height:1.55;margin-bottom:1.2rem}
+.eeat-music{background:var(--accent-soft);border-radius:var(--radius-sm);padding:1rem;font-size:.9rem;line-height:1.5;color:var(--ink);margin-top:auto}
+.eeat-music strong{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.eeat-music .out{color:var(--warning)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:740px){.eeat-grid,.motors,.grid3{grid-template-columns:1fr}}
+/* étapes : reprend .factors */
+.factors{display:flex;flex-direction:column;gap:1.2rem;margin:2rem 0}
+.factor{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.factor:hover{border-color:var(--accent-line)}
+.factor-num{flex-shrink:0;font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;width:50px;letter-spacing:-.03em}
+.factor.err .factor-num{color:var(--warning)}
+.factor>div:last-child{flex:1 1 0%;min-width:0}
+.factor h4{margin-bottom:.6rem}
+.factor p{font-size:.95rem;line-height:1.55;margin-bottom:1rem}
+.factor p:last-child{margin-bottom:0}
+.factor-detail{background:var(--accent-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.88rem;line-height:1.5;color:var(--ink)}
+.factor-detail strong{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.factor.err .factor-detail{background:var(--warning-soft)}
+.factor.err .factor-detail strong{color:var(--warning)}
+/* checklist : reprend .audit */
+.audit-intro{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm)}
+.audit-intro h3{margin-bottom:.8rem}
+.audit-intro p{margin:0;line-height:1.6}
+.audit-prompts{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.prompt-row{display:flex;gap:1.2rem;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.prompt-num{flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--accent);width:36px}
+.prompt-row>div:not(.prompt-num){flex:1 1 0%;min-width:0}
+.prompt-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.audit-check{flex-shrink:0;padding:.5rem .9rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s;font-family:Inter,sans-serif}
+.audit-check:hover{border-color:var(--accent-line)}
+.audit-check.checked{background:var(--success);color:var(--on-accent);border-color:var(--success);font-weight:600}
+.score{font-family:"JetBrains Mono",monospace;color:var(--success);font-weight:500}
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.faq details{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:border-color .2s}
+.faq details:hover,.faq details[open]{border-color:var(--accent-line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.5rem;font-family:Manrope,sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.faq details[open] summary::after{content:"−";background:var(--accent);color:var(--on-accent)}
+.faq .ans{padding:0 1.5rem 1.4rem;color:var(--ink-soft);font-size:.97rem;line-height:1.65}
+/* synthèse */
+.recap{background:var(--ink);color:var(--recap-text);padding:4rem 0;position:relative;overflow:hidden}
+.recap::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(91,20,255,.25) 0%,transparent 60%);border-radius:50%;pointer-events:none}
+.recap>.container-narrow{position:relative;z-index:1}
+.recap h3{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg-card);margin-bottom:1.5rem}
+.recap-list{list-style:none;counter-reset:item;display:flex;flex-direction:column;gap:1rem}
+.recap-list li{counter-increment:item;padding-left:3rem;position:relative;line-height:1.55;color:var(--recap-text)}
+.recap-list li::before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:Manrope,sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-line)}
+.recap-list li strong{color:var(--bg-card)}
+.next-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin:4rem auto;max-width:760px;text-align:center;box-shadow:var(--shadow-md)}
+.next-cta h3{margin-bottom:1rem}
+.next-cta p{margin-bottom:1.5rem;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.1rem 2.2rem;font-family:Manrope,sans-serif;font-size:1rem;font-weight:800;border-radius:999px;border:0;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+footer.site-footer{background:var(--ink);color:rgba(247,241,232,.55);padding:2.5rem 0;text-align:center;font-size:.85rem;border-top:1px solid rgba(247,241,232,.08);line-height:1.7}
+footer.site-footer .src{max-width:760px;margin:0 auto 1rem;font-size:.8rem;color:rgba(247,241,232,.45)}
+@media (max-width:860px){main>section.module{padding:4rem 0}.toc-section{padding:3rem 0}.module-header{margin-bottom:1.8rem}.module-lead{font-size:1.05rem;margin:1rem 0 1.8rem}.rag-step,.factor{padding:1.4rem;gap:1rem}.rag-step-circle{width:48px;height:48px;font-size:1.3rem}.factor-num{font-size:1.6rem;width:40px}.next-cta{padding:1.8rem 1.4rem}.recap-list li{padding-left:2.4rem}section.module::before{width:320px;height:320px}}
+@media (max-width:480px){.hero{padding:3rem 0 2.5rem}.hero h1{font-size:2rem}.rag-step,.factor{flex-direction:column;gap:.8rem}.prompt-row{flex-wrap:wrap}}
+html,body{width:100% !important;max-width:100% !important;overflow-x:hidden}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress-bar"></div>
+<header class="top-nav">
+  <div class="nav-inner">
+    <span class="brand-mark">MUZI<em>FORMA</em></span>
+    <div class="nav-meta"><span>Module 07 / 08</span><span>Muziforma</span></div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Module 07 · Piloter et optimiser</span>
+    <h1>Piloter et <em>analyser</em> ses campagnes.</h1>
+    <p class="hero-lead">Ta campagne est lancée : il faut maintenant savoir lire ce qui se passe dans YouTube Studio, chez Meta et dans Spotify for Artists. Voici la méthode pour relever les bons chiffres et poser un diagnostic fiable avant de toucher à quoi que ce soit.</p>
+    <div class="hero-chips"><span>Lecture : 12 min</span><span>Formateur : Tarik Hamiche</span></div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">Étages dans l'entonnoir de mesure : diffusion, attention, action, fidélisation</div></div>
+      <div class="stat-card"><div class="stat-num">1 + 3</div><div class="stat-label">Un indicateur principal et trois indicateurs de soutien au maximum par campagne</div></div>
+      <div class="stat-card"><div class="stat-num">30 min</div><div class="stat-label">La durée de la routine d'analyse hebdomadaire proposée dans ce cours</div></div>
+      <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Tableaux de bord officiels à savoir lire : YouTube Studio, Meta, Spotify for Artists</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc-section">
+  <div class="container-narrow">
+    <div class="callout">
+      <div class="callout-tag">★ Objectifs pédagogiques</div>
+      <ul>
+        <li>Choisir, à partir de l'objectif de ta campagne, un indicateur principal et quelques indicateurs de soutien, avec une valeur de départ et une cible</li>
+        <li>Trouver et lire les données utiles dans YouTube Studio, chez Meta et dans Spotify for Artists</li>
+        <li>Tenir un tableau de bord de campagne et suivre une routine hebdomadaire qui prépare l'optimisation</li>
+      </ul>
+    </div>
+    <div class="section-label">Plan du cours</div>
+    <div class="toc-grid">
+      <a href="#piloter" class="toc-item"><span class="toc-num">01</span><span class="toc-title">Partir de l'objectif</span></a>
+      <a href="#entonnoir" class="toc-item"><span class="toc-num">02</span><span class="toc-title">L'entonnoir de mesure</span></a>
+      <a href="#youtube" class="toc-item"><span class="toc-num">03</span><span class="toc-title">Lire YouTube Studio</span></a>
+      <a href="#meta" class="toc-item"><span class="toc-num">04</span><span class="toc-title">Lire les outils de Meta</span></a>
+      <a href="#spotify" class="toc-item"><span class="toc-num">05</span><span class="toc-title">Lire Spotify for Artists</span></a>
+      <a href="#routine" class="toc-item"><span class="toc-num">06</span><span class="toc-title">Tableau de bord et routine hebdomadaire</span></a>
+      <a href="#checklist" class="toc-item"><span class="toc-num">07</span><span class="toc-title">Livrable : ta checklist</span></a>
+      <a href="#faq" class="toc-item"><span class="toc-num">08</span><span class="toc-title">FAQ</span></a>
+    </div>
+    <div class="callout warning" style="margin-top:2.5rem;text-align:left">
+      <div class="callout-tag">⚠ Des outils qui bougent en permanence</div>
+      <p>Les noms d'onglets, les définitions et les seuils cités ici ont été relevés en <strong>octobre 2026</strong>, et les plateformes renomment leurs menus plusieurs fois par an. Si un onglet ne porte plus le même nom chez toi, cherche la <strong>fonction</strong> décrite plutôt que le libellé, et vérifie chaque chiffre dans ton propre tableau de bord.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="module" id="piloter">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">01 / 08</span><h2>Partir de <em>l'objectif</em></h2></div>
+    <p class="module-lead">Piloter, c'est savoir avant de lancer ce que tu veux obtenir, quel chiffre le prouvera et quand tu le regarderas : un indicateur principal, deux ou trois indicateurs de soutien, rien de plus.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Objectif de la campagne</th><th>Indicateur principal possible</th><th>Indicateurs de soutien</th><th>Où le lire</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Notoriété</strong> (te faire découvrir)</td><td>Couverture auprès de ta cible, ou nouveaux spectateurs</td><td>Répétition, coût pour mille impressions, part de nouveaux spectateurs</td><td>Gestionnaire de publicités, YouTube Studio</td></tr>
+        <tr><td><strong>Écoutes</strong> (faire écouter un titre)</td><td>Auditeurs du titre, ou sauvegardes</td><td>Écoutes, sources d'écoute, ajouts en playlists</td><td>Spotify for Artists</td></tr>
+        <tr><td><strong>Contacts collectés</strong> (faire grandir ta liste)</td><td>Nombre d'inscrits, ou coût par inscrit</td><td>Taux de conversion de la page de capture, taux de clic, clics sur un lien</td><td>Outil d'e-mailing, Gestionnaire de publicités</td></tr>
+        <tr><td><strong>Ventes</strong> (billets, merchandising)</td><td>Nombre de ventes, ou chiffre d'affaires</td><td>Coût par vente, visites de la page de vente, taux de conversion</td><td>Billetterie ou boutique, Gestionnaire de publicités</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Avant de lancer : écris l'objectif en une phrase avec une échéance, relève la <strong>valeur de départ</strong> et fixe une cible tirée de tes propres résultats passés (ou « à établir » pour une première campagne). Écarte les indicateurs de vanité : si un chiffre double sans que tu changes quoi que ce soit à ta campagne, il ne sert à rien. Ce cours s'arrête au diagnostic ; les ajustements sont traités dans le cours 7.8 « Optimiser ses campagnes en fonction des résultats obtenus ».</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="module" id="entonnoir">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">02 / 08</span><h2>L'<em>entonnoir de mesure</em></h2></div>
+    <p class="module-lead">Entre l'affichage de ta publication et l'auditeur fidèle, il y a quatre étages, et quand une campagne déçoit, c'est presque toujours un étage précis qui fuit.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Étage</th><th>Ce que tu mesures</th><th>YouTube Studio</th><th>Meta</th><th>Spotify for Artists</th><th>Tes propres outils</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Diffusion</strong></td><td>Impressions, couverture, répétition (impressions ÷ couverture)</td><td>Impressions des miniatures, spectateurs uniques</td><td>Vues, comptes touchés ; couverture, impressions et répétition côté publicité</td><td>Peu de données : Spotify mesure surtout l'écoute</td><td>Aucun</td></tr>
+        <tr><td><strong>Attention</strong></td><td>Taux de clic (clics ÷ impressions × 100), rétention</td><td>Taux de clics par impression, durée moyenne de visionnage, courbe de rétention</td><td>Taux de clic de la publicité, rétention des Reels</td><td>Aucun équivalent direct</td><td>Aucun</td></tr>
+        <tr><td><strong>Action</strong></td><td>Clics, pré-enregistrements, inscriptions, ventes ; coût par résultat (dépense ÷ résultats)</td><td>Clics sur les liens de la description (peu détaillés)</td><td>Clics sur un lien, résultats, coût par résultat</td><td>Écoutes, auditeurs, sources d'écoute</td><td>Lien intelligent, page de capture, outil d'e-mailing, billetterie</td></tr>
+        <tr><td><strong>Fidélisation</strong></td><td>Abonnés, retours, sauvegardes</td><td>Abonnés gagnés, spectateurs nouveaux et réguliers</td><td>Nouveaux abonnés des comptes</td><td>Sauvegardes, ajouts en playlists, segments de public</td><td>Taux d'ouverture de tes e-mails, achats répétés</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Descends l'entonnoir étage par étage et cherche le premier endroit où le chiffre s'effondre. Beaucoup d'impressions mais peu de clics : problème d'<strong>attention</strong>. Beaucoup de clics mais peu d'inscriptions : problème de page d'arrivée, pas de publicité. Il n'existe pas de « bon chiffre » universel : hors du repère de 5 à 10 % pour le taux de clic des miniatures YouTube (cours 5.1), ta référence, c'est <strong>ton propre historique</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="module" id="youtube">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">03 / 08</span><h2>Lire <em>YouTube Studio</em></h2></div>
+    <p class="module-lead">Sur studio.youtube.com, menu « Contenu », survole ton clip puis clique sur l'icône des données d'analyse : quatre lectures, prises dans l'ordre de l'entonnoir, suffisent.</p>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Impressions et taux de clics des miniatures</h4><p>Le nombre de fois où YouTube a présenté ta miniature, et la part de ces affichages qui ont débouché sur un visionnage : il mesure le couple miniature plus titre.</p><div class="factor-detail"><strong>Comment l'interpréter</strong>Ce taux baisse mécaniquement quand YouTube élargit la diffusion à un public qui ne te connaît pas. Les impressions ne couvrent pas les vues venues de l'extérieur (lien partagé, publicité Meta).</div></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Durée moyenne et courbe de rétention</h4><p>Rapporte la durée moyenne à la durée totale du clip. Sur la courbe, une baisse progressive est normale : ce que tu cherches, ce sont les marches d'escalier.</p><div class="factor-detail"><strong>Comment lire les chutes</strong>Note le minutage de chaque chute nette et regarde ce qui se passe à l'image à cet instant (introduction trop longue, pont, changement de plan). Les moments clés ne s'affichent que pour une vidéo d'au moins 60 secondes ayant au moins 100 vues, avec un à deux jours de traitement (à vérifier).</div></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Les sources de trafic</h4><p>« Par où sont-ils arrivés ? » Beaucoup d'« externe » : ta communication hors YouTube fonctionne. Beaucoup de « suggestions » et de « navigation » : YouTube recommande ta vidéo. Beaucoup de « recherche » : les gens te cherchent par ton nom.</p><div class="factor-detail"><strong>Isoler une campagne</strong>Compare les jours de campagne aux jours équivalents qui précèdent. Une campagne Google Ads apparaît dans « Publicité YouTube » ; une publicité Meta ou un e-mail dans « Sources externes ». Sur la rétention, sépare trafic payant et trafic naturel.</div></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Spectateurs nouveaux et réguliers, pays</h4><p>Une campagne de notoriété réussie fait monter les nouveaux spectateurs. Compare l'âge et les pays de ton public à ton avatar et à ton ciblage : un clip surtout regardé là où tu ne peux ni jouer ni vendre est une information de diagnostic.</p></div></div>
+    </div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Août 2026 : YouTube a changé sa façon de compter les vues</div>
+      <p>Depuis le 24 août 2026, une vue publique est comptée dès que la lecture démarre ; l'ancien calcul reste consultable en mode avancé sous le nom de « vues engagées ». Pour juger un clip, appuie-toi sur les vues engagées, la durée de visionnage et la rétention (informations relevées dans la presse spécialisée, à vérifier dans l'aide de YouTube).</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="module" id="meta">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">04 / 08</span><h2>Lire les outils <em>de Meta</em></h2></div>
+    <p class="module-lead">Chez Meta, ne confonds pas les statistiques de tes comptes (rubrique « Statistiques » de Meta Business Suite), qui mesurent l'intérêt pour tes contenus, et le Gestionnaire de publicités, qui mesure ce que ton argent achète.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Indicateur</th><th>Où</th><th>La question à te poser</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Comptes touchés</strong></td><td>Statistiques des comptes</td><td>Quelle part de non-abonnés ? C'est elle qui montre si ton contenu sort de ta communauté.</td></tr>
+        <tr><td><strong>Partages et enregistrements</strong></td><td>Statistiques des comptes</td><td>Le contenu a-t-il assez de valeur pour être gardé ou transmis ? Ils pèsent plus qu'un « j'aime ».</td></tr>
+        <tr><td><strong>Visites du profil et clics sur le lien</strong></td><td>Statistiques des comptes</td><td>Si beaucoup visitent et peu cliquent, c'est ta biographie ou ton lien qu'il faut revoir.</td></tr>
+        <tr><td><strong>Résultats et coût par résultat</strong></td><td>Gestionnaire de publicités</td><td>Est-ce bien l'action demandée, et son coût reste-t-il sous le plafond fixé dans le cours 7.3 ?</td></tr>
+        <tr><td><strong>Répétition</strong></td><td>Gestionnaire de publicités</td><td>Une répétition qui grimpe pendant que le taux de clic baisse : l'audience se lasse de la créative.</td></tr>
+        <tr><td><strong>Taux de clic et clics sur un lien</strong></td><td>Gestionnaire de publicités</td><td>Ma créative donne-t-elle envie d'aller plus loin ? Relève toujours le même taux de clic (« sur un lien » et non « tous »).</td></tr>
+        <tr><td><strong>Vues de page de destination</strong></td><td>Gestionnaire de publicités</td><td>Gros écart avec les clics ? La page est lente ou le clic était accidentel.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ La fenêtre d'attribution</div>
+      <p>Meta s'attribue un résultat survenu dans un certain délai après un contact avec ta publicité : par défaut, 7 jours après un clic, 1 jour après une interaction, 1 jour après une simple vue (relevé d'octobre 2026, à vérifier dans ton compte). Ne tire aucune conclusion pendant les 3 à 8 jours de la phase d'apprentissage, n'additionne jamais la couverture de tes comptes et celle de tes publicités, et compte tes inscrits réels dans ton outil d'e-mailing : c'est ce chiffre qui fait foi.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="module" id="spotify">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">05 / 08</span><h2>Lire <em>Spotify for Artists</em></h2></div>
+    <p class="module-lead">Sur artists.spotify.com, onglets « Musique » et « Public », Spotify for Artists te dit qui a écouté, comment il est arrivé et s'il est revenu.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Indicateur</th><th>Définition</th><th>Comment l'interpréter</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Écoutes</strong></td><td>Comptées quand un auditeur écoute le titre au moins 30 secondes (à vérifier dans l'aide de Spotify).</td><td>Un volume. Dix écoutes peuvent venir d'une seule personne.</td></tr>
+        <tr><td><strong>Auditeurs mensuels</strong></td><td>Les auditeurs différents sur une fenêtre glissante de 28 jours.</td><td>Monte vite avec une campagne, et redescend 28 jours plus tard si les gens ne reviennent pas.</td></tr>
+        <tr><td><strong>Sauvegardes</strong></td><td>Les fois où un auditeur a enregistré ton titre dans sa bibliothèque.</td><td>Un signal d'intention fort. Rapporte-les aux auditeurs.</td></tr>
+        <tr><td><strong>Sources actives</strong></td><td>Profil, catalogue, bibliothèque et playlists de l'auditeur, file d'attente.</td><td>C'est ici qu'atterrit l'effet d'une campagne qui envoie les gens vers ton profil ou ton titre.</td></tr>
+        <tr><td><strong>Sources programmées</strong></td><td>Playlists éditoriales, algorithmiques, lecture automatique, playlists d'autres personnes.</td><td>Un volume qui peut disparaître du jour au lendemain si le titre sort de la playlist.</td></tr>
+        <tr><td><strong>Public actif mensuel</strong></td><td>Les auditeurs qui t'ont écouté délibérément au moins une fois sur 28 jours (définition de Spotify, à vérifier).</td><td>Le noyau de ton public : c'est le segment qu'une campagne bien ciblée doit faire grandir.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Les statistiques sont actualisées une fois par 24 heures : ne compare jamais les chiffres « du jour » de Spotify avec ceux de ta régie. Les données sur les villes et pays ne portent que sur les 28 derniers jours (à vérifier) : relève-les en fin de campagne, sinon elles auront disparu.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="module" id="routine">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">06 / 08</span><h2>Tableau de bord <em>et routine hebdomadaire</em></h2></div>
+    <p class="module-lead">Un tableur avec une ligne par indicateur (huit au maximum), une colonne « outil de référence », la valeur de départ, la cible et une colonne par semaine, rempli en trente minutes à jour fixe, toujours dans le même ordre.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">5 minutes</span><h4>Relève l'indicateur principal à la source</h4><p>Ouvre l'outil de référence (outil d'e-mailing, billetterie, Spotify for Artists) et note le résultat de la semaine close, jamais la journée en cours.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">8 minutes</span><h4>Relève la publicité</h4><p>Dans le Gestionnaire de publicités, sur les sept mêmes jours, avec ton préréglage de colonnes : dépense, résultats, coût par résultat, couverture, répétition, taux de clic sur un lien. Calcule ton coût par résultat réel avec le chiffre de l'étape 1.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">7 minutes</span><h4>Relève les contenus</h4><p>Dans YouTube Studio : impressions, taux de clics, durée moyenne de visionnage et sources de trafic du clip. Chez Meta : la couverture et les clics sur le lien de tes publications.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">4</div><div><span class="step-tag">5 minutes</span><h4>Relève la fidélisation</h4><p>Dans Spotify for Artists : auditeurs, sauvegardes, sources d'écoute. Sur tes comptes : solde d'abonnés. Dans ton outil d'e-mailing : taux d'ouverture du premier e-mail.</p></div></div>
+      <div class="rag-step alt"><div class="rag-step-circle">5</div><div><span class="step-tag">5 minutes</span><h4>Écris trois phrases de diagnostic</h4><p>« L'indicateur principal est à … pour une cible de … » ; « l'étage qui bloque est … parce que … » ; « l'hypothèse à vérifier la semaine prochaine est … ». Puis ferme les outils.</p></div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Les outils ne coïncident jamais : choisis <strong>une source de référence par indicateur</strong> et tiens-toi à elle. Pour savoir quel canal a travaillé, crée un <strong>lien tracké</strong> par emplacement (publicité, biographie, description YouTube, e-mail) avec utm_source, utm_medium et utm_campaign, écrits toujours de la même façon. Écris le nombre derrière chaque pourcentage : en dessous d'environ 100 visiteurs, tu notes une tendance, tu ne conclus pas. En fin de campagne, une page de bilan (ce qui a marché, ce qui n'a pas marché, ce qu'on garde) nourrit le cours 7.8.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="module" id="checklist">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">07 / 08</span><h2>Livrable : ta <em>checklist</em></h2></div>
+    <div class="audit-intro">
+      <h3>Clique sur les cases au fur et à mesure</h3>
+      <p>Ce travail prépare l'exercice « Production et diffusion d'un contenu de campagne » du Module 7 : une fois ton contenu produit et diffusé, tu dois être capable de montrer comment tu en mesures les résultats et quel diagnostic tu en tires. Progression : <span class="score" id="score">0 / 6</span></p>
+    </div>
+    <div class="audit-prompts" id="checklist-list">
+      <div class="prompt-row"><div class="prompt-num">C01</div><div><div class="prompt-text">J'ai écrit l'objectif de ma campagne en une phrase, choisi 1 indicateur principal et 2 à 3 indicateurs de soutien, avec valeur de départ et cible</div></div><button type="button" class="audit-check" id="c1">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C02</div><div><div class="prompt-text">Je sais lire dans YouTube Studio le taux de clics, la courbe de rétention et les sources de trafic de mon clip</div></div><button type="button" class="audit-check" id="c2">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C03</div><div><div class="prompt-text">Je distingue les statistiques de mes comptes Meta du Gestionnaire de publicités, et j'ai repéré la fenêtre d'attribution de ma campagne</div></div><button type="button" class="audit-check" id="c3">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C04</div><div><div class="prompt-text">J'ai relevé dans Spotify for Artists mes auditeurs, mes sauvegardes et mes sources d'écoute</div></div><button type="button" class="audit-check" id="c4">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C05</div><div><div class="prompt-text">J'ai créé un lien tracké par canal avec une règle d'écriture unique</div></div><button type="button" class="audit-check" id="c5">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C06</div><div><div class="prompt-text">J'ai créé mon tableau de bord de campagne et bloqué mon créneau hebdomadaire de 30 minutes</div></div><button type="button" class="audit-check" id="c6">⬚ Fait</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="module" id="faq">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">08 / 08</span><h2>Questions <em>fréquentes</em></h2></div>
+    <div class="faq">
+      <details><summary>Je n'ai pas de budget publicitaire. Ce cours me concerne-t-il ?</summary><div class="ans">Oui. Une campagne sans publicité reste une campagne : un objectif, des contenus, une période. Tu utilises alors YouTube Studio, les statistiques de tes comptes Meta, Spotify for Artists, tes liens trackés et ta liste de contacts. Seule la partie sur le Gestionnaire de publicités ne te sert pas encore.</div></details>
+      <details><summary>Les chiffres de Meta et ceux de mon outil d'e-mailing ne correspondent pas. Lequel croire ?</summary><div class="ans">Pour compter tes inscrits, ton outil d'e-mailing : c'est lui qui contient les contacts réels. Les chiffres de Meta dépendent de la fenêtre d'attribution et du consentement aux cookies. Ils restent utiles pour comparer deux publicités entre elles, puisqu'elles sont mesurées avec la même règle.</div></details>
+      <details><summary>Puis-je savoir quels auditeurs Spotify viennent de ma publicité Meta ?</summary><div class="ans">Pas directement : Spotify ne reçoit pas l'information de ta régie. Tu peux en revanche recouper. Le lien intelligent te donne les clics vers Spotify, et Spotify for Artists te montre, le lendemain, l'évolution des auditeurs, des sources actives et des villes ciblées. Si les trois bougent ensemble pendant la campagne, le lien est très probable.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="recap">
+  <div class="container-narrow">
+    <div class="section-label" style="color:var(--accent-line)">Synthèse</div>
+    <h3>Ce que tu dois retenir de ce cours</h3>
+    <ol class="recap-list">
+      <li>Piloter, c'est partir de l'<strong>objectif</strong> : un indicateur principal, deux ou trois indicateurs de soutien, une valeur de départ et une cible fixées avant de lancer.</li>
+      <li>Une campagne se lit comme un <strong>entonnoir</strong> à quatre étages (diffusion, attention, action, fidélisation) : le diagnostic consiste à trouver l'étage qui fuit.</li>
+      <li><strong>YouTube Studio</strong> te dit comment ton clip a été proposé, regardé et trouvé : taux de clics, courbe de rétention, sources de trafic.</li>
+      <li>Chez <strong>Meta</strong>, les statistiques des comptes et le Gestionnaire de publicités ne s'additionnent pas ; <strong>Spotify for Artists</strong> mesure le bout de la chaîne : auditeurs, sauvegardes, sources actives ou programmées.</li>
+      <li>Les outils ne coïncident jamais : relie-les par des <strong>liens trackés</strong>, choisis une source de référence par indicateur et tiens un <strong>tableau de bord</strong> hebdomadaire.</li>
+    </ol>
+  </div>
+</section>
+
+<div class="container-narrow">
+  <div class="next-cta">
+    <h3>Prêt pour la <em>vidéo suivante</em> ?</h3>
+    <p>Optimiser ses campagnes en fonction des résultats obtenus.</p>
+    <span class="btn btn-primary">Continuer vers l'optimisation →</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="src">Support pédagogique de la formation « Structurer et développer une activité artistique musicale » (certification RS7398), Module 7 : Campagnes de promotion inclusives, éco-responsables et optimisées. Les noms d'onglets, définitions d'indicateurs, règles de comptage et conditions d'accès cités ont été relevés en octobre 2026 sur les pages d'aide de YouTube, de Spotify for Artists et de Google Analytics, sur le site de la CNIL et dans la presse spécialisée ; ils peuvent avoir évolué et doivent être vérifiés dans chaque outil. Les exemples chiffrés sont fictifs et ne constituent pas des repères de performance.</p>
+    © 2026 Tarik Hamiche · Muziforma
+  </div>
+</footer>
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var btns=[].slice.call(document.querySelectorAll('#checklist-list .audit-check'));
+  var score=document.getElementById('score');var KEY='mz-rs7398-m7-07-piloter-analyser-campagnes';var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function paint(b){var on=!!saved[b.id];b.classList.toggle('checked',on);b.textContent=(on?'✓':'⬚')+' Fait';b.setAttribute('aria-pressed',on?'true':'false');}
+  function upd(){score.textContent=btns.filter(function(b){return saved[b.id]}).length+' / '+btns.length;}
+  btns.forEach(function(b){paint(b);b.addEventListener('click',function(){saved[b.id]=!saved[b.id];try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}paint(b);upd();});});
+  upd();
+})();
+</script>
+</body>
+</html>

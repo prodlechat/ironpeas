@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Intégrer les principes de sobriété numérique et d'éco-responsabilité · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Charte Muziforma : fond sable, violet #5B14FF, Manrope + Inter + JetBrains Mono. */
+:root{--bg:#F7F1E8;--bg-soft:#FCF8F2;--bg-card:#FFFFFF;--ink:#1F1A15;--ink-soft:#5C4F42;--ink-muted:#8A7A6A;--accent:#5B14FF;--accent-dark:#4910CC;--accent-soft:#EDE9FE;--accent-line:#A78BFA;--border:#E8DDC9;--border-soft:#F0E6D4;--warning:#C2410C;--warning-soft:#FFEDD5;--success:#15803D;--success-soft:#DCFCE7;--on-accent:#FFFFFF;--recap-text:rgba(247,241,232,.85);--shadow-sm:0 1px 2px rgba(31,26,21,.04);--shadow-md:0 4px 16px rgba(31,26,21,.06);--radius-sm:8px;--radius-md:14px;--radius-lg:24px;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Manrope,-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700}
+h4{font-size:1.15rem;font-weight:700;line-height:1.3}
+p{margin-bottom:1.1rem;color:var(--ink-soft)}
+strong{color:var(--ink);font-weight:700}
+em{font-style:normal;color:var(--accent);font-weight:800}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.container-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-line));z-index:9999}
+header.top-nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(247,241,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand-mark{font-family:Manrope,sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--ink)}
+.brand-mark em{color:var(--accent)}
+.nav-meta{display:flex;gap:1rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted)}
+.nav-meta span:not(:last-child)::after{content:"·";margin-left:1rem;color:var(--border)}
+@media (max-width:600px){.nav-meta{display:none}}
+.hero{padding:5rem 0 4rem;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;max-width:none;background:radial-gradient(circle,rgba(167,139,250,.22) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(91,20,255,.14) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1.8rem;box-shadow:var(--shadow-sm)}
+.hero h1{margin-bottom:1.5rem}
+.hero-lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:720px;margin:0 auto 1.5rem;line-height:1.55}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.hero-chips span{font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:.35rem .9rem}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:880px;margin:3rem auto 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-num{font-family:Manrope,sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em;margin-bottom:.5rem}
+.stat-label{font-size:.82rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.hero-stats{grid-template-columns:1fr}}
+.section-label{display:inline-block;font-family:Inter,sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:1.5rem}
+.toc-section{padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);text-align:center}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:800px;margin:1rem auto 0}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left;color:var(--ink);transition:.15s}
+.toc-item:hover{border-color:var(--accent);transform:translateX(2px);box-shadow:var(--shadow-sm);color:var(--ink)}
+.toc-num{font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);flex-shrink:0;width:36px}
+.toc-title{font-weight:600;font-size:.95rem;line-height:1.3}
+@media (max-width:600px){.toc-grid{grid-template-columns:1fr}}
+main>section.module{padding:6rem 0;position:relative;overflow:hidden}
+main>section.module:nth-of-type(odd){background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+section.module::before{content:"";position:absolute;top:10%;right:-180px;width:480px;height:480px;background:radial-gradient(circle,rgba(167,139,250,.16) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
+section.module>.container,section.module>.container-narrow{position:relative;z-index:1}
+.module-header{margin-bottom:2.5rem}
+.module-num{font-family:Manrope,sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.6rem;display:block}
+.module-lead{font-size:1.15rem;color:var(--ink-soft);margin:1.5rem 0 2.5rem;line-height:1.55;max-width:720px}
+.prose p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.3rem}
+.callout{background:var(--bg-card);border-left:4px solid var(--accent);border-radius:var(--radius-md);padding:1.6rem 1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm);text-align:left}
+.callout.warning{border-left-color:var(--warning);background:linear-gradient(135deg,var(--warning-soft) 0%,var(--bg-card) 60%)}
+.callout.success{border-left-color:var(--success);background:linear-gradient(135deg,var(--success-soft) 0%,var(--bg-card) 60%)}
+.callout-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.6rem}
+.callout.warning .callout-tag{color:var(--warning)}
+.callout.success .callout-tag{color:var(--success)}
+.callout p{margin:0;color:var(--ink);line-height:1.55}
+.callout ul{margin:.2rem 0 0 1.2rem;color:var(--ink);line-height:1.6}
+/* 3 casquettes : reprend .evolution */
+.evolution{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2rem 0}
+.evo-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;text-align:center;box-shadow:var(--shadow-sm)}
+.evo-col.featured{border:2px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg-card) 50%);transform:scale(1.02);box-shadow:var(--shadow-md)}
+.evo-acronym{font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;letter-spacing:-.04em;margin-bottom:.4rem}
+.evo-col:not(.featured) .evo-acronym{color:var(--ink-muted)}
+.evo-full{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:1rem;font-weight:600}
+.evo-col h4{margin-bottom:.6rem}
+.evo-col p{font-size:.92rem;line-height:1.55;text-align:left}
+.evo-target{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--border);text-align:left;font-size:.85rem;line-height:1.45;color:var(--ink)}
+.evo-target strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem;font-weight:800}
+@media (max-width:800px){.evolution{grid-template-columns:1fr}.evo-col.featured{transform:none}}
+/* circuit : reprend .rag-flow */
+.rag-flow{margin:2.5rem 0;display:flex;flex-direction:column;gap:1.5rem}
+.rag-step{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.rag-step:hover{border-color:var(--accent-line)}
+.rag-step-circle{flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.6rem;box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+.rag-step.alt .rag-step-circle{background:var(--warning);box-shadow:rgba(194,65,12,.3) 0 6px 20px}
+.rag-step>div:last-child{flex:1 1 0%;min-width:0}
+.step-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);margin-bottom:.4rem}
+.rag-step h4{margin-bottom:.6rem}
+.rag-step p{margin:0;line-height:1.55}
+/* tableaux dans la charte */
+.data-table{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);margin:2rem 0}
+.data-table table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+.data-table th{text-align:left;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding:1rem 1.1rem;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.data-table td{padding:.9rem 1.1rem;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table td strong{color:var(--ink)}
+.data-table .n{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--accent-dark);white-space:nowrap}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .6rem;border-radius:6px;white-space:nowrap}
+.badge.yes{background:var(--success-soft);color:var(--success)}
+.badge.no{background:var(--warning-soft);color:var(--warning)}
+.badge.mid{background:var(--accent-soft);color:var(--accent-dark)}
+/* barre de répartition */
+.split{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);margin:2rem 0}
+.split h4{margin-bottom:1.2rem}
+.split-bar{display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden}
+.split-bar div{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:500;color:var(--on-accent);white-space:nowrap;overflow:hidden}
+.split-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem 1rem;margin-top:1.2rem;font-size:.88rem;color:var(--ink-soft)}
+.split-legend span{display:flex;align-items:center;gap:.5rem}
+.split-legend i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.split-legend b{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--ink);margin-left:auto}
+.split-note{font-size:.82rem;color:var(--ink-muted);margin:1rem 0 0;line-height:1.5}
+/* cartes : reprend .motors / .eeat */
+.motors,.eeat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:2rem 0}
+.motor-card,.eeat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-sm);min-width:0}
+.eeat-card{transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.eeat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motor-name{font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;color:var(--ink);letter-spacing:-.02em;margin-bottom:.3rem}
+.motor-by{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.motor-spec{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border-soft);font-size:.9rem;line-height:1.45}
+.motor-spec:last-child{border-bottom:0}
+.motor-spec-label{flex-shrink:0;width:78px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding-top:.2rem}
+.motor-spec-value{flex:1 1 0%;color:var(--ink-soft)}
+.eeat-letter{width:52px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1rem}
+.eeat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem}
+.eeat-card h4{margin-bottom:.8rem}
+.eeat-card>p{font-size:.95rem;line-height:1.55;margin-bottom:1.2rem}
+.eeat-music{background:var(--accent-soft);border-radius:var(--radius-sm);padding:1rem;font-size:.9rem;line-height:1.5;color:var(--ink);margin-top:auto}
+.eeat-music strong{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.eeat-music .out{color:var(--warning)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:740px){.eeat-grid,.motors,.grid3{grid-template-columns:1fr}}
+/* étapes : reprend .factors */
+.factors{display:flex;flex-direction:column;gap:1.2rem;margin:2rem 0}
+.factor{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.factor:hover{border-color:var(--accent-line)}
+.factor-num{flex-shrink:0;font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;width:50px;letter-spacing:-.03em}
+.factor.err .factor-num{color:var(--warning)}
+.factor>div:last-child{flex:1 1 0%;min-width:0}
+.factor h4{margin-bottom:.6rem}
+.factor p{font-size:.95rem;line-height:1.55;margin-bottom:1rem}
+.factor p:last-child{margin-bottom:0}
+.factor-detail{background:var(--accent-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.88rem;line-height:1.5;color:var(--ink)}
+.factor-detail strong{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.factor.err .factor-detail{background:var(--warning-soft)}
+.factor.err .factor-detail strong{color:var(--warning)}
+/* checklist : reprend .audit */
+.audit-intro{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm)}
+.audit-intro h3{margin-bottom:.8rem}
+.audit-intro p{margin:0;line-height:1.6}
+.audit-prompts{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.prompt-row{display:flex;gap:1.2rem;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.prompt-num{flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--accent);width:36px}
+.prompt-row>div:not(.prompt-num){flex:1 1 0%;min-width:0}
+.prompt-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.audit-check{flex-shrink:0;padding:.5rem .9rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s;font-family:Inter,sans-serif}
+.audit-check:hover{border-color:var(--accent-line)}
+.audit-check.checked{background:var(--success);color:var(--on-accent);border-color:var(--success);font-weight:600}
+.score{font-family:"JetBrains Mono",monospace;color:var(--success);font-weight:500}
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.faq details{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:border-color .2s}
+.faq details:hover,.faq details[open]{border-color:var(--accent-line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.5rem;font-family:Manrope,sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.faq details[open] summary::after{content:"−";background:var(--accent);color:var(--on-accent)}
+.faq .ans{padding:0 1.5rem 1.4rem;color:var(--ink-soft);font-size:.97rem;line-height:1.65}
+/* synthèse */
+.recap{background:var(--ink);color:var(--recap-text);padding:4rem 0;position:relative;overflow:hidden}
+.recap::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(91,20,255,.25) 0%,transparent 60%);border-radius:50%;pointer-events:none}
+.recap>.container-narrow{position:relative;z-index:1}
+.recap h3{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg-card);margin-bottom:1.5rem}
+.recap-list{list-style:none;counter-reset:item;display:flex;flex-direction:column;gap:1rem}
+.recap-list li{counter-increment:item;padding-left:3rem;position:relative;line-height:1.55;color:var(--recap-text)}
+.recap-list li::before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:Manrope,sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-line)}
+.recap-list li strong{color:var(--bg-card)}
+.next-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin:4rem auto;max-width:760px;text-align:center;box-shadow:var(--shadow-md)}
+.next-cta h3{margin-bottom:1rem}
+.next-cta p{margin-bottom:1.5rem;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.1rem 2.2rem;font-family:Manrope,sans-serif;font-size:1rem;font-weight:800;border-radius:999px;border:0;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+footer.site-footer{background:var(--ink);color:rgba(247,241,232,.55);padding:2.5rem 0;text-align:center;font-size:.85rem;border-top:1px solid rgba(247,241,232,.08);line-height:1.7}
+footer.site-footer .src{max-width:760px;margin:0 auto 1rem;font-size:.8rem;color:rgba(247,241,232,.45)}
+@media (max-width:860px){main>section.module{padding:4rem 0}.toc-section{padding:3rem 0}.module-header{margin-bottom:1.8rem}.module-lead{font-size:1.05rem;margin:1rem 0 1.8rem}.rag-step,.factor{padding:1.4rem;gap:1rem}.rag-step-circle{width:48px;height:48px;font-size:1.3rem}.factor-num{font-size:1.6rem;width:40px}.next-cta{padding:1.8rem 1.4rem}.recap-list li{padding-left:2.4rem}section.module::before{width:320px;height:320px}}
+@media (max-width:480px){.hero{padding:3rem 0 2.5rem}.hero h1{font-size:2rem}.rag-step,.factor{flex-direction:column;gap:.8rem}.prompt-row{flex-wrap:wrap}}
+html,body{width:100% !important;max-width:100% !important;overflow-x:hidden}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress-bar"></div>
+<header class="top-nav">
+  <div class="nav-inner">
+    <span class="brand-mark">MUZI<em>FORMA</em></span>
+    <div class="nav-meta"><span>Module 07 / 08</span><span>Muziforma</span></div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Module 07 · Produire une campagne responsable</span>
+    <h1>Intégrer les principes de <em>sobriété numérique</em> et d'éco-responsabilité.</h1>
+    <p class="hero-lead">Appareils, fichiers, vidéos, e-mails, publicités et objets : ta campagne a un coût pour l'environnement, et souvent aussi pour ton temps et ton budget. Ce cours te montre où agir en priorité, avec des gestes simples et sans discours que tu ne pourrais pas prouver.</p>
+    <div class="hero-chips"><span>Lecture : 12 min</span><span>Formateur : Tarik Hamiche</span></div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">4,4 %</div><div class="stat-label">De l'empreinte carbone de la France vient du numérique (données 2022, ADEME et Arcep)</div></div>
+      <div class="stat-card"><div class="stat-num">50 %</div><div class="stat-label">De cette empreinte vient des terminaux : téléphones, ordinateurs, écrans</div></div>
+      <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">Questions pour faire le mini-diagnostic de ta campagne</div></div>
+      <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Actions prioritaires et un seul indicateur à suivre</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc-section">
+  <div class="container-narrow">
+    <div class="callout">
+      <div class="callout-tag">★ Objectifs pédagogiques</div>
+      <ul>
+        <li>Savoir où se concentre l'impact environnemental d'une campagne et ce que la loi t'impose vraiment</li>
+        <li>Produire et diffuser tes contenus avec moins de matériel, moins de fichiers et moins de diffusion inutile</li>
+        <li>Parler de ta démarche sans écoblanchiment, à partir d'actions concrètes et mesurables</li>
+      </ul>
+    </div>
+    <div class="section-label">Plan du cours</div>
+    <div class="toc-grid">
+      <a href="#empreinte" class="toc-item"><span class="toc-num">01</span><span class="toc-title">Où se joue l'impact</span></a>
+      <a href="#cadre" class="toc-item"><span class="toc-num">02</span><span class="toc-title">Ce que la loi te demande</span></a>
+      <a href="#produire" class="toc-item"><span class="toc-num">03</span><span class="toc-title">Produire sobrement</span></a>
+      <a href="#diffuser" class="toc-item"><span class="toc-num">04</span><span class="toc-title">Diffuser sobrement</span></a>
+      <a href="#communiquer" class="toc-item"><span class="toc-num">05</span><span class="toc-title">Communiquer sans écoblanchiment</span></a>
+      <a href="#methode" class="toc-item"><span class="toc-num">06</span><span class="toc-title">La méthode : diagnostic, 3 actions, 1 indicateur</span></a>
+      <a href="#checklist" class="toc-item"><span class="toc-num">07</span><span class="toc-title">Livrable : ta checklist</span></a>
+      <a href="#faq" class="toc-item"><span class="toc-num">08</span><span class="toc-title">FAQ</span></a>
+    </div>
+    <div class="callout warning" style="margin-top:2.5rem;text-align:left">
+      <div class="callout-tag">⚠ Des chiffres et des règles à vérifier</div>
+      <p>Les chiffres, les textes et les outils cités ici ont été relevés en <strong>octobre 2026</strong> sur des sources publiques françaises (ADEME, Arcep, DGCCRF, CNIL, CNM) et peuvent avoir évolué : vérifie la source à jour avant de citer un chiffre ou de publier une affirmation « verte ». Ce cours ne donne volontairement aucun chiffre du type « un e-mail égale tant de grammes de CO2 », car ces valeurs varient énormément et ne t'aident pas à décider.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="module" id="empreinte">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">01 / 08</span><h2>Où se joue <em>l'impact</em></h2></div>
+    <p class="module-lead">Tu n'as pas besoin de calculer des grammes de CO2, mais de savoir ce qui pèse lourd et ce qui pèse peu, pour mettre ton énergie au bon endroit.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Poste d'une campagne</th><th>Poids relatif</th><th>Où tu as la main</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Achat de matériel neuf</strong> (téléphone, ordinateur, caméra, écran)</td><td><span class="badge no">Fort</span></td><td>Garder, réparer, acheter reconditionné, louer, emprunter</td></tr>
+        <tr><td><strong>Déplacements</strong> pour un tournage ou un événement</td><td><span class="badge no">Fort</span></td><td>Regrouper les tournages, choisir des lieux proches, train et covoiturage</td></tr>
+        <tr><td><strong>Objets fabriqués</strong> (merchandising, supports physiques)</td><td><span class="badge no">Fort</span></td><td>Quantités, précommande, matières, lieu de fabrication</td></tr>
+        <tr><td><strong>Vidéo</strong> : production, mise en ligne, diffusion payante</td><td><span class="badge mid">Moyen</span></td><td>Définition, durée, nombre de versions, ciblage, répétition</td></tr>
+        <tr><td><strong>Stockage en ligne</strong> de rushes et de projets</td><td><span class="badge mid">Moyen</span></td><td>Tri, archivage sur disque, suppression des doublons</td></tr>
+        <tr><td><strong>IA générative</strong> (images, vidéos, sons)</td><td><span class="badge mid">Moyen, en hausse</span></td><td>Nombre d'essais, type de génération, utilité réelle</td></tr>
+        <tr><td><strong>Site et page de capture</strong></td><td><span class="badge yes">Faible à moyen</span></td><td>Poids des images, vidéos intégrées, scripts</td></tr>
+        <tr><td><strong>E-mails</strong> sans pièce jointe</td><td><span class="badge yes">Faible</span></td><td>Taille de la liste, poids des images, fréquence</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Selon l'ADEME et l'Arcep, la <strong>fabrication des équipements représente environ 60 %</strong> de l'empreinte carbone du numérique, contre 40 % pour l'utilisation (à vérifier). Le geste qui pèse le plus est donc de <strong>garder ton matériel longtemps</strong>. Dans l'ordre : le matériel, les déplacements et les objets d'abord, la vidéo et le stockage ensuite, les petits gestes (e-mails, pages) enfin. Ce classement est qualitatif : il ne remplace pas un bilan chiffré.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="module" id="cadre">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">02 / 08</span><h2>Ce que <em>la loi</em> te demande</h2></div>
+    <p class="module-lead">La plupart des textes sur le numérique responsable ne t'imposent rien, mais ce que tu affirmes sur l'impact environnemental de ton projet est encadré dès que tu communiques ou que tu vends.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Texte</th><th>Ce qu'il prévoit</th><th>Ce que tu en retiens</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Loi REEN</strong> (2021) et <strong>RGESN</strong> (référentiel d'écoconception publié en 2024 par l'Arcep et l'Arcom)</td><td>Faire durer les appareils, encourager des usages vertueux ; 78 critères de bonnes pratiques pour concevoir des sites et services en ligne, à application volontaire.</td><td><span class="badge mid">Référence</span> Pas d'obligation pour un artiste indépendant, mais une liste de bonnes pratiques utile pour ton site et ta page de capture.</td></tr>
+        <tr><td><strong>Loi AGEC</strong> (2020), article L. 541-9-1 du code de l'environnement</td><td>Interdit sur un produit ou un emballage les mentions « biodégradable », « respectueux de l'environnement » ou équivalentes.</td><td><span class="badge no">Te concerne</span> Dès que tu vends du merchandising ou un support physique : aucune mention « écologique » vague sur l'étiquette ou l'emballage.</td></tr>
+        <tr><td><strong>Loi Climat et résilience</strong> (2021), articles L. 229-68 et L. 229-69 du code de l'environnement</td><td>Interdit d'affirmer dans une publicité qu'un produit ou un service est « neutre en carbone » sans bilan sur tout le cycle de vie, trajectoire de réduction, compensation encadrée et rapport public.</td><td><span class="badge no">Te concerne</span> N'écris jamais « album neutre en carbone », « tournée zéro carbone » ou « clip compensé ».</td></tr>
+        <tr><td><strong>Code de la consommation</strong>, article L. 121-2</td><td>Est trompeuse une allégation fausse ou de nature à induire en erreur sur l'impact environnemental d'un produit ou sur les engagements de l'annonceur.</td><td><span class="badge no">Te concerne</span> Tout ce que tu affirmes doit être vrai, précis et prouvable.</td></tr>
+        <tr><td><strong>Directive (UE) 2024/825</strong></td><td>Interdit notamment les allégations génériques non démontrées, la neutralité fondée sur la compensation et les labels non certifiés. Application prévue au 27 septembre 2026 ; transposition française non adoptée fin septembre 2026 (à vérifier sur le site de la DGCCRF).</td><td><span class="badge no">Te concerne</span> Même conduite à tenir : pas de mot vague, pas de neutralité carbone, pas de logo « vert » inventé.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Les sanctions s'appliquent à tous : une pratique commerciale trompeuse est un délit puni de deux ans d'emprisonnement et de 300 000 euros d'amende ; l'usage non conforme de « neutre en carbone » dans une publicité expose à 20 000 euros d'amende pour une personne physique et 100 000 euros pour une personne morale (montants relevés en octobre 2026, à vérifier). En pratique, un artiste indépendant risque d'abord une mauvaise publicité et une demande de retrait.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="module" id="produire">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">03 / 08</span><h2>Produire <em>sobrement</em></h2></div>
+    <p class="module-lead">C'est avant la mise en ligne (matériel, tournage, export, déclinaisons, rangement, objets) que se prennent les décisions qui pèsent le plus.</p>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>S'équiper sans racheter</h4><p>Passe dans l'ordre par cinq options : <strong>garder</strong> (batterie remplacée, stockage nettoyé), <strong>réparer</strong>, <strong>emprunter</strong> (stabilisateur, micro, éclairages partagés avec d'autres artistes ou ton collectif), <strong>louer</strong> pour un tournage ponctuel, et seulement en dernier recours <strong>acheter</strong> reconditionné ou d'occasion, un modèle réparable. Les réglages vus au Module 5 comptent plus que le modèle.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Tourner par blocs et décliner</h4><p>Regroupe plusieurs contenus sur une même session (Module 5, « Planifier tes tournages de contenus ») : un seul déplacement, une seule installation. D'une session, tire le clip, des extraits verticaux, une version courte pour la publicité, des photos. Republie ce qui a fonctionné (tes statistiques du cours 7.7 te disent lesquels) et retire du calendrier tout contenu sans objectif.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Exporter à la bonne définition</h4><p>Demande-toi où le contenu sera regardé. Vidéos verticales pour les réseaux et publicités : 1080p, les plateformes recompressent de toute façon (vérifie leurs spécifications, elles évoluent). Clip YouTube : 1080p, 4K seulement si l'image est un argument artistique. Images : aux dimensions demandées, en WebP, AVIF ou JPEG compressé. Audio : WAV pour le master, MP3 ou lien d'écoute pour les échanges.</p><div class="factor-detail"><strong>Comment faire</strong>Exporte en MP4 (H.264, lu partout, ou H.265, plus léger) avec un débit adapté plutôt que « qualité maximale ». Des outils gratuits comme HandBrake (vidéo) ou Squoosh (images) le font très bien, ton logiciel de montage aussi.</div></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Utiliser l'IA générative avec mesure</h4><p>L'ADEME (avis de juillet 2026) souligne ses impacts importants, liés aux centres de données, et recommande un usage raisonné. Demande-toi si tu en as besoin, prépare une consigne précise plutôt que cinquante essais « pour voir », réserve la génération de vidéo aux vrais besoins artistiques, et signale les contenus réalistes générés par IA.</p></div></div>
+      <div class="factor"><div class="factor-num">05</div><div><h4>Ranger après le tournage</h4><p>Dans la semaine qui suit la sortie, supprime prises ratées, exports intermédiaires et doublons. Archive rushes, sessions et masters sur un disque dur externe, avec une deuxième copie ailleurs pour les fichiers irremplaçables. Réserve le stockage en ligne à ce que tu partages en ce moment et fais le ménage une fois par trimestre.</p></div></div>
+      <div class="factor"><div class="factor-num">06</div><div><h4>Fabriquer les objets au plus juste</h4><p>Le pire scénario, pour la planète comme pour ta trésorerie, c'est le carton d'invendus. Privilégie la précommande, l'impression à la demande ou les petites séries, ajuste les quantités de vinyles et de CD à ta base de fans réelle (Module 6), imprime peu d'affiches et localement, et regroupe tes tournages et rendez-vous de promotion pour limiter les trajets.</p></div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Presque chaque geste te fait aussi gagner quelque chose : un achat repoussé, des journées de tournage récupérées, un abonnement de stockage qui ne passe pas au palier supérieur, de la trésorerie qui ne dort pas dans des cartons.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="module" id="diffuser">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">04 / 08</span><h2>Diffuser <em>sobrement</em></h2></div>
+    <p class="module-lead">En publicité, par e-mail et sur tes pages, c'est toi qui décides à qui, combien de fois et sous quel poids tu diffuses : la sobriété rejoint ici directement l'efficacité.</p>
+    <div class="factors">
+      <div class="factor"><div class="factor-num">01</div><div><h4>Cibler précisément</h4><p>Une audience définie (tes fans, les personnes qui ont vu tes vidéos, les visiteurs de ta page, des audiences similaires) reçoit moins d'impressions inutiles qu'une audience « toute la France ». Comme au cours 7.3 : zone limitée aux territoires où tu peux jouer ou vendre, exclusion des personnes déjà converties, un seul objectif par campagne.</p></div></div>
+      <div class="factor"><div class="factor-num">02</div><div><h4>Surveiller la répétition et fixer une règle d'arrêt</h4><p>La répétition est le nombre moyen de fois où une même personne a vu ta publicité. Quand elle monte et que le coût par résultat se dégrade, change la créative, élargis légèrement ou arrête. Fixe avant le lancement une date de bilan, un indicateur et un seuil propre à ton projet, et programme une date de fin sur chaque campagne.</p></div></div>
+      <div class="factor"><div class="factor-num">03</div><div><h4>Pas de lecture automatique sur tes pages</h4><p>Sur ton site, ta page de capture ou ton dossier de presse, pas de vidéo lancée à l'ouverture ni de vidéo d'arrière-plan en boucle : affiche une image d'aperçu avec un bouton de lecture. Héberge la vidéo sur une plateforme, qui adapte la définition à chaque écran, et jamais en pièce jointe d'un e-mail.</p></div></div>
+      <div class="factor"><div class="factor-num">04</div><div><h4>Une liste de contacts nettoyée</h4><p>Repère les contacts sans ouverture ni clic depuis six ou douze mois, envoie-leur un e-mail de réengagement court (« veux-tu rester sur la liste ? »), puis supprime ceux qui ne répondent pas et les adresses en erreur. Deux fois par an : ta délivrabilité s'améliore et, souvent, ta facture baisse.</p></div></div>
+      <div class="factor"><div class="factor-num">05</div><div><h4>Des e-mails légers</h4><p>Un lien d'écoute ou vers ton dossier de presse plutôt qu'une pièce jointe lourde (c'est aussi ce que préfèrent les programmateurs et journalistes, cours 7.2), une ou deux images compressées avec texte alternatif (cours 7.5), du vrai texte plutôt qu'une grande image, et des envois segmentés : un concert à Lyon part vers les contacts de la région.</p></div></div>
+      <div class="factor"><div class="factor-num">06</div><div><h4>Une page de capture rapide</h4><p>Images redimensionnées en WebP ou AVIF avec chargement différé, peu de scripts (garde le pixel du cours 7.3 et un outil de statistiques), une ou deux polices, un seul objectif, trois à cinq liens sur ta page de liens. Teste-la sur un vieux téléphone en réseau mobile : si elle s'affiche bien, elle fonctionnera partout.</p></div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Mesure ta page gratuitement avec <strong>EcoIndex</strong> (ecoindex.fr) ou <strong>PageSpeed Insights</strong>, corrige les deux ou trois points les plus lourds, puis mesure à nouveau ; ces notes sont des indicateurs de progrès, pas des certifications à afficher. Pour ta liste, la CNIL indique que les données des prospects peuvent être conservées <strong>trois ans à compter de la collecte ou du dernier contact venant du prospect</strong> (à vérifier ; voir le cours « Protéger juridiquement le système d'acquisition » du Module 6).</p>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="module" id="communiquer">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">05 / 08</span><h2>Communiquer <em>sans écoblanchiment</em></h2></div>
+    <p class="module-lead">La règle la plus sûre : parle de ce que tu fais, pas de ce que tu es, et fais passer chaque phrase sur ta démarche par ces cinq questions.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Vrai</span><h4>Est-ce que je l'ai réellement fait ?</h4><p>Pas « prévu » : fait. Un engagement futur se formule comme tel, avec une date (« à partir de la prochaine sortie, je passerai en précommande »).</p></div></div>
+      <div class="rag-step alt"><div class="rag-step-circle">2</div><div><span class="step-tag">Précis</span><h4>Est-ce que je dis sur quoi cela porte ?</h4><p>Le produit entier ou seulement l'emballage ? Toute la campagne ou seulement le clip ? « Vinyle 100 % recyclé » quand seule la pochette l'est, c'est un mensonge.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Prouvable</span><h4>Est-ce que je peux montrer une preuve ?</h4><p>Facture du fabricant, certificat du label, capture de la mesure de ta page, nombre d'exemplaires. Ne reprends pas un argument de ton fournisseur sans son justificatif.</p></div></div>
+      <div class="rag-step alt"><div class="rag-step-circle">4</div><div><span class="step-tag">Proportionné</span><h4>Le ton correspond-il à la taille de l'action ?</h4><p>Un geste modeste mérite une phrase modeste, sans feuilles vertes ni planète sur le visuel. Tu n'as pas « révolutionné l'industrie », tu as évité un stock d'invendus.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">5</div><div><span class="step-tag">Utile</span><h4>Est-ce que cela intéresse mon public ?</h4><p>Beaucoup de gestes se pratiquent sans en parler. Communique quand cela fait partie de ton histoire (cours 7.1) ou change quelque chose pour le fan (précommande, délai de fabrication).</p></div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Évite « artiste éco-responsable », « zéro impact » ou « merch éco-responsable ». Utilise la formule sûre : <strong>un fait, un chiffre, un périmètre, une date</strong>. « Pour cette sortie (périmètre), les 200 vinyles (chiffre) ont été pressés sur précommande (fait), en mars 2027 (date). »</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="module" id="methode">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">06 / 08</span><h2>La méthode : <em>diagnostic, 3 actions, 1 indicateur</em></h2></div>
+    <p class="module-lead">Réponds aux six questions pour ta campagne, retiens trois actions (une sur la production, une sur la diffusion, une sur tes outils), suis un seul indicateur et fais le bilan en fin de campagne (cours 7.7 et 7.8).</p>
+    <div class="data-table"><table>
+      <thead><tr><th style="width:60px">N°</th><th>Question du mini-diagnostic</th><th>Réponse favorable</th><th>Action possible si la réponse est non</th></tr></thead>
+      <tbody>
+        <tr><td class="n">1</td><td><strong>Matériel :</strong> ai-je acheté du matériel neuf pour cette campagne ?</td><td>Non, ou seulement après avoir écarté réparation, prêt, location et reconditionné</td><td>Appliquer l'ordre « garder, réparer, emprunter, louer, acheter d'occasion » au prochain besoin</td></tr>
+        <tr><td class="n">2</td><td><strong>Production :</strong> combien de contenus ai-je tirés de chaque session de tournage ?</td><td>Plusieurs formats par session, prévus dans le plan de tournage</td><td>Regrouper les tournages en blocs et prévoir les déclinaisons avant de filmer</td></tr>
+        <tr><td class="n">3</td><td><strong>Fichiers :</strong> mes vidéos et mes images sont-elles exportées à la définition de leur usage ?</td><td>1080p pour les réseaux, images redimensionnées et compressées</td><td>Créer un réglage d'export par usage et s'y tenir</td></tr>
+        <tr><td class="n">4</td><td><strong>Publicité :</strong> ai-je une audience précise, une date de fin et une règle d'arrêt ?</td><td>Oui, les trois, écrites avant le lancement</td><td>Resserrer le ciblage, suivre la répétition, couper les publicités les moins efficaces</td></tr>
+        <tr><td class="n">5</td><td><strong>Contacts et pages :</strong> ma liste est-elle nettoyée et ma page de capture mesurée ?</td><td>Nettoyage fait dans l'année, page mesurée et allégée</td><td>Lancer un réengagement puis supprimer les inactifs ; compresser les images de la page</td></tr>
+        <tr><td class="n">6</td><td><strong>Objets et déplacements :</strong> ai-je fabriqué au plus juste et limité les trajets ?</td><td>Précommande ou petite série, tournage proche, trajets regroupés</td><td>Passer en précommande ou en impression à la demande ; choisir un lieu accessible en train</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Choisis l'indicateur qui correspond à ton action principale et note sa valeur avant et après, sur une ligne de ton tableau de bord (Module 4) : <strong>contenus par session</strong> de tournage, <strong>répétition moyenne</strong> de tes publicités, <strong>part de contacts actifs</strong>, <strong>poids de ta page de capture</strong> ou <strong>taux d'invendus</strong> trois mois après la sortie. Un seul suffit.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="module" id="checklist">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">07 / 08</span><h2>Livrable : ta <em>checklist</em></h2></div>
+    <div class="audit-intro">
+      <h3>Clique sur les cases au fur et à mesure</h3>
+      <p>Ce travail prépare l'exercice « Production et diffusion d'un contenu de campagne » du Module 7 : tu y joins ton mini-diagnostic, tes trois actions prioritaires et l'indicateur que tu suis, appliqués au contenu que tu produis et diffuses. Progression : <span class="score" id="score">0 / 6</span></p>
+    </div>
+    <div class="audit-prompts" id="checklist-list">
+      <div class="prompt-row"><div class="prompt-num">C01</div><div><div class="prompt-text">J'ai répondu aux 6 questions du mini-diagnostic pour ma campagne en cours ou ma prochaine campagne</div></div><button type="button" class="audit-check" id="c1">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C02</div><div><div class="prompt-text">J'ai vérifié, pour chaque besoin de matériel, si je peux le garder, le réparer, l'emprunter ou le louer avant d'acheter</div></div><button type="button" class="audit-check" id="c2">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C03</div><div><div class="prompt-text">J'ai regroupé mes tournages en blocs, prévu les déclinaisons et défini un réglage d'export par usage</div></div><button type="button" class="audit-check" id="c3">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C04</div><div><div class="prompt-text">Ma publicité a une audience précise, une date de fin et une règle d'arrêt écrite, et je suis la répétition à chaque bilan</div></div><button type="button" class="audit-check" id="c4">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C05</div><div><div class="prompt-text">J'ai nettoyé ma liste de contacts, remplacé les pièces jointes par des liens et mesuré puis allégé ma page de capture</div></div><button type="button" class="audit-check" id="c5">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C06</div><div><div class="prompt-text">J'ai retiré toute allégation environnementale vague de mes textes, choisi mes 3 actions et 1 indicateur, et noté sa valeur de départ</div></div><button type="button" class="audit-check" id="c6">⬚ Fait</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="module" id="faq">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">08 / 08</span><h2>Questions <em>fréquentes</em></h2></div>
+    <div class="faq">
+      <details><summary>Suis-je légalement obligé d'appliquer la loi REEN ou le RGESN ?</summary><div class="ans">Non, pas en tant qu'artiste indépendant : la loi REEN vise surtout les fabricants, les opérateurs, les centres de données et les pouvoirs publics, et le RGESN est d'application volontaire. En revanche, les règles sur les allégations environnementales (pratiques commerciales trompeuses, « neutre en carbone », mentions interdites sur les produits et emballages) s'appliquent à toi dès que tu communiques ou que tu vends.</div></details>
+      <details><summary>Dois-je arrêter de faire de la vidéo ?</summary><div class="ans">Non. La vidéo est au cœur de ta promotion. Agis là où tu as la main : tourner par blocs, exporter à la définition utile, décliner plutôt que tout refaire, cibler ta diffusion payante et éviter la lecture automatique sur tes propres pages.</div></details>
+      <details><summary>Puis-je écrire que mon merchandising est « éco-responsable » ?</summary><div class="ans">Évite. C'est une mention vague, et les mentions « respectueux de l'environnement » ou équivalentes sont interdites sur les produits et les emballages. Écris des faits : la matière et son label (avec le justificatif du fabricant), le lieu d'impression, le mode de fabrication (précommande, à la demande), le nombre d'exemplaires.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="recap">
+  <div class="container-narrow">
+    <div class="section-label" style="color:var(--accent-line)">Synthèse</div>
+    <h3>Ce que tu dois retenir de ce cours</h3>
+    <ol class="recap-list">
+      <li>Le numérique représente 4,4 % de l'empreinte carbone de la France (données 2022, ADEME et Arcep), et <strong>la fabrication des équipements concentre la majorité de l'impact</strong> : fais durer ton matériel.</li>
+      <li>La loi REEN et le RGESN ne t'imposent rien, mais les <strong>règles sur les allégations environnementales</strong> s'appliquent à toi : pas de « neutre en carbone », pas de mention vague.</li>
+      <li><strong>Produire sobrement</strong>, c'est tourner par blocs, exporter à la définition utile, décliner tes contenus, utiliser l'IA avec mesure, ranger tes fichiers et fabriquer les objets au plus juste.</li>
+      <li><strong>Diffuser sobrement</strong>, c'est cibler, surveiller la répétition, couper ce qui ne performe pas, nettoyer ta liste et alléger tes e-mails et ta page : sobriété et efficacité vont dans le même sens.</li>
+      <li>Avance avec <strong>un mini-diagnostic en 6 questions, 3 actions, 1 indicateur</strong>, et un discours qui tient en « un fait, un chiffre, un périmètre, une date ».</li>
+    </ol>
+  </div>
+</section>
+
+<div class="container-narrow">
+  <div class="next-cta">
+    <h3>Prêt pour la <em>vidéo suivante</em> ?</h3>
+    <p>Piloter et analyser ses campagnes : YouTube Studio, Meta Insights, Spotify for Artists.</p>
+    <span class="btn btn-primary">Continuer vers le pilotage →</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="src">Support pédagogique de la formation « Structurer et développer une activité artistique musicale » (certification RS7398), Module 7 : Campagnes de promotion inclusives, éco-responsables et optimisées. Les chiffres et les règles cités ont été relevés en octobre 2026 auprès de sources publiques (ADEME, Arcep, ministère chargé de l'écologie, DGCCRF, CNIL, Centre national de la musique) et dans des analyses juridiques spécialisées ; ils peuvent avoir évolué et doivent être vérifiés à la source avant toute décision. Ce support ne constitue pas un conseil juridique.</p>
+    © 2026 Tarik Hamiche · Muziforma
+  </div>
+</footer>
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var btns=[].slice.call(document.querySelectorAll('#checklist-list .audit-check'));
+  var score=document.getElementById('score');var KEY='mz-rs7398-m7-06-sobriete-numerique-eco-responsabilite';var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function paint(b){var on=!!saved[b.id];b.classList.toggle('checked',on);b.textContent=(on?'✓':'⬚')+' Fait';b.setAttribute('aria-pressed',on?'true':'false');}
+  function upd(){score.textContent=btns.filter(function(b){return saved[b.id]}).length+' / '+btns.length;}
+  btns.forEach(function(b){paint(b);b.addEventListener('click',function(){saved[b.id]=!saved[b.id];try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}paint(b);upd();});});
+  upd();
+})();
+</script>
+</body>
+</html>

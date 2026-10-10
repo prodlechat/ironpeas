@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Repérer les signaux faibles et les opportunités · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Charte Muziforma : fond sable, violet #5B14FF, Manrope + Inter + JetBrains Mono. */
+:root{--bg:#F7F1E8;--bg-soft:#FCF8F2;--bg-card:#FFFFFF;--ink:#1F1A15;--ink-soft:#5C4F42;--ink-muted:#8A7A6A;--accent:#5B14FF;--accent-dark:#4910CC;--accent-soft:#EDE9FE;--accent-line:#A78BFA;--border:#E8DDC9;--border-soft:#F0E6D4;--warning:#C2410C;--warning-soft:#FFEDD5;--success:#15803D;--success-soft:#DCFCE7;--on-accent:#FFFFFF;--recap-text:rgba(247,241,232,.85);--shadow-sm:0 1px 2px rgba(31,26,21,.04);--shadow-md:0 4px 16px rgba(31,26,21,.06);--radius-sm:8px;--radius-md:14px;--radius-lg:24px;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Manrope,-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700}
+h4{font-size:1.15rem;font-weight:700;line-height:1.3}
+p{margin-bottom:1.1rem;color:var(--ink-soft)}
+strong{color:var(--ink);font-weight:700}
+em{font-style:normal;color:var(--accent);font-weight:800}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.container-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-line));z-index:9999}
+header.top-nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(247,241,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand-mark{font-family:Manrope,sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--ink)}
+.brand-mark em{color:var(--accent)}
+.nav-meta{display:flex;gap:1rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted)}
+.nav-meta span:not(:last-child)::after{content:"·";margin-left:1rem;color:var(--border)}
+@media (max-width:600px){.nav-meta{display:none}}
+.hero{padding:5rem 0 4rem;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;max-width:none;background:radial-gradient(circle,rgba(167,139,250,.22) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(91,20,255,.14) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1.8rem;box-shadow:var(--shadow-sm)}
+.hero h1{margin-bottom:1.5rem}
+.hero-lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:720px;margin:0 auto 1.5rem;line-height:1.55}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.hero-chips span{font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:.35rem .9rem}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:880px;margin:3rem auto 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-num{font-family:Manrope,sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em;margin-bottom:.5rem}
+.stat-label{font-size:.82rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.hero-stats{grid-template-columns:1fr}}
+.section-label{display:inline-block;font-family:Inter,sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:1.5rem}
+.toc-section{padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);text-align:center}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:800px;margin:1rem auto 0}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left;color:var(--ink);transition:.15s}
+.toc-item:hover{border-color:var(--accent);transform:translateX(2px);box-shadow:var(--shadow-sm);color:var(--ink)}
+.toc-num{font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);flex-shrink:0;width:36px}
+.toc-title{font-weight:600;font-size:.95rem;line-height:1.3}
+@media (max-width:600px){.toc-grid{grid-template-columns:1fr}}
+main>section.module{padding:6rem 0;position:relative;overflow:hidden}
+main>section.module:nth-of-type(odd){background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+section.module::before{content:"";position:absolute;top:10%;right:-180px;width:480px;height:480px;background:radial-gradient(circle,rgba(167,139,250,.16) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
+section.module>.container,section.module>.container-narrow{position:relative;z-index:1}
+.module-header{margin-bottom:2.5rem}
+.module-num{font-family:Manrope,sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.6rem;display:block}
+.module-lead{font-size:1.15rem;color:var(--ink-soft);margin:1.5rem 0 2.5rem;line-height:1.55;max-width:720px}
+.prose p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.3rem}
+.callout{background:var(--bg-card);border-left:4px solid var(--accent);border-radius:var(--radius-md);padding:1.6rem 1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm);text-align:left}
+.callout.warning{border-left-color:var(--warning);background:linear-gradient(135deg,var(--warning-soft) 0%,var(--bg-card) 60%)}
+.callout.success{border-left-color:var(--success);background:linear-gradient(135deg,var(--success-soft) 0%,var(--bg-card) 60%)}
+.callout-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.6rem}
+.callout.warning .callout-tag{color:var(--warning)}
+.callout.success .callout-tag{color:var(--success)}
+.callout p{margin:0;color:var(--ink);line-height:1.55}
+.callout ul{margin:.2rem 0 0 1.2rem;color:var(--ink);line-height:1.6}
+/* 3 casquettes : reprend .evolution */
+.evolution{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2rem 0}
+.evo-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;text-align:center;box-shadow:var(--shadow-sm)}
+.evo-col.featured{border:2px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg-card) 50%);transform:scale(1.02);box-shadow:var(--shadow-md)}
+.evo-acronym{font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;letter-spacing:-.04em;margin-bottom:.4rem}
+.evo-col:not(.featured) .evo-acronym{color:var(--ink-muted)}
+.evo-full{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:1rem;font-weight:600}
+.evo-col h4{margin-bottom:.6rem}
+.evo-col p{font-size:.92rem;line-height:1.55;text-align:left}
+.evo-target{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--border);text-align:left;font-size:.85rem;line-height:1.45;color:var(--ink)}
+.evo-target strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem;font-weight:800}
+@media (max-width:800px){.evolution{grid-template-columns:1fr}.evo-col.featured{transform:none}}
+/* circuit : reprend .rag-flow */
+.rag-flow{margin:2.5rem 0;display:flex;flex-direction:column;gap:1.5rem}
+.rag-step{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.rag-step:hover{border-color:var(--accent-line)}
+.rag-step-circle{flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.6rem;box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+.rag-step.alt .rag-step-circle{background:var(--warning);box-shadow:rgba(194,65,12,.3) 0 6px 20px}
+.rag-step>div:last-child{flex:1 1 0%;min-width:0}
+.step-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);margin-bottom:.4rem}
+.rag-step h4{margin-bottom:.6rem}
+.rag-step p{margin:0;line-height:1.55}
+/* tableaux dans la charte */
+.data-table{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);margin:2rem 0}
+.data-table table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+.data-table th{text-align:left;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding:1rem 1.1rem;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.data-table td{padding:.9rem 1.1rem;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table td strong{color:var(--ink)}
+.data-table .n{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--accent-dark);white-space:nowrap}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .6rem;border-radius:6px;white-space:nowrap}
+.badge.yes{background:var(--success-soft);color:var(--success)}
+.badge.no{background:var(--warning-soft);color:var(--warning)}
+.badge.mid{background:var(--accent-soft);color:var(--accent-dark)}
+/* barre de répartition */
+.split{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);margin:2rem 0}
+.split h4{margin-bottom:1.2rem}
+.split-bar{display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden}
+.split-bar div{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:500;color:var(--on-accent);white-space:nowrap;overflow:hidden}
+.split-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem 1rem;margin-top:1.2rem;font-size:.88rem;color:var(--ink-soft)}
+.split-legend span{display:flex;align-items:center;gap:.5rem}
+.split-legend i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.split-legend b{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--ink);margin-left:auto}
+.split-note{font-size:.82rem;color:var(--ink-muted);margin:1rem 0 0;line-height:1.5}
+/* cartes : reprend .motors / .eeat */
+.motors,.eeat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:2rem 0}
+.motor-card,.eeat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-sm);min-width:0}
+.eeat-card{transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.eeat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motor-name{font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;color:var(--ink);letter-spacing:-.02em;margin-bottom:.3rem}
+.motor-by{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.motor-spec{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border-soft);font-size:.9rem;line-height:1.45}
+.motor-spec:last-child{border-bottom:0}
+.motor-spec-label{flex-shrink:0;width:78px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding-top:.2rem}
+.motor-spec-value{flex:1 1 0%;color:var(--ink-soft)}
+.eeat-letter{width:52px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1rem}
+.eeat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem}
+.eeat-card h4{margin-bottom:.8rem}
+.eeat-card>p{font-size:.95rem;line-height:1.55;margin-bottom:1.2rem}
+.eeat-music{background:var(--accent-soft);border-radius:var(--radius-sm);padding:1rem;font-size:.9rem;line-height:1.5;color:var(--ink);margin-top:auto}
+.eeat-music strong{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.eeat-music .out{color:var(--warning)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:740px){.eeat-grid,.motors,.grid3{grid-template-columns:1fr}}
+/* étapes : reprend .factors */
+.factors{display:flex;flex-direction:column;gap:1.2rem;margin:2rem 0}
+.factor{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.factor:hover{border-color:var(--accent-line)}
+.factor-num{flex-shrink:0;font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;width:50px;letter-spacing:-.03em}
+.factor.err .factor-num{color:var(--warning)}
+.factor>div:last-child{flex:1 1 0%;min-width:0}
+.factor h4{margin-bottom:.6rem}
+.factor p{font-size:.95rem;line-height:1.55;margin-bottom:1rem}
+.factor p:last-child{margin-bottom:0}
+.factor-detail{background:var(--accent-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.88rem;line-height:1.5;color:var(--ink)}
+.factor-detail strong{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.factor.err .factor-detail{background:var(--warning-soft)}
+.factor.err .factor-detail strong{color:var(--warning)}
+/* checklist : reprend .audit */
+.audit-intro{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm)}
+.audit-intro h3{margin-bottom:.8rem}
+.audit-intro p{margin:0;line-height:1.6}
+.audit-prompts{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.prompt-row{display:flex;gap:1.2rem;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.prompt-num{flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--accent);width:36px}
+.prompt-row>div:not(.prompt-num){flex:1 1 0%;min-width:0}
+.prompt-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.audit-check{flex-shrink:0;padding:.5rem .9rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s;font-family:Inter,sans-serif}
+.audit-check:hover{border-color:var(--accent-line)}
+.audit-check.checked{background:var(--success);color:var(--on-accent);border-color:var(--success);font-weight:600}
+.score{font-family:"JetBrains Mono",monospace;color:var(--success);font-weight:500}
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.faq details{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:border-color .2s}
+.faq details:hover,.faq details[open]{border-color:var(--accent-line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.5rem;font-family:Manrope,sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.faq details[open] summary::after{content:"−";background:var(--accent);color:var(--on-accent)}
+.faq .ans{padding:0 1.5rem 1.4rem;color:var(--ink-soft);font-size:.97rem;line-height:1.65}
+/* synthèse */
+.recap{background:var(--ink);color:var(--recap-text);padding:4rem 0;position:relative;overflow:hidden}
+.recap::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(91,20,255,.25) 0%,transparent 60%);border-radius:50%;pointer-events:none}
+.recap>.container-narrow{position:relative;z-index:1}
+.recap h3{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg-card);margin-bottom:1.5rem}
+.recap-list{list-style:none;counter-reset:item;display:flex;flex-direction:column;gap:1rem}
+.recap-list li{counter-increment:item;padding-left:3rem;position:relative;line-height:1.55;color:var(--recap-text)}
+.recap-list li::before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:Manrope,sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-line)}
+.recap-list li strong{color:var(--bg-card)}
+.next-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin:4rem auto;max-width:760px;text-align:center;box-shadow:var(--shadow-md)}
+.next-cta h3{margin-bottom:1rem}
+.next-cta p{margin-bottom:1.5rem;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.1rem 2.2rem;font-family:Manrope,sans-serif;font-size:1rem;font-weight:800;border-radius:999px;border:0;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+footer.site-footer{background:var(--ink);color:rgba(247,241,232,.55);padding:2.5rem 0;text-align:center;font-size:.85rem;border-top:1px solid rgba(247,241,232,.08);line-height:1.7}
+footer.site-footer .src{max-width:760px;margin:0 auto 1rem;font-size:.8rem;color:rgba(247,241,232,.45)}
+@media (max-width:860px){main>section.module{padding:4rem 0}.toc-section{padding:3rem 0}.module-header{margin-bottom:1.8rem}.module-lead{font-size:1.05rem;margin:1rem 0 1.8rem}.rag-step,.factor{padding:1.4rem;gap:1rem}.rag-step-circle{width:48px;height:48px;font-size:1.3rem}.factor-num{font-size:1.6rem;width:40px}.next-cta{padding:1.8rem 1.4rem}.recap-list li{padding-left:2.4rem}section.module::before{width:320px;height:320px}}
+@media (max-width:480px){.hero{padding:3rem 0 2.5rem}.hero h1{font-size:2rem}.rag-step,.factor{flex-direction:column;gap:.8rem}.prompt-row{flex-wrap:wrap}}
+html,body{width:100% !important;max-width:100% !important;overflow-x:hidden}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress-bar"></div>
+<header class="top-nav">
+  <div class="nav-inner">
+    <span class="brand-mark">MUZI<em>FORMA</em></span>
+    <div class="nav-meta"><span>Module 08 / 08</span><span>Muziforma</span></div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Module 08 · Veille artistique, technologique et réglementaire</span>
+    <h1>Repérer les <em>signaux faibles</em> et les opportunités.</h1>
+    <p class="hero-lead">Ta veille te remonte chaque semaine des dizaines d'informations : la plupart ne changeront rien à ton projet, quelques-unes annoncent un vrai changement. Ce cours te donne une méthode simple pour faire le tri, qualifier un signal avec une grille et le transformer en petit test daté.</p>
+    <div class="hero-chips"><span>Lecture : 12 min</span><span>Formateur : Tarik Hamiche</span></div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Natures d'information à distinguer : signal faible, tendance installée, bruit</div></div>
+      <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">Critères pour qualifier un signal : répétition, sources indépendantes, lien avec ton projet, coût d'entrée</div></div>
+      <div class="stat-card"><div class="stat-num">8</div><div class="stat-label">Points au maximum dans la grille de qualification proposée dans ce cours</div></div>
+      <div class="stat-card"><div class="stat-num">1</div><div class="stat-label">Date de réexamen à fixer pour chaque test lancé, sans exception</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc-section">
+  <div class="container-narrow">
+    <div class="callout">
+      <div class="callout-tag">★ Objectifs pédagogiques</div>
+      <ul>
+        <li>Distinguer un signal faible, une tendance installée et du simple bruit, à partir d'exemples tirés de la musique</li>
+        <li>Savoir où chercher ces signaux et les qualifier avec une grille en quatre critères</li>
+        <li>Transformer un signal retenu en opportunité concrète : un test petit, mesurable, avec une date de réexamen</li>
+      </ul>
+    </div>
+    <div class="section-label">Plan du cours</div>
+    <div class="toc-grid">
+      <a href="#definitions" class="toc-item"><span class="toc-num">01</span><span class="toc-title">Signal faible, tendance, bruit</span></a>
+      <a href="#ou-chercher" class="toc-item"><span class="toc-num">02</span><span class="toc-title">Où les signaux apparaissent</span></a>
+      <a href="#grille" class="toc-item"><span class="toc-num">03</span><span class="toc-title">La grille de qualification</span></a>
+      <a href="#opportunite" class="toc-item"><span class="toc-num">04</span><span class="toc-title">Du signal à l'opportunité</span></a>
+      <a href="#erreurs" class="toc-item"><span class="toc-num">05</span><span class="toc-title">Les erreurs à éviter</span></a>
+      <a href="#checklist" class="toc-item"><span class="toc-num">06</span><span class="toc-title">Livrable : ta checklist</span></a>
+      <a href="#faq" class="toc-item"><span class="toc-num">07</span><span class="toc-title">FAQ</span></a>
+    </div>
+    <div class="callout warning" style="margin-top:2.5rem;text-align:left">
+      <div class="callout-tag">⚠ Des outils et des règles qui évoluent</div>
+      <p>Les noms d'outils, de rubriques et les fonctionnements décrits ici ont été relevés en <strong>octobre 2026</strong>. Les plateformes modifient souvent leurs interfaces : vérifie chaque libellé et chaque règle directement sur le site concerné avant de t'appuyer dessus.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="module" id="definitions">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">01 / 07</span><h2>Signal faible, tendance, <em>bruit</em></h2></div>
+    <p class="module-lead">Avant de réagir à une information, demande-toi d'abord de quelle nature elle est : un début de changement, un changement déjà là, ou une agitation sans lendemain.</p>
+    <div class="eeat-grid grid3">
+      <div class="eeat-card"><div class="eeat-letter">1</div><div class="eeat-name">Le début d'un changement</div><h4>Signal faible</h4><p>Une information encore rare, souvent discrète, qui pourrait annoncer une évolution importante. Peu de gens en parlent, rien n'est sûr, mais si elle se confirme, ceux qui l'ont repérée tôt auront une longueur d'avance.</p><div class="eeat-music"><strong>Exemple fictif</strong>Imaginons que trois artistes de ta scène locale publient, la même semaine, de courtes vidéos en plan fixe où ils jouent un morceau en entier dans leur cuisine, et que ces vidéos fassent plus réagir que leurs clips. Un nouveau format est peut-être en train d'émerger.</div></div>
+      <div class="eeat-card"><div class="eeat-letter">2</div><div class="eeat-name">Le changement déjà là</div><h4>Tendance installée</h4><p>Une évolution visible partout, adoptée par une large part du public et des professionnels, relayée par la presse spécialisée. Elle n'offre plus d'avance : elle devient une condition pour rester dans la course.</p><div class="eeat-music"><strong>Exemple générique</strong>La vidéo verticale courte sur les réseaux sociaux : tout le monde l'utilise, les plateformes la mettent en avant depuis plusieurs années. Ne pas s'y mettre est un choix, pas un oubli.</div></div>
+      <div class="eeat-card"><div class="eeat-letter">3</div><div class="eeat-name">L'agitation sans lendemain</div><h4>Bruit</h4><p>Une information qui fait beaucoup parler sur quelques jours, mais qui ne repose sur rien de solide ou ne concerne pas ton projet : rumeur, polémique, défi viral, annonce jamais suivie d'effet.</p><div class="eeat-music"><strong>Exemple fictif</strong>Une rumeur circule dans un groupe d'artistes : « une plateforme va bientôt supprimer tous les titres sans paroles ». Aucune source officielle, aucun communiqué. Sans confirmation, c'est du bruit.</div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Un signal faible n'est pas une certitude, c'est une <strong>hypothèse à surveiller</strong>. Le même sujet peut passer d'une catégorie à l'autre : un signal faible confirmé devient une tendance, un signal qui ne se répète jamais retombe dans le bruit. Ton travail n'est pas de deviner l'avenir, mais de <strong>repérer tôt, vérifier vite et tester petit</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="module" id="ou-chercher">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">02 / 07</span><h2>Où les signaux <em>apparaissent</em></h2></div>
+    <p class="module-lead">Les signaux faibles se cachent rarement dans les gros titres : ils apparaissent dans les marges de tes sources, chez ton public et dans tes propres chiffres, à condition de savoir quoi y regarder.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Où regarder</th><th>Ce que tu y cherches</th><th>Exemple de signal (fictif)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Les sources sélectionnées dans le cours 8.1</strong> (sociétés civiles, CNM, presse professionnelle)</td><td>Les petites annonces en bas de page : nouveau dispositif, consultation, projet de règlement, appel à projets ouvert pour la première fois</td><td>Un organisme de la filière annonce un nouvel appel à projets pour les artistes en développement dans ta région, avec un premier dépôt dans deux mois</td></tr>
+        <tr><td><strong>Les annonces des plateformes</strong> (blogs officiels, pages d'aide, espaces artistes)</td><td>Une nouvelle fonctionnalité en test, une règle de rémunération ou de comptage qui change</td><td>Une plateforme de streaming annonce une évolution de sa règle de rémunération des titres à faible audience : c'est peut-être anodin, peut-être décisif pour ton catalogue</td></tr>
+        <tr><td><strong>Les commentaires et messages de ton public</strong></td><td>Les mêmes questions ou demandes qui reviennent, les mots employés par tes fans</td><td>Plusieurs personnes, sans se connaître, demandent en commentaire une version acoustique d'un titre, ou s'il existe un vinyle</td></tr>
+        <tr><td><strong>Les statistiques de tes plateformes</strong> (YouTube Studio, Spotify for Artists, statistiques de tes comptes)</td><td>Un chiffre qui bouge sans que tu aies rien fait : une ville qui monte, une source d'écoute nouvelle, une vidéo ancienne qui repart</td><td>Une ville où tu n'as jamais joué entre dans tes cinq premières villes d'écoute ; dans YouTube Studio, l'onglet consacré aux tendances de ton audience fait apparaître une recherche inattendue</td></tr>
+        <tr><td><strong>Google Trends</strong></td><td>L'évolution de l'intérêt pour un mot, un genre, un nom, et les recherches associées en progression</td><td>La recherche d'un sous-genre musical progresse depuis plusieurs mois dans ta région, alors qu'elle stagne au niveau national</td></tr>
+        <tr><td><strong>Les programmations des salles et des festivals</strong></td><td>Les esthétiques qui reviennent, les nouveaux formats de soirée, les plateaux partagés</td><td>Trois salles de ta région programment cette saison des soirées autour d'un même son qui monte localement, alors qu'il était absent l'an dernier</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <div class="callout-tag">★ Comment lire Google Trends sans te tromper</div>
+      <p>Sur <a href="https://trends.google.fr/trends/" target="_blank" rel="noopener">trends.google.fr</a>, la rubrique « Explorer » te montre l'intérêt pour un terme sur une période et une zone. Attention : ce n'est <strong>pas un nombre de recherches</strong>. Google travaille sur un échantillon de recherches et classe l'intérêt sur une échelle de 0 à 100 relative à la zone et à la période ; un terme peu recherché s'affiche à « 0 » (<a href="https://support.google.com/trends/answer/4365533?hl=fr" target="_blank" rel="noopener">aide Google Trends</a>, à vérifier). Dans les recherches associées, la mention « Record » signale une croissance de plus de 5 000 % sur la période (à vérifier). Compare toujours plusieurs termes entre eux, sur au moins douze mois.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="module" id="grille">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">03 / 07</span><h2>La grille de <em>qualification</em></h2></div>
+    <p class="module-lead">Pour chaque signal repéré, note quatre critères de 0 à 2 en cinq minutes : le total, sur 8, te dit s'il faut l'archiver, le surveiller ou le tester.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Critère</th><th>La question à te poser</th><th class="n">0 point</th><th class="n">1 point</th><th class="n">2 points</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Répétition</strong></td><td>Ai-je vu ce signal plusieurs fois, à des moments différents ?</td><td class="n">Vu une seule fois</td><td class="n">Vu 2 ou 3 fois</td><td class="n">Revient régulièrement depuis plusieurs semaines</td></tr>
+        <tr><td><strong>Sources indépendantes</strong></td><td>Des sources qui ne se recopient pas l'une l'autre le confirment-elles ?</td><td class="n">Une seule source, ou une rumeur</td><td class="n">Deux sources, dont une sérieuse</td><td class="n">Plusieurs sources indépendantes, dont une officielle</td></tr>
+        <tr><td><strong>Lien avec ton projet</strong></td><td>Ce signal touche-t-il ton public, ton esthétique, tes revenus ou tes obligations ?</td><td class="n">Aucun lien réel</td><td class="n">Lien indirect</td><td class="n">Touche directement ton public, tes revenus ou tes droits</td></tr>
+        <tr><td><strong>Coût d'entrée</strong></td><td>Combien me coûte un premier essai, en temps et en argent ?</td><td class="n">Élevé : matériel, budget, plusieurs semaines</td><td class="n">Moyen : quelques jours ou une petite dépense</td><td class="n">Faible : quelques heures, sans dépense</td></tr>
+      </tbody>
+    </table></div>
+    <div class="data-table"><table>
+      <thead><tr><th>Total sur 8</th><th>Décision</th><th>Ce que tu fais concrètement</th></tr></thead>
+      <tbody>
+        <tr><td><strong>0 à 3</strong></td><td><span class="badge no">Archiver</span></td><td>Une ligne dans ton fichier de veille avec la date, puis tu passes à autre chose. Si le signal revient, tu le notes à nouveau.</td></tr>
+        <tr><td><strong>4 ou 5</strong></td><td><span class="badge mid">Surveiller</span></td><td>Tu cherches une confirmation : une source de plus, une alerte dédiée (cours 8.2), un coup d'œil à tes statistiques dans un mois.</td></tr>
+        <tr><td><strong>6 à 8</strong></td><td><span class="badge yes">Tester</span></td><td>Tu transformes le signal en test concret avec la méthode de la section suivante.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Un exemple fictif : la demande de version acoustique vue en commentaire. Répétition 2 (une dizaine de demandes en un mois), sources indépendantes 1 (des fans différents, mais une seule plateforme), lien avec le projet 2 (ton public, ton titre), coût d'entrée 2 (une prise guitare voix chez toi). Total 7 sur 8 : on teste. Pour une <strong>règle de rémunération ou un dispositif d'aide</strong>, ne te contente jamais de la presse : la seule source qui fait foi est le texte officiel de l'organisme (voir les renvois vers le Module 2 et le Module 4).</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="module" id="opportunite">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">04 / 07</span><h2>Du signal à <em>l'opportunité</em></h2></div>
+    <p class="module-lead">Un signal ne devient une opportunité que lorsque tu le transformes en action précise : un test petit, peu coûteux, avec un critère de réussite et une date à laquelle tu décides de continuer ou d'arrêter.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Formuler</span><h4>Écris l'hypothèse en une phrase</h4><p>« Si je fais … , alors je devrais observer … , parce que … ». Exemple fictif : « Si je publie une version acoustique filmée en plan fixe, alors elle devrait obtenir plus de partages que mes trois dernières vidéos, parce que mon public la réclame. »</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Réduire</span><h4>Choisis la plus petite version du test</h4><p>Une vidéo plutôt qu'une série, une date dans une petite salle plutôt qu'une tournée, un dossier de candidature léger plutôt qu'un projet complet. Le but est d'apprendre vite, pas de réussir du premier coup.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Mesurer</span><h4>Fixe un critère de réussite avant de lancer</h4><p>Un seul indicateur, comparé à ton propre historique : partages, inscrits, auditeurs dans une ville, réponse d'un programmateur. Tu reprends la logique d'indicateur principal vue au Module 5 et au Module 7.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">4</div><div><span class="step-tag">Dater</span><h4>Inscris une date de réexamen dans ton agenda</h4><p>Deux à six semaines selon le test, ou la date limite de dépôt pour un appel à projets. Sans date, un test ne se termine jamais et tu n'en tires aucune leçon.</p></div></div>
+      <div class="rag-step alt"><div class="rag-step-circle">5</div><div><span class="step-tag">Décider</span><h4>Le jour dit : continuer, ajuster ou arrêter</h4><p>Critère atteint : tu passes à une version plus ambitieuse. Résultat mitigé : tu changes un seul paramètre et tu refixes une date. Échec net : tu arrêtes et tu notes ce que tu as appris. L'intégration durable dans ta stratégie est traitée dans le cours 8.4.</p></div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Tiens un <strong>registre des signaux</strong> : un simple tableur avec la date, le signal, la source, le score sur 8, la décision, le test lancé et la date de réexamen. Limite-toi à <strong>un ou deux tests en même temps</strong> : au-delà, tu ne sais plus lequel produit quel effet, et ta création passe au second plan.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="module" id="erreurs">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">05 / 07</span><h2>Les erreurs <em>à éviter</em></h2></div>
+    <p class="module-lead">Repérer des signaux est utile ; les surinterpréter est dangereux : quatre pièges reviennent chez la plupart des artistes qui débutent leur veille.</p>
+    <div class="factors">
+      <div class="factor err"><div class="factor-num">01</div><div><h4>Le biais de confirmation</h4><p>Tu remarques surtout les informations qui confirment ce que tu pensais déjà, et tu ignores celles qui le contredisent. Si tu es convaincu qu'un format va exploser, tu verras des preuves partout.</p><div class="factor-detail"><strong>La parade</strong>Pour chaque signal noté 6 ou plus, cherche activement un contre-exemple ou une source qui dit l'inverse avant de lancer ton test.</div></div></div>
+      <div class="factor err"><div class="factor-num">02</div><div><h4>L'effet de mode</h4><p>Confondre un pic d'attention de quelques jours avec un vrai changement. Un son viral, un défi, une polémique peuvent disparaître aussi vite qu'ils sont apparus.</p><div class="factor-detail"><strong>La parade</strong>Le critère « répétition » de la grille : un signal vu sur une seule semaine ne dépasse jamais 1 point. Regarde aussi la courbe Google Trends sur douze mois, pas sur sept jours.</div></div></div>
+      <div class="factor err"><div class="factor-num">03</div><div><h4>Suivre toutes les tendances</h4><p>Vouloir être partout : chaque nouveau format, chaque nouvelle plateforme, chaque nouveau son. Tu t'épuises, ton identité artistique se brouille et ton public ne sait plus qui tu es.</p><div class="factor-detail"><strong>La parade</strong>Le critère « lien avec ton projet » : un signal qui ne touche ni ton public ni ton esthétique reste à 0, même s'il est partout. Relis ton positionnement (Module 5) avant chaque test.</div></div></div>
+      <div class="factor err"><div class="factor-num">04</div><div><h4>Prendre une rumeur pour une règle</h4><p>Modifier sa façon de déclarer ses œuvres, de signer un contrat ou de candidater à une aide sur la foi d'un message lu dans un groupe ou d'une vidéo.</p><div class="factor-detail"><strong>La parade</strong>Toute information réglementaire ou financière se vérifie à la source officielle (société civile, organisme d'aide, plateforme) avant d'agir.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="module" id="checklist">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">06 / 07</span><h2>Livrable : ta <em>checklist</em></h2></div>
+    <div class="audit-intro">
+      <h3>Clique sur les cases au fur et à mesure</h3>
+      <p>Ce travail prépare l'exercice « Paramétrage de son dispositif de veille personnalisé » du Module 8 : ton dispositif ne doit pas seulement collecter des informations, il doit aussi te permettre de repérer, qualifier et tester les signaux utiles à ton projet. Progression : <span class="score" id="score">0 / 6</span></p>
+    </div>
+    <div class="audit-prompts" id="checklist-list">
+      <div class="prompt-row"><div class="prompt-num">C01</div><div><div class="prompt-text">Je sais distinguer un signal faible, une tendance installée et du bruit, avec un exemple de chaque dans mon domaine</div></div><button type="button" class="audit-check" id="c1">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C02</div><div><div class="prompt-text">J'ai listé les endroits où je vais guetter les signaux : mes sources, les commentaires, mes statistiques, Google Trends, les programmations</div></div><button type="button" class="audit-check" id="c2">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C03</div><div><div class="prompt-text">J'ai créé mon registre des signaux (date, signal, source, score, décision, test, date de réexamen)</div></div><button type="button" class="audit-check" id="c3">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C04</div><div><div class="prompt-text">J'ai noté au moins trois signaux avec la grille en quatre critères et pris une décision pour chacun</div></div><button type="button" class="audit-check" id="c4">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C05</div><div><div class="prompt-text">J'ai transformé un signal noté 6 ou plus en test : hypothèse, petite version, critère de réussite</div></div><button type="button" class="audit-check" id="c5">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C06</div><div><div class="prompt-text">J'ai inscrit la date de réexamen de ce test dans mon agenda</div></div><button type="button" class="audit-check" id="c6">⬚ Fait</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="module" id="faq">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">07 / 07</span><h2>Questions <em>fréquentes</em></h2></div>
+    <div class="faq">
+      <details><summary>Combien de temps dois-je consacrer à repérer des signaux ?</summary><div class="ans">Pas besoin d'y passer des heures. Un créneau fixe de 20 à 30 minutes par semaine suffit pour parcourir ce que tes outils de veille ont collecté, relever les signaux dans ton registre et noter les nouveaux avec la grille. Ce qui compte, c'est la régularité : c'est elle qui te permet de voir qu'un signal se répète.</div></details>
+      <details><summary>Et si je rate un signal important ?</summary><div class="ans">C'est inévitable, et ce n'est pas grave. Un vrai changement ne disparaît pas : s'il est important, il reviendra dans tes sources, chez ton public ou dans tes chiffres. La méthode ne vise pas à tout voir, mais à ne pas laisser passer ce qui se répète et touche directement ton projet.</div></details>
+      <details><summary>Un signal noté 3 peut-il quand même valoir le coup ?</summary><div class="ans">Oui, si tu as une forte intuition artistique, mais garde la discipline du test : version la plus petite possible, critère de réussite, date de réexamen. Note aussi ce choix dans ton registre. La grille ne remplace pas ton jugement, elle t'oblige simplement à le rendre explicite.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="recap">
+  <div class="container-narrow">
+    <div class="section-label" style="color:var(--accent-line)">Synthèse</div>
+    <h3>Ce que tu dois retenir de ce cours</h3>
+    <ol class="recap-list">
+      <li>Un <strong>signal faible</strong> est une information rare qui pourrait annoncer un changement ; une <strong>tendance installée</strong> est déjà partout ; le <strong>bruit</strong> fait parler sans rien changer.</li>
+      <li>Les signaux se cachent dans les marges : annonces des organismes et des plateformes, <strong>commentaires de ton public</strong>, statistiques de tes plateformes, Google Trends, programmations des salles et festivals.</li>
+      <li>La <strong>grille en quatre critères</strong> (répétition, sources indépendantes, lien avec ton projet, coût d'entrée), notée sur 8, te dit d'archiver, de surveiller ou de tester.</li>
+      <li>Un signal devient une <strong>opportunité</strong> quand il se transforme en test : une hypothèse, une petite version, un critère de réussite et une <strong>date de réexamen</strong>.</li>
+      <li>Méfie-toi du <strong>biais de confirmation</strong>, de l'effet de mode et de l'envie de suivre toutes les tendances ; vérifie toute règle à sa source officielle.</li>
+    </ol>
+  </div>
+</section>
+
+<div class="container-narrow">
+  <div class="next-cta">
+    <h3>Prêt pour le <em>cours suivant</em> ?</h3>
+    <p>Intégrer les résultats de la veille dans sa stratégie.</p>
+    <span class="btn btn-primary">Continuer vers l'intégration de la veille →</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="src">Support pédagogique de la formation « Structurer et développer une activité artistique musicale » (certification RS7398), Module 8 : Veille artistique, technologique et réglementaire. Les fonctionnements et libellés d'outils cités (Google Trends, YouTube Studio, Spotify for Artists) ont été relevés en octobre 2026 sur les pages d'aide officielles de ces services ; ils peuvent avoir évolué et doivent être vérifiés. Les exemples sont génériques ou fictifs.</p>
+    © 2026 Tarik Hamiche · Muziforma
+  </div>
+</footer>
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var btns=[].slice.call(document.querySelectorAll('#checklist-list .audit-check'));
+  var score=document.getElementById('score');var KEY='mz-rs7398-m8-03-signaux-faibles-opportunites';var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function paint(b){var on=!!saved[b.id];b.classList.toggle('checked',on);b.textContent=(on?'✓':'⬚')+' Fait';b.setAttribute('aria-pressed',on?'true':'false');}
+  function upd(){score.textContent=btns.filter(function(b){return saved[b.id]}).length+' / '+btns.length;}
+  btns.forEach(function(b){paint(b);b.addEventListener('click',function(){saved[b.id]=!saved[b.id];try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}paint(b);upd();});});
+  upd();
+})();
+</script>
+</body>
+</html>

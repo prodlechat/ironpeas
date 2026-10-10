@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Intégrer les résultats de la veille dans sa stratégie · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Charte Muziforma : fond sable, violet #5B14FF, Manrope + Inter + JetBrains Mono. */
+:root{--bg:#F7F1E8;--bg-soft:#FCF8F2;--bg-card:#FFFFFF;--ink:#1F1A15;--ink-soft:#5C4F42;--ink-muted:#8A7A6A;--accent:#5B14FF;--accent-dark:#4910CC;--accent-soft:#EDE9FE;--accent-line:#A78BFA;--border:#E8DDC9;--border-soft:#F0E6D4;--warning:#C2410C;--warning-soft:#FFEDD5;--success:#15803D;--success-soft:#DCFCE7;--on-accent:#FFFFFF;--recap-text:rgba(247,241,232,.85);--shadow-sm:0 1px 2px rgba(31,26,21,.04);--shadow-md:0 4px 16px rgba(31,26,21,.06);--radius-sm:8px;--radius-md:14px;--radius-lg:24px;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Manrope,-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700}
+h4{font-size:1.15rem;font-weight:700;line-height:1.3}
+p{margin-bottom:1.1rem;color:var(--ink-soft)}
+strong{color:var(--ink);font-weight:700}
+em{font-style:normal;color:var(--accent);font-weight:800}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.container-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-line));z-index:9999}
+header.top-nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(247,241,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft);z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand-mark{font-family:Manrope,sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--ink)}
+.brand-mark em{color:var(--accent)}
+.nav-meta{display:flex;gap:1rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted)}
+.nav-meta span:not(:last-child)::after{content:"·";margin-left:1rem;color:var(--border)}
+@media (max-width:600px){.nav-meta{display:none}}
+.hero{padding:5rem 0 4rem;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;max-width:none;background:radial-gradient(circle,rgba(167,139,250,.22) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(91,20,255,.14) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1.8rem;box-shadow:var(--shadow-sm)}
+.hero h1{margin-bottom:1.5rem}
+.hero-lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:720px;margin:0 auto 1.5rem;line-height:1.55}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.hero-chips span{font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:.35rem .9rem}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:880px;margin:3rem auto 0}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-num{font-family:Manrope,sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em;margin-bottom:.5rem}
+.stat-label{font-size:.82rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.hero-stats{grid-template-columns:1fr}}
+.section-label{display:inline-block;font-family:Inter,sans-serif;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:1.5rem}
+.toc-section{padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);text-align:center}
+.toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:800px;margin:1rem auto 0}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left;color:var(--ink);transition:.15s}
+.toc-item:hover{border-color:var(--accent);transform:translateX(2px);box-shadow:var(--shadow-sm);color:var(--ink)}
+.toc-num{font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);flex-shrink:0;width:36px}
+.toc-title{font-weight:600;font-size:.95rem;line-height:1.3}
+@media (max-width:600px){.toc-grid{grid-template-columns:1fr}}
+main>section.module{padding:6rem 0;position:relative;overflow:hidden}
+main>section.module:nth-of-type(odd){background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+section.module::before{content:"";position:absolute;top:10%;right:-180px;width:480px;height:480px;background:radial-gradient(circle,rgba(167,139,250,.16) 0%,transparent 65%);border-radius:50%;pointer-events:none;z-index:0}
+section.module>.container,section.module>.container-narrow{position:relative;z-index:1}
+.module-header{margin-bottom:2.5rem}
+.module-num{font-family:Manrope,sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.6rem;display:block}
+.module-lead{font-size:1.15rem;color:var(--ink-soft);margin:1.5rem 0 2.5rem;line-height:1.55;max-width:720px}
+.prose p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.3rem}
+.callout{background:var(--bg-card);border-left:4px solid var(--accent);border-radius:var(--radius-md);padding:1.6rem 1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm);text-align:left}
+.callout.warning{border-left-color:var(--warning);background:linear-gradient(135deg,var(--warning-soft) 0%,var(--bg-card) 60%)}
+.callout.success{border-left-color:var(--success);background:linear-gradient(135deg,var(--success-soft) 0%,var(--bg-card) 60%)}
+.callout-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.6rem}
+.callout.warning .callout-tag{color:var(--warning)}
+.callout.success .callout-tag{color:var(--success)}
+.callout p{margin:0;color:var(--ink);line-height:1.55}
+.callout ul{margin:.2rem 0 0 1.2rem;color:var(--ink);line-height:1.6}
+/* 3 casquettes : reprend .evolution */
+.evolution{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2rem 0}
+.evo-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;text-align:center;box-shadow:var(--shadow-sm)}
+.evo-col.featured{border:2px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg-card) 50%);transform:scale(1.02);box-shadow:var(--shadow-md)}
+.evo-acronym{font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;letter-spacing:-.04em;margin-bottom:.4rem}
+.evo-col:not(.featured) .evo-acronym{color:var(--ink-muted)}
+.evo-full{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:1rem;font-weight:600}
+.evo-col h4{margin-bottom:.6rem}
+.evo-col p{font-size:.92rem;line-height:1.55;text-align:left}
+.evo-target{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--border);text-align:left;font-size:.85rem;line-height:1.45;color:var(--ink)}
+.evo-target strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem;font-weight:800}
+@media (max-width:800px){.evolution{grid-template-columns:1fr}.evo-col.featured{transform:none}}
+/* circuit : reprend .rag-flow */
+.rag-flow{margin:2.5rem 0;display:flex;flex-direction:column;gap:1.5rem}
+.rag-step{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.rag-step:hover{border-color:var(--accent-line)}
+.rag-step-circle{flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.6rem;box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+.rag-step.alt .rag-step-circle{background:var(--warning);box-shadow:rgba(194,65,12,.3) 0 6px 20px}
+.rag-step>div:last-child{flex:1 1 0%;min-width:0}
+.step-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-muted);margin-bottom:.4rem}
+.rag-step h4{margin-bottom:.6rem}
+.rag-step p{margin:0;line-height:1.55}
+/* tableaux dans la charte */
+.data-table{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);margin:2rem 0}
+.data-table table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+.data-table th{text-align:left;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding:1rem 1.1rem;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.data-table td{padding:.9rem 1.1rem;border-bottom:1px solid var(--border-soft);color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table td strong{color:var(--ink)}
+.data-table .n{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--accent-dark);white-space:nowrap}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .6rem;border-radius:6px;white-space:nowrap}
+.badge.yes{background:var(--success-soft);color:var(--success)}
+.badge.no{background:var(--warning-soft);color:var(--warning)}
+.badge.mid{background:var(--accent-soft);color:var(--accent-dark)}
+/* barre de répartition */
+.split{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);margin:2rem 0}
+.split h4{margin-bottom:1.2rem}
+.split-bar{display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden}
+.split-bar div{display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:500;color:var(--on-accent);white-space:nowrap;overflow:hidden}
+.split-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem 1rem;margin-top:1.2rem;font-size:.88rem;color:var(--ink-soft)}
+.split-legend span{display:flex;align-items:center;gap:.5rem}
+.split-legend i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.split-legend b{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--ink);margin-left:auto}
+.split-note{font-size:.82rem;color:var(--ink-muted);margin:1rem 0 0;line-height:1.5}
+/* cartes : reprend .motors / .eeat */
+.motors,.eeat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:2rem 0}
+.motor-card,.eeat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-sm);min-width:0}
+.eeat-card{transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.eeat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motor-name{font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;color:var(--ink);letter-spacing:-.02em;margin-bottom:.3rem}
+.motor-by{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.motor-spec{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border-soft);font-size:.9rem;line-height:1.45}
+.motor-spec:last-child{border-bottom:0}
+.motor-spec-label{flex-shrink:0;width:78px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);padding-top:.2rem}
+.motor-spec-value{flex:1 1 0%;color:var(--ink-soft)}
+.eeat-letter{width:52px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-family:Manrope,sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1rem}
+.eeat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.6rem}
+.eeat-card h4{margin-bottom:.8rem}
+.eeat-card>p{font-size:.95rem;line-height:1.55;margin-bottom:1.2rem}
+.eeat-music{background:var(--accent-soft);border-radius:var(--radius-sm);padding:1rem;font-size:.9rem;line-height:1.5;color:var(--ink);margin-top:auto}
+.eeat-music strong{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.eeat-music .out{color:var(--warning)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:740px){.eeat-grid,.motors,.grid3{grid-template-columns:1fr}}
+/* étapes : reprend .factors */
+.factors{display:flex;flex-direction:column;gap:1.2rem;margin:2rem 0}
+.factor{display:flex;gap:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.factor:hover{border-color:var(--accent-line)}
+.factor-num{flex-shrink:0;font-family:Manrope,sans-serif;font-weight:800;font-size:2rem;color:var(--accent);line-height:1;width:50px;letter-spacing:-.03em}
+.factor.err .factor-num{color:var(--warning)}
+.factor>div:last-child{flex:1 1 0%;min-width:0}
+.factor h4{margin-bottom:.6rem}
+.factor p{font-size:.95rem;line-height:1.55;margin-bottom:1rem}
+.factor p:last-child{margin-bottom:0}
+.factor-detail{background:var(--accent-soft);border-radius:var(--radius-sm);padding:.9rem 1rem;font-size:.88rem;line-height:1.5;color:var(--ink)}
+.factor-detail strong{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.3rem}
+.factor.err .factor-detail{background:var(--warning-soft)}
+.factor.err .factor-detail strong{color:var(--warning)}
+/* checklist : reprend .audit */
+.audit-intro{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.8rem;margin:2rem 0;box-shadow:var(--shadow-sm)}
+.audit-intro h3{margin-bottom:.8rem}
+.audit-intro p{margin:0;line-height:1.6}
+.audit-prompts{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.prompt-row{display:flex;gap:1.2rem;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.prompt-num{flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.85rem;color:var(--accent);width:36px}
+.prompt-row>div:not(.prompt-num){flex:1 1 0%;min-width:0}
+.prompt-text{font-family:Manrope,sans-serif;font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.audit-check{flex-shrink:0;padding:.5rem .9rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s;font-family:Inter,sans-serif}
+.audit-check:hover{border-color:var(--accent-line)}
+.audit-check.checked{background:var(--success);color:var(--on-accent);border-color:var(--success);font-weight:600}
+.score{font-family:"JetBrains Mono",monospace;color:var(--success);font-weight:500}
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:.9rem;margin:2rem 0}
+.faq details{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:border-color .2s}
+.faq details:hover,.faq details[open]{border-color:var(--accent-line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.5rem;font-family:Manrope,sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.faq details[open] summary::after{content:"−";background:var(--accent);color:var(--on-accent)}
+.faq .ans{padding:0 1.5rem 1.4rem;color:var(--ink-soft);font-size:.97rem;line-height:1.65}
+/* synthèse */
+.recap{background:var(--ink);color:var(--recap-text);padding:4rem 0;position:relative;overflow:hidden}
+.recap::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(91,20,255,.25) 0%,transparent 60%);border-radius:50%;pointer-events:none}
+.recap>.container-narrow{position:relative;z-index:1}
+.recap h3{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg-card);margin-bottom:1.5rem}
+.recap-list{list-style:none;counter-reset:item;display:flex;flex-direction:column;gap:1rem}
+.recap-list li{counter-increment:item;padding-left:3rem;position:relative;line-height:1.55;color:var(--recap-text)}
+.recap-list li::before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:Manrope,sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-line)}
+.recap-list li strong{color:var(--bg-card)}
+.next-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin:4rem auto;max-width:760px;text-align:center;box-shadow:var(--shadow-md)}
+.next-cta h3{margin-bottom:1rem}
+.next-cta p{margin-bottom:1.5rem;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.1rem 2.2rem;font-family:Manrope,sans-serif;font-size:1rem;font-weight:800;border-radius:999px;border:0;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:rgba(91,20,255,.3) 0 6px 20px}
+footer.site-footer{background:var(--ink);color:rgba(247,241,232,.55);padding:2.5rem 0;text-align:center;font-size:.85rem;border-top:1px solid rgba(247,241,232,.08);line-height:1.7}
+footer.site-footer .src{max-width:760px;margin:0 auto 1rem;font-size:.8rem;color:rgba(247,241,232,.45)}
+@media (max-width:860px){main>section.module{padding:4rem 0}.toc-section{padding:3rem 0}.module-header{margin-bottom:1.8rem}.module-lead{font-size:1.05rem;margin:1rem 0 1.8rem}.rag-step,.factor{padding:1.4rem;gap:1rem}.rag-step-circle{width:48px;height:48px;font-size:1.3rem}.factor-num{font-size:1.6rem;width:40px}.next-cta{padding:1.8rem 1.4rem}.recap-list li{padding-left:2.4rem}section.module::before{width:320px;height:320px}}
+@media (max-width:480px){.hero{padding:3rem 0 2.5rem}.hero h1{font-size:2rem}.rag-step,.factor{flex-direction:column;gap:.8rem}.prompt-row{flex-wrap:wrap}}
+html,body{width:100% !important;max-width:100% !important;overflow-x:hidden}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress-bar"></div>
+<header class="top-nav">
+  <div class="nav-inner">
+    <span class="brand-mark">MUZI<em>FORMA</em></span>
+    <div class="nav-meta"><span>Module 08 / 08</span><span>Muziforma</span></div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Module 08 · Veille artistique, technologique et réglementaire</span>
+    <h1>Intégrer la veille dans sa <em>stratégie</em>.</h1>
+    <p class="hero-lead">Une veille qui s'empile dans tes favoris ne sert à rien : elle n'a de valeur que si elle change une décision, une date ou une ligne de budget. Voici comment noter, trier et transformer chaque information utile en action concrète dans les outils que tu as construits pendant la formation.</p>
+    <div class="hero-chips"><span>Lecture : 12 min</span><span>Formateur : Tarik Hamiche</span></div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">8</div><div class="stat-label">Colonnes dans le tableau de veille : date, source, info, type, impact, action, échéance, statut</div></div>
+      <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">Cases dans la matrice impact et urgence : agir, planifier, surveiller, archiver</div></div>
+      <div class="stat-card"><div class="stat-num">20 min</div><div class="stat-label">La durée de la revue hebdomadaire proposée dans ce cours</div></div>
+      <div class="stat-card"><div class="stat-num">1</div><div class="stat-label">Seule question qui compte : quelle décision cette information m'a-t-elle fait prendre ?</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc-section">
+  <div class="container-narrow">
+    <div class="callout">
+      <div class="callout-tag">★ Objectifs pédagogiques</div>
+      <ul>
+        <li>Capitaliser les résultats de ta veille dans un tableau simple et les trier selon leur impact et leur urgence</li>
+        <li>Traduire chaque information retenue en action datée dans tes autres outils : calendrier éditorial, tableau de bord, budget, dossiers d'aide, contrats</li>
+        <li>Installer un rituel de revue, partager ta veille avec ton équipe et mesurer ce qu'elle t'apporte réellement</li>
+      </ul>
+    </div>
+    <div class="section-label">Plan du cours</div>
+    <div class="toc-grid">
+      <a href="#tableau" class="toc-item"><span class="toc-num">01</span><span class="toc-title">Du fil d'infos au tableau de veille</span></a>
+      <a href="#matrice" class="toc-item"><span class="toc-num">02</span><span class="toc-title">Trier par impact et urgence</span></a>
+      <a href="#actions" class="toc-item"><span class="toc-num">03</span><span class="toc-title">Traduire la veille en actions</span></a>
+      <a href="#rituel" class="toc-item"><span class="toc-num">04</span><span class="toc-title">Rituel, partage et mesure</span></a>
+      <a href="#checklist" class="toc-item"><span class="toc-num">05</span><span class="toc-title">Livrable : ta checklist</span></a>
+      <a href="#faq" class="toc-item"><span class="toc-num">06</span><span class="toc-title">FAQ</span></a>
+    </div>
+    <div class="callout warning" style="margin-top:2.5rem;text-align:left">
+      <div class="callout-tag">⚠ Des règles qui évoluent</div>
+      <p>Les exemples réglementaires cités dans ce cours ont été relevés en <strong>octobre 2026</strong> sur des sources officielles ou spécialisées. Ils peuvent avoir changé depuis : vérifie chaque date et chaque obligation à la source avant d'agir.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="module" id="tableau">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">01 / 06</span><h2>Du fil d'infos au <em>tableau de veille</em></h2></div>
+    <p class="module-lead">Entre l'article lu en passant et la décision prise, il manque presque toujours une étape : écrire l'information quelque part avec ce qu'elle change pour toi, ce que tu vas faire et pour quand.</p>
+    <div class="prose">
+      <p>Les cours 8.1 à 8.3 t'ont appris à choisir tes sources, à automatiser la collecte et à repérer les signaux utiles. Ici, on s'occupe de la suite : ce qui se passe <strong>après</strong> la lecture. L'outil de capitalisation (l'endroit unique où tu ranges ce que tu gardes, pour le retrouver et t'en servir) peut être un simple tableur gratuit, une base dans ton outil d'organisation habituel ou même un carnet. Ce qui compte, ce sont les colonnes. Une ligne = une information qui mérite d'être gardée. Tout le reste (ce qui est intéressant mais ne te concerne pas) ne rentre pas dans le tableau.</p>
+    </div>
+    <div class="data-table"><table>
+      <thead><tr><th>Colonne</th><th>Ce que tu y écris</th><th>Exemple fictif</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Date</strong></td><td>Le jour où tu as relevé l'information (pas celui de sa publication)</td><td>06/10/2026</td></tr>
+        <tr><td><strong>Source</strong></td><td>Le site, la lettre d'information ou la personne, avec le lien pour retrouver le texte d'origine</td><td>Site officiel de l'administration fiscale</td></tr>
+        <tr><td><strong>Info</strong></td><td>L'information en une phrase, avec tes mots</td><td>Mon entreprise devra émettre ses factures au format électronique à partir de septembre 2027</td></tr>
+        <tr><td><strong>Type</strong></td><td>Artistique (tendances, scènes, formats, programmateurs), technologique (outils, plateformes, IA) ou réglementaire (lois, fiscalité, droits, aides)</td><td>Réglementaire</td></tr>
+        <tr><td><strong>Impact</strong></td><td>Fort, moyen ou faible, avec une demi-phrase sur ce que ça change pour toi</td><td>Fort : mon outil de facturation actuel n'est peut-être pas compatible</td></tr>
+        <tr><td><strong>Action</strong></td><td>Un verbe et un objet précis. « Se renseigner » ne suffit pas : « demander à mon comptable quelle plateforme choisir » est une action</td><td>Vérifier auprès de mon outil de facturation et de mon comptable</td></tr>
+        <tr><td><strong>Échéance</strong></td><td>La date à laquelle l'action doit être faite, en partant de l'échéance réelle et en reculant</td><td>31/01/2027</td></tr>
+        <tr><td><strong>Statut</strong></td><td>À traiter, en cours, fait, ou archivé (gardé pour mémoire, sans action)</td><td>À traiter</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Si tu n'arrives pas à remplir la colonne « Action », c'est que l'information n'a pas encore d'utilité pour toi : passe-la directement en « archivé » ou ne la note pas. Pour l'exemple ci-dessus, le site du ministère de l'Économie indique que toutes les entreprises doivent pouvoir <strong>recevoir</strong> des factures électroniques depuis le 1er septembre 2026, et que les petites entreprises et micro-entreprises devront les <strong>émettre</strong> à partir du 1er septembre 2027 (à vérifier sur <a href="https://www.economie.gouv.fr/tout-savoir-sur-la-facturation-electronique-pour-les-entreprises" target="_blank" rel="noopener">economie.gouv.fr</a>).</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="module" id="matrice">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">02 / 06</span><h2>Trier par <em>impact et urgence</em></h2></div>
+    <p class="module-lead">Tu ne peux pas tout traiter : en croisant deux questions simples (« est-ce que ça change beaucoup de choses pour moi ? » et « est-ce que ça presse ? »), chaque ligne du tableau tombe dans l'une de quatre cases, et chaque case a sa règle.</p>
+    <div class="eeat-grid">
+      <div class="eeat-card"><div class="eeat-letter">1</div><div class="eeat-name">Impact fort · Urgent</div><h4>Agir maintenant</h4><p>Une obligation qui entre en vigueur bientôt, un appel à projets qui ferme dans trois semaines, une plateforme qui change ses conditions de rémunération le mois prochain. Tu programmes l'action cette semaine, dans ton agenda, avec un créneau réel.</p><div class="eeat-music"><strong>Exemple fictif</strong>Une aide à l'enregistrement correspond exactement à ton projet et la date limite tombe dans 20 jours.</div></div>
+      <div class="eeat-card"><div class="eeat-letter">2</div><div class="eeat-name">Impact fort · Pas urgent</div><h4>Planifier</h4><p>Une évolution importante mais lointaine : une réforme annoncée pour l'an prochain, un nouveau format qui monte dans ton style, un outil qui pourrait remplacer une tâche coûteuse. Tu fixes une échéance et tu la poses dans le bon outil (calendrier, budget, dossier).</p><div class="eeat-music"><strong>Exemple fictif</strong>Une obligation de facturation électronique qui te concerne dans un an : tu prévois un rendez-vous avec ton comptable dans trois mois.</div></div>
+      <div class="eeat-card"><div class="eeat-letter">3</div><div class="eeat-name">Impact faible · Urgent</div><h4>Faire vite ou déléguer</h4><p>Une petite mise à jour d'une plateforme, un changement de format d'image, un concours sans grand enjeu. Si ça prend moins de quinze minutes, fais-le tout de suite ; sinon, confie-le à la personne de ton équipe ou au prestataire concerné.</p><div class="eeat-music"><strong>Exemple fictif</strong>Une plateforme modifie les dimensions recommandées de ses visuels : tu préviens ton graphiste.</div></div>
+      <div class="eeat-card"><div class="eeat-letter">4</div><div class="eeat-name">Impact faible · Pas urgent</div><h4>Surveiller ou archiver</h4><p>Une tendance encore floue, une rumeur, une information intéressante sans lien direct avec ton projet. Tu la passes en « archivé » ou tu notes une date de revue dans trois mois pour voir si elle a pris de l'ampleur.</p><div class="eeat-music"><strong>Exemple fictif</strong>Un nouveau réseau social dont on parle beaucoup mais où ton public n'est pas encore présent.</div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Pour juger l'<strong>impact</strong>, relie l'information à tes objectifs de l'année : touche-t-elle tes revenus, tes droits, ta conformité, ta visibilité ou ton budget ? Pour juger l'<strong>urgence</strong>, cherche la date réelle (entrée en vigueur, clôture, sortie) et retire le temps qu'il te faut pour agir. Les informations réglementaires sont rarement urgentes le jour où tu les découvres, mais elles le deviennent toujours : c'est la case 2 qu'il faut surveiller de près.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="module" id="actions">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">03 / 06</span><h2>Traduire la veille <em>en actions</em></h2></div>
+    <p class="module-lead">Une action de veille n'existe vraiment que lorsqu'elle est inscrite dans l'outil où tu travailles déjà : le tableau de veille sert de gare de triage, mais l'action doit partir vers ton calendrier, ton budget ou tes dossiers.</p>
+    <div class="data-table"><table>
+      <thead><tr><th>Si l'information concerne…</th><th>Outil du parcours où l'inscrire</th><th>Action concrète (exemple)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Un format, une tendance, un thème qui monte</strong> (artistique)</td><td>Calendrier éditorial (Module 5)</td><td>Ajouter trois contenus tests sur ce format dans les quatre prochaines semaines, avec un indicateur à suivre</td></tr>
+        <tr><td><strong>Un changement d'algorithme ou de règle de comptage</strong> (technologique)</td><td>Tableau de bord de pilotage (Module 4) et indicateurs (Module 5)</td><td>Ajouter une note dans le tableau de bord à la date du changement, pour ne pas lire une baisse comme un échec</td></tr>
+        <tr><td><strong>Un outil plus simple ou moins cher</strong> (technologique)</td><td>Budget du projet</td><td>Comparer le coût annuel avec l'outil actuel et décider d'un essai gratuit avant une date fixée</td></tr>
+        <tr><td><strong>Un appel à projets, une aide, un changement de critères</strong> (réglementaire)</td><td>Suivi des dossiers d'aide (Module 2)</td><td>Créer la ligne du dossier avec sa date de clôture et la liste des pièces à réunir</td></tr>
+        <tr><td><strong>Une évolution du droit d'auteur, des droits voisins ou des usages contractuels</strong> (réglementaire)</td><td>Contrats (Module 3) et droits (Module 4)</td><td>Relire les clauses concernées de tes contrats en cours et noter les points à renégocier au prochain renouvellement</td></tr>
+        <tr><td><strong>Une nouvelle obligation</strong> (fiscalité, facturation, données personnelles, intelligence artificielle)</td><td>Ta liste de mise en conformité</td><td>Écrire ce que tu dois faire, qui peut t'aider (comptable, juriste, organisme) et avant quelle date</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warning">
+      <div class="callout-tag">⚠ Exemple réglementaire à suivre : l'étiquetage des contenus générés par IA</div>
+      <p>Le règlement européen sur l'intelligence artificielle impose, depuis le 2 août 2026, des obligations de transparence : en particulier, celui qui diffuse un contenu dit « hypertrucage » (une image, un son ou une vidéo générés ou modifiés par IA qui imitent la réalité) doit signaler qu'il est artificiel. Si tu utilises l'IA dans tes clips ou tes visuels, c'est typiquement une ligne « impact fort » à transformer en règle dans ton calendrier éditorial (information relevée dans la presse juridique spécialisée en octobre 2026, à vérifier sur les sites officiels de l'Union européenne et de la CNIL).</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="module" id="rituel">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">04 / 06</span><h2>Rituel, partage <em>et mesure</em></h2></div>
+    <p class="module-lead">La veille devient une habitude quand elle a un rendez-vous fixe : une revue courte chaque semaine, un bilan plus large chaque mois ou chaque trimestre, et un moment pour partager et faire le tri dans tes sources.</p>
+    <div class="rag-flow">
+      <div class="rag-step"><div class="rag-step-circle">1</div><div><span class="step-tag">Chaque semaine · 20 minutes</span><h4>La revue hebdomadaire</h4><p>À jour fixe, ouvre ce que tes outils de collecte ont rassemblé. Garde seulement ce qui passe le filtre « est-ce que ça me concerne ? », remplis une ligne par information, place-la dans la matrice et programme les actions des cases 1 et 3. Ferme quand le temps est écoulé, même si tout n'est pas lu.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">2</div><div><span class="step-tag">Chaque mois ou trimestre · 1 heure</span><h4>Le bilan</h4><p>Relis les lignes « à traiter » et « en cours » : les actions planifiées ont-elles été faites ? Relis aussi les lignes de la case 4 : une tendance archivée a-t-elle pris de l'ampleur ? Si tu sors peu de musique ou si ton activité est calme, un bilan trimestriel suffit.</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">3</div><div><span class="step-tag">Après le bilan</span><h4>Partager avec ton équipe ou tes prestataires</h4><p>Envoie un court message (cinq lignes au maximum) à chaque personne concernée : ton manager, ton graphiste, ton comptable, ton tourneur. Uniquement ce qui la touche, avec l'action que tu attends d'elle. Si vous êtes plusieurs, partagez le même tableau avec une colonne « responsable ».</p></div></div>
+      <div class="rag-step"><div class="rag-step-circle">4</div><div><span class="step-tag">Au bilan trimestriel</span><h4>Mesurer l'utilité de ta veille</h4><p>Compte le nombre de décisions prises grâce à elle (une ligne passée en « fait » avec une vraie action). Puis regarde d'où venaient ces lignes : une source qui n'a produit aucune décision en trois mois peut être retirée ; une source qui en a produit plusieurs mérite d'être suivie de plus près.</p></div></div>
+      <div class="rag-step alt"><div class="rag-step-circle">5</div><div><span class="step-tag">Une fois par an</span><h4>Ajuster ton dispositif</h4><p>Relis tes objectifs de l'année et vérifie que tes sources et tes mots-clés d'alerte (vus dans les cours 8.1 et 8.2) les couvrent encore. Un nouvel objectif (tourner à l'étranger, signer en édition) appelle souvent de nouvelles sources.</p></div></div>
+    </div>
+    <div class="callout">
+      <div class="callout-tag">★ À retenir</div>
+      <p>Une veille utile se juge à ses <strong>décisions</strong>, pas au nombre d'articles lus. Deux indicateurs suffisent : le nombre de décisions prises par trimestre, et la part de tes sources qui ont produit au moins une décision. Si ta revue hebdomadaire dépasse régulièrement 20 minutes, ce n'est pas un manque de temps : c'est le signal qu'il faut retirer des sources.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="module" id="checklist">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">05 / 06</span><h2>Livrable : ta <em>checklist</em></h2></div>
+    <div class="audit-intro">
+      <h3>Clique sur les cases au fur et à mesure</h3>
+      <p>Ce travail prépare l'exercice « Paramétrage de son dispositif de veille personnalisé » du Module 8 : en plus de tes sources et de tes alertes, tu devras montrer comment tu ranges, tries et transformes les informations collectées en décisions. Progression : <span class="score" id="score">0 / 6</span></p>
+    </div>
+    <div class="audit-prompts" id="checklist-list">
+      <div class="prompt-row"><div class="prompt-num">C01</div><div><div class="prompt-text">J'ai créé mon tableau de veille avec les huit colonnes : date, source, info, type, impact, action, échéance, statut</div></div><button type="button" class="audit-check" id="c1">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C02</div><div><div class="prompt-text">J'y ai noté au moins cinq informations récentes, une par ligne, avec une action précise ou le statut « archivé »</div></div><button type="button" class="audit-check" id="c2">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C03</div><div><div class="prompt-text">J'ai classé chaque ligne dans la matrice impact et urgence et programmé les actions des cases « agir maintenant »</div></div><button type="button" class="audit-check" id="c3">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C04</div><div><div class="prompt-text">J'ai reporté au moins une action dans un autre outil du parcours : calendrier éditorial, tableau de bord, budget, dossier d'aide, contrat ou liste de conformité</div></div><button type="button" class="audit-check" id="c4">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C05</div><div><div class="prompt-text">J'ai bloqué dans mon agenda un créneau hebdomadaire de 20 minutes et une date de bilan mensuel ou trimestriel</div></div><button type="button" class="audit-check" id="c5">⬚ Fait</button></div>
+      <div class="prompt-row"><div class="prompt-num">C06</div><div><div class="prompt-text">J'ai défini comment je partage ma veille avec mon équipe ou mes prestataires et comment je mesure son utilité</div></div><button type="button" class="audit-check" id="c6">⬚ Fait</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="module" id="faq">
+  <div class="container-narrow">
+    <div class="module-header"><span class="module-num">06 / 06</span><h2>Questions <em>fréquentes</em></h2></div>
+    <div class="faq">
+      <details><summary>Je travaille seul. Un tableau de veille, ce n'est pas trop lourd ?</summary><div class="ans">Non, à condition de rester strict : une ligne seulement pour ce qui appelle une action, et une revue limitée à 20 minutes. Seul, tu n'as personne pour te rappeler une échéance ou une réforme : le tableau joue ce rôle. Commence avec cinq lignes, pas cinquante.</div></details>
+      <details><summary>Comment savoir si une information réglementaire est fiable avant d'agir ?</summary><div class="ans">Remonte toujours à la source officielle : le texte publié, le site de l'administration ou de l'organisme concerné (impôts, Urssaf, sociétés de gestion collective, CNM). Un article de presse ou une publication sur un réseau social te signale le sujet ; il ne suffit pas pour décider. Note le lien officiel dans la colonne « Source ». En cas de doute sur ce qui s'applique à ta situation, pose la question à ton comptable ou à un juriste.</div></details>
+      <details><summary>Que faire des informations intéressantes mais sans action possible ?</summary><div class="ans">Deux options. Si elles n'ont aucun lien avec ton projet, ne les note pas. Si elles pourraient te concerner plus tard, garde-les avec le statut « archivé » et une date de revue : au bilan trimestriel, tu verras si elles ont pris de l'ampleur. C'est souvent ainsi qu'un signal faible (cours 8.3) devient une opportunité.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="recap">
+  <div class="container-narrow">
+    <div class="section-label" style="color:var(--accent-line)">Synthèse</div>
+    <h3>Ce que tu dois retenir de ce cours</h3>
+    <ol class="recap-list">
+      <li>Une veille n'a de valeur que si elle change une <strong>décision</strong> : chaque information gardée doit déboucher sur une action datée, ou être archivée.</li>
+      <li>Un <strong>tableau de veille</strong> à huit colonnes (date, source, info, type, impact, action, échéance, statut) suffit à tout capitaliser.</li>
+      <li>La <strong>matrice impact et urgence</strong> répartit chaque ligne entre agir maintenant, planifier, faire vite ou déléguer, surveiller ou archiver.</li>
+      <li>L'action part ensuite vers le bon <strong>outil du parcours</strong> : calendrier éditorial, tableau de bord, budget, dossiers d'aide, contrats ou liste de conformité.</li>
+      <li>Une <strong>revue hebdomadaire</strong> courte, un bilan mensuel ou trimestriel, un partage ciblé et deux indicateurs (décisions prises, sources utiles) font vivre le dispositif.</li>
+    </ol>
+  </div>
+</section>
+
+<div class="container-narrow">
+  <div class="next-cta">
+    <h3>Prêt pour la <em>mise en pratique</em> ?</h3>
+    <p>Exercice : paramétrage de son dispositif de veille personnalisé.</p>
+    <span class="btn btn-primary">Continuer vers l'exercice →</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="src">Support pédagogique de la formation « Structurer et développer une activité artistique musicale » (certification RS7398), Module 8 : Veille artistique, technologique et réglementaire. Les exemples réglementaires cités (calendrier de la facturation électronique, obligations de transparence du règlement européen sur l'intelligence artificielle) ont été relevés en octobre 2026 sur le site du ministère de l'Économie et dans la presse juridique spécialisée ; ils peuvent avoir évolué et doivent être vérifiés à la source. Les exemples présentés dans le tableau et la matrice sont fictifs.</p>
+    © 2026 Tarik Hamiche · Muziforma
+  </div>
+</footer>
+<script>
+(function(){
+  var bar=document.getElementById('progress-bar');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var btns=[].slice.call(document.querySelectorAll('#checklist-list .audit-check'));
+  var score=document.getElementById('score');var KEY='mz-rs7398-m8-04-integrer-veille-strategie';var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function paint(b){var on=!!saved[b.id];b.classList.toggle('checked',on);b.textContent=(on?'✓':'⬚')+' Fait';b.setAttribute('aria-pressed',on?'true':'false');}
+  function upd(){score.textContent=btns.filter(function(b){return saved[b.id]}).length+' / '+btns.length;}
+  btns.forEach(function(b){paint(b);b.addEventListener('click',function(){saved[b.id]=!saved[b.id];try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}paint(b);upd();});});
+  upd();
+})();
+</script>
+</body>
+</html>

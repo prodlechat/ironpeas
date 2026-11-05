@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session Zoom du 4 novembre 2026 — Statut, structure et stratégie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED; --primary-dark:#4C1D95; --primary-light:#EDE9FE;
+  --accent:#F59E0B; --accent-light:#FEF3C7;
+  --success:#10B981; --success-light:#D1FAE5;
+  --danger:#EF4444; --danger-light:#FEE2E2;
+  --info:#3B82F6; --info-light:#DBEAFE;
+  --ink:#1A1523; --muted:#5B5670; --line:#E7E4EF; --bg:#FAF9FC; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+.progress-wrap{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(108,58,237,.12);z-index:999}
+#progress{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+.wrap{max-width:940px;margin:0 auto;padding-inline:20px}
+
+.hero{background:linear-gradient(140deg,#3B1D80 0%,#6C3AED 55%,#8B5CF6 100%);color:#fff;padding-block:60px 52px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{content:"";position:absolute;left:-60px;bottom:-120px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.05)}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:700;margin-bottom:14px;position:relative;z-index:2}
+.hero .sub{font-size:17px;opacity:.92;max-width:690px;position:relative;z-index:2}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;position:relative;z-index:2}
+.meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:7px 14px;border-radius:10px;font-size:13.5px;font-weight:500}
+
+/* LECTEUR */
+.player-wrap{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:-32px;position:relative;z-index:6;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.vid{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.chx{margin-top:16px;border:1px solid var(--line);border-radius:12px;background:#FBFAFE}
+.chx summary{cursor:pointer;padding:12px 16px;font-weight:650;font-size:14.5px;color:var(--primary-dark);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chx summary::-webkit-details-marker{display:none}
+.chx summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+.chx[open] summary::before{content:"▾ "}
+.chx summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+.chlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:2px;max-height:330px;overflow-y:auto;padding:0 10px 12px}
+.chlist button{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;background:transparent;border:0;border-radius:9px;padding:8px 10px;font-family:inherit;font-size:14.5px;color:var(--ink);cursor:pointer;line-height:1.45;transition:background .12s}
+.chlist button:hover{background:var(--primary-light);color:var(--primary-dark)}
+.chlist b{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;min-width:54px}
+button.seek{background:var(--primary-light);border:1px solid #DDD3FA;color:var(--primary-dark);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;cursor:pointer;font-variant-numeric:tabular-nums;transition:all .12s}
+button.seek:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.player-wrap + .toc{margin-top:26px}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:-32px;position:relative;z-index:5;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.toc h2{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:16px;color:var(--primary-dark)}
+.toc ol{list-style:none;counter-reset:toc;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.toc li{counter-increment:toc}
+.toc a{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink);padding:9px 10px;border-radius:10px;font-size:14.5px;transition:background .15s}
+.toc a:hover{background:var(--primary-light);color:var(--primary-dark)}
+.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);font-size:13px;flex-shrink:0;padding-top:1px}
+
+section.chap{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+section.chap>.bar{height:5px;background:var(--primary)}
+.chap[data-c="a"]>.bar{background:var(--accent)} .chap[data-c="g"]>.bar{background:var(--success)}
+.chap[data-c="b"]>.bar{background:var(--info)} .chap[data-c="r"]>.bar{background:var(--danger)}
+.chead{padding:26px 28px 0;display:flex;gap:14px;align-items:center}
+.cnum{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--primary-light);color:var(--primary-dark);display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px}
+.chap[data-c="a"] .cnum{background:var(--accent-light);color:#92400E}
+.chap[data-c="g"] .cnum{background:var(--success-light);color:#065F46}
+.chap[data-c="b"] .cnum{background:var(--info-light);color:#1E40AF}
+.chap[data-c="r"] .cnum{background:var(--danger-light);color:#991B1B}
+.chead h2{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.25;font-weight:700}
+.tc{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-top:3px}
+.cbody{padding:18px 28px 28px}
+.cbody p{margin-bottom:14px}
+.cbody h3{font-family:'Space Grotesk',sans-serif;font-size:16.5px;margin:22px 0 10px;color:var(--primary-dark)}
+.cbody ul,.cbody ol{margin:0 0 14px 20px}
+.cbody li{margin-bottom:7px}
+strong{font-weight:650;color:#2D2540}
+em.q{font-style:italic;color:#413655}
+
+.box{border-radius:12px;padding:16px 18px;margin:18px 0;border-left:4px solid;font-size:15px}
+.box .bt{display:block;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.box p:last-child{margin-bottom:0}
+.b-key{background:var(--primary-light);border-color:var(--primary)} .b-key .bt{color:var(--primary-dark)}
+.b-warn{background:var(--accent-light);border-color:var(--accent)} .b-warn .bt{color:#92400E}
+.b-tip{background:var(--success-light);border-color:var(--success)} .b-tip .bt{color:#065F46}
+.b-info{background:var(--info-light);border-color:var(--info)} .b-info .bt{color:#1E40AF}
+.b-danger{background:var(--danger-light);border-color:var(--danger)} .b-danger .bt{color:#991B1B}
+
+.tbl{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:12px 14px;font-weight:600;font-size:13.5px}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#FBFAFE}
+
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.pc>div{border-radius:12px;padding:16px 18px;font-size:14.5px}
+.pc .ok{background:var(--success-light);border:1px solid #A7F3D0}
+.pc .ko{background:var(--danger-light);border:1px solid #FECACA}
+.pc h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.pc .ok h4{color:#065F46} .pc .ko h4{color:#991B1B}
+.pc ul{margin:0 0 0 18px} .pc li{margin-bottom:5px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
+.card{background:#FBFAFE;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h4{font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:6px;color:var(--primary-dark)}
+.card p{font-size:14px;color:var(--muted);margin:0}
+.stat h4{font-size:22px;font-family:'Space Grotesk',sans-serif}
+
+.tl{list-style:none;margin:18px 0;padding-left:26px;border-left:2px dashed var(--line)}
+.tl li{position:relative;margin-bottom:16px;font-size:15px}
+.tl li::before{content:"";position:absolute;left:-33px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light)}
+.tl b{display:block;font-family:'Space Grotesk',sans-serif;color:var(--primary-dark)}
+
+details{border:1px solid var(--line);border-radius:12px;margin:14px 0;background:#FBFAFE}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:15px;color:var(--primary-dark);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+details[open] summary::before{content:"▾ "}
+details .dc{padding:0 18px 16px;font-size:14.5px}
+
+.pull{margin:22px 0;padding:20px 24px;border-radius:14px;background:linear-gradient(120deg,#2D1B69,#4C1D95);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:19px;line-height:1.45;font-weight:600}
+.pull span{display:block;margin-top:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;opacity:.7;letter-spacing:.03em}
+
+.faq{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+.faq>.bar{height:5px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.faqhead{padding:26px 28px 0}
+.faqhead h2{font-family:'Space Grotesk',sans-serif;font-size:26px;color:var(--primary-dark)}
+.faqhead p{color:var(--muted);font-size:15px;margin-top:4px}
+.faqbody{padding:18px 28px 28px}
+.faqcat{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.faqcat:first-child{margin-top:6px}
+.qa{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:#FDFCFF}
+.qa .q{background:linear-gradient(90deg,var(--primary-light),#F6F3FF);padding:13px 18px;font-weight:650;color:var(--primary-dark);font-size:15.5px;display:flex;gap:10px}
+.qa .q span{flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.qa .a{padding:15px 18px;font-size:15px}
+.qa .a p{margin-bottom:10px} .qa .a p:last-child{margin-bottom:0}
+
+.plan{background:linear-gradient(140deg,#0F172A,#1E1B4B);color:#fff;border-radius:18px;padding:30px 28px;margin-top:26px}
+.plan h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:8px}
+.plan>p{opacity:.8;margin-bottom:20px;font-size:15px}
+.phase{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin:22px 0 10px}
+.phase:first-of-type{margin-top:0}
+.chk{list-style:none;margin:0;padding:0}
+.chk li{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;margin-bottom:9px;font-size:15px;cursor:pointer;transition:background .15s}
+.chk li:hover{background:rgba(255,255,255,.09)}
+.chk .bx{flex-shrink:0;width:20px;height:20px;border:2px solid rgba(255,255,255,.4);border-radius:6px;margin-top:3px;display:grid;place-items:center;font-size:13px;font-weight:700;color:transparent}
+.chk li.done .bx{background:var(--success);border-color:var(--success);color:#fff}
+.chk li.done .tx{opacity:.5;text-decoration:line-through}
+.chk .tx b{display:block;font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.04em;text-transform:uppercase;opacity:.65;margin-bottom:2px}
+
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px;margin-top:26px}
+.quiz h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:6px;color:var(--primary-dark)}
+.quiz>p{color:var(--muted);margin-bottom:22px;font-size:15px}
+.qz{margin-bottom:24px;padding-bottom:22px;border-bottom:1px dashed var(--line)}
+.qz:last-of-type{border-bottom:none}
+.qz .qt{font-weight:650;margin-bottom:12px;font-size:15.5px}
+.opt{display:block;width:100%;text-align:left;background:#FBFAFE;border:1.5px solid var(--line);border-radius:10px;padding:11px 15px;margin-bottom:8px;cursor:pointer;font-family:inherit;font-size:14.5px;color:var(--ink);transition:all .15s}
+.opt:hover{border-color:var(--primary);background:var(--primary-light)}
+.opt.good{background:var(--success-light);border-color:var(--success);font-weight:600}
+.opt.bad{background:var(--danger-light);border-color:var(--danger)}
+.fb{display:none;margin-top:10px;padding:12px 15px;border-radius:10px;font-size:14.5px;background:var(--info-light);border-left:4px solid var(--info)}
+.fb.show{display:block}
+.score{margin-top:20px;padding:16px;border-radius:12px;background:var(--primary-light);text-align:center;font-weight:650;color:var(--primary-dark);display:none}
+.score.show{display:block}
+
+footer{text-align:center;padding-block:40px 50px;color:var(--muted);font-size:14px}
+footer b{color:var(--primary-dark);font-family:'Space Grotesk',sans-serif}
+
+@media(max-width:640px){
+  .pc{grid-template-columns:1fr}
+  .chead,.faqhead{padding:22px 18px 0} .cbody,.faqbody{padding:16px 18px 22px}
+  .toc{padding:22px 18px} .plan,.quiz{padding:24px 18px}
+  .hero h1{font-size:27px} .pull{font-size:17px;padding:18px}
+  .player-wrap{padding:14px} .chlist{grid-template-columns:1fr;max-height:280px}
+}
+@media print{
+  .progress-wrap{display:none} body{background:#fff}
+  section.chap,.toc,.quiz,.faq{box-shadow:none;break-inside:avoid}
+  .opt{display:none}
+  .vid{display:none} .player-wrap{box-shadow:none;margin-top:20px}
+  .chlist{max-height:none;overflow:visible} .chlist button{padding:3px 0}
+  button.seek{background:none;border:0;padding:0;color:var(--primary-dark)}
+}
+</style>
+</head>
+<body>
+<div class="progress-wrap"><div id="progress"></div></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">Session Zoom · Replay du 4 novembre 2026</div>
+    <h1>Statut, structure, ISRC —<br>et la stratégie qui remplace la radio</h1>
+    <p class="sub">Une session de rattrapage en petit comité : le statut d'artiste-auteur passé au crible, le crédit d'impôt phonographique, le code ISRC de A à Z, le choix entre SARL et SAS, le vrai budget d'un premier EP, les trois espaces de liberté qui restent — et comment utiliser l'IA pour prospecter, vendre des dates et se référencer auprès des moteurs de demain.</p>
+    <div class="meta">
+      <span>⏱ 5 h 01</span>
+      <span>🎙 Tarik Hamiche</span>
+      <span>📌 159 chapitres</span>
+      <span>👥 Session de groupe</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="player-wrap">
+  <div class="vid">
+    <iframe id="vimeoPlayer"
+      src="https://player.vimeo.com/video/1243751731?h=c946cb70be"
+      title="Replay Session Zoom du 4 novembre 2026"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  <details class="chx" id="chx">
+    <summary><span>Les 159 chapitres de la session</span><em>Cliquez un chapitre pour y aller</em></summary>
+    <div class="chlist" id="chlist"></div>
+  </details>
+</div>
+
+<nav class="toc">
+  <h2>Au programme</h2>
+  <ol>
+    <li><a href="#s1">Le cadre de la session</a></li>
+    <li><a href="#s2">Le statut d'artiste-auteur, la clé du démarrage</a></li>
+    <li><a href="#s3">Facturer, déclarer, optimiser</a></li>
+    <li><a href="#s4">Le crédit d'impôt phono et les aides</a></li>
+    <li><a href="#s5">Cumuler les statuts</a></li>
+    <li><a href="#s6">Le code ISRC de A à Z</a></li>
+    <li><a href="#s7">SCPP ou SPPF : choisir son organisme</a></li>
+    <li><a href="#s8">Ce que la SACEM mesure vraiment</a></li>
+    <li><a href="#s9">À quel moment créer une société</a></li>
+    <li><a href="#s10">Asso, SARL, SAS : le comparatif</a></li>
+    <li><a href="#s11">Le vrai budget d'un premier EP</a></li>
+    <li><a href="#s12">Monétiser 500 fans</a></li>
+    <li><a href="#s13">Pourquoi la radio n'est pas la porte d'entrée</a></li>
+    <li><a href="#s14">Les trois espaces de liberté</a></li>
+    <li><a href="#s15">Refaire un label aujourd'hui</a></li>
+    <li><a href="#s16">Les trois erreurs des indépendants</a></li>
+    <li><a href="#s17">La méthode des trois priorités</a></li>
+    <li><a href="#s18">Formation et communauté</a></li>
+    <li><a href="#s19">L'IA pour prospecter et vendre</a></li>
+    <li><a href="#s20">Se référencer auprès des IA</a></li>
+  </ol>
+</nav>
+
+<section class="chap" id="s1" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">01</div><div><h2>Le cadre de la session</h2><div class="tc">0:00 → 17:00</div></div></div>
+  <div class="cbody">
+    <p>La session démarre par un problème très concret : Delphine ne reçoit pas les emails d'accès à la plateforme, ni en boîte de réception ni en spam. Le réflexe est de lancer une réinitialisation de mot de passe, puis — quand l'email ne passe toujours pas — d'envoyer directement le lien d'inscription dans le chat Zoom. En cinq minutes, le problème est réglé.</p>
+    <div class="box b-tip"><span class="bt">Réflexe à retenir</span><p>Quand un email de plateforme ne passe pas, inutile de s'acharner sur la boîte mail : demandez le lien direct. Le support peut toujours vous le transmettre par un autre canal.</p></div>
+    <p>Suit un petit moment de réglages audio : un bruit de fond persistant côté Delphine. La solution se trouve dans les paramètres audio de Zoom, sur la flèche à côté du micro → <em class="q">Suppression du bruit par défaut</em>. Loïc, qui est présent sur cette session, soupçonnait le ventilateur de l'ordinateur.</p>
+    <h3>Pourquoi ces sessions existent</h3>
+    <p>Tarik est transparent sur le sujet : cette session est une <strong>session de rattrapage</strong> de celle prévue le lendemain, pour les trois membres qui n'étaient pas disponibles. Ces sessions live Zoom sont <strong>obligatoires</strong> dans le cadre de la formation professionnelle — ce sont des temps de questions-réponses.</p>
+    <div class="box b-info"><span class="bt">Le cadre réglementaire</span><p>Depuis le 1<sup>er</sup> novembre, les organismes de formation doivent fournir des <strong>logs de connexion horodatés</strong> pour attester de la présence. Zoom trace donc le temps de connexion. L'arrangement proposé : rester connecté cinq heures, micro et caméra coupés pendant la pause, et la session complète est validée pour tout le monde.</p></div>
+    <p>À noter : ces sessions continuent même après la fin de la formation, et vous y serez invité régulièrement. Il y a aussi <strong>deux fois deux heures en individuel</strong>, et WhatsApp reste le canal le plus réactif.</p>
+    <h3>Le tour de table</h3>
+    <ul>
+      <li><strong>Agatha</strong> — compose, écrit, interprète et produit. Revenue à la musique en devenant maman et en divorçant. Son constat en démarrant la formation : <em class="q">« j'ai un peu tout fait à l'envers par manque d'informations »</em>. Budget CPF à utiliser.</li>
+      <li><strong>Delphine</strong> — réécrit les comptines traditionnelles en pastiches plus bienveillants et au goût du jour. Depuis mars, elle répète avec une guitariste de jazz ; un set de 30 minutes pour les écoles, crèches et centres de loisirs, dans la région rouennaise. Son frein : se faire connaître au-delà de ce qu'elle peut faire physiquement.</li>
+      <li><strong>Pauline</strong> — lancée fin 2024, seule sur le projet, maman de deux enfants. Deux morceaux déjà sortis, un EP en janvier. Vient chercher la partie structuration : elle travaille déjà dans la communication, donc la promo l'inquiète moins que le cadre juridique et la vente de dates.</li>
+    </ul>
+    <p>Les questions reçues en amont sont classées par blocs : questions générales, statut et structuration, aides et subventions, contrats, droits, création de contenu et visibilité, modèles d'affaires, publicité en ligne et booking. Le groupe choisit de commencer par le statut.</p>
+  </div>
+</section>
+
+<section class="chap" id="s2" data-c="p">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">02</div><div><h2>Le statut d'artiste-auteur, la clé du démarrage</h2><div class="tc">17:59 → 25:00</div></div></div>
+  <div class="cbody">
+    <p>C'est le socle de toute la session. <strong>La structuration est l'élément le plus important au début d'un projet artistique</strong> — et l'erreur que beaucoup commettent est de faire tout en nom propre sans statut, ou de monter une association « parce que c'est plus simple ».</p>
+    <div class="pull">« Le premier statut à aller chercher, c'est le statut d'artiste-auteur. C'est un statut qui est trop méconnu. »<span>Tarik Hamiche</span></div>
+    <h3>Ce que le statut permet concrètement</h3>
+    <ul>
+      <li>Il se crée <strong>en 24 heures, gratuitement</strong>, sur artiste-auteur.urssaf.fr</li>
+      <li>Il permet de mettre ses musiques sur les plateformes digitales et d'être rémunéré par elles</li>
+      <li>Il permet d'encaisser <strong>droits d'auteur</strong> et <strong>droits voisins d'artiste-interprète</strong></li>
+      <li>Il permet de vendre du merchandising et des cessions de prestation musicale</li>
+      <li>Il donne un numéro de SIRET, indispensable pour facturer la SCPP ou la SPPF</li>
+    </ul>
+    <div class="cards">
+      <div class="card stat"><h4>12 – 14 %</h4><p>De charges sociales URSSAF selon votre situation (majoré à 17 % dans certains cas)</p></div>
+      <div class="card stat"><h4>50 000 €</h4><p>Seuil de franchise de TVA, avec un plafond majoré à 55 000 €</p></div>
+      <div class="card stat"><h4>0 €</h4><p>Coût de création du statut, et aucune lourdeur administrative</p></div>
+    </div>
+    <div class="box b-warn"><span class="bt">La ligne qu'on mord sans la franchir</span><p>Certaines facturations ne sont pas strictement légales sous ce statut — notamment les revenus d'exploitation qui devraient passer par un label, et les prestations scéniques qui devraient être payées en cachet. Sur de petits montants, il n'y a jamais de contrôle, et en cas de contrôle on vous tape sur les doigts cinq minutes. Mais c'est une ligne qu'on mord, jamais qu'on franchit durablement.</p></div>
+    <h3>Un statut cumulable toute la vie</h3>
+    <p>C'est l'argument central : <strong>ce statut se garde le plus longtemps possible</strong>, parce qu'il se cumule avec presque tout. Artiste-auteur et intermittent du spectacle sont compatibles, et les revenus ne se frottent pas — les sommes d'artiste-auteur n'impactent pas les indemnités d'intermittence.</p>
+    <p>Le montage que Tarik a utilisé pendant des années : un label en SARL puis en SAS, et <strong>une facturation régulière de prestations d'artiste-auteur à son propre label</strong>. Il composait réellement pour le label, le label le rémunérait sur facture.</p>
+    <div class="pc">
+      <div class="ok"><h4>Ce que ça permet</h4><ul><li>Une charge déductible pour le label, donc moins d'impôt sur les sociétés</li><li>Un revenu que vous contrôlez au centime : 2 000 € sur 10 mois, puis vous arrêtez</li><li>Rester sous les seuils fiscaux qui vous intéressent</li></ul></div>
+      <div class="ko"><h4>Ce qu'il ne faut pas faire</h4><ul><li>Facturer des prestations factices — la composition doit être réelle</li><li>Faire passer des cachets réguliers en facture d'artiste-auteur</li><li>Monter une structure avant d'avoir des revenus prédictibles</li></ul></div>
+    </div>
+    <h3>Le cas du duo</h3>
+    <p>Delphine joue avec une guitariste : comment faire ? Réponse : <strong>exactement de la même manière</strong>. Si la guitariste est aussi créatrice, elle peut adhérer au statut d'artiste-auteur et facturer.</p>
+    <p>Mais il y a une limite à connaître. Le cadre légal dit qu'<strong>un artiste en studio pour assurer une prestation doit être rémunéré en cachet</strong>. Trois options donc :</p>
+    <ol>
+      <li><strong>Ponctuel</strong> → une facture d'artiste-auteur est acceptable</li>
+      <li><strong>Régulier</strong> → basculer en cachet, avec les charges sociales en face. Plus cher, mais carré</li>
+      <li><strong>Coproduction</strong> → la guitariste devient coproductrice des projets et choisit cette casquette</li>
+    </ol>
+  </div>
+</section>
+
+<section class="chap" id="s3" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">03</div><div><h2>Facturer, déclarer, optimiser</h2><div class="tc">26:28 → 36:00</div></div></div>
+  <div class="cbody">
+    <p>Pauline pose la bonne question : faut-il une structure à côté du statut pour facturer ? Non. Démonstration par l'exemple : une chanteuse sort son EP en janvier, les plateformes ou son distributeur doivent lui verser des revenus, elle émet une facture avec son statut d'artiste-auteur. Ça fonctionne.</p>
+    <div class="box b-key"><span class="bt">Le repère chiffré</span><p>400 € à facturer en janvier → ça passe. 400, puis 600, puis 800 le mois suivant → c'est le moment de basculer sur une structure. Le conseil de départ : ne pas s'alourdir d'une structure quand on ne sait pas encore où on va.</p></div>
+    <h3>L'attestation de précompte SACEM</h3>
+    <p>Un levier que presque personne n'actionne. Quand la SACEM vous verse des droits d'auteur, elle prend les charges sociales à la source — sur des <strong>sommes forfaitaires</strong>, souvent autour de 30 %, alors que vous n'en devez peut-être que 17.</p>
+    <p>En envoyant une <strong>attestation de demande de précompte</strong> à la SACEM, c'est l'URSSAF artiste-auteur qui prélève, au vrai taux. Double bénéfice : vous ne payez pas plus que ce que vous devez, et vous évitez la double cotisation (SACEM à la source <em>et</em> URSSAF ensuite).</p>
+    <div class="box b-warn"><span class="bt">99 % des gens ne le savent pas</span><p>Personne ne retourne voir la SACEM l'année suivante pour dire : « vous m'avez pris 30 %, je ne devais que 17, quid de la différence ? » Et c'est perdu. La régularisation existe pourtant, il suffit de la demander.</p></div>
+    <h3>Vendre une date sans structure</h3>
+    <p>Troisième usage : vous pouvez vendre un <strong>droit de cession de prestation musicale</strong> — un show monté, comme si vous étiez producteur de spectacle — et non une prestation directe. Cela passe aussi par la facturation d'artiste-auteur. Idem pour le merch, les produits dérivés et un abonnement à un espace fan base.</p>
+    <h3>Le BNC au réel, l'option fiscale qui change tout</h3>
+    <p>C'est le choix fiscal à faire : déclarer ses revenus en <strong>bénéfices non commerciaux au réel</strong> permet de déduire toutes ses dépenses.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Poste</th><th>Montant</th><th>Effet fiscal</th></tr></thead>
+        <tbody>
+          <tr><td>Factures de studio (EP de janvier)</td><td>− 3 000 €</td><td>Décaissées, départ à −3 000</td></tr>
+          <tr><td>Revenus d'exploitation digitale</td><td>+ 2 000 €</td><td></td></tr>
+          <tr><td>Dates vendues</td><td>+ 3 000 €</td><td></td></tr>
+          <tr><td>Divers</td><td>+ 1 000 €</td><td></td></tr>
+          <tr><td><strong>Montant imposable</strong></td><td><strong>3 000 €</strong></td><td>Sous les seuils → non imposable</td></tr>
+          <tr><td>Charges sociales dues</td><td>sur 6 000 €</td><td>URSSAF (+ IRCEC au-delà de ~10 000 €)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Attention au palier : au-delà d'environ 10 000 € de revenus, l'<strong>IRCEC</strong> (la retraite obligatoire des artistes-auteurs) s'ajoute, entre 4 % et 8 % selon les plafonds et options. Tarik est lui-même à environ <strong>24 % de charges</strong> sur tous ses revenus d'artiste-auteur — ce qui reste plus intéressant qu'un salaire en SARL ou en SAS, mais commence à représenter un vrai billet : 25 000 € sur 100 000 générés.</p>
+    <h3>L'article 110 bis du CGI</h3>
+    <p>Le dispositif le plus méconnu de la session. L'État reconnaît que les revenus artistiques, littéraires et sportifs sont <strong>sujets à volatilité</strong> : un footballeur prend 300 000 € à la signature puis rien pendant deux ans, un artiste prend une avance maison de disque puis plus rien pendant cinq ans.</p>
+    <div class="box b-tip"><span class="bt">Ce que permet l'article 110 bis</span><p>Lisser ses revenus sur <strong>cinq ans</strong>. Un tube qui rapporte 100 000 € cette année n'est imposable que sur 20 000 € — un niveau qui passe sous beaucoup de plafonds. Avec quelques charges déductibles derrière (garde d'enfants par exemple), vous pouvez ne lâcher que 1 000 ou 2 000 € aux impôts sur 100 000 encaissés.</p></div>
+    <div class="box b-info"><span class="bt">Le malentendu sur les 50 000 €</span><p>Le plafond de 50 000 € n'est <strong>pas</strong> celui du statut d'artiste-auteur : c'est celui du non-assujettissement à la TVA. Sur le statut lui-même, vous pourriez percevoir 100 000 € s'il faut. Il n'y a pas de limite légale, seulement des limites logiques : au-dessus de certains montants, la fiscalité en société devient bien plus avantageuse — 15 % jusqu'à 42 000 €, 25 % seulement sur la part au-dessus.</p></div>
+    <p>Et en société, on pilote sa fiscalité par la facturation. Sur 100 000 € de chiffre d'affaires : 30 000 € facturés en artiste-auteur (charge déductible), 10 000 € de production d'album, des clips, de la promo, du marketing — il peut ne rester que 20 000 € de bénéfice net, imposés à 15 %, soit environ 3 000 €.</p>
+  </div>
+</section>
+
+<section class="chap" id="s4" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">04</div><div><h2>Le crédit d'impôt phono et les aides</h2><div class="tc">36:36 → 47:40</div></div></div>
+  <div class="cbody">
+    <p>Le <strong>CIPP</strong> — crédit d'impôt pour dépenses de production phonographique — est le dispositif que Tarik présente comme le plus puissant du dispositif français, et celui qu'il a mis douze ans à découvrir.</p>
+    <h3>Comment il fonctionne</h3>
+    <p>Un label génère 100 000 € et engage 60 000 € de dépenses éligibles : 30 000 € de prestations d'artistes-auteurs, 20 000 € de studio et clip, 10 000 € de marketing. En fin d'année, l'État reverse un peu plus de 25 000 €.</p>
+    <ul>
+      <li>Vous devez, disons, 3 000 € d'impôt → l'État vous en doit 25 000</li>
+      <li>Vous ne payez pas vos impôts</li>
+      <li>Et vous recevez un <strong>virement de la DGFIP</strong> d'environ 22 000 €</li>
+      <li>Vous redémarrez l'année suivante avec 22 000 € à réinjecter</li>
+    </ul>
+    <div class="pull">« Cette année-là, l'État m'a fait un virement de plus de 180 000 €. Et là, j'ai halluciné. »<span>Sur un label à ~600 000 € de chiffre d'affaires et 500 000 € de dépenses, à l'époque où le CIPP était à 50 % pour les petits labels</span></div>
+    <p>Ce que ce virement change dans les décisions : <em class="q">« On a limité le budget pour les clips, on va se faire plaisir. On n'avait plus de budget marketing pour tel projet, on va le mettre. »</em> Parce qu'on sait que la moitié reviendra.</p>
+    <h3>Les critères d'éligibilité</h3>
+    <div class="pc">
+      <div class="ok"><h4>Éligible</h4><ul><li>Pratiquement tous les petits labels, pendant des années</li><li>À partir de la <strong>deuxième année d'activité</strong></li><li>Tant que le projet est monté, même si le titre ne sort pas</li></ul></div>
+      <div class="ko"><h4>Inéligible</h4><ul><li>Un artiste qui a vendu plus de <strong>100 000 albums</strong> dans sa carrière (les autres artistes du label restent éligibles)</li><li>Au-delà d'un plafond de chiffre d'affaires — le crédit d'impôt lui-même est plafonné à 2 M€</li></ul></div>
+    </div>
+    <p>En empilant le CIPP et les autres aides et subventions, on peut <strong>amortir jusqu'à 70 % de ses dépenses</strong>. Certaines années, Tarik se versait 50 000 € de facturation d'artiste-auteur et l'État en payait la moitié.</p>
+    <h3>Le résumé de la mécanique</h3>
+    <div class="tl">
+      <li><b>Phase 1 — Statut d'artiste-auteur</b>Fonctionner comme un label sans en avoir la lourdeur. Une liasse fiscale par an : 300 à 400 € chez un comptable, gratuit avec une IA, et très simple quand il n'y a pas grand-chose.</li>
+      <li><b>Phase 2 — Évaluer son modèle d'affaires</b>Si pendant deux ans ça ne marche pas, vous n'avez rien perdu. C'est très light.</li>
+      <li><b>Phase 3 — Créer le label</b>Dès que le modèle fonctionne : créer la structure, transférer le catalogue, actionner immédiatement le crédit d'impôt phono.</li>
+    </div>
+    <h3>Quand l'administratif bloque</h3>
+    <p>Delphine le dit franchement : <em class="q">« je suis quelqu'un qui a d'énormes difficultés avec tout ce qui est administratif et comptable… le cerveau, il me dit : non, je ne suis pas capable »</em>. Deux réponses :</p>
+    <ol>
+      <li><strong>Déléguer</strong> — c'est exactement le métier de Muzisecur : une équipe dédiée qui s'en occupe</li>
+      <li><strong>Relativiser</strong> — au départ, il ne se passe pas grand-chose. La première année où Tarik a vendu de la musique, il a gagné environ 300 €. <strong>En dessous de 2 000 € par an, personne ne viendra vous chercher</strong> : Bercy a d'autres priorités. Au-dessus : vous avez un statut, vous facturez, vous déclarez, l'URSSAF calcule, vous payez au trimestre. C'est carré.</li>
+    </ol>
+    <h3>Pourquoi l'association n'est pas la bonne idée</h3>
+    <div class="box b-danger"><span class="bt">Le piège de l'asso loi 1901</span><p>Une association a l'obligation d'entretenir une <strong>activité non lucrative</strong>, tournée vers les autres : ateliers, activités de groupe. Si l'asso ne tourne qu'autour de vous — même si vous ne vous payez pas et que vous réinjectez tout dans votre projet — c'est très facile de prouver que c'est lucratif. Et là, ce sont des <strong>sanctions civiles</strong> : on vient vous chercher en nom propre, pas la structure. Il y a déjà eu un cas de jurisprudence d'une association marseillaise.</p></div>
+    <p>Sans compter la lourdeur : un bureau, des statuts, des AG à tenir. À comparer avec « appuyer sur un bouton, générer une facture, l'envoyer, être payé ».</p>
+    <h3>La bourse auteur-compositeur du CNM</h3>
+    <p>Un dispositif accessible dès le statut d'artiste-auteur, qui a changé de nom trois fois en deux ans.</p>
+    <div class="cards">
+      <div class="card stat"><h4>5 000 €</h4><p>Montant de l'aide, versé rond</p></div>
+      <div class="card"><h4>Conditions</h4><p>Au moins un titre déposé à la SACEM dans l'année, un statut d'artiste-auteur, et ne pas dépasser un certain revenu (de l'ordre de 50 000 à 70 000 € par an)</p></div>
+      <div class="card"><h4>Cumul</h4><p>Tarik l'a obtenue deux fois, mais pas deux années consécutives</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s5" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">05</div><div><h2>Cumuler les statuts</h2><div class="tc">47:40 → 52:00</div></div></div>
+  <div class="cbody">
+    <p>La question de Pauline : salariée en CDI, peut-elle être artiste-auteur <em>et</em> créer un label en société ? Réponse : <strong>oui, les trois sont parfaitement cumulables</strong>, parce que ce sont des activités différentes.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Casquette</th><th>Déclaration</th><th>Objet</th></tr></thead>
+        <tbody>
+          <tr><td>Salariée en CDI</td><td>Traitements et salaires</td><td>Votre emploi</td></tr>
+          <tr><td>Artiste-auteur</td><td>BNC (bénéfices non commerciaux)</td><td>Prestations de création</td></tr>
+          <tr><td>SAS / SASU</td><td>Impôt sur les sociétés</td><td>Production, édition, vente de spectacles</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="box b-warn"><span class="bt">Les exceptions</span><p>Les fonctionnaires. Un gendarme, par exemple, n'a pas le droit d'avoir une société à côté — mais il peut parfaitement être artiste-auteur. Beaucoup de militaires écrivent des livres et perçoivent des droits d'auteur tout en restant en fonction.</p></div>
+    <h3>L'intelligence de revenus</h3>
+    <p>Le cumul ouvre une marge de pilotage. Si votre salaire et vos revenus d'artiste-auteur vous placent juste sous un taux marginal d'imposition élevé, on ne se verse pas de salaire sur le label : on fonctionne en <strong>dividendes</strong>.</p>
+    <p>Les revenus du capital se contrôlent : on les laisse en autres réserves une année, deux années, et on déclenche un paiement de dividende l'année où le revenu global baisse. Tout est cumulable, mais cela demande une petite intelligence logistique pour optimiser.</p>
+    <h3>Et l'intermittence ?</h3>
+    <p>Techniquement, on peut être intermittent, dirigeant de label, salarié <em>et</em> artiste-auteur. Mais là, les revenus de salarié viennent impacter les indemnités d'intermittence : <em class="q">« si tu te fais 2 000 € par mois à gauche, ils ne vont pas te filer 1 500 balles à droite »</em>.</p>
+    <div class="box b-key"><span class="bt">Le verdict</span><p>L'intermittence est un <strong>statut précaire</strong>, qui s'adapte à certains cas (budgets formation, notamment). Mais si on n'est pas malin avec, ce n'est pas du tout intéressant. Dans le cas de Pauline, salariée : non.</p></div>
+  </div>
+</section>
+
+<section class="chap" id="s6" data-c="p">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">06</div><div><h2>Le code ISRC de A à Z</h2><div class="tc">52:00 → 64:00</div></div></div>
+  <div class="cbody">
+    <p>Pauline avait créé des comptes sur plusieurs interfaces à l'époque de ses premiers morceaux, sans bien comprendre pourquoi. L'occasion de tout remettre à plat.</p>
+    <div class="pull">« Le code ISRC, c'est la carte d'identité d'une œuvre. Chaque musique en a un. »<span>Tarik Hamiche</span></div>
+    <h3>La structure du code, caractère par caractère</h3>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Segment</th><th>Exemple</th><th>Signification</th></tr></thead>
+        <tbody>
+          <tr><td>2 lettres</td><td>FR</td><td>Pays de production du titre</td></tr>
+          <tr><td>3 caractères</td><td>6O4 / 9W1</td><td><strong>Racine producteur</strong> — identifie le propriétaire du master</td></tr>
+          <tr><td>2 chiffres</td><td>26</td><td>Année (2026)</td></tr>
+          <tr><td>4 chiffres</td><td>0026</td><td>Numéro de l'œuvre dans l'année</td></tr>
+          <tr><td>Dernier chiffre</td><td>0 / 1</td><td>0 = audio, 1 = vidéo</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="box b-info"><span class="bt">Obligation légale</span><p>Le numéro ISRC est <strong>obligatoire pour commercialiser une œuvre</strong>. Sans ISRC, pas de sortie sur les plateformes digitales.</p></div>
+    <h3>Les trois façons d'en obtenir un</h3>
+    <div class="cards">
+      <div class="card"><h4>1 · Le distributeur</h4><p>TuneCore, iMusician, n'importe lequel : vous déclarez ne pas en avoir, il en génère un. Le plus simple, mais le code n'est pas relié à votre compte producteur.</p></div>
+      <div class="card"><h4>2 · Votre propre code</h4><p>Il faut être membre de la SPPF ou de la SCPP — donc avoir déjà commercialisé au moins cinq œuvres et fait la démarche d'adhésion.</p></div>
+      <div class="card"><h4>3 · ISRC France</h4><p>Une demande de numéro « provisoire ». Vous recevez généralement un code avec la racine <strong>9W1</strong>, la plus commune pour ces numéros.</p></div>
+    </div>
+    <div class="box b-warn"><span class="bt">Le piège du mot « provisoire »</span><p>Un numéro dit provisoire est en réalité un <strong>code définitif</strong>. Il ne pourra jamais être changé. Il est seulement « provisoire » parce qu'il n'a pas encore de racine producteur qui vous appartient. Vous ne pourrez pas remplacer 9W1 par votre racine — en revanche, vous pourrez <strong>relier le titre à votre catalogue producteur</strong>.</p></div>
+    <h3>La procédure de rattachement</h3>
+    <div class="tl">
+      <li><b>Étape 1</b>Commercialiser au moins cinq titres avec cinq numéros ISRC distincts.</li>
+      <li><b>Étape 2</b>Adhérer à la SPPF ou à la SCPP (détaillé dans le module 5-6 de la formation). L'organisme vous remet une racine producteur.</li>
+      <li><b>Étape 3</b>Déclarer chaque ancien titre : « ce titre sorti il y a deux ans, numéro 9W1…, est le mien, voici la preuve de détention des droits. » Un screenshot de la sortie digitale avec votre nom de producteur suffit.</li>
+      <li><b>Résultat</b>Le numéro ISRC ne change pas, mais la collecte des droits voisins se fait désormais chez vous. Les sommes non réparties des années précédentes vous sont versées d'un coup sur votre compte producteur.</li>
+    </div>
+    <h3>Producteur : une réalité juridique, pas un statut</h3>
+    <p>Question d'Agatha : devient-on producteur parce qu'on a cinq titres ? Non — <strong>quand vous financez l'enregistrement, vous êtes producteur par défaut, c'est la loi</strong>. Les cinq titres sont le seuil pour <em>adhérer</em> à un organisme de gestion.</p>
+    <p>Et le producteur perçoit sur deux axes :</p>
+    <ul>
+      <li>Les <strong>recettes d'exploitation</strong> — quand on est artiste <em>et</em> producteur, 100 % des ventes rentrent chez vous</li>
+      <li>Les <strong>droits voisins de producteur</strong> — qui nécessitent d'adhérer à la SPPF ou à la SCPP</li>
+    </ul>
+    <div class="box b-key"><span class="bt">Un ISRC par support</span><p>Un morceau audio et son clip vidéo ont <strong>chacun leur propre numéro ISRC</strong> — phonogramme et vidéogramme. C'est normal d'en avoir deux. TuneCore ne génère pas les ISRC de clips : il faut passer par l'interface directe.</p></div>
+    <p>La démonstration à l'écran dans le répertoire SPPF d'un ancien label (I Have a Dream Records) le montre bien : deux onglets, phonogrammes et vidéogrammes, et des codes où l'on voit cohabiter la racine propre 6O4 et des racines provisoires 9W1 ou 1A9 — qui sont pourtant bien rattachées au catalogue.</p>
+    <h3>Ce que ça coûte de ne pas le faire</h3>
+    <p>Quand une œuvre n'a pas d'ISRC rattaché à un compte producteur, les diffuseurs et les collecteurs ne savent pas à qui reverser. Les sommes restent à fonds perdus.</p>
+    <div class="box b-tip"><span class="bt">Le calcul qui fait réfléchir</span><p>Une œuvre qui n'a jamais marché génère environ <strong>6 € par an</strong> de droits SPEDIDAM depuis 16 ans. Soit 130 € sur la période. Multiplié par 100 œuvres : <strong>13 000 €</strong>. Sur une échelle de temps longue — mais autant les avoir dans sa poche.</p></div>
+    <p>Et le coût d'entrée est dérisoire : <strong>150 € une fois à vie</strong> pour ouvrir son compte producteur. Ensuite il reste ouvert, et il ouvre l'accès à certaines subventions.</p>
+  </div>
+</section>
+
+<section class="chap" id="s7" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">07</div><div><h2>SCPP ou SPPF : choisir son organisme</h2><div class="tc">64:58 → 72:30</div></div></div>
+  <div class="cbody">
+    <p>Les deux organismes gèrent les droits voisins des producteurs. Il faut adhérer à l'un ou à l'autre — jamais aux deux pour les mêmes œuvres.</p>
+    <h3>Ce qui a changé</h3>
+    <p>À l'époque de son premier livre, <em class="q">Le secret pour vivre de sa musique</em>, Tarik incitait tout le monde à aller à la SPPF — et s'est fait incendier par le patron de Mercury, Olivier Nusse, devenu président de la SCPP l'année suivante.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Critère</th><th>Avant</th><th>Aujourd'hui</th></tr></thead>
+        <tbody>
+          <tr><td>Taux de retenue pour services rendus</td><td>~5 % SPPF / ~11 % SCPP</td><td>À peu près le même des deux côtés, autour de 5 à 8 %</td></tr>
+          <tr><td>Conseil d'administration</td><td>SCPP : maisons de disques — SPPF : labels indépendants</td><td>Ça commence à se confondre</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>L'histoire, qui explique tout</h3>
+    <p>En 1985, Jack Lang introduit le droit voisin en France. Les cinq majors de l'époque — Sony, Universal, Warner, EMI et Virgin, qui appartenait encore à Richard Branson — constituent la <strong>SCPP</strong> pour collecter et répartir. Les cinq plus gros indépendants, qui ne veulent pas dépendre d'un conseil d'administration dirigé par des maisons de disques, créent la <strong>SPPF</strong>. La loi Lang autorise les deux.</p>
+    <div class="box b-info"><span class="bt">Les « 2 000 indépendants » de la SCPP</span><p>C'est vrai sur le papier, mais ce sont très majoritairement des indépendants <strong>en licence maison de disque</strong>. Big Flo et Oli ont monté leur label, distribué par Universal en licence exclusive — c'est Universal qui contrôle. Soprano a monté son label, affilié SCPP, contrôlé par Warner. À l'inverse, la SPPF accueille aussi 6&7 (le label d'un ancien directeur d'Universal Music) et Play Two, énorme indépendant affilié Warner, qui siège à son conseil d'administration.</p></div>
+    <div class="pull">« Regardez un petit peu les deux et affiliez-vous à celui avec lequel vous vous sentez le plus à l'aise. »<span>Tarik, membre SPPF, ancien junior board pendant deux ans — et aussi partiellement administré par la SCPP, sans jamais avoir eu de problème</span></div>
+    <h3>Le cas d'Agatha : un EP coproduit</h3>
+    <p>Son premier EP a été fait avec Studom. Ses chansons lui appartiennent à 70 %, 30 % au producteur qui l'a accompagnée. Le package incluait la mise en ligne sur TuneCore, et c'est Studom qui a généré les ISRC.</p>
+    <div class="box b-warn"><span class="bt">Tout dépend du contrat de coproduction</span><p>Même avec 3 %, un coproducteur peut avoir des dispositions contractuelles qui lui donnent la main sur la gestion des droits voisins. Il faut lire le contrat avant d'agir. Si c'est le coproducteur qui a la main, vous ne pourrez que lui envoyer une facture chaque semestre — alors qu'il vaut mieux percevoir à la source. Bonne nouvelle possible : si le contrat ne couvre pas ces points, c'est tout à votre avantage.</p></div>
+    <p>Deux autres points : TuneCore n'est pas un vrai distributeur — à terme il faut viser mieux. Et vous avez <strong>cinq ans à compter de la première publication</strong> pour rattacher une œuvre à votre compte producteur.</p>
+  </div>
+</section>
+
+<section class="chap" id="s8" data-c="r">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">08</div><div><h2>Ce que la SACEM mesure vraiment</h2><div class="tc">72:30 → 85:00</div></div></div>
+  <div class="cbody">
+    <p>Delphine se demande si son ingénieur du son a « mis l'ISRC quelque part » dans le fichier. Oui : en <strong>métadonnée</strong>. À chaque diffusion, le son porte une empreinte, traçable par un certain nombre d'outils.</p>
+    <div class="box b-key"><span class="bt">Ce qui a changé techniquement</span><p>Avant, il était important d'inscrire l'ISRC dans les métadonnées, parce que beaucoup d'outils ne le traquaient pas. Aujourd'hui, <strong>quasiment tous les outils de tracking récupèrent l'ISRC à partir de l'empreinte sonore</strong>. Le mettre en métadonnée reste utile pour les clubs qui n'ont pas de boîte noire lisant les métadonnées.</p></div>
+    <h3>À quoi sert vraiment l'ISRC</h3>
+    <ol>
+      <li><strong>Commercialiser</strong> — c'est une obligation légale, provisoire ou avec votre racine</li>
+      <li><strong>Identifier le label copie</strong> — le terme technique pour la liste des informations d'une œuvre : qui est le producteur, qui est l'éditeur, année de production, année de publication, les auteurs, les compositeurs. Tout se retrouve à partir du code</li>
+    </ol>
+    <p>Une fois généré, vous pouvez l'oublier. C'est tout.</p>
+    <h3>La vraie réponse sur la radio associative</h3>
+    <p>Delphine a une radio associative locale intéressée. Elle envoie l'audio, l'ISRC part avec, donc c'est tracé — en principe. Mais il y a une subtilité qui change tout.</p>
+    <div class="box b-danger"><span class="bt">Le panel de radios</span><p>La SACEM ne trace pas chaque diffusion sur chaque antenne. Chaque année, elle décide d'un <strong>panel de radios</strong> censé être représentatif de l'ensemble des genres diffusés. Si vous n'êtes pas diffusé sur ces radios-là, vos diffusions ne collectent rien. <strong>Vous pouvez passer 300 fois par semaine sur une radio associative et ne percevoir aucun droit.</strong></p></div>
+    <h3>Le même mécanisme en discothèque</h3>
+    <p>Moins de <strong>50 clubs sondés</strong> aujourd'hui pour représenter l'ensemble des diffusions dans les lieux dansants — avec, dedans, deux salles de mariage et une guinguette. Vous pouvez être diffusé dans 200 discothèques : si aucune n'est dans ces 50, aucun droit.</p>
+    <p>Les listes sont tenues secrètes et évoluent d'année en année, voire de semestre en semestre, en fonction du volume d'affaires et de la fréquentation des salles. Elles s'achètent au marché noir — ce qui est illégal.</p>
+    <div class="box b-warn"><span class="bt">La subtilité ajoutée par Loïc</span><p>Au-delà des 50 clubs, il y a aussi des <strong>heures de passage</strong> qui tournent chaque semaine. Vous pouvez être diffusé dans un des 50 clubs à 5 h du matin : s'ils ont choisi de sonder à 2 h, vous serez à zéro.</p></div>
+    <p>Deux genres en ont massivement souffert : le <strong>reggaeton</strong>, joué entre 23 h et minuit avant d'être à la mode — quand il n'y avait personne — et le <strong>zouk</strong>, joué après 4 h 30 du matin, quand il n'y a plus aucun sondage. Cela avait créé un gros débat dans l'industrie de la musique tropicale.</p>
+    <div class="pull">« Il y a beaucoup de choses très arbitraires dans l'industrie musicale. Heureusement, quand tu les connais, ça te permet de contourner les règles. Et malheureusement, quand tu ne les connais pas, tu peux passer deux ou trois ans à travailler en te disant : je ne comprends pas, je n'ai pas de résultats. »<span>Tarik Hamiche</span></div>
+    <p>La matinée se termine sur le sujet administratif du moment : les nouveaux <strong>relevés horodatés</strong> de présence exigés depuis le 1<sup>er</sup> novembre. Teams produit un fichier Excel avec nom et temps de connexion, qu'il faut ensuite re-saisir à la main dans les outils de formation. Zoom fonctionnera probablement de la même manière — ces outils n'ont pas été conçus pour répondre aux obligations de la DREETS ou de la CDC. À conserver au moins deux ans, feuilles de présence incluses.</p>
+  </div>
+</section>
+
+<section class="chap" id="s9" data-c="p">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">09</div><div><h2>À quel moment créer une société</h2><div class="tc">150:35 → 159:55</div></div></div>
+  <div class="cbody">
+    <p>L'après-midi reprend sur le panel de questions envoyées en amont. La première avait déjà été traitée le matin : artiste-auteur, intermittent ou micro-entreprise, par quoi commencer ?</p>
+    <div class="box b-key"><span class="bt">La réponse en une ligne</span><p>La <strong>micro-entreprise est à proscrire</strong>. L'<strong>intermittence</strong> est intéressante de façon très temporaire, dans certains cas, et il faut vite s'en défaire. Le <strong>statut d'artiste-auteur est une vraie mine d'or</strong> pour démarrer — et quand on le fera évoluer, ce sera avec une structure à côté, pas à sa place.</p></div>
+    <h3>Deux moments où la société devient pertinente</h3>
+    <h3>1 · Quand vos revenus dépassent le coût de la structure</h3>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Forme</th><th>Coût annuel si vous gagnez zéro</th><th>Détail</th></tr></thead>
+        <tbody>
+          <tr><td><strong>SAS</strong></td><td>&lt; 50 € + bilan</td><td>Aucune charge sociale obligatoire, aucun versement de cotisation. Si vous faites votre compta vous-même : les frais de greffe seulement</td></tr>
+          <tr><td><strong>SARL</strong></td><td>2 000 à 3 000 €</td><td>Cotisations sociales obligatoires, même avec un chiffre d'affaires à zéro</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>D'où la recommandation par défaut : la <strong>SAS</strong>. La SARL n'est intéressante que si vous savez que vous allez dégager des revenus immédiats et vous verser un salaire. Ce fut le cas de Tarik pour son deuxième label, créé en catastrophe : le prestataire avec qui il travaillait était en train de l'escroquer, il avait des dates déjà vendues, et il savait que dès le premier jour il aurait plusieurs milliers d'euros de rémunération en attente de paiement.</p>
+    <div class="box b-tip"><span class="bt">La règle du facteur trois</span><p>Mon activité génère de manière prédictible 3 000 € par an. Ma structure me coûte 1 000 € entre bilan comptable et frais de greffe. <strong>Je gagne trois fois ce que ma société me coûte</strong> → il n'est pas déconnant de la monter et d'actionner les leviers. Avant ça, ça ne sert à rien d'y penser.</p></div>
+    <div class="box b-danger"><span class="bt">Le contre-exemple</span><p>Quelqu'un vient voir Tarik : « je veux créer mon label, j'ai rencontré un comptable, lettre de mission reçue, 2 500 € par an, je me mets en SARL. » — « Tu gagnes au moins 5 000 € par an ? » — « Non, je suis à 150. »</p><p>Une structure qui coûtera près de 5 000 € par an avant même de commencer à gagner de l'argent. Le conseil : créer un statut d'artiste-auteur, déclarer ses premiers revenus, les faire grossir, et envisager une structure plus tard.</p></div>
+    <h3>2 · Quand vous investissez vos fonds propres</h3>
+    <p>Deuxième cas, valable <strong>même sans revenus musicaux</strong>. L'exemple d'Agatha : elle travaille, gagne 2 000 € par mois, en investit 1 000 dans la musique. Au bout d'un an : 10 000 € dépensés. Sans structure, c'est de l'argent dont elle ne reverra jamais la couleur.</p>
+    <div class="box b-key"><span class="bt">L'apport en compte courant d'associés</span><p>Avec un label, chaque euro dépensé apparaît en comptabilité comme un <strong>apport en compte courant d'associés</strong> (apport CCA). Cela crée une <strong>dette de la société envers vous</strong>. Le label clôture à −10 000 € sur le papier (le compte est à zéro, elle ne serait pas dans le rouge), mais la créance existe.</p></div>
+    <div class="pc">
+      <div class="ok"><h4>Avec apport CCA</h4><ul><li>Dans deux ans, l'album génère 50 000 € de revenus excédentaires</li><li>Agatha fait un virement du label vers elle-même pour se rembourser ses 10 000 €</li><li><strong>Opération net net</strong> : aucun frottement fiscal</li></ul></div>
+      <div class="ko"><h4>Sans structure</h4><ul><li>Le label génère 20 000 € de profit</li><li>Impossible de décaisser les 10 000 € de dettes : rien n'apparaît sur le papier</li><li>Le label est imposé sur 20 000 €, et rien ne justifie un virement vers votre compte</li></ul></div>
+    </div>
+    <p>L'anecdote qui illustre : un ami routier qui faisait 3 000 à 3 500 € par mois, sans dépenses — il dormait dans son camion et squattait chez ses parents. Il réinvestissait quasiment 100 % de ses revenus dans des projets musicaux. S'il avait monté une structure et tout passé en compte courant d'associé, le jour où un projet a marché — et c'est arrivé — il aurait pu tout se rembourser net d'impôts. Il a <strong>cramé plus de 50 000 € à fonds perdus sur deux ou trois ans</strong>.</p>
+  </div>
+</section>
+
+<section class="chap" id="s10" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">10</div><div><h2>Asso, SARL, SAS : le comparatif</h2><div class="tc">159:55 → 172:00</div></div></div>
+  <div class="cbody">
+    <h3>Quand l'association a vraiment du sens</h3>
+    <p>Il faut au moins un président et un trésorier, plusieurs membres avec des rôles spécifiques, et <strong>une démarche d'activité non lucrative réelle</strong>.</p>
+    <p>L'exemple qui coche toutes les cases : un ami à Saumur monte un studio d'enregistrement en asso, avec pour démarche de base de faire des ateliers avec des enfants, des ados, des MJC. Sa compagne est présidente, son frère trésorier, lui est actif dedans sans poste au bureau — ce qui lui permet de se verser des rémunérations d'artiste-auteur (il composait réellement pour les artistes de passage) et des remboursements de frais kilométriques. Il était aussi éducateur pour les jeunes, connecté à la mairie, et son local était mis à disposition par la mission locale. <strong>Tout matchait</strong> — donc c'était indiscutable. Plus tard, il a créé un label au sein de l'asso.</p>
+    <div class="box b-warn"><span class="bt">Mis à part ce profil</span><p>Ce n'est pas ce qu'il y a de plus intéressant. Le statut d'artiste-auteur, dès que vous savez écrire ou composer, est beaucoup plus polyvalent — surtout avec la bonne option fiscale (BNC au réel, ou micro-BNC pendant un temps).</p></div>
+    <h3>SARL / EURL et SAS / SASU : le même mécanisme</h3>
+    <p>EURL = SARL avec un seul associé. SASU = SAS avec un seul associé. Ce sont des sociétés à responsabilité limitée — mais pas si limitée que ça.</p>
+    <p>Vous ne payez pas vos artistes ou vos fournisseurs, vous déposez le bilan : personne ne peut venir vous chercher en personnel. C'est du droit commercial. <strong>Sauf pour trois dettes.</strong></p>
+    <div class="cards">
+      <div class="card"><h4>1 · Les impôts</h4><p>L'impôt sur les sociétés impayé vous poursuit au civil. Société fermée ou pas, l'État vient chercher les 10 000 € chez vous.</p></div>
+      <div class="card"><h4>2 · La TVA</h4><p>L'impôt le plus contrôlé parce que le plus rentable. Fraude ou simple impayé, c'est pareil : vous pouvez liquider et partir en Thaïlande, ils vous retrouveront.</p></div>
+      <div class="card"><h4>3 · L'URSSAF</h4><p>Au sens large : France Travail, Congés Spectacles, Audiens, URSSAF. Ces dettes vous suivent.</p></div>
+    </div>
+    <div class="box b-danger"><span class="bt">Le quatrième cas : la caution solidaire</span><p>Si vous contractez un crédit bancaire en acceptant la caution solidaire, vous êtes solidairement responsable de la dette. Le label coule, la banque vient vous chercher. <strong>C'est une erreur de débutant à ne jamais faire.</strong></p></div>
+    <h3>SARL ou SAS : le vrai arbitrage</h3>
+    <div class="tbl">
+      <table>
+        <thead><tr><th></th><th>SARL / EURL</th><th>SAS / SASU</th></tr></thead>
+        <tbody>
+          <tr><td>Charges sociales obligatoires</td><td><strong>Oui</strong>, même à zéro de CA</td><td>Non</td></tr>
+          <tr><td>Coût de 1 000 € versés</td><td>≈ 1 470 € pour le label (TNS, ~47 %)</td><td>≈ 1 800 € pour le label</td></tr>
+          <tr><td>Couverture sociale et santé</td><td>Assez limitée, complémentaire nécessaire</td><td>Bien couvert</td></tr>
+          <tr><td>Assurance chômage</td><td>Non</td><td>Oui</td></tr>
+          <tr><td>Statuts</td><td>Encadrés par la loi</td><td>Totalement libres</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="box b-tip"><span class="bt">L'argument qui fait souvent basculer : le PV de rémunération</span><p>En SARL, on <strong>ne peut pas</strong> définir par procès-verbal la rémunération du dirigeant d'avance. En SAS, on peut. Pourquoi c'est décisif : si vous êtes demandeur d'emploi ou intermittent avec une indemnité d'aide à la reprise d'emploi, vous pouvez chaque année présenter à France Travail le procès-verbal de décision d'associé unique indiquant <strong>une rémunération votée à zéro</strong>, et déclarer un statut de dirigeant bénévole. En SARL, c'est impossible — et comme il y a des cotisations obligatoires, on considère que vous avez déjà un privilège d'un côté.</p></div>
+    <h3>Et on peut transformer</h3>
+    <p>Le parcours de Tarik sur son propre label : démarrage en SARL, trois ans de fonctionnement, puis transformation en SAS pour échapper aux cotisations sociales obligatoires dont il n'avait pas besoin — son statut d'artiste-auteur lui donnait déjà une couverture optimale au régime général, et ses revenus SACEM suffisaient en perso.</p>
+    <div class="cards">
+      <div class="card stat"><h4>~1 500 €</h4><p>Commissaire à la transformation</p></div>
+      <div class="card stat"><h4>300 – 400 €</h4><p>Formalités avec un avocat</p></div>
+      <div class="card stat"><h4>3 500 €/an</h4><p>Charges sociales obligatoires économisées (deux associés)</p></div>
+    </div>
+    <p>Moins de 2 000 € dépensés pour en économiser presque le double chaque année : un bon deal. <em class="q">« Au moment où j'ai monté le label, la SARL était la meilleure option. Deux ans plus tard, ça ne l'était plus. »</em></p>
+  </div>
+</section>
+
+<section class="chap" id="s11" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">11</div><div><h2>Le vrai budget d'un premier EP</h2><div class="tc">172:12 → 179:00</div></div></div>
+  <div class="cbody">
+    <p>La question était mal formulée, Tarik la reformule : <strong>quel budget prévoir pour sortir son premier EP proprement ?</strong> Postulat retenu : l'EP est déjà produit, on ne parle que du budget promo, marketing, distribution et mise en commercialisation.</p>
+    <div class="box b-info"><span class="bt">Premier point, qui change tout</span><p>Avec un label éligible au CIPP, <strong>presque la moitié de la dépense est remboursée par l'État</strong>. 10 000 € de budget = 6 000 € qui sortent réellement de votre poche. Il faut juste avancer la trésorerie et savoir qu'on la récupère dans un an. Passer du simple au double, ce n'est pas la même chose.</p></div>
+    <p>Second point : tout dépend de l'objectif. Certains artistes font un EP comme <strong>carte de visite</strong>, pour vendre leurs premières dates et bâtir un entourage professionnel. Pas d'objectif de commercialisation, pas de démarche de fédérer un public. Pour ceux-là, le budget marketing est quasiment nul : un clip, puis du démarchage — qui ne coûte qu'une connexion Internet et un téléphone.</p>
+    <h3>Le ratio imposé depuis des années</h3>
+    <div class="pull">« Je prendrais mon budget production, je ferais fois deux et j'en ferais mon budget marketing. »<span>Et aujourd'hui, Tarik cherche à faire pire encore : 1 000 € en production, 10 000 € en marketing</span></div>
+    <p>La justification : à notre époque, la musique finit dans un téléphone et dans des enceintes de voiture très limitées en fréquence. Investir massivement dans la technique était important avant. Ce n'est pas que ça ne l'est plus — mais s'il faut trancher, c'est là qu'on tranche.</p>
+    <h3>La ventilation d'un budget marketing de 10 000 €</h3>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Poste</th><th>Montant</th><th>Détail</th></tr></thead>
+        <tbody>
+          <tr><td>Outils digitaux</td><td>~500 €</td><td>IA (Claude), Canva pour les visuels, LearnyBox ou Systeme.io pour le système d'adhésion — avec parfois des formules gratuites</td></tr>
+          <tr><td>Budget publicitaire</td><td><strong>Tout le reste</strong></td><td>Campagnes pub, le module dédié de la formation</td></tr>
+          <tr><td>Attaché de presse</td><td>0 €</td><td>Volontairement exclu au démarrage</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="box b-danger"><span class="bt">Pourquoi pas d'attaché de presse à 3 000 €</span><p>Un attaché de presse est un commercial. S'il ouvre la porte et que la personne en face dit « c'est génial, mais qu'est-ce que tu veux que j'en fasse ? », <strong>il n'a aucun argument</strong>. Il ne peut pas revenir relancer chaque semaine. Et il ne vous le dira pas : il dira « ne t'inquiète pas, je suis au contact, je relance, tout va bien ». 3 000 € plus tard, il ne s'est absolument rien passé.</p></div>
+    <h3>La bonne logique</h3>
+    <p><em class="q">« Il y a des gens, en France, qui peuvent être sensibles à ce que je propose. Mon job à moi, c'est de les trouver. »</em> Et le moyen le plus efficace aujourd'hui, c'est Internet.</p>
+    <div class="cards">
+      <div class="card"><h4>Pas de problème de trafic</h4><p>Vous pouvez exposer votre musique à des centaines de milliers de personnes. Le trafic s'achète — il se génère aussi gratuitement, mais ça prend plus de temps.</p></div>
+      <div class="card"><h4>La pub accélère</h4><p>L'EP est sorti vendredi : dès samedi, vous pouvez le mettre dans les oreilles de 50 000 personnes. Ça ne veut pas dire qu'elles aimeront — ça veut dire que vous avez donné sa chance à votre projet.</p></div>
+      <div class="card"><h4>Fonctionner à perte, c'est normal</h4><p>Tout le monde fonctionne à perte au début, c'est le jeu. Mais vous drainez de la visibilité auprès de gens très qualifiés.</p></div>
+    </div>
+    <div class="box b-key"><span class="bt">Le résultat réaliste</span><p>5 000 € de budget sur 3 mois : à la fin, il vous reste 0 € et environ <strong>500 fans en base</strong>. Pas 500 abonnés — 500 personnes qui vous ont laissé leurs coordonnées et qui ont suffisamment aimé pour vous autoriser à leur en envoyer plus.</p></div>
+  </div>
+</section>
+
+<section class="chap" id="s12" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">12</div><div><h2>Monétiser 500 fans</h2><div class="tc">179:19 → 188:00</div></div></div>
+  <div class="cbody">
+    <p>C'est là que la plupart des artistes s'arrêtent : <em class="q">« OK merci Tarik, l'EP est sorti en janvier, on est en avril, j'ai cramé 5 000 balles, j'ai 500 fans en base, mais qu'est-ce que j'en fais ? »</em></p>
+    <p>La deuxième étape d'une stratégie de développement marketing : maintenant que vous avez l'autorisation de les contacter, <strong>il faut formuler une offre</strong>. Idéalement une offre qui génère des revenus.</p>
+    <h3>L'exemple de DJ Ticia</h3>
+    <p>Une amie que Tarik coache occasionnellement. Le jour où il lui a suggéré de faire des soirées chez elle, elle s'est moquée de lui. Aujourd'hui : <strong>160 000 abonnés YouTube</strong> et un concept entièrement bâti là-dessus.</p>
+    <div class="tl">
+      <li><b>Le dispositif</b>Un appartement pas très grand dans le 77. Deux téléphones sur trépied : un qui filme les gens, un qui filme les platines. Aucun moyen technique incroyable.</li>
+      <li><b>Le modèle</b>Les gens paient leur place pour venir. Elle organise la soirée chez elle. Aussi simplement que ça.</li>
+      <li><b>La diffusion</b>Les vidéos partent sur YouTube. Parfois 1 500 vues — ce qui n'est pas fou avec 160 000 abonnés. Et parfois 7 millions, 4, 3, 2, 1 millions. Toujours le même concept.</li>
+      <li><b>La montée en gamme</b>Maintenant elle propose des offres avec le dîner — elle cuisine très bien. Un ramen japonais, menu unique, on est à table ensemble, ça permet d'échanger avec elle.</li>
+    </div>
+    <div class="pull">« Tu n'as pas besoin d'être Beyoncé pour avoir des fans. Tu peux être un illustre inconnu dans la rue : pour quelqu'un, tu es quelqu'un d'important. »<span>Donc il sera prêt à payer pour être à table avec vous</span></div>
+    <h3>Le calcul, pour un artiste localisé</h3>
+    <p>Vous êtes lyonnais, vous avez travaillé vos campagnes pub pour ne constituer qu'une fan base dans le bassin de Lyon. 500 personnes, à 20 km à la ronde.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Étape</th><th>Chiffre</th></tr></thead>
+        <tbody>
+          <tr><td>Fans en base</td><td>500</td></tr>
+          <tr><td>Participants à un événement privé</td><td>~50</td></tr>
+          <tr><td>Prix de la place</td><td>20 €</td></tr>
+          <tr><td>Recette par soirée</td><td><strong>1 000 €</strong></td></tr>
+          <tr><td>Deux soirées par mois pendant 3 mois</td><td><strong>6 000 €</strong> — le budget pub est amorti</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Et vous avez de nouveau 5 000 € à investir. La fan base grossit : 1 000 personnes. Avec seulement 30 ou 50 places disponibles, ce sont ceux qui mettent le plus qui viennent — vous montez à 30, 35 €. Sans compter le contenu créé à chaque soirée.</p>
+    <h3>Les autres modèles sur la même fan base</h3>
+    <ul>
+      <li><strong>Produits dérivés</strong> — en parallèle des événements</li>
+      <li><strong>Abonnement à un espace membre</strong> avec du contenu privilégié</li>
+      <li><strong>L'abonnement coulisses d'album</strong> — le concept que Tarik avait monté pour un de ses artistes : un abonnement d'un an pendant la production, où chaque mois l'artiste présentait les projets en chantier. <em class="q">« J'ai reçu 200 compos, je ne sais pas laquelle choisir, on les écoute ensemble, vous m'aidez à choisir. »</em> <em class="q">« J'ai écrit cinq titres, certains en yaourt, certains en maquette : dites-moi lequel vous impacte le plus. »</em></li>
+    </ul>
+    <div class="box b-tip"><span class="bt">Pourquoi ça fonctionne si bien</span><p>Les gens étaient hyper contents de participer, de voir que leur avis comptait et qu'il influençait le track listing final. Et tous ceux qui participaient voyaient leur nom sur le disque — ce qui a rendu l'album très facile à vendre ensuite : les gens avaient l'impression qu'il était un peu le leur.</p></div>
+    <div class="box b-key"><span class="bt">Le calcul de l'abonnement</span><p>Sur 500 ou 1 000 fans en base, si seulement <strong>10 % paient 10 € par mois</strong>, soit 100 personnes, cela fait <strong>1 000 € par mois</strong>. Avec un engagement annuel, c'est parti.</p></div>
+    <h3>Le temps nécessaire, et le droit de se tromper</h3>
+    <p>C'est OK de fonctionner à perte au début — sur une échelle de temps de <strong>6 à 18 mois</strong> au moins, à condition de bien bosser, de ne pas hésiter à pivoter sur ce qui ne va pas et d'aller à fond sur ce qui va.</p>
+    <p>Avant les soirées, DJ Ticia a essayé un milliard de choses : des tenues de plongée retravaillées pour se présenter comme une « DJ de l'espace », des partenariats avec des bars où elle prenait les entrées. Rien n'a marché.</p>
+    <div class="pull">« Au final, ce qui a été le plus rentable et le plus efficace, ça a été la chose la plus simple : je suis chez moi, je mixe, tu peux venir, tu payes. »<span>Prochain test en cours : diffuser les mêmes lives en streaming payant pour ceux qui ne peuvent pas se déplacer</span></div>
+    <div class="box b-info"><span class="bt">Le vrai sujet</span><p>Ce n'est pas tellement une question de budget, c'est une question de stratégie. Et la stratégie aujourd'hui doit être orientée <strong>fan base et promo digitale</strong>.</p></div>
+  </div>
+</section>
+
+<section class="chap" id="s13" data-c="r">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">13</div><div><h2>Pourquoi la radio n'est pas la porte d'entrée</h2><div class="tc">188:06 → 198:00</div></div></div>
+  <div class="cbody">
+    <p>Démonstration en direct, chiffres à l'écran, sur <strong>Musicast</strong> — l'outil qui permet de traquer précisément les diffusions radio, quasiment en direct. Delphine choisit l'antenne : Hit West.</p>
+    <h3>Premier constat : qui est en playlist</h3>
+    <p>Quasiment que des têtes d'affiche ou des artistes de gros labels. Jason Derulo, star mondiale. Jain Ayach, la chanteuse de Superbus, chez Parlophone. Et de temps en temps un titre qui sort de nulle part. <strong>C'est très segmenté.</strong></p>
+    <h3>Deuxième constat : les entrées et les sorties</h3>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Semaine observée (Hit West)</th><th>Entrées</th><th>Sorties</th></tr></thead>
+        <tbody>
+          <tr><td>Semaine dernière</td><td><strong>0</strong></td><td>3</td></tr>
+          <tr><td>Semaine précédente</td><td>2 (Jain Ayach, Karol G)</td><td><strong>10</strong></td></tr>
+          <tr><td>Semaine 42</td><td>Quelques entrées — Charlotte Cardin, Louane, Taylor Swift…</td><td>2</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Deux titres qui rentrent pour dix qui sortent — et les deux qui rentrent sont une chanteuse à gros background chez le label phare de Warner et une star mondiale de la musique latine.</p>
+    <h3>Troisième constat : le volume de diffusion</h3>
+    <div class="cards">
+      <div class="card stat"><h4>19</h4><p>Diffusions hebdomadaires pour un titre « bombardé » sur l'antenne — soit moins de 3 par jour</p></div>
+      <div class="card stat"><h4>&lt; 10</h4><p>Diffusions par semaine pour un titre en phase d'émergence sur la radio</p></div>
+      <div class="card stat"><h4>1 / semaine</h4><p>Sur Voltage, certains nouveaux titres — l'entrée dans une émission spéciale du week-end</p></div>
+    </div>
+    <p>Et ça se vérifie sur presque toutes les antennes. Champagne FM arrive en dernier sur tous les projets, avec très peu de nouveautés et très peu de diffusions quand il y en a.</p>
+    <div class="box b-danger"><span class="bt">Les parts de marché, ou le mythe des indépendants</span><p>Sur la plupart des panels, ce sont les grosses maisons de disques. Et quand vous voyez du Columbia, du RCA, du Polydor, du Parlophone, du Rec 118 comptés comme « indépendants », ce sont des maisons de disques — avec simplement des contrats de licence signés avec un producteur indépendant. <strong>Il y a très peu de vrais indépendants sur les radios.</strong></p></div>
+    <h3>Se mettre à la place d'un programmateur</h3>
+    <p>Tarik les comprend : <em class="q">« Quand tu es programmateur radio et que tu as 160 projets hyper visibles, bankables et viables pour deux places, tu choisis celui qui a le plus de potentiel par rapport à ce que tu crois qui va marcher sur ton antenne, et tu ne te prends pas la tête. »</em> Quand un petit indépendant débarque : « c'est bien, mais je n'ai pas le temps ».</p>
+    <p>Et cette saturation existe depuis vingt ans. Ce que ses mentors lui disaient déjà à l'époque : <strong>trouve des espaces de liberté et pousse-les au maximum.</strong></p>
+    <div class="box b-tip"><span class="bt">L'ordre des opérations</span><p>Le meilleur moyen de promouvoir un artiste aujourd'hui n'est pas de passer par les réseaux radiophoniques traditionnels. C'est : <strong>développer la fan base</strong> → <strong>développer un modèle d'affaires qui vous solidifie</strong> → puis s'étendre progressivement. Et seulement alors aller voir un attaché de presse en lui disant : « regarde, voilà la taille de ma fan base, voilà mes scores dès que je sors un titre, voilà ce que je fais » — et aller chercher du résultat.</p></div>
+  </div>
+</section>
+
+<section class="chap" id="s14" data-c="p">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">14</div><div><h2>Les trois espaces de liberté</h2><div class="tc">198:00 → 214:40</div></div></div>
+  <div class="cbody">
+    <h3>Les deux espaces historiques, aujourd'hui fermés</h3>
+    <p>En 2011, quand Tarik monte la version la plus aboutie de son label, les maisons de disques se détournent du <strong>marché des discothèques</strong> : quelques millions brassés, beaucoup d'emmerdes pour peu de résultats. Il s'en saisit.</p>
+    <div class="box b-key"><span class="bt">Le raisonnement</span><p>Pour aller en radio, il dépendait d'un décideur média — une dizaine de personnes dans leur tour d'ivoire. En club : <strong>160 DJ à convaincre</strong>, des gens comme lui, passionnés, pour qui c'est le métier. Beaucoup plus facile.</p></div>
+    <div class="cards">
+      <div class="card stat"><h4>10 – 30 k€/an</h4><p>En droits, pour un titre dans le top 10 des clubs plusieurs semaines — même sans être numéro un</p></div>
+      <div class="card stat"><h4>50 – 100 k€/an</h4><p>Pour l'artiste promu en prestation scénique dans les clubs — y compris des inconnus jamais passés en radio ni en télé</p></div>
+    </div>
+    <p>Deuxième espace : les <strong>sonorisateurs</strong>. Des sociétés qui fournissent les programmations musicales des lieux publics — patinoires, musiques d'attente de cinémas, Galeries Lafayette, Leclerc, Carrefour, Auchan.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Mécanique</th><th>Chiffre</th></tr></thead>
+        <tbody>
+          <tr><td>Chiffre d'affaires d'un magasin Leclerc</td><td>25 M€</td></tr>
+          <tr><td>Part reversée aux droits (0,2 à 0,4 %)</td><td>~50 000 €</td></tr>
+          <tr><td>Total annuel d'un sonorisateur, tous magasins</td><td>jusqu'à ~1 M€</td></tr>
+          <tr><td>Répartition</td><td>Au prorata du nombre de titres et du nombre de diffusions par titre</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Le deal conclu : <em class="q">« Je vais te fournir tout un catalogue, plus de 150 œuvres. Toi tu les plugues le plus souvent possible, et on fait 50-50. »</em> Un deal signé une fois, et pendant des années il recevait des chèques. Avec trois ou quatre sonorisateurs : <strong>150 000 à 200 000 € par an sans rien faire</strong>. Ce marché est aujourd'hui saturé.</p>
+    <h3>Espace de liberté 1 · Internet</h3>
+    <p>Internet est libre : vous pouvez faire une pub sur Meta et vous retrouver face à quelqu'un qui peut aimer ce que vous proposez. Il clique, il consomme, il va plus loin avec vous.</p>
+    <div class="box b-warn"><span class="bt">Rien n'est acquis</span><p>Avant, on pouvait faire de la publicité Facebook pour vendre des produits de santé. Aujourd'hui, non. Imaginez ce que ça a changé pour les industriels qui vendaient par ce biais. Il est possible que demain on décide que le rock n'a plus le droit de faire de la pub. <strong>Aujourd'hui on peut : il faut en profiter.</strong></p></div>
+    <h3>Espace de liberté 2 · La synchronisation</h3>
+    <p>La synchro, c'est le <strong>placement de musique à l'image</strong>. Une pub Renault, une pièce de théâtre, un défilé de mode, une émission de télé — dès qu'il y a de la musique derrière et que c'est la vôtre, vous avez fait un placement synchro. À ne pas confondre avec l'<strong>adaptation</strong> (la version française d'une œuvre anglaise) : une synchro peut prendre la forme d'une adaptation ou d'une création originale.</p>
+    <p>C'est difficile à maîtriser, parce qu'il faut démarcher chaque acteur un par un. Mais c'est faisable, et la méthode est précise :</p>
+    <div class="tl">
+      <li><b>1 · Repérer</b>Prendre Netflix, regarder tous les dessins animés qui existent, et chercher dans le générique le nom du <strong>music supervisor</strong> — le superviseur musical qui a validé la programmation.</li>
+      <li><b>2 · Trouver</b>Taper le nom dans LinkedIn, dans Google, trouver le site web.</li>
+      <li><b>3 · Contacter</b>Joindre la personne à la tête de cette structure et lui proposer ses services.</li>
+      <li><b>4 · Ne pas lâcher</b>Pour les sonorisateurs, Tarik a appelé des dizaines de sociétés sans réponse. Deuxième appel, troisième, quatrième, cinquième, sixième — jusqu'à ce qu'il y en ait un qui réponde par erreur. Il l'a accroché, et ça a fini par aboutir.</li>
+    </div>
+    <div class="box b-tip"><span class="bt">Miraculous : le brief TF1</span><p>Un ami de Tarik, Stan — nom de scène Nast — a fait la musique de Miraculous. À l'époque, le dessin animé n'existait pas en France : TF1 avait racheté les droits et lancé un brief. Il a répondu avec son éditeur, ils ont remporté le brief, et ils ont fini <strong>disque d'or</strong>. Beaucoup d'argent, et beaucoup d'opportunités derrière — parce qu'une fois que vous pouvez mettre ça sur votre CV, les portes s'ouvrent.</p></div>
+    <h3>Le piège du buyout</h3>
+    <p>Tarik a lui-même fait un placement en démarchant exactement de cette manière. Un matin, un email de l'Arkansas : une petite production, pas de gros budget, <strong>6 000 € par épisode</strong>. La série : <em>Beauty and the Beast</em> — qui n'a pas marché en France mais bien marché aux États-Unis.</p>
+    <div class="box b-danger"><span class="bt">Ce qu'il n'avait pas vu venir</span><p>Un <strong>buyout</strong> : ils ont payé une fois (un chèque d'environ 70 000 $), et il n'a jamais touché de droits derrière. <em class="q">« Il ne faut jamais signer les buyouts, mais je ne savais pas. »</em> C'était très tentant, c'était dur de dire non — personne ne savait que ça atterrirait chez Netflix.</p></div>
+    <p>Et la leçon n'a pas servi : un an plus tard, une membre de la formation lui demande son avis sur 20 000 $ pour 50 secondes de musique dans un film turc. Vu la taille de la boîte de prod et le fait qu'ils n'avaient pas prévu de le traduire, il lui conseille de prendre l'argent. <strong>Le film a fini numéro un sur Netflix dans 80 pays.</strong> Elle était un peu dégoûtée — mais ça lui a donné d'autres opportunités de placements.</p>
+    <div class="pull">« Tu ne sais jamais où ça va aller. C'est très important de bien conserver ses droits. »<span>Un producteur croisé à l'époque avait fait Danza Kuduro avec Lucenzo. Dix ans après la sortie, sans qu'il n'ait rien fait, le réalisateur de Fast and Furious place le titre à l'image. Un pourcentage même faible sur toutes les diffusions d'un épisode : un second souffle dans la vie.</span></div>
+    <h3>Espace de liberté 3 · Les jeux vidéo en ligne</h3>
+    <p>Les applications de jeux en ligne ont toutes besoin de musique ou de bruitages, idéalement libres de droits ou sous licence. Tarik parle ici de mercantile pur : il y a beaucoup d'argent à faire.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Étape du deal</th><th>Rémunération</th></tr></thead>
+        <tbody>
+          <tr><td>À la signature</td><td>1 000 à 1 500 € pour créer le titre original</td></tr>
+          <tr><td>Au nombre de téléchargements</td><td>10, 20, 50 € — ou un pourcentage négocié</td></tr>
+          <tr><td>Sur les ventes in-game</td><td>Jusqu'à 8 % des sommes générées (cas Roblox)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Sur <strong>Roblox</strong>, les utilisateurs créent des jeux avec l'IA de la plateforme et les mettent à disposition gratuitement — mais vendent des fonctionnalités à l'intérieur (une épée magique à 10 $, etc.). Un ami compositeur touche 8 % de toutes les sommes générées par les ventes de produits annexes dans les jeux où il place sa musique.</p>
+    <div class="cards">
+      <div class="card stat"><h4>200 – 300 $</h4><p>Ses premiers revenus — au début, beaucoup de gens se moquaient de lui</p></div>
+      <div class="card stat"><h4>15 000 $/mois</h4><p>Aujourd'hui. Les contrats sont encadrés chez Muzisecur, donc les montants sont vérifiés</p></div>
+      <div class="card stat"><h4>1 000 $/mois</h4><p>Ce que font 100 jeux à 10 $ par mois — et il y en a beaucoup qui ne rapportent que 7 ou 8 $</p></div>
+    </div>
+    <p>La méthode : repérer un créateur de jeu, trouver ses coordonnées, le contacter, proposer de faire sa musique. Au départ il les donnait gratuitement. Maintenant il a un background, donc il peut facturer à l'entrée plus un petit pourcentage sur les recettes, par contrat en bonne et due forme. <strong>Un travail de fourmi, mais mondial</strong> : des créateurs partout dans le monde.</p>
+    <div class="box b-warn"><span class="bt">Primary Wave et le rachat de catalogues</span><p>Des sociétés comme Primary Wave rachètent ces catalogues. Quand elles rachètent les jeux, elles font une proposition à part aux créateurs musicaux pour récupérer les droits — souvent par buyout : <em class="q">« Pour ce jeu-là, on te file 150 000 $ et on ne veut plus entendre parler de toi. »</em></p><p>Et elles sont très menaçantes. Un ami de Tarik ne voulait pas céder : il se disait qu'en deux ans il ferait ces 150 000 € lui-même. Réponse : « on t'a fait une belle proposition. Si tu ne veux pas, on lance un casting, on trouve quelqu'un qui créera une nouvelle enveloppe musicale. On est sous contrat jusqu'à la fin de l'année, après tu dégages et tu toucheras zéro. » Il a accepté — et il n'a probablement pas eu tort.</p></div>
+  </div>
+</section>
+
+<section class="chap" id="s15" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">15</div><div><h2>Refaire un label aujourd'hui</h2><div class="tc">214:40 → 224:20</div></div></div>
+  <div class="cbody">
+    <p>La question : avec ce que tu sais aujourd'hui, qu'est-ce que tu ferais différemment si tu recommençais ton label ?</p>
+    <div class="pull">« Je développerais d'abord, avant même de commencer à signer des artistes, des modèles d'affaires internes. »<span>Tarik Hamiche</span></div>
+    <h3>Modèle d'affaires 1 · La distribution digitale</h3>
+    <p>Monter une boîte de distribution et viser l'<strong>Afrique de l'Ouest</strong>, où l'accès à la distribution digitale est difficile. Se positionner en franc CFA à un prix raisonnable — l'équivalent de 3, 4 ou 5 € pour un titre à l'année — et faire un peu de communication là-bas, où la publicité ne coûte presque rien.</p>
+    <div class="cards">
+      <div class="card stat"><h4>10 000 œuvres</h4><p>À 3 € par an</p></div>
+      <div class="card stat"><h4>30 000 €/an</h4><p>Sans rien faire — le service de distribution digitale est littéralement passif</p></div>
+      <div class="card"><h4>L'effet boule de neige</h4><p>Le catalogue appelle le catalogue : une fois visible, sans faire de com, les gens continuent d'entrer. C'est fluide.</p></div>
+    </div>
+    <h3>Modèle d'affaires 2 · Le studio digital</h3>
+    <p>Rouvrir un studio, mais sous forme de service de mix uniquement. Un modèle que Tarik a déjà pratiqué entre 2010 et 2012 : <strong>l'intermédiation</strong>.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Côté</th><th>Prix</th></tr></thead>
+        <tbody>
+          <tr><td>Ingénieurs du son en Amérique du Sud — excellents, gros matériel, oreille incroyable</td><td>50 € le mix</td></tr>
+          <tr><td>Clients en France prêts à payer</td><td>100 à 150 € le mix</td></tr>
+          <tr><td>Un album complet vendu</td><td>1 500 € — pour 500 € de coût, soit 1 000 € de marge</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Aujourd'hui il lancerait une plateforme mettant en relation un service de mix ou de mastering <strong>par genre musical</strong>, en explosant les prix du marché : un bon mix en France coûte 300 à 400 €, il en proposerait un bon à 100 ou 150 et le ferait réaliser pour 50.</p>
+    <div class="box b-info"><span class="bt">Où chercher ces talents</span><p>En Afrique, il y a des ingénieurs du son exceptionnels. Tarik en connaît un au Congo qui travaille avec des labels nord-américains et suédois — et qui mixe sur de vieilles NS10, sans matériel. Il est à l'oreille, et très fort. Maintenant qu'il le sait, il se vend cher. <strong>Trois ou quatre profils comme ça suffisent pour faire rentrer les commandes et marger.</strong></p></div>
+    <p>En ajoutant du consulting et du service en publicité, l'objectif est clair :</p>
+    <div class="pull">« Je veux être capable d'arriver le matin au bureau du label et me dire qu'il y a déjà 100 000 € qui rentrent de marge tous les ans avant même de me bouger. »<span>Et seulement ensuite aller chercher des artistes</span></div>
+    <h3>Le profil d'artiste à signer</h3>
+    <p>Pas « des » artistes : <strong>un</strong> artiste, choisi après des castings, qui réunit trois compétences clés en une personne.</p>
+    <div class="cards">
+      <div class="card"><h4>1 · Indépendant</h4><p>Qui n'a pas besoin de vous pour faire des clips, des covers, enregistrer, mixer, masteriser</p></div>
+      <div class="card"><h4>2 · Un très bon mindset</h4><p>Combiner les deux premiers n'est déjà pas facile</p></div>
+      <div class="card"><h4>3 · De la visibilité</h4><p>Pas forcément une grosse visibilité — mais quelqu'un qui a compris le mécanisme de la fan base et qui a déjà un début</p></div>
+    </div>
+    <p>La proposition : <em class="q">« Je te propose de continuer de faire ce que tu fais, sauf que c'est moi qui paye et c'est moi qui développe. »</em> Avec un fonds de roulement déjà prêt : sur 100 k€ de marge, on coupe la poire en deux et on met 50 k€ sur l'artiste.</p>
+    <div class="box b-key"><span class="bt">L'objectif annoncé</span><p>Faire exploser l'artiste en <strong>10 à 18 mois</strong>. Puis bâtir les modèles d'affaires, développer la visibilité, trouver un label deal pour une distribution améliorée, vendre des dates, aller chercher un peu de radio et de télé, bombarder en com digitale, créer et faire grossir la fan base.</p></div>
+    <h3>Puis dupliquer</h3>
+    <p>Une fois qu'un artiste « pète », en chercher un deuxième <strong>dans le même genre musical</strong> — variété, rock, rap, jazz, classique, peu importe — pour bénéficier du réseau déjà bâti et de la visibilité de l'artiste n°1. Si ça prend, pareil avec le troisième. Avec trois artistes stars, il devient facile de s'étendre vers d'autres genres, même si rebâtir un réseau fort prend deux ans — parce qu'on a alors un fonds de roulement et une solidité qui permettent d'amortir les pertes des coups de cœur.</p>
+    <div class="box b-warn"><span class="bt">Ce que ça demande</span><p>Le système de distribution, c'est une connaissance qui a pris <strong>vingt ans</strong> à développer : savoir créer un réseau de distribution, avoir le contact de toutes les plateformes digitales, savoir contractualiser avec elles, intégrer un réseau comme <strong>Merlin</strong> — très important à l'international. Beaucoup de leviers nécessaires.</p></div>
+    <h3>Et après, s'amuser</h3>
+    <p>C'est le mot de la fin sur ce chapitre. Tarik a fait l'inverse sur son label : il a développé des artistes qui ont bien marché, puis n'a fait que des artistes avec qui il s'éclatait — et qui n'ont pas marché. Un clip à Los Angeles pour 25 000 € qui n'est rentré dans ses frais qu'au bout de six ou sept ans ; l'artiste n'a jamais marché et est parti au premier label qui lui a fait une proposition. Des clips en Colombie, pas rentables mais un plaisir.</p>
+    <div class="pull">« Le seul truc que je regrette, c'est de ne pas avoir eu de Grammy Award. C'est le seul niveau de certification que je n'ai pas obtenu. Même une nomination. Mais sans regret, parce qu'au final on s'est bien amusé. »<span>Tarik Hamiche</span></div>
+  </div>
+</section>
+
+<section class="chap" id="s16" data-c="r">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">16</div><div><h2>Les trois erreurs des indépendants</h2><div class="tc">224:20 → 232:45</div></div></div>
+  <div class="cbody">
+    <p>« Quelle est l'erreur que tu vois le plus souvent chez les artistes indépendants ? » Il y en a plein, tout le monde en fait, et c'est normal. Mais trois reviennent systématiquement.</p>
+    <h3>Erreur n°1 · Ne pas assez produire</h3>
+    <p>Le même matin, Tarik était avec Makassy — disque de platine devenu disque de diamant récemment — qui lui disait que ses demandes de booking s'essoufflaient. Avant six ou sept dates par mois ; maintenant deux ou trois, c'est bien.</p>
+    <div class="box b-danger"><span class="bt">Le diagnostic</span><p><em class="q">« Ce n'est pas compliqué : ça fait trois ans que tu n'as rien sorti. Sors des titres. Si tu n'existes pas, c'est compliqué pour les gens de te voir, c'est compliqué pour les organisateurs de se projeter. »</em> Vivre sur des titres de 8, 10 ou 15 ans n'est pas mal en soi — mais pour recréer de la demande, il faut de l'actu.</p></div>
+    <p>Autre cas : un groupe accompagné en mentorat, passé de presque zéro à près de <strong>10 millions de comptes atteints</strong> sur les réseaux sociaux, et surpris que les scores de stream ne suivent pas proportionnellement. Réponse : vous n'avez rien sorti depuis deux ans.</p>
+    <div class="pull">« Si tu avais sorti un titre toutes les semaines pendant que ton buzz web prenait, tu avais juste à faire un appel à l'action. Sur la masse de gens qui vous ont découverts, vous auriez fait des centaines de milliers de streams. »<span>Il faut se mettre à la place d'un public qui vous découvre : une bio de trois ans, un dernier titre de plus de deux ans — ça ne donne pas envie de rester.</span></div>
+    <h3>La solution : un écosystème qui permet de produire vite</h3>
+    <ul>
+      <li>Si à chaque fois que vous allez en studio ça vous coûte un bras, <strong>trouvez un moyen que ça ne vous coûte plus rien</strong></li>
+      <li>Si vous avez besoin de huit personnes autour de vous et que c'est dur de les réunir, <strong>utilisez l'IA ou débrouillez-vous pour tout faire seul</strong></li>
+    </ul>
+    <div class="box b-key"><span class="bt">La statistique du succès</span><p>Quand Tarik produisait, il pouvait sortir <strong>60 compos par mois</strong> et une quinzaine de morceaux finis, mixés, masterisés. <em class="q">« Je n'ai jamais été hyper bankable. Tu as des artistes qui sortent un titre, c'est un tube. Moi il fallait que j'en fasse 60 pour avoir un tube dedans. »</em> Si vous avez 1 % de succès, il faut sortir 100 titres.</p></div>
+    <h3>Erreur n°2 · Ne pas penser fan base</h3>
+    <p>Le raisonnement classique de l'artiste : « j'ai fait un projet, j'estime qu'il est bon, maintenant il faut des diffs en radio, un éditeur, un label, vendre des dates. » Suite logique acceptable et compréhensible — mais <strong>elle oublie une étape : le public</strong>.</p>
+    <div class="pc">
+      <div class="ok"><h4>Le web</h4><ul><li><strong>Sans permission</strong> — personne à convaincre</li><li>Pas sans coût : la pub coûte de l'argent</li><li>Mais il y a l'organique, complètement gratuit : création de contenu, référencement auprès des IA</li><li>Un coût dérisoire comparé aux résultats</li></ul></div>
+      <div class="ko"><h4>La radio</h4><ul><li>Il faut la <strong>permission d'un décideur média</strong></li><li>Et ce n'est pas sans coût : intermédiation avec un attaché de presse</li><li>100 diffusions = des dizaines de milliers de personnes atteintes — le web fait la même chose</li></ul></div>
+    </div>
+    <div class="box b-warn"><span class="bt">Le public prêté</span><p>Quand vous avez des médias, ils vous <strong>prêtent</strong> un public. Dès qu'ils arrêtent de vous diffuser, ce public se détourne de vous. Le public que vous avez été chercher à la main par le digital, lui, est là pour durer.</p></div>
+    <h3>Erreur n°3 · Le manque de structuration et de connaissances</h3>
+    <p>Tarik en a été la première victime : <em class="q">« tu ne sais pas ce que tu ne sais pas tant que tu ne le sais pas »</em>. Depuis Muzisecur, beaucoup d'artistes l'approchent en disant « je me fais allumer par les impôts, est-ce que tu n'as pas une solution ? »</p>
+    <p>Le diagnostic est toujours le même : pas de statut d'artiste-auteur, pas d'article 110 bis actionné, pas de déclaration en BNC au réel — donc aucune dépense décaissée.</p>
+    <div class="box b-info"><span class="bt">Ce que permet le BNC au réel, dit franchement</span><p>Quand vous allez voir votre grand-mère en Corse, sur le papier vous avez rencontré un producteur corse. Quand vous partez à New York pour Noël, vous avez visité des studios d'enregistrement pour votre prochain album. Tarik précise bien que c'est illégal et qu'il n'invite personne à le faire — mais souligne que tout peut se déguiser, et que trouver un beatmaker en Corse justifie le déplacement.</p></div>
+    <div class="pull">« Je me souviens d'un artiste qui m'a choqué : plus de 140 000 € de pertes juste par méconnaissance. Et c'est probablement 140 000 € qu'il ne refera jamais, parce qu'il est complètement en perte de visibilité aujourd'hui. »<span>D'où l'importance d'implémenter ces leviers le plus tôt possible</span></div>
+  </div>
+</section>
+
+<section class="chap" id="s17" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">17</div><div><h2>La méthode des trois priorités</h2><div class="tc">232:45 → 250:00</div></div></div>
+  <div class="cbody">
+    <p>« Si je ne devais faire qu'une seule chose cette semaine pour avancer, ce serait quoi ? » Réponse en deux temps : <strong>avancer dans la formation</strong>, et surtout <strong>planifier d'avancer dans la formation</strong>. Et là, Tarik partage un hack qu'il réserve d'ordinaire au mentorat.</p>
+    <p>Deux outils, tous les deux gratuits : <strong>Notion</strong> et <strong>Google Agenda</strong>.</p>
+    <h3>L'histoire de Stu McLaren</h3>
+    <p>Un entrepreneur nord-américain basé à Montréal, avec qui Tarik a bâti une école au Kenya — son association Village Impact permet de construire une école pour 10 000 $ de dons, et il vous invite ensuite à l'inaugurer avec les enfants.</p>
+    <div class="tl">
+      <li><b>Année 1 du mastermind</b>« Cette année je suis très content, j'ai fait 70 000 $ de chiffre d'affaires. »</li>
+      <li><b>Année 2</b>« Cette année j'ai fait 500 000 $. »</li>
+      <li><b>Année 3</b>« Cette année j'ai fait plus de 3 millions de dollars. » — « Stu, comment tu fais pour croître aussi vite ? » — « C'est simple, j'ai installé des étagères chez moi. »</li>
+      <li><b>Année 4</b>« On a dépassé les 50 millions de dollars. »</li>
+      <li><b>Année 5</b>« On a dépassé les 100 millions de dollars. » Ce jour-là, Tarik le coince au repas : « si tu me donnes le secret de ta croissance, je te fais un don de 10 000 $ là, maintenant, tout de suite. » — C'est ainsi qu'il a financé l'école au Kenya.</li>
+    </div>
+    <h3>Le secret de l'étagère</h3>
+    <p>L'image : les gens ont une étagère dans leur vie, et ils y mettent cinq livres prioritaires — réussir leurs études, développer telle activité. Puis au fil de l'année ils ajoutent un livre, qu'ils glissent entre le livre cinq et le mur. Puis un autre, en les allongeant par-dessus. Puis au-dessus de l'étagère. <strong>Au bout d'un moment, l'étagère casse.</strong></p>
+    <div class="box b-key"><span class="bt">La règle, débarrassée du storytelling</span><p>La meilleure chose à faire pour atteindre un objectif, peu importe lequel, c'est de se fixer <strong>trois projets prioritaires</strong>, cinq grand maximum. Et chaque jour, mettre en place une action dans l'un de ces trois objectifs — avec pour cible d'avoir avancé concrètement sur chacun chaque semaine. Rien de plus.</p><p>Dès qu'on vous propose quelque chose, même l'opportunité du siècle : soit vous retirez un livre de l'étagère pour en mettre un autre, soit vous ne mettez pas ce livre. <em class="q">« C'est la raison pour laquelle je refuse pratiquement 100 % de ce qu'on me propose. »</em></p></div>
+    <p>La mise en pratique dans Notion : trois cases, un objectif par case, une liste de choses à faire dans chacune. <strong>L'objectif est que la case soit vide</strong> — quand elle l'est, l'objectif est atteint, on le supprime et on passe à un objectif plus ambitieux. Jamais plus de trois livres dans l'étagère.</p>
+    <h3>Le deuxième conseil : planifier</h3>
+    <p>Chaque action va dans Google Agenda, sur un créneau, même très lointain. Et quoi qu'il se passe, on ne déroge pas au fait de le faire ce jour-là.</p>
+    <div class="cards">
+      <div class="card"><h4>Les temps repas</h4><p>Bloqués. Oui, vraiment.</p></div>
+      <div class="card"><h4>Le sport</h4><p>Jiu-jitsu brésilien deux fois par semaine : indisponible pour personne — ni femme, ni enfant, ni client, ni partenaire.</p></div>
+      <div class="card"><h4>Les enfants</h4><p>Jamais de créneau après 17 h, jamais le week-end. Sauf cas exceptionnel qui arrange tout le monde.</p></div>
+      <div class="card"><h4>Un an d'avance</h4><p>Les vacances scolaires, les anniversaires des enfants et de son épouse : bloqués d'avance, parce qu'ils appartiennent au livre « famille ».</p></div>
+    </div>
+    <div class="box b-tip"><span class="bt">L'effet secondaire inattendu</span><p>Il devient <strong>beaucoup plus facile de dire non</strong>, parce qu'on a de très bonnes raisons. « Vendredi soir on fait une soirée. » — « Je ne peux pas, j'ai JJB, c'est planifié. » Le seul moment où c'est possible, c'est le vendredi où le maître annonce qu'il n'y a pas d'entraînement.</p></div>
+    <p>Même logique pour les demandes d'appel : <em class="q">« Soit tu attends deux mois et j'ai un créneau pour toi, soit tu ne veux pas attendre et je t'envoie vers Loïc. »</em> La plupart du temps les gens ne veulent pas attendre — donc on ne s'appelle pas. D'où le conseil donné à l'entrée de la formation : <strong>bloquez vos créneaux individuels d'avance</strong>.</p>
+    <h3>Les rétroplannings d'action</h3>
+    <p>Tarik travaille beaucoup comme ça : un objectif, divisé en trois à cinq sous-objectifs, et une liste de toutes les actions à faire avec des cases à cocher.</p>
+    <ul>
+      <li><strong>Exemple sport</strong> — « améliorer la souplesse de mon bassin » → sous-objectif : 10 minutes par jour d'exercices d'assouplissement, en deux fois 5 minutes. Fait n'importe où, même enfermé dans les toilettes quand c'est compliqué.</li>
+      <li><strong>Exemple projet musical</strong> — « trouver le synopsis de tel clip » → appeler ces 8 réalisateurs avant telle date, obtenir leurs synopsis avec propositions chiffrées avant telle date.</li>
+    </ul>
+    <div class="box b-info"><span class="bt">La discipline des 70 %</span><p>Chaque matin, Tarik ne fait que ce dont il a envie. Des projets qui le saoulent, il ne les travaille pas — mais tant qu'il avance sur les autres, la machine avance. La compta attend le jour où il a envie, ou les 24 heures restantes. <strong>Même indiscipliné, si on est discipliné 70 % du temps, ça avance.</strong></p></div>
+    <h3>Le vrai noyau de la procrastination</h3>
+    <p>Ce n'est pas le manque de discipline : <strong>c'est l'absence d'objectif</strong>. On ne sait même pas dans quelle direction on va, ni ce qu'on a à faire. C'est trop compliqué.</p>
+    <div class="pc">
+      <div class="ko"><h4>« Cette année je me mets au sport »</h4><ul><li>« OK, donc ? » — « Rien, c'est bon, je me mets au sport. »</li><li>Intention floue, énergie floue, résultat nul</li></ul></div>
+      <div class="ok"><h4>La version qui fonctionne</h4><ul><li>« Je prends un abonnement dans cette salle »</li><li>« Je fais ce cours-là le lundi, celui-là le vendredi »</li><li>« J'ai commandé un stepper, et tous les jours j'en fais un peu »</li><li>Même en n'y allant qu'une fois sur deux, c'est mieux que rien</li></ul></div>
+    </div>
+    <div class="pull">« Définissez vos trois à cinq objectifs prioritaires. Projetez-vous dans un résultat idéal, même utopique, et définissez toutes les actions nécessaires pour l'atteindre. Au moins, ça mettra de la clarté dans ce que vous devez faire. »<span>Et commencez à planifier des actions. C'est tout.</span></div>
+    <p>C'est d'ailleurs comme ça que la formation a été créée : chaque jour, un module ou une vidéo planifiée. Les jours motivés, il faisait en un jour ce qui était prévu en quatre. Les jours moins motivés, le minimum prévu — et le reste de la journée, rien.</p>
+    <div class="box b-key"><span class="bt">Organisation plutôt que discipline</span><p><em class="q">« Je n'ai pas besoin d'être discipliné. J'ai juste besoin d'être bien organisé. Ce n'est pas pareil — parce que la discipline, elle va, elle vient. Si vous ne comptez que sur ça, vous êtes foutus d'avance. »</em> Appliqué aux réseaux sociaux : on ne peut pas être motivé à créer du contenu, mais on peut créer un mois de contenu en un jour. Tarik en crée un an en un jour et demi.</p></div>
+  </div>
+</section>
+
+<section class="chap" id="s18" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">18</div><div><h2>Formation et communauté</h2><div class="tc">250:00 → 259:00</div></div></div>
+  <div class="cbody">
+    <p>Une série de questions pratiques sur l'organisation de la formation, traitées en vrac.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Question</th><th>Réponse</th></tr></thead>
+        <tbody>
+          <tr><td>Dans quel ordre suivre les modules ?</td><td>Idéalement dans l'ordre, mais le désordre est possible. <strong>Le tout est de finir un module commencé</strong> avant d'en démarrer un autre.</td></tr>
+          <tr><td>Peut-on sauter ceux qu'on connaît déjà ?</td><td>Non. L'intégralité des modules est obligatoire.</td></tr>
+          <tr><td>Combien de temps par semaine ?</td><td>Idéalement <strong>10 à 12 heures</strong>. Certains ont besoin de plus, d'autres de moins. Certains passent les vidéos en ×1,5, d'autres les revoient plusieurs fois — il faut aller à son rythme.</td></tr>
+          <tr><td>L'évaluation finale ?</td><td>Une présentation de <strong>10 minutes devant un jury</strong>. Le support est préparé ensemble sur la deuxième session individuelle, et Tarik a les questions du certificateur d'avance. Aucun piège : c'est une formalité.</td></tr>
+          <tr><td>Les exercices sont-ils obligatoires ?</td><td>Pas strictement — mais fortement recommandés. Pour vous, et pour Tarik : si 50 personnes buggent sur le même point, le problème n'est pas elles, c'est lui, et il y a quelque chose à améliorer. Utile aussi comme livrable en cas de contrôle CPF ou FAFDA.</td></tr>
+          <tr><td>Jusqu'à quand l'accès ?</td><td><strong>À vie.</strong> Les dates de début et de fin existent pour le formalisme légal de la formation professionnelle, mais rien n'interdit de laisser l'accès à la plateforme, à ses mises à jour, et de rester disponible sur WhatsApp.</td></tr>
+          <tr><td>Où poser ses questions ?</td><td><strong>WhatsApp</strong> en priorité (le plus réactif), email ensuite. <strong>Pas Skool</strong> — Tarik n'y répond jamais parce qu'il ne regarde pas les messages : Skool est fait pour interagir avec les autres membres.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Skool, une ressource sous-estimée</h3>
+    <p>C'est l'espace membre, par lequel <strong>1 300 membres</strong> sont déjà passés. L'idée n'est pas d'écrire à Tarik, mais d'utiliser le réseau.</p>
+    <div class="cards">
+      <div class="card"><h4>L'entraide</h4><p>Rubriques SOS, avis rapide. La communauté répond, et Tarik y répond parfois — et y pose parfois des questions.</p></div>
+      <div class="card"><h4>La base des membres</h4><p>Recherche par nom et <strong>par statut</strong>. Besoin d'un saxophoniste ? Vous tapez « sax » et vous en trouvez. Des prestas studio, des éditeurs, des musiciens pour tout. Il suffit de cliquer sur « chat » pour écrire.</p></div>
+      <div class="card"><h4>La map</h4><p>Pour des raisons de RGPD les adresses ne sont pas au mètre près, mais vous voyez les membres autour de vous — et pouvez réseauter localement.</p></div>
+    </div>
+    <div class="box b-tip"><span class="bt">Qui s'y trouve vraiment</span><p>Des cadres de maisons de disques qui ont suivi la formation, de gros éditeurs, de gros producteurs, certains gros artistes sous pseudonyme, et de très gros auteurs-compositeurs — dont vous entendez les titres en radio en ce moment. L'un d'eux a une chanteuse star partout en radio, en passe de remporter des NRJ Music Awards, multi-or et platine. <strong>Il ne faut pas hésiter à se présenter et à interagir : ça peut les inciter à faire appel à vous.</strong></p></div>
+  </div>
+</section>
+
+<section class="chap" id="s19" data-c="p">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">19</div><div><h2>L'IA pour prospecter et vendre</h2><div class="tc">259:00 → 282:30</div></div></div>
+  <div class="cbody">
+    <p>Le gros sujet de fin de session. Tarik écarte d'emblée le débat sur l'IA créatrice : <em class="q">« il y a ceux qui sont pour, ceux qui sont contre. Pour moi c'est comme la politique, je m'en fous complètement. Si tu penses que ça t'aide à améliorer tes projets, fais-le. Si tu n'aimes pas ça, ne le fais pas. Juste, n'aie pas de jugement de valeur sur ceux qui le font ou pas. »</em></p>
+    <p>Mais sur la <strong>partie business</strong> de la musique, l'IA est très intéressante. Quatre usages concrets.</p>
+    <h3>Usage 1 · Créer un EPK</h3>
+    <p>EPK = <strong>Electronic Press Kit</strong>. Une page qui regroupe les informations clés à envoyer à un festival, une salle de concert, un tourneur — plutôt qu'un lien vers un site web rempli d'informations inutiles pour la cible.</p>
+    <p>Démonstration en direct sur l'EPK fait le matin même pour Makassy, avec Claude.</p>
+    <div class="tl">
+      <li><b>En haut</b>Le nom de l'artiste, sa photo et une citation.</li>
+      <li><b>Présentation</b>Courte, suivie de quelques chiffres — plus ou moins flatteurs. Ici : près de 2 000 concerts en 15 ans, et un disque de diamant à ajouter.</li>
+      <li><b>Les clips</b>Des liens avec une forme d'interaction : au clic, le clip se lance.</li>
+      <li><b>Les photos de scène</b>Pour aider la cible à se projeter. Ici la cible étant les mairies, on a mis des grandes scènes de festivals et de mairies. Une photo avec une pancarte au nom de l'artiste fait souvent beaucoup plus d'effet qu'une liste de dates.</li>
+      <li><b>Les collaborations</b>Nekfeu, Mokobé, Soprano, Alonzo, Black M, Zazie — et une photo avec Shy'm.</li>
+      <li><b>L'offre</b>Deux formules seulement : un showcase de 30 minutes, et un show d'une heure et plus. Le moins d'informations possible pour pousser à la prise de contact, avec un email et un numéro.</li>
+      <li><b>Les témoignages de fans</b>En diagonale on lit « légendaire », « a cappella de qualité », « on a kiffé ». Dans le détail : « merci pour ce très beau show, on a dansé de fou, tu es exceptionnel, bravo ».</li>
+    </div>
+    <div class="box b-info"><span class="bt">L'anecdote Shy'm</span><p>Shy'm est l'une des premières artistes que Tarik a produites — il a encore le disque d'or de « Femme de couleur ». Il s'est fait dépouiller par un responsable de la maison de disques de l'époque, qui a déposé le single à son nom : une perte évaluée à près de <strong>700 000 €</strong>. Il n'en veut pas à Shy'm, qui s'est aussi fait avoir sur pas mal de sujets.</p></div>
+    <div class="pull">« Avant, pour le faire, il aurait fallu passer trois jours sur Canva ou Photoshop, ou payer un infographiste plusieurs centaines d'euros. Je l'ai fait ce matin pendant que j'étais sur mon vélo à la maison, à la voix, avec mon téléphone. En 30 minutes. »<span>Tarik Hamiche</span></div>
+    <h3>Usage 2 · Prospecter à grande échelle</h3>
+    <p>La séquence exacte demandée à l'IA :</p>
+    <ol>
+      <li>Se connecter à Google et <strong>isoler tous les espaces culturels</strong> qui programment des artistes dans son univers musical (ici la world music), et les lister</li>
+      <li><strong>Scanner le web en profondeur</strong> pour trouver le ou les noms des personnes décideuses, avec email et téléphone</li>
+      <li>Ne pas se contenter de l'email généraliste : chercher un compte Twitter ou LinkedIn avec un email personnel relié à cette personne</li>
+    </ol>
+    <div class="box b-key"><span class="bt">Le gain de temps</span><p>À la main, ça aurait pris des semaines. L'IA le fait <strong>en une soirée</strong> — et alimente une base de plusieurs milliers de contacts, de manière très qualitative.</p></div>
+    <h3>Usage 3 · L'autorépondeur branché sur la base</h3>
+    <p>Un autorépondeur est un logiciel d'envoi massif d'emails. On peut demander à l'IA : « maintenant que tu as une base de 1 500 contacts, segmente-la en une quinzaine de listes de 100, et chaque jour on fait un envoi de 100 contacts. » Puis on mesure.</p>
+    <div class="box b-warn"><span class="bt">La précaution technique</span><p>Il ne faut <strong>jamais envoyer 1 500 mails froids d'un coup</strong> : vous pouvez bloquer votre nom de domaine s'il y a beaucoup de rebonds ou de signalements spam. Démarrez avec des petits groupes — voire 50 envois, quelques jours d'attente, lecture des stats, puis 50 de plus. Et l'IA peut faire tout ça sans que vous n'ayez rien à programmer.</p></div>
+    <h3>Usage 4 · L'email qui s'ouvre</h3>
+    <p>La plus grosse erreur, c'est l'email de base : <em class="q">« Bonjour Jean-Jacques, je vous contacte pour vous présenter tel artiste qui est très doué dans son domaine… »</em> Jean-Jacques reçoit 400 emails comme ça. Il a arrêté de les lire : il a déjà 40 tourneurs qui lui envoient des artistes de qualité, et il n'est pas assez bien payé pour ça.</p>
+    <div class="pull">Objet : « Les concerts, ça ne rapporte plus rien. »<span>Un objet testé en mentorat, finalement écarté au profit d'un ou deux meilleurs — mais qui illustre parfaitement le principe</span></div>
+    <p>Pourquoi ça fonctionne : mettez « Nouvel artiste » ou « Révélation francophone » en objet, tout le monde s'en moque. Mais quand vous écrivez à un organisateur qui connaît les réalités financières du terrain que les concerts ne rapportent plus rien, <strong>ça titille immédiatement sa curiosité</strong>. Il ouvre, parce qu'il ne vous connaît pas et ne sait pas ce qu'il y a derrière.</p>
+    <h3>La mécanique de l'email, étape par étape</h3>
+    <div class="tl">
+      <li><b>L'accroche</b>« Il y a une croyance qui circule chez les programmateurs depuis quelques années : les concerts, ça ne rapporte plus rien. » → Le programmateur est à la fois d'accord et pas d'accord. Il est accroché.</li>
+      <li><b>La validation</b>« On comprend pourquoi : entre le cachet, la technique, le budget communication, pour une salle à moitié vide parce que l'artiste est inconnu… » → Réaction recherchée : « il n'a pas tort, c'est pour ça que je ne programme que des têtes d'affiche. »</li>
+      <li><b>Le retournement</b>« Mais ça, c'est le modèle classique. Un artiste sans public nécessite que la salle fasse le boulot. Un artiste indépendant qui a construit sa propre communauté, c'est l'inverse : il prévient ses abonnés, sa liste email, les fans qu'il a dans la région, et il les ramène. »</li>
+      <li><b>Le calcul que fait le lecteur</b>« Ce n'est pas faux. Moi je n'ai que 150 places. S'il arrive à les vendre, je n'ai même pas de budget promo à mettre. C'est top pour moi. »</li>
+      <li><b>La preuve sociale</b>« C'est exactement le profil de Makassy : 2 000 concerts en 15 ans avant d'avoir de la médiatisation radio, et après ça n'a pas désempli. »</li>
+      <li><b>La question fermée</b>« Est-ce que je vous envoie son dossier de presse ? »</li>
+    </div>
+    <div class="box b-tip"><span class="bt">Pourquoi cette structure marche</span><p>C'est différenciant, ça suscite la curiosité, et ça utilise un principe de copywriting appelé le <strong>slippery slide effect</strong> : le lecteur glisse petit à petit jusqu'à la fin. Suffisamment court pour qu'il ne ferme pas, suffisamment long pour le stimuler. Et surtout, ça l'invite à <strong>changer de cadre</strong> : « finalement, si je mets 3 000 € dans un artiste inconnu qui ramène sa communauté, je n'ai pas de budget promo, ma salle se remplit, mon boss est content, le maire est content, tout le monde est content. »</p></div>
+    <div class="box b-danger"><span class="bt">La règle absolue en prospection froide</span><p><strong>Jamais de pièce jointe.</strong> Soit un lien vers le dossier de presse, soit rien du tout. L'objectif est d'obtenir une réponse : « oui, je veux bien, merci. » Et là on envoie.</p></div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Étape</th><th>Volume</th></tr></thead>
+        <tbody>
+          <tr><td>Contacts froids démarchés</td><td>~1 000 à 1 500</td></tr>
+          <tr><td>Réponses positives attendues</td><td>15 à 30 — « moi ça me va très bien »</td></tr>
+          <tr><td>Ventes qui se présentent</td><td>Quasiment autant : la base a été filtrée en amont pour matcher</td></tr>
+          <tr><td>Chiffre potentiel (dates à 5 000 €)</td><td><strong>&gt; 100 000 €</strong>, sur une automatisation construite un dimanche soir</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Bonus · Lire Reddit avec l'IA</h3>
+    <p>Reddit est <strong>un forum mondial vivant</strong>, à l'origine utilisé par les gamers, aujourd'hui étendu à toutes les communautés : finance, actualité, politique, musique, cinéma.</p>
+    <div class="box b-info"><span class="bt">Pourquoi Reddit est une source fiable</span><p>Ce n'est ni censuré ni influençable. On peut y faire de la publicité, mais elle est affichée à part — et la <strong>publicité déguisée est bannie d'office</strong>. Si Tarik y postait « la meilleure formation music business c'est la mienne », il serait banni automatiquement. Même en se recommandant subtilement dans une discussion. C'est très réglementé, donc les avis sont vrais.</p></div>
+    <p>L'exemple vécu, pas à pas :</p>
+    <ol>
+      <li>« Trouve-moi le sujet chaud du moment, j'ai envie de faire une vidéo sur un truc qui va susciter de la polémique. »</li>
+      <li>« En ce moment, les gens se font retirer leurs titres de Distrokid, ils sont énervés. » — Tarik n'était pas au courant</li>
+      <li>« Creuse, vérifie. » → « Oui, c'est vrai. Depuis quelques jours, Distrokid éjecte les titres sans prévenir, sans préavis. »</li>
+      <li>« Il y a combien d'avis ? » → « Des milliers, des dizaines de milliers. » → « Remonte-moi les avis les plus cités. »</li>
+      <li>« Maintenant va dans Google et cherche des articles sérieux qui expliquent la raison. » Puis vérification humaine : un appel à un contact chez Deezer confirme</li>
+      <li>Vidéo tournée → <strong>5 000 à 6 000 vues dès sa sortie</strong>, un gros score pour sa chaîne</li>
+    </ol>
+    <div class="box b-tip"><span class="bt">Ce qu'il aurait dû faire en plus</span><p>Un carrousel Instagram sur le même sujet : « La raison pour laquelle Distrokid supprime tous vos titres de sa plateforme », en six ou sept slides. <strong>50 000 vues sans la moindre difficulté.</strong></p></div>
+    <p>Appliqué au projet de Delphine : une IA peut scanner des centaines de milliers d'avis de vrais parents sur Reddit pour remonter les problématiques, les profils psychologiques, les idées de contenu et les thématiques polémiques du moment autour des comptines — puis créer du contenu en face, en sachant que ça fera réagir.</p>
+    <h3>Bonus · Atteindre des journalistes</h3>
+    <p>Dernier exemple, pour une stratégie de référencement IA : « va me chercher des médias intéressants dans ces critères, trouve des journalistes, envoie-moi leur profil LinkedIn, Facebook, Instagram. Si tu as un email, trouve-le. Si tu as un numéro, trouve-le. Bouge-toi. » Et il s'est bougé.</p>
+    <p>Puis : « rédige-moi une trame d'email pour leur proposer une interview » — modifiée légèrement derrière. Enfin, sur une liste de 30 médias : <em class="q">« Cet email-là que je valide, crée-moi un brouillon dans Gmail adressé à chaque média — par contre, c'est moi qui valide avant d'envoyer. »</em> <strong>Vingt secondes plus tard, tout était prêt.</strong></p>
+    <div class="pull">« Plus vite vous allez amplifier vos capacités avec l'IA, plus vite vous serez en capacité d'aller chercher des résultats que très peu de gens sont capables d'aller chercher. »<span>Tarik Hamiche</span></div>
+  </div>
+</section>
+
+<section class="chap" id="s20" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">20</div><div><h2>Se référencer auprès des IA</h2><div class="tc">282:30 → 301:00</div></div></div>
+  <div class="cbody">
+    <div class="box b-key"><span class="bt">Le conseil donné depuis un an</span><p><em class="q">« Comme d'habitude, on m'écoute mais on n'applique pas. Je vous le redonne quand même parce qu'il vaut de l'or. »</em> Rappel de crédibilité : en 2018, Tarik recommandait à tous les artistes qui le suivaient de créer du contenu court sur TikTok. <strong>Ceux qui l'ont écouté ont 2 millions d'abonnés aujourd'hui. Les autres sont arrivés après le train.</strong></p></div>
+    <h3>Ce qui est en train de se passer</h3>
+    <p>Tapez « des comptines pour enfants en musique » dans Google : vous obtenez un référencement classique avec les contenus YouTube les plus visibles — Titounis et ses millions de vues, iletaitunehistoire.com. C'est normal.</p>
+    <div class="pull">« L'ancien monde utilisera Google. Le nouveau monde utilisera Google mode IA. Et leur objectif, c'est qu'à terme le moteur de recherche disparaisse au profit de la recherche IA. »<span>Tarik Hamiche, qui dit suivre des formations internes Google</span></div>
+    <div class="box b-info"><span class="bt">Le calendrier annoncé</span><p>Quand Tarik a exposé ça à des cadres d'Universal, ils ont rigolé : « on n'en est pas encore là, il y a du temps. » Or chez Google, <strong>si ce n'est pas en place en 2027, il y a des têtes qui vont tomber</strong>. C'est leur priorité du moment, et c'est déjà commencé sur beaucoup de requêtes : « droit SACEM » renvoie d'abord un résultat IA.</p></div>
+    <h3>La méthode en quatre étapes</h3>
+    <div class="tl">
+      <li><b>1 · Wikidata</b>La base de données numéro un utilisée par les IA. Si on tape votre nom, probablement qu'on ne vous trouve pas. <strong>Créez un compte : c'est la première chose à faire.</strong></li>
+      <li><b>2 · Un site web</b>Pour avoir une présence dans laquelle vous maîtrisez la narration, et que les IA peuvent lire. Avec l'IA, ce n'est pas compliqué à faire — il faut juste s'y mettre.</li>
+      <li><b>3 · Des articles de presse</b>Les IA recoupent les sources et valident le récit. Deux ou trois articles suffisent. Journaux locaux, sites sur la relation enfants-parents, sites bien ciblés : « j'ai développé des comptines avec une approche différente, j'aimerais en parler dans une interview et expliquer en quoi ça peut intéresser votre audience. » Trois ou quatre articles qui vous référencent comme experte du domaine.</li>
+      <li><b>4 · Un blog</b>Google scanne le web une fois par jour. Un article par semaine permet de se repositionner sur des mots-clés de plus en plus pertinents, et de greffer une œuvre à chaque fois.</li>
+    </div>
+    <div class="box b-tip"><span class="bt">La stratégie des mots-clés de niche</span><p>Sur les mots-clés très concurrentiels — « chanson », « comptine » — vous resterez cinquième ou sixième, et c'est OK. Mais sur les mots-clés où il n'y a presque personne, vous rankerez <strong>numéro un tout de suite</strong> : « comptines sommeil enfants », « comptines apprentissage alphabet », « comptine pour enfant autiste », « comptine 7 ans ». Et plus vous captez du trafic organique, plus vous consolidez votre position auprès des IA et plus vous êtes cité.</p></div>
+    <div class="cards">
+      <div class="card stat"><h4>&gt; 90 %</h4><p>Des requêtes de recherche faites sur des LLM d'ici moins d'un an, selon la statistique Google qui a convaincu Tarik</p></div>
+      <div class="card stat"><h4>0 → 10 000</h4><p>Visiteurs par mois sur Muzisecur en 6 mois de ce travail. 10 000 visiteurs par mois, ça fait des ventes.</p></div>
+      <div class="card stat"><h4>2 – 3 ans</h4><p>Le délai réaliste pour devenir une autorité sur un domaine de niche. Pas 6 mois.</p></div>
+    </div>
+    <h3>La preuve en direct</h3>
+    <p>Démonstration sur ses propres requêtes : « droits voisins musique », « adhérer à la SACEM » — où il n'espère pas battre sacem.fr, mais apparaît juste à côté : première source la SACEM, deuxième Muzisecur. « SCPP ou SPPF » fait ressortir une de ses vidéos YouTube en numéro un.</p>
+    <div class="box b-info"><span class="bt">Les « trunks »</span><p>Les IA fonctionnent par tronçons : une partie de la réponse vient du PAM, une autre de Tarik, une autre de la SCPP. <strong>Plus vous alimentez, plus les IA se servent de vos réponses pour formuler la leur.</strong></p></div>
+    <p>Et c'est déjà la pratique d'une génération : <em class="q">« J'ai Claude sur mon téléphone, je lui parle en vocal, je lui dis : qu'est-ce que c'est que ça ? Trouve-moi ça. Propose-moi ça. Et je ne me base presque que sur son avis. »</em> Des gens ont intégré la formation précisément comme ça : ils ont demandé une bonne formation à une IA, elle a recommandé celle de Tarik.</p>
+    <div class="box b-warn"><span class="bt">La fenêtre de tir</span><p>Aujourd'hui, quand on demande à une IA de recommander un artiste afro-caribéen, elle ne cite pas celui que vous êtes — et ce serait très facile de l'y faire apparaître. <strong>Dans trois ou quatre ans, ce ne sera plus le cas.</strong> Les majors sont lentes à bouger, mais quand elles bougeront : un consultant à 50 000 €, un plan d'action, 500 000 € de budget pour l'exécuter, et en quelques semaines ce sera plié. Elles appelleront peut-être même Google directement pour un partenariat. Elles ont déjà cette vision sur la création — elles ne l'ont pas encore sur le marketing. <strong>Mais ça va bouger.</strong></p></div>
+    <h3>La surprise de fin de formation</h3>
+    <p>Petit spoiler annoncé parce qu'ils ne sont pas nombreux sur cette session : une formation vendue actuellement <strong>1 000 €</strong> est offerte à tous ceux qui terminent la formation initiale. Elle contient notamment un module complet sur la création de sites web assistée par IA.</p>
+    <div class="box b-tip"><span class="bt">La preuve par l'exemple</span><p>Un groupe, Taidi Mess, a créé son site en <strong>cinq ou six jours sans écrire une seule ligne de code</strong>, en appliquant la méthode. Et ils ont déjà commencé le travail de référencement sur des mots-clés spécifiques, avec des sections FAQ — parce que <strong>les IA adorent les FAQ</strong> : des questions-réponses leur permettent de vous mettre en avant dès que quelqu'un tape le mot-clé. L'étape suivante pour eux : des articles de blog pour ressortir sur « artistes locaux à Pau ».</p></div>
+    <p>La session se termine sur une dernière question pratique : l'exercice du module contenait les informations d'un autre participant. C'était un bug de droits de partage, corrigé depuis — l'accès est maintenant en lecture seule. <strong>La bonne procédure : créer une copie du document, faire ses modifications, et renvoyer l'exercice complété par email ou WhatsApp.</strong></p>
+  </div>
+</section>
+
+<div class="faq">
+  <div class="bar"></div>
+  <div class="faqhead">
+    <h2>Questions / Réponses</h2>
+    <p>Les 54 questions traitées pendant la session, regroupées par thème.</p>
+  </div>
+  <div class="faqbody">
+
+    <div class="faqcat">Statut et démarrage</div>
+    <div class="qa"><div class="q"><span>Q1.</span>Artiste-auteur, intermittent ou micro-entreprise : par quoi commencer ?</div><div class="a"><p>La micro-entreprise est <strong>à proscrire</strong>. L'intermittence n'est intéressante que temporairement, dans certains cas, et il faut vite s'en défaire. Le statut d'artiste-auteur est la vraie mine d'or pour démarrer — et quand on le fera évoluer, ce sera avec une structure <em>à côté</em>, pas à sa place.</p></div></div>
+    <div class="qa"><div class="q"><span>Q2.</span>Combien de temps et combien d'argent pour créer le statut d'artiste-auteur ?</div><div class="a"><p>24 heures, gratuitement, sur <strong>artiste-auteur.urssaf.fr</strong>. Il faut faire la demande spécifique pour obtenir le droit de générer des numéros.</p></div></div>
+    <div class="qa"><div class="q"><span>Q3.</span>Quelles charges sociales sur mes revenus d'artiste-auteur ?</div><div class="a"><p>12 à 14 % selon votre situation URSSAF, majoré à 17 % dans certains cas. Au-delà d'environ 10 000 € de revenus, l'<strong>IRCEC</strong> s'ajoute, entre 4 % et 8 % selon les plafonds. Tarik est à environ 24 % au total sur ses propres revenus d'artiste-auteur.</p></div></div>
+    <div class="qa"><div class="q"><span>Q4.</span>Le statut d'artiste-auteur est-il plafonné à 50 000 € ?</div><div class="a"><p>Non. Les 50 000 € (majorés à 55 000) concernent uniquement la <strong>franchise de TVA</strong>. Sur le statut lui-même, vous pourriez percevoir 100 000 € s'il faut. Les seules limites sont logiques : au-dessus de certains montants, la fiscalité en société devient bien plus avantageuse.</p></div></div>
+    <div class="qa"><div class="q"><span>Q5.</span>Que puis-je facturer avec ce statut ?</div><div class="a"><p>Les revenus des plateformes digitales, les droits d'auteur, les droits voisins d'artiste-interprète, le merchandising, un abonnement à un espace fan base, et des <strong>cessions de prestation musicale</strong> (un show monté, pas une prestation directe). Certaines de ces facturations mordent la ligne légale — mais sur de petits montants, il n'y a pas de contrôle.</p></div></div>
+    <div class="qa"><div class="q"><span>Q6.</span>Je suis en duo : comment fait ma guitariste ?</div><div class="a"><p>Exactement la même chose, si elle est aussi créatrice : statut d'artiste-auteur et facturation. Attention à la limite légale : un artiste en studio pour une prestation doit normalement être rémunéré en <strong>cachet</strong>. Si c'est ponctuel, la facture passe. Si c'est régulier, il faut basculer en cachet ou en <strong>coproduction</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q7.</span>Faut-il une structure en plus du statut pour facturer ?</div><div class="a"><p>Non. Le statut donne un SIRET, donc la capacité de facturer. Le repère : 400 € en janvier, ça passe. 400, puis 600, puis 800 → c'est le moment de regarder du côté de la structure.</p></div></div>
+    <div class="qa"><div class="q"><span>Q8.</span>Je n'y connais rien en administratif et ça me bloque. Que faire ?</div><div class="a"><p>Deux options. <strong>Déléguer</strong> à une structure comme Muzisecur. Ou <strong>relativiser</strong> : en dessous de 2 000 € par an, personne ne viendra vous chercher. Au-dessus : vous facturez, vous déclarez, l'URSSAF calcule, vous payez au trimestre. Une liasse fiscale par an, c'est un formulaire en ligne — 300 à 400 € chez un comptable, gratuit avec une IA.</p></div></div>
+
+    <div class="faqcat">Fiscalité et optimisation</div>
+    <div class="qa"><div class="q"><span>Q9.</span>Qu'est-ce que le BNC au réel et pourquoi le choisir ?</div><div class="a"><p>Déclarer ses revenus en bénéfices non commerciaux <em>au réel</em> permet de <strong>déduire toutes ses dépenses</strong>. 3 000 € de studio déduits de 6 000 € de revenus = 3 000 € imposables seulement — un montant qui vous place sous les seuils.</p></div></div>
+    <div class="qa"><div class="q"><span>Q10.</span>Qu'est-ce que l'article 110 bis du CGI ?</div><div class="a"><p>Un dispositif qui reconnaît la volatilité des revenus artistiques, littéraires et sportifs, et permet de <strong>lisser ses revenus sur cinq ans</strong>. Un tube à 100 000 € n'est imposable que sur 20 000 € — avec quelques charges déductibles derrière, vous pouvez ne lâcher que 1 000 ou 2 000 € aux impôts.</p></div></div>
+    <div class="qa"><div class="q"><span>Q11.</span>Qu'est-ce que l'attestation de précompte SACEM ?</div><div class="a"><p>Un document à envoyer à la SACEM pour qu'elle <strong>ne prélève pas les charges sociales à la source</strong> sur vos droits d'auteur. Sinon elle prend des sommes forfaitaires (souvent ~30 %) alors que vous n'en devez peut-être que 17 — et l'URSSAF vous les redemande ensuite. Double cotisation. La régularisation existe mais presque personne ne la demande.</p></div></div>
+    <div class="qa"><div class="q"><span>Q12.</span>Qu'est-ce que le CIPP et combien ça rapporte ?</div><div class="a"><p>Le crédit d'impôt pour dépenses de production phonographique. Sur 60 000 € de dépenses éligibles, l'État reverse un peu plus de 25 000 €. Si vous devez 3 000 € d'impôts, vous ne les payez pas <em>et</em> vous recevez un virement de la DGFIP d'environ 22 000 €.</p><p>Chiffre vécu : une année, un label à ~600 000 € de CA et 500 000 € de dépenses a reçu <strong>plus de 180 000 €</strong> de l'État.</p></div></div>
+    <div class="qa"><div class="q"><span>Q13.</span>Qui est éligible au crédit d'impôt phono ?</div><div class="a"><p>Quasiment tous les petits labels, à partir de la <strong>deuxième année d'activité</strong>. Inéligibilités : un artiste qui a vendu plus de 100 000 albums dans sa carrière (les autres artistes du label restent éligibles), et un plafond de chiffre d'affaires — le crédit d'impôt lui-même est plafonné à 2 M€. En empilant les autres aides, on peut amortir jusqu'à 70 % de ses dépenses.</p></div></div>
+    <div class="qa"><div class="q"><span>Q14.</span>Comment piloter sa fiscalité quand on a un label ?</div><div class="a"><p>Par la facturation. Sur 100 000 € de CA : 30 000 € facturés en artiste-auteur (charge déductible), 10 000 € de production, des clips, de la promo. Il peut ne rester que 20 000 € de bénéfice net, imposés à 15 % → environ 3 000 €. Les 30 000 € versés supportent ensuite environ 6 000 € de charges sociales.</p></div></div>
+    <div class="qa"><div class="q"><span>Q15.</span>Quelle est la bourse auteur-compositeur du CNM ?</div><div class="a"><p><strong>5 000 € par an</strong>, versés ronds. Conditions : au moins un titre déposé à la SACEM dans l'année, un statut d'artiste-auteur, et ne pas dépasser un certain revenu (de l'ordre de 50 à 70 000 €). Elle a changé de nom trois fois en deux ans.</p></div></div>
+
+    <div class="faqcat">Cumuls de statuts</div>
+    <div class="qa"><div class="q"><span>Q16.</span>Peut-on être salariée, artiste-auteur et avoir un label en société ?</div><div class="a"><p>Oui, les trois sont parfaitement cumulables : ce sont des activités différentes. Traitements et salaires d'un côté, BNC de l'autre, impôt sur les sociétés pour le label.</p></div></div>
+    <div class="qa"><div class="q"><span>Q17.</span>Y a-t-il des cas où ce n'est pas cumulable ?</div><div class="a"><p>Les fonctionnaires. Un gendarme n'a pas le droit d'avoir une société à côté — mais il peut parfaitement être artiste-auteur. Beaucoup de militaires écrivent des livres et perçoivent des droits d'auteur tout en restant en fonction.</p></div></div>
+    <div class="qa"><div class="q"><span>Q18.</span>Comment optimiser quand on cumule plusieurs sources de revenus ?</div><div class="a"><p>En ne se versant pas de salaire sur le label et en fonctionnant en <strong>dividendes</strong>. Les revenus du capital se contrôlent : on les laisse en autres réserves une ou deux années, et on déclenche le paiement l'année où le revenu global baisse, pour rester sous un taux marginal d'imposition.</p></div></div>
+    <div class="qa"><div class="q"><span>Q19.</span>Faut-il être aussi intermittent du spectacle ?</div><div class="a"><p>Techniquement possible, mais l'intermittence est un <strong>statut précaire</strong>. Vos revenus de salarié viennent impacter les indemnités. Intéressant seulement dans des cas précis (budgets formation notamment) et si on est malin avec. Pour une salariée : non.</p></div></div>
+
+    <div class="faqcat">ISRC et droits voisins</div>
+    <div class="qa"><div class="q"><span>Q20.</span>Qu'est-ce que le code ISRC exactement ?</div><div class="a"><p>La carte d'identité d'une œuvre. Deux lettres pour le pays, trois caractères de racine producteur, deux chiffres pour l'année, quatre chiffres pour le numéro de l'œuvre, et un dernier chiffre : 0 pour l'audio, 1 pour la vidéo. <strong>Obligatoire pour commercialiser</strong> une œuvre.</p></div></div>
+    <div class="qa"><div class="q"><span>Q21.</span>Quelles sont les trois façons d'obtenir un ISRC ?</div><div class="a"><p>1 · Laisser le <strong>distributeur</strong> le générer. 2 · Créer son <strong>propre code</strong>, ce qui nécessite d'être membre SPPF ou SCPP (donc cinq œuvres commercialisées). 3 · Demander un numéro « provisoire » sur <strong>ISRC France</strong> — vous recevrez généralement la racine 9W1.</p></div></div>
+    <div class="qa"><div class="q"><span>Q22.</span>Un numéro provisoire peut-il être remplacé plus tard ?</div><div class="a"><p>Non. Un numéro dit provisoire est en réalité <strong>définitif</strong>. Il est « provisoire » seulement parce qu'il n'a pas de racine producteur qui vous appartienne. Vous ne remplacerez jamais 9W1 par votre racine — en revanche vous pourrez rattacher le titre à votre catalogue producteur.</p></div></div>
+    <div class="qa"><div class="q"><span>Q23.</span>Comment rattacher un ancien titre à son compte producteur ?</div><div class="a"><p>Déclarez-le à la SPPF ou la SCPP : « ce titre sorti il y a deux ans, numéro 9W1…, est le mien. » La preuve demandée est simple : un screenshot de la sortie digitale avec votre nom de producteur ou d'artiste. Le numéro ne change pas, mais la collecte des droits voisins se fait désormais chez vous — et les sommes non réparties vous sont versées d'un coup.</p></div></div>
+    <div class="qa"><div class="q"><span>Q24.</span>Devient-on producteur parce qu'on a cinq titres ?</div><div class="a"><p>Non : <strong>quand vous financez l'enregistrement, vous êtes producteur par défaut, c'est la loi</strong>. Les cinq titres sont le seuil pour adhérer à un organisme de gestion. Le producteur perçoit sur deux axes : les recettes d'exploitation, et les droits voisins de producteur (qui nécessitent l'adhésion).</p></div></div>
+    <div class="qa"><div class="q"><span>Q25.</span>Faut-il un ISRC différent pour l'audio et le clip ?</div><div class="a"><p>Oui, un par support : phonogramme et vidéogramme. TuneCore ne génère pas les ISRC de clips, il faut passer par l'interface directe. C'est normal d'en avoir deux pour le même morceau.</p></div></div>
+    <div class="qa"><div class="q"><span>Q26.</span>Que perd-on à ne pas rattacher ses œuvres ?</div><div class="a"><p>Les droits voisins. Exemple réel : une œuvre qui n'a jamais marché génère ~6 € par an de droits SPEDIDAM depuis 16 ans, soit 130 €. Multiplié par 100 œuvres : <strong>13 000 €</strong>. Le coût d'ouverture d'un compte producteur est de 150 €, une fois à vie.</p></div></div>
+    <div class="qa"><div class="q"><span>Q27.</span>Faut-il mettre l'ISRC dans les métadonnées du fichier ?</div><div class="a"><p>Ce n'est plus indispensable : quasiment tous les outils de tracking récupèrent l'ISRC à partir de l'<strong>empreinte sonore</strong>. Cela reste utile pour les clubs qui n'ont pas de boîte noire lisant les métadonnées. Si votre ingé son l'a fait, c'est très bien.</p></div></div>
+
+    <div class="faqcat">SCPP, SPPF et SACEM</div>
+    <div class="qa"><div class="q"><span>Q28.</span>SCPP ou SPPF : quelle différence aujourd'hui ?</div><div class="a"><p>Le taux de retenue pour services rendus était avant du simple au double (≈5 % SPPF contre ≈11 % SCPP) ; il est aujourd'hui à peu près le même, autour de 5 à 8 %. Reste la culture : la SCPP est historiquement pro-major, la SPPF pro-indépendant — mais ça commence à se confondre.</p></div></div>
+    <div class="qa"><div class="q"><span>Q29.</span>Pourquoi deux organismes ?</div><div class="a"><p>En 1985, Jack Lang introduit le droit voisin. Les cinq majors de l'époque (Sony, Universal, Warner, EMI, Virgin) créent la <strong>SCPP</strong>. Les cinq plus gros indépendants, refusant de dépendre d'un conseil d'administration de maisons de disques, créent la <strong>SPPF</strong>. La loi a autorisé les deux.</p></div></div>
+    <div class="qa"><div class="q"><span>Q30.</span>La SCPP annonce 2 000 indépendants membres : est-ce vrai ?</div><div class="a"><p>Vrai sur le papier, mais ce sont très majoritairement des indépendants <strong>en licence maison de disque</strong>. Big Flo et Oli ont leur label distribué en licence exclusive Universal ; Soprano est contrôlé par Warner. À l'inverse, la SPPF accueille aussi de gros labels affiliés majors. Le conseil : regardez les deux et choisissez celui avec lequel vous vous sentez à l'aise.</p></div></div>
+    <div class="qa"><div class="q"><span>Q31.</span>Une radio associative me diffuse : vais-je toucher des droits ?</div><div class="a"><p>Probablement pas. La SACEM décide chaque année d'un <strong>panel de radios</strong> censé être représentatif. Si vous n'êtes pas diffusé sur celles-là, vos diffusions ne collectent rien. Vous pouvez passer 300 fois par semaine sur une radio associative sans percevoir un euro.</p></div></div>
+    <div class="qa"><div class="q"><span>Q32.</span>Et en discothèque ?</div><div class="a"><p>Même mécanique, en pire : <strong>moins de 50 clubs sondés</strong> pour représenter tous les lieux dansants — dont deux salles de mariage et une guinguette. Les listes sont secrètes et évoluent de semestre en semestre. S'y ajoutent des <strong>heures de sondage</strong> tournantes : diffusé à 5 h quand on sonde à 2 h, vous êtes à zéro. Le reggaeton et le zouk en ont massivement souffert.</p></div></div>
+    <div class="qa"><div class="q"><span>Q33.</span>Mon EP a été coproduit : est-ce que ça impacte mes droits ?</div><div class="a"><p>Tout dépend du <strong>contrat de coproduction</strong>. Même avec 3 %, un coproducteur peut avoir des dispositions qui lui donnent la main sur la gestion des droits voisins — auquel cas vous ne pourrez que lui facturer chaque semestre. Il faut lire le contrat avant d'agir. Et vous avez cinq ans à compter de la première publication pour rattacher une œuvre.</p></div></div>
+
+    <div class="faqcat">Structure et société</div>
+    <div class="qa"><div class="q"><span>Q34.</span>À partir de quel niveau de revenu créer une société ?</div><div class="a"><p>Deux cas. <strong>Un</strong> : quand vos revenus dépassent de façon prédictible le coût de la structure — la règle du facteur trois (3 000 € de revenus pour 1 000 € de coût). <strong>Deux</strong> : quand vous investissez beaucoup de fonds propres, même sans revenus musicaux.</p></div></div>
+    <div class="qa"><div class="q"><span>Q35.</span>Qu'est-ce que l'apport en compte courant d'associés ?</div><div class="a"><p>Chaque euro que vous investissez dans votre label y apparaît comme un apport CCA, ce qui crée une <strong>dette de la société envers vous</strong>. Le jour où le label dégage du profit, vous vous remboursez par simple virement, <strong>net d'impôt</strong>. Sans structure, cet argent est définitivement perdu — un ami routier a cramé plus de 50 000 € comme ça.</p></div></div>
+    <div class="qa"><div class="q"><span>Q36.</span>Quand l'association a-t-elle du sens ?</div><div class="a"><p>Quand plusieurs membres prennent des rôles réels (il faut un président et un trésorier) et que l'activité est <strong>véritablement non lucrative</strong> : ateliers, activités de groupe. Si l'asso ne tourne qu'autour de vous, c'est lucratif — et les sanctions sont <strong>civiles</strong> : on vient vous chercher en nom propre. Il existe déjà un cas de jurisprudence.</p></div></div>
+    <div class="qa"><div class="q"><span>Q37.</span>Quelles dettes survivent à une liquidation ?</div><div class="a"><p>Trois : les <strong>impôts</strong> (IS impayé), la <strong>TVA</strong> (l'impôt le plus contrôlé), et l'<strong>URSSAF</strong> au sens large (France Travail, Congés Spectacles, Audiens). Plus un quatrième cas : la <strong>caution solidaire</strong> sur un crédit bancaire — une erreur de débutant à ne jamais faire.</p></div></div>
+    <div class="qa"><div class="q"><span>Q38.</span>SARL ou SAS ?</div><div class="a"><p><strong>SAS</strong> par défaut : aucune charge sociale obligatoire, moins de 50 € de frais de greffe si vous faites votre compta, statuts libres, meilleure couverture et assurance chômage. <strong>SARL</strong> seulement si vous savez que vous allez vous verser une rémunération tous les mois : 1 000 € versés coûtent ~1 470 € au label en SARL contre ~1 800 € en SAS. Mais une SARL à zéro de CA coûte 2 000 à 3 000 € par an.</p></div></div>
+    <div class="qa"><div class="q"><span>Q39.</span>Qu'est-ce que le PV de rémunération à zéro, et pourquoi c'est décisif ?</div><div class="a"><p>En SAS, on peut définir la rémunération du dirigeant par procès-verbal d'AG — pas en SARL. Si vous êtes demandeur d'emploi ou intermittent avec une indemnité d'aide à la reprise d'emploi, vous présentez chaque année le PV indiquant une <strong>rémunération votée à zéro</strong> et déclarez un statut de dirigeant bénévole. Impossible en SARL.</p></div></div>
+    <div class="qa"><div class="q"><span>Q40.</span>Peut-on changer de forme en cours de route ?</div><div class="a"><p>Oui. Tarik a démarré en SARL, tourné trois ans, puis transformé en SAS. Coût : ~1 500 € de commissaire à la transformation et 300 à 400 € de formalités. Économie réalisée : ~3 500 € de charges sociales obligatoires par an. Moins de 2 000 € dépensés pour en économiser le double chaque année.</p></div></div>
+
+    <div class="faqcat">Budget, fan base et promotion</div>
+    <div class="qa"><div class="q"><span>Q41.</span>Quel budget prévoir pour sortir un premier EP ?</div><div class="a"><p>Le ratio : <strong>budget marketing = 2 × budget production</strong>. Pour un EP produit à 5 000 €, comptez 10 000 € de marketing — dont ~500 € d'outils digitaux et tout le reste en publicité. Et avec un label éligible au CIPP, presque la moitié revient de l'État : 10 000 € de budget = 6 000 € réellement sortis de votre poche.</p></div></div>
+    <div class="qa"><div class="q"><span>Q42.</span>Faut-il prendre un attaché de presse pour sa première sortie ?</div><div class="a"><p>Non. Un attaché de presse est un commercial : sans argument — pas de stats, pas de fan base, pas de label — il ne pourra rien faire, et il ne vous le dira pas. 3 000 € plus tard, il ne se sera rien passé. Les chiffres le confirment : 2 entrées de playlist pour 10 sorties sur une antenne, et 19 diffusions hebdomadaires maximum pour un titre « bombardé ».</p></div></div>
+    <div class="qa"><div class="q"><span>Q43.</span>Que faire concrètement de 500 fans en base ?</div><div class="a"><p>Formuler une offre. Pour une fan base localisée : un événement privé — 50 participants à 20 € = 1 000 € par soirée. Deux soirées par mois pendant trois mois amortissent 5 000 € de budget pub. Ensuite on monte en gamme (dîner, packages), on vend du merch, ou on lance un abonnement : <strong>10 % de 1 000 fans à 10 €/mois = 1 000 €/mois</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q44.</span>Quels sont les trois espaces de liberté qui restent ?</div><div class="a"><p><strong>Internet</strong> (la publicité, sans permission à demander), la <strong>synchronisation</strong> (placement de musique à l'image, en démarchant les music supervisors un par un), et les <strong>jeux vidéo en ligne</strong> (1 000 à 1 500 € à la signature, puis un pourcentage des ventes in-game — jusqu'à 15 000 $/mois pour un compositeur sur Roblox).</p></div></div>
+    <div class="qa"><div class="q"><span>Q45.</span>Qu'est-ce qu'un buyout et faut-il l'accepter ?</div><div class="a"><p>Un paiement unique contre l'abandon de tous vos droits futurs. Tarik a signé un buyout sur <em>Beauty and the Beast</em> (chèque de ~70 000 $) sans toucher un centime derrière. Un an plus tard il a conseillé à une membre d'accepter 20 000 $ sur un film turc — qui a fini numéro un Netflix dans 80 pays. <strong>La règle : ne jamais signer de buyout</strong> — on ne sait jamais où ça va aller. Danza Kuduro a été placé dans Fast and Furious dix ans après sa sortie.</p></div></div>
+
+    <div class="faqcat">Erreurs, méthode et IA</div>
+    <div class="qa"><div class="q"><span>Q46.</span>Quelle est l'erreur la plus fréquente chez les indépendants ?</div><div class="a"><p><strong>Ne pas assez produire.</strong> Un disque de diamant voyait ses bookings s'essouffler : trois ans sans rien sortir. Un groupe passé à 10 millions de comptes atteints n'avait rien sorti depuis deux ans. La statistique du succès : si vous avez 1 % de réussite, il faut sortir 100 titres. Tarik sortait 60 compos par mois pour obtenir un tube.</p></div></div>
+    <div class="qa"><div class="q"><span>Q47.</span>Et les deux autres erreurs ?</div><div class="a"><p><strong>Ne pas penser fan base</strong> — on cherche les radios, les labels, les éditeurs et on oublie le public. Le web est sans permission ; les médias, eux, vous <em>prêtent</em> un public qui se détourne dès qu'ils arrêtent de vous diffuser. Et <strong>le manque de structuration</strong> — un artiste a perdu plus de 140 000 € par simple méconnaissance des dispositifs.</p></div></div>
+    <div class="qa"><div class="q"><span>Q48.</span>Si je ne dois faire qu'une seule chose cette semaine ?</div><div class="a"><p>Définir vos <strong>trois à cinq objectifs prioritaires</strong>, lister toutes les actions nécessaires, et commencer à les <strong>planifier dans un agenda</strong>. Le vrai noyau de la procrastination n'est pas le manque de discipline, c'est l'absence d'objectif clair. Et il vaut mieux être bien organisé que discipliné : la discipline va et vient.</p></div></div>
+    <div class="qa"><div class="q"><span>Q49.</span>Qu'est-ce que la méthode de l'étagère ?</div><div class="a"><p>Trois projets prioritaires maximum, cinq grand maximum — jamais plus de livres sur l'étagère, sinon elle casse. Une action par jour dans l'un des trois, pour avoir avancé sur chacun chaque semaine. Et dès qu'on vous propose quelque chose : soit vous retirez un livre pour en mettre un autre, soit vous refusez. Dans Notion : trois cases, une liste par case, et <strong>l'objectif est que la case soit vide</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q50.</span>À quoi sert l'IA concrètement dans le business de la musique ?</div><div class="a"><p>Quatre usages démontrés. <strong>Créer un EPK</strong> en 30 minutes au lieu de trois jours sur Canva. <strong>Construire une base de prospection</strong> de 1 500 contacts qualifiés en une soirée, avec décideurs nommés et coordonnées. <strong>Brancher un autorépondeur</strong> et segmenter les envois. <strong>Rédiger des emails qui s'ouvrent</strong> — et créer 30 brouillons Gmail en 20 secondes.</p></div></div>
+    <div class="qa"><div class="q"><span>Q51.</span>Comment utiliser Reddit pour trouver des idées de contenu ?</div><div class="a"><p>Reddit n'est ni censuré ni influençable — la publicité déguisée y est bannie d'office, donc les avis sont vrais. Demandez à une IA de remonter les sujets chauds, puis de vérifier dans des articles sérieux. L'exemple Distrokid : un sujet remonté de Reddit, vérifié par un contact chez Deezer, transformé en vidéo → 5 à 6 000 vues dès la sortie.</p></div></div>
+    <div class="qa"><div class="q"><span>Q52.</span>Comment se référencer auprès des IA ?</div><div class="a"><p>Quatre étapes : créer un compte <strong>Wikidata</strong> (la base numéro un des IA), avoir un <strong>site web</strong> que les IA peuvent lire, obtenir trois ou quatre <strong>articles de presse</strong> qui valident votre expertise, et alimenter un <strong>blog</strong> chaque semaine en visant les mots-clés de niche. Muzisecur est passé de 0 à 10 000 visiteurs/mois en six mois. Compter 2 à 3 ans pour devenir une autorité.</p></div></div>
+    <div class="qa"><div class="q"><span>Q53.</span>Pourquoi maintenant et pas dans deux ans ?</div><div class="a"><p>Parce que les majors vont finir par comprendre : un consultant à 50 000 €, un plan d'action, 500 000 € de budget, et en quelques semaines c'est plié. Elles ont déjà cette vision sur la création, pas encore sur le marketing. Et Google vise plus de <strong>90 % des requêtes sur des LLM d'ici moins d'un an</strong>, avec un objectif interne fixé à 2027. <strong>La fenêtre de tir est maintenant.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q54.</span>Où poser mes questions et jusqu'à quand ai-je accès à la formation ?</div><div class="a"><p><strong>WhatsApp</strong> en priorité, email ensuite. Pas Skool — qui sert à interagir avec les 1 300 autres membres (recherche par statut, carte des membres, entraide). L'accès à la plateforme et à ses mises à jour est <strong>à vie</strong> ; les dates de début et de fin ne servent que le formalisme légal. Prévoyez 10 à 12 heures par semaine, et l'évaluation finale est une présentation de 10 minutes devant un jury, préparée ensemble.</p></div></div>
+
+  </div>
+</div>
+
+<div class="plan">
+  <h2>Plan d'action</h2>
+  <p>Cochez au fur et à mesure. Les quatre phases suivent l'ordre de priorité de la session : se structurer d'abord, encaisser ensuite, puis construire la visibilité.</p>
+
+  <div class="phase">Phase 1 — Cette semaine : la structuration minimale</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Statut</b>Créer son statut d'artiste-auteur sur artiste-auteur.urssaf.fr — 24 h, 0 €, en demandant explicitement la possibilité de générer des numéros</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Option fiscale</b>Choisir le BNC au réel plutôt que le micro-BNC, pour pouvoir déduire toutes ses dépenses</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Précompte</b>Envoyer à la SACEM l'attestation de demande de précompte, pour que l'URSSAF prélève au vrai taux</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Objectifs</b>Définir trois à cinq objectifs prioritaires maximum, créer trois cases dans Notion et lister les actions de chacune</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Agenda</b>Bloquer dans Google Agenda les créneaux de formation de tout le mois — et les créneaux individuels de la formation</span></li>
+  </ul>
+
+  <div class="phase">Phase 2 — Ce mois-ci : récupérer ce qui vous est dû</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Inventaire ISRC</b>Lister toutes ses œuvres commercialisées et retrouver leur code ISRC, audio et vidéo</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Adhésion</b>Si cinq œuvres ou plus : ouvrir son compte SPPF ou SCPP (150 € une fois à vie)</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Rattachement</b>Déclarer chaque ancienne œuvre à son compte producteur, screenshot de la sortie digitale à l'appui — les droits non répartis sont versés d'un coup</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Contrats</b>Relire ses contrats de coproduction pour vérifier qui a la main sur la gestion des droits voisins</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Aide CNM</b>Vérifier son éligibilité à la bourse auteur-compositeur (5 000 €) : un titre déposé à la SACEM dans l'année suffit</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>110 bis</b>Vérifier avec son comptable que l'article 110 bis du CGI est bien activé sur sa déclaration</span></li>
+  </ul>
+
+  <div class="phase">Phase 3 — Ce trimestre : la fan base et l'offre</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Ratio budget</b>Recalculer son budget : marketing = 2 × production. Et renoncer à l'attaché de presse pour cette sortie</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Système de capture</b>Mettre en place le système d'adhésion (LearnyBox, Systeme.io ou une formule gratuite) avant de lancer la pub</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Ciblage géographique</b>Cibler ses campagnes sur son propre bassin, pour obtenir une fan base mobilisable physiquement</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Première offre</b>Concevoir un événement privé pour sa base : 30 à 50 places, 20 à 35 € — et prévoir la captation vidéo</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Offre récurrente</b>Concevoir un abonnement : coulisses de production, votes sur le track listing, nom des abonnés sur le disque</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Cadence de sortie</b>Planifier un titre par mois minimum — et l'écosystème qui permet de produire vite et pas cher</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Structure</b>Si les revenus dépassent trois fois le coût d'une structure, ou si vous investissez vos fonds propres : créer une SAS et passer les apports en compte courant d'associés</span></li>
+  </ul>
+
+  <div class="phase">Phase 4 — Les six prochains mois : l'IA et la visibilité durable</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>EPK</b>Créer son Electronic Press Kit avec l'IA : photo, citation, chiffres, clips, photos de scène, deux formules, contact, témoignages</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Base de prospection</b>Faire construire par l'IA une base de salles et lieux culturels ciblés, avec les décideurs nommés et leurs coordonnées</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Email de prospection</b>Écrire un objet qui titille la curiosité, un corps en slippery slide, une preuve sociale, une question fermée — et jamais de pièce jointe</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Envois progressifs</b>Segmenter la base en lots de 50 à 100, espacer les envois, lire les stats avant d'accélérer</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Wikidata</b>Créer sa fiche Wikidata — la base de données numéro un utilisée par les IA</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Site web</b>Créer un site où vous maîtrisez votre récit, avec des sections FAQ que les IA peuvent lire</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Articles de presse</b>Démarcher trois ou quatre médias ou blogs ciblés pour une interview qui vous positionne comme référence</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Blog</b>Publier un article par semaine sur des mots-clés de niche, en y greffant une œuvre à chaque fois</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Veille Reddit</b>Brancher une IA sur Reddit chaque semaine pour remonter les sujets chauds de son audience — et créer du contenu en face</span></li>
+  </ul>
+</div>
+
+<div class="quiz">
+  <h2>Quiz de révision</h2>
+  <p>Six questions pour vérifier que l'essentiel est passé. Une seule bonne réponse par question.</p>
+
+  <div class="qz" data-g="1">
+    <div class="qt">1. Le plafond de 50 000 € dont on parle pour l'artiste-auteur concerne :</div>
+    <button class="opt">Le montant maximum de revenus autorisés sous ce statut</button>
+    <button class="opt">La franchise de TVA, pas le statut lui-même</button>
+    <button class="opt">Le plafond de l'article 110 bis</button>
+    <div class="fb">Exact. Les 50 000 € (majorés à 55 000) sont le seuil de non-assujettissement à la TVA. Sur le statut lui-même, il n'y a pas de limite légale — vous pourriez percevoir 100 000 €. Les seules limites sont logiques : au-delà, la fiscalité en société devient plus avantageuse.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <div class="qt">2. Un numéro ISRC « provisoire » avec la racine 9W1 :</div>
+    <button class="opt">Doit être remplacé dès que vous obtenez votre racine producteur</button>
+    <button class="opt">Empêche définitivement de collecter des droits voisins</button>
+    <button class="opt">Est en réalité définitif — mais le titre peut être rattaché à votre compte producteur</button>
+    <div class="fb">Exact. Le mot « provisoire » signifie seulement qu'il n'a pas de racine producteur à vous. Le code ne changera jamais. En revanche, en le déclarant à la SPPF ou la SCPP avec un screenshot de la sortie digitale, vous rattachez le titre à votre catalogue — et les droits non répartis vous sont versés d'un coup.</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <div class="qt">3. Vous démarrez un label, sans revenu immédiat prévu. La forme recommandée est :</div>
+    <button class="opt">La SAS — aucune charge sociale obligatoire, moins de 50 € de frais de greffe</button>
+    <button class="opt">La SARL — les charges sur rémunération y sont plus basses</button>
+    <button class="opt">L'association loi 1901 — c'est plus simple à gérer</button>
+    <div class="fb">Exact. Une SARL à zéro de chiffre d'affaires coûte quand même 2 000 à 3 000 € par an de cotisations obligatoires. La SARL ne devient intéressante que si vous savez que vous vous verserez une rémunération mensuelle. Et l'association impose une activité réellement non lucrative — sinon les sanctions sont civiles, en nom propre.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <div class="qt">4. Le ratio de budget recommandé pour la sortie d'un EP est :</div>
+    <button class="opt">60 % production, 40 % marketing</button>
+    <button class="opt">Tout en production : la qualité technique fait la différence</button>
+    <button class="opt">Budget marketing = deux fois le budget production</button>
+    <div class="fb">Exact — et Tarik cherche à faire plus déséquilibré encore : 1 000 € en production pour 10 000 € en marketing. La raison : la musique finit dans un téléphone et des enceintes de voiture très limitées en fréquence. S'il faut trancher, c'est sur la technique qu'on tranche.</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <div class="qt">5. Vous passez 300 fois par semaine sur une radio associative. Conséquence sur vos droits SACEM :</div>
+    <button class="opt">Vous percevez proportionnellement au nombre de diffusions</button>
+    <button class="opt">Probablement rien : la SACEM ne mesure qu'un panel de radios décidé chaque année</button>
+    <button class="opt">Vous percevez un forfait par antenne diffusante</button>
+    <div class="fb">Exact. La SACEM décide chaque année d'un panel censé représenter l'ensemble des genres. Hors panel, les diffusions ne collectent rien. Même mécanique en discothèque : moins de 50 clubs sondés, avec en plus des heures de sondage tournantes — ce qui a massivement pénalisé le reggaeton et le zouk.</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <div class="qt">6. Vous avez 500 fans en base après votre campagne. L'étape suivante est :</div>
+    <button class="opt">Formuler une offre qui génère des revenus — événement privé, abonnement, packages</button>
+    <button class="opt">Engager un attaché de presse pour viser les radios</button>
+    <button class="opt">Attendre d'en avoir 5 000 avant de proposer quoi que ce soit</button>
+    <div class="fb">Exact. 50 participants à 20 € font 1 000 € par soirée ; deux soirées par mois pendant trois mois amortissent 5 000 € de budget pub. Et 10 % de 1 000 fans à 10 €/mois d'abonnement font 1 000 € récurrents. On n'a pas besoin d'être Beyoncé : pour quelqu'un, vous êtes quelqu'un d'important.</div>
+  </div>
+
+  <div class="score" id="score"></div>
+</div>
+
+</div>
+
+<footer>
+  <p><b>Producteur à Succès</b> — Replay de la session Zoom du 4 novembre 2026</p>
+  <p>Support de cours interactif · 159 chapitres · 5 h 01 de session</p>
+</footer>
+
+<script>
+var CH = [[0, "Accueil et problème d'accès à la plateforme"], [321, "Régler le son et le bruit de fond"], [425, "Ouverture de la session"], [491, "Le cadre des sessions live obligatoires"], [542, "Cinq heures de connexion : le cadre à respecter"], [696, "Tour de table"], [712, "Agatha : tout fait à l'envers par manque d'infos"], [778, "Delphine : des pastiches de comptines pour enfants"], [851, "Pauline : un EP en janvier et des dates à trouver"], [954, "Les blocs de questions au programme"], [1079, "La structuration, l'élément le plus important"], [1101, "Le statut d'artiste-auteur, trop méconnu"], [1158, "Ce que l'artiste-auteur permet de facturer"], [1216, "12 à 14 % de charges et franchise de TVA"], [1263, "Un statut cumulable toute la vie"], [1308, "Se facturer des prestations à son label"], [1353, "Le cas du duo : et ma guitariste ?"], [1389, "Cachet, facture ou coproduction"], [1588, "Facturer son distributeur en artiste-auteur"], [1716, "L'attestation de précompte SACEM"], [1785, "Vendre une cession de prestation musicale"], [1862, "Le BNC au réel : déduire toutes ses dépenses"], [1920, "L'IRCEC et le vrai taux de charges sociales"], [1973, "L'article 110 bis : lisser ses revenus sur 5 ans"], [2065, "Le plafond de 50 000 € mal compris"], [2122, "Piloter sa fiscalité par la facturation"], [2196, "Le CIPP, le crédit d'impôt phonographique"], [2308, "Le virement de 180 000 € de l'État"], [2337, "Les critères d'éligibilité au crédit d'impôt"], [2450, "Fonctionner comme un label sans avoir de label"], [2538, "Quand l'administratif bloque"], [2693, "Pourquoi l'asso n'est pas la bonne idée"], [2816, "La bourse auteur-compositeur du CNM"], [2891, "Cumuler salariat, artiste-auteur et société"], [3055, "Faut-il être aussi intermittent du spectacle ?"], [3196, "Le code ISRC expliqué caractère par caractère"], [3312, "Les trois façons d'obtenir un ISRC"], [3373, "Le numéro provisoire est en fait définitif"], [3480, "Devenir producteur et toucher ses droits voisins"], [3620, "Démonstration du répertoire SPPF"], [3828, "6 € par an pendant 16 ans de droits oubliés"], [3898, "SCPP ou SPPF : y a-t-il une différence ?"], [3964, "SCPP pro-major, SPPF pro-indépendant"], [3975, "1985 : la loi Lang et les deux sociétés"], [4175, "Agatha : l'EP coproduit à 70/30"], [4400, "L'ISRC est-il inscrit dans le fichier audio ?"], [4529, "À quoi sert vraiment l'ISRC"], [4610, "Une radio associative veut me diffuser"], [4672, "Le panel de radios de la SACEM"], [4726, "Le sondage arbitraire des discothèques"], [4842, "Le reggaeton et le zouk, grands perdants"], [4886, "Pause déjeuner"], [4995, "Les nouveaux relevés de présence horodatés"], [9035, "Reprise de l'après-midi"], [9095, "Par quel statut commencer ?"], [9131, "À partir de quel revenu créer une société ?"], [9162, "SAS : aucune charge sociale obligatoire"], [9198, "SARL : 2 000 à 3 000 € par an même à zéro"], [9267, "Gagner trois fois le coût de sa structure"], [9300, "2 500 € de compta pour 150 € de revenus"], [9355, "Le deuxième cas : investir ses fonds propres"], [9420, "L'apport en compte courant d'associés"], [9539, "Le routier qui a cramé 50 000 € à fonds perdus"], [9595, "Asso, SAS, SASU, SARL, EURL : que choisir ?"], [9631, "Quand l'association a vraiment du sens"], [9811, "Les trois dettes qui survivent à une liquidation"], [9947, "SARL : moins de charges sur la rémunération"], [10069, "SASU : meilleure couverture et chômage"], [10121, "Le PV de rémunération à zéro en SAS"], [10202, "Transformer une SARL en SAS"], [10332, "Quel budget pour sortir un premier EP ?"], [10381, "Le CIPP rembourse presque la moitié"], [10455, "Budget marketing = deux fois la production"], [10527, "Comment ventiler 10 000 € de marketing"], [10586, "Pourquoi pas d'attaché de presse au démarrage"], [10647, "Trouver son public : le trafic s'achète"], [10689, "La pub accélère tout dès le lendemain"], [10759, "500 fans en base : et maintenant ?"], [10834, "DJ Ticia : des soirées dans son appartement"], [11034, "Monter en gamme : le dîner avec l'artiste"], [11100, "L'abonnement coulisses d'album"], [11174, "Fonctionner à perte 6 à 18 mois"], [11286, "Musicast : traquer les diffusions radio"], [11408, "Les playlists radio et les têtes d'affiche"], [11445, "Deux entrées de playlist pour dix sorties"], [11728, "Les faux indépendants des parts de marché"], [11766, "D'abord la fan base, les radios ensuite"], [11886, "Les discothèques, son premier espace de liberté"], [11974, "Les sonorisateurs : l'Eldorado de l'époque"], [12070, "Un deal 50-50 sur 150 œuvres"], [12126, "Espace de liberté 1 : Internet"], [12184, "Espace de liberté 2 : la synchronisation"], [12254, "Démarcher les superviseurs musicaux"], [12295, "Miraculous : le brief TF1 remporté"], [12339, "6 000 € par épisode depuis l'Arkansas"], [12368, "Le piège du buyout"], [12496, "Le film turc numéro un sur Netflix"], [12540, "Danza Kuduro et Fast and Furious, 10 ans après"], [12614, "Espace de liberté 3 : les jeux vidéo en ligne"], [12678, "Roblox : 8 % des ventes dans le jeu"], [12802, "Primary Wave rachète les catalogues"], [12899, "Que ferais-tu différemment avec ton label ?"], [12929, "Bâtir des modèles d'affaires avant de signer"], [12956, "Une distribution digitale en Afrique de l'Ouest"], [13027, "L'intermédiation de mix et de mastering"], [13154, "Le profil d'artiste idéal à signer"], [13235, "Dupliquer sur un deuxième puis un troisième"], [13348, "Les projets coup de cœur et le seul regret"], [13460, "L'erreur la plus fréquente des indépendants"], [13475, "Erreur n°1 : ne pas assez produire"], [13542, "10 millions de comptes atteints, rien à vendre"], [13619, "Bâtir un écosystème pour produire vite"], [13693, "Erreur n°2 : ne pas penser fan base"], [13765, "Le web est sans permission"], [13840, "Erreur n°3 : le manque de structuration"], [13933, "140 000 € perdus par méconnaissance"], [13969, "Une seule chose à faire cette semaine"], [14016, "Notion et Google Agenda"], [14041, "Trois priorités, pas une de plus"], [14057, "Stu McLaren : de 70 000 à 100 millions"], [14128, "Le secret de l'étagère"], [14347, "Planifier chaque objectif dans l'agenda"], [14408, "Bloquer les repas, le sport et la famille"], [14608, "Les rétroplannings d'action"], [14724, "Le vrai noyau de la procrastination"], [14848, "Définir trois à cinq objectifs prioritaires"], [15017, "Dans quel ordre suivre les modules"], [15046, "Combien de temps par semaine prévoir"], [15073, "L'évaluation finale devant le jury"], [15203, "Où poser ses questions : WhatsApp d'abord"], [15237, "Skool, une ressource sous-estimée"], [15360, "La carte des membres près de chez vous"], [15435, "Qui se cache vraiment dans la communauté"], [15546, "Faut-il utiliser l'IA ?"], [15588, "Créer un EPK avec l'IA"], [15630, "L'EPK de Makassy, décortiqué"], [15736, "Le disque d'or de Shy'm et les 700 000 € perdus"], [15934, "Prospecter des milliers de salles avec l'IA"], [16013, "Brancher un autorépondeur sur sa base"], [16208, "L'objet qui fait ouvrir l'email"], [16333, "L'artiste qui amène sa propre communauté"], [16412, "Preuve sociale et slippery slide effect"], [16475, "Jamais de pièce jointe en prospection froide"], [16575, "Lire Reddit avec l'IA pour trouver ses sujets"], [16713, "L'exemple Distrokid : du sujet chaud à la vidéo"], [16813, "Atteindre des journalistes avec l'IA"], [16964, "Le conseil TikTok de 2018"], [17060, "Google mode IA va remplacer le moteur"], [17123, "2027, la priorité absolue de Google"], [17176, "Wikidata, la base numéro un des IA"], [17241, "Des articles de presse pour valider son récit"], [17317, "Alimenter un blog chaque semaine"], [17405, "90 % des recherches sur des IA d'ici un an"], [17446, "MusiSecur : de 0 à 10 000 visiteurs en 6 mois"], [17704, "La génération qui ne cherche plus que par IA"], [17770, "La fenêtre de tir avant les majors"], [17837, "La formation offerte en fin de parcours"], [17913, "Les FAQ que les IA adorent"], [18005, "Le bug de l'exercice partagé et clôture"]];
+
+var frame = document.getElementById('vimeoPlayer');
+
+function fmt(s){ var m = Math.floor(s/60), x = s%60; return m + ':' + (x<10?'0':'') + x; }
+
+function seek(sec){
+  if (!frame || !frame.contentWindow) return;
+  try {
+    frame.contentWindow.postMessage(JSON.stringify({method:'setCurrentTime', value: sec}), '*');
+    frame.contentWindow.postMessage(JSON.stringify({method:'play'}), '*');
+  } catch(e){}
+  var top = frame.getBoundingClientRect().top + window.pageYOffset - 20;
+  window.scrollTo({top: top < 0 ? 0 : top, behavior:'smooth'});
+}
+
+(function(){
+  var host = document.getElementById('chlist');
+  if (!host) return;
+  CH.forEach(function(c){
+    var b = document.createElement('button');
+    var t = document.createElement('b'); t.textContent = fmt(c[0]);
+    var s = document.createElement('span'); s.textContent = c[1];
+    b.appendChild(t); b.appendChild(s);
+    b.addEventListener('click', function(){ seek(c[0]); });
+    host.appendChild(b);
+  });
+})();
+
+(function(){
+  document.querySelectorAll('.tc').forEach(function(el){
+    var parts = el.textContent.split(/(\d+:\d{2})/);
+    if (parts.length < 2) return;
+    el.textContent = '';
+    parts.forEach(function(p){
+      if (/^\d+:\d{2}$/.test(p)) {
+        var mm = p.split(':');
+        var sec = parseInt(mm[0],10)*60 + parseInt(mm[1],10);
+        var btn = document.createElement('button');
+        btn.className = 'seek'; btn.textContent = p;
+        btn.addEventListener('click', function(){ seek(sec); });
+        el.appendChild(btn);
+      } else {
+        el.appendChild(document.createTextNode(p));
+      }
+    });
+  });
+})();
+
+window.addEventListener('scroll', function(){
+  var h = document.documentElement;
+  var max = h.scrollHeight - h.clientHeight;
+  var p = max > 0 ? (h.scrollTop / max) * 100 : 0;
+  document.getElementById('progress').style.width = p + '%';
+});
+
+document.querySelectorAll('.chk li').forEach(function(li){
+  li.addEventListener('click', function(){ li.classList.toggle('done'); });
+});
+
+(function(){
+  var total = document.querySelectorAll('.qz').length, answered = 0, good = 0;
+  document.querySelectorAll('.qz').forEach(function(qz){
+    var g = parseInt(qz.getAttribute('data-g'), 10);
+    var opts = qz.querySelectorAll('.opt');
+    var fb = qz.querySelector('.fb');
+    opts.forEach(function(opt, i){
+      opt.addEventListener('click', function(){
+        if (qz.classList.contains('answered')) return;
+        qz.classList.add('answered');
+        answered++;
+        if (i === g) { opt.classList.add('good'); good++; }
+        else { opt.classList.add('bad'); opts[g].classList.add('good'); }
+        fb.classList.add('show');
+        if (answered === total) {
+          var sc = document.getElementById('score');
+          sc.textContent = 'Score : ' + good + ' / ' + total + (good === total ? ' — parfait.' : ' — relisez les chapitres concernés.');
+          sc.classList.add('show');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

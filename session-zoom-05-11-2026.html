@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session Zoom du 5 novembre 2026 — Questions / Réponses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED; --primary-dark:#4C1D95; --primary-light:#EDE9FE;
+  --accent:#F59E0B; --accent-light:#FEF3C7;
+  --success:#10B981; --success-light:#D1FAE5;
+  --danger:#EF4444; --danger-light:#FEE2E2;
+  --info:#3B82F6; --info-light:#DBEAFE;
+  --ink:#1A1523; --muted:#5B5670; --line:#E7E4EF; --bg:#FAF9FC; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+.progress-wrap{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(108,58,237,.12);z-index:999}
+#progress{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+.wrap{max-width:940px;margin:0 auto;padding-inline:20px}
+
+.hero{background:linear-gradient(140deg,#3B1D80 0%,#6C3AED 55%,#8B5CF6 100%);color:#fff;padding-block:60px 52px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{content:"";position:absolute;left:-60px;bottom:-120px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.05)}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:700;margin-bottom:14px;position:relative;z-index:2}
+.hero .sub{font-size:17px;opacity:.92;max-width:690px;position:relative;z-index:2}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;position:relative;z-index:2}
+.meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:7px 14px;border-radius:10px;font-size:13.5px;font-weight:500}
+
+/* LECTEUR */
+.player-wrap{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:-32px;position:relative;z-index:6;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.vid{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.chx{margin-top:16px;border:1px solid var(--line);border-radius:12px;background:#FBFAFE}
+.chx summary{cursor:pointer;padding:12px 16px;font-weight:650;font-size:14.5px;color:var(--primary-dark);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chx summary::-webkit-details-marker{display:none}
+.chx summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+.chx[open] summary::before{content:"▾ "}
+.chx summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+.chlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:2px;max-height:330px;overflow-y:auto;padding:0 10px 12px}
+.chlist button{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;background:transparent;border:0;border-radius:9px;padding:8px 10px;font-family:inherit;font-size:14.5px;color:var(--ink);cursor:pointer;line-height:1.45;transition:background .12s}
+.chlist button:hover{background:var(--primary-light);color:var(--primary-dark)}
+.chlist b{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;min-width:54px}
+button.seek{background:var(--primary-light);border:1px solid #DDD3FA;color:var(--primary-dark);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;cursor:pointer;font-variant-numeric:tabular-nums;transition:all .12s}
+button.seek:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.player-wrap + .toc{margin-top:26px}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:-32px;position:relative;z-index:5;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.toc h2{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:16px;color:var(--primary-dark)}
+.toc ol{list-style:none;counter-reset:toc;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.toc li{counter-increment:toc}
+.toc a{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink);padding:9px 10px;border-radius:10px;font-size:14.5px;transition:background .15s}
+.toc a:hover{background:var(--primary-light);color:var(--primary-dark)}
+.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);font-size:13px;flex-shrink:0;padding-top:1px}
+
+section.chap{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+section.chap>.bar{height:5px;background:var(--primary)}
+.chap[data-c="a"]>.bar{background:var(--accent)} .chap[data-c="g"]>.bar{background:var(--success)}
+.chap[data-c="b"]>.bar{background:var(--info)} .chap[data-c="r"]>.bar{background:var(--danger)}
+.chead{padding:26px 28px 0;display:flex;gap:14px;align-items:center}
+.cnum{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--primary-light);color:var(--primary-dark);display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px}
+.chap[data-c="a"] .cnum{background:var(--accent-light);color:#92400E}
+.chap[data-c="g"] .cnum{background:var(--success-light);color:#065F46}
+.chap[data-c="b"] .cnum{background:var(--info-light);color:#1E40AF}
+.chap[data-c="r"] .cnum{background:var(--danger-light);color:#991B1B}
+.chead h2{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.25;font-weight:700}
+.tc{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-top:3px}
+.cbody{padding:18px 28px 28px}
+.cbody p{margin-bottom:14px}
+.cbody h3{font-family:'Space Grotesk',sans-serif;font-size:16.5px;margin:22px 0 10px;color:var(--primary-dark)}
+.cbody ul,.cbody ol{margin:0 0 14px 20px}
+.cbody li{margin-bottom:7px}
+strong{font-weight:650;color:#2D2540}
+em.q{font-style:italic;color:#413655}
+
+.box{border-radius:12px;padding:16px 18px;margin:18px 0;border-left:4px solid;font-size:15px}
+.box .bt{display:block;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.box p:last-child{margin-bottom:0}
+.b-key{background:var(--primary-light);border-color:var(--primary)} .b-key .bt{color:var(--primary-dark)}
+.b-warn{background:var(--accent-light);border-color:var(--accent)} .b-warn .bt{color:#92400E}
+.b-tip{background:var(--success-light);border-color:var(--success)} .b-tip .bt{color:#065F46}
+.b-info{background:var(--info-light);border-color:var(--info)} .b-info .bt{color:#1E40AF}
+.b-danger{background:var(--danger-light);border-color:var(--danger)} .b-danger .bt{color:#991B1B}
+
+.tbl{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:12px 14px;font-weight:600;font-size:13.5px}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#FBFAFE}
+
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.pc>div{border-radius:12px;padding:16px 18px;font-size:14.5px}
+.pc .ok{background:var(--success-light);border:1px solid #A7F3D0}
+.pc .ko{background:var(--danger-light);border:1px solid #FECACA}
+.pc h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.pc .ok h4{color:#065F46} .pc .ko h4{color:#991B1B}
+.pc ul{margin:0 0 0 18px} .pc li{margin-bottom:5px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
+.card{background:#FBFAFE;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h4{font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:6px;color:var(--primary-dark)}
+.card p{font-size:14px;color:var(--muted);margin:0}
+.stat h4{font-size:22px;font-family:'Space Grotesk',sans-serif}
+
+.tl{list-style:none;margin:18px 0;padding-left:26px;border-left:2px dashed var(--line)}
+.tl li{position:relative;margin-bottom:16px;font-size:15px}
+.tl li::before{content:"";position:absolute;left:-33px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light)}
+.tl b{display:block;font-family:'Space Grotesk',sans-serif;color:var(--primary-dark)}
+
+details{border:1px solid var(--line);border-radius:12px;margin:14px 0;background:#FBFAFE}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:15px;color:var(--primary-dark);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+details[open] summary::before{content:"▾ "}
+details .dc{padding:0 18px 16px;font-size:14.5px}
+
+.pull{margin:22px 0;padding:20px 24px;border-radius:14px;background:linear-gradient(120deg,#2D1B69,#4C1D95);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:19px;line-height:1.45;font-weight:600}
+.pull span{display:block;margin-top:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;opacity:.7;letter-spacing:.03em}
+
+.faq{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+.faq>.bar{height:5px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.faqhead{padding:26px 28px 0}
+.faqhead h2{font-family:'Space Grotesk',sans-serif;font-size:26px;color:var(--primary-dark)}
+.faqhead p{color:var(--muted);font-size:15px;margin-top:4px}
+.faqbody{padding:18px 28px 28px}
+.faqcat{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.faqcat:first-child{margin-top:6px}
+.qa{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:#FDFCFF}
+.qa .q{background:linear-gradient(90deg,var(--primary-light),#F6F3FF);padding:13px 18px;font-weight:650;color:var(--primary-dark);font-size:15.5px;display:flex;gap:10px}
+.qa .q span{flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.qa .a{padding:15px 18px;font-size:15px}
+.qa .a p{margin-bottom:10px} .qa .a p:last-child{margin-bottom:0}
+
+.plan{background:linear-gradient(140deg,#0F172A,#1E1B4B);color:#fff;border-radius:18px;padding:30px 28px;margin-top:26px}
+.plan h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:8px}
+.plan>p{opacity:.8;margin-bottom:20px;font-size:15px}
+.phase{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin:22px 0 10px}
+.phase:first-of-type{margin-top:0}
+.chk{list-style:none;margin:0;padding:0}
+.chk li{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;margin-bottom:9px;font-size:15px;cursor:pointer;transition:background .15s}
+.chk li:hover{background:rgba(255,255,255,.09)}
+.chk .bx{flex-shrink:0;width:20px;height:20px;border:2px solid rgba(255,255,255,.4);border-radius:6px;margin-top:3px;display:grid;place-items:center;font-size:13px;font-weight:700;color:transparent}
+.chk li.done .bx{background:var(--success);border-color:var(--success);color:#fff}
+.chk li.done .tx{opacity:.5;text-decoration:line-through}
+.chk .tx b{display:block;font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.04em;text-transform:uppercase;opacity:.65;margin-bottom:2px}
+
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px;margin-top:26px}
+.quiz h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:6px;color:var(--primary-dark)}
+.quiz>p{color:var(--muted);margin-bottom:22px;font-size:15px}
+.qz{margin-bottom:24px;padding-bottom:22px;border-bottom:1px dashed var(--line)}
+.qz:last-of-type{border-bottom:none}
+.qz .qt{font-weight:650;margin-bottom:12px;font-size:15.5px}
+.opt{display:block;width:100%;text-align:left;background:#FBFAFE;border:1.5px solid var(--line);border-radius:10px;padding:11px 15px;margin-bottom:8px;cursor:pointer;font-family:inherit;font-size:14.5px;color:var(--ink);transition:all .15s}
+.opt:hover{border-color:var(--primary);background:var(--primary-light)}
+.opt.good{background:var(--success-light);border-color:var(--success);font-weight:600}
+.opt.bad{background:var(--danger-light);border-color:var(--danger)}
+.fb{display:none;margin-top:10px;padding:12px 15px;border-radius:10px;font-size:14.5px;background:var(--info-light);border-left:4px solid var(--info)}
+.fb.show{display:block}
+.score{margin-top:20px;padding:16px;border-radius:12px;background:var(--primary-light);text-align:center;font-weight:650;color:var(--primary-dark);display:none}
+.score.show{display:block}
+
+footer{text-align:center;padding-block:40px 50px;color:var(--muted);font-size:14px}
+footer b{color:var(--primary-dark);font-family:'Space Grotesk',sans-serif}
+
+@media(max-width:640px){
+  .pc{grid-template-columns:1fr}
+  .chead,.faqhead{padding:22px 18px 0} .cbody,.faqbody{padding:16px 18px 22px}
+  .toc{padding:22px 18px} .plan,.quiz{padding:24px 18px}
+  .hero h1{font-size:27px} .pull{font-size:17px;padding:18px}
+  .player-wrap{padding:14px} .chlist{grid-template-columns:1fr;max-height:280px}
+}
+@media print{
+  .progress-wrap{display:none} body{background:#fff}
+  section.chap,.toc,.quiz,.faq{box-shadow:none;break-inside:avoid}
+  .opt{display:none}
+  .vid{display:none} .player-wrap{box-shadow:none;margin-top:20px}
+  .chlist{max-height:none;overflow:visible} .chlist button{padding:3px 0}
+  button.seek{background:none;border:0;padding:0;color:var(--primary-dark)}
+}
+</style>
+</head>
+<body>
+<div class="progress-wrap"><div id="progress"></div></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">Session Zoom mastermind · 5 novembre 2026</div>
+    <h1>Six heures de questions —<br>et toutes les réponses</h1>
+    <p class="sub">Une session complète en format mastermind : les droits d'auteur de A à Z, le choix d'un distributeur, les reprises et l'IA, la structuration d'un groupe, la méthode des objectifs, et le système qui transforme des auditeurs de passage en fans qui achètent.</p>
+    <div class="meta">
+      <span>⏱ 6 h 00</span>
+      <span>🎙 Tarik Hamiche</span>
+      <span>📌 157 chapitres</span>
+      <span>👥 Session de groupe</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="player-wrap">
+  <div class="vid">
+    <iframe id="vimeoPlayer"
+      src="https://player.vimeo.com/video/1243751639?h=2528fdb121"
+      title="Session Zoom du 5 novembre 2026"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  <details class="chx" id="chx">
+    <summary><span>Les 157 chapitres de la session</span><em>Cliquez un chapitre pour y aller</em></summary>
+    <div class="chlist" id="chlist"></div>
+  </details>
+</div>
+
+<nav class="toc">
+  <h2>Au programme</h2>
+  <ol>
+    <li><a href="#s1">La clé de répartition SACEM</a></li>
+    <li><a href="#s2">Un ou plusieurs projets artistiques ?</a></li>
+    <li><a href="#s3">Les rôles : producteur, éditeur, distributeur</a></li>
+    <li><a href="#s4">Collecter ses droits à l'étranger</a></li>
+    <li><a href="#s5">Rien déclaré : la marche à suivre</a></li>
+    <li><a href="#s6">Choisir son distributeur</a></li>
+    <li><a href="#s7">Synchro, exclusivité et durée du copyright</a></li>
+    <li><a href="#s8">Étude de cas : sortir un album</a></li>
+    <li><a href="#s9">Structurer un groupe</a></li>
+    <li><a href="#s10">Streams artificiels et contenus IA</a></li>
+    <li><a href="#s11">Content ID et YouTube</a></li>
+    <li><a href="#s12">Les reprises : tout ce qui est permis</a></li>
+    <li><a href="#s13">Demander une autorisation</a></li>
+    <li><a href="#s14">La méthode des objectifs</a></li>
+    <li><a href="#s15">1 000 fans et le système d'acquisition</a></li>
+    <li><a href="#s16">Argent, statut et réinvestissement</a></li>
+    <li><a href="#faq">FAQ de la session</a></li>
+    <li><a href="#plan">Plan d'action</a></li>
+    <li><a href="#quiz">Quiz de validation</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="chap" id="s1" data-c="r">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">01</div><div><h2>La clé de répartition SACEM</h2><div class="tc">⏱ 7:51 – 20:43</div></div></div>
+  <div class="cbody">
+    <p>Première question de la session, et sans doute la plus rentable de la journée : sur un bulletin de déclaration d'œuvre, à quoi servent les clés DEP et DRM ?</p>
+    <div class="box b-info"><span class="bt">Les deux familles de droits d'auteur</span><p><strong>Les DEP</strong> — droits d'exploitation publique — sont générés chaque fois que le morceau est diffusé devant du public : radios, télés, discothèques, restaurants, salons de coiffure, bars, salles de concert.</p><p><strong>Les DRM</strong> — droits de reproduction mécanique, aussi appelés droits phonos — sont générés chaque fois qu'un support est reproduit : un pressage de 1 000 exemplaires, ou une radio qui duplique le titre pour l'intégrer à son logiciel de programmation.</p></div>
+    <h3>Le piège statutaire</h3>
+    <div class="box b-danger"><span class="bt">Ce que la SACEM applique par défaut</span><p>Si vous ne faites rien, <strong>les DEP ne suivent pas votre clé de répartition.</strong> La SACEM applique sa règle statutaire : 50 / 50 entre auteurs et compositeurs quand l'œuvre n'est pas éditée, un tiers chacun quand elle l'est. Et à l'intérieur de chaque collège, parts égales.</p></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Situation</th><th>Ce que vous avez déclaré</th><th>Ce qui est réellement versé</th></tr></thead>
+      <tbody>
+        <tr><td>Case non cochée</td><td>Auteur 97 %, compositeur 3 %</td><td>50 % / 50 % — sur 100 000 €, le compositeur touche 50 000 au lieu de 3 000</td></tr>
+        <tr><td>Deux compositeurs, case non cochée</td><td>47 % et 3 %</td><td>25 % et 25 % — 47 000 € deviennent 25 000 €</td></tr>
+        <tr><td>Case cochée</td><td>Votre clé exacte</td><td>Votre clé exacte, sur les DEP comme sur les DRM</td></tr>
+      </tbody>
+    </table></div>
+    <div class="box b-key"><span class="bt">La case à cocher</span><p>Elle demande que <strong>le partage des DEP respecte la répartition déclarée</strong> (la « clé phono »). Elle n'existe que depuis le 1<sup>er</sup> janvier 2019. Les DRM, eux, suivent toujours la clé déclarée.</p></div>
+    <div class="box b-warn"><span class="bt">L'usage qu'on peut en faire</span><p>« Dès que tu avais quelqu'un d'un peu nerveux : <em class="q">non, moi je veux 25 points et pas un de moins</em> — je disais : prends 25, prends sur ma part, je ne prends qu'un point. » Parce que la clé finale était de toute façon à parts égales. <strong>À connaître pour ne pas le subir soi-même.</strong></p></div>
+    <div class="box b-tip"><span class="bt">Vérifié en direct pendant la session</span><p>Un participant a ouvert son compte SACEM : <strong>la case existe bien dans le dépôt en ligne</strong>, pas seulement sur le formulaire papier. En revanche, la part éditeur reste figée à un tiers des DEP quoi qu'il arrive — seuls les éditeurs peuvent négocier entre eux à l'intérieur de cette part.</p></div>
+    <div class="box b-info"><span class="bt">Et si on est seul ?</span><p>Aucun sujet : 100 % partout. Et la croyance selon laquelle on perdrait des droits sans éditeur est <strong>totalement fausse</strong> — confirmée en son temps par un dirigeant d'une grande société d'édition.</p></div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="chap" id="s2" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">02</div><div><h2>Un ou plusieurs projets artistiques ?</h2><div class="tc">⏱ 20:43 – 25:28</div></div></div>
+  <div class="cbody">
+    <p>La question : un artiste qui fait du hip-hop, de la chanson jazz, du néo-folk, du rap et du théâtre doit-il tout communiquer sous une seule identité ou séparer les comptes ?</p>
+    <div class="box b-key"><span class="bt">La réponse ne dépend pas de l'esthétique</span><p>Elle dépend de <strong>l'avatar</strong> — le fan idéal. Si deux entités parlent au même public, un seul compte suffit. Si elles parlent à des publics différents, il faut trois marques, trois storytellings, trois stratégies.</p></div>
+    <div class="box b-info"><span class="bt">Pourquoi c'est crucial</span><p>Parce que vous utiliserez les régies publicitaires pour retargeter ce public. <strong>Si vous parlez de jazz à un fan de rap</strong>, le message tombe à plat et le budget est perdu.</p></div>
+    <h3>Deux exemples où ça matche</h3>
+    <div class="cards">
+      <div class="card"><h4>Psychologie et rap</h4><p>Un membre de la formation produit des contenus de psychologie neurolinguistique et fait du rap. Même avatar, les deux fonctionnent sur un seul compte.</p></div>
+      <div class="card"><h4>Humour de couple et pop rock folk</h4><p>Un duo suivi en mentorat mélange contenus d'humour en couple et contenus musicaux. On ne vient pas les voir pour la même raison — mais c'est le même public.</p></div>
+    </div>
+    <div class="box b-warn"><span class="bt">Le cas où il faut séparer</span><p>Une artiste qui rappe et fait du classique. Impossible de présenter l'un au public de l'autre. Les deux stratégies ont donc été montées différemment : <strong>performance musicale d'un côté, storytelling et valeurs de l'autre.</strong> Les deux marchent — mais c'est deux fois plus de travail, sur tout : réflexion, planning, formats.</p></div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="chap" id="s3" data-c="">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">03</div><div><h2>Les rôles : producteur, éditeur, distributeur</h2><div class="tc">⏱ 25:28 – 30:38</div></div></div>
+  <div class="cbody">
+    <p>« Qui est l'éditeur quand on n'a pas d'éditeur ? » La question est pertinente, mais elle mélange des rôles qu'il faut d'abord séparer.</p>
+    <ul class="tl">
+      <li><b>Le créateur</b>Celui qui écrit et compose. C'est vous.</li>
+      <li><b>Le producteur</b>Celui qui finance la <em>fixation sur support</em> — l'enregistrement en studio. En autoprod, c'est encore vous.</li>
+      <li><b>Le distributeur</b>Il prend le master et le met en vente partout. Il n'a rien à voir avec l'œuvre ni avec les masters : il livre, il encaisse, il prend sa commission.</li>
+      <li><b>L'éditeur</b>Il collecte la part éditoriale. Et son rôle a deux visages.</li>
+    </ul>
+    <div class="pc">
+      <div class="ok"><h4>Ce qu'un éditeur promet</h4><ul><li>L'administratif et le contractuel</li><li>Clearer les samples, gérer les conflits</li><li>Placer les titres, mettre en réseau</li><li>Cofinancer le développement marketing</li><li>Inviter sur des séminaires d'écriture</li></ul></div>
+      <div class="ko"><h4>Ce qu'il fait réellement</h4><ul><li>Le dépôt d'œuvres</li><li>La collecte de l'argent</li><li>S'assurer que les droits remontent bien — repérer 300 diffusions sur une radio canadienne et les faire valoir</li><li>« Il a un rôle un peu bâtard aujourd'hui, il faut le dire »</li></ul></div>
+    </div>
+    <div class="box b-key"><span class="bt">La réponse directe</span><p>Si vous avez écrit et composé à 100 %, <strong>il ne faut pas parler d'éditeur</strong> : vous générez déjà 100 % des revenus. L'éditeur devient utile quand il y a d'autres auteurs sur l'œuvre et que vous voulez capter une part plus importante — ce qui passe par une société d'édition, ou l'édition à compte d'auteur.</p></div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="chap" id="s4" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">04</div><div><h2>Collecter ses droits à l'étranger</h2><div class="tc">⏱ 30:38 – 39:40</div></div></div>
+  <div class="cbody">
+    <p>Vous êtes à la SACEM pour le monde et vous commencez à exploser aux États-Unis ou en Amérique du Sud. Trois options, toutes testées.</p>
+    <h3>Option 1 — laisser la SACEM gérer</h3>
+    <div class="box b-danger"><span class="bt">Le retour d'expérience</span><p>« Tu peux t'asseoir d'avance sur à peu près <strong>70 % des droits</strong> et tu vas attendre très longtemps. »</p><p>Sur un disque d'or au Canada : droits touchés <strong>entre 7 et 10 ans après</strong>, avec décalage d'exercice (2013 perçu en 2020, 2014 en 2021). Double commission au passage — la SOCAN prend la sienne, puis la SACEM la sienne. Et des pertes découvertes après coup : les radios des réserves du nord du Canada, les télés, jamais payées.</p></div>
+    <h3>Option 2 — la fragmentation de territoire</h3>
+    <div class="box b-info"><span class="bt">Le principe</span><p>On dit à la SACEM : « tu me représentes pour le monde, sauf le Canada » et on donne mandat à la société locale. On collecte à la source.</p><p><strong>Le bonus :</strong> l'accès à des aides locales. Au Québec, un projet enregistré sur place avec un artiste québécois chantant en français peut ouvrir <strong>25 000 à 45 000 $ d'aides</strong>.</p></div>
+    <div class="box b-warn"><span class="bt">La limite</span><p>« On a probablement la meilleure société de perception du monde. » Les sociétés locales collectent souvent moins bien — beaucoup de radios y remplissent encore des piges à la main. Un tube à 100 000 € en France peut n'en générer que 25 000 au Canada, non pas parce que les médias ont moins payé, mais parce que personne ne va chercher ce qui n'a pas été remonté.</p><p>À noter au passage : <strong>le micro-panel</strong>. Vous pouvez être diffusé 2 000 fois dans l'année et toucher zéro si vous n'avez pas été joué au moins une fois par une radio du panel défini en début d'année.</p></div>
+    <h3>Option 3 — l'admin deal (la recommandée)</h3>
+    <div class="box b-key"><span class="bt">Comment ça marche</span><p>Un contrat de sous-édition avec un bon éditeur local. Contre 10 à 20 % selon le deal, il dépose l'œuvre auprès de la société locale <strong>et fait le travail de tracking</strong> que personne d'autre ne fera.</p><p>Vous restez membre de la SACEM ; c'est simplement le titre qui est apporté au répertoire local via l'éditeur. Pensez à renseigner votre numéro IPI pour être crédité.</p></div>
+    <div class="box b-warn"><span class="bt">Les risques et le filtre à appliquer</span><p>Si l'éditeur ne vous paye pas, il faut aller au procès — long et coûteux. S'il est liquidé, l'argent est perdu. <strong>Le critère : des structures présentes depuis au moins 30 ans</strong>, dont on connaît les dirigeants et dont la santé financière est solide. « Les éditeurs qui ont un gros back catalogue ne coulent jamais. »</p></div>
+    <div class="box b-info"><span class="bt">Et Songtrust ?</span><p>Ça marche pour les petits créateurs, et ils sont très forts sur le digital. Mais <strong>ça ne remplacera jamais un éditeur de métier</strong> — et ils sont faibles sur les médias traditionnels, radio, télé, lieux publics, là où se capte le plus d'argent.</p></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="chap" id="s5" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">05</div><div><h2>Rien déclaré : la marche à suivre</h2><div class="tc">⏱ 43:40 – 54:35</div></div></div>
+  <div class="cbody">
+    <div class="box b-info"><span class="bt">Le cas posé</span><p>« J'ai déjà sorti trois titres sans rien déclarer nulle part. Je fais quoi en premier ? »</p></div>
+    <ul class="tl">
+      <li><b>Étape 1 — SACEM</b>Une capture d'écran de vos sorties suffit à être éligible. L'adhésion coûte 100 €, une fois, à vie. On adhère et on dépose les œuvres dans la foulée.</li>
+      <li><b>Étape 2 — ADAMI et SPEDIDAM</b>Les deux, 15 € chacun. Ils protègent les interprètes — et en MAO, <strong>toutes les programmations comptent comme un travail d'interprète</strong>.</li>
+      <li><b>Étape 3 — SCPP ou SPPF</b>Les droits voisins des producteurs. En autoprod, vous êtes aussi producteur. Il faut choisir l'une ou l'autre, pas les deux. Cinq œuvres minimum.</li>
+    </ul>
+    <div class="box b-danger"><span class="bt">Le délai à ne surtout pas rater</span><p>Pour une sortie digitale, <strong>l'œuvre doit être déposée dans l'année de la sortie.</strong> Sinon la première année de droits d'auteur collectés sur l'exploitation digitale est définitivement perdue.</p><p>Un gros artiste qui fait 8 millions de streams et dépose hors délai perd les droits d'auteur sur ces 8 millions. Les recettes d'exploitation restent, mais pas les droits d'auteur. La règle est récente : avant, on déposait trois ou quatre ans plus tard sans conséquence.</p></div>
+    <h3>Les trois grandes familles de droits</h3>
+    <div class="cards">
+      <div class="card"><h4>DEP</h4><p>Diffusion devant un public. Le bloc le plus important en volume.</p></div>
+      <div class="card"><h4>DRM</h4><p>Chaque reproduction d'un support contenant la musique.</p></div>
+      <div class="card"><h4>Copie privée</h4><p>Instaurée en 1985 : une taxe sur chaque ordinateur, smartphone, clé USB ou support de stockage vendu, redistribuée aux ayants droit. Quelques millions d'euros par an.</p></div>
+    </div>
+    <div class="box b-key"><span class="bt">Pourquoi faire tout ça même sans succès</span><p>« Vous n'avez pas besoin de faire des tubes pour vivre de votre musique. » Il faut une exploitation raisonnable et <strong>un catalogue qui grossit chaque année</strong>. Répartition SACEM en janvier, SPEDIDAM en mars, ADAMI en avril, SPPF en mai — ça rentre toute l'année.</p></div>
+    <div class="box b-tip"><span class="bt">Pour ne plus confondre SCPP et SPPF</span><p>1985, Jack Lang instaure les droits voisins des producteurs. <strong>Les cinq majors</strong> de l'époque créent la SCPP pour se répartir la collecte entre elles. Les cinq plus gros indépendants refusent d'en dépendre et créent <strong>la SPPF</strong> moins d'un an après.</p><p>Aujourd'hui c'est plus mélangé : trois majors et quelques milliers d'indépendants à la SCPP, et à la SPPF des indépendants de la taille d'une major.</p></div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="chap" id="s6" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">06</div><div><h2>Choisir son distributeur</h2><div class="tc">⏱ 56:40 – 67:10</div></div></div>
+  <div class="cbody">
+    <h3>Agrégateur ou distributeur ?</h3>
+    <div class="pc">
+      <div class="ko"><h4>Les agrégateurs</h4><ul><li>TuneCore, CD Baby, DistroKid, iMusician…</li><li>Entièrement automatisés : aucun humain derrière</li><li>Une erreur de master ou une lettre dans un nom devient une galère</li><li>Abonnement mensuel ou annuel</li><li>Mieux que rien si vous n'avez rien</li></ul></div>
+      <div class="ok"><h4>Les distributeurs</h4><ul><li>Un interlocuteur humain</li><li>Une relation avec les DSP</li><li>Un contrat de distribution — indispensable pour les aides</li><li>Un accompagnement marketing sur les projets qui décollent</li></ul></div>
+    </div>
+    <div class="box b-danger"><span class="bt">Le piège des « 100 % des royalties »</span><p>Les agrégateurs tiennent leur promesse : ils vous reversent 100 % de ce qu'ils perçoivent. <strong>Mais ils ne perçoivent pas 100 % de ce que vous générez.</strong></p><p>Entre le DSP et l'agrégateur, il existe un accord d'apporteur d'affaires : la plateforme rétrocommissionne l'agrégateur au volume de titres ou de chiffre d'affaires apporté. Cette part-là ne vous atteint jamais. « Quand on vous reverse 100 % de ce que vous générez, dites-vous qu'il y a un biais quelque part. »</p></div>
+    <h3>Les quatre critères de choix</h3>
+    <ul class="tl">
+      <li><b>1. Il vous répond et accepte</b>Le plus dur à obtenir. Si quatre distributeurs sur soixante-dix répondent, le choix se fait parmi ces quatre.</li>
+      <li><b>2. Le contact humain</b>« Je n'arrive pas à travailler avec quelqu'un avec qui je ne m'entends pas. »</li>
+      <li><b>3. Le réseau et l'accessibilité</b>Partenariats médias, réseaux de playlists, spécialisation par genre. À vérifier au regard de ce que vous faites.</li>
+      <li><b>4. La qualité du contrat</b>Chez certains, le premier contrat envoyé est truffé de frais cachés qu'il faut faire sauter un par un. Ils le savent. N'hésitez pas à sortir le physique du deal si vous n'en faites pas.</li>
+    </ul>
+    <div class="box b-tip"><span class="bt">Point pratique</span><p>Il faut choisir dans <strong>la liste des distributeurs agréés par les financeurs</strong> — ceux qui octroient les aides exigent une structure identifiée comme distributeur et un contrat de distribution. La liste a été partagée dans le chat pendant la session.</p></div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="chap" id="s7" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">07</div><div><h2>Synchro, exclusivité et durée du copyright</h2><div class="tc">⏱ 67:10 – 76:30</div></div></div>
+  <div class="cbody">
+    <div class="box b-info"><span class="bt">La question</span><p>Un éditeur signe un contrat d'exclusivité de cinq ans avec un artiste. Une musique est placée sur une série diffusée dix ans. Que se passe-t-il après cinq ans ?</p></div>
+    <div class="box b-key"><span class="bt">La confusion à lever</span><p>Il y a <strong>deux durées distinctes</strong> : la durée d'exclusivité du contrat, et la durée de protection de l'œuvre. Ce ne sont pas les mêmes choses et elles ne se recouvrent pas.</p></div>
+    <h3>Ce qu'est une synchro</h3>
+    <p>Un placement de musique à l'image. Une marque paye pour le droit de mettre votre musique sur sa publicité, et des droits tombent à chaque diffusion.</p>
+    <h3>À la fin de l'exclusivité</h3>
+    <ul class="tl">
+      <li><b>Côté producteur</b>Vous êtes libéré de l'exclusivité et de la part que la marque prenait sur les recettes d'exploitation. Soit la pub n'est plus diffusée et les revenus sont à zéro, soit elle continue — et vous percevez alors 100 % des droits voisins de producteur.</li>
+      <li><b>Côté éditorial</b>Tout dépend de ce qui a été signé. Édition pour la durée de vie du copyright : aucun sujet, c'est à vie. Contrat de coédition limité à cinq ans : au-delà, l'éditeur ne perçoit plus rien.</li>
+    </ul>
+    <div class="box b-tip"><span class="bt">La bonne construction — plus simple qu'on ne croit</span><p><strong>Le pacte de préférence</strong> avec l'auteur est limité à cinq ans ou à un nombre d'œuvres : c'est la loi.</p><p><strong>Le dépôt de chaque œuvre</strong>, lui, se fait pour la durée légale du copyright — 70 ans après la mort du dernier ayant droit vivant. Diffusée 40 ans, vous êtes payé 40 ans. Aucune clause supplémentaire n'est nécessaire.</p><p>C'est pour ça qu'on joint en annexe du pacte de préférence une copie du contrat type de cession et d'édition.</p></div>
+    <div class="box b-warn"><span class="bt">Le seul risque à surveiller</span><p>Le contrat peut être dénoncé si l'auteur prouve que vous <strong>n'assurez pas une exploitation constante et permanente</strong> de l'œuvre. La parade : envoyer le titre à des superviseurs trois ou quatre fois par an. Même sans réponse, vous pouvez prouver l'exploitation.</p></div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="chap" id="s8" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">08</div><div><h2>Étude de cas : sortir un album</h2><div class="tc">⏱ 85:40 – 122:20</div></div></div>
+  <div class="cbody">
+    <p>Un membre sort son premier album de chanson jazz en janvier : tout autoproduit, contrat de distribution signé, aide à l'autoproduction SACEM demandée, 300 exemplaires physiques prévus. Quelles sont les prochaines étapes ?</p>
+    <div class="box b-warn"><span class="bt">Le point de calendrier qui peut tout décaler</span><p>Il y a une trentaine d'aides dans l'industrie musicale, chacune avec ses délais. Certaines se demandent avant la sortie, d'autres jusqu'à six mois après. <strong>Si la demande doit être déposée avant une date butoir, c'est la date de sortie qu'il faut déplacer</strong>, pas l'inverse. Et dans le jazz, la concurrence est bien moindre : il ne faut pas hésiter.</p></div>
+    <h3>Vendre en concert : la méthode du flyer</h3>
+    <div class="box b-danger"><span class="bt">Le constat</span><p>Vendre uniquement à la sortie du concert, « c'est très insuffisant en termes de résultats ».</p></div>
+    <ul class="tl">
+      <li><b>Le flyer</b>Une couleur visible sur les sièges (ni noir ni rouge). Dessus : nouvel album, la pochette, un QR code, un appel à l'action. Rien d'autre.</li>
+      <li><b>Le moment</b>L'attente avant le concert. « C'est dingue, tous les concerts qui doivent commencer à 20 h et qui ne commencent pas avant 20 h 45. » Les gens ont le téléphone en main et s'ennuient : ils scannent.</li>
+      <li><b>L'appât</b>Un morceau caché qui n'est pas sur l'album, ou le replay d'un concert de la tournée.</li>
+      <li><b>Page 1 — la capture</b>« À quelle adresse dois-je vous envoyer le morceau caché ? » Prénom et email.</li>
+      <li><b>Page 2 — l'offre</b>« Merci, vous allez le recevoir. En attendant : l'album est en vente ce soir. Toutes les personnes qui précommandent maintenant seront en file prioritaire pour la dédicace et la photo. »</li>
+    </ul>
+    <div class="box b-tip"><span class="bt">Le résultat observé</span><p>Sur une salle de 100 personnes : trois à dix ventes immédiates, puis un flux au moins équivalent pendant et après le concert. <strong>Soit 10 à 20 albums</strong>. Prévoyez le stock en conséquence.</p><p>Et à la sortie, la file d'attente devient un argument : « vous ne voulez pas attendre ? Précommandez. Regardez, ils sont deux à droite et vous êtes quarante à gauche. »</p></div>
+    <h3>La stratégie de visibilité, en trois axes</h3>
+    <div class="box b-info"><span class="bt">Axe 1 — les points de contact</span><p>Pas d'attachée de presse, pas de radio pour l'instant : les amateurs de jazz vont chercher eux-mêmes ce qu'ils écoutent. <strong>Soyez là où ils cherchent</strong>, quitte à acheter de la visibilité. Et travaillez la relation avec les rédactions en amont : proposez une interview et proposez de financer sa mise en avant — ça leur rapporte et ça finance votre promo.</p></div>
+    <div class="box b-info"><span class="bt">Axe 2 — la création de contenu, trois stratégies</span><p><strong>Modéliser</strong> : trouver quelqu'un de votre univers qui crée du contenu et adapter ce qui marche. L'exemple cité : un pianiste qui joue deux mélodies et fait voter en commentaire pour la préférée.</p><p><strong>L'actualité</strong> : « il n'y a rien de plus intéressant pour un fan de jazz que de l'information sur le jazz. » Les cinq festivals qui ont attiré le plus de monde, en format carrousel décompté — plus les gens swipent, plus ça pousse la visibilité.</p><p><strong>Interviewer les professionnels de sa niche</strong> : pas en tant qu'artiste qui veut vendre une date, mais en tant que passionné qui construit un format.</p></div>
+    <div class="box b-key"><span class="bt">Pourquoi l'interview est le levier le plus puissant</span><p><strong>Du contenu de qualité</strong> qui intéresse exactement votre cible. <strong>Un réseau</strong> de gens qui pourront demain vous acheter une date. Et <strong>la crédibilité par association</strong> : quand un programmateur tape votre nom et vous voit à côté d'une figure du milieu, il écoute.</p><p>En prime, c'est intemporel. « Quels sont les critères qui font que vous programmez un groupe de jazz ? » — la réponse sera encore valable dans deux ans. Une vidéo YouTube, découpée en formats courts, recyclable indéfiniment.</p></div>
+    <div class="box b-info"><span class="bt">Axe 3 — la publicité</span><p><strong>Le retargeting</strong> : les 10 000 personnes qui ont vu l'interview, vous pouvez leur montrer la publicité de l'album. Elles vous connaissent déjà.</p><p><strong>Les audiences similaires</strong> : demander à la régie d'isoler le 1 % de la population la plus proche de ces 10 000-là. « Peut-être que dans les 10 000, il y a 9 000 femmes de 35 à 55 ans. Vous ne le savez pas. Meta le sait. »</p></div>
+    <div class="box b-warn"><span class="bt">Et ce qui ne sert à rien</span><p>Les artistes qui découvrent l'IA et passent des heures à générer des visuels d'eux-mêmes que personne ne voit. Et les 2 000 à 3 000 € versés à une attachée de presse quand on est « le 68<sup>e</sup> projet sur 70 » : les cinq premiers sont travaillés, les autres payent les factures.</p><p>« Quand tu es artiste, l'administratif est loin de toi. Mais <strong>la moitié de l'argent de l'industrie est là-dedans.</strong> »</p></div>
+    <div class="box b-tip"><span class="bt">Le complément apporté par le groupe</span><p>Pitcher le premier single à l'équipe éditoriale de Spotify — et élargir avec SubmitHub, qui envoie le titre à 1 400 curateurs de playlists. Résultats aléatoires, mais ça se tente.</p><p>Plus efficace : repérer un curateur qui administre plusieurs playlists et lui proposer un deal franc. « Si tu y vas avec <em>ma musique est magnifique, écoute</em>, tu n'iras pas loin. On est dans un business. »</p></div>
+    <div class="pull">« Toutes les radios sont corruptibles, toutes sans exception. Il y en a qui coûtent trop cher pour l'être, mais toutes le sont. »<span>Sur la réalité du placement média</span></div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="chap" id="s9" data-c="r">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">09</div><div><h2>Structurer un groupe</h2><div class="tc">⏱ 122:20 – 134:30</div></div></div>
+  <div class="cbody">
+    <div class="box b-danger"><span class="bt">Pourquoi une séparation tourne mal</span><p>Dans un groupe, il y a presque toujours un membre qui porte tout et qui essaie de bien faire : il répartit à parts égales, il met tout le monde. Puis le montage se fait « à l'arrache » avec une association — un membre président, sa femme trésorière — et <strong>les masters appartiennent à l'asso alors qu'ils ont été financés par deux membres sur cinq.</strong> Le jour de la séparation, c'est ingérable.</p></div>
+    <h3>Les trois niveaux de structuration</h3>
+    <ul class="tl">
+      <li><b>1. Les dépôts d'œuvres à parts égales</b>Ne pas se prendre la tête : à cinq, 20 % chacun. Et idéalement <strong>tout le monde auteur-compositeur</strong>, 10 points auteur et 10 points compo — plus de problème de clé DEP, de clé DRM ni de crédits.</li>
+      <li><b>2. La lettre d'intention</b>Un document simple qui pose qu'aucun membre ne peut fonctionner sans l'ensemble du groupe : pas de carrière solo sans accord écrit, des conditions de sortie, des conditions de dislocation. « C'est comme un contrat de mariage : ce n'est jamais agréable, mais le jour où ça part en vrille, on est très content de l'avoir. »</li>
+      <li><b>3. Une structure où chacun a des parts</b>Un label en commun, en SAS, 20 points chacun. « C'est ce qu'il y a de plus efficace, de plus engageant et de plus sécurisant pour tout le monde. »</li>
+    </ul>
+    <div class="box b-key"><span class="bt">Le pacte d'associés</span><p>C'est lui qui fait tout le travail. Il définit à l'avance les cas de friction et <strong>la procédure obligatoire à suivre</strong> : un membre part et les autres arrêtent — liquidation, boni réparti à parts égales. Un membre part et les autres continuent — il vend ses parts à une valeur fixée d'avance, pas à celle qu'il réclamera une fois le succès arrivé.</p><p>Comptez 200 à 300 € chez un juriste, soit 50 à 60 € par membre.</p></div>
+    <div class="box b-tip"><span class="bt">La bonne méthode avec l'avocat</span><p>Discutez d'abord entre vous et notez ce que vous voulez. « Un avocat facture du temps : si vous mettez cinq heures à vous mettre d'accord, ça coûtera cinq fois plus cher. » Puis montrez-lui votre travail et demandez ce à quoi vous n'avez pas pensé — par exemple le décès d'un membre et le sort de ses parts.</p><p>Ensuite, quinze jours de réflexion chacun, un deuxième tour, et c'est ce que vous aurez défini qui sera juste. « Ce qui est juste pour toi ne le sera peut-être pas pour moi. »</p></div>
+    <div class="box b-info"><span class="bt">Si vous restez en association</span><p>C'est déconseillé, mais si vous le faites : président et trésorier <strong>externes au groupe</strong>, masters appartenant à l'asso, et une clause prévoyant qu'en cas de dissolution les masters reviennent à parts égales à chaque membre. Nul n'est censé rester en indivision — ça simplifie beaucoup la suite.</p></div>
+    <div class="box b-warn"><span class="bt">Le cas particulier d'une chorale d'enfants</span><p>Dès qu'il y a des mineurs, une procédure spécifique de droit du travail s'applique : <strong>autorisation parentale et validation en préfecture</strong>, y compris pour une session d'enregistrement.</p><p>Le conseil pratique : déposer un seul dossier pour tous les enfants d'un coup, et raisonner par blocs remplaçables — « comme dans un club de foot : si tu as trois gardiens, tu es tranquille. »</p></div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="chap" id="s10" data-c="r">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">10</div><div><h2>Streams artificiels et contenus IA</h2><div class="tc">⏱ 134:30 – 145:00</div></div></div>
+  <div class="cbody">
+    <div class="box b-info"><span class="bt">La question</span><p>« Mon distributeur a bloqué, voire retiré mon titre pour suspicion de stream artificiel, alors que je n'ai rien acheté. Qu'est-ce que je fais ? »</p><p>C'est très actuel — un gros agrégateur le fait en ce moment avec une grande partie de ses membres.</p></div>
+    <h3>Ce qui se passe réellement</h3>
+    <ul class="tl">
+      <li><b>La pression des DSP</b>Le modèle d'un agrégateur s'écroule si les plateformes ne veulent plus de lui. Quand Spotify signale que 17 % de ses sorties sont suspectes, il préfère supprimer 10 % de son catalogue et montrer patte blanche.</li>
+      <li><b>Les frais d'intervention</b>Chaque opération facturée : un doublon d'ISRC, 10 € ; retirer des faux streams, 10 à 25 €. Si votre forfait annuel est de 100 € et que vous générez 500 € de frais, vous coûtez de l'argent.</li>
+      <li><b>Le vrai motif</b>« Je suis quasiment certain qu'ils profitent de cette règle de suspicion <strong>pour dégager les catalogues les moins rentables</strong> » — parce que légalement, ils n'ont pas le droit de vous exclure comme ça.</li>
+    </ul>
+    <div class="box b-tip"><span class="bt">Ce que fait un distributeur à la place</span><p>Il vous transmet la liste des suspicions et arbitre avec vous. Un artiste habitué à 10 000 streams qui passe à 240 000 avec 14 auditeurs mensuels : demande de retrait, et on l'explique à la plateforme. Un cas douteux mais non significatif : on documente et on maintient. <strong>Résultat : on retire les titres grillés, pas tout le catalogue.</strong></p></div>
+    <h3>Les contenus générés par IA</h3>
+    <div class="box b-warn"><span class="bt">Ce que visent les directives européennes</span><p>Pas vous. Elles visent « Jérôme, 22 ans, dans sa chambre, qui sort huit albums par semaine en appuyant sur un bouton ». <strong>Mais vos titres peuvent se retrouver dans la même charrette.</strong></p></div>
+    <div class="box b-key"><span class="bt">Documentez votre usage de l'IA</span><p>Filmez-vous. « J'ai besoin d'un piano pour le pont après le refrain 1, je vais le faire générer. » Gardez la session, les fichiers MIDI, la piste audio ajoutée, la trace de la génération.</p><p>Le jour où on vous accuse, vous montrez que l'IA représente 5 % de la création. <strong>Ça permet de passer le filtre.</strong></p></div>
+    <div class="box b-danger"><span class="bt">Le piège des playlists semi-bot</span><p>Certaines plateformes de placement contiennent des playlists créées par un humain mais boostées par des campagnes artificielles. Si votre titre y figure, il récupère des streams comptés comme activité anormale — <strong>et c'est hors de votre contrôle.</strong></p><p>Cas vécu : près de 15 % des streams d'un titre classés anormaux, avec des pays incohérents, sans aucun achat ni campagne — uniquement à cause de placements en playlists via un outil tiers.</p></div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="chap" id="s11" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">11</div><div><h2>Content ID et YouTube</h2><div class="tc">⏱ 164:40 – 171:20</div></div></div>
+  <div class="cbody">
+    <div class="box b-info"><span class="bt">La question</span><p>« J'ai trouvé un morceau sur une chaîne YouTube que je ne connais pas, qui monétise. Sauf que c'est mon morceau. Comment est-ce possible ? »</p></div>
+    <div class="box b-danger"><span class="bt">L'explication</span><p>Chez un agrégateur, la gestion de votre empreinte sonore — le <strong>Content ID</strong> — est une option facturée à part, « les yeux de la tête » (de l'ordre de 20 € par mois). La plupart ne la prennent pas. Sans elle, aucun outil ne traque l'utilisation de vos titres.</p><p>Résultat : une chaîne en Estonie peut monétiser une vidéo de vélo avec votre son sur 40 000 vues, et vous ne le saurez jamais.</p></div>
+    <h3>La marche à suivre</h3>
+    <ul class="tl">
+      <li><b>1. Takedown</b>Retirer le titre de l'agrégateur.</li>
+      <li><b>2. Transfert vers un vrai distributeur</b>Tout distributeur sait opérer un transfert de catalogue <strong>sans perte d'historique</strong> — scores de streams, placements en playlists. Le format s'appelle le DDEX.</li>
+      <li><b>3. Le distributeur active le Content ID</b>Votre son laisse alors une empreinte à chaque utilisation.</li>
+    </ul>
+    <div class="box b-key"><span class="bt">Comment ça fonctionne ensuite</span><p>YouTube alerte le distributeur avec l'ISRC, l'artiste interprète et le label copy, et pose la question. Trois réponses possibles : <strong>interdire</strong> (la vidéo saute ou devient muette), <strong>autoriser et monétiser à 100 %</strong> (le cas le plus courant), ou <strong>autoriser et laisser monétiser</strong> — rare, par exemple quand l'artiste n'a pas encore relié ses sorties à sa chaîne officielle.</p></div>
+    <div class="box b-warn"><span class="bt">Le cas des medleys DJ</span><p>Quand un mix reprend cinquante titres, on ne peut pas choisir d'autoriser tout en monétisant : <strong>c'est tout ou rien</strong>, et YouTube ne répartit pas au prorata du temps. D'où ces mix où le son disparaît pendant deux minutes. Quand il y a trop de refus, YouTube préfère retirer la vidéo entière.</p></div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="chap" id="s12" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">12</div><div><h2>Les reprises : tout ce qui est permis</h2><div class="tc">⏱ 171:20 – 190:40</div></div></div>
+  <div class="cbody">
+    <div class="box b-key"><span class="bt">La réponse qui surprend tout le monde</span><p>« Je veux sortir la reprise d'un morceau très connu. Quelles autorisations me faut-il ? » — <strong>Absolument aucune.</strong></p><p>Vous pouvez reprendre n'importe quel titre apporté au répertoire de la SACEM ou d'une société équivalente, à condition de respecter deux règles.</p></div>
+    <div class="pc">
+      <div class="ko"><h4>Les deux cas interdits</h4><ul><li><strong>Sampler</strong> : reprendre l'instrumental ou la voix originale, c'est utiliser le master d'un autre producteur</li><li><strong>Modifier l'œuvre</strong> : changer la langue, le texte, la top line, ajouter un couplet ou des éléments instrumentaux</li></ul></div>
+      <div class="ok"><h4>Ce qui est parfaitement légal</h4><ul><li>Rejouer tout l'instrumental à la note près avec vos instruments</li><li>Faire rechanter la ligne par un autre interprète</li><li>Nouveau mix, nouveau master, nouvel ISRC</li><li>Garder le titre de l'œuvre, changer le nom de l'interprète</li></ul></div>
+    </div>
+    <div class="box b-info"><span class="bt">Les arrangements légers autorisés</span><p>Monter ou descendre d'un demi-ton. Accélérer ou ralentir légèrement — 100 BPM vers 105 ou 108, oui ; une version <em>slowed</em> ou <em>sped up</em>, non. Changer une sonorité rythmique (une caisse claire remplacée par un clap). Changer de synthé. Ajouter des voix additionnelles sur le bloc vocal. <strong>Rien de tout cela ne modifie la structure de l'œuvre.</strong></p></div>
+    <div class="box b-warn"><span class="bt">La seule autorisation à demander</span><p>Le <strong>pressage physique</strong>. Les DRM imposent une demande d'autorisation et le paiement des droits correspondants — c'est normal, quelqu'un a écrit et composé.</p></div>
+    <h3>Ce que rapporte une reprise</h3>
+    <div class="cards">
+      <div class="card"><h4>Ce que vous ne touchez pas</h4><p>Les droits d'auteur et la part éditoriale — environ 40 % du total</p></div>
+      <div class="card"><h4>Ce qui tombe chez vous</h4><p>Toutes les recettes d'exploitation, les droits voisins d'interprète, les droits voisins de producteur, et les dates déclenchées</p></div>
+      <div class="card"><h4>Le vrai calcul</h4><p>Vous vous asseyez sur 40 %, il vous reste 60 % — plus la visibilité qui ouvre les portes pour un inédit</p></div>
+    </div>
+    <div class="box b-tip"><span class="bt">L'exemple « Iko Iko »</span><p>Un titre produit il y a quelques années, une reprise avec autorisation d'adaptation. <strong>Environ 500 millions de streams.</strong> L'artiste interprète, sans toucher un centime de SACEM, a encaissé au bas mot 250 000 € de droits voisins — plus les concerts vendus 25 000 £ pièce.</p></div>
+    <div class="box b-info"><span class="bt">Jusqu'où va une version acoustique</span><p>Vous pouvez enlever des instruments et ne garder que le piano ou la guitare-voix, <strong>tant que le thème et le pattern ne changent pas</strong>. En revanche, ajouter une intro parce que le riff ne rentre pas bien, c'est une adaptation — donc interdit sans accord.</p></div>
+    <h3>L'IA dans les reprises</h3>
+    <div class="box b-danger"><span class="bt">L'affaire Stromae</span><p>Une reprise présentée comme chantée par un interprète. En réalité, la piste vocale avait été modifiée par IA <strong>pour ressembler fortement à la voix de Stromae</strong>, sans le déclarer. « Quand tu écoutes ça à la va-vite en voiture, tu ne tiltes pas. » Ça peut altérer l'image de l'artiste d'origine.</p></div>
+    <div class="box b-warn"><span class="bt">Le risque systémique</span><p>En l'état du droit, une major pourrait reprendre l'intégralité de son propre catalogue avec de l'IA — « un tribute to Bob Marley à Noël » — sans faire appel à aucun compositeur. Légal pour l'instant, mais pas très éthique.</p></div>
+    <div class="box b-key"><span class="bt">La position défendue</span><p>« Il ne faut pas interdire l'IA, il faut l'encadrer. » Reprendre tout un répertoire existant pour capter les revenus de l'original : non. <strong>Amplifier la qualité de sa propre création</strong> — obtenir la guitare acoustique qu'on n'avait pas les moyens de faire jouer — oui.</p></div>
+    <div class="box b-info"><span class="bt">« Est-ce éthique d'utiliser l'IA comme maquette ? »</span><p>« En vrai, les avis, tu t'en fous, parce que ça ne s'arrêtera jamais. » Trois révolutions déjà vécues : l'analogique contre le numérique, les VST contre les vrais musiciens, et maintenant l'IA. À chaque fois les mêmes deux camps.</p><p>L'histoire qui résume tout : un excellent DJ, très fort en sélection, a arrêté parce qu'on se moquait de lui — « tu mixes sur ordinateur, tu n'es pas un vrai DJ ». Aujourd'hui 90 % des DJ mixent sur ordinateur. <strong>« Si tu dois débattre 107 ans pour qu'on se greffe à ton process, change de personne, pas de process. »</strong></p></div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="chap" id="s13" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">13</div><div><h2>Demander une autorisation</h2><div class="tc">⏱ 195:20 – 207:00</div></div></div>
+  <div class="cbody">
+    <div class="box b-key"><span class="bt">À qui s'adresser</span><p>Pas à l'artiste. Aux détenteurs de droits.</p><p><strong>Au producteur</strong> si vous utilisez son master — un sample, un fragment. <strong>À l'éditeur</strong> si vous modifiez l'œuvre : dans 90 % des cas il a un pouvoir ferme et irrévocable et répond au nom de ses ayants droit. Parfois les deux.</p></div>
+    <h3>L'email qui obtient une réponse</h3>
+    <div class="pc">
+      <div class="ko"><h4>Ce qui n'obtient rien</h4><ul><li>« J'aimerais bien faire une reprise, comment ça se passe ? »</li><li>Aucune réponse au « what's in it for me ? »</li><li>Question floue = je n'ai pas le temps de t'éduquer</li><li>Une chance sur dix d'avoir une réponse</li></ul></div>
+      <div class="ok"><h4>Ce qui en obtient neuf sur dix</h4><ul><li>« Je vous sollicite pour clearer une œuvre »</li><li>Une fiche : l'œuvre, les ayants droit concernés</li><li>Un lien d'écoute vers la nouvelle version</li><li>Le projet d'exploitation (physique ou digital, territoires)</li><li>Le distributeur, le plan marketing</li><li>Et surtout : <strong>« j'ai du budget »</strong> — sans chiffrer</li></ul></div>
+    </div>
+    <div class="box b-tip"><span class="bt">Le détail qui compte</span><p>Vous avez mâché le travail. De l'autre côté, on se dit : « on est jeudi, il n'y avait pas de perspective, il y a peut-être moyen de se faire un peu d'argent, et la présentation est claire. » Écrivez en anglais si vous démarchez à l'international.</p></div>
+    <h3>Trois anecdotes qui résument le métier</h3>
+    <ul class="tl">
+      <li><b>Quincy Jones</b>Une demande pour un titre de Donna Summer, 20 000 $ réclamés. Appel passé par erreur à 5 h 30 du matin, heure locale. Un monsieur très courtois répond : « quel serait pour toi un budget raisonnablement acceptable ? » — 2 000 $. « Vendu. » C'était le patron, seul au bureau à cette heure-là.</li>
+      <li><b>Jean-Jacques Goldman</b>« Déjà, c'est non. » — « On peut discuter ? » — « Non, on ne va pas discuter. » Et si c'était oui ? « Une fois sur mille, et on capte 100 % des droits. »</li>
+      <li><b>Un remix avec des voix de Chris Brown</b>Demande d'un ou deux points d'édition : refus net. Autorisation de commercialiser : 50 000 $. Réponse à la contre-proposition : « lol ».</li>
+    </ul>
+    <div class="box b-info"><span class="bt">La leçon</span><p>« Tu as des gens très ouverts, des gens qui vont te remercier de réutiliser un de leurs sons, et des vrais c******s. Il ne faut pas hésiter à demander » — en arrivant toujours avec un budget, un dossier mâché, et en acceptant la décision.</p></div>
+    <div class="box b-tip"><span class="bt">Et en concert ?</span><p>Aucune autorisation à demander. Vous pouvez reprendre le répertoire de qui vous voulez, <strong>à condition de le déclarer</strong> pour que les droits collectés sur la prestation reviennent aux ayants droit. Et comme il n'y a pas de fixation sur support, les réadaptations y sont beaucoup plus libres.</p></div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="chap" id="s14" data-c="">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">14</div><div><h2>La méthode des objectifs</h2><div class="tc">⏱ 276:40 – 319:30</div></div></div>
+  <div class="cbody">
+    <div class="box b-info"><span class="bt">La question</span><p>« Comment trouver du temps pour créer quand on passe ses journées sur l'administratif et la com ? » — retournée aussitôt : « comment trouver du temps pour l'administratif quand on n'a déjà pas le temps de créer ? »</p></div>
+    <h3>L'étagère</h3>
+    <p>Un entrepreneur rencontré au début des années 2010 dans un mastermind. Première année : 50 000 $. Puis 100 000, 250 000, 700 000, un million, cinq, dix. Puis cinquante millions. Puis plus de cent. Son secret, livré en une phrase : <em class="q">« J'ai une étagère dans mon bureau. »</em></p>
+    <div class="box b-key"><span class="bt">La métaphore</span><p>Une étagère tient cinq livres. La plupart des gens en mettent cinq, puis en coincent un ou deux debout, puis un allongé par-dessus, puis d'autres encore. <strong>Et l'étagère s'écroule.</strong></p><p>« Chaque début d'année, je me fixe cinq projets, jamais plus. Certaines années c'est deux, certaines années c'est trois, et je m'y tiens. »</p></div>
+    <div class="box b-warn"><span class="bt">La règle qui va avec</span><p>Pour accepter un nouveau projet en cours d'année, <strong>il faut retirer un livre.</strong> Et les objectifs de vie comptent : être un bon père, être un bon conjoint, prendre soin de sa santé. Une fois ces trois-là posés, il ne reste pas beaucoup de place pour le professionnel.</p><p>« Qu'est-ce que je retire ? La relation avec mes enfants ? Non. Ma santé ? Si je ne suis plus là, je ne pourrai plus rien faire. Finalement, je n'ai pas de place pour toi. »</p></div>
+    <h3>Du grand objectif aux étapes</h3>
+    <ul class="tl">
+      <li><b>Écrire la vision</b>Trois jours seul, face au lac, à modéliser pierre par pierre chacun des cinq objectifs. On écrit ce que ça donne une fois accompli.</li>
+      <li><b>Décomposer en milestones</b>« Il faut une application. Il faut qu'elle ait ces fonctionnalités. Il faut qu'elles soient automatisées avec ces outils. » Un objectif grandiose devient une suite de petites étapes.</li>
+      <li><b>Identifier les compétences</b>Qu'est-ce qu'il me faut ? Qui l'a ? Comment je l'obtiens ?</li>
+      <li><b>Planifier dans l'agenda</b>Notion ou un simple bloc-notes pour la liste, Google Agenda pour les créneaux. Un bilan chaque trimestre.</li>
+    </ul>
+    <div class="box b-tip"><span class="bt">Appliqué à un projet musical</span><p>L'étagère, c'est le projet musique. Dedans, trois sous-projets : <strong>création, communication, gestion administrative.</strong></p><p>Création : un album prêt dans 10 mois → 11 titres → compos, textes, top lines, studio, co-créateurs. Et le calcul réel : « sur 10 instrus créées j'en valide une, donc il m'en faut 130, soit 13 soirées bien inspirées — j'en prends 15 par sécurité. » Puis on pose les créneaux.</p></div>
+    <div class="box b-key"><span class="bt">Décomplexer la relation au travail</span><p>« Si travailler dur était ce qui payait le plus, tous les gens qui travaillaient dans les mines seraient multimillionnaires. »</p><p>Une seule vidéo tournée dans la journée peut être un levier d'acquisition énorme. Une heure à répondre à des messages peut remplir une ligne d'objectif. <strong>Loi de Pareto : 20 % des actions produisent 80 % du résultat.</strong></p></div>
+    <div class="box b-danger"><span class="bt">« Je n'ai pas le temps »</span><p>« Fais voir ton agenda. Ce n'est planifié nulle part. <strong>Tu ne peux pas me dire que tu n'as pas le temps : tu ne l'as jamais planifié.</strong> »</p><p>Vous déposez vos enfants à l'école tous les jours parce que c'est planifié. Certains courent à 5 h du matin parce que c'est planifié. « Moi j'avais des heures où avant, il ne fallait pas me parler de musique, et après non plus. Mais pendant ces heures-là, j'entendais les gosses hurler derrière la porte et je faisais le mort. »</p></div>
+    <div class="box b-info"><span class="bt">Le truc anti-procrastination</span><p>Avoir plusieurs objectifs permet d'inverser les blocs. « J'avais sport ce matin, j'ai la flemme. Je tourne des vidéos à la place. Toujours pas chaud pour la salle ? Je fais de la création de contenu. » <strong>Tant que la journée produit quelque chose d'utile, elle compte.</strong> « En ce moment j'ai de la compta à faire, je n'ai pas envie — alors je fais tout le reste pour me déculpabiliser. »</p></div>
+    <h3>La vision, concrètement</h3>
+    <div class="box b-warn"><span class="bt">Pas de pensée magique</span><p>« Vous pensez très fort à quelque chose et ça arrive — ça, ce sont des conneries. Mais mettre de la concrétude dans quelque chose d'abstrait, ça change la donne. »</p><p>Avant d'avoir une seule composition finie : un faux disque d'or imprimé, encadré, regardé tous les jours. Et dans une période de rue, à dormir sur un chantier à Angers : « je savais déjà que j'allais être millionnaire. Je ne m'en faisais pas. » <strong>Ce n'est pas croire que ça arrivera : c'est ne pas lâcher un cap.</strong></p></div>
+    <div class="box b-key"><span class="bt">L'exercice qui déstabilise tout le monde</span><p>« Quel est ton objectif ? » — « Sortir un album. » J'appuie sur un bouton, il est sorti : objectif atteint ? « Non, je veux qu'il soit écouté. » Je l'ai écouté. Et maintenant ?</p><p>Et c'est pareil avec les chiffres. <strong>100 000 abonnés YouTube s'achètent en six semaines</strong> en ciblant un public où la publicité ne coûte rien. Un million de streams aussi. « Est-ce que tu auras atteint l'objectif que tu veux vraiment ? Non. Ce que tu veux, c'est de la reconnaissance, remplir ton frigo en faisant ce que tu aimes, et déclencher les opportunités qui te font progresser. »</p></div>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="chap" id="s15" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">15</div><div><h2>1 000 fans et le système d'acquisition</h2><div class="tc">⏱ 319:30 – 350:00</div></div></div>
+  <div class="cbody">
+    <div class="box b-info"><span class="bt">« À partir de combien de fans peut-on vivre de sa musique ? »</span><p>La question se décompose. <strong>On peut vivre de sa musique sans fan base du tout</strong> : un pianiste qui fait 70 à 100 dates par an sur des concerts à la bougie n'a pas de public à lui. Cinq dates par mois à 300 € suffisent à commencer.</p><p>La vraie question, c'est à partir de quand on peut bâtir une économie prédictible sur sa communauté. <strong>Réponse : 1 000 fans en base.</strong></p></div>
+    <h3>Ce qu'est un « fan en base »</h3>
+    <div class="box b-key"><span class="bt">La définition</span><p>Pas un abonné. <strong>Quelqu'un qui a voulu aller plus loin que ce que vous donnez sur les réseaux et qui s'est inscrit quelque part pour en obtenir plus.</strong> Il vous a autorisé à le recontacter.</p></div>
+    <div class="box b-info"><span class="bt">L'exemple du futur papa</span><p>Première grossesse, aucune idée de ce que c'est d'être père. Je regarde des vidéos, je picore des infos : <strong>je suis un touriste.</strong> C'est l'équivalent de quelqu'un qui regarde votre clip 30 secondes et repart.</p><p>Puis quelqu'un me dit : « il y a cinq erreurs que tous les futurs papas font ». Là je me sens concerné. « Je vous propose un atelier de 30 minutes. » Je m'inscris. <strong>Je viens de devenir un fan en base.</strong></p></div>
+    <div class="box b-tip"><span class="bt">La version artiste</span><p>« J'ai 25 titres, je n'en garderai que 12, et j'ai besoin de gens qui apprécient assez ce que je fais pour les écouter avec moi et me conseiller sur le tracklisting final. Session live, tel jour, inscrivez-vous ici. »</p><p>Le touriste s'en moque. Le fan se dit : <em class="q">« il y a moyen d'influencer le disque d'un artiste que j'aime. »</em></p></div>
+    <h3>Ce que 1 000 fans permettent</h3>
+    <div class="box b-key"><span class="bt">L'arithmétique</span><p>Sur 1 000 personnes, une offre qui les intéresse convertit rarement tout le monde — mais 100, 150, 200, oui. <strong>200 personnes à 10 € par mois, c'est 2 000 € mensuels.</strong></p><p>L'exemple cité : un producteur français ayant travaillé avec de grands DJ a vendu un abonnement donnant accès à ses sessions, ses banques de sons, ses presets. Environ 50 € par mois, « on devait être 6 ou 7 000 ».</p></div>
+    <div class="box b-warn"><span class="bt">Mais ça se construit</span><p>« Avant d'avoir 8 000 abonnés, il en a eu 1, puis 2, puis 5, puis 100. » Et côté formation : <strong>zéro vente pendant les six premiers mois</strong>, puis une première à 57 €. Les premières compos : 20 € les trois, parce que l'artiste trouvait 20 € l'unité trop cher. Puis 50, 100, 150 — et finalement plusieurs milliers.</p></div>
+    <h3>Le système d'acquisition, démontré en direct</h3>
+    <ul class="tl">
+      <li><b>L'offre irrésistible</b>« J'ai écrit un livre. Je ne vais pas vous le vendre : je vous l'offre. » Le livre est réellement en vente à 25 €. Qui dit non ?</li>
+      <li><b>Page 1 — les coordonnées</b>Nom, adresse, ville, pays, téléphone, email. Tout le monde la remplit.</li>
+      <li><b>Page 2 — les frais d'envoi</b>« Je n'ai pas de parts dans La Poste. Les frais d'envoi, environ 5 €, je vous propose de les prendre en charge. » Le livre coûte 1 € à fabriquer, l'envoi 3,50 €. <strong>Opération blanche : rien perdu, rien gagné.</strong></li>
+      <li><b>Les 50 % qui refusent</b>Ils restent dans la base. On leur envoie la version audio et PDF : « je comprends que les frais d'envoi te gênent, je ne veux pas te pénaliser. » <strong>La relation n'est pas cassée.</strong></li>
+      <li><b>Page 3 — l'upsell</b>« Pour chaque méthode du livre que vous voudrez mettre en place, il existe une formation qui vous accompagne pas à pas. » Sur 500 acheteurs des frais de port, 50 à 100 prennent. <strong>100 ventes à 100 € = 10 000 € : l'acquisition est rentabilisée.</strong></li>
+    </ul>
+    <div class="box b-tip"><span class="bt">La version album</span><p>Même schéma. L'album coûte environ 2 € l'unité pressé à 500 — et en duplication plutôt qu'en pressage, pas d'autorisation à demander, déclarables en exemplaires non destinés à la vente.</p><p>L'upsell : <strong>la release party.</strong> « L'album sort dans un mois, mais on fait une soirée de lancement. Les places seront à tel prix, à vous maintenant à tel autre. » Et les aides financent 70 à 85 % du coût de la salle : chaque place vendue est quasiment de la marge nette.</p></div>
+    <div class="box b-key"><span class="bt">La chaîne ne s'arrête jamais</span><p>Un QR code dans l'album → un bon d'achat de -50 % sur le merch valable 48 h. Un achat de merch → une place offerte pour un accompagnant au concert. Une affiche avec QR code sur le siège au concert → une précommande.</p><p>« Si elle m'envoie l'album et que derrière je prends deux places de concert à 50 €, elle prend 100 € sur ma tête. <strong>Sur un album où elle n'aurait rien gagné, elle génère 200 ou 250 €. Multipliez par mille.</strong> »</p></div>
+    <div class="box b-warn"><span class="bt">Les limites, dites franchement</span><p>« Je ne peux pas me pointer avec un bouquin différent tous les 15 jours. » Une stratégie qui marche dans un domaine ne marche pas forcément dans un autre, et finit par s'essouffler. Et la conception du système demande du temps, des tests et du déploiement.</p></div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="chap" id="s16" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">16</div><div><h2>Argent, statut et réinvestissement</h2><div class="tc">⏱ 350:40 – 359:30</div></div></div>
+  <div class="cbody">
+    <h3>Faut-il garder un travail à côté ?</h3>
+    <div class="box b-info"><span class="bt">Pas de règle</span><p>« J'ai lâché mes jobs alimentaires quand je n'avais plus le choix. Si j'avais pu, j'aurais continué. »</p><p>Mais certains ont besoin de se jeter dans le vide pour construire leur plan — et c'est OK aussi. <strong>C'est une question de tempérament, pas de stratégie.</strong></p></div>
+    <h3>Combien réinvestir ?</h3>
+    <div class="cards">
+      <div class="card stat"><h4>50 %</h4><p>Réinvestis dans la structure — « nourrir la bête ». Même sans projet en cours, faites de la publicité.</p></div>
+      <div class="card stat"><h4>20 %</h4><p>En trésorerie de sécurité, pour absorber les erreurs</p></div>
+      <div class="card stat"><h4>30 %</h4><p>De profit, sur lequel vivre</p></div>
+    </div>
+    <div class="box b-warn"><span class="bt">Pourquoi la soupape de 20 % n'est pas théorique</span><p>Des dates vendues en Allemagne et en Belgique facturées en net, sur la foi de prestataires affirmant ne pas devoir la TVA. « Non, moi j'étais redevable de la TVA sur les sommes perçues. » Découvert deux ou trois ans plus tard : <strong>12 000 à 13 000 € à sortir de sa poche.</strong></p></div>
+    <div class="box b-info"><span class="bt">Un regret assumé</span><p>« Je pense avoir été un des premiers de l'industrie musicale à faire de la publicité. 300 € dans la journée pouvaient faire un demi-million de vues sur un clip. J'aurais dû en faire plus — c'était un vrai Eldorado. »</p></div>
+    <h3>Facturer sa prestation via sa propre société</h3>
+    <div class="box b-key"><span class="bt">Le cas</span><p>Une chanteuse qui a monté sa production en SASU et qui vend une prestation. Doit-elle se facturer un cachet à elle-même ?</p><p>Sur le papier, elle peut vendre un spectacle monté via un <strong>contrat de cession</strong> — facturer l'organisateur en direct, c'est parfaitement légal.</p></div>
+    <div class="box b-warn"><span class="bt">Le flou juridique</span><p>La loi dit qu'un artiste sur scène relève du droit du travail et doit percevoir un cachet. Mais elle dit aussi qu'il doit exister <strong>un lien de subordination entre le donneur d'ordre et l'employé</strong> — impossible quand c'est la même personne. Le cas n'est pas prévu.</p><p>« J'ai eu des contrôles Urssaf là-dessus, en live, sur des dates. Même les contrôleurs ne savaient pas quoi faire. » Sept ans de prestations d'un associé, plusieurs contrôles, aucun problème.</p><p><strong>Le conseil pratique :</strong> facturez avec votre société, et ne mettez pas « prestation artistique » sur la facture — mettez le show, le lieu, la date.</p></div>
+    <div class="box b-danger"><span class="bt">Là où le risque devient réel</span><p>Si vous payez d'autres musiciens. Eux doivent être rémunérés par votre structure, et <strong>200 € net vous coûtent environ 360 €.</strong> Ce gap doit être provisionné dans le montant que vous facturez.</p></div>
+    <div class="box b-info"><span class="bt">Dernière question : l'IA pour le montage vidéo</span><p>Pas encore testé. « J'aime bien attendre que mes cinq ou six sources de veille valident toutes que c'est sensationnel. » Mais le pronostic est net : <strong>d'ici peu, les outils de montage seront exceptionnels</strong> et il n'y aura plus besoin de faire appel à des monteurs.</p></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<div class="faq" id="faq">
+  <div class="bar"></div>
+  <div class="faqhead">
+    <h2>FAQ de la session</h2>
+    <p>Les 30 questions posées pendant ces six heures, et leurs réponses telles qu'elles ont été données.</p>
+  </div>
+  <div class="faqbody">
+
+    <div class="faqcat">Droits d'auteur et dépôt d'œuvres</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Peut-on définir librement les pourcentages entre auteur, compositeur et éditeur ?</div><div class="a"><p>Sur les droits mécaniques (DRM), oui : ils suivent toujours la clé que vous déclarez. Sur les DEP, <strong>non par défaut</strong> : la SACEM applique sa règle statutaire, 50/50 non édité, un tiers chacun si édité. Il faut cocher la case qui demande que les DEP respectent la clé phono.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Cette case existe-t-elle aussi dans le dépôt en ligne ?</div><div class="a"><p>Oui — vérifié en direct pendant la session sur un compte réel. Les DEP et les DR peuvent suivre les DRM. <strong>Seule exception : la part éditeur reste à un tiers quoi qu'il arrive.</strong></p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Si je suis seul auteur et compositeur ?</div><div class="a"><p>Aucun sujet, 100 % partout. Et la croyance selon laquelle on perdrait une partie de ses droits sans éditeur est totalement fausse.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>J'ai sorti trois titres sans rien déclarer. Je fais quoi ?</div><div class="a"><p>Dans l'ordre : <strong>adhésion SACEM</strong> (100 €, à vie) et dépôt des œuvres ; <strong>ADAMI et SPEDIDAM</strong> (15 € chacun) ; puis <strong>SCPP ou SPPF</strong> dès cinq œuvres. Et surtout, déposez dans l'année de la sortie.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Pourquoi ce délai d'un an est-il si important ?</div><div class="a"><p>Parce que sur une sortie digitale, <strong>la première année de droits d'auteur est définitivement perdue</strong> si l'œuvre n'est pas déposée dans l'année. Un titre à 8 millions de streams perd les droits d'auteur sur ces 8 millions — les recettes d'exploitation restent, mais pas les droits.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Faut-il cinq titres pour adhérer à la SPEDIDAM ?</div><div class="a"><p>Non, la SPEDIDAM est accessible dès un titre. Ce sont la <strong>SCPP et la SPPF</strong> qui demandent cinq œuvres.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Peut-on adhérer à la SPPF en personne physique, sans société ?</div><div class="a"><p>Oui, mais ils demanderont un numéro de Siret. Le <strong>statut d'artiste-auteur</strong> permet d'en obtenir un : la demande se fait sur INPI Procédures, cinq minutes, environ 15 € de frais de greffe, et le Siret arrive par courrier en trois ou quatre jours.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Comment ne plus confondre SCPP et SPPF ?</div><div class="a"><p>1985 : les cinq majors créent la <strong>SCPP</strong> pour se répartir les droits voisins entre elles. Les cinq plus gros indépendants refusent et créent la <strong>SPPF</strong> moins d'un an après. Aujourd'hui c'est mélangé, mais l'origine reste le meilleur moyen de les distinguer.</p></div></div>
+
+    <div class="faqcat">Éditeur, distribution et international</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Qui est l'éditeur quand on n'en a pas ?</div><div class="a"><p>Vous. Et si vous avez écrit et composé à 100 %, <strong>il ne faut pas parler d'éditeur du tout</strong> : vous générez déjà l'intégralité des revenus. L'éditeur devient utile quand il y a d'autres auteurs et que vous voulez capter une part plus importante.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Mes streams décollent aux États-Unis. Je reste à la SACEM ?</div><div class="a"><p>Trois options. Laisser faire : vous perdez environ 70 % et attendez des années. Fragmenter le territoire : mieux, avec accès à des aides locales, mais les sociétés locales collectent moins bien. <strong>Un admin deal avec un bon éditeur local</strong> : la meilleure option, contre 10 à 20 %.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Dans ce modèle, je reste membre de la SACEM ?</div><div class="a"><p>Oui. C'est seulement le titre qui est apporté au répertoire local via l'éditeur. Renseignez votre <strong>numéro IPI</strong> pour être certain d'être crédité.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Et Songtrust, c'est une solution magique ?</div><div class="a"><p>Ça fonctionne pour les petits créateurs et ils sont très forts sur le digital. Mais ça ne remplace pas un éditeur de métier, et <strong>ils sont faibles sur la radio, la télé et les lieux publics</strong> — là où se capte le plus d'argent.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Quelle différence entre agrégateur et distributeur ?</div><div class="a"><p>L'agrégateur est une plateforme automatisée sans humain derrière, payée par abonnement. Le distributeur a un interlocuteur, une relation avec les DSP, et <strong>fournit un contrat de distribution — indispensable pour les aides.</strong></p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Les agrégateurs promettent 100 % des royalties. C'est vrai ?</div><div class="a"><p>Ils tiennent parole sur ce qu'ils perçoivent. Mais <strong>ils ne perçoivent pas 100 % de ce que vous générez</strong> : le DSP les rétrocommissionne au volume apporté, et cette part ne vous atteint jamais.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Comment choisir un distributeur ?</div><div class="a"><p>Quatre critères, dans l'ordre : <strong>il vous répond et accepte</strong> (le plus dur), le contact humain, la qualité de son réseau au regard de votre genre, et la qualité du contrat — méfiez-vous des frais cachés du premier envoi.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Je peux retirer des titres sortis sous un ancien nom d'artiste ?</div><div class="a"><p>Oui. Chez les agrégateurs, dès que vous cessez de payer vous pouvez retirer la sortie. Vous pouvez ensuite republier sérieusement — idéalement avec un motif valable, ou si le titre n'a pas eu de visibilité.</p></div></div>
+
+    <div class="faqcat">Contrats, synchro et structuration</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Contrat d'édition de 5 ans et synchro diffusée 10 ans : que se passe-t-il ?</div><div class="a"><p>Il faut distinguer <strong>la durée d'exclusivité</strong> et <strong>la durée de protection de l'œuvre.</strong> Le pacte de préférence est limité à cinq ans par la loi, mais chaque œuvre peut être déposée pour la durée légale du copyright — 70 ans après la mort du dernier ayant droit. Aucune clause supplémentaire n'est nécessaire.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Y a-t-il un risque de perdre l'édition malgré ça ?</div><div class="a"><p>Oui, un seul : si l'auteur prouve que vous <strong>n'assurez pas une exploitation constante et permanente</strong> de l'œuvre. La parade : envoyer le titre à des superviseurs trois ou quatre fois par an, même sans réponse.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Mon groupe risque de se séparer. Comment éviter le désastre ?</div><div class="a"><p>Trois niveaux : <strong>dépôts d'œuvres à parts égales</strong> avec tout le monde auteur-compositeur ; <strong>une lettre d'intention</strong> qui lie les membres ; et surtout <strong>un label en commun en SAS</strong> avec un pacte d'associés qui prévoit tous les cas de friction.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Combien coûte un pacte d'associés ?</div><div class="a"><p>200 à 300 €, soit 50 à 60 € par membre à cinq. Préparez-le entre vous avant de voir le juriste : il facture du temps.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Et pour une chorale avec des enfants ?</div><div class="a"><p>Le risque de dislocation est moindre : vous pilotez le projet, les choristes sont interprètes. En revanche, dès qu'il y a des mineurs, <strong>autorisation parentale et validation en préfecture sont obligatoires</strong>, y compris pour une session d'enregistrement. Déposez un dossier unique pour tous les enfants.</p></div></div>
+
+    <div class="faqcat">Streams, IA et YouTube</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Mon titre a été retiré pour suspicion de stream artificiel et je n'ai rien acheté.</div><div class="a"><p>Le motif officiel masque souvent une logique économique : les plateformes facturent chaque intervention, et les agrégateurs <strong>se servent de cette règle pour dégager les catalogues qui leur coûtent de l'argent.</strong> Un distributeur, lui, arbitre titre par titre avec vous.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Comment me protéger si j'utilise l'IA dans ma production ?</div><div class="a"><p>En documentant. Filmez-vous, gardez la session, les fichiers MIDI, la piste générée, les notes. <strong>Montrer que l'IA représente 5 % de la création permet de passer le filtre.</strong></p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>D'où peuvent venir des streams anormaux sans que j'y sois pour rien ?</div><div class="a"><p>Des <strong>playlists semi-bot</strong> : créées par un humain mais boostées artificiellement. Si votre titre y est placé, il récupère ces streams — et c'est hors de votre contrôle.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Quelqu'un monétise mon morceau sur sa chaîne YouTube. Comment ?</div><div class="a"><p>Parce que le <strong>Content ID</strong> n'est pas actif : chez les agrégateurs c'est une option facturée à part que presque personne ne prend. Solution : takedown, puis transfert chez un vrai distributeur — le format DDEX préserve l'historique de streams et de playlists.</p></div></div>
+
+    <div class="faqcat">Les reprises</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Quelles autorisations faut-il pour sortir une reprise ?</div><div class="a"><p><strong>Aucune</strong>, en digital, si vous rejouez tout vous-même et ne modifiez pas l'œuvre. Vous pouvez reprendre n'importe quel titre du répertoire SACEM.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Quelles sont les limites exactes ?</div><div class="a"><p>Interdit : sampler l'original (instrumental ou voix), changer la langue, modifier le texte ou la top line, ajouter un couplet ou des éléments instrumentaux. <strong>Autorisé :</strong> changer de demi-ton, accélérer ou ralentir légèrement, changer une sonorité rythmique ou un synthé, ajouter des harmonies vocales.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Une version acoustique, c'est permis ?</div><div class="a"><p>Oui, tant que le thème et le pattern ne changent pas. En revanche, ajouter une intro parce que le riff ne rentre pas bien, c'est une adaptation — donc interdit sans accord.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Et le pressage physique ?</div><div class="a"><p>C'est la seule autorisation obligatoire : les DRM imposent une demande et le paiement des droits correspondants.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Qu'est-ce que je touche sur une reprise ?</div><div class="a"><p>Pas les droits d'auteur ni la part éditoriale — environ 40 % du total. <strong>Mais 100 % des recettes d'exploitation, des droits voisins d'interprète et de producteur</strong>, et toutes les dates déclenchées.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Je veux modifier une œuvre. À qui je m'adresse ?</div><div class="a"><p>Pas à l'artiste : au <strong>producteur</strong> si vous utilisez son master, à <strong>l'éditeur</strong> si vous modifiez l'œuvre. Arrivez avec un dossier complet et la mention « j'ai du budget » — sans chiffrer.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Et pour reprendre un titre en concert ?</div><div class="a"><p>Aucune autorisation. Il suffit de <strong>déclarer la reprise</strong> pour que les droits collectés sur la prestation reviennent aux ayants droit. Sans fixation sur support, les réadaptations sont beaucoup plus libres.</p></div></div>
+
+    <div class="faqcat">Organisation, fans et argent</div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Comment trouver du temps pour créer ?</div><div class="a"><p>En planifiant. « Fais voir ton agenda : ce n'est planifié nulle part. <strong>Tu ne peux pas dire que tu n'as pas le temps, tu ne l'as jamais planifié.</strong> » Trois sous-projets — création, communication, administratif — et des créneaux dans l'agenda.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Combien d'objectifs se fixer ?</div><div class="a"><p>Trois, cinq grand maximum — <strong>objectifs de vie compris</strong>. Pour en ajouter un en cours d'année, il faut en retirer un. C'est la règle de l'étagère.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>À partir de combien de fans peut-on vivre de sa musique ?</div><div class="a"><p>Ça ne se compte pas forcément en fans : cinq dates par mois à 300 € suffisent à commencer. Pour une économie prédictible fondée sur une communauté, le seuil est <strong>1 000 fans en base</strong> — des gens qui se sont inscrits quelque part pour aller plus loin.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Comment acquérir ces 1 000 premiers fans ?</div><div class="a"><p>Avec une offre irrésistible en opération blanche : on offre un objet réel (livre, album), le destinataire ne règle que les frais d'envoi. Page 1 capture les coordonnées, page 2 encaisse les frais, <strong>page 3 présente l'upsell qui rentabilise toute l'opération.</strong> Et ceux qui refusent reçoivent une version digitale, ce qui préserve la relation.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Faut-il garder un travail à côté ?</div><div class="a"><p>Pas de règle : ça dépend de votre tempérament. Certains ont besoin de sécurité, d'autres de se jeter dans le vide pour avancer. Les deux sont valables.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Combien réinvestir chaque année ?</div><div class="a"><p>Le ratio proposé : <strong>50 % réinvestis</strong> dans la structure, <strong>20 % en trésorerie de sécurité</strong>, <strong>30 % de profit.</strong> La soupape n'est pas théorique : un redressement de TVA peut représenter 12 000 à 13 000 €.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Je suis artiste et j'ai ma propre société. Je me facture un cachet ?</div><div class="a"><p>Vous pouvez vendre un spectacle monté via un <strong>contrat de cession</strong> et facturer l'organisateur en direct. Le cas n'est pas prévu par la loi (pas de lien de subordination possible avec soi-même) et plusieurs contrôles Urssaf sont passés sans problème. <strong>Ne mettez pas « prestation artistique » sur la facture</strong> : mettez le show, le lieu, la date.</p></div></div>
+
+    <div class="qa"><div class="q"><span>Q.</span>Et si je paye d'autres musiciens ?</div><div class="a"><p>Là, votre structure doit les rémunérer. <strong>200 € net vous coûtent environ 360 €</strong> : provisionnez ce gap dans ce que vous facturez.</p></div></div>
+
+  </div>
+</div>
+
+<!-- PLAN -->
+<div class="plan" id="plan">
+  <h2>Plan d'action</h2>
+  <p>Ce qui ressort de la session, par ordre de priorité. Cliquez pour cocher.</p>
+
+  <div class="phase">Priorité 1 — sécuriser ses droits</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>SACEM</b>Vérifier sur chaque dépôt passé que la case « les DEP suivent la clé phono » a bien été cochée</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>SACEM</b>Adhérer et déposer toutes les œuvres sorties, en priorité celles de l'année en cours</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Interprète</b>Adhérer à l'ADAMI et à la SPEDIDAM (15 € chacune)</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Producteur</b>Dès cinq œuvres, adhérer à la SCPP ou à la SPPF — l'une ou l'autre, pas les deux</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Statut</b>Si besoin d'un Siret : demande d'artiste-auteur sur INPI Procédures</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Audit</b>Recouper le nombre de sorties sur les plateformes avec le nombre d'œuvres déposées à la SACEM</span></li>
+  </ul>
+
+  <div class="phase">Priorité 2 — structurer</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Distribution</b>Vérifier que son distributeur figure dans la liste agréée par les financeurs, et obtenir un contrat</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Distribution</b>Si l'on est chez un agrégateur : évaluer un transfert de catalogue en DDEX vers un vrai distributeur</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>YouTube</b>S'assurer que le Content ID est actif sur le catalogue</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Groupe</b>Si l'on est en groupe : lettre d'intention, puis label commun en SAS avec pacte d'associés</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>IA</b>Mettre en place une routine de documentation de tout usage de l'IA en production</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Trésorerie</b>Appliquer le ratio 50 / 20 / 30 sur les recettes</span></li>
+  </ul>
+
+  <div class="phase">Priorité 3 — définir le cap</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Objectifs</b>Bloquer une demi-journée pour écrire trois à cinq objectifs, objectifs de vie compris</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Objectifs</b>Écrire la vision de chacun : « au 31 décembre, j'aurai… »</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Objectifs</b>Décomposer chaque objectif en milestones, puis en actions concrètes</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Agenda</b>Poser les créneaux dans l'agenda : création, communication, administratif</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Agenda</b>Programmer un bilan trimestriel de réajustement</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Clarté</b>Reformuler son objectif jusqu'à ce qu'il résiste à la question « et après ? »</span></li>
+  </ul>
+
+  <div class="phase">Priorité 4 — construire son audience</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Avatar</b>Définir son avatar, et décider si ses projets parlent au même public ou non</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Points de contact</b>Lister les lieux où sa cible cherche de la musique, et s'y rendre visible</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Contenu</b>Modéliser trois créateurs de son univers et tester leurs formats</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Contenu</b>Lancer un format d'interviews de professionnels de sa niche</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Acquisition</b>Concevoir une offre irrésistible en opération blanche, avec son upsell</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Publicité</b>Mettre en place le retargeting, puis les audiences similaires</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Concert</b>Préparer flyer + QR code + page de capture pour la prochaine date</span></li>
+  </ul>
+</div>
+
+<!-- QUIZ -->
+<div class="quiz" id="quiz">
+  <h2>Quiz de validation</h2>
+  <p>Six questions pour vérifier que l'essentiel est passé.</p>
+
+  <div class="qz" data-good="2">
+    <div class="qt">1. Vous déclarez une œuvre : auteur 97 %, compositeur 3 %. Sans rien cocher, que touche le compositeur sur les DEP ?</div>
+    <button class="opt">3 %, comme déclaré</button>
+    <button class="opt">Rien, il n'est pas auteur</button>
+    <button class="opt">50 %, la SACEM applique sa clé statutaire</button>
+    <button class="opt">Un tiers, comme un éditeur</button>
+    <div class="fb">Sans la case qui demande que les DEP suivent la clé phono, la SACEM applique 50/50 entre auteurs et compositeurs quand l'œuvre n'est pas éditée. Sur 100 000 € de droits, le compositeur touche 50 000 au lieu de 3 000.</div>
+  </div>
+
+  <div class="qz" data-good="1">
+    <div class="qt">2. Vous sortez un single en digital. Quand devez-vous déposer l'œuvre ?</div>
+    <button class="opt">Dans les cinq ans, comme avant</button>
+    <button class="opt">Dans l'année de la sortie, sinon la première année de droits est perdue</button>
+    <button class="opt">Peu importe, les droits sont rétroactifs</button>
+    <button class="opt">Avant la sortie uniquement</button>
+    <div class="fb">C'est une règle récente et elle coûte cher : un titre à 8 millions de streams déposé hors délai perd les droits d'auteur sur ces 8 millions. Les recettes d'exploitation, elles, restent acquises.</div>
+  </div>
+
+  <div class="qz" data-good="0">
+    <div class="qt">3. Vous voulez sortir une reprise d'un tube connu en digital. Que faut-il ?</div>
+    <button class="opt">Aucune autorisation, si vous rejouez tout et ne modifiez pas l'œuvre</button>
+    <button class="opt">L'accord écrit de l'artiste original</button>
+    <button class="opt">L'accord de l'éditeur dans tous les cas</button>
+    <button class="opt">Une licence payante auprès de la SACEM</button>
+    <div class="fb">Aucune autorisation n'est requise en digital. Les deux interdits sont de sampler l'original et de modifier l'œuvre (langue, texte, top line, ajouts). La seule autorisation obligatoire concerne le pressage physique.</div>
+  </div>
+
+  <div class="qz" data-good="3">
+    <div class="qt">4. Vos streams décollent à l'étranger. Quelle option est recommandée ?</div>
+    <button class="opt">Laisser la SACEM gérer, elle est la meilleure du monde</button>
+    <button class="opt">Quitter la SACEM pour la société locale</button>
+    <button class="opt">Passer par une plateforme automatisée de collecte</button>
+    <button class="opt">Un admin deal avec un bon éditeur local, en restant à la SACEM</button>
+    <div class="fb">C'est la seule option où quelqu'un fait réellement le travail de tracking sur place. Vous restez membre de la SACEM ; seul le titre est apporté au répertoire local via l'éditeur. Choisissez une structure installée depuis au moins 30 ans.</div>
+  </div>
+
+  <div class="qz" data-good="2">
+    <div class="qt">5. Qu'est-ce qu'un « fan en base » ?</div>
+    <button class="opt">Un abonné sur les réseaux sociaux</button>
+    <button class="opt">Quelqu'un qui a déjà acheté un de vos produits</button>
+    <button class="opt">Quelqu'un qui s'est inscrit quelque part pour obtenir plus que ce que vous donnez publiquement</button>
+    <button class="opt">Un auditeur mensuel sur Spotify</button>
+    <div class="fb">Il n'a encore rien acheté, mais il a montré assez d'intérêt pour vous autoriser à le recontacter. À partir de 1 000 fans en base, une offre bien construite peut convertir 100 à 200 personnes — et devenir une économie viable.</div>
+  </div>
+
+  <div class="qz" data-good="1">
+    <div class="qt">6. Vous voulez ajouter un nouveau projet à votre année. Que dit la méthode de l'étagère ?</div>
+    <button class="opt">L'ajouter, puis réorganiser son temps</button>
+    <button class="opt">Retirer un des projets existants, sinon l'étagère s'écroule</button>
+    <button class="opt">Le reporter à l'année suivante systématiquement</button>
+    <button class="opt">Le déléguer à quelqu'un d'autre</button>
+    <div class="fb">Trois à cinq objectifs par an, jamais plus — objectifs de vie compris. Un nouveau projet ne se greffe pas par-dessus : il prend la place d'un autre, ou il attend. C'est ce qui évite de se disperser dans des projets qui ne servent à rien.</div>
+  </div>
+
+  <div class="score" id="score"></div>
+</div>
+
+<footer>
+  <p>Support de session — <b>Session Zoom mastermind</b> · 5 novembre 2026 · 6 h 00 · 157 chapitres</p>
+  <p>Producteur à Succès — Tarik Hamiche</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var CHAPITRES = [
+    [0,"Accueil et arrivée des participants"],
+    [109,"Le replay chapitré et le récap HTML"],
+    [204,"Format, durée et objectif de la session"],
+    [299,"Le format mastermind"],
+    [471,"SACEM : la clé DEP et la clé DRM"],
+    [543,"Le BDO, bulletin de déclaration d'œuvre"],
+    [606,"Les DEP : droits d'exploitation publique"],
+    [636,"Les DRM : droits de reproduction mécanique"],
+    [736,"La clé statutaire que personne ne voit"],
+    [853,"La case à cocher qui change tout"],
+    [949,"L'impact chiffré de cette case"],
+    [1022,"Existe-t-elle aussi en ligne ?"],
+    [1178,"La fausse croyance sur l'absence d'éditeur"],
+    [1228,"Plusieurs projets : un compte ou plusieurs ?"],
+    [1277,"Raisonner en avatar, pas en esthétique"],
+    [1369,"Deux univers qui matchent sur un même public"],
+    [1446,"Classique et rap : deux stratégies"],
+    [1535,"Qui est l'éditeur quand on n'en a pas ?"],
+    [1560,"Créateur, producteur, distributeur : les rôles"],
+    [1679,"Ce que fait vraiment un éditeur"],
+    [1779,"Vérification en direct sur le site SACEM"],
+    [1865,"Streams à l'étranger : que faire ?"],
+    [1955,"Option 1 : laisser faire la SACEM"],
+    [2023,"Option 2 : la fragmentation de territoire"],
+    [2138,"Le micro-panel radio de la SACEM"],
+    [2192,"Option 3 : l'admin deal avec un éditeur local"],
+    [2338,"Songtrust : ce que ça vaut"],
+    [2413,"« Je suis novice et noyée » : c'est normal"],
+    [2462,"L'analogie du dojo et du studio"],
+    [2650,"Rien déclaré ? Étape 1 : adhérer à la SACEM"],
+    [2691,"Déposer dans l'année, sinon droits perdus"],
+    [2759,"Étape 2 : ADAMI et SPEDIDAM"],
+    [2813,"La copie privée expliquée"],
+    [2996,"Étape 3 : SCPP ou SPPF"],
+    [3023,"Le catalogue qui collecte toute l'année"],
+    [3122,"L'histoire de la SCPP et de la SPPF"],
+    [3318,"Retirer des titres sortis sous un ancien nom"],
+    [3398,"Quel distributeur choisir ?"],
+    [3461,"Agrégateur ou distributeur : la différence"],
+    [3517,"Pourquoi « 100 % des royalties » est trompeur"],
+    [3659,"La liste des distributeurs agréés"],
+    [3724,"Les quatre critères de choix"],
+    [3813,"Le contrat et les frais cachés"],
+    [3912,"Adhérer à la SPPF sans société"],
+    [4052,"Édition 5 ans et synchro longue durée"],
+    [4130,"Ce qu'est une synchro"],
+    [4186,"Ce qui se passe à la fin de l'exclusivité"],
+    [4387,"Pacte de préférence et durée du copyright"],
+    [4535,"La clause d'exploitation permanente"],
+    [4648,"Que fait exactement Muzisecur ?"],
+    [4733,"Les trois niveaux de la distribution"],
+    [4915,"2 % de commission plutôt que 40 %"],
+    [5058,"Retrouver les œuvres jamais déposées"],
+    [5151,"Étude de cas : sortie d'un album jazz"],
+    [5275,"Le calendrier des commissions d'aide"],
+    [5332,"Vendre en concert : la méthode du flyer"],
+    [5444,"La page de capture pendant l'attente"],
+    [5528,"Précommande et file prioritaire"],
+    [5764,"Ni attachée de presse ni radio pour l'instant"],
+    [5806,"Être présent là où la cible cherche"],
+    [5882,"Stratégie de contenu : modéliser"],
+    [6015,"Le contenu d'actualité"],
+    [6074,"Quand commencer ? Maintenant"],
+    [6217,"Interviewer les professionnels de sa niche"],
+    [6366,"Le contenu intemporel et son recyclage"],
+    [6492,"Retargeting et audiences similaires"],
+    [6674,"Le séminaire comme machine à réseau"],
+    [6773,"Appliquer la méthode au booking"],
+    [6952,"Les efforts qui ne servent à rien"],
+    [7035,"Pitcher les curateurs et SubmitHub"],
+    [7203,"« Toutes les radios sont corruptibles »"],
+    [7267,"Un contact jazz et la bonne approche"],
+    [7367,"Un groupe se sépare : qui touche quoi ?"],
+    [7442,"Structurer : les dépôts à parts égales"],
+    [7485,"La lettre d'intention entre membres"],
+    [7621,"Monter un label en commun"],
+    [7642,"Le pacte d'associés et ses clauses"],
+    [7838,"Le cas d'une chorale avec des enfants"],
+    [8084,"Titre retiré pour stream artificiel"],
+    [8125,"Pourquoi les agrégateurs font le ménage"],
+    [8472,"Le vrai motif : les catalogues non rentables"],
+    [8487,"La directive européenne sur l'IA"],
+    [8554,"Documenter son usage de l'IA"],
+    [8626,"Les playlists semi-bot qui vous grillent"],
+    [8725,"Tour de table : présentation des membres"],
+    [9779,"Organisation de la pause et émargement"],
+    [9893,"Mon morceau monétisé par un inconnu"],
+    [9919,"Content ID : comment ça marche"],
+    [9980,"Transférer son catalogue sans perdre l'historique"],
+    [10144,"Le cas particulier des medleys DJ"],
+    [10293,"Reprises : quelles autorisations ?"],
+    [10317,"Interdit : sampler l'original"],
+    [10379,"Interdit : modifier l'œuvre"],
+    [10471,"Le pressage : la seule autorisation"],
+    [10526,"Les arrangements légers autorisés"],
+    [10661,"Ce que rapporte une reprise"],
+    [10714,"La répartition 40 / 60 des droits"],
+    [10745,"L'exemple « Iko Iko »"],
+    [10828,"Jusqu'où va une version acoustique"],
+    [10966,"L'affaire Stromae et la voix par IA"],
+    [11049,"Le risque des majors et de l'IA"],
+    [11101,"« Encadrer l'IA, pas l'interdire »"],
+    [11201,"L'IA comme maquette : est-ce éthique ?"],
+    [11266,"Les trois révolutions déjà vécues"],
+    [11486,"Musique du monde et folk : un ou deux projets ?"],
+    [11577,"L'exemple Rihanna et ses limites"],
+    [11765,"Autorisations : à qui s'adresser"],
+    [11852,"L'email qui obtient une réponse"],
+    [11966,"L'anecdote Quincy Jones"],
+    [12185,"Le refus Jean-Jacques Goldman"],
+    [12340,"Les reprises en concert"],
+    [12443,"Pause déjeuner"],
+    [16221,"Reprise de l'après-midi"],
+    [16285,"Sortir soi-même des prods non utilisées"],
+    [16435,"Les bibliothèques sonores"],
+    [16618,"Comment trouver du temps pour créer ?"],
+    [16638,"L'histoire de Stu et de son étagère"],
+    [16923,"Cinq projets par an, jamais plus"],
+    [17082,"Les objectifs de vie comptent aussi"],
+    [17216,"Décomposer un objectif en étapes"],
+    [17481,"La méthode Notion et agenda"],
+    [17616,"Faire moins, mais mieux calibré"],
+    [17648,"Appliquer l'étagère à son projet musical"],
+    [17761,"Sortir de la hustle culture"],
+    [17832,"« Tu ne l'as jamais planifié »"],
+    [18007,"Démonstration : créer sa page d'objectifs"],
+    [18279,"Lister sans contrainte, puis planifier"],
+    [18624,"Inverser les blocs quand la flemme gagne"],
+    [18753,"Le faux disque d'or accroché au mur"],
+    [18776,"La période à la rue et la force du cap"],
+    [18853,"« Quel est ton objectif ? » — l'exercice"],
+    [18997,"Le trophée YouTube et la tentation du chiffre"],
+    [19098,"Le million de streams qui ne veut rien dire"],
+    [19187,"Combien de fans pour vivre de sa musique ?"],
+    [19272,"Ce qu'est un « fan en base »"],
+    [19347,"Du touriste au fan : l'exemple du futur papa"],
+    [19551,"Convertir 1 000 fans en revenu"],
+    [19718,"L'exemple Joachim Garraud"],
+    [19749,"Les débuts : zéro vente pendant six mois"],
+    [19828,"Une fan base, c'est vivant"],
+    [19901,"Le système d'acquisition expliqué"],
+    [20046,"Démonstration : « je vous offre le livre »"],
+    [20137,"Les frais d'envoi et l'opération blanche"],
+    [20218,"Les trois leviers cachés de l'opération"],
+    [20368,"L'upsell qui rentabilise l'acquisition"],
+    [20479,"Le même schéma avec un album"],
+    [20609,"L'upsell release party et sa subvention"],
+    [20764,"Le QR code dans l'album"],
+    [20814,"Pourquoi ça marche : le fan est fan"],
+    [21054,"Garder un travail à côté ou tout lâcher ?"],
+    [21141,"Combien réinvestir chaque année ?"],
+    [21309,"Le ratio 50 / 20 / 30"],
+    [21328,"Facturer sa presta via sa société"],
+    [21418,"Le flou juridique du cachet"],
+    [21483,"Attention quand on paye d'autres musiciens"],
+    [21530,"L'IA pour le montage vidéo"],
+    [21582,"Clôture de la session"]
+  ];
+
+  var frame = document.getElementById('vimeoPlayer');
+  function fmt(s){ var m = Math.floor(s/60), r = s%60; return m + ':' + (r<10?'0':'') + r; }
+
+  function seek(sec){
+    if (!frame || !frame.contentWindow) return;
+    try {
+      frame.contentWindow.postMessage(JSON.stringify({method:'setCurrentTime', value: sec}), '*');
+      frame.contentWindow.postMessage(JSON.stringify({method:'play'}), '*');
+    } catch(e){}
+    var top = frame.getBoundingClientRect().top + window.pageYOffset - 20;
+    window.scrollTo({top: top < 0 ? 0 : top, behavior:'smooth'});
+  }
+
+  var list = document.getElementById('chlist');
+  if (list) {
+    CHAPITRES.forEach(function(c){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.innerHTML = '<b>' + fmt(c[0]) + '</b><span></span>';
+      b.querySelector('span').textContent = c[1];
+      b.addEventListener('click', function(){ seek(c[0]); });
+      list.appendChild(b);
+    });
+  }
+
+  document.querySelectorAll('.tc').forEach(function(el){
+    var parts = el.textContent.split(/(\d+:\d{2})/);
+    if (parts.length < 2) return;
+    el.textContent = '';
+    parts.forEach(function(p){
+      if (/^\d+:\d{2}$/.test(p)) {
+        var mm = p.split(':');
+        var sec = parseInt(mm[0],10)*60 + parseInt(mm[1],10);
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'seek'; b.textContent = p;
+        b.title = 'Aller a ' + p + ' dans la video';
+        b.addEventListener('click', function(){ seek(sec); });
+        el.appendChild(b);
+      } else {
+        el.appendChild(document.createTextNode(p));
+      }
+    });
+  });
+})();
+
+(function(){
+  var bar = document.getElementById('progress');
+  function upd(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', upd, {passive:true});
+  window.addEventListener('resize', upd);
+  upd();
+
+  document.querySelectorAll('.chk li').forEach(function(li){
+    li.addEventListener('click', function(){ li.classList.toggle('done'); });
+  });
+
+  var answered = 0, correct = 0;
+  var total = document.querySelectorAll('.qz').length;
+  document.querySelectorAll('.qz').forEach(function(q){
+    var good = parseInt(q.getAttribute('data-good'), 10);
+    var opts = q.querySelectorAll('.opt');
+    opts.forEach(function(o, i){
+      o.addEventListener('click', function(){
+        if (q.dataset.done) return;
+        q.dataset.done = '1';
+        answered++;
+        if (i === good) correct++;
+        opts.forEach(function(x, j){
+          if (j === good) x.classList.add('good');
+          else if (j === i) x.classList.add('bad');
+          x.style.cursor = 'default';
+        });
+        q.querySelector('.fb').classList.add('show');
+        if (answered === total) {
+          var s = document.getElementById('score');
+          s.textContent = 'Score : ' + correct + ' / ' + total + (correct === total ? ' \u2014 parfait \ud83c\udfaf' : (correct >= total - 1 ? ' \u2014 tres bien \ud83d\udc4f' : ' \u2014 une relecture des sections concernees s\'impose \ud83d\udcd8'));
+          s.classList.add('show');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

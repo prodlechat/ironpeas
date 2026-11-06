@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session individuelle du 6 novembre 2026 — Stratégie et réseau club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED; --primary-dark:#4C1D95; --primary-light:#EDE9FE;
+  --accent:#F59E0B; --accent-light:#FEF3C7;
+  --success:#10B981; --success-light:#D1FAE5;
+  --danger:#EF4444; --danger-light:#FEE2E2;
+  --info:#3B82F6; --info-light:#DBEAFE;
+  --ink:#1A1523; --muted:#5B5670; --line:#E7E4EF; --bg:#FAF9FC; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+.progress-wrap{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(108,58,237,.12);z-index:999}
+#progress{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+.wrap{max-width:940px;margin:0 auto;padding-inline:20px}
+
+.hero{background:linear-gradient(140deg,#3B1D80 0%,#6C3AED 55%,#8B5CF6 100%);color:#fff;padding-block:60px 52px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{content:"";position:absolute;left:-60px;bottom:-120px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.05)}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:700;margin-bottom:14px;position:relative;z-index:2}
+.hero .sub{font-size:17px;opacity:.92;max-width:690px;position:relative;z-index:2}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;position:relative;z-index:2}
+.meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:7px 14px;border-radius:10px;font-size:13.5px;font-weight:500}
+
+/* LECTEUR */
+.player-wrap{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:-32px;position:relative;z-index:6;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.vid{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.chx{margin-top:16px;border:1px solid var(--line);border-radius:12px;background:#FBFAFE}
+.chx summary{cursor:pointer;padding:12px 16px;font-weight:650;font-size:14.5px;color:var(--primary-dark);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chx summary::-webkit-details-marker{display:none}
+.chx summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+.chx[open] summary::before{content:"▾ "}
+.chx summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+.chlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:2px;max-height:330px;overflow-y:auto;padding:0 10px 12px}
+.chlist button{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;background:transparent;border:0;border-radius:9px;padding:8px 10px;font-family:inherit;font-size:14.5px;color:var(--ink);cursor:pointer;line-height:1.45;transition:background .12s}
+.chlist button:hover{background:var(--primary-light);color:var(--primary-dark)}
+.chlist b{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;min-width:54px}
+button.seek{background:var(--primary-light);border:1px solid #DDD3FA;color:var(--primary-dark);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;cursor:pointer;font-variant-numeric:tabular-nums;transition:all .12s}
+button.seek:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.player-wrap + .toc{margin-top:26px}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:-32px;position:relative;z-index:5;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.toc h2{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:16px;color:var(--primary-dark)}
+.toc ol{list-style:none;counter-reset:toc;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.toc li{counter-increment:toc}
+.toc a{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink);padding:9px 10px;border-radius:10px;font-size:14.5px;transition:background .15s}
+.toc a:hover{background:var(--primary-light);color:var(--primary-dark)}
+.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);font-size:13px;flex-shrink:0;padding-top:1px}
+
+section.chap{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+section.chap>.bar{height:5px;background:var(--primary)}
+.chap[data-c="a"]>.bar{background:var(--accent)} .chap[data-c="g"]>.bar{background:var(--success)}
+.chap[data-c="b"]>.bar{background:var(--info)} .chap[data-c="r"]>.bar{background:var(--danger)}
+.chead{padding:26px 28px 0;display:flex;gap:14px;align-items:center}
+.cnum{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--primary-light);color:var(--primary-dark);display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px}
+.chap[data-c="a"] .cnum{background:var(--accent-light);color:#92400E}
+.chap[data-c="g"] .cnum{background:var(--success-light);color:#065F46}
+.chap[data-c="b"] .cnum{background:var(--info-light);color:#1E40AF}
+.chap[data-c="r"] .cnum{background:var(--danger-light);color:#991B1B}
+.chead h2{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.25;font-weight:700}
+.tc{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-top:3px}
+.cbody{padding:18px 28px 28px}
+.cbody p{margin-bottom:14px}
+.cbody h3{font-family:'Space Grotesk',sans-serif;font-size:16.5px;margin:22px 0 10px;color:var(--primary-dark)}
+.cbody ul,.cbody ol{margin:0 0 14px 20px}
+.cbody li{margin-bottom:7px}
+strong{font-weight:650;color:#2D2540}
+em.q{font-style:italic;color:#413655}
+
+.box{border-radius:12px;padding:16px 18px;margin:18px 0;border-left:4px solid;font-size:15px}
+.box .bt{display:block;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.box p:last-child{margin-bottom:0}
+.b-key{background:var(--primary-light);border-color:var(--primary)} .b-key .bt{color:var(--primary-dark)}
+.b-warn{background:var(--accent-light);border-color:var(--accent)} .b-warn .bt{color:#92400E}
+.b-tip{background:var(--success-light);border-color:var(--success)} .b-tip .bt{color:#065F46}
+.b-info{background:var(--info-light);border-color:var(--info)} .b-info .bt{color:#1E40AF}
+.b-danger{background:var(--danger-light);border-color:var(--danger)} .b-danger .bt{color:#991B1B}
+
+.tbl{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:12px 14px;font-weight:600;font-size:13.5px}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#FBFAFE}
+
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.pc>div{border-radius:12px;padding:16px 18px;font-size:14.5px}
+.pc .ok{background:var(--success-light);border:1px solid #A7F3D0}
+.pc .ko{background:var(--danger-light);border:1px solid #FECACA}
+.pc h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.pc .ok h4{color:#065F46} .pc .ko h4{color:#991B1B}
+.pc ul{margin:0 0 0 18px} .pc li{margin-bottom:5px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
+.card{background:#FBFAFE;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h4{font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:6px;color:var(--primary-dark)}
+.card p{font-size:14px;color:var(--muted);margin:0}
+.stat h4{font-size:22px;font-family:'Space Grotesk',sans-serif}
+
+.tl{list-style:none;margin:18px 0;padding-left:26px;border-left:2px dashed var(--line)}
+.tl li{position:relative;margin-bottom:16px;font-size:15px}
+.tl li::before{content:"";position:absolute;left:-33px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light)}
+.tl b{display:block;font-family:'Space Grotesk',sans-serif;color:var(--primary-dark)}
+
+details{border:1px solid var(--line);border-radius:12px;margin:14px 0;background:#FBFAFE}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:15px;color:var(--primary-dark);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+details[open] summary::before{content:"▾ "}
+details .dc{padding:0 18px 16px;font-size:14.5px}
+
+.pull{margin:22px 0;padding:20px 24px;border-radius:14px;background:linear-gradient(120deg,#2D1B69,#4C1D95);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:19px;line-height:1.45;font-weight:600}
+.pull span{display:block;margin-top:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;opacity:.7;letter-spacing:.03em}
+
+.faq{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+.faq>.bar{height:5px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.faqhead{padding:26px 28px 0}
+.faqhead h2{font-family:'Space Grotesk',sans-serif;font-size:26px;color:var(--primary-dark)}
+.faqhead p{color:var(--muted);font-size:15px;margin-top:4px}
+.faqbody{padding:18px 28px 28px}
+.faqcat{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.faqcat:first-child{margin-top:6px}
+.qa{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:#FDFCFF}
+.qa .q{background:linear-gradient(90deg,var(--primary-light),#F6F3FF);padding:13px 18px;font-weight:650;color:var(--primary-dark);font-size:15.5px;display:flex;gap:10px}
+.qa .q span{flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.qa .a{padding:15px 18px;font-size:15px}
+.qa .a p{margin-bottom:10px} .qa .a p:last-child{margin-bottom:0}
+
+.plan{background:linear-gradient(140deg,#0F172A,#1E1B4B);color:#fff;border-radius:18px;padding:30px 28px;margin-top:26px}
+.plan h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:8px}
+.plan>p{opacity:.8;margin-bottom:20px;font-size:15px}
+.phase{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin:22px 0 10px}
+.phase:first-of-type{margin-top:0}
+.chk{list-style:none;margin:0;padding:0}
+.chk li{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;margin-bottom:9px;font-size:15px;cursor:pointer;transition:background .15s}
+.chk li:hover{background:rgba(255,255,255,.09)}
+.chk .bx{flex-shrink:0;width:20px;height:20px;border:2px solid rgba(255,255,255,.4);border-radius:6px;margin-top:3px;display:grid;place-items:center;font-size:13px;font-weight:700;color:transparent}
+.chk li.done .bx{background:var(--success);border-color:var(--success);color:#fff}
+.chk li.done .tx{opacity:.5;text-decoration:line-through}
+.chk .tx b{display:block;font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.04em;text-transform:uppercase;opacity:.65;margin-bottom:2px}
+
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px;margin-top:26px}
+.quiz h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:6px;color:var(--primary-dark)}
+.quiz>p{color:var(--muted);margin-bottom:22px;font-size:15px}
+.qz{margin-bottom:24px;padding-bottom:22px;border-bottom:1px dashed var(--line)}
+.qz:last-of-type{border-bottom:none}
+.qz .qt{font-weight:650;margin-bottom:12px;font-size:15.5px}
+.opt{display:block;width:100%;text-align:left;background:#FBFAFE;border:1.5px solid var(--line);border-radius:10px;padding:11px 15px;margin-bottom:8px;cursor:pointer;font-family:inherit;font-size:14.5px;color:var(--ink);transition:all .15s}
+.opt:hover{border-color:var(--primary);background:var(--primary-light)}
+.opt.good{background:var(--success-light);border-color:var(--success);font-weight:600}
+.opt.bad{background:var(--danger-light);border-color:var(--danger)}
+.fb{display:none;margin-top:10px;padding:12px 15px;border-radius:10px;font-size:14.5px;background:var(--info-light);border-left:4px solid var(--info)}
+.fb.show{display:block}
+.score{margin-top:20px;padding:16px;border-radius:12px;background:var(--primary-light);text-align:center;font-weight:650;color:var(--primary-dark);display:none}
+.score.show{display:block}
+
+footer{text-align:center;padding-block:40px 50px;color:var(--muted);font-size:14px}
+footer b{color:var(--primary-dark);font-family:'Space Grotesk',sans-serif}
+
+@media(max-width:640px){
+  .pc{grid-template-columns:1fr}
+  .chead,.faqhead{padding:22px 18px 0} .cbody,.faqbody{padding:16px 18px 22px}
+  .toc{padding:22px 18px} .plan,.quiz{padding:24px 18px}
+  .hero h1{font-size:27px} .pull{font-size:17px;padding:18px}
+  .player-wrap{padding:14px} .chlist{grid-template-columns:1fr;max-height:280px}
+}
+@media print{
+  .progress-wrap{display:none} body{background:#fff}
+  section.chap,.toc,.quiz,.faq{box-shadow:none;break-inside:avoid}
+  .opt{display:none}
+  .vid{display:none} .player-wrap{box-shadow:none;margin-top:20px}
+  .chlist{max-height:none;overflow:visible} .chlist button{padding:3px 0}
+  button.seek{background:none;border:0;padding:0;color:var(--primary-dark)}
+}
+</style>
+</head>
+<body>
+<div class="progress-wrap"><div id="progress"></div></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">Session individuelle · 6 novembre 2026</div>
+    <h1>Prendre sa case, puis la défoncer —<br>et ouvrir le réseau club</h1>
+    <p class="sub">Une session individuelle de diagnostic et de remise à plat stratégique : pourquoi une carrière qui a bien démarré finit par plafonner, comment assumer une direction artistique avant de se diversifier, les trois niveaux de contenu et les quatre formats qui captent vraiment l'attention — et le modèle d'affaires le plus rentable et le plus négligé quand on fait du kompa : les clubs.</p>
+    <div class="meta">
+      <span>⏱ 1 h 24</span>
+      <span>🎙 Tarik Hamiche</span>
+      <span>👤 Session individuelle</span>
+      <span>📌 64 chapitres</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="player-wrap">
+  <div class="vid">
+    <iframe id="vimeoPlayer"
+      src="https://player.vimeo.com/video/1244262355?h=00b54eefb4"
+      title="Session individuelle du 6 novembre 2026"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  <details class="chx" id="chx">
+    <summary><span>Les 64 chapitres de la session</span><em>Cliquez un chapitre pour y aller</em></summary>
+    <div class="chlist" id="chlist"></div>
+  </details>
+</div>
+
+<nav class="toc">
+  <h2>Au programme</h2>
+  <ol>
+    <li><a href="#s1">Le point de départ</a></li>
+    <li><a href="#s2">Le diagnostic : passer ceinture noire</a></li>
+    <li><a href="#s3">Les trois niveaux de contenu</a></li>
+    <li><a href="#s4">Les quatre formats qui captent l'attention</a></li>
+    <li><a href="#s5">Le réseau club, le modèle oublié</a></li>
+    <li><a href="#s6">Les deux règles d'un envoi DJ</a></li>
+    <li><a href="#s7">L'exemple Mikey</a></li>
+    <li><a href="#s8">Statut, formation et réalité du terrain</a></li>
+    <li><a href="#s9">Muzisecur et MusiCenter : quand les prendre</a></li>
+    <li><a href="#s10">Recentrage, feats et cadrage</a></li>
+  </ol>
+</nav>
+
+<section class="chap" id="s1" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">01</div><div><h2>Le point de départ</h2><div class="tc">0:00 → 8:40</div></div></div>
+  <div class="cbody">
+    <p>La session s'ouvre sur un état d'esprit : <em class="q">« j'attendais un peu cette session-là parce que j'étais un peu démoralisé ces derniers temps avec la musique »</em>. Le récit du parcours qui suit est précis, et c'est ce récit qui va servir de matière au diagnostic.</p>
+    <h3>Ce qui a été construit depuis 2020</h3>
+    <div class="tl">
+      <li><b>2020 — Le démarrage</b>Carrière lancée officiellement. Auteur et interprète de ses propres chansons, peu de composition. Objectif initial : sortir sur les plateformes, faire quelques streams, des open mic. <em>« Du loisir »</em> au départ, puis la bascule : en faire son métier et en vivre.</li>
+      <li><b>2021 — Kompa Night</b>Le premier EP, et le vrai élan. Il n'était pas vendu comme un artiste kompa : c'étaient des freestyles postés sur Instagram pour faire du contenu, et c'est <strong>le public qui a réclamé une compilation</strong>. Il y avait une attente, il l'a servie.</li>
+      <li><b>Les objectifs cochés</b>Passer sur Tropik FM, sur Espace FM, remplir des concerts de plus en plus grands. Interview sur Espace, titre joué tout l'été sur Tropik. La Foire de Paris en extérieur. Puis repéré par un responsable chez Trace, qui l'a fait chanter sur leur podium.</li>
+      <li><b>Aujourd'hui</b>Un deuxième EP, un album (Relationship), puis des singles tous les mois à mois et demi — pour rester visible et avoir assez de matière pour renouveler les concerts.</li>
+    </div>
+    <div class="box b-danger"><span class="bt">Le détail qui ne passe pas inaperçu</span><p>Son titre a tourné tout l'été sur une radio nationale antillaise. <strong>Zéro euro de SACEM perçu.</strong> Il le mentionne en passant, « parce que j'ai trop de choses à dire » — mais c'est exactement le genre de signal qui indique que la structure administrative n'a jamais été mise en place.</p></div>
+    <h3>Le constat</h3>
+    <div class="pull">« Je suis arrivé à un stade où je suis un peu face à un plafond de verre. J'ai l'impression que je n'ai pas les bons outils pour atteindre les personnes que je souhaite atteindre. »<span>D'où la venue en formation : chercher des outils marketing efficaces</span></div>
+    <p>Le diagnostic qu'il pose lui-même est juste : la création n'est pas le problème. Il écrit, il interprète, il compose avec un binôme, il est en autoprod avec un ingénieur du son qui enregistre, mixe et masterise. Ce qui coince, c'est <strong>la fanbase</strong> — et il en tire la bonne conclusion : avec une communauté solide, les streams suivent, et la crédibilité avec.</p>
+    <div class="box b-info"><span class="bt">Les contraintes posées</span><p>Instagram est le réseau principal. TikTok a été tenté et abandonné — <em class="q">« je te jure, j'y arrive pas »</em>. Réponse de Tarik : <strong>ne pas s'acharner</strong>, c'est devenu très compliqué d'y percer aujourd'hui. Pas de manager, pas d'équipe. Et un reproche déjà entendu sur le deuxième EP : s'être trop éparpillé, ne pas être resté dans le kompa.</p></div>
+  </div>
+</section>
+
+<section class="chap" id="s2" data-c="r">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">02</div><div><h2>Le diagnostic : passer ceinture noire</h2><div class="tc">8:43 → 15:00</div></div></div>
+  <div class="cbody">
+    <p>Tarik annonce la couleur avant de parler : <em class="q">« Je suis comme dans les coups de feu en cuisine, je parle brut, mais il ne faut y voir aucune animosité. »</em></p>
+    <div class="pull">« Ce que tu as fait a été fait de manière brouillon. Dans ta manière de parler, dans ce que tu décris, ça se ressent : il n'y a pas de stratégie. »<span>Tarik Hamiche</span></div>
+    <div class="box b-key"><span class="bt">L'analogie qui structure toute la session</span><p>« Tu es une ceinture blanche, voire une ceinture bleue sur le début. L'idée, c'est que tu passes <strong>ceinture noire</strong>. »</p><p>Et la différence n'est pas le nombre de techniques connues : c'est de <strong>maîtriser des concepts clés</strong>, et d'adapter ensuite les stratégies qu'on veut à partir de chaque concept.</p></div>
+    <h3>Concept n°1 · L'étiquette n'est pas une prison, c'est une porte</h3>
+    <p>Le reproche de s'être éparpillé n'est pas un jugement de goût : c'est un concept de base. <strong>Un public et des médias vous mettent une étiquette.</strong> C'est le jeu, et ce n'est qu'une étape.</p>
+    <div class="box b-info"><span class="bt">L'exemple Rihanna</span><p>Au début, elle était rangée comme chanteuse afro-caribéenne : <em>Umbrella</em>, <em>Man Down</em>, cet univers-là. Aujourd'hui elle fait de la pop, du rock, de la trap, du reggae, ce qu'elle veut — et ça marche. <strong>Mais au départ, on entre par un réseau avant de s'étendre.</strong></p></div>
+    <p>L'erreur, c'est de refuser l'étiquette trop tôt. Et le mécanisme est implacable :</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Ce qui se passe</th><th>Conséquence</th></tr></thead>
+        <tbody>
+          <tr><td>Vous atteignez les radios qui vous ont mis dans une case</td><td>Vous avez un partenaire média</td></tr>
+          <tr><td>Dès que c'est atteint, vous leur envoyez autre chose</td><td>« Il ne rentre plus dans cette case »</td></tr>
+          <tr><td>Ils mettent quelqu'un d'autre dans la case</td><td>Il n'y a plus de place pour vous, ils attendent</td></tr>
+          <tr><td>L'attente dure deux ou trois ans</td><td><strong>Le média vous oublie. Vous perdez un partenaire de taille.</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Ceux qui ont compris le jeu</h3>
+    <div class="pull">« Jul, c'est rincé, il a fait 50 morceaux, c'est 50 fois la même chose. Peut-être — mais en attendant, il a compris le jeu, lui. »<span>Le principe : rentrer dans une case, et la défoncer jusqu'à ce qu'on ne puisse plus mettre personne d'autre dedans</span></div>
+    <p>Même logique chez Gims — le même kick, le même clap, la même structure rythmique sur quinze morceaux. Ou chez Guetta, qui a sorti <strong>le même sample sur cinq singles différents</strong>, et les cinq ont fait des tubes. Vu de l'extérieur, c'est du matraquage. Vu de l'intérieur, c'est une prise de territoire.</p>
+    <div class="box b-key"><span class="bt">L'analogie McDonald's</span><p>Si demain on vous dit que McDo fait des grecs, des tacos, des burgers, des salades vegan et de la gastronomie le midi — <strong>vous n'y allez pas.</strong></p><p>Pendant 35 ans, ils n'ont fait que des burgers. Cheeseburger, frites, Coca. Vous voulez autre chose, allez en face. Après seulement : le vegan, le poisson, des produits pour élargir. Mais aujourd'hui, « burger » fait penser à McDo. <strong>C'est ça, une marque d'autorité</strong> — et c'est devenu presque impossible de lancer une marque de burgers contre eux.</p></div>
+    <div class="box b-danger"><span class="bt">La conclusion</span><p><strong>Tant qu'on n'est pas devenu un géant, la diversification est une erreur.</strong> C'est un concept, pas un ordre — on peut l'accepter ou le refuser. Mais il faut connaître les conséquences.</p></div>
+    <h3>Le contre-exemple assumé</h3>
+    <p>Makassy avait une case bien installée — <em class="q">« autoroute pour faire une carrière légendaire de 20 ans »</em>. Il a refusé : il voulait du guitare-voix, il avait un message sociopolitique à porter, il ne se serait pas senti à l'aise autrement.</p>
+    <p>Tarik l'a suivi, en le prévenant : <em class="q">« À partir de maintenant, on n'a plus de médias. »</em> Dès le lendemain, terminé. Il a fait ce qu'il voulait — et aujourd'hui il le regrette un peu. <strong>C'est un choix légitime, à condition de le faire en connaissance de cause.</strong></p>
+  </div>
+</section>
+
+<section class="chap" id="s3" data-c="p">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">03</div><div><h2>Les trois niveaux de contenu</h2><div class="tc">15:05 → 18:40</div></div></div>
+  <div class="cbody">
+    <p>Deuxième constat, après examen du compte Instagram : <strong>il n'y a pas de stratégie de communication digitale</strong>. Et la grille est simple — il n'existe que trois types de contenus. Pas quatre.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Niveau</th><th>Objectif</th><th>Part à viser</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1 · Attention</strong></td><td>Viser la masse, pas son public. Se rendre visible et capter l'attention de gens qui ne vous connaissent pas</td><td><strong>50 %</strong></td></tr>
+          <tr><td><strong>2 · Fidélisation</strong></td><td>Entretenir la relation avec un public déjà acquis. Le nourrir en actualité</td><td><strong>20 à 30 %</strong></td></tr>
+          <tr><td><strong>3 · Conversion</strong></td><td>Les appels à l'action : « le clip est sorti, clique ici »</td><td><strong>10 à 20 %</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="box b-key"><span class="bt">Niveau 1 — Ce qui manque complètement</span><p>Sur 100 000 vues, il y aura peut-être 1 000 personnes vraiment intéressantes. <strong>Il faut accepter ce ratio : c'est le jeu des réseaux sociaux.</strong></p><p>Et il faut mesurer la concurrence : <em class="q">« Tu es en concurrence avec la dernière dinguerie de Trump, avec la meuf super fraîche qui s'expose, avec moi, avec n'importe qui. Il faut que tu trouves un moyen de te démarquer pour exister. »</em></p></div>
+    <div class="box b-info"><span class="bt">Niveau 2 — Ce qu'il fait déjà bien</span><p>L'analogie du sport : le premier niveau d'entraînement sert à aller chercher de la performance ; le deuxième, à entretenir. Quand on a déjà le volume, on va à la salle pour ne pas le perdre — parce qu'en six mois sans y aller, ça part.</p><p>Le principe : <em class="q">« Toutes les semaines il y a quelque chose, et toutes les semaines ça m'intéresse de voir. Je ne vais peut-être pas tout regarder, mais je suis content de te voir quand je te vois. »</em> Pas le compte où il ne s'est rien passé depuis douze mois.</p></div>
+    <div class="box b-danger"><span class="bt">Niveau 3 — Pourquoi ça ne marche pas aujourd'hui</span><p>« Nouveau clip, la famille, cliquez ici. » C'est ce que font tous les artistes. Et la réponse du spectateur est : <em class="q">« Je ne te connais pas, je ne t'aime pas, je n'ai pas le temps pour toi. Merci, au revoir. »</em></p><p>Le niveau 3 ne sert à rien pour gagner en visibilité. Et le niveau 2 non plus, si vous n'avez pas d'abord suscité de l'intérêt — c'est exactement comme recevoir une vidéo sur comment nourrir un bébé au biberon quand on n'a pas d'enfant.</p></div>
+    <div class="pull">« Le problème, c'est que le niveau 2, tu le fais déjà — mais sur une communauté trop petite. Il faut la faire grossir. Donc il faut travailler beaucoup sur le niveau 1. Mais intelligemment. »<span>Tarik Hamiche</span></div>
+  </div>
+</section>
+
+<section class="chap" id="s4" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">04</div><div><h2>Les quatre formats qui captent l'attention</h2><div class="tc">18:40 → 37:00</div></div></div>
+  <div class="cbody">
+    <p>Quatre familles de contenus d'attention, données comme des pistes à tester — pas comme des obligations. <em class="q">« Ne te force jamais. Teste plein de choses. »</em></p>
+    <h3>Format 1 · Le divertissement</h3>
+    <p>Un contenu divertissant sera vu et poussé par les algorithmes. Danse, performance vocale — ou rien à voir avec la musique : humour, sketch, débat, avis tranché sur quelque chose.</p>
+    <div class="box b-key"><span class="bt">La modélisation : la méthode pour trouver des idées</span><p>Repérer des comptes d'artistes dans votre direction artistique, plus visibles que vous, et identifier chez eux ce type de contenu.</p><p>Exemple : un artiste kompa poste une vidéo où il n'apparaît même pas — un couple qui danse — et ça fait 2 millions de vues. <strong>« Moi aussi je trouve une vidéo comme ça, je la détourne, et je mets mon son dessus. »</strong></p><p>Ça ne veut pas dire que ça marchera. Ça se teste : 400 vues → on dégage dès le lendemain. Ça prend → on laisse tourner. Et peut-être 200 000 vues pour 1 300 abonnés gagnés — des gens intéressés, pas des touristes.</p></div>
+    <h3>Format 2 · L'éducation</h3>
+    <p>C'est ce que Tarik fait lui-même, et selon lui il n'y en a pas assez dans la musique.</p>
+    <div class="box b-info"><span class="bt">L'exemple qui vient de la vraie vie</span><p>En Bretagne, beaucoup de gens ne savent pas ce qu'est le kompa. <em class="q">« Je fais du kompa. — Ah bon ? Moi aussi j'en ai fait à l'école. »</em> Véridique.</p><p>D'où l'idée : faire une vidéo « C'est quoi le kompa ? ». Parce que cette personne n'est pas la seule sur Terre à l'ignorer — et pour tous ceux qui tapent cette requête, <strong>s'il n'existe pas de vidéo, la vôtre sera la seule qu'ils verront</strong>.</p><p>Le mécanisme derrière : ils passent du temps sur votre contenu → l'algorithme remonte mécaniquement plus de vos publications dans leur fil.</p></div>
+    <p>Autres déclinaisons : le <strong>top 10 des sons kompa du moment</strong> — un format à la fois divertissant et éducatif que les DJ font très bien, et qui draine un public intéressé. Ou des <strong>pas de danse</strong> : demander à un ami chorégraphe de filmer les mouvements de base. Et dans tous les cas, la vidéo est toujours sur votre son.</p>
+    <div class="box b-tip"><span class="bt">Le changement de septembre</span><p>Toutes les vues cumulées sur TikTok d'une vidéo utilisant un son <strong>se convertissent désormais en streams sur Apple Music</strong> — un accord conclu en septembre. En plus de faire remonter dans les tendances et de faire reprendre le son. Sur Instagram il n'y a pas de conversion en streams, mais la visibilité augmente quand même.</p></div>
+    <h3>Format 3 · L'actualité</h3>
+    <p>Ça fonctionne très bien en diffusion parce que les algorithmes adorent — mais ça demande du travail.</p>
+    <div class="box b-info"><span class="bt">L'exemple du matin même</span><p>Un post sur les impayés de Distrokid. C'est de l'information. Celui qui tombe dessus se dit soit « je ne le savais pas, content de le savoir », soit « merde, je suis chez eux », soit « heureusement je n'y suis pas ». <strong>Juste ça, ça draine du monde.</strong></p><p>Et l'effet secondaire est puissant : quelqu'un qui passe trois minutes à lire un carrousel voit ensuite remonter les anciens posts dans son fil — <strong>et passe de la 77<sup>e</sup> à la 2<sup>e</sup> place dans son fil de stories</strong>.</p></div>
+    <h3>Format 4 · La performance pure</h3>
+    <p>Celui qui demande de développer des concepts — et Tarik en montre quatre en direct.</p>
+    <div class="cards">
+      <div class="card"><h4>Les ondes en direct</h4><p>On se filme en train de chanter au micro, et on voit <strong>l'onde audio se dessiner en temps réel</strong> dans le logiciel de MAO. Moitié d'image sur l'artiste, moitié sur l'onde qui défile. On a l'impression que le son se crée en live. <em>« Ne me demande pas pourquoi, mais c'est hypnotique. »</em></p></div>
+      <div class="card"><h4>Les trois mots</h4><p>Une mise en scène : « donne-moi trois mots et j'écris un son avec. » On sait que c'est préparé — mais ce qui retient, c'est la manière dont c'est tourné, et surtout <strong>la réaction de la personne derrière</strong>, qui s'en moque au début et finit par décrocher.</p></div>
+      <div class="card"><h4>Toutes les notes</h4><p>Un artiste anglophone qui reprend <strong>toutes les notes d'un morceau</strong>, une par une. Uniquement de la performance vocale. L'équivalent de quelqu'un capable de rejouer un tube au piano sans préparation.</p></div>
+      <div class="card"><h4>La réaction studio</h4><p>Le son passe en studio. Au début personne ne réagit — l'un est sur son téléphone, l'autre au café. Puis les têtes bougent, le téléphone se repose, le café aussi. <strong>La caméra filme les réactions.</strong> Très addictif.</p></div>
+    </div>
+    <div class="box b-tip"><span class="bt">Comment on fabrique le format « ondes »</span><p>On s'enregistre une première fois en live, et <strong>on filme son écran pendant que ça enregistre</strong>. Ensuite on découpe et on intègre au montage vidéo. Référence citée : une artiste suisse qui a construit toute sa stratégie de contenu là-dessus et qui n'en a jamais changé.</p></div>
+    <h3>La mécanique à viser</h3>
+    <div class="tl">
+      <li><b>1 · La veille</b>Trouver ce style de formats sur les plateformes, implémenter ceux qu'on sent, écarter les autres.</li>
+      <li><b>2 · Le plateau</b>Chez tous les artistes accompagnés qui font le travail, c'est la même chose : on plafonne pendant un moment.</li>
+      <li><b>3 · L'explosion</b>Puis une vidéo part, sans qu'on sache pourquoi. 600 000 vues. On refait exactement la même sur un autre son : 2 millions.</li>
+      <li><b>4 · Le format est isolé</b>On bombarde. Ça devient sa norme, sa narrative — et on devient <strong>« le gars qui »</strong> : celui qui s'enregistre avec les ondes, celui qui fait toutes les notes.</li>
+      <li><b>5 · Le résultat</b>À ce stade, chaque sortie génère des dizaines de milliers de streams. Et il reste le facteur chance : parfois 70 000 streams et ça s'arrête, parfois 4 millions de vues en trois jours.</li>
+    </div>
+    <div class="pull">« L'absence de stratégie, c'est publier pour publier. La stratégie, c'est : le niveau 3 ne sert à rien pour l'instant, le niveau 2 je le fais mais sur une communauté trop petite, donc je travaille le niveau 1 — intelligemment. Ne réinvente pas la roue : trouve des concepts qui marchent ailleurs, importe-les et teste-les. »<span>Tarik Hamiche</span></div>
+  </div>
+</section>
+
+<section class="chap" id="s5" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">05</div><div><h2>Le réseau club, le modèle oublié</h2><div class="tc">38:00 → 44:00</div></div></div>
+  <div class="cbody">
+    <p>Le troisième axe, celui qui n'avait pas été évoqué du tout. <em class="q">« Aujourd'hui, si tu fais du kompa et que tu continues dans cette voie-là, c'est jouer en club. C'est comme le shatta, c'est comme le zouk. »</em></p>
+    <h3>Les deux systèmes parallèles en France</h3>
+    <div class="pc">
+      <div class="ko"><h4>Le classement club officiel</h4><ul><li><strong>35 clubs sondés</strong> seulement</li><li>Les sondages démarrent à 1 h du matin et s'arrêtent à 5 h</li><li>Résultat : très peu de reggaeton, pas de zouk, pas de kizomba</li><li>C'est le classement public — et tout le monde dans le milieu sait qu'il est biaisé</li></ul></div>
+      <div class="ok"><h4>Le panel SPRE</h4><ul><li><strong>Environ 200 établissements</strong> sondés</li><li>De 23 h à 6 h du matin</li><li>Non public, non diffusé, et il change tous les semestres</li><li><strong>C'est lui qui collecte les droits</strong> — et c'est lui qui rapporte</li></ul></div>
+    </div>
+    <div class="box b-key"><span class="bt">La conséquence pratique</span><p>Comme ces clubs ne sont pas identifiables et qu'ils changent en permanence, la seule stratégie est de <strong>développer un maximum sa visibilité auprès des DJ et du monde de la nuit</strong>, sans chercher à cibler.</p></div>
+    <h3>Les réseaux à activer</h3>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Réseau</th><th>Ce qu'il couvre</th></tr></thead>
+        <tbody>
+          <tr><td><strong>The Bridge Promotion</strong></td><td>Créé par DJ Battle (ex-DJ de La Fouine) et son ami d'enfance, en réunissant tout leur réseau de DJ. <strong>Environ 800 DJ</strong> — afro, antillais, hip-hop, dancehall, toute la musique urbaine. Chaque nouveauté part à l'ensemble du panel</td></tr>
+          <tr><td><strong>MusiCenter</strong></td><td>Son panel de DJ membres est constitué des <strong>DJ de la SPRE</strong> — ceux qui sont sondés pour la collecte. C'est donc la bonne cible qui reçoit</td></tr>
+          <tr><td><strong>MusiBox Live, Fuvi Clan, Yakaste</strong></td><td>Les systèmes alternatifs, qui couvrent bien plus large : DJ en clubs non sondés, patinoires, soirées privées, mariages, soirées d'entreprise. On estime <strong>1 700 à 2 500 DJ semi-professionnels</strong> sur ces réseaux</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Avec ces quatre réseaux, le monde des clubs est couvert. Et l'avantage du kompa, c'est que ça se joue en club — donc plus de droits d'auteur, plus de droits voisins, et surtout <strong>des dates qui tombent</strong>.</p>
+    <h3>Ce que paie un showcase en club</h3>
+    <div class="cards">
+      <div class="card stat"><h4>1 500 – 2 500 €</h4><p>Pour 30 minutes de show, en étant « pas du tout connu »</p></div>
+      <div class="card stat"><h4>8 000 – 10 000 €</h4><p>Pour un artiste déjà en place</p></div>
+      <div class="card stat"><h4>25 000 €</h4><p>Pour un artiste très connu</p></div>
+    </div>
+    <div class="box b-tip"><span class="bt">Pourquoi c'est un vrai modèle d'affaires</span><p>Deux dates à 2 000 € font un mois. <strong>Trois ou quatre par mois, et ça fait très bien vivre.</strong> Et c'est un réseau qui en amène d'autres : les clubs sont interconnectés avec des festivals, des radios, et gèrent beaucoup d'afters.</p></div>
+    <p>Le conseil opérationnel : prendre un titre qui a bien marché — ou le prochain single destiné au club — et tester un envoi promo dessus pour voir ce que ça donne.</p>
+  </div>
+</section>
+
+<section class="chap" id="s6" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">06</div><div><h2>Les deux règles d'un envoi DJ</h2><div class="tc">44:00 → 49:00</div></div></div>
+  <div class="cbody">
+    <p>Envoyer son titre aux DJ ne suffit pas : il faut l'envoyer dans un format qu'ils peuvent effectivement jouer. Deux règles.</p>
+    <h3>Règle 1 · L'original et le Club Extended</h3>
+    <div class="box b-key"><span class="bt">Pourquoi un radio edit ne sera pas joué</span><p>Un Club Extended, c'est une structure où <strong>le beat part avant le son</strong> : quatre ou huit mesures de beat, puis un charley qui rentre, et peut-être 30 secondes sans voix.</p><p>Les DJ en ont besoin pour caler le morceau sur le précédent. C'est l'héritage direct des breakbeats du hip-hop vinyle : sans le break, impossible de passer d'un son à l'autre. Aujourd'hui sur Serato c'est plus simple, <strong>mais sans extended, ils ne savent toujours pas où vous caler — et ça ne passe pas.</strong></p></div>
+    <h3>Règle 2 · Le pack remix</h3>
+    <p>C'est le levier le plus sous-estimé, et il repose sur une contrainte très concrète : le BPM.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Situation</th><th>Résultat</th></tr></thead>
+        <tbody>
+          <tr><td>Votre kompa tourne à 89 ou 92 BPM</td><td>Un DJ qui enchaîne des sons entre 110 et 125 <strong>ne peut pas vous jouer</strong> — il ne saura pas où vous caler</td></tr>
+          <tr><td>Vous fournissez un remix moombahton à 108-110</td><td>Il peut vous jouer, et ce sera facile pour lui</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pull">« L'intérêt du pack remix, c'est de proposer des versions alternatives qui rendent plus simple la capacité pour un DJ de te jouer sur le style de musique que lui joue. »<span>Plus vous êtes joué, plus vous collectez, plus vous vous faites découvrir, plus on vous appelle pour vendre des dates</span></div>
+    <div class="box b-info"><span class="bt">Le scénario à garder en tête</span><p>Un DJ en club électro sur la Côte d'Azur joue votre remix électro. À chaque fois qu'il le passe, les gens viennent dessus. Au bout de deux mois, les habitués réclament. <strong>Il vous appelle pour un showcase</strong> — « je te préviens, nous c'est un club électro, mais ils ont kiffé ton son ».</p><p>Vous ne gagnerez pas de public à cet endroit-là, mais vous prendrez de l'argent et un peu de visibilité. Et on ne sait jamais où ça va.</p></div>
+    <div class="box b-tip"><span class="bt">L'exemple qui prouve que le remix peut tout changer</span><p>Le premier titre gospel mainstream français : on estime que <strong>sans la version gospel, le titre ne pétait pas</strong>. C'est elle qui a créé le buzz web. La version originale n'est arrivée qu'après, et n'est jouée que sur certaines antennes — tandis qu'une radio grand public joue surtout la version gospel.</p><p>L'artiste s'en moque : il est numéro un des ventes depuis quatre mois, et <strong>c'est l'original qui est crédité à la fin</strong>.</p></div>
+    <div class="box b-key"><span class="bt">Le bilan d'étape</span><p><em class="q">« On vient de passer de ceinture bleue à ceinture marron, on n'est pas loin de la ceinture noire. »</em></p><p>Deux axes désormais actionnables : <strong>des contenus d'attention</strong> pour capter des gens qui ne vous connaissent pas, et <strong>le réseau club</strong> avec des versions alternatives. Il y a d'ailleurs fort à parier que des DJ vous jouent déjà sans que vous le sachiez.</p></div>
+  </div>
+</section>
+
+<section class="chap" id="s7" data-c="p">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">07</div><div><h2>L'exemple Mikey</h2><div class="tc">49:30 → 52:30</div></div></div>
+  <div class="cbody">
+    <p>Pour illustrer les deux points — la rentabilité du club et le danger de la diversification prématurée — Tarik raconte un projet qu'il a produit vers 2012-2013.</p>
+    <div class="tl">
+      <li><b>Le point de départ</b>Le titre est enregistré par un DJ qui, une fois le son mixé, l'envoie à tout son réseau de DJ. Les DJ le jouent, ça prend.</li>
+      <li><b>L'appropriation</b>Le public féminin s'approprie le titre. Ça devient un phénomène.</li>
+      <li><b>La rentabilité immédiate</b>3 000 à 4 000 € le showcase de 30 minutes. <strong>Quatre showcases dans le mois = 16 000 €.</strong> Le projet est rentabilisé tout de suite.</li>
+      <li><b>L'extension</b>Un gros noyau dur aux Antilles, puis la métropole très vite, puis la Belgique, l'océan Indien, un peu le Canada. <em>« Il y a un public antillais partout. »</em></li>
+    </div>
+    <div class="box b-tip"><span class="bt">La leçon sur le réseau</span><p>La force du projet, c'est que le DJ qui l'a enregistré <strong>avait déjà le réseau club</strong>. Tout est parti de là. Et le même mécanisme existe ailleurs : les sons d'une communauté donnée partent d'un endroit et atterrissent partout dans le monde — jusqu'à des appels de New York pour des showcases, parce qu'une communauté y est installée et qu'elle a les moyens de vous faire venir.</p></div>
+    <div class="box b-danger"><span class="bt">L'anomalie, et ce qu'elle a coûté</span><p>Mikey était à la base un artiste hip-hop. Il a fait ce titre parce que la prod l'a inspiré — et ça a pris.</p><p>Mais au lieu d'assumer cette direction artistique, d'amener un deuxième puis un troisième titre pour confirmer, prendre la place et aller taper les médias nationaux, <strong>il est revenu à des sons hip-hop</strong>.</p><p>Résultat : tous ceux qui l'avaient découvert par ce titre n'ont pas aimé le reste et se sont détournés. Tous ceux qui le connaissaient avant se sont demandé ce qui lui avait pris. <strong>Il n'a jamais rien fait de mieux ensuite.</strong></p><p>Nuance importante : il l'a pleinement assumé et n'a jamais été malheureux de ses choix.</p></div>
+  </div>
+</section>
+
+<section class="chap" id="s8" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">08</div><div><h2>Statut, formation et réalité du terrain</h2><div class="tc">52:30 → 61:00</div></div></div>
+  <div class="cbody">
+    <p>La deuxième partie de la session porte sur la formation en cours et sur ce qui, dans le programme, s'applique ou non à sa situation.</p>
+    <h3>Le statut envisagé</h3>
+    <div class="box b-key"><span class="bt">La décision déjà prise</span><p>Le statut d'<strong>artiste-auteur</strong>, en BNC. La procédure est connue : l'INPI, le SIRET, la déclaration. Et elle peut se faire <strong>à n'importe quel moment</strong> — ce n'est pas bloquant.</p></div>
+    <p>Sur l'intermittence, il n'a jamais été très chaud, et le fait d'entendre que c'est un statut dans lequel il ne faut pas s'installer durablement l'a conforté — il n'avait pas envie de faire la course aux cachets.</p>
+    <div class="box b-warn"><span class="bt">La réalité du terrain, dite franchement</span><p>Dans la communauté afro-caribéenne, <strong>le cachet n'existe pas</strong>. <em class="q">« Si j'arrive devant les gars en disant : vous me produisez, mais il faut me payer en cachet quand je viens enregistrer — ils vont dire : qu'est-ce qu'il me raconte ? Allez, bye. »</em></p><p>Tarik confirme sans détour : ayant vécu entre le Suriname et la Guyane, il a connu la même chose — pas de structure, beaucoup de cash. <strong>Il y a l'idéal, et il y a la réalité du terrain.</strong></p></div>
+    <h3>Quand l'intermittence vaut quand même le coup</h3>
+    <p>Un contre-exemple concret : un guitariste-bassiste antillais qui ne vivait que de cachets en cash, entre 200 et 300 € par prestation.</p>
+    <div class="tl">
+      <li><b>Le conseil donné</b>« Dis aux gens qu'ils te paient le même montant, mais via un guichet automatique. Ça prend deux minutes sur Internet, tu peux le faire devant eux. »</li>
+      <li><b>Le coût à court terme</b>Il touche moitié moins sur le moment. C'est vrai.</li>
+      <li><b>Le calcul réel</b>Vu son volume de prestations, il lui suffisait d'une <strong>vingtaine de cachets déclarés dans l'année</strong> — le reste restant en direct — pour ouvrir ses droits.</li>
+      <li><b>Le bénéfice</b>Environ 1 500 € qui tombent tous les mois quoi qu'il arrive, plus six mois de sécurité s'il ne fait pas ses cachets. Et dans son cas, il intervenait aussi comme intermittent sur du montage de scène pour des mairies, où il était déclaré de toute façon.</li>
+    </div>
+    <p>Mais la conclusion reste la même : <strong>l'intermittence est un statut précaire</strong>. D'une année sur l'autre, on ne sait jamais ce qui va se passer.</p>
+    <div class="box b-info"><span class="bt">Les aides accessibles</span><p>En autoprod, ce sont essentiellement l'aide <strong>SACEM</strong> (5 000 €) et une <strong>aide à l'image de la Spedidam</strong>. Les autres dispositifs supposent d'avoir de vraies structures.</p></div>
+    <h3>Adapter le parcours de formation</h3>
+    <p>Il soulève un point honnête : le module contrats lui semble très orienté vers ceux qui montent un label, et une partie ne le concerne pas aujourd'hui. Les montants cités ne correspondent pas à son échelle.</p>
+    <div class="box b-tip"><span class="bt">La réponse</span><p>La loi impose de suivre intégralement une formation financée. Mais <em class="q">« je trouve ça con que tu suives des choses qui ne te concernent pas sur le moment »</em>.</p><p>Donc : <strong>faire tourner les vidéos</strong> pour que ce soit propre sur le plan administratif, mais <strong>adapter l'ordre réel du parcours</strong> à ses besoins, et revenir plus tard sur ce qui n'est pas pertinent maintenant.</p></div>
+    <div class="box b-key"><span class="bt">Les priorités qu'il formule lui-même</span><p>Appliquer ce qui a été dit sur les vidéos et l'acquisition, monter la fan base, la solidifier — et ensuite gagner en streams et en crédibilité. Le reste viendra après.</p><p>Nuance de Tarik sur l'argent : <em class="q">« L'idée, ce n'est pas de les prendre et de les mettre dans ta poche, c'est d'avoir un fonds à réinvestir. »</em> Un contenu qui buzze peut être bombardé en publicité pour buzzer encore plus sur la bonne cible — si on a les fonds. Sinon on attend, et attendre retarde l'échéance.</p></div>
+  </div>
+</section>
+
+<section class="chap" id="s9" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">09</div><div><h2>Muzisecur et MusiCenter : quand les prendre</h2><div class="tc">61:00 → 71:00</div></div></div>
+  <div class="cbody">
+    <p>Il envisage de passer chez Muzisecur — il a vu le site, il connaît l'offre, et l'administratif le fatigue. La réponse de Tarik est inhabituelle : il tempère.</p>
+    <div class="pull">« Tu peux avoir le sentiment d'acheter un service à perte au départ. Mon conseil, c'est de ne pas l'utiliser trop tôt. »<span>Tarik Hamiche</span></div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Phase</th><th>Ce que ça apporte</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Au départ</strong></td><td>Adhésion aux OGC manquants, mise à jour et déclaration du catalogue. Un vrai gain de temps — mais ponctuel</td></tr>
+          <tr><td><strong>Les mois suivants</strong></td><td>Sans sorties régulières ni flux de droits à récupérer, <strong>l'utilité est faible</strong> en dehors de la distribution</td></tr>
+          <tr><td><strong>Plus tard</strong></td><td>Quand on devient éligible à certaines aides et qu'il y a des droits à collecter — là, ça devient intéressant</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="box b-info"><span class="bt">Le cas où ça change tout</span><p>Une artiste entrée il y a moins d'un an, connue pour un grand spectacle musical il y a vingt ans : <strong>seize ans de carrière sans rien structurer</strong>. Toutes ses œuvres ont été récupérées, redéclarées, redéposées.</p><p>En octobre dernier, elle a récupéré <strong>plus de 30 000 € d'Adami</strong> — pour environ 600 € d'abonnement.</p></div>
+    <h3>Le verdict pour son cas</h3>
+    <div class="pc">
+      <div class="ok"><h4>Pour la distribution</h4><ul><li><strong>Il n'est jamais trop tôt</strong></li></ul></div>
+      <div class="ko"><h4>Pour la collecte de droits</h4><ul><li>Oui, c'est un peu tôt</li><li>L'optimisation se comptera en dizaines, peut-être centaines d'euros</li><li>Une fois faite, il n'y aura plus grand-chose à faire tant qu'il n'y a pas de nouvelles sorties</li></ul></div>
+    </div>
+    <div class="box b-key"><span class="bt">La vraie différence d'un label manager</span><p>Un titre à 60 000 ou 70 000 streams n'a pas besoin d'un label manager dédié : <em class="q">« on n'aura pas plus de résultats qu'un agrégateur. »</em></p><p>Mais si un titre s'emballe et atteint 200 000 ou 300 000 streams, <strong>on sait ouvrir des portes pour doubler ou tripler derrière</strong>. Exemple de la semaine précédente : négociation avec une plateforme pour une mise en avant. Leur condition : faire passer la commission de 10 % à 35 %. Tarik a conseillé d'accepter — résultat, <strong>les scores de streams ont quasiment triplé</strong>.</p><p>C'est exactement le job d'un label manager : avoir des alertes, repérer un pic, demander, argumenter. On n'obtient pas toujours oui — mais quand on l'obtient, ça fait du bien.</p></div>
+    <h3>MusiCenter : utile ou pas ?</h3>
+    <p>Précision d'abord : il ne s'agit pas d'une réduction. Les membres de la formation peuvent faire des <strong>envois sans payer l'abonnement annuel</strong> — seuls les frais d'envoi du titre restent dus.</p>
+    <div class="box b-danger"><span class="bt">Ce que ça ne fera pas</span><p>Vous faire entrer sur une grande radio nationale. Démonstration à l'écran : sur une semaine où ça bouge, <strong>trois entrées en playlist pour trois sorties</strong> — et il y a des semaines où il ne se passe strictement rien. Et les noms qui entrent sont quasi exclusivement des projets de maisons de disques ou de très gros artistes à performance internationale.</p></div>
+    <div class="box b-tip"><span class="bt">Ce que ça fera</span><p>Les antennes où un indépendant a de la latitude bougent beaucoup plus. Sur les radios du panel outre-mer — Tropik FM, Espace FM, Trace FM, les radios antillaises — <strong>c'est accessible</strong>. Tarik note d'ailleurs qu'environ la moitié des artistes qui entrent sur l'une d'elles sont des membres.</p><p>Et pour les <strong>envois ciblés clubs</strong>, c'est particulièrement pertinent : ce ne sont que des clubs sondés, donc qui collectent des droits.</p></div>
+    <div class="pull">« Si tu le fais de manière stratégique et chirurgicale, oui, c'est intéressant. Si tu le fais en visant le plus de diffusions possible en espérant taper dans les plus grosses, ça ne suffira pas. Ils vont te voir, ils vont même t'écouter — ils ont une obligation d'écoute — mais ils ne vont pas te jouer. »<span>Tarik Hamiche</span></div>
+  </div>
+</section>
+
+<section class="chap" id="s10" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">10</div><div><h2>Recentrage, feats et cadrage</h2><div class="tc">71:00 → 83:00</div></div></div>
+  <div class="cbody">
+    <p>Il décrit la stratégie qu'il appliquait jusqu'ici : des sons estivaux plus dansants l'été, du zouk et du kompa l'hiver. Mais les chiffres et les réactions ont tranché — <strong>le public le préfère nettement sur la seconde partie</strong>.</p>
+    <div class="box b-key"><span class="bt">Le recentrage décidé</span><p>Les prochaines sorties ne seront que du zouk et du kompa. L'EP est prévu en deuxième partie d'année prochaine, précédé de singles en première partie pour tester ce qui fonctionne. Et c'est au moment de ces singles qu'il compte retaper dans les radios du panel.</p></div>
+    <p>Il évoque aussi l'idée d'exploiter ses anciens titres hors zouk-kompa pour tenter de la synchronisation. Réponse nette :</p>
+    <div class="pull">« À mon avis, tu devrais vraiment rester laser focus. Ce n'est pas une mauvaise idée, mais faire vivre ton back catalogue, c'est un truc à faire plus tard. La synchro, c'est tellement difficile que si tu t'y mets en espérant du résultat, tu vas trop te diviser. »<span>Tarik Hamiche</span></div>
+    <h3>Le levier à activer à la place : les feats</h3>
+    <div class="box b-info"><span class="bt">Pourquoi</span><p><em class="q">« Je dis ça à tous les artistes, personne ne m'écoute et ça me déprime. »</em></p><p>On est à l'ère de la <strong>visibilité algorithmique</strong>. C'est triste à dire parce que ça fausse le jeu, mais on ne peut pas faire sans.</p></div>
+    <div class="tl">
+      <li><b>Le schéma</b>Repérer d'autres artistes qui, comme vous, ont une petite communauté et quelques succès. Chacun de son côté, c'est plus difficile — alors on fait un son à trois ou quatre.</li>
+      <li><b>À la sortie</b>Chacun le draine dans sa propre communauté.</li>
+      <li><b>Côté radio</b>Si elle connaît les trois ou quatre artistes et a envie de s'associer à eux, <strong>elle n'a qu'un seul titre à faire entrer au lieu de trois ou quatre</strong>. Il y a donc de la place, et ça rentre.</li>
+      <li><b>La condition</b>Que tout le monde se synchronise pour le pousser. Si chacun tire dans le même sens, on touche la cible — et les scores de streams servent à tout le monde.</li>
+    </div>
+    <h3>Le problème rencontré, et le vrai diagnostic</h3>
+    <p>Il a déjà fait beaucoup de feats, et raconte un cas précis : un son sorti à trois cet été, qui bougeait bien en festival. Il a tout payé et tout géré sur la production. Et au moment de la répartition : <em class="q">« comment ça se fait que tu prennes plus ? »</em>. Quand il a proposé un contrat pour cadrer : <em class="q">« pourquoi tu parles de contrat, frère ? »</em></p>
+    <div class="box b-danger"><span class="bt">Le recadrage</span><p><em class="q">« Il ne faut pas que ça t'empêche de le refaire. Il faut juste que ça t'apprenne. Le problème, ce n'est pas eux — c'est toi. »</em></p><p>Parce que le cadre n'a pas été posé <strong>avant</strong> de commencer.</p></div>
+    <h3>Comment poser le cadre dès le départ</h3>
+    <div class="box b-key"><span class="bt">Le discours à tenir</span><p>« C'est mon projet, mais on collabore dessus. Tu ne peux pas suivre financièrement ? Ce n'est pas un problème, je vais gérer. Par contre je te le dis maintenant et je vais t'envoyer un contrat pour ça. Si ça ne te va pas, on s'arrête là — on n'a encore rien fait, pas mis un pied en studio.</p><p><strong>Les règles du jeu :</strong> je produis. Sur la clé de répartition, étant donné que vous ne mettez rien de votre poche, même si vous écrivez et composez, je prends la part la plus importante, je suis l'éditeur du titre et surtout le producteur. Et 90 % des recettes rentrent chez moi — c'est normal, 100 % des dépenses sortent de chez moi.</p><p>Si ça te va, on avance. Si ça ne te va pas, on ne fait pas, ce n'est pas grave. »</p></div>
+    <div class="box b-tip"><span class="bt">L'outil : le mémo deal</span><p>Tout se verrouille avec un <strong>mémo deal</strong>, signé par tous avant de commencer à travailler. Une fois contresigné, vous pouvez dépenser sereinement.</p><p>Et au moment de la sortie, si quelqu'un refuse de signer le contrat définitif, ce n'est pas grave : <strong>le mémo deal l'engage déjà</strong>. C'est comme s'il avait signé un contrat non formalisé.</p></div>
+    <h3>Avec qui faire ces feats</h3>
+    <div class="cards">
+      <div class="card"><h4>Le niveau</h4><p>Des artistes <strong>au même niveau que vous, voire un peu au-dessus</strong>. En dessous, ça ne présente pas vraiment d'intérêt</p></div>
+      <div class="card"><h4>Le style</h4><p>Pas forcément le même. Zouk, kompa, dancehall : rien de choquant. On a déjà vu des rappeurs sur des sons zouk. Le seul écueil serait un choc thermique — un morceau de metal, par exemple</p></div>
+      <div class="card"><h4>Les DJ</h4><p>Ils ont besoin d'actualité pour continuer de tourner et augmenter leurs tarifs. S'ils ont un nom ou un réseau, ça vaut le coup de les approcher</p></div>
+    </div>
+    <div class="box b-info"><span class="bt">La proposition type à un DJ</span><p><em class="q">« J'ai un titre, il est plutôt dansant. Je vois que tu as une bonne image, une bonne communauté. On s'associe : je fais 90 % du travail, tu mets ton nom, tu m'aides simplement à la promo, et on se met d'accord sur un deal. »</em> 20/80, 30/70 — ou 50/50 s'il coparticipe réellement.</p></div>
+    <h3>Le ghost, et son inverse</h3>
+    <p>Tarik explique la pratique du <strong>ghost</strong> — on crédite quelqu'un qui n'a pas fait le travail — avec des exemples qu'il a observés de près : un producteur américain très connu dont les assistants produisaient pendant qu'il dormait sur le canapé, un autre dont les pools de beatmakers travaillaient de 8 h à 20 h avant d'être congédiés pour qu'on récupère leurs boucles, ou un producteur de génie dont toutes les plus grosses productions ont été créditées à un autre.</p>
+    <div class="box b-key"><span class="bt">Ce qui est proposé ici, c'est l'inverse</span><p>Il ne s'agit pas de se faire effacer. Il s'agit de <strong>s'associer à quelqu'un qui a une notoriété, un réseau, des dates</strong> — même si c'est vous qui êtes à l'origine du projet et qui faites presque tout.</p><p>Parce que si ça pète, <strong>ça retombe aussi sur vous</strong>. Et vous vous servez de son réseau. C'est particulièrement pertinent avec des DJ : beaucoup ne savent pas produire, ou sont bons en direction artistique mais très limités en MAO. <strong>Ils ont besoin de s'associer à des créateurs.</strong></p></div>
+    <p>La session se clôt sur une note simple : toutes les questions ont été traitées, et le programme est clair. <em class="q">« Franchement, mets-toi au travail. »</em></p>
+  </div>
+</section>
+
+<div class="faq">
+  <div class="bar"></div>
+  <div class="faqhead">
+    <h2>Questions / Réponses</h2>
+    <p>Les 31 points traités pendant la session, regroupés par thème.</p>
+  </div>
+  <div class="faqbody">
+
+    <div class="faqcat">Direction artistique et positionnement</div>
+    <div class="qa"><div class="q"><span>Q1.</span>On me reproche de m'être éparpillé. Est-ce vraiment un problème ?</div><div class="a"><p>Oui, et ce n'est pas un jugement de goût : c'est un concept de base. <strong>Un public et des médias vous mettent une étiquette</strong>, et au départ on entre par un réseau avant de pouvoir s'étendre. Rihanna a commencé rangée comme chanteuse afro-caribéenne avant de pouvoir faire de la pop, du rock, de la trap.</p></div></div>
+    <div class="qa"><div class="q"><span>Q2.</span>Que se passe-t-il si je change de style trop tôt ?</div><div class="a"><p>Le média qui vous avait mis dans une case constate que vous n'y rentrez plus. Il met quelqu'un d'autre dedans. Il n'y a plus de place pour vous, donc il attend. <strong>Si l'attente dure deux ou trois ans, il vous oublie</strong> — et vous perdez un partenaire de taille.</p></div></div>
+    <div class="qa"><div class="q"><span>Q3.</span>Pourquoi des artistes font-ils « toujours la même chose » ?</div><div class="a"><p>Parce qu'ils ont compris le jeu. Le principe : <strong>rentrer dans une case et la défoncer</strong> jusqu'à ce qu'on ne puisse plus y mettre personne d'autre. Un producteur a sorti le même sample sur cinq singles différents : les cinq ont fait des tubes. Vu de l'extérieur c'est du matraquage, vu de l'intérieur c'est une prise de territoire.</p></div></div>
+    <div class="qa"><div class="q"><span>Q4.</span>Quelle est l'analogie à retenir ?</div><div class="a"><p>McDonald's. Pendant 35 ans : cheeseburger, frites, Coca. Vous voulez autre chose, allez en face. <strong>Après seulement</strong> sont venus le vegan, le poisson, le reste. Aujourd'hui « burger » fait penser à McDo — c'est ça, une marque d'autorité, et c'est presque impossible à déloger.</p></div></div>
+    <div class="qa"><div class="q"><span>Q5.</span>Et si je refuse cette logique ?</div><div class="a"><p>C'est un choix légitime, mais à faire en connaissance de cause. Makassy avait une case installée — « autoroute pour une carrière légendaire de 20 ans » — et l'a refusée pour porter un message sociopolitique. Prévenu que les médias s'arrêteraient, il a accepté. <strong>Dès le lendemain, terminé.</strong> Il le regrette un peu aujourd'hui.</p></div></div>
+    <div class="qa"><div class="q"><span>Q6.</span>Faut-il exploiter son back catalogue pour tenter la synchro ?</div><div class="a"><p>Pas maintenant. <strong>Rester laser focus.</strong> La synchro est tellement difficile que s'y mettre en espérant du résultat vous divise trop. Faire vivre son back catalogue est un chantier pour plus tard.</p></div></div>
+
+    <div class="faqcat">Stratégie de contenu</div>
+    <div class="qa"><div class="q"><span>Q7.</span>Combien existe-t-il de types de contenus ?</div><div class="a"><p>Trois, pas quatre. <strong>L'attention</strong> (viser la masse pour se rendre visible), <strong>la fidélisation</strong> (entretenir une communauté acquise), <strong>la conversion</strong> (les appels à l'action).</p></div></div>
+    <div class="qa"><div class="q"><span>Q8.</span>Quelle répartition viser ?</div><div class="a"><p>À ce niveau de carrière : <strong>50 % d'attention, 20 à 30 % de fidélisation, 10 à 20 % de conversion.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q9.</span>Pourquoi « nouveau clip, cliquez ici » ne fonctionne pas ?</div><div class="a"><p>Parce que c'est du niveau 3 adressé à des gens qui ne vous connaissent pas. Leur réaction : <em class="q">« je ne te connais pas, je ne t'aime pas, je n'ai pas le temps pour toi. »</em> Et le niveau 2 ne marche pas non plus sans intérêt préalable — c'est comme recevoir une vidéo sur comment nourrir un bébé quand on n'a pas d'enfant.</p></div></div>
+    <div class="qa"><div class="q"><span>Q10.</span>Contre qui suis-je réellement en concurrence ?</div><div class="a"><p>La terre entière. <em class="q">« Tu es en concurrence avec la dernière dinguerie de Trump, avec la meuf super fraîche qui s'expose, avec moi, avec n'importe qui. »</em> Il faut trouver un moyen de se démarquer pour exister.</p></div></div>
+    <div class="qa"><div class="q"><span>Q11.</span>Dois-je forcer sur TikTok ?</div><div class="a"><p>Non. <strong>Ne pas s'acharner</strong> — c'est devenu très compliqué d'y percer. Mieux vaut travailler à fond le réseau sur lequel on est déjà présent.</p></div></div>
+    <div class="qa"><div class="q"><span>Q12.</span>Comment trouver des idées de contenu ?</div><div class="a"><p>Par la <strong>modélisation</strong> : repérer des artistes de votre direction artistique, plus visibles que vous, et identifier leurs formats qui marchent. Un couple qui danse à 2 millions de vues ? Vous trouvez l'équivalent, vous le détournez, vous mettez votre son dessus. <em class="q">« Ne réinvente pas la roue. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q13.</span>Que veut dire « tester » concrètement ?</div><div class="a"><p>Poster et attendre. Pas de publicité derrière. <strong>400 vues → on dégage dès le lendemain. Ça prend → on laisse tourner.</strong> Et on recommence.</p></div></div>
+    <div class="qa"><div class="q"><span>Q14.</span>Quel est l'intérêt de faire du contenu éducatif ?</div><div class="a"><p>Être la seule réponse sur une requête. Beaucoup de gens ignorent ce qu'est le kompa — <strong>s'il n'existe pas de vidéo « c'est quoi le kompa ? », la vôtre sera la seule qu'ils verront</strong>. Et comme ils passent du temps dessus, l'algorithme remonte mécaniquement plus de vos publications dans leur fil.</p></div></div>
+    <div class="qa"><div class="q"><span>Q15.</span>Quel changement récent faut-il connaître sur TikTok ?</div><div class="a"><p>Depuis septembre, <strong>les vues cumulées d'une vidéo utilisant un son se convertissent en streams sur Apple Music</strong>. En plus de faire remonter dans les tendances et de faire reprendre le son.</p></div></div>
+    <div class="qa"><div class="q"><span>Q16.</span>Quels formats de performance fonctionnent ?</div><div class="a"><p>Quatre exemples montrés : <strong>les ondes audio en direct</strong> (on voit la forme d'onde se dessiner pendant qu'on chante — hypnotique), <strong>les trois mots</strong> (écrire un son à partir de trois mots donnés, avec la réaction de quelqu'un derrière), <strong>toutes les notes d'un morceau</strong> reprises une par une, et <strong>les vidéos de réaction studio</strong> où l'on filme les têtes qui décrochent.</p></div></div>
+    <div class="qa"><div class="q"><span>Q17.</span>Comment fabrique-t-on le format « ondes » ?</div><div class="a"><p>On s'enregistre une première fois en live, et <strong>on filme son écran pendant que ça enregistre</strong>. Ensuite on découpe et on intègre au montage. Moitié d'image sur soi, moitié sur l'onde qui défile.</p></div></div>
+    <div class="qa"><div class="q"><span>Q18.</span>Comment ça finit par décoller ?</div><div class="a"><p>On plafonne, puis une vidéo part sans qu'on sache pourquoi — 600 000 vues. On refait exactement la même sur un autre son : 2 millions. <strong>Le format est isolé, on bombarde</strong>, et on devient « le gars qui ». À ce stade, chaque sortie génère des dizaines de milliers de streams.</p></div></div>
+
+    <div class="faqcat">Le réseau club</div>
+    <div class="qa"><div class="q"><span>Q19.</span>Pourquoi viser les clubs quand on fait du kompa ?</div><div class="a"><p>Parce que ça s'y joue, comme le zouk ou le shatta. Et c'est le modèle d'affaires <strong>le plus rentable et le plus négligé</strong> : plus de droits d'auteur, plus de droits voisins, et surtout des dates qui tombent.</p></div></div>
+    <div class="qa"><div class="q"><span>Q20.</span>Comment fonctionne le classement club en France ?</div><div class="a"><p>Il existe <strong>deux systèmes parallèles</strong>. Le classement public repose sur 35 clubs sondés de 1 h à 5 h — très peu de reggaeton, pas de zouk, pas de kizomba : tout le milieu sait qu'il est biaisé. Le <strong>panel SPRE</strong>, lui, couvre environ 200 établissements sondés de 23 h à 6 h, n'est pas public, change tous les semestres — et c'est lui qui collecte les droits.</p></div></div>
+    <div class="qa"><div class="q"><span>Q21.</span>Quels réseaux activer ?</div><div class="a"><p><strong>The Bridge Promotion</strong> (créé par un DJ connu et son ami d'enfance, environ 800 DJ urbains). <strong>MusiCenter</strong>, dont le panel est constitué des DJ de la SPRE — donc la bonne cible. Et <strong>MusiBox Live, Fuvi Clan, Yakaste</strong>, qui couvrent 1 700 à 2 500 DJ semi-professionnels : clubs non sondés, patinoires, mariages, soirées d'entreprise.</p></div></div>
+    <div class="qa"><div class="q"><span>Q22.</span>Combien paie un showcase en club ?</div><div class="a"><p><strong>1 500 à 2 500 €</strong> pour 30 minutes quand on n'est pas connu. <strong>8 000 à 10 000 €</strong> quand on est en place. <strong>25 000 €</strong> pour un artiste très connu. Deux dates à 2 000 € font un mois ; trois ou quatre par mois font très bien vivre.</p></div></div>
+    <div class="qa"><div class="q"><span>Q23.</span>Pourquoi faut-il un Club Extended ?</div><div class="a"><p>Parce qu'un DJ ne jouera pas une version radio edit. Un Club Extended fait partir <strong>le beat avant le son</strong> — quatre ou huit mesures, puis un charley, et jusqu'à 30 secondes sans voix. C'est ce qui leur permet de caler le morceau sur le précédent. <strong>Sans ça, ça ne passe pas.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q24.</span>Pourquoi un pack remix ?</div><div class="a"><p>À cause du BPM. Un kompa à 89-92 BPM est injouable pour un DJ qui enchaîne entre 110 et 125. Avec un remix moombahton à 108-110, <strong>il peut vous jouer, et facilement</strong>. Et plus vous êtes joué, plus vous collectez, plus on vous découvre, plus on vous appelle pour des dates.</p></div></div>
+    <div class="qa"><div class="q"><span>Q25.</span>Un exemple où le remix a tout changé ?</div><div class="a"><p>Le premier titre gospel mainstream français : on estime que <strong>sans la version gospel, le titre ne pétait pas</strong>. C'est elle qui a créé le buzz web, et une radio grand public joue surtout cette version. L'artiste s'en moque — il est numéro un des ventes depuis quatre mois, et c'est l'original qui est crédité.</p></div></div>
+    <div class="qa"><div class="q"><span>Q26.</span>Un exemple concret de rentabilité club ?</div><div class="a"><p>Un titre produit vers 2012-2013, parti d'un DJ qui l'a envoyé à tout son réseau. Le public féminin se l'approprie, ça devient un phénomène. <strong>3 à 4 000 € le showcase, quatre showcases par mois = 16 000 €.</strong> Puis extension : métropole, Belgique, océan Indien, Canada.</p></div></div>
+
+    <div class="faqcat">Statut, outils et collaborations</div>
+    <div class="qa"><div class="q"><span>Q27.</span>Faut-il suivre intégralement la formation même ce qui ne me concerne pas ?</div><div class="a"><p>La loi l'impose quand la formation est financée. En pratique : <strong>faire tourner les vidéos</strong> pour que ce soit propre administrativement, mais <strong>adapter l'ordre réel</strong> à ses besoins et revenir plus tard sur ce qui n'est pas pertinent maintenant.</p></div></div>
+    <div class="qa"><div class="q"><span>Q28.</span>Quand prendre un service comme Muzisecur ?</div><div class="a"><p>Pour la <strong>distribution</strong>, il n'est jamais trop tôt. Pour la <strong>collecte de droits</strong>, attendre : sans sorties régulières, l'optimisation se comptera en dizaines ou centaines d'euros, et une fois faite il n'y aura plus grand-chose à faire. Le conseil est donné pour éviter le sentiment d'acheter un service à perte.</p></div></div>
+    <div class="qa"><div class="q"><span>Q29.</span>Qu'apporte vraiment un label manager par rapport à un agrégateur ?</div><div class="a"><p>Rien sur un titre à 60-70 000 streams. Mais si un titre s'emballe à 200-300 000, <strong>il sait ouvrir des portes pour doubler ou tripler</strong>. Exemple réel : une plateforme accepte une mise en avant contre une commission passée de 10 à 35 % — résultat, les streams ont quasiment triplé.</p></div></div>
+    <div class="qa"><div class="q"><span>Q30.</span>Comment cadrer un feat pour éviter les conflits ?</div><div class="a"><p>En posant les règles <strong>avant</strong> d'entrer en studio : qui produit, qui paie, quelle clé de répartition, qui est éditeur. <em class="q">« 90 % des recettes rentrent chez moi — c'est normal, 100 % des dépenses sortent de chez moi. Si ça te va, on avance. »</em> Et on verrouille avec un <strong>mémo deal</strong> signé par tous : même si quelqu'un refuse le contrat définitif ensuite, le mémo l'engage déjà.</p></div></div>
+    <div class="qa"><div class="q"><span>Q31.</span>Avec qui faire ces feats ?</div><div class="a"><p>Des artistes <strong>au même niveau que vous, voire un peu au-dessus</strong>. Pas forcément le même style — zouk, kompa, dancehall se marient très bien, et on a déjà vu des rappeurs sur des sons zouk. Et ne pas oublier les <strong>DJ</strong> : ils ont besoin d'actualité, beaucoup ne savent pas produire, et ils apportent un réseau.</p></div></div>
+
+  </div>
+</div>
+
+<div class="plan">
+  <h2>Plan d'action</h2>
+  <p>Cochez au fur et à mesure. Les quatre phases suivent l'ordre posé pendant la session : trancher la direction artistique, construire l'attention, ouvrir le réseau club, puis cadrer les collaborations.</p>
+
+  <div class="phase">Phase 1 — Trancher la direction artistique</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Décision</b>Assumer le recentrage sur le zouk et le kompa, et s'y tenir jusqu'à avoir pris la case</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Calendrier</b>Sortir les singles en première partie d'année, l'EP en seconde partie, tous dans la même direction</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>À reporter</b>La synchro et l'exploitation du back catalogue hors zouk-kompa : plus tard, pas maintenant</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>SACEM</b>Vérifier pourquoi un titre diffusé tout un été n'a généré aucun droit, et régulariser les déclarations</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Statut</b>Créer le statut d'artiste-auteur en BNC — faisable à tout moment, autant le faire maintenant</span></li>
+  </ul>
+
+  <div class="phase">Phase 2 — Construire les contenus d'attention</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Répartition</b>Viser 50 % d'attention, 20 à 30 % de fidélisation, 10 à 20 % de conversion — et arrêter les posts « nouveau clip, cliquez ici » isolés</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Veille</b>Lister des artistes de la même direction artistique, plus visibles, et relever leurs formats qui marchent</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Divertissement</b>Repérer une vidéo virale du milieu (danse, couple, performance) et la détourner avec son propre son</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Éducation</b>Tourner une vidéo « C'est quoi le kompa ? » — personne ne l'a fait, et c'est une requête réelle</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Éducation</b>Faire un top 10 des sons kompa du moment, et demander à un ami chorégraphe de filmer les pas de base</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Actualité</b>Publier régulièrement sur ce qui agite le milieu — les algorithmes adorent, et ça fait remonter tout le compte</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Performance</b>Tester le format « ondes en direct » : s'enregistrer en live en filmant son écran, puis monter en split</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Méthode</b>Poster et attendre, sans publicité. 400 vues → on dégage. Ça prend → on laisse tourner et on recommence</span></li>
+  </ul>
+
+  <div class="phase">Phase 3 — Ouvrir le réseau club</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Reconnaissance</b>Aller voir The Bridge Promotion, MusiBox Live, Fuvi Clan et Yakaste</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>MusiCenter</b>Profiter de l'accès membre : envois sans abonnement annuel, seuls les frais d'envoi restent dus</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Club Extended</b>Demander au beatmaker une version avec le beat qui part avant le son — sans ça, aucun DJ ne cale le morceau</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Pack remix</b>Produire des versions alternatives à des BPM jouables (108-110) pour sortir du 89-92 du kompa</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Premier test</b>Prendre le titre qui a le mieux marché, ou le prochain single dansant, et faire un envoi promo pour mesurer</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Ciblage radio</b>Viser les radios du panel outre-mer, où un indépendant a de la latitude — pas les grandes nationales</span></li>
+  </ul>
+
+  <div class="phase">Phase 4 — Cadrer les collaborations</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Feats</b>Repérer des artistes au même niveau ou légèrement au-dessus, chacun avec sa petite communauté</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>DJ</b>Approcher des DJ qui ont un nom ou un réseau : ils ont besoin d'actualité et ne savent souvent pas produire</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Avant le studio</b>Poser les règles du jeu par écrit : qui produit, qui paie, qui est éditeur, quelle clé de répartition</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Mémo deal</b>Faire contresigner un mémo deal par tous avant de dépenser le premier euro</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Synchronisation</b>S'assurer que tout le monde pousse le titre en même temps à la sortie — c'est tout l'intérêt du feat</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Réinvestir</b>Utiliser les revenus des dates et des droits pour bombarder en publicité les contenus qui buzzent</span></li>
+  </ul>
+</div>
+
+<div class="quiz">
+  <h2>Quiz de révision</h2>
+  <p>Six questions pour vérifier que l'essentiel est passé. Une seule bonne réponse par question.</p>
+
+  <div class="qz" data-g="1">
+    <div class="qt">1. Au début d'une carrière, se laisser mettre une étiquette est :</div>
+    <button class="opt">Une erreur qui enferme et qu'il faut éviter dès le départ</button>
+    <button class="opt">Une étape nécessaire : on entre par un réseau avant de pouvoir s'étendre</button>
+    <button class="opt">Sans importance, le public ne fonctionne plus comme ça</button>
+    <div class="fb">Exact. Rihanna a commencé rangée comme chanteuse afro-caribéenne avant de pouvoir faire de la pop, du rock ou de la trap. L'erreur n'est pas d'accepter l'étiquette — c'est de la refuser trop tôt, avant d'avoir pris la case.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <div class="qt">2. Que se passe-t-il si on change de style juste après avoir atteint ses radios cibles ?</div>
+    <button class="opt">Elles suivent, parce qu'elles connaissent déjà l'artiste</button>
+    <button class="opt">Elles programment les deux styles en parallèle</button>
+    <button class="opt">Elles mettent quelqu'un d'autre dans la case, et au bout de deux ou trois ans elles oublient</button>
+    <div class="fb">Exact. Le média constate que vous ne rentrez plus dans la case, y installe un autre artiste, et attend. Si l'attente dure, vous perdez un partenaire de taille — et c'est exactement ce qui est arrivé à Makassy, en toute connaissance de cause.</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <div class="qt">3. Pour faire grossir sa communauté, le type de contenu à travailler en priorité est :</div>
+    <button class="opt">Les contenus d'attention, qui visent la masse et non son public</button>
+    <button class="opt">Les contenus de fidélisation, qui entretiennent la communauté existante</button>
+    <button class="opt">Les appels à l'action vers les nouvelles sorties</button>
+    <div class="fb">Exact. La fidélisation ne sert à rien sur une communauté trop petite, et la conversion ne marche pas sur des gens qui ne vous connaissent pas. Il faut 50 % d'attention — en acceptant que sur 100 000 vues, seules 1 000 personnes soient vraiment intéressantes.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <div class="qt">4. Pour trouver des idées de contenu, la bonne méthode est :</div>
+    <button class="opt">Inventer un concept entièrement original</button>
+    <button class="opt">Demander à sa communauté ce qu'elle veut voir</button>
+    <button class="opt">La modélisation : repérer ce qui marche chez des artistes plus visibles et l'adapter</button>
+    <div class="fb">Exact. « Ne réinvente pas la roue : trouve des concepts qui marchent ailleurs, importe-les et teste-les. » Et tester veut dire poster et attendre — 400 vues, on dégage ; ça prend, on laisse tourner.</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <div class="qt">5. Pourquoi un DJ ne peut-il pas jouer un kompa à 90 BPM ?</div>
+    <button class="opt">Parce que le genre n'est pas adapté aux clubs</button>
+    <button class="opt">Parce qu'il enchaîne entre 110 et 125 BPM et ne saura pas où le caler</button>
+    <button class="opt">Parce que les clubs n'ont pas le droit de diffuser du kompa</button>
+    <div class="fb">Exact — et c'est tout l'intérêt du pack remix : une version moombahton à 108-110 devient jouable. Il faut aussi fournir un Club Extended, avec le beat qui part avant le son, sans quoi il est impossible de caler le morceau sur le précédent.</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <div class="qt">6. Dans un feat où vous financez tout, le bon réflexe est :</div>
+    <button class="opt">Poser par écrit les règles de répartition avant d'entrer en studio, et faire signer un mémo deal</button>
+    <button class="opt">Partager à parts égales pour éviter tout conflit</button>
+    <button class="opt">Régler la question au moment de la sortie, quand on connaît les résultats</button>
+    <div class="fb">Exact. « Le problème, ce n'est pas eux, c'est toi » — parce que le cadre n'a pas été posé avant. 100 % des dépenses sortent de chez vous, donc la part majoritaire est légitime : il suffit de le dire d'emblée. Et le mémo deal engage même ceux qui refusent ensuite le contrat définitif.</div>
+  </div>
+
+  <div class="score" id="score"></div>
+</div>
+
+</div>
+
+<footer>
+  <p><b>Producteur à Succès</b> — Session individuelle du 6 novembre 2026</p>
+  <p>Support de cours interactif · 64 chapitres · 1 h 24 de session</p>
+</footer>
+
+<script>
+var CH = [[0, "Accueil et cadre de la session"], [123, "Le parcours depuis 2020"], [190, "Kompa Night, né de freestyles Instagram"], [243, "Zéro euro de SACEM"], [284, "Le plafond de verre"], [432, "Le reproche de s'être éparpillé"], [523, "Le diagnostic : c'est brouillon"], [535, "De ceinture blanche à ceinture noire"], [571, "L'étiquette, un concept de base"], [588, "L'exemple Rihanna"], [608, "Entrer par un réseau avant de s'étendre"], [687, "Jul : défoncer la case"], [773, "L'analogie McDonald's"], [834, "Pourquoi la diversification est une erreur"], [847, "Le contre-exemple Makassy"], [905, "Pas de stratégie de communication digitale"], [920, "Niveau 1 : les contenus d'attention"], [964, "Niveau 2 : la fidélisation"], [998, "La répartition 50 / 30 / 20"], [1028, "Niveau 3 : la conversion"], [1120, "Format 1 : le divertissement"], [1147, "La modélisation pour trouver des idées"], [1209, "Format 2 : l'éducation"], [1334, "TikTok converti en streams Apple Music"], [1390, "Format 3 : l'actualité"], [1406, "L'exemple du post Distrokid"], [1463, "Format 4 : la performance pure"], [1486, "Le concept des ondes audio en direct"], [1505, "L'exemple de Nat"], [1941, "Le concept des trois mots"], [2060, "Les vidéos de réaction studio"], [2185, "Publier pour publier n'est pas une stratégie"], [2295, "Le troisième axe : le réseau club"], [2355, "Les deux systèmes parallèles"], [2386, "Le panel SPRE, non public"], [2438, "The Bridge : 800 DJ touchés"], [2489, "Les réseaux généralistes de DJ"], [2509, "MusiCenter et le panel SPRE"], [2570, "Les tarifs de showcase en club"], [2650, "Règle 1 : envoyer un Club Extended"], [2719, "Règle 2 : le pack remix"], [2844, "L'exemple du remix gospel"], [2910, "De ceinture bleue à ceinture marron"], [2976, "L'exemple Mikey et « Sans autre »"], [3069, "Mikey, l'anomalie stratégique"], [3180, "Le statut d'artiste-auteur envisagé"], [3232, "Pas de cachet dans la communauté"], [3492, "Adapter son parcours de formation"], [3690, "La question Muzisecur"], [3788, "30 000 € d'Adami récupérés"], [3901, "Quand le label manager fait la différence"], [3996, "L'avis sur MusiCenter"], [4044, "Les playlists NRJ ne bougent pas"], [4275, "La stratégie saisonnière abandonnée"], [4302, "Se recentrer sur le zouk et le kompa"], [4362, "Rester laser focus, la synchro plus tard"], [4390, "Faire des feats"], [4420, "Le schéma du feat à plusieurs"], [4503, "L'exemple du son « Doudou »"], [4595, "Poser le cadre dès le départ"], [4627, "Verrouiller avec un mémo deal"], [4763, "S'associer à des DJ"], [4795, "Le ghost expliqué"], [4942, "Clôture de la session"]];
+
+var frame = document.getElementById('vimeoPlayer');
+
+function fmt(s){ var m = Math.floor(s/60), x = s%60; return m + ':' + (x<10?'0':'') + x; }
+
+function seek(sec){
+  if (!frame || !frame.contentWindow) return;
+  try {
+    frame.contentWindow.postMessage(JSON.stringify({method:'setCurrentTime', value: sec}), '*');
+    frame.contentWindow.postMessage(JSON.stringify({method:'play'}), '*');
+  } catch(e){}
+  var top = frame.getBoundingClientRect().top + window.pageYOffset - 20;
+  window.scrollTo({top: top < 0 ? 0 : top, behavior:'smooth'});
+}
+
+(function(){
+  var host = document.getElementById('chlist');
+  if (!host) return;
+  CH.forEach(function(c){
+    var b = document.createElement('button');
+    var t = document.createElement('b'); t.textContent = fmt(c[0]);
+    var s = document.createElement('span'); s.textContent = c[1];
+    b.appendChild(t); b.appendChild(s);
+    b.addEventListener('click', function(){ seek(c[0]); });
+    host.appendChild(b);
+  });
+})();
+
+(function(){
+  document.querySelectorAll('.tc').forEach(function(el){
+    var parts = el.textContent.split(/(\d+:\d{2})/);
+    if (parts.length < 2) return;
+    el.textContent = '';
+    parts.forEach(function(p){
+      if (/^\d+:\d{2}$/.test(p)) {
+        var mm = p.split(':');
+        var sec = parseInt(mm[0],10)*60 + parseInt(mm[1],10);
+        var btn = document.createElement('button');
+        btn.className = 'seek'; btn.textContent = p;
+        btn.addEventListener('click', function(){ seek(sec); });
+        el.appendChild(btn);
+      } else {
+        el.appendChild(document.createTextNode(p));
+      }
+    });
+  });
+})();
+
+window.addEventListener('scroll', function(){
+  var h = document.documentElement;
+  var max = h.scrollHeight - h.clientHeight;
+  var p = max > 0 ? (h.scrollTop / max) * 100 : 0;
+  document.getElementById('progress').style.width = p + '%';
+});
+
+document.querySelectorAll('.chk li').forEach(function(li){
+  li.addEventListener('click', function(){ li.classList.toggle('done'); });
+});
+
+(function(){
+  var total = document.querySelectorAll('.qz').length, answered = 0, good = 0;
+  document.querySelectorAll('.qz').forEach(function(qz){
+    var g = parseInt(qz.getAttribute('data-g'), 10);
+    var opts = qz.querySelectorAll('.opt');
+    var fb = qz.querySelector('.fb');
+    opts.forEach(function(opt, i){
+      opt.addEventListener('click', function(){
+        if (qz.classList.contains('answered')) return;
+        qz.classList.add('answered');
+        answered++;
+        if (i === g) { opt.classList.add('good'); good++; }
+        else { opt.classList.add('bad'); opts[g].classList.add('good'); }
+        fb.classList.add('show');
+        if (answered === total) {
+          var sc = document.getElementById('score');
+          sc.textContent = 'Score : ' + good + ' / ' + total + (good === total ? ' — parfait.' : ' — relisez les chapitres concernés.');
+          sc.classList.add('show');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

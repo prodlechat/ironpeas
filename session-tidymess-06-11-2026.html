@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mentorat TidyMess — Session du 6 novembre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED; --primary-dark:#4C1D95; --primary-light:#EDE9FE;
+  --accent:#F59E0B; --accent-light:#FEF3C7;
+  --success:#10B981; --success-light:#D1FAE5;
+  --danger:#EF4444; --danger-light:#FEE2E2;
+  --info:#3B82F6; --info-light:#DBEAFE;
+  --ink:#1A1523; --muted:#5B5670; --line:#E7E4EF; --bg:#FAF9FC; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+.progress-wrap{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(108,58,237,.12);z-index:999}
+#progress{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+.wrap{max-width:940px;margin:0 auto;padding-inline:20px}
+
+.hero{background:linear-gradient(140deg,#3B1D80 0%,#6C3AED 55%,#8B5CF6 100%);color:#fff;padding-block:60px 52px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{content:"";position:absolute;left:-60px;bottom:-120px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.05)}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:700;margin-bottom:14px;position:relative;z-index:2}
+.hero .sub{font-size:17px;opacity:.92;max-width:690px;position:relative;z-index:2}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;position:relative;z-index:2}
+.meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:7px 14px;border-radius:10px;font-size:13.5px;font-weight:500}
+
+/* LECTEUR */
+.player-wrap{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:-32px;position:relative;z-index:6;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.vid{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.chx{margin-top:16px;border:1px solid var(--line);border-radius:12px;background:#FBFAFE}
+.chx summary{cursor:pointer;padding:12px 16px;font-weight:650;font-size:14.5px;color:var(--primary-dark);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chx summary::-webkit-details-marker{display:none}
+.chx summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+.chx[open] summary::before{content:"▾ "}
+.chx summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+.chlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:2px;max-height:330px;overflow-y:auto;padding:0 10px 12px}
+.chlist button{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;background:transparent;border:0;border-radius:9px;padding:8px 10px;font-family:inherit;font-size:14.5px;color:var(--ink);cursor:pointer;line-height:1.45;transition:background .12s}
+.chlist button:hover{background:var(--primary-light);color:var(--primary-dark)}
+.chlist b{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;min-width:54px}
+button.seek{background:var(--primary-light);border:1px solid #DDD3FA;color:var(--primary-dark);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;cursor:pointer;font-variant-numeric:tabular-nums;transition:all .12s}
+button.seek:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.player-wrap + .toc{margin-top:26px}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:-32px;position:relative;z-index:5;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.toc h2{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:16px;color:var(--primary-dark)}
+.toc ol{list-style:none;counter-reset:toc;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.toc li{counter-increment:toc}
+.toc a{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink);padding:9px 10px;border-radius:10px;font-size:14.5px;transition:background .15s}
+.toc a:hover{background:var(--primary-light);color:var(--primary-dark)}
+.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);font-size:13px;flex-shrink:0;padding-top:1px}
+
+section.chap{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+section.chap>.bar{height:5px;background:var(--primary)}
+.chap[data-c="a"]>.bar{background:var(--accent)} .chap[data-c="g"]>.bar{background:var(--success)}
+.chap[data-c="b"]>.bar{background:var(--info)} .chap[data-c="r"]>.bar{background:var(--danger)}
+.chead{padding:26px 28px 0;display:flex;gap:14px;align-items:center}
+.cnum{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--primary-light);color:var(--primary-dark);display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px}
+.chap[data-c="a"] .cnum{background:var(--accent-light);color:#92400E}
+.chap[data-c="g"] .cnum{background:var(--success-light);color:#065F46}
+.chap[data-c="b"] .cnum{background:var(--info-light);color:#1E40AF}
+.chap[data-c="r"] .cnum{background:var(--danger-light);color:#991B1B}
+.chead h2{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.25;font-weight:700}
+.tc{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-top:3px}
+.cbody{padding:18px 28px 28px}
+.cbody p{margin-bottom:14px}
+.cbody h3{font-family:'Space Grotesk',sans-serif;font-size:16.5px;margin:22px 0 10px;color:var(--primary-dark)}
+.cbody ul,.cbody ol{margin:0 0 14px 20px}
+.cbody li{margin-bottom:7px}
+strong{font-weight:650;color:#2D2540}
+em.q{font-style:italic;color:#413655}
+
+.box{border-radius:12px;padding:16px 18px;margin:18px 0;border-left:4px solid;font-size:15px}
+.box .bt{display:block;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.box p:last-child{margin-bottom:0}
+.b-key{background:var(--primary-light);border-color:var(--primary)} .b-key .bt{color:var(--primary-dark)}
+.b-warn{background:var(--accent-light);border-color:var(--accent)} .b-warn .bt{color:#92400E}
+.b-tip{background:var(--success-light);border-color:var(--success)} .b-tip .bt{color:#065F46}
+.b-info{background:var(--info-light);border-color:var(--info)} .b-info .bt{color:#1E40AF}
+.b-danger{background:var(--danger-light);border-color:var(--danger)} .b-danger .bt{color:#991B1B}
+
+.tbl{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:12px 14px;font-weight:600;font-size:13.5px}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#FBFAFE}
+
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.pc>div{border-radius:12px;padding:16px 18px;font-size:14.5px}
+.pc .ok{background:var(--success-light);border:1px solid #A7F3D0}
+.pc .ko{background:var(--danger-light);border:1px solid #FECACA}
+.pc h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.pc .ok h4{color:#065F46} .pc .ko h4{color:#991B1B}
+.pc ul{margin:0 0 0 18px} .pc li{margin-bottom:5px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
+.card{background:#FBFAFE;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h4{font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:6px;color:var(--primary-dark)}
+.card p{font-size:14px;color:var(--muted);margin:0}
+.stat h4{font-size:22px;font-family:'Space Grotesk',sans-serif}
+
+.tl{list-style:none;margin:18px 0;padding-left:26px;border-left:2px dashed var(--line)}
+.tl li{position:relative;margin-bottom:16px;font-size:15px}
+.tl li::before{content:"";position:absolute;left:-33px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light)}
+.tl b{display:block;font-family:'Space Grotesk',sans-serif;color:var(--primary-dark)}
+
+details{border:1px solid var(--line);border-radius:12px;margin:14px 0;background:#FBFAFE}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:15px;color:var(--primary-dark);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+details[open] summary::before{content:"▾ "}
+details .dc{padding:0 18px 16px;font-size:14.5px}
+
+.pull{margin:22px 0;padding:20px 24px;border-radius:14px;background:linear-gradient(120deg,#2D1B69,#4C1D95);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:19px;line-height:1.45;font-weight:600}
+.pull span{display:block;margin-top:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;opacity:.7;letter-spacing:.03em}
+
+.faq{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+.faq>.bar{height:5px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.faqhead{padding:26px 28px 0}
+.faqhead h2{font-family:'Space Grotesk',sans-serif;font-size:26px;color:var(--primary-dark)}
+.faqhead p{color:var(--muted);font-size:15px;margin-top:4px}
+.faqbody{padding:18px 28px 28px}
+.faqcat{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.faqcat:first-child{margin-top:6px}
+.qa{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:#FDFCFF}
+.qa .q{background:linear-gradient(90deg,var(--primary-light),#F6F3FF);padding:13px 18px;font-weight:650;color:var(--primary-dark);font-size:15.5px;display:flex;gap:10px}
+.qa .q span{flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.qa .a{padding:15px 18px;font-size:15px}
+.qa .a p{margin-bottom:10px} .qa .a p:last-child{margin-bottom:0}
+
+.plan{background:linear-gradient(140deg,#0F172A,#1E1B4B);color:#fff;border-radius:18px;padding:30px 28px;margin-top:26px}
+.plan h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:8px}
+.plan>p{opacity:.8;margin-bottom:20px;font-size:15px}
+.phase{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin:22px 0 10px}
+.phase:first-of-type{margin-top:0}
+.chk{list-style:none;margin:0;padding:0}
+.chk li{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;margin-bottom:9px;font-size:15px;cursor:pointer;transition:background .15s}
+.chk li:hover{background:rgba(255,255,255,.09)}
+.chk .bx{flex-shrink:0;width:20px;height:20px;border:2px solid rgba(255,255,255,.4);border-radius:6px;margin-top:3px;display:grid;place-items:center;font-size:13px;font-weight:700;color:transparent}
+.chk li.done .bx{background:var(--success);border-color:var(--success);color:#fff}
+.chk li.done .tx{opacity:.5;text-decoration:line-through}
+.chk .tx b{display:block;font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.04em;text-transform:uppercase;opacity:.65;margin-bottom:2px}
+
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px;margin-top:26px}
+.quiz h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:6px;color:var(--primary-dark)}
+.quiz>p{color:var(--muted);margin-bottom:22px;font-size:15px}
+.qz{margin-bottom:24px;padding-bottom:22px;border-bottom:1px dashed var(--line)}
+.qz:last-of-type{border-bottom:none}
+.qz .qt{font-weight:650;margin-bottom:12px;font-size:15.5px}
+.opt{display:block;width:100%;text-align:left;background:#FBFAFE;border:1.5px solid var(--line);border-radius:10px;padding:11px 15px;margin-bottom:8px;cursor:pointer;font-family:inherit;font-size:14.5px;color:var(--ink);transition:all .15s}
+.opt:hover{border-color:var(--primary);background:var(--primary-light)}
+.opt.good{background:var(--success-light);border-color:var(--success);font-weight:600}
+.opt.bad{background:var(--danger-light);border-color:var(--danger)}
+.fb{display:none;margin-top:10px;padding:12px 15px;border-radius:10px;font-size:14.5px;background:var(--info-light);border-left:4px solid var(--info)}
+.fb.show{display:block}
+.score{margin-top:20px;padding:16px;border-radius:12px;background:var(--primary-light);text-align:center;font-weight:650;color:var(--primary-dark);display:none}
+.score.show{display:block}
+
+footer{text-align:center;padding-block:40px 50px;color:var(--muted);font-size:14px}
+footer b{color:var(--primary-dark);font-family:'Space Grotesk',sans-serif}
+
+@media(max-width:640px){
+  .pc{grid-template-columns:1fr}
+  .chead,.faqhead{padding:22px 18px 0} .cbody,.faqbody{padding:16px 18px 22px}
+  .toc{padding:22px 18px} .plan,.quiz{padding:24px 18px}
+  .hero h1{font-size:27px} .pull{font-size:17px;padding:18px}
+  .player-wrap{padding:14px} .chlist{grid-template-columns:1fr;max-height:280px}
+}
+@media print{
+  .progress-wrap{display:none} body{background:#fff}
+  section.chap,.toc,.quiz,.faq{box-shadow:none;break-inside:avoid}
+  .opt{display:none}
+  .vid{display:none} .player-wrap{box-shadow:none;margin-top:20px}
+  .chlist{max-height:none;overflow:visible} .chlist button{padding:3px 0}
+  button.seek{background:none;border:0;padding:0;color:var(--primary-dark)}
+}
+</style>
+</head>
+<body>
+<div class="progress-wrap"><div id="progress"></div></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">Mentorat TidyMess · Session du 6 novembre 2026</div>
+    <h1>L'email qui ouvre les portes —<br>et le système qui remplit la base</h1>
+    <p class="sub">Une session de mentorat entièrement consacrée au passage à la vitesse supérieure : refondre l'EPK pour qu'il accroche en trois secondes, construire un email de prospection à froid qui se fait ouvrir, financer la formation par la SACEM, et monter une campagne « free plus shipping » qui transforme des abonnés en fans dont on a les coordonnées.</p>
+    <div class="meta">
+      <span>⏱ 2 h 22</span>
+      <span>🎙 Tarik Hamiche</span>
+      <span>🎸 Thomas &amp; Nelly — TidyMess</span>
+      <span>📌 99 chapitres</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="player-wrap">
+  <div class="vid">
+    <iframe id="vimeoPlayer"
+      src="https://player.vimeo.com/video/1244114916?h=14578e3927"
+      title="Mentorat TidyMess — session du 6 novembre 2026"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  <details class="chx" id="chx">
+    <summary><span>Les 99 chapitres de la session</span><em>Cliquez un chapitre pour y aller</em></summary>
+    <div class="chlist" id="chlist"></div>
+  </details>
+</div>
+
+<nav class="toc">
+  <h2>Au programme</h2>
+  <ol>
+    <li><a href="#s1">Le point d'étape</a></li>
+    <li><a href="#s2">Les deux refus de SMAC</a></li>
+    <li><a href="#s3">La nouvelle phase : deux axes</a></li>
+    <li><a href="#s4">Financer la formation</a></li>
+    <li><a href="#s5">L'EPK entièrement repensé</a></li>
+    <li><a href="#s6">La méthode copywriting : trois sources</a></li>
+    <li><a href="#s7">Chasser les accroches sur LinkedIn</a></li>
+    <li><a href="#s8">L'email TidyMess écrit en direct</a></li>
+    <li><a href="#s9">Preuve sociale et levier d'autorité</a></li>
+    <li><a href="#s10">Les autres accroches repérées</a></li>
+    <li><a href="#s11">Le plan des trois prochaines séances</a></li>
+    <li><a href="#s12">Le free plus shipping</a></li>
+    <li><a href="#s13">La collaboration à aller chercher</a></li>
+  </ol>
+</nav>
+
+<section class="chap" id="s1" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">01</div><div><h2>Le point d'étape</h2><div class="tc">0:00 → 11:00</div></div></div>
+  <div class="cbody">
+    <p>La session s'ouvre sur un bilan rapide : les réseaux sociaux continuent, « ça avance moins vite qu'à un certain moment, mais ça continue ». Un mail a été envoyé sur l'éligibilité au CIPP, quelques réponses sont arrivées. Un petit concert la semaine précédente. Une chanson en mixage. Et surtout, Thomas s'est remis à créer : l'objectif est d'avoir <strong>trois ou quatre chansons pour le début d'année</strong>, afin de publier un titre par mois.</p>
+    <h3>Le premier carrousel</h3>
+    <p>Le format a été testé la veille, et Tarik l'a trouvé réussi. Une seule réserve, mais elle compte :</p>
+    <div class="box b-tip"><span class="bt">Le détail qui change tout</span><p>Mettre une <strong>flèche sur la première image</strong> pour signaler que c'est un carrousel. Beaucoup de gens n'ont pas le réflexe de faire défiler. Nelly pensait que c'était inutile — sur ce point précis, Tarik pense qu'elle se trompe.</p></div>
+    <p>Détail intéressant dans les commentaires : ils arrivent sur Facebook, pas sur Instagram, et ils racontent <em class="q">comment les gens les ont découverts</em> — au Zénith de Pau, en concert à La Réunion, par une publication. Le cap des 5 000 abonnés est sur le point d'être franchi.</p>
+    <h3>Le blog, et comment le faire travailler</h3>
+    <p>Un nouvel article a été publié, du type « 10 artistes et groupes à écouter » — avec TidyMess glissé dans la liste. Le retour de Tarik ne porte pas sur les photos manquantes, mais sur la longueur : <strong>il faut faire nettement plus long</strong>, sur eux comme sur le reste.</p>
+    <div class="pull">« Les articles de blog n'ont qu'un seul et unique objectif : me faire gagner du trafic organique. »<span>Le brief à donner à Claude avant toute autre consigne</span></div>
+    <p>La méthode recommandée, en trois temps :</p>
+    <div class="tl">
+      <li><b>1 · Poser l'objectif</b>Demander des idées d'articles avec cet objectif unique en tête — le trafic organique, rien d'autre.</li>
+      <li><b>2 · Faire étudier la structure</b>Demander d'étudier en profondeur la structure idéale d'un article pour ranker sur Google, puis de créer un <strong>skill</strong> qui rédige chaque article de cette manière.</li>
+      <li><b>3 · Faire noter le résultat</b>« Maintenant que l'article est terminé, note-le avec les critères de Google pour le référencement et donne-moi une note. Sois honnête. »</li>
+    </div>
+    <div class="box b-info"><span class="bt">D'où vient cette méthode</span><p>D'une interview de l'ancien CEO de WordPress, expliquant que leurs blogs étaient très bien référencés pour une raison simple : ils respectaient <strong>à la lettre toute la liste de recommandations de Google</strong> — nombre de mots par article, durées, tournures de phrases, structuration, images. Ce que Claude est parfaitement capable d'absorber aujourd'hui.</p></div>
+    <p>Et ce n'est pas un chantier annexe : <em class="q">« Il va falloir qu'on attaque une nouvelle phase dans votre développement. Et on a besoin du blog pour ça. »</em></p>
+    <h3>Le test de référencement IA</h3>
+    <p>Deuxième devoir pour Thomas, et c'est un chantier que Tarik mène en parallèle sur lui-même — parce qu'il ressort souvent numéro deux et trouve ça anormal.</p>
+    <div class="box b-key"><span class="bt">Le prompt à reprendre</span><p><em class="q">« Fais une analyse approfondie des critères qui poussent chacune des IA du marché à citer des sources, analyse-moi et dis-moi ce qu'il me manque. »</em></p><p>Puis préciser : sur quelles requêtes devrait-on normalement être cité et on ne l'est pas, sur quel genre de demande — et, en se basant là-dessus, proposer des idées d'articles bien rédigés pour se positionner.</p></div>
+    <p>Horizon annoncé : <strong>trois à six semaines</strong> pour gagner de la visibilité par ce biais. Les interviews dans des journaux viendront en dernier maillon de la chaîne, pas en premier. Dernier point de vérification au passage : le pixel Facebook est bien installé sur le site <em>et</em> sur le blog.</p>
+  </div>
+</section>
+
+<section class="chap" id="s2" data-c="r">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">02</div><div><h2>Les deux refus de SMAC</h2><div class="tc">11:17 → 19:30</div></div></div>
+  <div class="cbody">
+    <p>Deux demandes d'accompagnement envoyées au réseau de SMAC, deux refus. Nelly lit la réponse d'Ampli mot à mot, et une phrase la questionne.</p>
+    <div class="box b-danger"><span class="bt">La réponse qui pose problème</span><p>Après les raisons budgétaires — beaucoup de demandes validées pour la saison, plus de techniciens salariés dans l'association, deux licenciements et une rupture conventionnelle du directeur en 2025 — vient cette ligne : <em class="q">« Autre écueil, votre démarche artistique n'est pas trop dans les projets que l'on cherche à développer. »</em></p><p>Suivie d'un « n'hésitez pas à revenir vers nous ».</p></div>
+    <p>Le verdict de Tarik est net : <em class="q">« Ce mail ne me donne pas envie de revenir vers vous. »</em> Ce genre de retour, on zappe. Et quand ça démarre comme ça, <strong>même humainement ça ne matchera pas</strong> — même si le gars changeait d'avis plus tard, l'envie ne serait plus là.</p>
+    <div class="box b-warn"><span class="bt">Ne pas jouer les SMAC l'une contre l'autre</span><p>Nelly demande s'il faut recontacter l'autre SMAC en disant qu'Ampli a refusé. Réponse : non. <strong>On ne sait jamais quelles relations elles ont entre elles.</strong> Et de toute façon la réponse serait la même : pas de budget.</p></div>
+    <h3>La seconde réponse, et ce qu'on peut en faire</h3>
+    <p>Celle de Tarbes est très différente de ton. Elle explique qu'ils privilégient les projets de leur département, et qu'ils ont déjà <em class="q">« une pépinière d'une quinzaine de groupes »</em> et ne peuvent pas en prendre d'autres au risque de ne pas leur donner le maximum.</p>
+    <p>Là, il y a une porte entrouverte — et une manière de rebondir : commencer par <em class="q">« c'est à votre honneur et on trouve ça très bien »</em>, puis retourner complètement l'argument.</p>
+    <div class="pull">« On est très autonomes, on est capables de beaucoup se débrouiller par nous-mêmes, on n'a pas besoin de plus de financement, de budget. Simplement, il y a des points d'accès qu'on n'a pas et que vous avez. »<span>Et chiffrer la demande : ça peut représenter deux heures dans l'année</span></div>
+    <div class="box b-tip"><span class="bt">Pourquoi ça fonctionne</span><p>Ce qui coûte cher à une structure, c'est le temps et l'argent. Si vous ne demandez ni l'un ni l'autre — juste du réseau — quelqu'un qui a vraiment envie d'aider et qui voit que ça ne va pas lui bouffer son temps vous ouvrira une demi-porte : <em class="q">« Vous n'avez qu'à passer sur tel truc, c'est dans deux mois, et on verra bien ce que ça donne. »</em></p></div>
+    <h3>Le vrai sujet derrière le refus</h3>
+    <p>Thomas soulève un ressenti : la musique du duo, à cheval entre chanson française et variété, serait rejetée par beaucoup de musiciens et techniciens qui n'y voient pas la noblesse d'un groupe de blues ou de rock. Tarik nuance — on ne sait pas ce que les gens ont vraiment en tête — mais Nelly pose le constat qui tranche : <strong>le public, lui, est là</strong>. En concert, les gens qui les découvrent accrochent.</p>
+    <div class="pull">« C'est souvent ça le problème. Le problème, c'est souvent les intermédiaires. »<span>Tarik Hamiche</span></div>
+  </div>
+</section>
+
+<section class="chap" id="s3" data-c="p">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">03</div><div><h2>La nouvelle phase : deux axes</h2><div class="tc">19:40 → 29:00</div></div></div>
+  <div class="cbody">
+    <p>Après un long moment de réflexion à voix haute — <em class="q">« j'ai un bug, c'est comme s'il y avait un truc dans mon cerveau qui ne voulait pas sortir »</em> — Tarik pose le cadre des trois prochaines séances. Deux axes à travailler, et un prérequis qui ne dépend que du duo.</p>
+    <div class="cards">
+      <div class="card"><h4>Prérequis</h4><p><strong>Sortir des titres.</strong> C'est le moteur. Sans lui ça marchera quand même, mais ce sera plus lent.</p></div>
+      <div class="card"><h4>Axe 1</h4><p><strong>La publicité en ligne.</strong> La visibilité est là, l'attraction est générée depuis au moins six mois : les campagnes ads vont être un très bon accélérateur.</p></div>
+      <div class="card"><h4>Axe 2</h4><p><strong>La prospection de booking.</strong> Vu les supports, l'énergie sur scène, les scores et le profil du projet, il y a moyen d'aller taper des dates — pour 2027, voire 2028.</p></div>
+    </div>
+    <h3>Ce que l'IA peut faire pour la prospection</h3>
+    <p>Le chantier est détaillé étape par étape. On peut interconnecter Claude avec un certain nombre de bases de données, gouvernementales et Google, puis lui demander de construire une base de prospection selon la cible.</p>
+    <div class="tl">
+      <li><b>1 · Trouver les équivalents</b>« On a l'habitude de tourner dans ce type de salle » → Claude cherche les équivalents partout en France.</li>
+      <li><b>2 · Profiler le programmateur</b>Noémie, qui programme à Arras, a peut-être donné une interview dans un journal local où elle exprime ses aspirations. Claude la retrouve, croise avec la programmation des mois passés et à venir, et conclut : elle est pile dans la cible, ou non.</li>
+      <li><b>3 · Trouver le vrai contact</b>Pas seulement contact@lasalle.com : chercher si elle a un poste à la mairie, si elle travaille ailleurs, si un autre email public lui est rattaché. Enrichir la base.</li>
+      <li><b>4 · Automatiser l'envoi</b>Se connecter à un autorépondeur et confier la cadence à Claude : « Voilà le domaine, il ne faut pas le griller. Tu fais des envois 20 par 20 ou 30 par 30, tu analyses les taux de rebond. Du moment que c'est bon, tu envoies la vague suivante. Si ce n'est pas bon, tu me préviens, on fait une pause. »</li>
+    </div>
+    <div class="box b-info"><span class="bt">Durée annoncée</span><p>Constituer une base de prospection complète : <strong>deux à trois jours</strong>.</p></div>
+    <h3>La question de Nelly, et la réponse qui recadre tout</h3>
+    <p>Nelly pose la vraie question : ils ont déjà envoyé des centaines de mails sans obtenir de réponses. Passer par Claude facilite la tâche, mais est-ce que ça va changer le taux de réponse ? Sans intermédiaire qui a le réseau ?</p>
+    <div class="pull">« Claude ne va pas changer la qualité de l'impact. L'impact, c'est nous qui allons le faire. Claude, ça va être l'outil de prospection : il va vous mettre en face de milliers de programmateurs. »<span>Tarik Hamiche</span></div>
+    <p>Ce qui stimule l'impact tient en trois choses — et c'est exactement le programme de la session :</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Levier</th><th>Ce qu'il déclenche</th></tr></thead>
+        <tbody>
+          <tr><td><strong>La qualité de l'objet du mail</strong></td><td>L'ouverture</td></tr>
+          <tr><td><strong>La qualité du mail</strong></td><td>Le clic</td></tr>
+          <tr><td><strong>La qualité de l'EPK</strong></td><td>La prise de décision</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pc">
+      <div class="ko"><h4>Objets qui ne marchent pas</h4><ul><li>« Nouveau duo du Béarn à écouter absolument »</li><li>« Phénomène pop rock électro du sud de la France »</li></ul></div>
+      <div class="ok"><h4>Objet qui intrigue</h4><ul><li>« Les concerts, ce n'est pas rentable. »</li><li>Un programmateur qui voit ça se dit : « C'est quoi ce truc ? »</li></ul></div>
+    </div>
+    <p>La question de fond, celle qui va occuper toute la session : <strong>quel biais psychologique va stimuler l'intérêt de la cible au point de lui faire ouvrir un email ?</strong></p>
+  </div>
+</section>
+
+<section class="chap" id="s4" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">04</div><div><h2>Financer la formation</h2><div class="tc">29:21 → 39:30</div></div></div>
+  <div class="cbody">
+    <p>Parenthèse pratique avant d'attaquer : Nelly s'inquiète des dates à déclarer sur le dossier de formation. Elle est professeure des écoles, certaines dates seraient impossibles à tenir, et elle tient à respecter les règles.</p>
+    <div class="box b-key"><span class="bt">La réponse, sans détour</span><p><em class="q">« On va tricher, mais intelligemment. On ne va pas vraiment tricher, mais un petit peu quand même. »</em></p><p>Les dates annoncées ne sont <strong>pas obligatoires à respecter</strong>. Les financeurs apprécient même qu'il y ait un <strong>protocole d'adaptation du parcours de formation</strong> : on avait prévu lundi à vendredi, on ne peut pas, donc on fait lundi-mardi puis lundi-mardi, et on étale la durée. À partir du moment où les deux parties sont d'accord, le financeur suit le mouvement.</p></div>
+    <p>Ce qu'il demande réellement : un suivi cohérent, et des <strong>feuilles de présence signées des deux parties</strong>. Le samedi est possible, le dimanche non.</p>
+    <h3>Quel financeur viser</h3>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Financeur</th><th>Verdict</th><th>Détail</th></tr></thead>
+        <tbody>
+          <tr><td>DRAC / DASS</td><td>Pas maintenant</td><td>Budgets gelés jusqu'au 15 janvier — ils l'ont annoncé par mail. Sur un budget de 900 millions, 3 000 € ne les intéressent pas : tout ce qu'ils veulent, c'est que le dossier rentre dans leur case.</td></tr>
+          <tr><td><strong>SACEM</strong></td><td><strong>La bonne piste</strong></td><td>Aucune procédure de contrôle, pas de vérification sur le suivi. Le seul attendu : un compte rendu du stagiaire. Fonds d'environ 3 M€ dont à peine 5 % sollicité chaque année.</td></tr>
+          <tr><td>Afdas</td><td>Peu probable</td><td>En ce moment, même des personnes 100 % éligibles se font refuser.</td></tr>
+          <tr><td>CPF</td><td>Possible mais lourd</td><td>Très contrôlé. Tarik n'y fait que du distanciel.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="box b-warn"><span class="bt">Ce qui déclenche vraiment les contrôles</span><p>Les suspicions de fraude. Exemple cité : un organisme lillois qui vendait des formations en présentiel à 60 personnes par semaine, sans bureau — juste une boîte aux lettres — et délivrait des clés USB aux stagiaires. Au bout de 300 stagiaires et d'une cinquantaine de plaintes, l'artillerie lourde est sortie. En dehors de ces cas, la DASS, « ils sont huit dans un bureau à Paris ».</p></div>
+    <h3>Le CPF, l'exception stricte</h3>
+    <div class="pc">
+      <div class="ko"><h4>Ce que le CPF contrôle en présentiel</h4><ul><li>Où vous avez dormi : preuve ou attestation d'hébergement</li><li>Les frais de déplacement</li><li>Qu'il n'y ait <strong>aucune date de concert</strong> le week-end de la formation — ils considèrent que ce n'est pas normal</li><li>Les logs de connexion Zoom, nom et prénom exacts d'inscription, avec les déconnexions visibles</li><li>Une attestation de présence contresignée — s'il manque un élément, le temps est considéré comme non fait</li></ul></div>
+      <div class="ok"><h4>La certification finale</h4><ul><li>Une présentation, avec un kit type fourni par le certificateur</li><li>Les questions du certificateur sont connues d'avance</li><li>30 minutes au total : 5 de présentation de votre côté, 5 du leur, 10 de compte rendu</li><li><strong>Soit 10 minutes d'oral réel</strong></li></ul></div>
+    </div>
+    <h3>Pourquoi la SACEM est la bonne porte</h3>
+    <p>Et ce n'est pas un hasard : c'est Tarik, avec Joe, qui a monté le dossier et mené au moins cinq rendez-vous pour que la SACEM élargisse son fonds de formation.</p>
+    <div class="box b-info"><span class="bt">Avant / après</span><p><strong>Avant :</strong> seules les formations écriture et composition étaient financées. <strong>Après :</strong> le fonds couvre les compétences transversales — édition musicale, production, marketing, music business.</p></div>
+    <p>Décision prise en séance : Tarik monte le dossier SACEM dès le lendemain, revérifie les conditions d'éligibilité, les délais de prise en charge, et fait un retour WhatsApp pour décider s'ils lancent tout de suite ou s'ils attendent. <em class="q">« À mon avis, on va pouvoir le faire avant la fin de l'année. »</em></p>
+  </div>
+</section>
+
+<section class="chap" id="s5" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">05</div><div><h2>L'EPK entièrement repensé</h2><div class="tc">39:40 → 51:30</div></div></div>
+  <div class="cbody">
+    <p>Le programme de la session est posé : la création de base et l'envoi d'emails seront automatisés à la prochaine séance. Aujourd'hui, on travaille le cœur de la démarche — <strong>le copywriting, l'objet, la structure d'email et l'appel à l'action vers le dossier de presse</strong>.</p>
+    <p>Premier arrêt : l'EPK existant, qui est sur le site. Tarik le parcourt à l'écran et commente ce qu'il ressent, en se mettant dans la peau de la cible.</p>
+    <div class="box b-danger"><span class="bt">Le diagnostic, dans l'ordre du scroll</span><p><strong>Au-dessus de la ligne de flottaison :</strong> une belle photo, mais rien qui accroche. <strong>En descendant :</strong> on est déjà obligé de lire. <strong>Plus bas :</strong> une image sympa, puis du texte écrit en petit — « moi je suis flemmard, je n'ai pas envie de lire, du coup ça me bloque ». <strong>La discographie :</strong> trop d'infos, on ne sait pas s'il faut cliquer.</p></div>
+    <div class="pull">« J'essaie de me mettre dans la tête du programmateur qui n'a vraiment pas envie de se faire chier. Et qui n'a pas le temps des fois. Et qui attend d'être émerveillé. »<span>Tarik Hamiche</span></div>
+    <p>Et pourtant l'élément décisif est là, plus bas dans la page : <em class="q">« Vous avez un truc hyper convaincant ici qui vaut 1 000 mots. Juste ça, ça me vend le truc. Je n'aurais même besoin de rien d'autre — juste ça avec un numéro, et ça y est. »</em></p>
+    <h3>La démonstration par l'EPK de Makassy</h3>
+    <p>Tarik montre celui qu'il a fait la veille pour Makassy — pas terminé, et il lui a dit exactement la même chose : le texte tout rédigé ne va pas.</p>
+    <div class="tl">
+      <li><b>Une image, une vidéo, un truc qui parle direct</b>Quelque chose où on se dit « waouh, il se passe quelque chose ». À la limite, un mot. Tout ce qui tient dans un pavé de texte doit tenir sur une page à peine.</li>
+      <li><b>Un mur qui défile dès la première image</b>Des visuels, des photos de scène, du rêve. « C'est tout ce qu'un programmateur veut voir. »</li>
+      <li><b>Ce que ça déclenche</b>Un programmateur de mairie regarde, et se dit : « Oui, moi je veux ça chez moi, ça me va. J'ai quelqu'un de professionnel, qui a l'habitude de gérer des foules, qui est bon sur scène. »</li>
+    </div>
+    <h3>La structure recommandée</h3>
+    <div class="cards">
+      <div class="card"><h4>1 · La vidéo en direct</h4><p>Celle qui claque, visible immédiatement, avec le nom du groupe en haut</p></div>
+      <div class="card"><h4>2 · Deux mots d'explication</h4><p>Pas plus. Juste de quoi cadrer</p></div>
+      <div class="card"><h4>3 · La preuve sociale</h4><p>Ce qui était en bas de page remonte tout en haut : journaux, scènes, médias — il n'y a pas que vous qui pensez que c'est bien</p></div>
+      <div class="card"><h4>4 · Le reste</h4><p>Ce que vous voulez. Si la première page accroche, le job est fait</p></div>
+    </div>
+    <div class="box b-key"><span class="bt">Le principe de vente derrière</span><p>On doit <strong>séduire d'abord la partie créative du cerveau, avant la partie rationnelle</strong>. La partie rationnelle, on la séduira dans l'échange. C'est exactement la mécanique des publicités iPhone : on vous en met plein la vue, vous vous dites « j'en veux un », et ensuite seulement le cerveau logique demande combien ça coûte et dans quelles conditions.</p></div>
+    <h3>L'appel à l'action</h3>
+    <p>Une fois l'envie créée, il faut un appel à l'action <strong>simple et unique</strong> — la demande de devis directe, qui existe déjà et qui est bien faite. Pas cinquante mille éléments.</p>
+    <div class="box b-warn"><span class="bt">Ce qui vient après, pas avant</span><p>La fiche technique, le teaser, les détails : tout ça arrive quand le gars dit « je veux, comment ça se passe ? ». Et à ce moment-là, mieux vaut le gérer en direct : « Ne bougez pas, on s'appelle, on en discute. »</p></div>
+    <p>Dernière décision de format, et elle est structurante : <strong>l'EPK n'est plus un PDF, c'est une page web interactive</strong> — une page /epk à part, construite sur la même trame que le site, avec l'aide de Claude.</p>
+    <div class="box b-tip"><span class="bt">Le détail repris de l'EPK de Makassy</span><p>Un <strong>mur de commentaires</strong> récupérés sur Instagram et Facebook, rassemblés dans un tableau. Un programmateur ne les lira jamais tous — mais il voit les mots qui ressortent, il en prend un au hasard pour vérifier que ce n'est pas du faux, il regarde comment c'est écrit, et il se dit : « Ce n'est pas possible que les mecs soient assez créatifs pour me faker 60 commentaires. » Preuve sociale immédiate.</p></div>
+    <p>Et pour l'offre : deux formules, les tarifs sur devis, un email, un numéro. C'est tout.</p>
+  </div>
+</section>
+
+<section class="chap" id="s6" data-c="p">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">06</div><div><h2>La méthode copywriting : trois sources</h2><div class="tc">51:30 → 63:40</div></div></div>
+  <div class="cbody">
+    <p>Partage d'écran, et Tarik montre sa méthode de travail réelle — celle qu'il utilise pour ses propres campagnes. Elle repose sur un principe simple : <strong>ne pas inventer, s'inspirer de ce qui a déjà prouvé que ça marche</strong>.</p>
+    <div class="box b-danger"><span class="bt">Pourquoi on ne confie pas la rédaction à l'IA</span><p>Un copywriter est quelqu'un qui rédige des pages ou des emails de vente à fort taux de conversion. Et contrairement à ce qu'on pourrait croire, <strong>les IA sont nulles en copywriting</strong> — et c'est pire en ultra-court. Demandez un email de prospection pour un duo folk rock, et vous obtiendrez : « Je me permets de vous contacter au sujet de votre programmation. Je m'occupe du duo bla bla bla. » Zéro.</p><p>Le métier existe toujours, et il se porte bien.</p></div>
+    <div class="pull">« L'objet est l'élément le plus important de votre vie pour l'instant, parce que l'objet détient le pouvoir de faire ouvrir l'email ou pas. »<span>Tarik Hamiche</span></div>
+    <h3>Source 1 · Les newsletters de pointures</h3>
+    <p>Tarik est inscrit aux newsletters d'un certain nombre de gens brillants et regarde ce qu'ils envoient : <strong>Perry Marshall</strong>, <strong>Grant Cardone</strong> (plus agressif), <strong>Dan Lok</strong>. En français, la référence est <strong>Jean Rivière</strong> — « un des rares Français qui écrit divinement bien ».</p>
+    <div class="box b-key"><span class="bt">Le mécanisme de détournement</span><p>Un objet de Jean Rivière : <em class="q">« Les livres, ça ne rapporte rien. »</em> → On le transpose : <em class="q">« Les lives, ça ne me rapportent plus rien. »</em></p><p>Puis on développe : « Il y a une croyance populaire répandue chez les programmateurs de concerts, qui est de se dire que le live ne rapporte rien si on n'investit pas massivement dans la tête d'affiche du moment — alors que c'est faux. »</p><p>Et on décline : « Aujourd'hui, les artistes indépendants bâtissent leur communauté. Quand tu les programmes, avant même d'avoir commencé ta com', tu as peut-être déjà la moitié de ta jauge remplie, juste parce que l'artiste communique sur la date auprès de son public. »</p></div>
+    <p>L'objectif de l'email n'est pas de vendre : c'est de <strong>créer un changement de paradigme</strong>. Que le gars se dise « tiens, pourquoi pas ? » ou « je pourrais les envisager ».</p>
+    <p>Autres idées glanées au passage, à partir d'objets existants : « Arrête de copier les influenceurs » → faire changer d'avis un programmateur sans le braquer. Ou, à partir d'un objet en deux mots : <strong>« Refuser poliment un artiste en deux mots »</strong>.</p>
+    <h3>Source 2 · Les publicités actives</h3>
+    <p>Des gens très bons investissent des fortunes en publicité quand elles fonctionnent. <strong>Quand une pub revient souvent, c'est généralement qu'elle marche.</strong></p>
+    <div class="box b-tip"><span class="bt">Le raccourci avec Claude</span><p>Plutôt que de réécrire soi-même : <em class="q">« Garde la structure de ce message de vente, adapte-le à un email de prospection à froid pour des programmateurs de salles ou de festivals que je m'apprête à démarcher, et réécris-moi un mail en conséquence à partir de cette structure. »</em></p><p>Peut-être que ça marchera, peut-être pas. Si vous n'êtes pas convaincu, vous passez à autre chose.</p></div>
+    <div class="box b-warn"><span class="bt">Le travail réel que ça demande</span><p>« Votre job, c'est de passer 1 heure, 2 heures, 3 heures, 5 heures, 10 heures s'il faut, à tester des combinaisons comme ça, jusqu'à trouver la meilleure. » Parce que <strong>le premier email que vous envoyez peut tout changer</strong> : c'est une base froide qui ne vous connaît pas. Si le premier ne passe pas, les autres ne passeront pas.</p></div>
+    <p>Exemple de structure repérée dans une pub : <em class="q">« Petit calcul rapide sur un coin de table. Vous avez une salle de 300 places, une entrée à 15 euros… Suivez-moi bien : vous remplissez la moitié de la salle. »</em> L'idée est là, la formulation est à adoucir.</p>
+    <div class="box b-info"><span class="bt">La psychologie inversée</span><p>Une accroche repérée : <em class="q">« This is insane. I got 132 leads in the first 9 days. »</em> Détournée pour un programmateur : <strong>« C'est complètement dingue. Je me suis mangé 132 refus en 9 jours. »</strong></p><p>Celui qui la reçoit se dit : « Moi aussi je refuse plein de gens. Attends, je vais voir quand même pourquoi ils ont refusé. » Ce petit <strong>biais de curiosité</strong> suffit à faire ouvrir.</p></div>
+    <p>Et la règle de prudence : on ne lance jamais une idée sur toute la base. <strong>On teste sur 20 ou 30 contacts.</strong> Si le taux d'ouverture est explosif, l'idée tient — on l'améliore, puis on l'étend.</p>
+  </div>
+</section>
+
+<section class="chap" id="s7" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">07</div><div><h2>Chasser les accroches sur LinkedIn</h2><div class="tc">63:40 → 70:50</div></div></div>
+  <div class="cbody">
+    <p>Troisième source, et celle que Tarik exploite le plus longuement en direct : les copywriters sur LinkedIn.</p>
+    <div class="box b-key"><span class="bt">Pourquoi LinkedIn plutôt qu'ailleurs</span><p>Pour qu'un post marche sur LinkedIn, <strong>il faut un levier émotionnel très fort</strong>. C'est exactement ce dont on a besoin en prospection à froid.</p></div>
+    <p>Le copywriter pris en exemple : <strong>Grégoire Gambatto</strong>, fondateur de Germinal (et de la formation « l'Antichambre »). La méthode de recherche est entièrement manuelle au départ.</p>
+    <div class="tl">
+      <li><b>1 · Ouvrir son activité, filtrer sur les posts</b>Uniquement les publications, pas les commentaires ni les réactions.</li>
+      <li><b>2 · Repérer la norme</b>Ici, elle tourne autour de 100 likes. 500 commence à être intéressant.</li>
+      <li><b>3 · Chercher les anomalies</b>On vise ce qui dépasse largement — 800, 900, 1 000 likes et plus. Là, il y a une accroche qui a fonctionné.</li>
+      <li><b>4 · Écarter les faux signaux</b>Un post à 2 317 likes sur un changement de vie ne compte pas : sur une communauté qui vous connaît déjà, l'annonce personnelle fait toujours réagir. C'est biaisé.</li>
+    </div>
+    <div class="box b-info"><span class="bt">Un travail de fourmi — mais délégable</span><p><em class="q">« C'est un travail de fourmi, j'en conviens, mais c'est un travail qui paye vraiment bien. »</em></p><p>En parallèle, Tarik lance Claude dessus : <em class="q">« Est-ce que tu peux me trouver les posts de Grégoire Gambatto sur LinkedIn qui ont fait le plus de likes ? Sors-moi les 10 posts les plus likés. Je t'ai ouvert l'extension pile sur sa page LinkedIn. »</em> Puis, pour accélérer : <em class="q">« Déploie autant d'agents que nécessaire, mais je veux que tu ailles le plus vite possible. »</em></p><p>Claude trouve le top 10 — mais bute sur la récupération des liens. Diagnostic de Tarik : il faudrait passer par l'API LinkedIn, avec Claude Code.</p></div>
+    <p>Petite digression au passage, qui situe l'état de l'outil : Claude fait maintenant du montage vidéo. Le détourage fonctionne très bien, le reste reste simple pour l'instant — <em class="q">« dans quelques mois ça va être officiel »</em>. Et il sait désormais utiliser Blender, ce qui ouvre un combo intéressant pour la 3D.</p>
+  </div>
+</section>
+
+<section class="chap" id="s8" data-c="p">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">08</div><div><h2>L'email TidyMess écrit en direct</h2><div class="tc">70:48 → 87:00</div></div></div>
+  <div class="cbody">
+    <p>Dans la liste des posts de Gambatto, une accroche s'impose : <strong>« C'est fini pour moi, la scène. »</strong></p>
+    <div class="pull">« Je ne connais aucun programmateur qui ne serait pas sensible, ne serait-ce que par curiosité, à savoir ce que tu as à raconter. C'est émotionnel, c'est très puissant. »<span>Tarik Hamiche</span></div>
+    <p>Premier réflexe : confier la rédaction à Claude — <em class="q">« prends-moi ce post LinkedIn et rédige-le en email avec la même structure, sauf que tu pars du thème : C'est fini pour moi, la scène »</em>. Résultat décevant : la structure n'est pas respectée, et le ton est trop cheesy. Tarik reprend la main.</p>
+    <div class="box b-key"><span class="bt">L'email écrit en direct, à voix haute</span><p>« C'est fini pour nous, la scène.</p><p>On ne se connaît pas, mais on a besoin que ça sorte. Être artiste ne suffit plus. On est devenus producteur, éditeur, tourneur, attaché de presse, graphiste. On devrait passer notre temps à créer et à faire vibrer le public, pas à prospecter pendant des heures.</p><p>Alors avant de ranger les guitares, on a décidé d'envoyer quelques bouteilles à la mer. Celle-ci est pour vous.</p><p>Nous, c'est TidyMess, un duo pop rock. Nelly, Thomas. Deux voix, des guitares. Des chansons qu'on a écrites et produites seuls, sans label, sans tourneur, sans réseau.</p><p>On ne vous demande pas de nous programmer les yeux fermés, juste trois minutes de curiosité. »</p></div>
+    <h3>Pourquoi cet angle fonctionne</h3>
+    <p>Il amène le lecteur à un niveau psychologique où il devient empathique — <em class="q">« ce n'est pas facile pour des artistes »</em> — puis lui fait comprendre qu'on ne veut pas lâcher, qu'on en a ras-le-bol.</p>
+    <div class="pull">« C'est comme une dernière bouteille à la mer, en espérant que quelqu'un prendra le temps d'écouter. Tu es un peu ma dernière chance avant que je lâche tout. Donc si tu as deux minutes, s'il te plaît, clique ici. »<span>Et derrière, quand il clique et qu'il tombe sur la vidéo : « Mais non, il ne faut pas arrêter les gars ! »</span></div>
+    <div class="box b-info"><span class="bt">Le brief complet donné à Claude</span><p>Pour obtenir une version exploitable, Tarik détaille : l'objectif est de vendre des dates d'un duo folk rock appelé TidyMess, sur une base froide de programmateurs, festivals, salles de concert, espaces culturels et comités des fêtes. L'email doit mettre en avant <strong>les bâtons dans les roues d'un artiste en autoprod</strong>, faire ressentir au programmateur qu'il est une bouteille à la mer et un peu la dernière chance — <strong>sans trop dramatiser</strong> — et l'inciter fortement à aller écouter ne serait-ce que par curiosité.</p></div>
+    <p>Détail amusant : Claude revient avec les prénoms exacts du duo. Il est allé chercher sur tidymess.fr. <em class="q">« Quelle importance d'avoir un site, c'est incroyable. »</em></p>
+    <h3>Les retouches à faire</h3>
+    <ul>
+      <li>Supprimer les deux premières lignes : l'objet porte déjà le message</li>
+      <li>Passer du <strong>« je » au « on »</strong> partout — ils sont deux, et « nous » alourdirait à l'oral</li>
+      <li>Fusionner les deux dernières phrases pour retrouver « le petit moment de magie qui manquait »</li>
+      <li>Corriger le genre : pop rock, pas folk rock</li>
+    </ul>
+    <h3>La décision la plus contre-intuitive : conclure par une question</h3>
+    <p>Plutôt que de donner le lien, terminer par : <strong>« On vous envoie notre dossier de presse ? »</strong></p>
+    <div class="pc">
+      <div class="ok"><h4>Ce qu'on gagne</h4><ul><li>Quand les gens <strong>répondent</strong>, c'est l'un des éléments les plus déterminants pour la réputation de votre domaine d'envoi</li><li>Si l'autre a mordu et répond oui, <strong>la vente est quasiment assurée</strong></li><li>Pas de lien ni de pièce jointe = beaucoup moins de risque de tomber en spam</li></ul></div>
+      <div class="ko"><h4>Ce qu'on perd</h4><ul><li>Un taux de réponse mécaniquement plus faible qu'un taux de clic</li></ul></div>
+    </div>
+    <div class="box b-tip"><span class="bt">La solution : l'A/B test</span><p>Nelly pose la bonne question — « est-ce qu'il ne faut pas tester moitié-moitié ? » Réponse : exactement. <strong>Une liste de 100, 50/50, et on mesure.</strong> C'est obligatoire, sinon c'est trop risqué.</p></div>
+  </div>
+</section>
+
+<section class="chap" id="s9" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">09</div><div><h2>Preuve sociale et levier d'autorité</h2><div class="tc">87:00 → 99:40</div></div></div>
+  <div class="cbody">
+    <p>Il manque une chose à l'email : <strong>la preuve sociale</strong>. Le passage « On ne vous demande pas de nous programmer les yeux fermés… » appelle une suite qui installe l'autorité.</p>
+    <div class="box b-key"><span class="bt">Le prompt de réécriture</span><p><em class="q">« Modifie ce bloc pour transmettre l'intention qu'on ne lui demande pas de programmer les yeux fermés, mais de se baser sur le fait que des médias, des marques et des plateformes d'autorité nous font déjà confiance. »</em></p><p>Proposition retenue : <strong>« On ne vous demande pas de nous programmer les yeux fermés. D'autres ont déjà ouvert les yeux pour vous. »</strong> — ou, en version plus directe : « Untel, untel et untel l'ont déjà fait avant vous. Vous n'avez qu'à vérifier par vous-même. »</p></div>
+    <h3>Quelle autorité mettre, selon la cible</h3>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Situation</th><th>Levier à utiliser</th></tr></thead>
+        <tbody>
+          <tr><td>Prospection dans votre région</td><td>Une date importante faite localement. En région Centre, « j'ai fait les Printemps de Bourges » fait autorité ; en Bretagne, ce sont les Vieilles Charrues.</td></tr>
+          <tr><td>Prospection hors région</td><td>Ces noms ne parleront pas. On bascule sur les <strong>premières parties</strong> ou sur les <strong>scores réseaux sociaux</strong>.</td></tr>
+          <tr><td>Angle « l'artiste amène son public »</td><td>Clairement les réseaux : « X millions de personnes ont déjà interagi avec nos contenus. »</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pull">« Le tout, c'est de trouver un argument qui fasse se dire au gars : je ne veux pas passer à côté de quelque chose d'important. Probablement que ça ne vaut pas le coup, mais dans le doute, je vais quand même tendre une oreille. »<span>Mettre de l'autorité, c'est créer le doute</span></div>
+    <h3>Quand on ne sait pas à qui on envoie</h3>
+    <p>Nelly soulève la limite : si Claude automatise l'envoi, on ne sait pas qui reçoit quelle version. Comment choisir le bon levier ?</p>
+    <div class="box b-info"><span class="bt">La réponse : les variantes</span><p>On ne peut pas l'anticiper, donc <strong>on fonctionne avec des variantes</strong> et on regarde lesquelles génèrent le plus d'impact. C'est le meilleur choix statistique. Dix personnes qui voient passer le mail auront vu des versions différentes — mais un angle psychologique souvent identique.</p></div>
+    <p>Le calcul que fait le programmateur, quand l'angle réseaux sociaux fonctionne : <em class="q">« Sur un malentendu, moi j'ai 200 places à remplir. S'il me les remplit, c'est tout bénéf. Je n'ai même pas de budget marketing à mettre. »</em> Vous et lui savez que ce ne sera peut-être pas le cas — mais le doute suffit à le faire prendre contact.</p>
+    <div class="box b-key"><span class="bt">L'objectif, rappelé</span><p>Pour vendre une date, il faut un contact. Pour avoir un contact, il faut le pousser à prendre contact. <strong>On avance étape par étape.</strong> Quand il prendra contact, on aura d'autres problèmes à gérer — mais pour l'instant il n'est pas là.</p></div>
+    <h3>Distiller l'autorité ailleurs : la signature</h3>
+    <p>Nelly demande si on peut glisser plusieurs leviers d'un coup. Oui — mais pas dans le corps du texte : <strong>dans la signature</strong>.</p>
+    <div class="cards">
+      <div class="card"><h4>La signature</h4><p>« TidyMess — duo pop rock — un million de vues ». L'autorité est posée sans alourdir le message.</p></div>
+      <div class="card"><h4>Le lien EPK</h4><p>Ajouté à la signature, « si tu veux être un peu traître » — alors même que l'email demandait l'autorisation de l'envoyer. Tarik l'a fait une fois : le destinataire a cliqué, <em>puis</em> répondu « oui, ça m'intéresse, envoyez-moi ».</p></div>
+      <div class="card"><h4>Le PS</h4><p>« PS : TidyMess a été vu et entendu sur… » et la liste des médias. C'est souvent la partie la plus regardée d'un bas de mail.</p></div>
+    </div>
+    <div class="box b-tip"><span class="bt">L'avantage technique de la question</span><p>En concluant par une question plutôt qu'un lien, l'email ne contient <strong>ni pièce jointe ni lien</strong> dans le corps. Ça passe beaucoup mieux auprès des services de messagerie, et vous tombez bien moins souvent en spam. Et comme toujours : 50/50, une moitié avec la question, l'autre avec le lien direct.</p></div>
+  </div>
+</section>
+
+<section class="chap" id="s10" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">10</div><div><h2>Les autres accroches repérées</h2><div class="tc">99:40 → 118:30</div></div></div>
+  <div class="cbody">
+    <p>La méthode est acquise, Tarik continue de scroller et commente les accroches au fil de l'eau — en expliquant à chaque fois pourquoi elle marcherait ou non pour un programmateur.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Accroche repérée</th><th>Transposition possible</th><th>Verdict</th></tr></thead>
+        <tbody>
+          <tr><td>Changement de cap</td><td>« Changement de cap chez les meilleurs artistes »</td><td>Attise forcément la curiosité : « il y a un vent qui est en train de tourner, je ne l'ai pas senti arriver »</td></tr>
+          <tr><td>Le presque-succès</td><td>« J'ai failli être nominé aux Grammy Awards »</td><td>Levier psychologique très fort — mais il faut que ce soit vrai</td></tr>
+          <tr><td>La cause commune</td><td>« On ne réglera pas le problème du réchauffement climatique sans les artistes »</td><td>Déclinable à l'infini : les inégalités, les médias, ce que vous voulez. Marche bien sur des festivals à label écoresponsable</td></tr>
+          <tr><td>Le recrutement au talent</td><td>« On ne programme pas au nombre d'abonnés, mais au talent »</td><td>Très efficace : titille directement la réflexion du programmateur</td></tr>
+          <tr><td>Le désespoir brut</td><td>Une détresse personnelle affichée</td><td><strong>À éviter en prospection froide</strong> — ne fonctionne que si la personne vous connaît déjà</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="box b-warn"><span class="bt">Pourquoi le désespoir ne marche pas à froid</span><p>L'émotion crée une empathie très forte, mais c'est comme les vidéos de conflits qu'on voit passer : au départ ça choque, puis vient l'empathie, et au bout d'un moment ça lasse — « je n'ai pas envie de déprimer ce matin, laissez-moi respirer ». Venant de quelqu'un qu'on connaît, il n'y aurait même pas de débat. Venant d'un inconnu, c'est différent.</p></div>
+    <div class="box b-info"><span class="bt">Un seul problème à la fois</span><p>Thomas souligne que le contenu devra être à la hauteur de l'accroche. Vrai — mais ce n'est pas le problème du moment : <em class="q">« Notre problème, c'est que la personne ouvre l'email. Quand elle l'aura ouvert, notre problème sera qu'elle le lise et qu'elle ait envie de le lire jusqu'au bout. »</em></p></div>
+    <h3>Les copywriters à suivre</h3>
+    <div class="cards">
+      <div class="card"><h4>Grégoire Gambatto</h4><p>Fondateur de Germinal, formation « l'Antichambre ». Ses meilleurs posts datent de quelques années — ils valent le détour.</p></div>
+      <div class="card"><h4>Jean Rivière</h4><p>Pas de profil LinkedIn : il faut s'inscrire à sa newsletter. « Retour au vrai ». C'est de lui que viennent les structures de pages de vente et de pubs que Tarik utilise encore aujourd'hui, apprises il y a une dizaine d'années.</p></div>
+      <div class="card"><h4>Nina Ramen</h4><p>Très douée. Ses angles sont souvent très orientés femmes et féminisme — donc parfois plus difficiles à réadapter, mais ses structures restent exploitables.</p></div>
+      <div class="card"><h4>Et la méthode pour en trouver d'autres</h4><p>Demander directement à Claude de repérer des copywriters français très suivis sur LinkedIn, et tester leurs posts les plus performants.</p></div>
+    </div>
+    <div class="pull">« Votre devoir, ça va être d'aller chercher des sources d'inspi et de travailler l'objet, la structure du mail — et même avant la structure du mail, l'angle marketing. »<span>Tarik Hamiche</span></div>
+    <div class="box b-danger"><span class="bt">Ce qui ne marche pas : le profil type</span><p>Tarik a déjà essayé de faire établir par Claude un profil psychologique du programmateur type. <strong>Impossible d'obtenir quelque chose de fiable.</strong> Celui qui programme en espace culturel n'a pas du tout les mêmes problèmes que celui qui gère une salle, qui organise des résidences, qui dirige un gros festival ou qui est indépendant et se débrouille pour joindre les deux bouts. Il faudra faire des tests. Beaucoup.</p></div>
+  </div>
+</section>
+
+<section class="chap" id="s11" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">11</div><div><h2>Le plan des trois prochaines séances</h2><div class="tc">118:30 → 123:00</div></div></div>
+  <div class="cbody">
+    <p>Fin de session, et la to-do list s'étoffe comme à chaque fois — Thomas le note en riant. Tarik relativise : « bomber un peu le blog et rédiger deux ou trois emails devraient suffire ».</p>
+    <div class="tl">
+      <li><b>Cette semaine</b>Envoyer les brouillons d'emails sur WhatsApp pour validation. Et se caler 20 à 30 minutes pour monter la demande de financement SACEM.</li>
+      <li><b>Session du 19 novembre</b>Mettre en place la <strong>prospection automatisée</strong>. Très technique. On ne peut pas démarcher 2 000 contacts d'un coup — ça grillerait le domaine — donc on travaille par séquences de 50 mails. Les résultats ne tomberont qu'au bout d'une à deux semaines, ce qui permettra de les mesurer d'une session à l'autre.</li>
+      <li><b>Session du 3 décembre</b>La <strong>publicité</strong> et la création d'un système d'acquisition.</li>
+      <li><b>Session du 17 décembre</b>La dernière avant les vacances — ajustable selon leurs contraintes.</li>
+    </div>
+    <div class="box b-tip"><span class="bt">Sur l'EPK, en parallèle</span><p>Tarik est confiant : vu la vitesse à laquelle Thomas a fait le site, l'EPK devrait aller vite. La seule consigne à ne pas perdre de vue : <strong>ne pas mettre trop d'informations au départ</strong>.</p><p><em class="q">« Il faut penser Disney. Disney t'en met plein la vue, et quand tu as envie d'acheter une place, après ils te prennent la tête : oui, tu as un parc, mais il est à 15 kilomètres, il y a des navettes… Tu rentres dans la logistique. Mais avant ça, c'est du rêve. Tu as juste envie d'y être. »</em></p></div>
+  </div>
+</section>
+
+<section class="chap" id="s12" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">12</div><div><h2>Le free plus shipping</h2><div class="tc">122:31 → 133:00</div></div></div>
+  <div class="cbody">
+    <p>Dernière idée de la session, donnée pour qu'ils y réfléchissent d'ici la séance sur la publicité. Point de départ : il leur reste environ <strong>400 albums physiques</strong> du second disque.</p>
+    <div class="pull">« Un truc qui pourrait être intéressant, c'est de faire du free plus shipping. »<span>L'album est offert — le destinataire paie seulement l'expédition</span></div>
+    <h3>Le mécanisme, étape par étape</h3>
+    <div class="tl">
+      <li><b>1 · L'offre</b>L'album est affiché 18 ou 20 € sur le site. En campagne, on l'offre : « Je te l'envoie chez toi, c'est cadeau. »</li>
+      <li><b>2 · Le ciblage</b>Du retargeting sur tous les comptes déjà drainés par la création de contenu. Objectif : <strong>1 000 fans en base</strong>.</li>
+      <li><b>3 · La collecte</b>Pour recevoir l'album, il faut donner nom, prénom, adresse, email de validation et numéro de téléphone pour le livreur. La base se remplit.</li>
+      <li><b>4 · La page deux</b>« L'album est prêt, on met ton adresse dessus. Par contre, les frais d'envoi sont à ta charge. » C'est ça, le free plus shipping.</li>
+    </div>
+    <div class="box b-info"><span class="bt">Tarik l'a vécu en tant que client</span><p>Il a commandé un livre « gratuit », rempli ses coordonnées, et découvert les frais d'envoi sur la page suivante. Il a payé — et s'est même pris 40 € de frais de douane au passage. Le mécanisme fonctionne.</p></div>
+    <h3>Les deux seules réactions possibles — et comment les traiter</h3>
+    <div class="pc">
+      <div class="ok"><h4>Il accepte de payer le port</h4><ul><li>« Je trouve ça normal, le livre je le veux, il est à 20 balles partout et là il est gratuit »</li><li>Il paie, et on le redirige vers un <strong>upsell</strong> : un QR code dans l'album donnant −30 % sur la boutique, ou la place pour un live Zoom d'écoute où le public présélectionne les prochains titres</li><li>Entre <strong>10 et 20 %</strong> prennent l'upsell. Les 80 % restants ne sont pas un problème</li></ul></div>
+      <div class="ko"><h4>Il refuse</h4><ul><li>« On m'a dit que j'aurais un album gratuit et on me demande ma carte de crédit. Je trouve ça limite, je repars »</li><li>On travaille en <strong>réaction anticipée</strong> : un mail d'excuse qui explique l'intention, et qui offre <strong>les deux albums en téléchargement libre</strong></li><li>« Dans 90 % des cas, ça va détendre les gens » — ils comprennent qu'il n'y avait pas d'arnaque</li></ul></div>
+    </div>
+    <div class="box b-key"><span class="bt">Ce qui compte vraiment</span><p>Qu'ils aillent au bout de la commande ou non <strong>n'est pas le sujet</strong>. La campagne aura marché parce qu'elle aura attiré des fans en base. Et si on peut en attraper 1 000, on peut en attraper 2 000, puis 10 000 : tout n'est plus qu'une question de budget marketing et de qualité des campagnes.</p></div>
+    <h3>Pourquoi le moment est le bon</h3>
+    <p>C'est maintenant que tout le travail de création de contenu va servir. L'identification, la familiarité, le lien ont commencé à se créer : des gens ont vu cinq ou sept de leurs vidéos et vont voir passer la publicité. La connexion existe déjà.</p>
+    <div class="box b-warn"><span class="bt">La limite à respecter</span><p>On ne peut pas arriver avec une offre trop agressive auprès d'un public qui vous identifie sans encore être éduqué sur votre musique. <strong>Mais quand on offre quelque chose, c'est facile de convertir.</strong> C'est gratuit : les gens s'inscrivent. Une fois inscrits, les emails sont passés.</p></div>
+    <p>Et une fois la base constituée, on la travaille — par WhatsApp, par campagne SMS avec un outil comme <strong>Twilio</strong>, ou par email avec un autorépondeur.</p>
+    <div class="pull">« La prospection à froid, c'est très infructueux. Mais si sur 2 000 ou 3 000 éléments de prospection on arrive à déclencher 10 dates, je serai très content. »<span>Le plan complet : prospection d'un côté, acquisition de fans de l'autre</span></div>
+    <h3>Et toujours : sortir des titres</h3>
+    <p>Le prérequis revient en boucle, parce qu'il conditionne tout le reste.</p>
+    <div class="box b-tip"><span class="bt">Le vrai rôle des sorties</span><p>Si vous montez une fan base et que vous n'avez rien à lui promouvoir, ça ne marchera pas. Si vous passez trop de temps à essayer de lui vendre quelque chose, ça ne marchera pas non plus. <strong>Le rythme de sortie, c'est l'excuse pour solliciter.</strong></p><p>Et leur création de contenu leur donne un avantage : une vidéo qui approche le demi-million de vues est aussi un prétexte. Une petite automatisation SMS : « D'habitude je ne t'embête pas pour ça, mais cette vidéo est en train de bien plaire, elle va péter le demi-million de vues. Clique ici. » Ça entretient le lien, et ça reste de l'actualité musicale.</p></div>
+  </div>
+</section>
+
+<section class="chap" id="s13" data-c="p">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">13</div><div><h2>La collaboration à aller chercher</h2><div class="tc">133:15 → 140:00</div></div></div>
+  <div class="cbody">
+    <p>Dernière question du duo : Tarik leur avait parlé de deux frères, auteurs-compositeurs, en leur disant de les appeler. Ils n'ont pas osé — non par crainte de l'accueil, mais parce qu'ils ne savaient pas avec quoi arriver.</p>
+    <div class="box b-key"><span class="bt">Quand les contacter</span><p>Quand vous êtes dans une démarche précise : <em class="q">« On est en train de faire des sons pour un nouveau projet. On veut un titre un peu différent, que vous allez co-créer avec nous. »</em></p><p>Parce que leur force est exactement là : ils sont capables de composer ou d'écrire <strong>un titre à potentiel de hit radio</strong>. Et quand on a en plus de bons attachés de presse radio derrière pour le travailler, la combinaison devient très intéressante.</p></div>
+    <p>Sur l'appréhension : <em class="q">« Allez-y vraiment sans stress. C'est la famille, ils sont super cool, des gars du Sud-Est, à la cool. Ils seront contents. Vous les appelez de ma part. »</em></p>
+    <h3>Comment formuler la demande</h3>
+    <div class="tl">
+      <li><b>L'accroche</b>« Tarik nous a dit que vous aviez une touche créatrice vraiment intéressante. Nous, ça peut nous intéresser. »</li>
+      <li><b>Le contexte</b>« On est sur un nouveau projet. On aimerait vous envoyer ce qu'on a fait pour que vous vous imprégniez de notre univers. »</li>
+      <li><b>La demande précise</b>« Dites-nous si vous vous sentez capables de nous proposer quelque chose qui aille à la fois dans notre direction artistique, mais qui puisse aussi séduire des radios. Refaire ce qu'on a déjà fait n'est pas intéressant — qu'on amène votre touche sans nous dénaturer. »</li>
+      <li><b>Les trois questions</b>Un : est-ce que vous vous sentez à l'aise avec ça ? Deux : est-ce que vous avez le temps et l'envie ? Trois : quelles sont vos conditions, comment voyez-vous la collaboration ?</li>
+    </div>
+    <div class="box b-warn"><span class="bt">Ne pas mélanger les deux mondes</span><p>Nelly demande s'il faut mentionner qu'ils ont un attaché de presse. Réponse nette : <strong>non. On ne parle pas business, on parle artistique.</strong> Le business vient plus tard, sur une discussion de clé de répartition, de plan promo ou de label.</p></div>
+    <h3>Ce qui se passe quand ça prend</h3>
+    <p>Souvent, quand des créateurs de ce calibre sentent le tube, ils ont eux aussi un réseau et ont déjà placé des titres en maison de disques. Ils peuvent alors proposer d'apporter telle ou telle touche — et la discussion s'ouvre : « On a cet attaché de presse, on comptait le sortir en indé, mais peut-être qu'on peut combiner les deux. » On peut très bien <strong>avoir un label intéressant tout en imposant son attaché de presse</strong>.</p>
+    <div class="pull">« Je vous jure, quand on a un hit, on le sait tous. Il n'y a aucun doute possible. »<span>Il y a le son dont tu crois que c'est un hit — et il y a celui qui met tout le monde d'accord. Quand tu as ça, en général, ça va assez vite.</span></div>
+    <p>La session se clôt sur la logistique : le dossier SACEM monté dès le lendemain matin, les brouillons d'emails envoyés sur WhatsApp au fil de l'eau, et les trois prochaines dates posées dans l'agenda — <strong>19 novembre, 3 décembre, 17 décembre</strong>.</p>
+  </div>
+</section>
+
+<div class="faq">
+  <div class="bar"></div>
+  <div class="faqhead">
+    <h2>Questions / Réponses</h2>
+    <p>Les 34 points traités pendant la session, regroupés par thème.</p>
+  </div>
+  <div class="faqbody">
+
+    <div class="faqcat">Contenu, blog et référencement</div>
+    <div class="qa"><div class="q"><span>Q1.</span>Comment améliorer un carrousel qui ne décolle pas ?</div><div class="a"><p>Mettre une <strong>flèche sur la première image</strong> pour signaler que c'est un carrousel : beaucoup de gens n'ont pas le réflexe de faire défiler. Le contenu peut être excellent et passer à côté uniquement pour cette raison.</p></div></div>
+    <div class="qa"><div class="q"><span>Q2.</span>Mes articles de blog manquent de quoi ?</div><div class="a"><p>De longueur, avant tout. Pas forcément de photos. Il faut faire <strong>nettement plus long</strong> — sur vous comme sur le reste du sujet.</p></div></div>
+    <div class="qa"><div class="q"><span>Q3.</span>Comment briefer Claude pour des articles qui rankent ?</div><div class="a"><p>En trois temps. Un : poser l'objectif unique — <em class="q">« Les articles de blog n'ont qu'un seul et unique objectif : me faire gagner du trafic organique »</em> — et demander des idées dans cette optique. Deux : faire étudier en profondeur la structure idéale d'un article pour ranker sur Google, puis créer un <strong>skill</strong> qui rédige chaque article de cette manière. Trois : faire noter l'article terminé selon les critères de Google, en demandant d'être honnête.</p></div></div>
+    <div class="qa"><div class="q"><span>Q4.</span>D'où vient cette méthode ?</div><div class="a"><p>D'une interview de l'ancien CEO de WordPress : leurs blogs étaient très bien référencés parce qu'ils respectaient <strong>à la lettre</strong> la liste de recommandations de Google — nombre de mots, durées, tournures de phrases, structuration, images. Ce que Claude sait absorber aujourd'hui.</p></div></div>
+    <div class="qa"><div class="q"><span>Q5.</span>Comment faire un test de référencement IA ?</div><div class="a"><p>Le prompt : <em class="q">« Fais une analyse approfondie des critères qui poussent chacune des IA du marché à citer des sources, analyse-moi et dis-moi ce qu'il me manque. »</em> Puis préciser sur quelles requêtes vous devriez normalement être cité et ne l'êtes pas, et demander des idées d'articles pour vous positionner. Horizon : <strong>trois à six semaines</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q6.</span>Et les interviews dans la presse ?</div><div class="a"><p>C'est le <strong>dernier maillon de la chaîne</strong>, pas le premier. On construit d'abord le blog et la présence, on va chercher les articles ensuite.</p></div></div>
+
+    <div class="faqcat">Les refus de SMAC</div>
+    <div class="qa"><div class="q"><span>Q7.</span>Une SMAC répond que notre démarche artistique n'est pas dans ses projets. Que faire ?</div><div class="a"><p>On zappe. <em class="q">« Ce mail ne me donne pas envie de revenir vers vous. »</em> Et au-delà du refus : quand ça démarre comme ça, <strong>même humainement ça ne matchera pas</strong>. Même si la personne changeait d'avis, l'envie ne serait plus là.</p></div></div>
+    <div class="qa"><div class="q"><span>Q8.</span>Peut-on se servir du refus de l'une auprès de l'autre ?</div><div class="a"><p>Non. <strong>On ne sait jamais quelles relations elles ont entre elles.</strong> Et la réponse serait la même de toute façon : pas de budget.</p></div></div>
+    <div class="qa"><div class="q"><span>Q9.</span>Comment rebondir sur un refus bien formulé ?</div><div class="a"><p>En retournant l'argument. Commencer par reconnaître leur position (« c'est à votre honneur »), puis se positionner comme un projet qui ne coûte rien : <em class="q">« On est très autonomes, on n'a pas besoin de financement ni de budget. Simplement, il y a des points d'accès qu'on n'a pas et que vous avez. »</em> Et chiffrer : ça peut représenter deux heures dans l'année.</p></div></div>
+    <div class="qa"><div class="q"><span>Q10.</span>Pourquoi ça fonctionne ?</div><div class="a"><p>Parce que ce qui coûte cher à une structure, c'est le temps et l'argent. Quelqu'un qui veut aider et qui voit que ça ne va pas lui prendre de temps vous ouvre une demi-porte.</p></div></div>
+
+    <div class="faqcat">Les deux axes de la nouvelle phase</div>
+    <div class="qa"><div class="q"><span>Q11.</span>Quels sont les deux axes, et le prérequis ?</div><div class="a"><p>Axe 1 : <strong>la publicité en ligne</strong>, maintenant que la visibilité est générée depuis six mois. Axe 2 : <strong>la prospection de booking</strong>, pour aller taper des dates en 2027. Le prérequis, qui ne dépend que du duo : <strong>sortir des titres</strong>. Sans ce moteur, ça marchera, mais plus lentement.</p></div></div>
+    <div class="qa"><div class="q"><span>Q12.</span>Comment l'IA construit une base de prospection ?</div><div class="a"><p>Quatre étapes. Trouver les salles équivalentes partout en France à partir de celles où vous tournez déjà. <strong>Profiler le programmateur</strong> — une interview dans un journal local, la programmation des mois passés et à venir — pour savoir s'il est dans la cible. Trouver le vrai contact, pas seulement l'adresse générique. Puis automatiser les envois via un autorépondeur, 20 ou 30 par 20 ou 30, avec analyse des taux de rebond. Durée : <strong>deux à trois jours</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q13.</span>Sans intermédiaire qui a le réseau, est-ce que ça peut marcher ?</div><div class="a"><p><em class="q">« Claude ne va pas changer la qualité de l'impact. L'impact, c'est nous qui allons le faire. »</em> Claude est l'outil de prospection : il vous met en face de milliers de programmateurs. Ce qui stimule l'impact, ce sont trois choses : <strong>l'objet</strong> (qui déclenche l'ouverture), <strong>le mail</strong> (qui déclenche le clic), <strong>l'EPK</strong> (qui déclenche la décision).</p></div></div>
+
+    <div class="faqcat">Financer la formation</div>
+    <div class="qa"><div class="q"><span>Q14.</span>Faut-il respecter les dates déclarées sur un dossier de formation ?</div><div class="a"><p>Non. Les financeurs apprécient même qu'il y ait un <strong>protocole d'adaptation du parcours</strong> : on étale la formation sur plusieurs semaines si besoin. Tant que les deux parties sont d'accord, le financeur suit. Samedi possible, dimanche non.</p></div></div>
+    <div class="qa"><div class="q"><span>Q15.</span>Que demande réellement le financeur ?</div><div class="a"><p>Un suivi cohérent et des <strong>feuilles de présence signées des deux parties</strong>. Sur un budget de 900 millions, 3 000 € ne les intéressent pas : ils veulent simplement que le dossier rentre dans leur case.</p></div></div>
+    <div class="qa"><div class="q"><span>Q16.</span>Quel financeur viser maintenant ?</div><div class="a"><p>La <strong>SACEM</strong>. Aucune procédure de contrôle, pas de vérification sur le suivi, et le seul attendu est un compte rendu du stagiaire. Leur fonds est d'environ 3 M€ dont à peine 5 % sollicité chaque année. La DRAC/DASS a ses budgets gelés jusqu'au 15 janvier, et l'Afdas refuse en ce moment même des profils 100 % éligibles.</p></div></div>
+    <div class="qa"><div class="q"><span>Q17.</span>Pourquoi la SACEM finance-t-elle ce type de formation ?</div><div class="a"><p>Parce que Tarik, avec Joe, a monté le dossier et mené au moins cinq rendez-vous pour qu'elle <strong>étende son fonds</strong> au-delà de l'écriture et de la composition : édition musicale, production, marketing, music business.</p></div></div>
+    <div class="qa"><div class="q"><span>Q18.</span>Qu'est-ce qui déclenche vraiment un contrôle ?</div><div class="a"><p>Les suspicions de fraude. L'exemple cité : un organisme lillois vendant des formations présentielles à 60 personnes par semaine sans bureau, juste une boîte aux lettres, qui délivrait des clés USB. Au bout de 300 stagiaires et d'une cinquantaine de plaintes, les moyens sont sortis.</p></div></div>
+    <div class="qa"><div class="q"><span>Q19.</span>Le CPF est-il différent ?</div><div class="a"><p>Très. En présentiel, il contrôle où vous avez dormi, vos frais de déplacement, et refuse que vous ayez une date de concert le week-end de la formation. Il exige les <strong>logs de connexion Zoom</strong> au nom et prénom d'inscription, avec les déconnexions visibles, plus une attestation contresignée — s'il manque un élément, le temps est considéré comme non fait.</p></div></div>
+    <div class="qa"><div class="q"><span>Q20.</span>Comment se passe la certification finale ?</div><div class="a"><p>Une présentation, à partir d'un kit type fourni par le certificateur, avec les questions connues d'avance. <strong>30 minutes</strong> au total : 5 de présentation de votre côté, 5 du leur, 10 de compte rendu. Soit 10 minutes d'oral réel.</p></div></div>
+
+    <div class="faqcat">L'EPK</div>
+    <div class="qa"><div class="q"><span>Q21.</span>Qu'est-ce qui ne va pas dans un EPK classique ?</div><div class="a"><p>Rien n'accroche au-dessus de la ligne de flottaison, on est obligé de lire, le texte est en petit, et la discographie contient trop d'informations pour qu'on sache où cliquer. Il faut se mettre dans la tête d'un programmateur <strong>qui n'a pas le temps et qui attend d'être émerveillé</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q22.</span>Quelle est la structure idéale ?</div><div class="a"><p>La vidéo qui claque, visible immédiatement, avec le nom du groupe en haut. Deux mots d'explication. La <strong>preuve sociale remontée tout en haut</strong> — journaux, scènes, médias. Et ensuite ce que vous voulez : si la première page accroche, le job est fait.</p></div></div>
+    <div class="qa"><div class="q"><span>Q23.</span>Pourquoi cet ordre ?</div><div class="a"><p>Parce qu'on doit <strong>séduire la partie créative du cerveau avant la partie rationnelle</strong>. C'est la mécanique des pubs iPhone : on vous en met plein la vue, vous vous dites « j'en veux un », et le cerveau logique demande ensuite combien ça coûte.</p></div></div>
+    <div class="qa"><div class="q"><span>Q24.</span>PDF ou page web ?</div><div class="a"><p><strong>Page web interactive</strong>, sur la même trame que le site, avec une URL dédiée. Et un appel à l'action unique : la demande de devis. La fiche technique et le teaser viennent après, quand le programmateur dit « je veux, comment ça se passe ? » — et mieux vaut le gérer en direct à ce moment-là.</p></div></div>
+    <div class="qa"><div class="q"><span>Q25.</span>Quel élément ajouter en priorité ?</div><div class="a"><p>Un <strong>mur de commentaires</strong> récupérés sur Instagram et Facebook, rassemblés dans un tableau. Le programmateur ne les lira pas tous, mais il voit les mots qui ressortent, en vérifie un au hasard, et se dit qu'on ne peut pas faker 60 commentaires.</p></div></div>
+
+    <div class="faqcat">Copywriting et prospection</div>
+    <div class="qa"><div class="q"><span>Q26.</span>Peut-on faire rédiger l'email par l'IA ?</div><div class="a"><p>Non. <strong>Les IA sont nulles en copywriting</strong>, et c'est pire en ultra-court. Vous obtiendrez « Je me permets de vous contacter au sujet de votre programmation ». L'IA sert à adapter des structures existantes, pas à inventer l'accroche.</p></div></div>
+    <div class="qa"><div class="q"><span>Q27.</span>Où chercher les accroches alors ?</div><div class="a"><p>Trois sources. <strong>Les newsletters</strong> de pointures (Perry Marshall, Grant Cardone, Dan Lok, et Jean Rivière en français). <strong>Les publicités actives</strong> — quand une pub revient souvent, c'est qu'elle marche. <strong>Les copywriters sur LinkedIn</strong>, parce qu'un post qui marche là-bas a forcément un levier émotionnel fort.</p></div></div>
+    <div class="qa"><div class="q"><span>Q28.</span>Comment repérer les bons posts LinkedIn ?</div><div class="a"><p>Filtrer sur les publications, identifier la norme de l'auteur (ici ~100 likes), puis chercher les <strong>anomalies</strong> au-delà de 800. Écarter les faux signaux : un post « changement de vie » fait toujours réagir une communauté qui vous connaît — c'est biaisé.</p></div></div>
+    <div class="qa"><div class="q"><span>Q29.</span>Quelle accroche a été retenue pour TidyMess ?</div><div class="a"><p><strong>« C'est fini pour nous, la scène. »</strong> Suivie de : on est devenus producteur, éditeur, tourneur, attaché de presse, graphiste ; on devrait créer, pas prospecter ; alors avant de ranger les guitares, on envoie quelques bouteilles à la mer, et celle-ci est pour vous.</p></div></div>
+    <div class="qa"><div class="q"><span>Q30.</span>Faut-il mettre le lien du dossier de presse dans l'email ?</div><div class="a"><p>Tester les deux. Conclure par une question — <strong>« On vous envoie notre dossier de presse ? »</strong> — améliore la réputation du domaine (les réponses comptent), évite le spam (ni lien ni pièce jointe), et si la personne répond oui, la vente est quasiment faite. En contrepartie, le taux de réponse est plus faible qu'un taux de clic. D'où l'<strong>A/B test sur 100 contacts, 50/50</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q31.</span>Comment ajouter de l'autorité sans alourdir ?</div><div class="a"><p>Trois emplacements. Dans le corps : « D'autres ont déjà ouvert les yeux pour vous ». Dans la <strong>signature</strong> : « TidyMess — duo pop rock — un million de vues », éventuellement avec le lien EPK. Et en <strong>PS</strong> : « TidyMess a été vu et entendu sur… » — souvent la partie la plus regardée d'un bas de mail.</p></div></div>
+    <div class="qa"><div class="q"><span>Q32.</span>Quel levier d'autorité choisir quand l'envoi est automatisé ?</div><div class="a"><p>On ne peut pas l'anticiper, donc on <strong>fonctionne par variantes</strong> et on mesure. En région, une date locale fait autorité (les Printemps de Bourges en région Centre, les Vieilles Charrues en Bretagne) ; hors région, on bascule sur les premières parties ou les scores réseaux sociaux.</p></div></div>
+
+    <div class="faqcat">Le free plus shipping</div>
+    <div class="qa"><div class="q"><span>Q33.</span>Qu'est-ce que le free plus shipping ?</div><div class="a"><p>On offre l'album physique (affiché 18-20 € sur le site) en campagne de retargeting, et le destinataire paie seulement les frais d'envoi sur la page suivante. On récupère nom, prénom, adresse, email et téléphone. <strong>Objectif : 1 000 fans en base.</strong> Ceux qui paient reçoivent un upsell (QR code −30 %, place pour un live d'écoute) ; ceux qui refusent reçoivent un mail d'excuse offrant les deux albums en téléchargement.</p></div></div>
+    <div class="qa"><div class="q"><span>Q34.</span>Faut-il que la commande aille au bout ?</div><div class="a"><p>Non. <strong>Ce n'est plus le sujet.</strong> La campagne aura marché parce qu'elle aura attiré des fans en base. Et si on peut en attraper 1 000, on peut en attraper 10 000 — c'est une question de budget et de qualité de campagne. Ensuite on travaille la base par WhatsApp, SMS (Twilio) ou email, en utilisant les sorties de titres comme prétexte pour solliciter.</p></div></div>
+
+  </div>
+</div>
+
+<div class="plan">
+  <h2>Plan d'action</h2>
+  <p>Cochez au fur et à mesure. Les quatre phases suivent exactement l'ordre donné en fin de session.</p>
+
+  <div class="phase">Phase 1 — Cette semaine</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Carrousels</b>Ajouter une flèche sur la première image de chaque carrousel pour signaler qu'il faut faire défiler</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Blog</b>Briefer Claude sur l'objectif unique du blog — le trafic organique — et lui faire créer un skill de rédaction basé sur les critères Google</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Blog</b>Faire noter chaque article terminé par Claude selon les critères de référencement, en lui demandant d'être honnête</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Référencement IA</b>Lancer l'analyse : quels critères poussent chaque IA à citer des sources, et qu'est-ce qui manque à TidyMess</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>SACEM</b>Caler 20 à 30 minutes avec Tarik pour monter la demande de financement — avant la fin de l'année</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>SMAC de Tarbes</b>Relancer en se positionnant comme un projet autonome qui ne demande ni budget ni temps, juste des points d'accès</span></li>
+  </ul>
+
+  <div class="phase">Phase 2 — L'EPK, avant la prochaine session</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Format</b>Refaire l'EPK en page web interactive (/epk), sur la trame du site, et abandonner le PDF</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Au-dessus de la ligne</b>Placer la vidéo qui claque et le nom du groupe en haut, visibles sans scroller</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Preuve sociale</b>Remonter journaux, scènes et médias tout en haut, juste après la vidéo</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Mur de commentaires</b>Rassembler les commentaires Instagram et Facebook dans un tableau visible</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Appel à l'action</b>Un seul : la demande de devis, avec deux formules et les tarifs sur devis. Email et numéro</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>À retirer du haut</b>Fiche technique, teaser, discographie détaillée — tout ça vient après la prise de contact</span></li>
+  </ul>
+
+  <div class="phase">Phase 3 — Le copywriting des emails</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Source 1</b>S'inscrire aux newsletters de copywriters reconnus : Jean Rivière en français, Perry Marshall, Grant Cardone, Dan Lok</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Source 2</b>Repérer des publicités actives qui reviennent souvent, et faire adapter leur structure par Claude en email de prospection froide</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Source 3</b>Scanner les posts LinkedIn de Grégoire Gambatto et Nina Ramen : repérer la norme de likes, chercher les anomalies au-delà de 800, écarter les posts « changement de vie »</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Rédaction</b>Finaliser l'email « C'est fini pour nous, la scène » : passer au « on », fusionner les deux dernières phrases, corriger en pop rock</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Autorité</b>Ajouter la preuve sociale dans le corps, dans la signature (duo pop rock, un million de vues) et en PS (vu et entendu sur…)</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Variantes</b>Préparer plusieurs versions du bloc d'autorité : date locale, premières parties, scores réseaux sociaux</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Validation</b>Envoyer les brouillons à Tarik sur WhatsApp avant de lancer quoi que ce soit</span></li>
+  </ul>
+
+  <div class="phase">Phase 4 — Les trois prochaines sessions</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>19 novembre</b>Mettre en place la prospection automatisée : construction de base, autorépondeur, séquences de 50 mails pour ne pas griller le domaine</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>A/B test</b>Sur les 100 premiers contacts : 50 avec la question « On vous envoie notre dossier de presse ? », 50 avec le lien direct — et mesurer</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>3 décembre</b>Construire le système d'acquisition et les campagnes publicitaires</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Free plus shipping</b>Préparer la campagne sur les ~400 albums physiques restants, en retargeting sur les comptes déjà touchés</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Les deux pages</b>Page 1 : l'album offert contre les coordonnées. Page 2 : les frais d'envoi à charge, puis un upsell (QR code −30 % ou place pour un live d'écoute)</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Réaction anticipée</b>Préparer le mail d'excuse pour ceux qui refusent les frais de port, offrant les deux albums en téléchargement libre</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>En continu</b>Sortir des titres — un par mois — pour avoir une raison de solliciter la base</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Collaboration</b>Appeler les deux frères, en parlant artistique uniquement : un titre co-créé à potentiel radio, sans dénaturer la direction artistique</span></li>
+  </ul>
+</div>
+
+<div class="quiz">
+  <h2>Quiz de révision</h2>
+  <p>Six questions pour vérifier que l'essentiel est passé. Une seule bonne réponse par question.</p>
+
+  <div class="qz" data-g="2">
+    <div class="qt">1. Dans un email de prospection à froid, l'élément le plus déterminant est :</div>
+    <button class="opt">La qualité du dossier de presse joint</button>
+    <button class="opt">La longueur du message</button>
+    <button class="opt">L'objet, parce qu'il détient le pouvoir de faire ouvrir ou non</button>
+    <div class="fb">Exact. Trois leviers s'enchaînent : l'objet déclenche l'ouverture, le mail déclenche le clic, l'EPK déclenche la décision. Si l'objet ne fonctionne pas, le reste n'existe pas. C'est pour ça que la session entière porte sur la recherche d'accroches.</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <div class="qt">2. Pourquoi ne pas confier la rédaction de l'email à l'IA ?</div>
+    <button class="opt">Parce que c'est interdit par les services de messagerie</button>
+    <button class="opt">Parce que les IA sont nulles en copywriting, surtout en format court</button>
+    <button class="opt">Parce qu'elle ne connaît pas le secteur de la musique</button>
+    <div class="fb">Exact. Demandez un email de prospection pour un duo folk rock et vous obtiendrez « Je me permets de vous contacter au sujet de votre programmation ». L'IA sert à adapter des structures qui ont déjà prouvé qu'elles fonctionnent — pas à inventer l'accroche.</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <div class="qt">3. Dans un EPK, la preuve sociale doit être placée :</div>
+    <button class="opt">Tout en haut, juste après la vidéo</button>
+    <button class="opt">En bas de page, après la discographie</button>
+    <button class="opt">Dans un onglet séparé pour ne pas surcharger</button>
+    <div class="fb">Exact. On séduit d'abord la partie créative du cerveau, puis la rationnelle. La vidéo qui claque, deux mots d'explication, et immédiatement la preuve que vous n'êtes pas le seul à penser que c'est bien. Si la première page accroche, le job est fait.</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <div class="qt">4. Conclure l'email par « On vous envoie notre dossier de presse ? » plutôt que par un lien :</div>
+    <button class="opt">Augmente mécaniquement le nombre de contacts touchés</button>
+    <button class="opt">Protège la réputation du domaine et évite le spam, au prix d'un taux plus faible</button>
+    <button class="opt">Est toujours préférable, sans contrepartie</button>
+    <div class="fb">Exact. Les réponses comptent énormément pour la réputation d'un domaine d'envoi, et un email sans lien ni pièce jointe tombe beaucoup moins en spam. En contrepartie, le taux de réponse est plus faible qu'un taux de clic — d'où l'A/B test obligatoire sur 100 contacts, 50/50.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <div class="qt">5. Pour financer la formation, le meilleur interlocuteur à viser maintenant est :</div>
+    <button class="opt">La DRAC — les dossiers y passent facilement</button>
+    <button class="opt">L'Afdas — c'est leur cœur de métier</button>
+    <button class="opt">La SACEM — pas de procédure de contrôle, un fonds largement sous-utilisé</button>
+    <div class="fb">Exact. La SACEM ne vérifie pas le suivi et n'attend qu'un compte rendu du stagiaire ; son fonds d'environ 3 M€ n'est sollicité qu'à hauteur de 5 % par an. La DRAC a ses budgets gelés jusqu'au 15 janvier, et l'Afdas refuse en ce moment des profils pourtant 100 % éligibles.</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <div class="qt">6. Dans une campagne « free plus shipping », ce qui compte vraiment, c'est :</div>
+    <button class="opt">Les coordonnées récupérées — que la commande aille au bout ou non</button>
+    <button class="opt">Le nombre d'albums effectivement expédiés</button>
+    <button class="opt">La marge dégagée sur les frais de port</button>
+    <div class="fb">Exact. L'objectif est 1 000 fans en base. Ceux qui paient reçoivent un upsell, ceux qui refusent reçoivent un mail d'excuse et les deux albums en téléchargement — mais dans les deux cas, les coordonnées sont acquises. Et si on peut en attraper 1 000, on peut en attraper 10 000.</div>
+  </div>
+
+  <div class="score" id="score"></div>
+</div>
+
+</div>
+
+<footer>
+  <p><b>Producteur à Succès</b> — Mentorat TidyMess, session du 6 novembre 2026</p>
+  <p>Support de cours interactif · 99 chapitres · 2 h 22 de session</p>
+</footer>
+
+<script>
+var CH = [[0, "Accueil : le jujitsu et le nez cassé"], [63, "Le point d'étape : où en sont-ils"], [106, "Les carrousels lancés cette semaine"], [129, "Un concert, un titre en mixage, des compos"], [172, "Mettre une flèche pour signaler un carrousel"], [274, "Le cap des 5 000 abonnés"], [285, "Où en est le blog"], [361, "Faire des articles nettement plus longs"], [402, "Le blog ne sert qu'au trafic organique"], [436, "La leçon de WordPress : suivre les critères Google"], [476, "Faire noter son article par Claude"], [499, "Le blog, socle de la phase suivante"], [579, "Lancer un test de référencement IA"], [661, "Vérifier le pixel Facebook sur le site et le blog"], [677, "Deux refus du réseau de SMAC"], [757, "La réponse d'Ampli, lue mot à mot"], [906, "La seconde réponse, bien plus correcte"], [976, "Mettre en avant son autonomie"], [1136, "Le public est là, les intermédiaires bloquent"], [1339, "Le prérequis : sortir des titres"], [1355, "Axe 1 : la publicité en ligne"], [1381, "Axe 2 : la prospection de booking"], [1436, "Interconnecter Claude à des bases de données"], [1474, "Profiler le programmateur avant de le contacter"], [1532, "Automatiser les envois 20 par 20"], [1585, "Sans réseau, est-ce que ça peut marcher ?"], [1598, "Claude prospecte, l'impact vient de vous"], [1633, "Les trois leviers : objet, mail, EPK"], [1761, "La question des dates de formation"], [1801, "Tricher, mais intelligemment"], [1831, "Les dates annoncées ne sont pas figées"], [1949, "Le cas de fraude de l'organisme lillois"], [2004, "La SACEM ne contrôle pas"], [2054, "Le CPF, lui, est très contrôlé"], [2194, "Les logs de connexion Zoom exigés"], [2285, "Comment il a fait élargir le fonds SACEM"], [2320, "Monter le dossier SACEM cette semaine"], [2413, "Le programme : objet, structure, appel à l'action"], [2424, "L'EPK actuel passé au crible"], [2587, "Se mettre dans la tête du programmateur"], [2663, "L'EPK fait la veille pour Makassy"], [2703, "Une image, une vidéo, quelque chose qui parle"], [2771, "La structure idéale d'un EPK"], [2833, "Séduire le cerveau créatif avant le rationnel"], [2973, "L'EPK devient une page web, plus un PDF"], [3003, "Le mur de commentaires comme preuve sociale"], [3102, "La méthode : s'inspirer des copywriters"], [3149, "Pourquoi l'IA est nulle en copywriting"], [3234, "L'objet, l'élément le plus important"], [3260, "Source 1 : les newsletters de pointures"], [3313, "Jean Rivière, le Français qui écrit divinement"], [3372, "Bâtir l'email sur une croyance répandue"], [3524, "Source 2 : les publicités actives"], [3580, "Faire adapter une structure de pub par Claude"], [3698, "132 refus en 9 jours : la psychologie inversée"], [3820, "Source 3 : les copywriters sur LinkedIn"], [3895, "Trouver Grégoire Gambatto"], [4066, "Faire sortir le top 10 par Claude"], [4248, "« C'est fini pour moi, la scène »"], [4269, "Faire rédiger l'email par Claude"], [4433, "L'email écrit en direct"], [4534, "La bouteille à la mer"], [4798, "Le brief complet donné à Claude"], [4962, "L'email généré pour TidyMess"], [5195, "Conclure par une question"], [5219, "Pourquoi une réponse vaut mieux qu'un clic"], [5277, "Ce qui manque : la preuve sociale"], [5363, "La formule qui ajoute l'autorité"], [5508, "L'effet recherché : créer le doute"], [5681, "Distiller l'autorité dans la signature"], [5822, "Sans pièce jointe ni lien, moins de spam"], [5982, "« Changement de cap » : une accroche à tester"], [6483, "Une accroche déclinable à l'infini"], [6549, "« On ne programme pas au nombre d'abonnés »"], [6666, "Les copywriters recommandés"], [7073, "Le devoir : objet, structure, angle marketing"], [7185, "Envoyer les brouillons sur WhatsApp"], [7225, "Penser Disney : d'abord le rêve"], [7263, "Prochaine session : la prospection automatisée"], [7304, "Travailler par séquences de 50 mails"], [7351, "Combien d'albums physiques en stock ?"], [7384, "Le free plus shipping expliqué"], [7423, "Offrir l'album, faire payer le port"], [7461, "Objectif : 1 000 fans en base"], [7513, "L'exemple vécu du livre gratuit"], [7590, "La réaction anticipée pour ceux qui refusent"], [7665, "L'upsell pour ceux qui ont payé"], [7716, "Vendre un live d'écoute du prochain album"], [7793, "C'est maintenant que le contenu sert"], [7820, "Pourquoi le gratuit convertit si bien"], [7856, "Travailler la base : WhatsApp, SMS, email"], [7883, "Dix dates déclenchées suffiraient"], [7937, "Le rythme de sortie, prétexte pour solliciter"], [7995, "La question des deux frères"], [8066, "Leur force : un titre à potentiel de hit"], [8133, "Comment formuler la demande"], [8224, "D'abord l'artistique, le business ensuite"], [8302, "Quand on a un hit, tout le monde le sait"], [8371, "Clôture et dates des prochaines sessions"]];
+
+var frame = document.getElementById('vimeoPlayer');
+
+function fmt(s){ var m = Math.floor(s/60), x = s%60; return m + ':' + (x<10?'0':'') + x; }
+
+function seek(sec){
+  if (!frame || !frame.contentWindow) return;
+  try {
+    frame.contentWindow.postMessage(JSON.stringify({method:'setCurrentTime', value: sec}), '*');
+    frame.contentWindow.postMessage(JSON.stringify({method:'play'}), '*');
+  } catch(e){}
+  var top = frame.getBoundingClientRect().top + window.pageYOffset - 20;
+  window.scrollTo({top: top < 0 ? 0 : top, behavior:'smooth'});
+}
+
+(function(){
+  var host = document.getElementById('chlist');
+  if (!host) return;
+  CH.forEach(function(c){
+    var b = document.createElement('button');
+    var t = document.createElement('b'); t.textContent = fmt(c[0]);
+    var s = document.createElement('span'); s.textContent = c[1];
+    b.appendChild(t); b.appendChild(s);
+    b.addEventListener('click', function(){ seek(c[0]); });
+    host.appendChild(b);
+  });
+})();
+
+(function(){
+  document.querySelectorAll('.tc').forEach(function(el){
+    var parts = el.textContent.split(/(\d+:\d{2})/);
+    if (parts.length < 2) return;
+    el.textContent = '';
+    parts.forEach(function(p){
+      if (/^\d+:\d{2}$/.test(p)) {
+        var mm = p.split(':');
+        var sec = parseInt(mm[0],10)*60 + parseInt(mm[1],10);
+        var btn = document.createElement('button');
+        btn.className = 'seek'; btn.textContent = p;
+        btn.addEventListener('click', function(){ seek(sec); });
+        el.appendChild(btn);
+      } else {
+        el.appendChild(document.createTextNode(p));
+      }
+    });
+  });
+})();
+
+window.addEventListener('scroll', function(){
+  var h = document.documentElement;
+  var max = h.scrollHeight - h.clientHeight;
+  var p = max > 0 ? (h.scrollTop / max) * 100 : 0;
+  document.getElementById('progress').style.width = p + '%';
+});
+
+document.querySelectorAll('.chk li').forEach(function(li){
+  li.addEventListener('click', function(){ li.classList.toggle('done'); });
+});
+
+(function(){
+  var total = document.querySelectorAll('.qz').length, answered = 0, good = 0;
+  document.querySelectorAll('.qz').forEach(function(qz){
+    var g = parseInt(qz.getAttribute('data-g'), 10);
+    var opts = qz.querySelectorAll('.opt');
+    var fb = qz.querySelector('.fb');
+    opts.forEach(function(opt, i){
+      opt.addEventListener('click', function(){
+        if (qz.classList.contains('answered')) return;
+        qz.classList.add('answered');
+        answered++;
+        if (i === g) { opt.classList.add('good'); good++; }
+        else { opt.classList.add('bad'); opts[g].classList.add('good'); }
+        fb.classList.add('show');
+        if (answered === total) {
+          var sc = document.getElementById('score');
+          sc.textContent = 'Score : ' + good + ' / ' + total + (good === total ? ' — parfait.' : ' — relisez les chapitres concernés.');
+          sc.classList.add('show');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

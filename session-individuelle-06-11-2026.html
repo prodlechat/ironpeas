@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session individuelle du 6 novembre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED; --primary-dark:#4C1D95; --primary-light:#EDE9FE;
+  --accent:#F59E0B; --accent-light:#FEF3C7;
+  --success:#10B981; --success-light:#D1FAE5;
+  --danger:#EF4444; --danger-light:#FEE2E2;
+  --info:#3B82F6; --info-light:#DBEAFE;
+  --ink:#1A1523; --muted:#5B5670; --line:#E7E4EF; --bg:#FAF9FC; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+.progress-wrap{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(108,58,237,.12);z-index:999}
+#progress{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+.wrap{max-width:940px;margin:0 auto;padding-inline:20px}
+
+.hero{background:linear-gradient(140deg,#3B1D80 0%,#6C3AED 55%,#8B5CF6 100%);color:#fff;padding-block:60px 52px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{content:"";position:absolute;left:-60px;bottom:-120px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.05)}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:700;margin-bottom:14px;position:relative;z-index:2}
+.hero .sub{font-size:17px;opacity:.92;max-width:690px;position:relative;z-index:2}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;position:relative;z-index:2}
+.meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:7px 14px;border-radius:10px;font-size:13.5px;font-weight:500}
+
+/* LECTEUR */
+.player-wrap{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:-32px;position:relative;z-index:6;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.vid{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.chx{margin-top:16px;border:1px solid var(--line);border-radius:12px;background:#FBFAFE}
+.chx summary{cursor:pointer;padding:12px 16px;font-weight:650;font-size:14.5px;color:var(--primary-dark);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chx summary::-webkit-details-marker{display:none}
+.chx summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+.chx[open] summary::before{content:"▾ "}
+.chx summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+.chlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:2px;max-height:330px;overflow-y:auto;padding:0 10px 12px}
+.chlist button{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;background:transparent;border:0;border-radius:9px;padding:8px 10px;font-family:inherit;font-size:14.5px;color:var(--ink);cursor:pointer;line-height:1.45;transition:background .12s}
+.chlist button:hover{background:var(--primary-light);color:var(--primary-dark)}
+.chlist b{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;min-width:54px}
+button.seek{background:var(--primary-light);border:1px solid #DDD3FA;color:var(--primary-dark);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;cursor:pointer;font-variant-numeric:tabular-nums;transition:all .12s}
+button.seek:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.player-wrap + .toc{margin-top:26px}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:-32px;position:relative;z-index:5;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.toc h2{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:16px;color:var(--primary-dark)}
+.toc ol{list-style:none;counter-reset:toc;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.toc li{counter-increment:toc}
+.toc a{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink);padding:9px 10px;border-radius:10px;font-size:14.5px;transition:background .15s}
+.toc a:hover{background:var(--primary-light);color:var(--primary-dark)}
+.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);font-size:13px;flex-shrink:0;padding-top:1px}
+
+section.chap{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+section.chap>.bar{height:5px;background:var(--primary)}
+.chap[data-c="a"]>.bar{background:var(--accent)} .chap[data-c="g"]>.bar{background:var(--success)}
+.chap[data-c="b"]>.bar{background:var(--info)} .chap[data-c="r"]>.bar{background:var(--danger)}
+.chead{padding:26px 28px 0;display:flex;gap:14px;align-items:center}
+.cnum{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--primary-light);color:var(--primary-dark);display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px}
+.chap[data-c="a"] .cnum{background:var(--accent-light);color:#92400E}
+.chap[data-c="g"] .cnum{background:var(--success-light);color:#065F46}
+.chap[data-c="b"] .cnum{background:var(--info-light);color:#1E40AF}
+.chap[data-c="r"] .cnum{background:var(--danger-light);color:#991B1B}
+.chead h2{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.25;font-weight:700}
+.tc{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-top:3px}
+.cbody{padding:18px 28px 28px}
+.cbody p{margin-bottom:14px}
+.cbody h3{font-family:'Space Grotesk',sans-serif;font-size:16.5px;margin:22px 0 10px;color:var(--primary-dark)}
+.cbody ul,.cbody ol{margin:0 0 14px 20px}
+.cbody li{margin-bottom:7px}
+strong{font-weight:650;color:#2D2540}
+em.q{font-style:italic;color:#413655}
+
+.box{border-radius:12px;padding:16px 18px;margin:18px 0;border-left:4px solid;font-size:15px}
+.box .bt{display:block;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.box p:last-child{margin-bottom:0}
+.b-key{background:var(--primary-light);border-color:var(--primary)} .b-key .bt{color:var(--primary-dark)}
+.b-warn{background:var(--accent-light);border-color:var(--accent)} .b-warn .bt{color:#92400E}
+.b-tip{background:var(--success-light);border-color:var(--success)} .b-tip .bt{color:#065F46}
+.b-info{background:var(--info-light);border-color:var(--info)} .b-info .bt{color:#1E40AF}
+.b-danger{background:var(--danger-light);border-color:var(--danger)} .b-danger .bt{color:#991B1B}
+
+.tbl{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:12px 14px;font-weight:600;font-size:13.5px}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#FBFAFE}
+
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.pc>div{border-radius:12px;padding:16px 18px;font-size:14.5px}
+.pc .ok{background:var(--success-light);border:1px solid #A7F3D0}
+.pc .ko{background:var(--danger-light);border:1px solid #FECACA}
+.pc h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.pc .ok h4{color:#065F46} .pc .ko h4{color:#991B1B}
+.pc ul{margin:0 0 0 18px} .pc li{margin-bottom:5px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
+.card{background:#FBFAFE;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h4{font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:6px;color:var(--primary-dark)}
+.card p{font-size:14px;color:var(--muted);margin:0}
+.stat h4{font-size:22px;font-family:'Space Grotesk',sans-serif}
+
+.tl{list-style:none;margin:18px 0;padding-left:26px;border-left:2px dashed var(--line)}
+.tl li{position:relative;margin-bottom:16px;font-size:15px}
+.tl li::before{content:"";position:absolute;left:-33px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light)}
+.tl b{display:block;font-family:'Space Grotesk',sans-serif;color:var(--primary-dark)}
+
+details{border:1px solid var(--line);border-radius:12px;margin:14px 0;background:#FBFAFE}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:15px;color:var(--primary-dark);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+details[open] summary::before{content:"▾ "}
+details .dc{padding:0 18px 16px;font-size:14.5px}
+
+.pull{margin:22px 0;padding:20px 24px;border-radius:14px;background:linear-gradient(120deg,#2D1B69,#4C1D95);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:19px;line-height:1.45;font-weight:600}
+.pull span{display:block;margin-top:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;opacity:.7;letter-spacing:.03em}
+
+.faq{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+.faq>.bar{height:5px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.faqhead{padding:26px 28px 0}
+.faqhead h2{font-family:'Space Grotesk',sans-serif;font-size:26px;color:var(--primary-dark)}
+.faqhead p{color:var(--muted);font-size:15px;margin-top:4px}
+.faqbody{padding:18px 28px 28px}
+.faqcat{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.faqcat:first-child{margin-top:6px}
+.qa{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:#FDFCFF}
+.qa .q{background:linear-gradient(90deg,var(--primary-light),#F6F3FF);padding:13px 18px;font-weight:650;color:var(--primary-dark);font-size:15.5px;display:flex;gap:10px}
+.qa .q span{flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.qa .a{padding:15px 18px;font-size:15px}
+.qa .a p{margin-bottom:10px} .qa .a p:last-child{margin-bottom:0}
+
+.plan{background:linear-gradient(140deg,#0F172A,#1E1B4B);color:#fff;border-radius:18px;padding:30px 28px;margin-top:26px}
+.plan h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:8px}
+.plan>p{opacity:.8;margin-bottom:20px;font-size:15px}
+.phase{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin:22px 0 10px}
+.phase:first-of-type{margin-top:0}
+.chk{list-style:none;margin:0;padding:0}
+.chk li{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;margin-bottom:9px;font-size:15px;cursor:pointer;transition:background .15s}
+.chk li:hover{background:rgba(255,255,255,.09)}
+.chk .bx{flex-shrink:0;width:20px;height:20px;border:2px solid rgba(255,255,255,.4);border-radius:6px;margin-top:3px;display:grid;place-items:center;font-size:13px;font-weight:700;color:transparent}
+.chk li.done .bx{background:var(--success);border-color:var(--success);color:#fff}
+.chk li.done .tx{opacity:.5;text-decoration:line-through}
+.chk .tx b{display:block;font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.04em;text-transform:uppercase;opacity:.65;margin-bottom:2px}
+
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px;margin-top:26px}
+.quiz h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:6px;color:var(--primary-dark)}
+.quiz>p{color:var(--muted);margin-bottom:22px;font-size:15px}
+.qz{margin-bottom:24px;padding-bottom:22px;border-bottom:1px dashed var(--line)}
+.qz:last-of-type{border-bottom:none}
+.qz .qt{font-weight:650;margin-bottom:12px;font-size:15.5px}
+.opt{display:block;width:100%;text-align:left;background:#FBFAFE;border:1.5px solid var(--line);border-radius:10px;padding:11px 15px;margin-bottom:8px;cursor:pointer;font-family:inherit;font-size:14.5px;color:var(--ink);transition:all .15s}
+.opt:hover{border-color:var(--primary);background:var(--primary-light)}
+.opt.good{background:var(--success-light);border-color:var(--success);font-weight:600}
+.opt.bad{background:var(--danger-light);border-color:var(--danger)}
+.fb{display:none;margin-top:10px;padding:12px 15px;border-radius:10px;font-size:14.5px;background:var(--info-light);border-left:4px solid var(--info)}
+.fb.show{display:block}
+.score{margin-top:20px;padding:16px;border-radius:12px;background:var(--primary-light);text-align:center;font-weight:650;color:var(--primary-dark);display:none}
+.score.show{display:block}
+
+footer{text-align:center;padding-block:40px 50px;color:var(--muted);font-size:14px}
+footer b{color:var(--primary-dark);font-family:'Space Grotesk',sans-serif}
+
+@media(max-width:640px){
+  .pc{grid-template-columns:1fr}
+  .chead,.faqhead{padding:22px 18px 0} .cbody,.faqbody{padding:16px 18px 22px}
+  .toc{padding:22px 18px} .plan,.quiz{padding:24px 18px}
+  .hero h1{font-size:27px} .pull{font-size:17px;padding:18px}
+  .player-wrap{padding:14px} .chlist{grid-template-columns:1fr;max-height:280px}
+}
+@media print{
+  .progress-wrap{display:none} body{background:#fff}
+  section.chap,.toc,.quiz,.faq{box-shadow:none;break-inside:avoid}
+  .opt{display:none}
+  .vid{display:none} .player-wrap{box-shadow:none;margin-top:20px}
+  .chlist{max-height:none;overflow:visible} .chlist button{padding:3px 0}
+  button.seek{background:none;border:0;padding:0;color:var(--primary-dark)}
+}
+</style>
+</head>
+<body>
+<div class="progress-wrap"><div id="progress"></div></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">Session individuelle · 6 novembre 2026</div>
+    <h1>Piloter l'IA, prospecter juste —<br>et raconter sa propre histoire</h1>
+    <p class="sub">Une session individuelle en deux temps : d'abord la démonstration complète d'un système de production de contenu et de prospection piloté par l'IA, de bout en bout et en direct. Puis le cœur du sujet — sortir un album qui lui ressemble, transformer un parcours personnel en positionnement artistique, financer la production par le crowdfunding, et les cinq clés d'un titre qui ouvre les portes des radios.</p>
+    <div class="meta">
+      <span>⏱ 1 h 55</span>
+      <span>🎙 Tarik Hamiche</span>
+      <span>👤 Session individuelle</span>
+      <span>📌 91 chapitres</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="player-wrap">
+  <div class="vid">
+    <iframe id="vimeoPlayer"
+      src="https://player.vimeo.com/video/1244165550?h=58f1ccad4f"
+      title="Session individuelle du 6 novembre 2026"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  <details class="chx" id="chx">
+    <summary><span>Les 91 chapitres de la session</span><em>Cliquez un chapitre pour y aller</em></summary>
+    <div class="chlist" id="chlist"></div>
+  </details>
+</div>
+
+<nav class="toc">
+  <h2>Au programme</h2>
+  <ol>
+    <li><a href="#s1">Le contexte : un poste qui disparaît</a></li>
+    <li><a href="#s2">Claude en mode terminal</a></li>
+    <li><a href="#s3">La prospection chirurgicale</a></li>
+    <li><a href="#s4">La fabrique du carrousel</a></li>
+    <li><a href="#s5">Ajuster, publier, mesurer</a></li>
+    <li><a href="#s6">Un album qui lui ressemble</a></li>
+    <li><a href="#s7">L'empathie, moteur du marketing</a></li>
+    <li><a href="#s8">Transformer son histoire en positionnement</a></li>
+    <li><a href="#s9">Les prochaines étapes et le crowdfunding</a></li>
+    <li><a href="#s10">Ne pas se sous-estimer</a></li>
+    <li><a href="#s11">Chanter en anglais depuis la France</a></li>
+    <li><a href="#s12">Les cinq clés d'un titre qui ouvre les portes</a></li>
+  </ol>
+</nav>
+
+<section class="chap" id="s1" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">01</div><div><h2>Le contexte : un poste qui disparaît</h2><div class="tc">0:00 → 7:30</div></div></div>
+  <div class="cbody">
+    <p>La session commence par un état des lieux. Grâce à la formation, les actions à mener sont identifiées : <strong>créer le statut d'artiste-auteur</strong>, aller vérifier certaines déclarations d'œuvres à la SACEM, et finaliser tout le volet administratif avant d'envisager une société — qui n'est pas pour tout de suite.</p>
+    <p>Mais une inquiétude plus large traverse l'échange.</p>
+    <div class="box b-info"><span class="bt">La situation</span><p>Son poste de conception de formations, dans un très grand groupe bancaire, est menacé : les budgets de création de formation sont réduits de <strong>50 %</strong>. Moins de budget, moins de main-d'œuvre. L'entreprise l'a annoncé pour préparer les équipes, avec une échéance d'environ deux ans au pire des cas. D'où la question : faut-il se lancer à 100 % dans la musique, en sachant que financièrement ce sera compliqué ?</p></div>
+    <h3>Le recadrage</h3>
+    <div class="pull">« Il ne faut pas avoir peur de ce qui est en train de se passer, c'est juste normal, c'est une évolution naturelle des choses. »<span>Tarik Hamiche</span></div>
+    <p>L'argument central tient en une idée : <strong>les compétences développées pour un projet musical sont massivement transférables</strong> — et même plus faciles à appliquer ailleurs.</p>
+    <div class="box b-key"><span class="bt">Pourquoi</span><p><em class="q">« Si tu arrives à comprendre de quelle manière on développe la visibilité d'un artiste, le jour où on te dit "il faut vendre des chaussures", c'est un jeu d'enfant. »</em></p><p>Exemple donné : aller voir un hôtel et lui dire « je vois que vous avez des semaines que vous avez du mal à remplir. Je sais automatiser de la prospection par IA en ligne, je saurai trouver des clients pour vous. Faisons un essai » — rémunéré à la commission, probablement mieux payé qu'un salaire.</p></div>
+    <h3>Ce qui se remplace et ce qui ne se remplace pas</h3>
+    <div class="pc">
+      <div class="ko"><h4>Ce qui se remplace</h4><ul><li>Quand une grande entreprise se sépare de salariés, c'est qu'elle estime leurs compétences remplaçables <strong>à au moins 80 %</strong> par quelque chose de moins coûteux</li><li>Les tâches habituelles et répétitives</li></ul></div>
+      <div class="ok"><h4>Ce qui ne se remplace pas</h4><ul><li>Le relationnel</li><li>L'intelligence — une personne smart, on la garde et on la met ailleurs, parce qu'elle est capable de développer des systèmes qui optimisent</li></ul></div>
+    </div>
+    <p>Conclusion : plus ces compétences se développent, plus il devient possible de vivre de son projet musical — et plus on devient capable d'apporter de la valeur sur d'autres marchés en attendant que ça décolle. IA ou pas IA.</p>
+  </div>
+</section>
+
+<section class="chap" id="s2" data-c="p">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">02</div><div><h2>Claude en mode terminal</h2><div class="tc">7:36 → 14:30</div></div></div>
+  <div class="cbody">
+    <p>La question arrive naturellement : Claude ou ChatGPT ? Réponse honnête — <em class="q">« je pense que Claude, ChatGPT ou autres se valent. Ça dépend vraiment de la manière dont tu l'utilises »</em>. Mais pour l'usage de Tarik, beaucoup de terminal et beaucoup de code, la différence est nette.</p>
+    <div class="pull">« Aujourd'hui, je ne fais quasiment plus rien dans l'interface. Je le fais dans le terminal. Et je ne sais pas coder. Je n'ai jamais su coder. Je le dirige à la voix. »<span>Tarik Hamiche</span></div>
+    <div class="box b-key"><span class="bt">La démonstration par l'échec de la veille</span><p>En mentorat la veille, il fallait récupérer des posts LinkedIn. Dans l'interface classique, Claude a été <strong>bloqué à tous les niveaux</strong>. Dans le terminal : aucun problème. Il a codé un script, s'est connecté à Chrome, a fait la recherche, extrait les données et les a reversées dans un Airtable.</p></div>
+    <h3>Les trois niveaux d'accès à un outil</h3>
+    <p>Pour comprendre pourquoi, Tarik prend l'exemple de Canva et détaille les trois paliers :</p>
+    <div class="cards">
+      <div class="card"><h4>Niveau 1</h4><p>canva.com — l'interface publique, ce que tout le monde voit</p></div>
+      <div class="card"><h4>Niveau 2</h4><p>L'extension du navigateur : l'IA manipule l'interface à votre place</p></div>
+      <div class="card"><h4>Niveau 3</h4><p>Canva développeur — une porte d'entrée directe dans le code, mise à disposition par l'outil. C'est l'<strong>API</strong></p></div>
+    </div>
+    <div class="box b-info"><span class="bt">L'API expliquée simplement</span><p><em class="q">« C'est comme quand tu es dans un resto. Si tu veux commander à manger, tu ne vas pas te lever, aller en cuisine et dire "chef, tu me feras un poisson frites bien cuit". Tu vas demander au serveur. Il note la commande et la transmet en cuisine. L'API, c'est ça : l'intermédiaire entre toi et ce qui se passe de l'autre côté. »</em></p><p>Reddit, Canva, X, Instagram ont tous une API. Certains outils refusent d'en ouvrir une à des services tiers — il faut alors passer par un serveur FTP avec autorisations : lent, bugué, pénible, mais sans alternative.</p></div>
+    <h3>Ce que ça permet concrètement</h3>
+    <p>L'exemple donné est frappant. Le rappeur Ninho venait de sortir un documentaire Netflix et voulait recueillir <strong>les vrais avis à chaud</strong> — pas ceux des chroniqueurs.</p>
+    <div class="tl">
+      <li><b>Le dispositif</b>Un script qui envoie une IA sur X et sur Reddit, là où les gens se lâchent sans se retenir.</li>
+      <li><b>Le traitement</b>Extraire tous les avis, les classer, les noter selon des critères définis à l'avance.</li>
+      <li><b>Le résultat</b>Des tendances chiffrées par segment : « 30 % des 15-24 ans disent que c'est mauvais, 60 % des plus de 45 ans ont trouvé ça génial et t'aiment plus qu'avant le documentaire. »</li>
+    </div>
+    <p>Et Agatha fait immédiatement le lien : ce format permet aussi de construire une stratégie marketing sur les réseaux sociaux. Exactement — <em class="q">« quand je vous parle de modélisation dans la formation, c'est exactement ça, sauf qu'on le pousse avec l'IA »</em>. C'est d'ailleurs l'objet de la formation offerte à ceux qui terminent le parcours.</p>
+  </div>
+</section>
+
+<section class="chap" id="s3" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">03</div><div><h2>La prospection chirurgicale</h2><div class="tc">14:51 → 24:00</div></div></div>
+  <div class="cbody">
+    <p>C'est la méthode complète, détaillée pas à pas. Le point de départ n'est pas une liste de contacts — c'est <strong>trois artistes comparables</strong>.</p>
+    <div class="box b-key"><span class="bt">Le raisonnement</span><p>« J'ai repéré trois artistes qui ont un peu plus de visibilité que moi et qui arrivent chacun à vendre une trentaine de dates par an. » <strong>Partout où ils sont passés, je peux potentiellement vendre une date.</strong></p></div>
+    <h3>Étape 1 · Découvrir le prix du marché</h3>
+    <p>Une technique décrite dans la partie booking de la formation : se faire passer pour un organisateur. <em class="q">« Allô, je suis organisateur, j'aimerais vous programmer, j'aimerais connaître vos conditions en termes de prix, de VHR. »</em></p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Les trois prix d'un artiste</th><th>Ce que ça vaut</th></tr></thead>
+        <tbody>
+          <tr><td>Le prix public annoncé</td><td>2 000 €, par exemple</td></tr>
+          <tr><td>Le prix négocié</td><td>Nettement en dessous</td></tr>
+          <tr><td>Le prix « j'ai besoin de bosser »</td><td>Souvent la moitié du prix annoncé</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Conclusion opérationnelle : si l'artiste de référence annonce 2 000 € et se vend réellement autour de 1 200, <strong>s'annoncer entre 1 200 et 1 500 € ne choquera pas l'organisateur</strong>.</p>
+    <h3>Étape 2 · Croiser les parcours</h3>
+    <div class="tl">
+      <li><b>Traquer</b>Demander à Claude de retrouver tous les endroits où chacun des trois artistes est passé.</li>
+      <li><b>Croiser</b>Les lieux communs aux trois sont un excellent indicateur. Ceux où seul l'un d'eux est passé élargissent la liste.</li>
+      <li><b>Résultat</b>Une cinquantaine de lieux à démarcher, tous pertinents.</li>
+      <li><b>Enrichir</b>« Trouve-moi les contacts. Puis leurs coordonnées. Puis vérifie qu'il n'existe pas d'autres coordonnées différentes, pour démultiplier nos chances d'atteindre la cible. »</li>
+    </div>
+    <div class="box b-info"><span class="bt">La règle du volume</span><p><strong>50 contacts</strong> → on le fait à la main, au téléphone. <strong>500 contacts</strong> → on automatise. Avec 50 numéros de personnes à 95 % susceptibles d'être intéressées, qui ont les moyens de payer le prix demandé et qui programment ce type de projet, l'appel direct est de loin le plus rentable.</p></div>
+    <h3>Étape 3 · Le script d'appel</h3>
+    <div class="pull">« Bonjour Daniel, je m'appelle Agatha, je suis artiste. Je me suis intéressée à votre programmation, j'ai trouvé ça génial. J'ai vu que vous aviez fait X, et aussi Z deux mois plus tard. Ce sont des artistes que j'adore, je suis un peu dans cette mouvance-là. Je voulais vous demander si vous m'autorisiez à vous envoyer un email avec un dossier de presse. Vous allez voir, il est très synthétique, très visuel. Ça ne vous prendra même pas deux minutes de vous faire un avis. »<span>Et quand il donne son email : « justement, c'est celui-ci que j'avais trouvé, ça me confirme. Je vous l'envoie immédiatement et je vous laisse revenir vers moi. »</span></div>
+    <div class="box b-warn"><span class="bt">Ce qu'on évite</span><p>Créer des bases interminables de <strong>3 000 contacts</strong> qu'on ne démarchera jamais et qui ne répondront probablement jamais. On va chercher de manière chirurgicale.</p></div>
+    <h3>Le gisement : DataGouv</h3>
+    <p>Démonstration à l'écran. Le gouvernement a ouvert une API sur toutes ses bases de données publiques, et Claude dispose d'un connecteur direct.</p>
+    <div class="cards">
+      <div class="card"><h4>Base des festivals</h4><p>7 283 lignes, mise à jour en continu, avec sites internet et adresses mail</p></div>
+      <div class="card"><h4>Base des lieux culturels</h4><p>Désormais séparée, et tout aussi exploitable</p></div>
+      <div class="card"><h4>Licences d'entrepreneur de spectacle</h4><p>Les licences 2 et 3, demandées auprès de la DRAC. Le champ « type de déclaration » distingue <strong>première demande</strong> (un néophyte, souvent sans réseau ni budget) et <strong>renouvellement</strong> — beaucoup plus intéressant. Les communes y figurent aussi</p></div>
+    </div>
+    <div class="box b-tip"><span class="bt">Comment exploiter 7 283 lignes</span><p>Impossible à la main. Avec Claude, on filtre par passes successives :</p><p><strong>1.</strong> « Isole uniquement les festivals qui matchent parfaitement avec ma programmation. »<br><strong>2.</strong> « Parmi ceux-là, isole ceux qui sont enclins à programmer des artistes émergents ou inconnus. » — inutile de garder les gros festivals à têtes d'affiche.<br><strong>3.</strong> Et ainsi de suite, jusqu'à obtenir une liste exploitable.</p><p>Et commencer autour de chez soi : pas de VHR lourd, pas de billet d'avion pour 800 kilomètres.</p></div>
+    <p>Reste à connecter un autorépondeur — Brevo, Mailchimp ou autre — et à envoyer par lots. <strong>Jamais 1 500 emails d'un coup</strong> : 50, on vérifie les rebonds, puis 50, puis 100. En moins de dix jours, toute la base est prospectée.</p>
+  </div>
+</section>
+
+<section class="chap" id="s4" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">04</div><div><h2>La fabrique du carrousel</h2><div class="tc">24:00 → 41:00</div></div></div>
+  <div class="cbody">
+    <p>Pendant toute la discussion, une automatisation tourne en arrière-plan : un <strong>skill</strong> dédié à la création de carrousels d'actualité music business. Le prompt de départ donne le ton.</p>
+    <div class="box b-key"><span class="bt">Le prompt lancé</span><p><em class="q">« Lance le skill des carrousels music business et suggère-moi cinq thèmes qui font très polémique en ce moment sur Reddit. Je veux que tu scannes Reddit en profondeur sur les trois dernières semaines et que tu me trouves les sujets les plus chauds et les plus récents. Inutile de me parler de trucs d'IA qui traînent depuis dix ans. »</em></p></div>
+    <p>Claude revient avec cinq thèmes, chacun croisé avec la presse professionnelle pour valider le fond — et il signale lui-même ce qu'il n'a pas pu vérifier (les compteurs de votes). Le thème retenu : le gel des royalties par un distributeur à cause d'un litige qui n'est pas celui de l'artiste. <strong>Au croisement de ce qui fait réagir et de ce qui est documenté.</strong></p>
+    <h3>La chaîne complète, sans intervention</h3>
+    <div class="tl">
+      <li><b>1 · Les slides</b>Rédaction du contenu, puis validation humaine.</li>
+      <li><b>2 · Les prompts d'image</b>Création des six prompts nécessaires.</li>
+      <li><b>3 · La génération</b>Lancement des visuels via l'API.</li>
+      <li><b>4 · Le montage</b>Appel à l'API Canva, création du carrousel, et renvoi du lien.</li>
+    </div>
+    <div class="box b-info"><span class="bt">Le Remote Control</span><p>Une fois activé, la session se pilote <strong>depuis le téléphone</strong>. On peut partir à la salle de sport : quand Claude a besoin d'une validation, on lit les slides sur son écran, on valide, il continue. Durée totale : environ 20 minutes — pendant lesquelles on ne fait rien.</p><p>Certains vont plus loin : chaque matin, une automatisation ouvre le terminal, scanne, génère un carrousel et le poste en brouillon sur Instagram. Il ne reste qu'à appuyer sur Valider.</p></div>
+    <div class="pull">« Ça, avant, ça me prenait deux ou trois heures. »<span>Agatha : « Je suis sûre que ça me prend une demi-journée. »</span></div>
+    <h3>Les outils derrière</h3>
+    <div class="cards">
+      <div class="card"><h4>Fal AI</h4><p>Un accès unique à <strong>184 modèles d'IA</strong> sans payer quarante abonnements : NanoBanana, GPT Image, Flux… Environ 2 centimes l'image</p></div>
+      <div class="card"><h4>La stratégie de quotas</h4><p>« Utilise NanoBanana dans Gemini, et dès qu'on n'a plus de quota, bascule sur Fal » — le gratuit d'abord, le payant ensuite</p></div>
+      <div class="card"><h4>Hyperframe</h4><p>Pour générer des vidéos animées à la demande. Toutes celles sans personne face caméra peuvent passer par là : on rajoute sa voix derrière</p></div>
+      <div class="card"><h4>Andy / Whisperflow</h4><p>Pour piloter à la voix : on appuie sur une touche, on parle, ça s'écrit</p></div>
+    </div>
+    <div class="box b-tip"><span class="bt">Le brief de diversité des visuels</span><p>Une consigne permanente donnée au skill : varier les lieux, les genres musicaux, les origines, les configurations (solo, duo, groupe) et les sexes. Objectif : éviter la redondance visuelle et permettre à tous les genres musicaux de s'identifier.</p></div>
+    <p>Autre exemple de ce qui sort de cette chaîne : la publicité complète de Memodeal — vidéo animée, voix, message — créée entièrement par Hyperframe, sans aucune intervention.</p>
+    <h3>Transposer la logique à n'importe quelle cible</h3>
+    <p>Démonstration sur un cas fictif : une cible de supporters du PSG.</p>
+    <div class="box b-key"><span class="bt">Le système</span><p>Créer un compte, demander à l'IA d'aller trois fois par semaine sur les sites d'actualité du club, de récupérer une info chaude, d'en faire une vidéo et de la poster. Si la voix ne plaît pas, on la remplace.</p><p>Et à l'échelle : <em class="q">« Créez cinq comptes. Actu PSG, Fan2PSG, etc. Laissez des IA tourner sur des automatisations toute l'année. Dans la masse, il y a cinq ou six contenus qui vont exploser en millions de vues. »</em> Parce que parfois vous serez les premiers sur une info, parfois vous le ferez juste mieux que les autres. Et sur ces millions de visiteurs, le <strong>retargeting</strong> vers la boutique fait exploser les ventes.</p></div>
+    <h3>L'IA ailleurs : la déclaration de TVA</h3>
+    <p>Même logique appliquée à la comptabilité. Chaque mois, Claude collecte les factures sur une boîte mail dédiée, récupère les relevés de compte, ouvre le tableau de suivi Airtable, saisit chaque ligne de dépense avec sa catégorie et sa pièce justificative. Il ne reste plus qu'à photographier les deux ou trois tickets manquants, et à exporter pour la comptable.</p>
+    <div class="cards">
+      <div class="card stat"><h4>Une demi-journée</h4><p>Le temps que ça prenait, tous les mois</p></div>
+      <div class="card stat"><h4>Une demi-heure</h4><p>Le temps que ça prend maintenant</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s5" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">05</div><div><h2>Ajuster, publier, mesurer</h2><div class="tc">38:24 → 54:30</div></div></div>
+  <div class="cbody">
+    <p>Agatha pose la nuance qui compte : elle est pour l'IA comme outil, pas pour l'IA qui remplace tout. Accord complet.</p>
+    <div class="pull">« L'humain ne se remplace pas sur la relation. C'est l'erreur que tout le monde fait : mettre des bots partout et essayer de remplacer la relation. Ce qu'il faut remplacer, c'est tout ce qui est habituel et répétitif. »<span>Tarik Hamiche</span></div>
+    <div class="box b-danger"><span class="bt">L'exemple du manteau de ski</span><p>Un magasin envisage des bornes IA pour conseiller les clients. Grosse erreur : l'IA se base sur des données que vous ne contrôlez pas. Demandez un manteau pour aller au ski — dans neuf cas sur dix, elle conseillera soit ce qui se fait de mieux, soit ce qui se fait de plus basique, mais pas ce qui vous convient. Vous repartez avec un équipement à 300 € pour chasser l'ours polaire alors que vous allez dans les Alpes, ou avec le premier choix d'Amazon qui n'est pas qualitatif.</p><p>En revanche, la <strong>création des devis</strong> s'automatise parfaitement : un catalogue, une liste de références, les prix en face, le document généré et envoyé. Cinq minutes au lieu de deux heures.</p></div>
+    <h3>Le travail qui reste humain : les ajustements</h3>
+    <p>Le carrousel est prêt. Tarik l'ouvre dans Canva et montre exactement ce qu'il retouche — et c'est instructif, parce que c'est peu de choses mais ce sont les bonnes.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Ajustement</th><th>Pourquoi</th></tr></thead>
+        <tbody>
+          <tr><td>Grossir certains textes</td><td>Quand on estime qu'on peut pousser le message</td></tr>
+          <tr><td>Supprimer les détails inutiles</td><td>« Les gens n'ont pas le temps de lire » — on épure</td></tr>
+          <tr><td>Corriger les tournures anglicisées</td><td>« Their sole tort » → « c'est d'avoir choisi ce distributeur ». Claude reste trop américanisé</td></tr>
+          <tr><td>Expliciter les sigles</td><td>La plupart des gens ne savent pas ce que veut dire UMG</td></tr>
+          <tr><td>Ajouter une flèche</td><td>Pour signaler qu'il y a une suite derrière</td></tr>
+          <tr><td>Reformuler pour plus d'impact</td><td>« Un strike ne bloque pas un morceau » → <strong>« Distrokid ne bloque pas ton morceau, il bloque ton argent »</strong></td></tr>
+          <tr><td>Zoomer certaines images</td><td>Pour masquer des détails générés approximativement</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="box b-tip"><span class="bt">La structure du carrousel produit</span><p>Un fait documenté (le litige), le mécanisme (une revendication ouverte suspend les paiements), des cas concrets (cinq mois de gel, 3 000 $ immobilisés), <strong>le vrai problème identifié</strong> — le support automatisé et le silence, pas le blocage — et enfin <strong>ce que le lecteur doit faire</strong> : exporter ses royalties chaque trimestre, vérifier que le compte de distribution et les ISRC sont à son nom, ne pas laisser 100 % de son catalogue chez un seul distributeur.</p></div>
+    <div class="box b-warn"><span class="bt">La précision qui compte</span><p>Agatha demande pourquoi Distrokid et TuneCore sont déconseillés. <em class="q">« Ce ne sont pas des distributeurs, ce sont des agrégateurs — et on en voit la limite. Le jour où il y a un truc qui ne va pas, c'est très compliqué de s'en dépatouiller. »</em></p></div>
+    <h3>La publication, en direct</h3>
+    <div class="tl">
+      <li><b>1 · Depuis le téléphone</b>L'application Canva, un rappel programmé trois fois par semaine, et on télécharge en PNG.</li>
+      <li><b>2 · La description</b>« Rédige-moi une description Instagram optimisée pour l'algorithme. » Claude fournit aussi les mots-clés SEO qu'il a intégrés.</li>
+      <li><b>3 · Les hashtags</b>Tarik écarte ceux proposés et met les siens, en regardant les volumes au fur et à mesure qu'il les tape — et en privilégiant parfois les moins populaires, plus qualifiés.</li>
+      <li><b>4 · La musique</b>« Suggère-moi une musique qui colle avec le thème, un truc assez connu. » Claude propose, la suggestion colle, et le post part.</li>
+    </div>
+    <div class="box b-danger"><span class="bt">Pourquoi pas Metricool ni les outils de programmation</span><p><strong>Un :</strong> les plateformes ne les aiment pas. Elles les tolèrent, mais elles ne les aiment pas.<br><strong>Deux :</strong> ces outils sont lents à se mettre à jour. Instagram change un format, et pendant deux semaines toutes vos publications programmées sortent au mauvais format et ne ressemblent à rien.</p><p>La méthode décrite dans la formation fonctionne mieux : une base de contenus préparés d'avance, tout sur le téléphone, validation en quelques clics.</p></div>
+    <div class="pull">« Ça va te prendre 10, 15 minutes par jour. Ce n'est rien si ça permet de toucher des dizaines de milliers de personnes régulièrement. »<span>Un post qui tourne bien peut taper 100 000 comptes — et avec des campagnes en retargeting permanentes, l'impact est immédiat</span></div>
+  </div>
+</section>
+
+<section class="chap" id="s6" data-c="p">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">06</div><div><h2>Un album qui lui ressemble</h2><div class="tc">54:44 → 61:00</div></div></div>
+  <div class="cbody">
+    <p>Retour au projet. L'objectif est clair : <strong>sortir un album</strong>, mais cette fois en donnant libre cours à sa propre créativité.</p>
+    <div class="box b-info"><span class="bt">Le constat sur les premières chansons</span><p>Sur son premier EP, c'était la première fois : elle a énormément fait confiance aux compositeurs qui travaillaient avec elle. <em class="q">« J'ai dit oui à des trucs, des instruments, des styles qui ne me ressemblaient pas forcément. »</em> Quand on travaille avec des gens, on est influencé.</p></div>
+    <h3>Ce qui a changé</h3>
+    <p>Elle écrit beaucoup ses textes et a beaucoup de mélodies en tête. Elle s'est servie de l'IA pour transposer ces airs avec les instruments voulus : <em class="q">« je veux tel instrument et je veux que ça fasse ça »</em>.</p>
+    <div class="cards">
+      <div class="card stat"><h4>9</h4><p>Nouvelles chansons déjà écrites, plus une dixième en cours</p></div>
+      <div class="card"><h4>L'exigence</h4><p>Ne pas les sortir « mal », comme le premier EP. Faire les choses bien</p></div>
+      <div class="card"><h4>L'équipement</h4><p>Un micro, un Mac. Reste à savoir si l'enregistrement se fera à la maison ou en studio</p></div>
+    </div>
+    <h3>L'argent déjà perdu en marketing</h3>
+    <p>Le bilan est lucide : de l'argent dépensé en marketing, mais pas en bon marketing. Deux postes identifiés.</p>
+    <div class="pc">
+      <div class="ko"><h4>Boost Collective</h4><ul><li>Une plateforme qui place vos titres dans des playlists pour gonfler les écoutes</li><li><strong>~200 € par mois</strong></li><li>Dès que vous arrêtez, redescente drastique des écoutes</li><li>Pire : les pics d'écoute déclenchent des alertes de <strong>fausses écoutes</strong> chez le distributeur</li></ul></div>
+      <div class="ko"><h4>Les pubs TikTok</h4><ul><li>Promotions de reels lancées avant de connaître les bons réglages</li><li>Mal paramétrées, donc peu rentables</li></ul></div>
+    </div>
+    <div class="box b-warn"><span class="bt">Pourquoi les playlists payantes coincent</span><p>Parce que c'est <em class="q">« une manipulation recherchée pour gagner en visibilité, qui n'est pas naturelle »</em>. Les plateformes le détectent, et c'est ce qui déclenche les alertes.</p></div>
+  </div>
+</section>
+
+<section class="chap" id="s7" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">07</div><div><h2>L'empathie, moteur du marketing</h2><div class="tc">60:40 → 63:30</div></div></div>
+  <div class="cbody">
+    <p><em class="q">« Le marketing, ce n'est vraiment pas mon fort. »</em> Même au travail, on lui dit : « tu travailles bien, mais on ne te voit jamais. » Elle travaille discrètement, et se décrit comme extrêmement introvertie.</p>
+    <div class="pull">« Tu sais que les introvertis, ce sont les meilleurs marketeurs ? »<span>Tarik Hamiche — qui se décrit lui-même comme un introverti, et qui a traversé des années de phobie sociale</span></div>
+    <div class="box b-key"><span class="bt">Le raisonnement</span><p>Être introverti fait de vous une personne <strong>très empathique</strong>. Or l'empathie est la clé du marketing. La difficulté sera de découvrir qui est votre public cible — mais une fois qu'il est identifié, être empathique à son égard et tout faire dans son sens est un avantage considérable.</p></div>
+    <h3>L'empathie en pratique : l'exemple Amazon</h3>
+    <p>Quoi que vous commandiez, si vous n'êtes pas d'accord, vous le renvoyez et on vous rembourse. Aucun débat, aucune preuve demandée. <em class="q">« Ça, c'est une forme d'empathie. C'est l'empathie de se dire : j'en ai marre de commander un truc, que ce ne soit pas la bonne taille, de devoir faire 30 bornes pour le remettre, d'imprimer un machin. C'est chiant. »</em></p>
+    <div class="box b-info"><span class="bt">Ce qu'il faut changer</span><p>Pas sa personnalité — <strong>sa vision du marketing</strong>. Et c'est ce qui va occuper la suite de la session.</p></div>
+  </div>
+</section>
+
+<section class="chap" id="s8" data-c="p">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">08</div><div><h2>Transformer son histoire en positionnement</h2><div class="tc">63:08 → 74:30</div></div></div>
+  <div class="cbody">
+    <p>Le blocage identifié est précis : travailler son persona. Et elle sait d'où ça vient — pour que ses chansons se vendent, il faudrait qu'elle parle d'elle. Or ses textes sont déjà profondément personnels : ils sont nés d'un <strong>parcours difficile</strong> qu'elle a traversé, et de la décision de prendre son indépendance. Les thèmes qui reviennent : la reconstruction, la survie, la culpabilité en tant que mère.</p>
+    <div class="box b-key"><span class="bt">Pourquoi c'est un atout et non un obstacle</span><p><em class="q">« La thématique est excellente parce qu'elle touche des millions de femmes, en francophonie mondiale. Tu as un vrai marché. »</em></p><p>Et surtout : <strong>elle maîtrise sa cible à fond, parce que cette cible, c'est elle il y a quelque temps</strong> — et peut-être encore une partie d'elle aujourd'hui.</p></div>
+    <h3>Le format proposé, sans se mettre en danger</h3>
+    <p>Elle n'a pas besoin d'en parler frontalement. Elle a <strong>le prétexte le plus confortable qui soit : ses propres morceaux</strong>.</p>
+    <div class="tl">
+      <li><b>Le dispositif</b>Face caméra, un extrait du son qui passe avec le texte à l'écran.</li>
+      <li><b>Le propos</b>« Là, par exemple, dans cette phrase, ce qu'on comprend de l'artiste, c'est que… » Elle devient l'analyste de sa propre écriture.</li>
+      <li><b>Le format</b>Des capsules courtes, une à trois minutes.</li>
+      <li><b>La production</b>Aucun montage, aucun effet spécial. Très naturel. Seules comptent l'accroche et le choix du thème.</li>
+    </div>
+    <div class="box b-tip"><span class="bt">D'où viennent les bonnes accroches</span><p>De la vraie vie. Tarik raconte une amie en instance de divorce, qui lui dit : <em class="q">« Je crois que c'est encore plus dur pour moi de partir que pour lui que je parte, mais il ne s'en rend pas compte. »</em></p><p>Transposé en hook : <strong>« On ne réalise pas assez à quel point une femme qui divorce le fait toujours dans la douleur. »</strong> Si vous êtes dans la cible, vous écoutez. Vous vous dites : elle parle de moi — <em>avec exactement les mots que j'ai dans la tête</em>. C'est là que le côté empathique devient un pouvoir.</p></div>
+    <div class="pull">« Quand j'étais ado, toutes mes peines de cœur passaient en chanson. Je suis persuadé que même à 40 ans, même à 50 ans, ça continue. Des mots, quand ils sont bien écrits, ont un impact très fort. »<span>Sinon les textes fondateurs des religions n'auraient pas l'impact qu'ils ont</span></div>
+    <h3>Le vrai sens du mot marketing</h3>
+    <div class="pc">
+      <div class="ko"><h4>Ce que la plupart croient</h4><ul><li>Un moyen de s'exposer</li><li>De se faire découvrir</li><li>De mieux vendre</li></ul></div>
+      <div class="ok"><h4>Ce que c'est réellement</h4><ul><li><strong>Devenir le conseiller de confiance de sa cible</strong>, puis de sa communauté</li><li>Quelqu'un qui fait du bien, qu'on écoute, qui oriente, qui conseille</li><li>En échange : de la confiance et de l'attention</li></ul></div>
+    </div>
+    <p>Double bénéfice : on remplit une mission qui a du sens, et on crée une communauté à l'écoute — ce qui ouvre plusieurs modèles d'affaires. Le premier est évidemment de vendre sa musique. Mais rien n'empêche, en parallèle, d'animer cette communauté et de bâtir des offres autour : des ateliers sur des thématiques précises, qu'on est parfaitement légitime à animer.</p>
+    <div class="box b-info"><span class="bt">L'exemple de la prof de chant à Marseille</span><p>Une amie de Tarik, elle-même concernée par le sujet des violences faites aux femmes, a créé deux choses : une <strong>chorale de gospel</strong> et un <strong>groupe de parole</strong>.</p><p>La chorale : elle vend des cours et en vit. Le groupe de parole : monétisé par des ateliers, et il en vit doublement bien. Et ces deux groupes <em>sont</em> sa fan base — à chaque sortie, <strong>au moins 200 femmes achètent tout ce qu'elle sort</strong>. Ça suffit à bâtir une économie, en moins de trois ans.</p></div>
+    <div class="box b-warn"><span class="bt">Le blocage à retirer</span><p>Son amie a eu exactement la même réaction : « ça me fait bizarre de me faire de l'argent sur ça. » La réponse : <em class="q">« C'est un biais psychologique, un blocage interne. Tant que tu sers correctement, il n'y a pas de mal à te servir. »</em></p><p>Et on n'est pas obligé de se servir à chaque fois : quand quelqu'un a vraiment besoin de vous et n'a pas les moyens, c'est gratuit, et ce n'est pas grave. Un jour, cette personne vous recommandera assez de monde pour financer l'atelier.</p></div>
+    <h3>Une opportunité concrète dans l'industrie</h3>
+    <div class="box b-tip"><span class="bt">La dynamique VHSS</span><p>Depuis un ou deux ans, une vraie dynamique s'est installée autour de la sensibilisation aux violences et harcèlements sexistes et sexuels. Les formations VHSS deviennent <strong>obligatoires</strong> pour les structures et les artistes dès qu'il s'agit de demander une subvention — c'était une recommandation jusqu'à cette année, ce sera une obligation à partir de l'année prochaine.</p><p>Proposition directe de Tarik : <em class="q">« Si demain tu as une formation sur le domaine, ça m'intéresse de l'intégrer à mon catalogue, de la promouvoir, d'envoyer du monde. »</em> Et le réseau qui en découle n'est pas neutre : on peut se retrouver à former des cadres de labels.</p></div>
+    <p>Note logistique en passant : Agatha ne sera pas disponible pour la session live du 19. Pas de problème — des sessions de rattrapage existent, et un créneau du mardi soir à 20 h permet de couvrir les deux fois cinq heures requises.</p>
+  </div>
+</section>
+
+<section class="chap" id="s9" data-c="a">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">09</div><div><h2>Les prochaines étapes et le crowdfunding</h2><div class="tc">76:07 → 89:00</div></div></div>
+  <div class="cbody">
+    <p>Le plan qu'elle formule elle-même est déjà le bon : <strong>paralléliser</strong> les démarches administratives, la relance des réseaux sociaux et l'enregistrement — et surtout, inverser l'ordre qu'elle avait en tête.</p>
+    <div class="pull">« Avant, je me disais : il faut que je sorte absolument mon album avant d'en faire la promo. Maintenant je vais d'abord faire de la promo autour, et ensuite sortir l'album. »<span>Agatha, reprenant le principe entendu en vidéo : vendre avant que le produit soit sorti</span></div>
+    <h3>Deux conseils sur l'enregistrement</h3>
+    <div class="cards">
+      <div class="card"><h4>Enregistrer chez soi d'abord</h4><p>Même si la qualité de prise de voix ne convient pas. Le jour où vous irez en studio, tout ira beaucoup plus vite : les idées sont posées, la préparation est faite</p></div>
+      <div class="card"><h4>La mise à plat, même imparfaite</h4><p>À donner à l'ingénieur du son. Elle lui permet de visualiser le travail à faire sur le morceau. <strong>Effet : la facture de studio divisée par quatre ou cinq</strong></p></div>
+    </div>
+    <h3>Le crowdfunding, en détail</h3>
+    <p>C'était déjà son intuition, mais elle n'avait pas encore atteint cette partie de la formation. Tarik lui envoie directement le lien d'une formation complète de 2 h 15 sur le sujet, disponible sur YouTube.</p>
+    <div class="box b-key"><span class="bt">La règle qui commande tout</span><p><em class="q">« What's in it for me ? »</em> — Qu'est-ce que les gens à qui vous proposez d'investir vont en retirer de qualité pour eux ? <strong>C'est tout ce qui doit vous intéresser.</strong></p></div>
+    <div class="tl">
+      <li><b>1 · La clarté de la présentation</b>Ne pas hésiter à faire de la vidéo : c'est intuitif, interactif, plus simple.</li>
+      <li><b>2 · Dire à quoi sert l'argent</b>Un camembert des postes de dépense — facture de studio, clip, budget marketing. La transparence est extrêmement rassurante.</li>
+      <li><b>3 · Expliquer les dotations</b>Avec clarté, en disant précisément ce que les gens vont en retirer.</li>
+    </div>
+    <h3>Construire les paliers</h3>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Palier</th><th>Contenu suggéré</th></tr></thead>
+        <tbody>
+          <tr><td><strong>10 – 15 €</strong></td><td>L'album en version digitale, <strong>deux titres inédits</strong> qui ne sortiront jamais sur les plateformes, une invitation à une session d'écoute pour choisir le track listing, et le nom dans les crédits de remerciement</td></tr>
+          <tr><td><strong>30 – 35 €</strong></td><td>La moyenne constatée sur un crowdfunding. Un palier à valeur perçue supérieure</td></tr>
+          <tr><td><strong>70 €</strong></td><td>Une place pour un <strong>concert privé dans son appartement</strong>, sur liste validée et en nombre limité : 30 à 45 minutes de concert, et une partie de la soirée ensemble. Vingt places = 1 400 €</td></tr>
+          <tr><td><strong>300 – 1 000 €</strong></td><td>Du très exclusif. Le dîner romantique, par exemple — à envoyer à son compagnon avant la mise en ligne : « soit tu le prends, soit je le fais avec un fan »</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="box b-tip"><span class="bt">La dotation la plus sous-estimée</span><p><strong>L'avis du public dans la finalisation de l'album.</strong> Et, pour quelqu'un qui se confie peu, une idée forte : documenter la production. Un point vidéo face caméra par semaine, qui alimentera un <strong>documentaire intimiste</strong> accompagnant la sortie — les étapes de production, l'état d'esprit, le parcours.</p><p>Et on ne dit pas qu'on le fera avec son téléphone chez soi. On dit : « ça va financer la production d'un documentaire qui accompagnera la sortie de l'album ». Dans l'inconscient collectif, un documentaire c'est trois personnes avec de grosses caméras — <strong>ça justifie le prix</strong>.</p></div>
+    <h3>Le love money, et pourquoi il est décisif</h3>
+    <p>Les premiers euros récoltés viennent toujours de gens qui vous connaissent : famille, amis, proches. Des gens qui veulent vous soutenir sans vous donner le sentiment que vous faites la manche.</p>
+    <div class="box b-info"><span class="bt">Deux histoires qui disent la même chose</span><p><em class="q">« Si demain mon fils faisait un projet comme ça, je ne veux pas qu'il sache que je lui ai filé 1 000 balles. Donc je prends un compte anonyme, je m'appelle Jean-Louis Daniel, et je file 1 000 balles ou deux fois 500. Comme ça, il aura le sentiment d'avoir bâti quelque chose. »</em></p><p>Et à 15 ans, sur son premier album produit : un de ses meilleurs amis est allé au magasin dépôt-vente et a posé 150 € pour en acheter dix exemplaires. Il ne l'a dit que des années plus tard. Le crowdfunding donne un cadre à ce geste.</p></div>
+    <div class="box b-warn"><span class="bt">La mécanique de la plateforme</span><p>Si vous demandez 3 500 € et que vous récoltez très vite les premiers 1 500 ou 2 000, <strong>la plateforme vous met en avant</strong>. Si vous n'atteignez pas la somme, vous remboursez tout le monde. Si vous la dépassez, c'est pour vous.</p><p>D'où la règle : un montant cohérent avec le projet mais avec une <strong>fourchette basse</strong>, pour atteindre vite le seuil. Et penser à intégrer la commission de la plateforme, entre <strong>8 et 10 %</strong>.</p></div>
+    <p>Dernier levier : activer les amis des amis. À tous ceux qui disent « moi c'est bon, c'est fait » : <em class="q">« tu as bien un contact susceptible d'aimer le projet. Je ne te demande pas de lui vendre — envoie-lui le lien et demande-lui d'écouter avec attention. »</em> Et pour les proches, créer une dotation qui leur est réservée : une soirée karaoké intimiste, huit places seulement, « sautez dessus avant qu'un inconnu se greffe ». L'effet est le même que celui d'une liste de naissance : les gens savent exactement ce qu'on attend d'eux.</p>
+  </div>
+</section>
+
+<section class="chap" id="s10" data-c="g">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">10</div><div><h2>Ne pas se sous-estimer</h2><div class="tc">89:00 → 96:00</div></div></div>
+  <div class="cbody">
+    <p><em class="q">« Je ne savais pas du tout quoi proposer. Et je me suis dit : mais jamais les gens ne vont faire un truc avec moi. »</em></p>
+    <div class="pull">« Accepte et autorise-toi le fait que des gens veulent te voir réussir, et qu'il y a des gens à qui ça plaît ce que tu fais. Même si tu es encore une illustre inconnue en visibilité globale, pour certaines personnes, tu seras quelqu'un d'important. »<span>Tarik Hamiche</span></div>
+    <div class="box b-key"><span class="bt">L'histoire de Myron Golden</span><p>Quand Tarik a intégré le programme de mentorat de celui qui allait devenir son mentor, celui-ci avait <strong>1 800 abonnés YouTube</strong>. Pour Tarik, le rencontrer, c'était « comme rencontrer Michael Jackson » : il a pris l'avion, s'est demandé comment s'habiller, s'il fallait apporter un cadeau.</p><p>Réponse de l'intéressé : <em class="q">« Mais attends, moi je ne suis pas connu. Je marche dans la rue, personne ne m'arrête. »</em> — « Mais moi je me suis endormi en écoutant tes vidéos, je me suis réveillé en écoutant tes vidéos. »</p></div>
+    <p>Trois autres rappels, dans le même esprit :</p>
+    <ul>
+      <li><strong>Taylor Swift</strong> — « On se moquait de moi à l'école : tu écoutes qui ? C'est qui ? » C'était son premier album. Vingt ans plus tard.</li>
+      <li><strong>Les artistes indés</strong> — « Elle a 233 abonnés, reviens me voir dans dix ans. » Certains remplissent aujourd'hui des Stades de France.</li>
+      <li><strong>Son ami Willy</strong> — ils étaient dans son grenier au Mans. Il est Grammy Award aujourd'hui.</li>
+    </ul>
+    <h3>Sur le travail personnel qui reste à faire</h3>
+    <p>Agatha le formule elle-même : il lui reste à travailler sur les conséquences de son passé. La réponse est nuancée et sans promesse facile.</p>
+    <div class="box b-info"><span class="bt">Ce qui est dit</span><p><em class="q">« Je ne peux pas prendre la parole pour toi, parce que je n'ai pas vécu ce que tu as vécu. Mais je pense qu'on ne peut jamais effacer quelque chose. Par contre, on peut apprendre à vivre avec — et on peut en retirer de la force et de la créativité. »</em></p><p>L'exemple cité est celui d'<strong>Oprah Winfrey</strong>, dont l'autobiographie reste pour Tarik l'un des rares livres qui l'aient fait pleurer. Il y aura toujours des traces, mais avec la bonne préparation mentale, cela devient une force colossale.</p></div>
+    <div class="box b-tip"><span class="bt">La différence entre les deux albums</span><p>Elle le constate elle-même : le deuxième est <strong>beaucoup plus personnel</strong>. Elle s'est lâchée dans l'écriture, et il est « plus parlant ». C'est exactement ce qu'il faut : il faut que quelqu'un puisse se dire « elle raconte ma vie », « on dirait qu'elle est dans ma tête ». Et plus tard, en rencontrant ces gens : « j'ai l'impression qu'on se connaît depuis longtemps. » Si on atteint ça, c'est qu'on a bien travaillé.</p></div>
+  </div>
+</section>
+
+<section class="chap" id="s11" data-c="b">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">11</div><div><h2>Chanter en anglais depuis la France</h2><div class="tc">95:40 → 101:50</div></div></div>
+  <div class="cbody">
+    <p>Dernière grande question, et elle la pose avec une inquiétude réelle : elle est polyglotte, parle autant français qu'anglais au quotidien, et <strong>toutes ses chansons sont en anglais</strong>. On lui a dit que ça poserait problème. Première réponse de Tarik : « problème à qui ? »</p>
+    <div class="box b-key"><span class="bt">Deux sujets distincts</span><p>Il faut séparer <strong>le public</strong> et <strong>l'industrie</strong>. Les deux n'ont pas du tout les mêmes contraintes — et aujourd'hui, ni l'un ni l'autre ne constitue une barrière.</p></div>
+    <h3>Le public : jamais un problème</h3>
+    <p>Tout le monde a grandi en écoutant de la musique en plusieurs langues. <em class="q">« J'écoutais des rappeurs US, je n'ai jamais compris ce qu'ils disaient, ça ne m'a jamais gêné. Quand j'ai voulu comprendre Eminem, je faisais traduire ses paroles. »</em></p>
+    <div class="pc">
+      <div class="ok"><h4>Ça passe</h4><ul><li>L'anglais, l'espagnol — musicaux et phonétiquement proches</li><li>Amel Bent, Céline Dion chantent en anglais : personne n'arrête de les écouter pour autant</li></ul></div>
+      <div class="ko"><h4>C'est plus difficile</h4><ul><li>Les langues rares, où trouver une traduction est une galère</li><li>Les langues phonétiquement éloignées, difficiles à reprendre — l'allemand, le portugais selon les oreilles</li></ul></div>
+    </div>
+    <h3>L'industrie : un retournement récent</h3>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Avant</th><th>Aujourd'hui</th></tr></thead>
+        <tbody>
+          <tr><td>Après la vague de variété française des années 2000, les médias manquaient de projets pour remplir leur <strong>quota français</strong> — une obligation légale portant sur près de la moitié de la programmation</td><td>Le <strong>rap est devenu la nouvelle variété</strong>. Entre les sorties mensuelles des gros noms, les télé-crochets et les retours d'anciens, les radios sont largement servies en quota français</td></tr>
+          <tr><td>Chanter en anglais signifiait entrer en concurrence directe avec Adele ou Taylor Swift — et perdre</td><td>Les artistes internationaux <strong>snobent la France</strong> en promotion : ils vendent peu ici, donc ils ne viennent que pour leurs concerts</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="box b-tip"><span class="bt">Le calcul que font désormais les radios</span><p>Face à un artiste français qui chante en anglais : <em class="q">« Lui, il est là, il habite à Paris, il est en bas de chez nous. Si demain on a besoin de lui pour un concert, pour une tournée NRJ gratuite, il va venir parce qu'on le joue. Donc c'est bénéfice pour nous. »</em></p><p>À qualité artistique équivalente, elles préfèrent investir sur ces artistes-là. <strong>La langue n'est plus un frein.</strong></p></div>
+    <p>En revanche, le vrai travail se déplace : il est désormais entièrement <strong>dans la création</strong>. Un morceau en anglais qui ne respecte pas les codes des radios ne passera pas mieux en français.</p>
+  </div>
+</section>
+
+<section class="chap" id="s12" data-c="r">
+  <div class="bar"></div>
+  <div class="chead"><div class="cnum">12</div><div><h2>Les cinq clés d'un titre qui ouvre les portes</h2><div class="tc">101:56 → 114:00</div></div></div>
+  <div class="cbody">
+    <p>La partie la plus technique de la session — et celle que Tarik envisage d'en faire une vidéo YouTube. À ne pas appliquer à tout un album, sous peine d'obtenir un disque entièrement formaté. Mais sur les <strong>un ou deux titres destinés à ouvrir des portes</strong>, c'est décisif.</p>
+    <h3>Clé 1 · La grille d'accords magique</h3>
+    <div class="box b-key"><span class="bt">Le principe</span><p>On ne réinvente pas : on reprend une grille d'accords qui fait des tubes depuis cinquante ans, et on la dérive.</p><p>La référence absolue : la grille de <strong>Let It Be</strong> des Beatles. Autre exemple cité : celle d'<em>Underdog</em> d'Alicia Keys, qu'on retrouve chez Eminem et chez Orelsan. Ou celle des Cranberries, réutilisée par Gims.</p><p>Et on peut l'industrialiser : <em class="q">« Prends les 100 tubes des 20 dernières années, isole-moi la grille d'accords de chacun et donne-la-moi, je vais créer avec. »</em> Des sites l'ont déjà fait.</p></div>
+    <h3>Clé 2 · Le mid-tempo</h3>
+    <div class="cards">
+      <div class="card stat"><h4>95 – 115</h4><p>La plage de BPM du mid-tempo. Plus rapide peut marcher ; plus lent est généralement trop lent pour les radios</p></div>
+      <div class="card stat"><h4>103</h4><p><strong>Le BPM magique.</strong> Il se remixe et s'accélère facilement pour un DJ (110, 115, 120) et se ralentit tout aussi bien pour se danser à deux sur un zouk ou un kizomba</p></div>
+    </div>
+    <h3>Clé 3 · La gimmick vocale</h3>
+    <p>Si le refrain est trop complexe, il ne plaît pas à un programmateur. Ce qu'ils veulent : quelque chose qui reste dans la tête après trois minutes. <em class="q">« Si tu n'as rien, c'est que tu as loupé quelque chose. »</em></p>
+    <div class="tl">
+      <li><b>Des refrains simples et répétés</b>Avec des mots faciles. Gims est très fort pour ça : « Ciel ». Un enfant de 4 ans peut le chanter, une grand-mère de 75 ans aussi. Et si ça se répète, c'est encore plus facile.</li>
+      <li><b>Des gimmicks empruntées intelligemment</b>Le « ram pa pa pam » de <em>Man Down</em> de Rihanna — elle-même l'avait repris ailleurs. On reprend l'idée, on la dérive : aucun lien direct ne se voit, mais ça fonctionne.</li>
+      <li><b>Jul, maître du genre</b>Les « you you » et les onomatopées : facile à chanter, facile à reprendre sur scène, ça rentre dans la tête.</li>
+    </div>
+    <div class="box b-tip"><span class="bt">Le bonus : les mots magiques</span><p>Sur de la musique festive et populaire, certains mots fonctionnent systématiquement. <strong>« Allez »</strong> est exceptionnel. <strong>« Debout »</strong> aussi — « tout le monde debout ».</p><p><strong>Stromae</strong> est le maestro du domaine : il prend un mot simple — papa, la pluie — et en fait un refrain. Avec Orelsan : « Qu'est-ce qu'il fait beau chez moi, il fait beau, il fait beau. » C'est simple, c'est répété, et c'est suffisamment bien fait pour ne choquer personne.</p></div>
+    <h3>Clé 5 · L'énergie du son</h3>
+    <p>C'est le point le plus important pour Agatha, compte tenu de ses thèmes.</p>
+    <div class="box b-danger"><span class="bt">La règle, et pourquoi elle existe</span><p><strong>Une radio refusera systématiquement de jouer un titre qui fait déprimer le public.</strong> Quand tout va bien dans un pays, on peut se permettre d'émouvoir. Quand le climat est difficile, une radio se donne pour rôle de divertir et de faire se sentir bien. Un titre trop négatif ne passe pas.</p><p>L'exception : Adele peut sortir une ballade sombre — elle est numéro un Shazam dans le monde entier. Si vous n'êtes pas Adele, ça ne passera pas.</p></div>
+    <div class="pull">« Il faut que tu arrives, avec les bons mots, à transmettre le même message, mais d'une manière solaire. »<span>Tarik Hamiche</span></div>
+    <div class="box b-tip"><span class="bt">L'exemple qui montre que c'est possible</span><p>Un refrain de Gradur et Heuss L'Enfoiré : <em class="q">« Non, ne reviens pas, prends tes affaires, rentre chez toi. »</em></p><p>Le propos est dur, le message est sans appel — et pourtant le refrain est <strong>positif, mid-tempo et festif</strong>. Dans le reste du morceau, on peut mettre des choses sombres. Mais le refrain, lui, passe en radio.</p></div>
+    <h3>Et pour finir : le tube qu'on n'assume pas</h3>
+    <p>Un ou deux singles forts suffisent à ouvrir les portes. Et il ne faut pas s'étonner du résultat.</p>
+    <div class="box b-info"><span class="bt">Ce que disent les artistes de leurs propres tubes</span><p><em class="q">« Oui, mais moi, j'avais fait ça vite fait à 2 h du mat'. La maison de disques voulait le promouvoir, j'ai dit non. Ils l'ont fait quand même, et c'est devenu un tube. »</em></p><p>Agatha cite immédiatement un exemple : <strong>Blackpink et « Boombayah »</strong> — tout le monde disait que ça ne marcherait jamais, que c'était nul. Ça a explosé. Comme « ram pam pam ».</p><p>Ces titres vieillissent souvent mal. Mais sur le moment, ils mettent en lumière, exposent le reste du travail et constituent un noyau dur de fans. Après, c'est parti.</p></div>
+    <div class="box b-key"><span class="bt">Le test à faire</span><p>Faire écouter à un enfant de <strong>6 à 10 ans</strong>. S'il est capable de le rechanter derrière, ça marche.</p></div>
+  </div>
+</section>
+
+<div class="faq">
+  <div class="bar"></div>
+  <div class="faqhead">
+    <h2>Questions / Réponses</h2>
+    <p>Les 35 points traités pendant la session, regroupés par thème.</p>
+  </div>
+  <div class="faqbody">
+
+    <div class="faqcat">Carrière et reconversion</div>
+    <div class="qa"><div class="q"><span>Q1.</span>Mon poste est menacé par l'IA. Faut-il se lancer à 100 % dans la musique ?</div><div class="a"><p>Ce n'est pas un choix binaire. Les compétences développées pour un projet musical sont <strong>massivement transférables</strong> : si vous savez développer la visibilité d'un artiste, vendre des chaussures est un jeu d'enfant. Et elles sont monnayables tout de suite — prospection automatisée pour un hôtel qui a du mal à remplir, par exemple, rémunérée à la commission.</p></div></div>
+    <div class="qa"><div class="q"><span>Q2.</span>Pourquoi une entreprise se sépare-t-elle d'un salarié ?</div><div class="a"><p>Parce qu'elle estime ses compétences remplaçables <strong>à au moins 80 %</strong> par quelque chose de moins coûteux. Mais le relationnel et l'intelligence ne se remplacent pas : une personne capable de développer des systèmes qui optimisent, on la garde et on la met ailleurs.</p></div></div>
+
+    <div class="faqcat">Piloter l'IA</div>
+    <div class="qa"><div class="q"><span>Q3.</span>Claude ou ChatGPT ?</div><div class="a"><p>Ils se valent — tout dépend de l'usage. La vraie différence est ailleurs : dans le <strong>terminal</strong>. En interface classique, récupérer des posts LinkedIn a été impossible ; dans le terminal, Claude a codé un script, s'est connecté à Chrome, extrait les données et les a versées dans un Airtable.</p></div></div>
+    <div class="qa"><div class="q"><span>Q4.</span>Faut-il savoir coder ?</div><div class="a"><p>Non. <em class="q">« Je ne sais pas coder, je n'ai jamais su coder. Je le dirige à la voix. »</em> Avec une application de dictée comme Andy (gratuite) ou Whisperflow : on appuie sur une touche, on parle, ça s'écrit.</p></div></div>
+    <div class="qa"><div class="q"><span>Q5.</span>Qu'est-ce qu'une API, concrètement ?</div><div class="a"><p>L'intermédiaire entre vous et ce qui se passe de l'autre côté. <em class="q">« Dans un resto, tu ne vas pas en cuisine commander toi-même : tu demandes au serveur, il transmet. »</em> Un outil a trois niveaux : l'interface publique, l'extension de navigateur, et l'API — l'accès direct au code.</p></div></div>
+    <div class="qa"><div class="q"><span>Q6.</span>Que peut-on en faire pour un projet musical ?</div><div class="a"><p>Exemple réel : pour le documentaire Netflix d'un rappeur, un script envoyé sur X et Reddit a extrait les <strong>vrais avis à chaud</strong> — pas ceux des chroniqueurs — puis les a classés et notés par critères, pour ressortir des tendances par tranche d'âge.</p></div></div>
+    <div class="qa"><div class="q"><span>Q7.</span>Qu'est-ce que Fal AI ?</div><div class="a"><p>Un accès unique à <strong>184 modèles d'IA</strong> sans multiplier les abonnements : NanoBanana, GPT Image, Flux, des modèles vidéo. Environ 2 centimes l'image. La stratégie de quotas : utiliser le gratuit (Gemini) d'abord, basculer sur Fal quand le quota est épuisé.</p></div></div>
+    <div class="qa"><div class="q"><span>Q8.</span>Et pour les vidéos ?</div><div class="a"><p><strong>Hyperframe</strong> génère des vidéos animées à la demande. Toutes celles sans personne face caméra peuvent passer par là — on rajoute sa voix derrière. La publicité complète de Memodeal a été produite entièrement comme ça.</p></div></div>
+    <div class="qa"><div class="q"><span>Q9.</span>Peut-on vraiment tout automatiser ?</div><div class="a"><p>Non, et c'est l'erreur à ne pas faire. <strong>L'humain ne se remplace pas sur la relation.</strong> Une borne IA qui conseille un manteau de ski vous vendra neuf fois sur dix soit le plus cher soit le plus basique, mais pas ce qui vous convient. Ce qu'il faut remplacer, c'est l'habituel et le répétitif — la création de devis, la saisie comptable.</p></div></div>
+    <div class="qa"><div class="q"><span>Q10.</span>Un exemple d'automatisation administrative ?</div><div class="a"><p>La déclaration de TVA mensuelle : Claude collecte les factures sur une boîte mail dédiée, récupère les relevés, remplit le tableau Airtable avec catégorie et pièce justificative. Il ne reste qu'à photographier les tickets manquants et à exporter. <strong>D'une demi-journée à une demi-heure.</strong></p></div></div>
+
+    <div class="faqcat">Prospection et booking</div>
+    <div class="qa"><div class="q"><span>Q11.</span>Par où commencer une prospection de dates ?</div><div class="a"><p>Pas par une liste de contacts : par <strong>trois artistes comparables</strong>, un peu plus visibles que vous, qui vendent une trentaine de dates par an. Partout où ils sont passés, vous pouvez potentiellement vendre une date.</p></div></div>
+    <div class="qa"><div class="q"><span>Q12.</span>Comment connaître le prix du marché ?</div><div class="a"><p>En se faisant passer pour un organisateur et en appelant l'artiste pour demander ses conditions. Retenir qu'il existe trois prix : le prix public annoncé, le prix négocié, et le prix « j'ai besoin de bosser » — souvent <strong>la moitié</strong> du prix annoncé. Si la référence annonce 2 000 €, s'annoncer entre 1 200 et 1 500 € ne choquera personne.</p></div></div>
+    <div class="qa"><div class="q"><span>Q13.</span>Comment construire la liste de lieux ?</div><div class="a"><p>Faire traquer par Claude tous les endroits où les trois artistes sont passés, puis croiser. Les lieux communs aux trois sont un excellent indicateur. On obtient une cinquantaine de lieux pertinents, puis on demande les contacts, leurs coordonnées, et d'éventuelles coordonnées alternatives.</p></div></div>
+    <div class="qa"><div class="q"><span>Q14.</span>Faut-il appeler ou envoyer un email ?</div><div class="a"><p><strong>50 contacts</strong> → au téléphone, à la main. <strong>500</strong> → on automatise. Le script d'appel : se présenter, citer précisément deux artistes de leur programmation, se positionner dans cette mouvance, et demander <em class="q">l'autorisation</em> d'envoyer un dossier de presse « très synthétique, très visuel, qui ne prendra même pas deux minutes ».</p></div></div>
+    <div class="qa"><div class="q"><span>Q15.</span>Où trouver des bases de contacts fiables ?</div><div class="a"><p><strong>DataGouv</strong> — le gouvernement a ouvert une API sur ses bases publiques, et Claude dispose d'un connecteur direct. Base des festivals (7 283 lignes, avec sites et adresses mail), base des lieux culturels, et base des licences d'entrepreneur de spectacle.</p></div></div>
+    <div class="qa"><div class="q"><span>Q16.</span>Comment exploiter 7 283 lignes ?</div><div class="a"><p>Par <strong>passes successives de filtrage</strong> : d'abord ceux qui matchent avec votre programmation, puis parmi eux ceux qui programment des artistes émergents (inutile de garder les gros festivals à têtes d'affiche), et ainsi de suite. Et commencer par sa propre région — pas de VHR lourd, pas de billet d'avion.</p></div></div>
+    <div class="qa"><div class="q"><span>Q17.</span>Comment envoyer sans griller son domaine ?</div><div class="a"><p>Via un autorépondeur (Brevo, Mailchimp), <strong>par lots</strong> : 50 emails, vérification des rebonds, puis 50, puis 100. Jamais 1 500 d'un coup. En moins de dix jours, toute la base est prospectée.</p></div></div>
+    <div class="qa"><div class="q"><span>Q18.</span>Que signifie « première demande » dans la base des licences ?</div><div class="a"><p>Un néophyte, souvent sans réseau ni budget. Les <strong>renouvellements</strong> sont beaucoup plus intéressants — et les communes y figurent aussi, puisqu'elles sont également tenues d'avoir les licences 2 et 3.</p></div></div>
+
+    <div class="faqcat">Contenu et publication</div>
+    <div class="qa"><div class="q"><span>Q19.</span>Comment trouver des sujets de contenu qui font réagir ?</div><div class="a"><p>Faire scanner Reddit en profondeur sur les trois dernières semaines pour remonter les sujets les plus chauds et les plus récents, en précisant d'écarter ce qui traîne depuis des années — puis faire croiser chaque thème avec la presse professionnelle pour valider le fond.</p></div></div>
+    <div class="qa"><div class="q"><span>Q20.</span>Que reste-t-il à faire à la main sur un carrousel généré ?</div><div class="a"><p>Peu de choses, mais les bonnes : grossir certains textes, épurer les détails inutiles, corriger les tournures anglicisées, expliciter les sigles, ajouter une flèche de continuité, zoomer les images imparfaites — et surtout <strong>reformuler pour l'impact</strong> : « un strike ne bloque pas un morceau » devient « il ne bloque pas ton morceau, il bloque ton argent ».</p></div></div>
+    <div class="qa"><div class="q"><span>Q21.</span>Faut-il utiliser un outil de programmation comme Metricool ?</div><div class="a"><p>Non, pour deux raisons. Les plateformes les tolèrent mais ne les aiment pas. Et ces outils sont <strong>lents à se mettre à jour</strong> : un changement de format sur Instagram, et deux semaines de publications programmées sortent au mauvais format.</p></div></div>
+    <div class="qa"><div class="q"><span>Q22.</span>Combien de temps faut-il y consacrer ?</div><div class="a"><p><strong>10 à 15 minutes par jour</strong> avec une base de contenus préparés d'avance, validés depuis le téléphone. Un post qui tourne bien peut toucher 100 000 comptes — et avec du retargeting permanent, l'impact est direct.</p></div></div>
+    <div class="qa"><div class="q"><span>Q23.</span>Comment transposer cette mécanique à une autre cible ?</div><div class="a"><p>Exemple : une cible de supporters d'un club. Créer cinq comptes thématiques, laisser des automatisations récupérer trois fois par semaine une actualité chaude et en faire une vidéo. Dans la masse, cinq ou six contenus explosent — et sur ces millions de vues, le <strong>retargeting</strong> fait le reste.</p></div></div>
+
+    <div class="faqcat">Positionnement et marketing</div>
+    <div class="qa"><div class="q"><span>Q24.</span>Je suis introvertie, le marketing n'est pas mon fort.</div><div class="a"><p>Être introverti rend <strong>très empathique</strong> — et l'empathie est la clé du marketing. La difficulté est de découvrir son public cible ; une fois qu'il est identifié, tout faire dans son sens devient un avantage considérable. L'exemple cité est Amazon : rembourser sans preuve ni débat, c'est de l'empathie.</p></div></div>
+    <div class="qa"><div class="q"><span>Q25.</span>Qu'est-ce que le marketing, alors ?</div><div class="a"><p>Pas un moyen de s'exposer ou de mieux vendre. <strong>Devenir le conseiller de confiance de sa cible, puis de sa communauté</strong> — quelqu'un qui fait du bien, qu'on écoute, qui oriente. En échange : de la confiance et de l'attention.</p></div></div>
+    <div class="qa"><div class="q"><span>Q26.</span>Comment parler de soi sans se mettre en danger ?</div><div class="a"><p>En utilisant ses propres morceaux comme prétexte. Un format face caméra, un extrait du son avec le texte à l'écran, et : « dans cette phrase, ce qu'on comprend de l'artiste, c'est que… » Des capsules d'une à trois minutes, sans montage ni effets. Seules comptent <strong>l'accroche et le choix du thème</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q27.</span>Quels modèles d'affaires peut-on bâtir sur une communauté ?</div><div class="a"><p>Vendre sa musique, évidemment. Mais aussi animer et valoriser la communauté : des ateliers sur des thématiques précises. L'exemple donné est celui d'une prof de chant à Marseille qui vit d'une chorale et d'un groupe de parole — et dont ces deux groupes <em>sont</em> la fan base : <strong>200 femmes achètent tout ce qu'elle sort</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q28.</span>Et le blocage à se faire payer ?</div><div class="a"><p>C'est un biais psychologique. <em class="q">« Tant que tu sers correctement, il n'y a pas de mal à te servir. »</em> Et rien n'oblige à se servir à chaque fois : quand quelqu'un en a vraiment besoin et n'a pas les moyens, c'est gratuit — et cette personne vous recommandera du monde.</p></div></div>
+
+    <div class="faqcat">Production et financement</div>
+    <div class="qa"><div class="q"><span>Q29.</span>Faut-il sortir l'album avant d'en faire la promo ?</div><div class="a"><p>L'inverse. <strong>On vend avant que le produit soit sorti.</strong> Sur l'enregistrement : enregistrer chez soi d'abord, même si la qualité ne convient pas, pour que le passage en studio aille vite. Et donner une <strong>mise à plat, même imparfaite</strong>, à l'ingénieur du son — ça divise la facture de studio par quatre ou cinq.</p></div></div>
+    <div class="qa"><div class="q"><span>Q30.</span>Comment structurer un crowdfunding ?</div><div class="a"><p>Une règle commande tout : <em class="q">« What's in it for me ? »</em> Puis trois points — la clarté de la présentation (faire de la vidéo), dire à quoi va servir l'argent (un camembert des postes de dépense, c'est très rassurant), et expliquer les dotations avec précision.</p></div></div>
+    <div class="qa"><div class="q"><span>Q31.</span>Quels paliers proposer ?</div><div class="a"><p><strong>10-15 €</strong> : album digital, deux titres inédits, invitation à une session d'écoute pour choisir le track listing, nom dans les remerciements. <strong>30-35 €</strong> : la moyenne constatée. <strong>70 €</strong> : une place pour un concert privé chez soi, en nombre limité. <strong>300-1 000 €</strong> : de l'exclusif. Et doubler à chaque palier. La dotation la plus sous-estimée : <strong>l'avis du public</strong> dans la finalisation de l'album, et un documentaire de production.</p></div></div>
+    <div class="qa"><div class="q"><span>Q32.</span>Pourquoi le love money est-il décisif ?</div><div class="a"><p>Parce que si vous récoltez très vite les premiers 1 500 à 2 000 €, <strong>la plateforme vous met en avant</strong>. Et si vous n'atteignez pas votre objectif, vous remboursez tout le monde — d'où un montant cohérent mais à fourchette basse, commission de plateforme (8 à 10 %) comprise. Les proches veulent vous soutenir : le crowdfunding leur donne un cadre pour le faire sans vous donner l'impression de faire la manche.</p></div></div>
+
+    <div class="faqcat">Langue et codes radio</div>
+    <div class="qa"><div class="q"><span>Q33.</span>Chanter en anglais depuis la France est-il un handicap ?</div><div class="a"><p>Plus aujourd'hui. <strong>Pour le public</strong>, ça ne l'a jamais été : tout le monde a grandi avec de la musique en plusieurs langues. <strong>Pour l'industrie</strong>, la donne s'est inversée : le rap a pris le relais de la variété pour remplir les quotas français, et les artistes internationaux négligent la promotion en France. Les radios préfèrent désormais un artiste local anglophone, disponible pour leurs événements.</p></div></div>
+    <div class="qa"><div class="q"><span>Q34.</span>Quelles sont les clés d'un titre qui passe en radio ?</div><div class="a"><p>Cinq. <strong>Une grille d'accords éprouvée</strong> (celle de Let It Be en référence absolue). <strong>Un mid-tempo</strong>, idéalement à <strong>103 BPM</strong> — remixable vers le haut comme vers le bas. <strong>Une gimmick vocale forte</strong>, avec un refrain simple et répété. <strong>Des mots magiques</strong> sur les titres festifs. Et surtout <strong>une énergie solaire</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q35.</span>Mes thèmes sont durs. Est-ce rédhibitoire ?</div><div class="a"><p>Non, mais le refrain doit porter une énergie positive. Une radio refuse systématiquement un titre qui fait déprimer — sauf si vous êtes Adele. L'exemple qui prouve que c'est conciliable : <em class="q">« Non, ne reviens pas, prends tes affaires, rentre chez toi »</em> — propos sans appel, refrain mid-tempo et festif. Le reste du morceau peut être sombre.</p></div></div>
+
+  </div>
+</div>
+
+<div class="plan">
+  <h2>Plan d'action</h2>
+  <p>Cochez au fur et à mesure. Les quatre phases suivent l'ordre de priorité posé pendant la session : sécuriser le cadre, construire le positionnement, financer, puis produire.</p>
+
+  <div class="phase">Phase 1 — Le cadre administratif, en premier</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Statut</b>Créer le statut d'artiste-auteur sur artiste-auteur.urssaf.fr — 24 h, 0 €</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>SACEM</b>Vérifier les déclarations des chansons déjà sorties, et corriger ce qui manque</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Contrat</b>Envoyer le contrat Studom à Tarik pour relecture avant toute nouvelle démarche</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Société</b>Ne pas créer de structure maintenant — attendre que les revenus dépassent le coût</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Distribution</b>Vérifier que le compte de distribution et les ISRC sont bien à son nom, et ne pas laisser 100 % du catalogue chez un seul agrégateur</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Formation</b>Caler les sessions de rattrapage (créneau du mardi soir) pour couvrir les deux fois cinq heures</span></li>
+  </ul>
+
+  <div class="phase">Phase 2 — Le positionnement et le contenu</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Persona</b>Écrire noir sur blanc qui est la cible : ce qu'elle traverse, les mots qu'elle a dans la tête, ce dont elle a besoin</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Format</b>Tester les capsules face caméra : un extrait de son avec le texte à l'écran, et l'analyse de ce que la phrase dit de l'artiste</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Accroches</b>Collecter des phrases entendues dans la vraie vie et les transformer en hooks — c'est là que sont les meilleures</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Production</b>Pas de montage, pas d'effets. Une à trois minutes. Seuls comptent l'accroche et le thème</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Cadence</b>Préparer une base de contenus d'avance et valider depuis le téléphone — 10 à 15 minutes par jour</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>À arrêter</b>Les playlists payantes type Boost Collective (200 €/mois, redescente immédiate, alertes de fausses écoutes) et les pubs lancées sans paramétrage</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Piste à explorer</b>La formation VHSS — obligatoire pour les structures dès l'année prochaine, et Tarik propose de l'intégrer à son catalogue</span></li>
+  </ul>
+
+  <div class="phase">Phase 3 — Financer l'album par le crowdfunding</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Se former</b>Regarder la formation crowdfunding (2 h 15, sur YouTube) envoyée dans le chat</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Présentation</b>Tourner une vidéo de présentation claire — plus intuitif et plus convaincant qu'un texte</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Transparence</b>Faire le camembert des postes de dépense : studio, clip, budget marketing</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Palier 1</b>10-15 € : album digital, deux titres inédits, invitation à la session d'écoute pour choisir le track listing, nom dans les remerciements</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Palier 2</b>30-35 € : le documentaire de production — un point vidéo face caméra par semaine pendant la fabrication de l'album</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Palier 3</b>70 € : un concert privé à la maison, 30 à 45 minutes, places limitées</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Palier 4</b>300 à 1 000 € : de l'exclusif, à proposer d'abord aux proches concernés</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Montant</b>Fixer un objectif cohérent mais à fourchette basse, commission de plateforme (8-10 %) incluse</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Love money</b>Prévoir une dotation réservée aux proches, en nombre limité, et leur envoyer le lien avant la mise en avant publique</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Amis des amis</b>À chaque personne qui a déjà contribué : demander simplement de transmettre le lien à un contact susceptible d'aimer</span></li>
+  </ul>
+
+  <div class="phase">Phase 4 — Produire et ouvrir les portes</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Maquettes</b>Enregistrer les neuf titres chez soi, même imparfaitement, avant d'aller en studio</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Mise à plat</b>Fournir une mise à plat à l'ingénieur du son — facture de studio divisée par quatre ou cinq</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Les singles</b>Identifier un ou deux titres destinés à ouvrir des portes, et leur appliquer les cinq clés</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Clé 1</b>Partir d'une grille d'accords éprouvée et la dériver</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Clé 2</b>Viser le mid-tempo, idéalement 103 BPM</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Clé 3</b>Construire une gimmick vocale : refrain simple, mots faciles, répétition</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Clé 4</b>Transmettre le message dur sur une énergie solaire — c'est la condition pour passer en radio</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Le test</b>Faire écouter à un enfant de 6 à 10 ans : s'il rechante le refrain, c'est gagné</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Booking</b>Repérer trois artistes comparables, découvrir leur prix réel, croiser leurs lieux de passage et appeler les cinquante premiers</span></li>
+  </ul>
+</div>
+
+<div class="quiz">
+  <h2>Quiz de révision</h2>
+  <p>Six questions pour vérifier que l'essentiel est passé. Une seule bonne réponse par question.</p>
+
+  <div class="qz" data-g="1">
+    <div class="qt">1. Pour démarrer une prospection de dates, le bon point de départ est :</div>
+    <button class="opt">Acheter une base de 3 000 contacts et tout démarcher</button>
+    <button class="opt">Repérer trois artistes comparables et croiser leurs lieux de passage</button>
+    <button class="opt">Attendre d'avoir un attaché de presse</button>
+    <div class="fb">Exact. Partout où des artistes un peu plus visibles sont passés, vous pouvez potentiellement vendre une date. On croise les parcours de trois d'entre eux, on obtient une cinquantaine de lieux pertinents, et on appelle. Chirurgical plutôt que massif.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <div class="qt">2. Le « prix réel » auquel se vend un artiste est généralement :</div>
+    <button class="opt">Le prix public qu'il annonce au téléphone</button>
+    <button class="opt">Le prix public majoré des frais de VHR</button>
+    <button class="opt">Environ la moitié du prix annoncé</button>
+    <div class="fb">Exact. Il existe trois prix : le prix public annoncé, le prix négocié, et le prix « j'ai besoin de bosser ». Si la référence annonce 2 000 €, elle se vend souvent autour de 1 200 — et s'annoncer entre 1 200 et 1 500 € ne choquera aucun organisateur.</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <div class="qt">3. Ce que l'IA ne doit pas remplacer, c'est :</div>
+    <button class="opt">La relation humaine et le conseil personnalisé</button>
+    <button class="opt">La saisie comptable mensuelle</button>
+    <button class="opt">La création de devis à partir d'un catalogue</button>
+    <div class="fb">Exact. Une borne IA qui conseille un manteau de ski vous vendra neuf fois sur dix le plus cher ou le plus basique, pas ce qui vous convient — elle se base sur des données que vous ne contrôlez pas. Ce qu'il faut automatiser, c'est l'habituel et le répétitif.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <div class="qt">4. Pour quelqu'un d'introverti, le marketing :</div>
+    <button class="opt">Est un obstacle structurel qu'il faut contourner</button>
+    <button class="opt">Impose de travailler sa confiance en soi d'abord</button>
+    <button class="opt">Est un avantage, parce que l'introversion rend empathique</button>
+    <div class="fb">Exact. L'empathie est la clé du marketing. La difficulté est de découvrir sa cible ; une fois qu'elle est identifiée, être empathique à son égard et tout faire dans son sens devient un atout majeur. Ce qu'il faut changer, ce n'est pas sa personnalité — c'est sa vision du marketing.</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <div class="qt">5. Dans un crowdfunding, pourquoi les premiers euros comptent-ils autant ?</div>
+    <button class="opt">Parce qu'ils couvrent la commission de la plateforme</button>
+    <button class="opt">Parce qu'une cagnotte qui démarre vite est mise en avant par la plateforme</button>
+    <button class="opt">Parce qu'ils sont les seuls non remboursables</button>
+    <div class="fb">Exact. Si vous récoltez très vite les premiers 1 500 à 2 000 € sur un objectif de 3 500, la plateforme vous pousse. D'où l'importance du love money — et d'un objectif cohérent mais à fourchette basse, puisqu'un objectif non atteint oblige à tout rembourser.</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <div class="qt">6. Des thèmes personnels difficiles et une diffusion radio sont conciliables si :</div>
+    <button class="opt">Le refrain porte une énergie solaire, même si le propos reste dur</button>
+    <button class="opt">On atténue le propos dans l'ensemble du morceau</button>
+    <button class="opt">On réserve ces titres aux plateformes et pas aux radios</button>
+    <div class="fb">Exact. Une radio refuse systématiquement un titre qui fait déprimer — sauf si vous êtes Adele. Mais « Non, ne reviens pas, prends tes affaires, rentre chez toi » est sans appel sur le fond, et pourtant mid-tempo et festif sur la forme. Le reste du morceau peut être sombre.</div>
+  </div>
+
+  <div class="score" id="score"></div>
+</div>
+
+</div>
+
+<footer>
+  <p><b>Producteur à Succès</b> — Session individuelle du 6 novembre 2026</p>
+  <p>Support de cours interactif · 91 chapitres · 1 h 55 de session</p>
+</footer>
+
+<script>
+var CH = [[0, "Connexion et installation"], [100, "Où en es-tu dans ton projet ?"], [174, "Un poste salarié qui va disparaître"], [234, "Se lancer à 100 % dans la musique ?"], [274, "L'IA va ouvrir de nouvelles opportunités"], [319, "Les compétences musicales sont transférables"], [376, "Pourquoi une entreprise se sépare d'un salarié"], [456, "Claude ou ChatGPT ?"], [474, "Claude dans le terminal, une autre dimension"], [500, "L'exemple des posts LinkedIn de la veille"], [601, "Démo : le skill carrousels music business"], [619, "Le prompt : scanner Reddit en profondeur"], [728, "L'API expliquée par le restaurant"], [805, "L'exemple Ninho et son documentaire Netflix"], [871, "Bâtir une stratégie marketing avec ça"], [891, "La formation offerte en fin de parcours"], [902, "Repérer trois artistes comparables"], [931, "Se faire passer pour un organisateur"], [984, "Se positionner entre 1 200 et 1 500 €"], [992, "Traquer tous les lieux où ils sont passés"], [1061, "Le script d'appel, mot à mot"], [1176, "DataGouv : les bases publiques ouvertes"], [1372, "Commencer par sa propre région"], [1417, "Brancher un autorépondeur et envoyer par lots"], [1606, "Piloter Claude depuis son téléphone"], [1712, "Hyperframe pour les vidéos"], [1734, "La publicité Memodeal générée seule"], [1802, "Une stratégie de contenu selon la cible"], [1932, "Fal AI : accéder à toutes les IA"], [2227, "La déclaration de TVA automatisée"], [2304, "L'IA comme outil, pas comme remplacement"], [2349, "L'exemple du manteau de ski"], [2483, "Les ajustements manuels du carrousel"], [2831, "Agrégateurs contre vrais distributeurs"], [2933, "Faire rédiger la description Instagram"], [3173, "Pourquoi pas Metricool"], [3284, "Retour au projet d'Agatha"], [3304, "L'objectif : sortir un album qui lui ressemble"], [3368, "Composer avec l'IA : neuf nouvelles chansons"], [3471, "L'argent perdu en mauvais marketing"], [3522, "Boost Collective et les playlists payantes"], [3681, "Les introvertis, meilleurs marketeurs"], [3711, "L'empathie, clé du marketing"], [3788, "Travailler son persona"], [3821, "L'histoire personnelle derrière les chansons"], [3888, "Une thématique qui touche des millions de femmes"], [3899, "Tu maîtrises ta cible : c'est toi d'avant"], [3920, "Le format : analyser ses propres textes"], [4042, "Le pouvoir des mots, à tout âge"], [4110, "Changer sa vision du marketing"], [4122, "Devenir le conseiller de confiance"], [4201, "L'exemple de la prof de chant à Marseille"], [4366, "La dynamique VHSS dans l'industrie"], [4441, "Le support envoyé après la session"], [4567, "Les prochaines étapes"], [4588, "Vendre avant de sortir"], [4678, "La mise à plat pour l'ingénieur du son"], [4699, "Le crowdfunding"], [4759, "« What's in it for me ? »"], [4845, "L'avis du public, dotation sous-estimée"], [4904, "Le love money"], [4992, "Le documentaire comme deuxième palier"], [5047, "Doubler à chaque palier"], [5059, "Le concert privé à 70 €"], [5110, "Le dîner romantique à 1 000 €"], [5205, "Pourquoi le love money lance la cagnotte"], [5235, "La commission de la plateforme"], [5386, "Myron Golden à 1 800 abonnés"], [5462, "Taylor Swift à ses débuts"], [5533, "Du grenier au Mans au Grammy Award"], [5584, "On n'efface pas, on apprend à vivre avec"], [5608, "L'exemple d'Oprah Winfrey"], [5692, "Le deuxième album, plus personnel"], [5779, "Écrire en anglais : est-ce un problème ?"], [5813, "Deux sujets : le public et l'industrie"], [5898, "L'industrie : le quota français d'avant"], [6020, "Les artistes internationaux snobent la France"], [6077, "Pourquoi les radios préfèrent un local anglophone"], [6116, "Les trois clés d'un titre qui ouvre des portes"], [6133, "Clé 1 : la grille d'accords magique"], [6209, "Clé 2 : le mid-tempo"], [6229, "Le BPM magique : 103"], [6252, "Clé 3 : la gimmick vocale"], [6282, "Jul, maître du genre"], [6424, "Les mots magiques"], [6458, "Stromae, maestro du mot simple"], [6531, "Le cinquième point : l'énergie du son"], [6550, "Une radio ne joue pas un titre qui fait bader"], [6669, "Un ou deux singles forts suffisent"], [6742, "Blackpink et Boombayah"], [6822, "Clôture de la session"]];
+
+var frame = document.getElementById('vimeoPlayer');
+
+function fmt(s){ var m = Math.floor(s/60), x = s%60; return m + ':' + (x<10?'0':'') + x; }
+
+function seek(sec){
+  if (!frame || !frame.contentWindow) return;
+  try {
+    frame.contentWindow.postMessage(JSON.stringify({method:'setCurrentTime', value: sec}), '*');
+    frame.contentWindow.postMessage(JSON.stringify({method:'play'}), '*');
+  } catch(e){}
+  var top = frame.getBoundingClientRect().top + window.pageYOffset - 20;
+  window.scrollTo({top: top < 0 ? 0 : top, behavior:'smooth'});
+}
+
+(function(){
+  var host = document.getElementById('chlist');
+  if (!host) return;
+  CH.forEach(function(c){
+    var b = document.createElement('button');
+    var t = document.createElement('b'); t.textContent = fmt(c[0]);
+    var s = document.createElement('span'); s.textContent = c[1];
+    b.appendChild(t); b.appendChild(s);
+    b.addEventListener('click', function(){ seek(c[0]); });
+    host.appendChild(b);
+  });
+})();
+
+(function(){
+  document.querySelectorAll('.tc').forEach(function(el){
+    var parts = el.textContent.split(/(\d+:\d{2})/);
+    if (parts.length < 2) return;
+    el.textContent = '';
+    parts.forEach(function(p){
+      if (/^\d+:\d{2}$/.test(p)) {
+        var mm = p.split(':');
+        var sec = parseInt(mm[0],10)*60 + parseInt(mm[1],10);
+        var btn = document.createElement('button');
+        btn.className = 'seek'; btn.textContent = p;
+        btn.addEventListener('click', function(){ seek(sec); });
+        el.appendChild(btn);
+      } else {
+        el.appendChild(document.createTextNode(p));
+      }
+    });
+  });
+})();
+
+window.addEventListener('scroll', function(){
+  var h = document.documentElement;
+  var max = h.scrollHeight - h.clientHeight;
+  var p = max > 0 ? (h.scrollTop / max) * 100 : 0;
+  document.getElementById('progress').style.width = p + '%';
+});
+
+document.querySelectorAll('.chk li').forEach(function(li){
+  li.addEventListener('click', function(){ li.classList.toggle('done'); });
+});
+
+(function(){
+  var total = document.querySelectorAll('.qz').length, answered = 0, good = 0;
+  document.querySelectorAll('.qz').forEach(function(qz){
+    var g = parseInt(qz.getAttribute('data-g'), 10);
+    var opts = qz.querySelectorAll('.opt');
+    var fb = qz.querySelector('.fb');
+    opts.forEach(function(opt, i){
+      opt.addEventListener('click', function(){
+        if (qz.classList.contains('answered')) return;
+        qz.classList.add('answered');
+        answered++;
+        if (i === g) { opt.classList.add('good'); good++; }
+        else { opt.classList.add('bad'); opts[g].classList.add('good'); }
+        fb.classList.add('show');
+        if (answered === total) {
+          var sc = document.getElementById('score');
+          sc.textContent = 'Score : ' + good + ' / ' + total + (good === total ? ' — parfait.' : ' — relisez les chapitres concernés.');
+          sc.classList.add('show');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

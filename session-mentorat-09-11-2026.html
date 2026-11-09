@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sauver une structure — Session du 9 novembre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED; --primary-dark:#4C1D95; --primary-light:#EDE9FE;
+  --accent:#F59E0B; --accent-light:#FEF3C7;
+  --success:#10B981; --success-light:#D1FAE5;
+  --danger:#EF4444; --danger-light:#FEE2E2;
+  --info:#3B82F6; --info-light:#DBEAFE;
+  --ink:#1A1523; --muted:#5B5670; --line:#E7E4EF; --bg:#FAF9FC; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+.progress-wrap{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(108,58,237,.12);z-index:999}
+#progress{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+.wrap{max-width:940px;margin:0 auto;padding-inline:20px}
+
+.hero{background:linear-gradient(140deg,#3B1D80 0%,#6C3AED 55%,#8B5CF6 100%);color:#fff;padding-block:60px 52px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{content:"";position:absolute;left:-60px;bottom:-120px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.05)}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:700;margin-bottom:14px;position:relative;z-index:2}
+.hero .sub{font-size:17px;opacity:.92;max-width:690px;position:relative;z-index:2}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;position:relative;z-index:2}
+.meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:7px 14px;border-radius:10px;font-size:13.5px;font-weight:500}
+
+/* LECTEUR */
+.player-wrap{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:-32px;position:relative;z-index:6;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.vid{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.chx{margin-top:16px;border:1px solid var(--line);border-radius:12px;background:#FBFAFE}
+.chx summary{cursor:pointer;padding:12px 16px;font-weight:650;font-size:14.5px;color:var(--primary-dark);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chx summary::-webkit-details-marker{display:none}
+.chx summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+.chx[open] summary::before{content:"▾ "}
+.chx summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+.chlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:2px;max-height:330px;overflow-y:auto;padding:0 10px 12px}
+.chlist button{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;background:transparent;border:0;border-radius:9px;padding:8px 10px;font-family:inherit;font-size:14.5px;color:var(--ink);cursor:pointer;line-height:1.45;transition:background .12s}
+.chlist button:hover{background:var(--primary-light);color:var(--primary-dark)}
+.chlist b{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;min-width:54px}
+button.seek{background:var(--primary-light);border:1px solid #DDD3FA;color:var(--primary-dark);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;cursor:pointer;font-variant-numeric:tabular-nums;transition:all .12s}
+button.seek:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.player-wrap + .toc{margin-top:26px}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:-32px;position:relative;z-index:5;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.toc h2{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:16px;color:var(--primary-dark)}
+.toc ol{list-style:none;counter-reset:toc;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.toc li{counter-increment:toc}
+.toc a{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink);padding:9px 10px;border-radius:10px;font-size:14.5px;transition:background .15s}
+.toc a:hover{background:var(--primary-light);color:var(--primary-dark)}
+.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);font-size:13px;flex-shrink:0;padding-top:1px}
+
+section.chap{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+section.chap>.bar{height:5px;background:var(--primary)}
+.chap[data-c="a"]>.bar{background:var(--accent)} .chap[data-c="g"]>.bar{background:var(--success)}
+.chap[data-c="b"]>.bar{background:var(--info)} .chap[data-c="r"]>.bar{background:var(--danger)}
+.chead{padding:26px 28px 0;display:flex;gap:14px;align-items:center}
+.cnum{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--primary-light);color:var(--primary-dark);display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px}
+.chap[data-c="a"] .cnum{background:var(--accent-light);color:#92400E}
+.chap[data-c="g"] .cnum{background:var(--success-light);color:#065F46}
+.chap[data-c="b"] .cnum{background:var(--info-light);color:#1E40AF}
+.chap[data-c="r"] .cnum{background:var(--danger-light);color:#991B1B}
+.chead h2{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.25;font-weight:700}
+.tc{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-top:3px}
+.cbody{padding:18px 28px 28px}
+.cbody p{margin-bottom:14px}
+.cbody h3{font-family:'Space Grotesk',sans-serif;font-size:16.5px;margin:22px 0 10px;color:var(--primary-dark)}
+.cbody ul,.cbody ol{margin:0 0 14px 20px}
+.cbody li{margin-bottom:7px}
+strong{font-weight:650;color:#2D2540}
+em.q{font-style:italic;color:#413655}
+
+.box{border-radius:12px;padding:16px 18px;margin:18px 0;border-left:4px solid;font-size:15px}
+.box .bt{display:block;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.box p:last-child{margin-bottom:0}
+.b-key{background:var(--primary-light);border-color:var(--primary)} .b-key .bt{color:var(--primary-dark)}
+.b-warn{background:var(--accent-light);border-color:var(--accent)} .b-warn .bt{color:#92400E}
+.b-tip{background:var(--success-light);border-color:var(--success)} .b-tip .bt{color:#065F46}
+.b-info{background:var(--info-light);border-color:var(--info)} .b-info .bt{color:#1E40AF}
+.b-danger{background:var(--danger-light);border-color:var(--danger)} .b-danger .bt{color:#991B1B}
+
+.tbl{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:12px 14px;font-weight:600;font-size:13.5px}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#FBFAFE}
+
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.pc>div{border-radius:12px;padding:16px 18px;font-size:14.5px}
+.pc .ok{background:var(--success-light);border:1px solid #A7F3D0}
+.pc .ko{background:var(--danger-light);border:1px solid #FECACA}
+.pc h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.pc .ok h4{color:#065F46} .pc .ko h4{color:#991B1B}
+.pc ul{margin:0 0 0 18px} .pc li{margin-bottom:5px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
+.card{background:#FBFAFE;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h4{font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:6px;color:var(--primary-dark)}
+.card p{font-size:14px;color:var(--muted);margin:0}
+.stat h4{font-size:22px;font-family:'Space Grotesk',sans-serif}
+
+.tl{list-style:none;margin:18px 0;padding-left:26px;border-left:2px dashed var(--line)}
+.tl li{position:relative;margin-bottom:16px;font-size:15px}
+.tl li::before{content:"";position:absolute;left:-33px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light)}
+.tl b{display:block;font-family:'Space Grotesk',sans-serif;color:var(--primary-dark)}
+
+details{border:1px solid var(--line);border-radius:12px;margin:14px 0;background:#FBFAFE}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:15px;color:var(--primary-dark);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+details[open] summary::before{content:"▾ "}
+details .dc{padding:0 18px 16px;font-size:14.5px}
+
+.pull{margin:22px 0;padding:20px 24px;border-radius:14px;background:linear-gradient(120deg,#2D1B69,#4C1D95);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:19px;line-height:1.45;font-weight:600}
+.pull span{display:block;margin-top:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;opacity:.7;letter-spacing:.03em}
+
+.faq{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+.faq>.bar{height:5px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.faqhead{padding:26px 28px 0}
+.faqhead h2{font-family:'Space Grotesk',sans-serif;font-size:26px;color:var(--primary-dark)}
+.faqhead p{color:var(--muted);font-size:15px;margin-top:4px}
+.faqbody{padding:18px 28px 28px}
+.faqcat{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.faqcat:first-child{margin-top:6px}
+.qa{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:#FDFCFF}
+.qa .q{background:linear-gradient(90deg,var(--primary-light),#F6F3FF);padding:13px 18px;font-weight:650;color:var(--primary-dark);font-size:15.5px;display:flex;gap:10px}
+.qa .q span{flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.qa .a{padding:15px 18px;font-size:15px}
+.qa .a p{margin-bottom:10px} .qa .a p:last-child{margin-bottom:0}
+
+.plan{background:linear-gradient(140deg,#0F172A,#1E1B4B);color:#fff;border-radius:18px;padding:30px 28px;margin-top:26px}
+.plan h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:8px}
+.plan>p{opacity:.8;margin-bottom:20px;font-size:15px}
+.phase{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin:22px 0 10px}
+.phase:first-of-type{margin-top:0}
+.chk{list-style:none;margin:0;padding:0}
+.chk li{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;margin-bottom:9px;font-size:15px;cursor:pointer;transition:background .15s}
+.chk li:hover{background:rgba(255,255,255,.09)}
+.chk .bx{flex-shrink:0;width:20px;height:20px;border:2px solid rgba(255,255,255,.4);border-radius:6px;margin-top:3px;display:grid;place-items:center;font-size:13px;font-weight:700;color:transparent}
+.chk li.done .bx{background:var(--success);border-color:var(--success);color:#fff}
+.chk li.done .tx{opacity:.5;text-decoration:line-through}
+.chk .tx b{display:block;font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.04em;text-transform:uppercase;opacity:.65;margin-bottom:2px}
+
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px;margin-top:26px}
+.quiz h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:6px;color:var(--primary-dark)}
+.quiz>p{color:var(--muted);margin-bottom:22px;font-size:15px}
+.qz{margin-bottom:24px;padding-bottom:22px;border-bottom:1px dashed var(--line)}
+.qz:last-of-type{border-bottom:none}
+.qz .qt{font-weight:650;margin-bottom:12px;font-size:15.5px}
+.opt{display:block;width:100%;text-align:left;background:#FBFAFE;border:1.5px solid var(--line);border-radius:10px;padding:11px 15px;margin-bottom:8px;cursor:pointer;font-family:inherit;font-size:14.5px;color:var(--ink);transition:all .15s}
+.opt:hover{border-color:var(--primary);background:var(--primary-light)}
+.opt.good{background:var(--success-light);border-color:var(--success);font-weight:600}
+.opt.bad{background:var(--danger-light);border-color:var(--danger)}
+.fb{display:none;margin-top:10px;padding:12px 15px;border-radius:10px;font-size:14.5px;background:var(--info-light);border-left:4px solid var(--info)}
+.fb.show{display:block}
+.score{margin-top:20px;padding:16px;border-radius:12px;background:var(--primary-light);text-align:center;font-weight:650;color:var(--primary-dark);display:none}
+.score.show{display:block}
+
+footer{text-align:center;padding-block:40px 50px;color:var(--muted);font-size:14px}
+footer b{color:var(--primary-dark);font-family:'Space Grotesk',sans-serif}
+
+@media(max-width:640px){
+  .pc{grid-template-columns:1fr}
+  .chead,.faqhead{padding:22px 18px 0} .cbody,.faqbody{padding:16px 18px 22px}
+  .toc{padding:22px 18px} .plan,.quiz{padding:24px 18px}
+  .hero h1{font-size:27px} .pull{font-size:17px;padding:18px}
+  .player-wrap{padding:14px} .chlist{grid-template-columns:1fr;max-height:280px}
+}
+@media print{
+  .progress-wrap{display:none} body{background:#fff}
+  section.chap,.toc,.quiz,.faq{box-shadow:none;break-inside:avoid}
+  .opt{display:none}
+  .vid{display:none} .player-wrap{box-shadow:none;margin-top:20px}
+  .chlist{max-height:none;overflow:visible} .chlist button{padding:3px 0}
+  button.seek{background:none;border:0;padding:0;color:var(--primary-dark)}
+}
+</style>
+</head>
+<body>
+<div class="progress-wrap"><div id="progress"></div></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">Session de mentorat · 9 novembre 2026</div>
+    <h1>Acheter du temps —<br>l'ingénierie qui sauve une structure</h1>
+    <p class="sub">Une entreprise de post-production de quarante ans, en redressement, à six semaines de son audience. Cette session démonte l'exercice complet : lire la structure avant de proposer quoi que ce soit, récupérer l'outil de production via le crédit d'impôt, faire parler l'immobilier dormant, comprendre comment le CPF se gagne vraiment — et pourquoi, dans toutes ces situations, le seul objectif qui compte est d'acheter du temps.</p>
+    <div class="meta">
+      <span>⏱ 1 h 56</span>
+      <span>🎙 Tarik Hamiche</span>
+      <span>👥 Session de mentorat</span>
+      <span>📌 113 chapitres</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="player-wrap">
+  <div class="vid">
+    <iframe id="vimeoPlayer"
+      src="https://player.vimeo.com/video/1245053294?h=ac8136185a"
+      title="Session de mentorat du 9 novembre 2026"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  <details class="chx" id="chx">
+    <summary><span>Les 113 chapitres de la session</span><em>Cliquez un chapitre pour y aller</em></summary>
+    <div class="chlist" id="chlist"></div>
+  </details>
+</div>
+
+<nav class="toc">
+  <h2>Au programme</h2>
+  <ol>
+    <li><a href="#s1">Le point de départ : six semaines avant l'audience</a></li>
+    <li><a href="#s2">Le CPF : comment ça se gagne vraiment</a></li>
+    <li><a href="#s3">Lire la structure avant de proposer quoi que ce soit</a></li>
+    <li><a href="#s4">Le schéma CIPP : récupérer l'outil de production</a></li>
+    <li><a href="#s5">Acheter du temps : le seul objectif qui compte</a></li>
+    <li><a href="#s6">Le tribunal démystifié</a></li>
+    <li><a href="#s7">L'immobilier : trois options pour dégager du cash</a></li>
+    <li><a href="#s8">Bénodet : l'option à laquelle personne n'avait pensé</a></li>
+    <li><a href="#s9">Le crédit lombard</a></li>
+    <li><a href="#s10">Protéger les gens avant les structures</a></li>
+    <li><a href="#s11">Ce qui se resserre en 2027</a></li>
+    <li><a href="#s12">Développer hors de France : la méthode</a></li>
+    <li><a href="#s13">Négocier : prix de départ, cartes cachées, dernier recours</a></li>
+    <li><a href="#s14">La leçon du dojo</a></li>
+  </ol>
+</nav>
+
+<section class="chap" id="s1" data-c="a">
+  <div class="chead">
+    <span class="num">1</span>
+    <h2>Le point de départ : six semaines avant l'audience</h2>
+    <p class="tc">0:06 — 17:25</p>
+  </div>
+  <div class="cbody">
+    <p>La session commence par un point hebdomadaire classique : Emma a démarché des espaces culturels en faisant attention aux tarifs, préparé une projection et un tournage, et s'est battue avec les blocages d'authentification d'une régie publicitaire. Rien d'extraordinaire — sauf que le contexte, lui, est extraordinaire.</p>
+
+    <div class="box b-danger">
+      <h4>La situation réelle</h4>
+      <p>Le studio de post-production a perdu le marché public qui structurait son activité. Il est en redressement judiciaire. Le <b>15 décembre, une audience décide</b> : si le dirigeant arrive avec des perspectives prouvées, la procédure continue. S'il arrive en disant « on cherche toujours », c'est la liquidation.</p>
+    </div>
+
+    <p>Tout le monde dans la boîte sait qu'une fermeture est possible en décembre. L'ambiance est, selon les mots employés, « flambante ». Et pendant ce temps-là, il faut continuer à vendre des formations à des stagiaires dont le seul vrai frein, systématiquement, est le prix.</p>
+
+    <div class="box b-key">
+      <h4>Le réflexe à retenir</h4>
+      <p>Avant de proposer la moindre solution, une seule question compte : <b>est-ce que la fenêtre de temps est d'un an, ou est-ce qu'elle se referme le 15 décembre ?</b> Les deux réponses mènent à deux plans radicalement différents. Travailler sans avoir tranché cette question, c'est « un coup d'épée dans l'eau ».</p>
+    </div>
+
+    <p>C'est la question d'ouverture de la session, et c'est elle qui structure les deux heures : <i>combien de temps avons-nous</i>, puis <i>comment en acheter davantage</i>.</p>
+  </div>
+</section>
+
+<section class="chap" id="s2" data-c="g">
+  <div class="chead">
+    <span class="num">2</span>
+    <h2>Le CPF : comment ça se gagne vraiment</h2>
+    <p class="tc">7:51 — 12:25</p>
+  </div>
+  <div class="cbody">
+    <p>Le levier le plus efficace identifié dans la session, c'est le financement CPF : si le stagiaire n'a rien à sortir de sa poche, le frein du prix disparaît. Mais y accéder suppose de comprendre un système qui a complètement changé.</p>
+
+    <h3>Avant : la clé USB</h3>
+    <p>Un organisme qui voulait mobiliser les fonds CPF de ses stagiaires ouvrait un compte, s'y inscrivait, encaissait. Pas de débat, pas de contrôle de fond. N'importe qui pouvait se déclarer formateur sur n'importe quel sujet.</p>
+
+    <h3>Aujourd'hui : la certification obligatoire</h3>
+    <p>Du jour au lendemain, toute formation éligible au CPF doit être <b>certifiante</b>, avec au minimum une certification enregistrée. Résultat : beaucoup d'organismes ont créé leur propre certification — pour eux.</p>
+
+    <div class="box b-warn">
+      <h4>Le refus que rencontre Emma</h4>
+      <p>Le certificateur contacté refuse les deux montages proposés : pas de sous-traitance, pas de formation chez nous avec examen chez eux. Leur argument : « on ne va pas faire des cours ici pour passer l'évaluation là-bas. » L'option du jury interne est renvoyée à des « habilitations compliquées ». Le diagnostic posé en session : <b>ils ont créé la certification pour eux et se la sont répartie entre leurs propres structures.</b></p>
+    </div>
+
+    <h3>Le point de droit qu'il faut connaître</h3>
+    <div class="box b-key">
+      <p>Quand un certificateur est enregistré sur France Compétences, <b>il n'a pas le droit de refuser un organisme qui veut former à sa certification</b> au motif que « c'est compliqué ». Il doit opposer un niveau d'exigence objectif : le référentiel. Si le formateur présente un CV conforme, le passage du jury doit être possible.</p>
+      <p>D'où le conseil : ne pas se contenter d'un non oral. Demander par écrit, et surtout demander <b>« expliquez-moi en quoi c'est compliqué, c'est quoi le process, qu'est-ce que vous demandez »</b> — la question qui bloque l'interlocuteur.</p>
+    </div>
+
+    <h3>Pourquoi ils refusent vraiment</h3>
+    <p>Quand le jury se tient chez eux, le certificateur encaisse 200 à 300 € par stagiaire pour une demi-heure, désormais mutualisable sur plusieurs candidats en même temps. Quand il délègue la formation sans le jury, il renonce à cette marge. L'argument « c'est compliqué » est un argument économique déguisé en argument administratif.</p>
+
+    <div class="box b-tip">
+      <h4>Action immédiate</h4>
+      <p>Un refus ne ferme pas le dossier : il reste cinq ou six certificateurs à contacter sur France Compétences, y compris avec des intitulés légèrement différents qu'on peut adapter. Le travail de recherche doit continuer en parallèle de tout le reste.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s3" data-c="b">
+  <div class="chead">
+    <span class="num">3</span>
+    <h2>Lire la structure avant de proposer quoi que ce soit</h2>
+    <p class="tc">17:25 — 24:21</p>
+  </div>
+  <div class="cbody">
+    <p>C'est la partie la plus instructive pour quiconque veut apprendre à conseiller un dirigeant : avant d'ouvrir la bouche, on cartographie. La session montre l'enchaînement exact des questions posées.</p>
+
+    <div class="tl">
+      <div class="tli"><b>Qui détient quoi ?</b> Une holding, en dessous le studio de post-production, une agence de production, une société d'édition, une SCI propriétaire des murs. Le studio est le vaisseau amiral : s'il tombe, la holding n'a plus de raison d'exister.</div>
+      <div class="tli"><b>Régime mère-fille, conventions de trésorerie ?</b> Aucune convention formalisée — le dirigeant est majoritaire partout, il n'en a jamais vu l'intérêt. Question suivante : dans quel sens va la dette interne ? C'est le studio qui doit à la holding, pas l'inverse.</div>
+      <div class="tli"><b>Quelle est la charge principale ?</b> Un crédit-bail matériel mis en place pour répondre aux exigences du marché perdu : environ 40 000 € de dette restante.</div>
+      <div class="tli"><b>Quelle est la valeur réelle de l'actif ?</b> Le matériel est valorisé 180 000 € au bilan. À la revente, il ne vaut plus que 30 000 €, parce que la moitié des prestataires du secteur ferment en même temps et inondent le marché du même matériel.</div>
+      <div class="tli"><b>Et la dette bancaire ?</b> Environ 30 000 € de plus. Soit 70 000 € à porter.</div>
+      <div class="tli"><b>Les autres sociétés peuvent-elles absorber ça ?</b> Non. Seule la société d'édition rentre de l'argent — des droits d'auteur, dont une musique de publicité qui recommence à tourner dans plusieurs pays. De vraies rentrées, mais pas de quoi porter 70 000 € de crédit.</div>
+    </div>
+
+    <div class="box b-key">
+      <h4>Ce que cette séquence enseigne</h4>
+      <p>Six questions suffisent à savoir où se trouvent les leviers : <b>qui détient quoi, comment l'argent circule entre les structures, quelle est la charge qui tue, quelle est la valeur de liquidation réelle de l'actif, quelle est la dette totale, et quelles structures sont saines.</b> Aucune solution ne peut être proposée avant d'avoir ces six réponses.</p>
+    </div>
+
+    <div class="pull">« 180 000 au bilan, 30 000 à la revente. » L'écart entre la valeur comptable et la valeur de marché d'un actif est le point de départ de presque toute l'ingénierie qui suit.</div>
+  </div>
+</section>
+
+<section class="chap" id="s4" data-c="r">
+  <div class="chead">
+    <span class="num">4</span>
+    <h2>Le schéma CIPP : récupérer l'outil de production</h2>
+    <p class="tc">24:21 — 34:00</p>
+  </div>
+  <div class="cbody">
+    <p>Première proposition de la session, et la plus technique. Elle part d'une question en apparence anodine : <b>est-ce que la société d'édition est affiliée au CNM, et est-ce qu'une demande d'agrément au crédit d'impôt phonographique a été activée ?</b> La réponse est oui aux deux. Tout devient possible.</p>
+
+    <h3>Le raisonnement</h3>
+    <div class="box b-info">
+      <p>Un label agréé au crédit d'impôt phonographique bénéficie d'une prise en charge d'environ <b>40 % des dépenses rattachables à un projet éligible</b> — y compris les achats de matériel. Ce qui ouvre le montage suivant :</p>
+    </div>
+
+    <div class="tl">
+      <div class="tli"><b>1. On laisse couler la structure déficitaire.</b> Pas d'acharnement : elle a du mal à travailler, elle coûte un bilan, des formalités, des frais de structure. Une structure en moins, c'est des centaines d'euros annuels en moins et une procédure dont on se dégage.</div>
+      <div class="tli"><b>2. Mais on récupère le matériel.</b> On liste l'intégralité du parc, on fait venir un huissier pour acter l'état et la valeur — « ça coûte 200 balles » — et on revend au label à la valeur de marché, celle qu'un professionnel a estimée.</div>
+      <div class="tli"><b>3. Le label paie, le CIPP rembourse 40 %.</b> Un achat de 30 000 € coûte réellement 16 000 à 18 000 €. Ce n'est qu'une avance de trésorerie : le crédit d'impôt revient une fois par an.</div>
+      <div class="tli"><b>4. On solde la banque avec le produit de la vente.</b> C'est le point crucial : les dettes bancaires sont celles qui suivent le dirigeant. Les solder avant la liquidation, c'est éteindre le risque personnel.</div>
+      <div class="tli"><b>5. On négocie le transfert de propriété avec le loueur.</b> Sans cela, le matériel reste le sien : s'il n'est pas payé, il peut venir le saisir. C'est la condition sine qua non de tout le montage.</div>
+    </div>
+
+    <h3>Le paquet qu'on propose au loueur</h3>
+    <div class="box b-tip">
+      <p>On ne demande pas un cadeau, on propose un échange : <b>« Vous me laissez un an, et en plus le nouveau bailleur sera peut-être plus solvable. »</b> Puis, dans la foulée, on renégocie l'étalement : ce qui était dû sur trois ans passe sur six. On leur laisse greffer quelques euros de frais de dossier au passage — ils seront contents, et l'affaire se fait.</p>
+      <p>L'alternative qu'on leur met sous le nez est simple : « Vous ne récupérez rien parce que ça ne se vendra pas de toute façon », ou « vous nous laissez travailler un an ».</p>
+    </div>
+
+    <h3>Deux extensions du même raisonnement</h3>
+    <div class="cards">
+      <div class="card"><h4>Rattacher un salaire</h4><p>Si l'intitulé de poste d'une collaboratrice bouge légèrement et qu'elle est engagée sur un projet éligible identifié, une bonne partie du brut entre dans le dispositif. Ce n'est pas tout le salaire, mais c'est une respiration de trésorerie.</p></div>
+      <div class="card"><h4>Les dépenses de location</h4><p>Les loyers de matériel rattachés aux projets du label entrent aussi dans le dispositif : le bail résiduel peut être divisé par deux en coût réel.</p></div>
+    </div>
+
+    <div class="box b-warn">
+      <h4>La limite, énoncée clairement</h4>
+      <p>Les <b>charges générales n'entrent pas</b> dans le dispositif : loyer des locaux, électricité, expert-comptable. Elles ne sont pas rattachables à un projet, et tenter de les y rattacher n'est « même pas justifiable ». Or ces charges-là représentent environ <b>12 000 € par mois</b> pour le studio — dont la moitié reste à trouver même après tous les montages. C'est lourd pour un label.</p>
+    </div>
+
+    <div class="pull">« J'ai une certaine ingénierie à faire des choses qui sont parfois border, mais on ne dépasse jamais la ligne. Comme diraient d'autres, on la mord assez souvent, mais ça passe. »</div>
+  </div>
+</section>
+
+<section class="chap" id="s5" data-c="a">
+  <div class="chead">
+    <span class="num">5</span>
+    <h2>Acheter du temps : le seul objectif qui compte</h2>
+    <p class="tc">34:00 — 42:05</p>
+  </div>
+  <div class="cbody">
+    <p>Le crowdfunding est évoqué : « ça peut peut-être marcher un peu, mais je ne compte pas là-dessus ». Puis la phrase qui recentre tout : <b>« Non, il faut que tu t'achètes du temps, surtout. »</b></p>
+
+    <p>Parce que le levier identifié — l'activité de formation financée — fonctionne. Il est même très rentable. Le problème n'est jamais la rentabilité, c'est le délai d'incubation. Et ce délai, la session le chiffre précisément.</p>
+
+    <h3>Le calendrier réel d'une offre CPF</h3>
+    <table class="tbl">
+      <thead><tr><th>Étape</th><th>Délai</th></tr></thead>
+      <tbody>
+        <tr><td>Monter l'offre et contractualiser avec un certificateur</td><td>2 à 3 mois minimum</td></tr>
+        <tr><td>Délai d'inscription réglementaire avant démarrage</td><td>~2 semaines</td></tr>
+        <tr><td>Durée de la formation elle-même</td><td>Variable (court et présentiel = plus rapide)</td></tr>
+        <tr><td>Paiement par la Caisse des dépôts</td><td>30 jours — payés le 30<sup>e</sup> jour, plus les jours fériés</td></tr>
+      </tbody>
+    </table>
+    <p>Soit environ <b>trois mois et demi avant le premier euro encaissable</b>, et plus encore avant qu'il soit encaissé.</p>
+
+    <div class="box b-danger">
+      <h4>Le piège de trésorerie que personne n'anticipe</h4>
+      <p>Le certificateur se paie <b>d'avance</b>. Frais d'intermédiation plus présentation au jury : <b>300 à 400 € par stagiaire</b>, à sortir avant d'encaisser quoi que ce soit. Vingt stagiaires, c'est 8 000 € d'avance.</p>
+      <p>Et si l'on n'a pas cette trésorerie, on ne peut pas inscrire. Or au bout de quelques jours sans inscription, on est <b>dégagé de la plateforme et on perd l'éligibilité à la certification</b>. Le manque de trésorerie ne ralentit pas le projet : il l'annule.</p>
+    </div>
+
+    <h3>Les deux plans, selon la fenêtre</h3>
+    <div class="pc">
+      <div class="pro"><h4>Si la fenêtre est d'un an</h4><p>On met tout sur l'éligibilité CPF, à fond, tout de suite. Objectif : qu'au téléphone, la réponse soit toujours « vous n'avez rien à sortir de votre poche ». À partir de là il ne reste plus qu'un frein possible — « je ne pense pas que vous soyez bons pour ça » — et on a les arguments pour y répondre.</p></div>
+      <div class="con"><h4>Si la fenêtre se referme</h4><p>Ne pas s'acharner. Sauver ce qu'il y a à sauver et reconstruire sur une structure existante : modifier légèrement les statuts, tenir deux comptabilités distinctes, repasser un Qualiopi (deux à trois mois, « chiant mais ça s'obtient »), avoir déjà le certificateur en contact. Six mois d'attente, et c'est parti.</p></div>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Le frein soulevé par Emma — et sa réponse</h4>
+      <p>Presque toutes les formations proposées ont besoin des locaux et du matériel du studio. C'est un vrai frein, mais pas le plus gros : on peut trouver des confrères équipés qui sous-louent leur studio le temps d'une formation. Le vrai obstacle, c'est le Qualiopi et la certification.</p>
+    </div>
+
+    <p>En attendant, un levier gratuit : le dirigeant est propriétaire des murs via sa SCI. Il décale la perception des loyers — ce qu'il fait déjà depuis longtemps — et les charges du studio baissent d'autant.</p>
+  </div>
+</section>
+
+<section class="chap" id="s6" data-c="g">
+  <div class="chead">
+    <span class="num">6</span>
+    <h2>Le tribunal démystifié</h2>
+    <p class="tc">42:05 — 47:17</p>
+  </div>
+  <div class="cbody">
+    <p>Passage inattendu et précieux : plutôt que de théoriser, le mentor raconte sa propre audience. Le décor d'abord — trois juges en robe, deux greffiers, des fauteuils d'un côté, un banc en bois de l'autre, et le froid dans la salle.</p>
+
+    <div class="box b-info">
+      <h4>Sa propre faillite, à dix-neuf ans</h4>
+      <p>Son premier label. Le juge lui parle très mal : « vous êtes irresponsable », « vous avez de la chance qu'on ne vous mette pas une interdiction de gérer pendant dix ans ». Son avocat lui souffle une seule consigne : <b>ne rien répondre, les laisser se lâcher.</b> L'audience dure vingt minutes. Il en ressort tranquille.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Ce que le tribunal peut faire que personne n'imagine</h4>
+      <p>À l'époque, les dettes sociales suivaient le dirigeant. Le tribunal a <b>ordonné à l'organisme de cotisations de s'asseoir sur le solde</b> : une ponction partielle déjà prélevée, mille euros avec échéancier, et le reste effacé. L'organisme a accepté. Le tribunal n'est pas seulement une menace — c'est aussi une instance qui peut trancher en faveur de la continuité.</p>
+    </div>
+
+    <p>D'où le conseil de posture : les juges ne sont jamais seuls à décider, ils sont cinq ou six. L'un fait de la comptabilité et ne lève pas la tête, un autre écoute vraiment et pose les bonnes questions, un troisième observe. Il y a de l'intelligence dans la salle. Et il y a eu, dans ce dossier, un premier juge qui connaissait la maison et trouvait remarquable qu'une entreprise tienne quarante ans.</p>
+
+    <div class="box b-warn">
+      <h4>Le coût caché de la procédure</h4>
+      <p>Quatre intervenants nommés sur une entreprise de deux personnes : administrateur judiciaire, commissaire, et deux entités de plus. Chacun facture 1 000 à 1 400 € par mois pour répondre à quelques courriels et autoriser quelques dépenses. Une procédure conçue pour éviter les plans sociaux massifs dans les grands groupes, appliquée mécaniquement à tout le monde.</p>
+    </div>
+
+    <p>Conclusion opérationnelle : <b>il faut un plan B</b>. Tout le montage précédent est suspendu à l'accord du loueur. Si cet accord ne vient pas, il faut déjà savoir quoi faire.</p>
+  </div>
+</section>
+
+<section class="chap" id="s7" data-c="b">
+  <div class="chead">
+    <span class="num">7</span>
+    <h2>L'immobilier : trois options pour dégager du cash</h2>
+    <p class="tc">47:17 — 59:47</p>
+  </div>
+  <div class="cbody">
+    <p>Le plan B commence par une priorité humaine : la comptable, salariée de la holding depuis une trentaine d'années. Ses indemnités de départ et son ancienneté approchent les 100 000 €. Le dirigeant ne voit qu'une issue — vendre l'immeuble. C'est là que la session change de registre.</p>
+
+    <h3>L'état des lieux du bien</h3>
+    <table class="tbl">
+      <thead><tr><th>Caractéristique</th><th>Réponse</th></tr></thead>
+      <tbody>
+        <tr><td>Emplacement</td><td>Quasi centre-ville, rive droite, à côté de la gare</td></tr>
+        <tr><td>Stationnement</td><td>Parking de cinq places</td></tr>
+        <tr><td>Surface</td><td>350 à 360 m²</td></tr>
+        <tr><td>Crédit restant dû</td><td>Aucun — l'immeuble est payé</td></tr>
+        <tr><td>Destination</td><td>Usage professionnel (ce qui pèse sur la valeur)</td></tr>
+        <tr><td>Estimation</td><td>600 000 à 650 000 €</td></tr>
+      </tbody>
+    </table>
+
+    <div class="box b-key">
+      <h4>La question qui ouvre tout</h4>
+      <p>« Est-ce que tu dirais qu'il est <b>divisible</b> ? » Pas au sens du démembrement : physiquement. Une entrée commune, un escalier, des compteurs dédiés, un étage à l'un et un étage à l'autre. Réponse : il est <b>déjà</b> partiellement divisé — le deuxième étage est occupé par une autre société, et toute une aile de salles de montage ne sert plus à rien depuis la perte du marché. Environ 40 m², accessibles par le hall d'accueil commun, sans traverser le studio.</p>
+      <p>À 2 500 €/m², ce lot représente <b>70 000 à 90 000 €</b>.</p>
+    </div>
+
+    <h3>Option 1 — Emprunter sur l'immeuble</h3>
+    <p>Pas de crédit restant dû, probablement pas d'hypothèque (et si oui, un notaire la fait lever en deux minutes puisqu'il n'y a plus de dette). On fait estimer par trois agences, on va voir une banque avec le dossier.</p>
+    <div class="box b-info">
+      <p>La banque prête <b>jusqu'à 70 % de la valeur</b>, parfois moins — disons 50 % par prudence — en prenant une hypothèque. Son raisonnement est confortable : si l'emprunteur ne paie pas, elle récupère un immeuble qui vaut davantage. Sur des taux pros et une durée courte (5 à 10 ans), emprunter 100 000 € coûte environ 110 000 à 115 000 € assurances comprises. Ce n'est pas déraisonnable pour une respiration immédiate.</p>
+    </div>
+
+    <h3>Option 2 — Diviser et revendre un lot</h3>
+    <div class="tl">
+      <div class="tli"><b>Faire chiffrer, ne pas payer.</b> On fait venir un géomètre pour obtenir un devis de division — 1 500 à 2 000 € — sans le commander. Le devis atteste que la division physique est faisable, et c'est tout ce dont on a besoin pour l'instant.</div>
+      <div class="tli"><b>Passer par les agences pour atteindre les marchands de biens.</b> On demande explicitement à être connecté à leur réseau. Pour elles c'est tout bénéfice : commission à l'entrée, commission à la revente six mois ou un an plus tard, et gestion locative si l'acquéreur reloue.</div>
+      <div class="tli"><b>Leur faire miroiter la suite.</b> « L'autre partie viendra plus tard, c'est déjà en projet, je suis un vieil homme, je vais bientôt m'arrêter. » Deux ou trois commissions en perspective, et elles entrent dans votre sens.</div>
+      <div class="tli"><b>Préférer un marchand de biens à un investisseur.</b> Les marchands de biens vont vite — c'est leur métier. Un investisseur réfléchit lentement.</div>
+    </div>
+    <div class="box b-tip">
+      <p>Le marchand de biens, lui, voit autre chose : le centre-ville est à 2 800 €/m², ce lot est à 2 500, et en changeant la destination il peut le revendre à quelqu'un qui fera de la location courte durée près de la gare, ou le diviser en deux studios étudiants. <b>On le laisse faire sa plus-value tant qu'il paie le prix demandé.</b></p>
+      <p>Résultat : environ 70 000 € encaissés commission déduite, avec en plus des <b>charges et une taxe foncière qui baissent</b> — sur le papier, il y a moins de surface. Et la SCI n'est pas obligée de distribuer : on fait remonter ensuite, en surveillant l'imposition. Même en étant pessimiste, il reste 50 000 €.</p>
+    </div>
+
+    <h3>Option 3 — Vendre une promesse à terme</h3>
+    <div class="box b-info">
+      <p>La plus astucieuse. On trouve un marchand de biens connecté à de gros bailleurs — enseignes de sport, restauration rapide, qui recherchent précisément des emplacements en centre-ville de villes moyennes, avec parking. On lui dit la vérité : « j'ai prévu de m'arrêter dans dix ans, je vendrai, et aujourd'hui j'ai un besoin de trésorerie. »</p>
+      <p>Un notaire — <b>le vôtre, pas le sien</b> — rédige une <b>option</b> : une vente future à une date précise. On vend aujourd'hui la promesse de vendre l'immeuble en 2035, avec une <b>décote</b> (25 %, par exemple, pour la vétusté future et pour motiver l'acquéreur), et un <b>système d'acomptes</b> : un montant à la signature, un à cinq ans, le solde à dix ans.</p>
+    </div>
+    <div class="pc">
+      <div class="pro"><h4>Ce qu'on y gagne</h4><p>De la trésorerie immédiate, un acquéreur sécurisé pour dans dix ans, et la date de sortie maîtrisée. Les gros opérateurs ont des lignes de crédit ouvertes toute l'année, parfois en dizaines ou centaines de millions : ils peuvent signer vite.</p></div>
+      <div class="con"><h4>Ce qu'on y perd</h4><p>On vend à prix fixe. Si l'immobilier double en dix ans, on ne le captera pas. Et il ne faut pas se tromper sur la date.</p></div>
+    </div>
+
+    <div class="box b-key">
+      <h4>Son conseil, in fine</h4>
+      <p><b>L'option 2.</b> Division, revente du lot inutile, encaissement d'un billet, allègement des charges. Et si en parallèle l'accord avec le loueur est obtenu, l'affaire est relancée. Les trois options ne sont d'ailleurs pas exclusives : on peut diviser pour libérer du cash, <i>et</i> faire un lombard sur le reste.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s8" data-c="r">
+  <div class="chead">
+    <span class="num">8</span>
+    <h2>Bénodet : l'option à laquelle personne n'avait pensé</h2>
+    <p class="tc">59:47 — 68:18</p>
+  </div>
+  <div class="cbody">
+    <p>Pour prouver qu'il ne théorise pas, le mentor raconte une opération en cours, et c'est l'anecdote la plus formatrice de la session.</p>
+
+    <div class="tl">
+      <div class="tli"><b>L'achat.</b> Un ancien hôtel dans la plus grosse station balnéaire du coin, acquis à très bon prix : le propriétaire avait tout arrêté, il fallait mettre aux normes, il ne voulait plus chercher. Prix d'entrée autour de 1 500 €/m² là où le marché local est aujourd'hui à 8 000 €/m².</div>
+      <div class="tli"><b>Le problème.</b> Le local commercial du bas est loué à un restaurant pour <b>700 € au lieu de 6 500</b>. Bail 3-6-9, le locataire est tranquille, et il a même négocié de ne payer qu'une part de la taxe foncière. Son activité cartonne. Il refuse toute augmentation — et ce refus est parfaitement légitime.</div>
+      <div class="tli"><b>L'enjeu.</b> Un groupe hôtelier est intéressé pour installer un hôtel dans les étages. Mais il faut la place du bas pour la réception. Tout dépend du départ du restaurant.</div>
+      <div class="tli"><b>L'échec.</b> Toutes les options sont testées, rien ne marche. On lui conseille une procédure d'éviction. Il prévient honnêtement le locataire : « je n'ai rien contre toi, mais on n'arrive pas à s'entendre. » Et il perd.</div>
+      <div class="tli"><b>Le retournement.</b> Mais le juge, en tranchant, émet une suggestion à laquelle personne n'avait pensé : <b>« Monsieur, rachetez-lui le fonds de commerce. »</b> Lui sera content de le vendre à un bon prix, et vous serez content de l'acheter parce que ça débloque votre projet.</div>
+      <div class="tli"><b>La négociation.</b> Retour chez le locataire, qui ne voulait pas vendre, puis qui annonce 800 000 €. Ses bilans sont bons, les multiples tiennent. On négocie : un peu moins de 600 000 €. Bankable pour lui, acceptable pour l'acquéreur — qui n'a toujours pas l'argent, et à qui toutes les banques disent non.</div>
+      <div class="tli"><b>Le coup de fil.</b> Il appelle le groupe hôtelier et joue la transparence totale : « voilà ma situation, je ne peux pas payer, on fait quoi ? » Réponse deux jours plus tard : « nous, on paie. On a fait nos projections, ça s'amortira dans le crédit. »</div>
+      <div class="tli"><b>Le résultat.</b> Tout le monde y gagne. Le restaurateur repart avec un profit et a déjà retrouvé un local. Le groupe a son hôtel. Et l'opération se débloque alors qu'il restait, de son propre aveu, six mois de trésorerie sur cet immeuble.</div>
+    </div>
+
+    <div class="box b-key">
+      <h4>La leçon, énoncée explicitement</h4>
+      <p>« Des fois, tu as des options auxquelles tu ne vas pas forcément croire ou ne serait-ce qu'imaginer, et en fait ça passe. » La solution n'est pas venue d'un calcul : elle est venue d'un <b>juge</b>, dans une procédure perdue. Puis d'un <b>appel en transparence</b> à un acteur dont les intérêts convergeaient.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Pourquoi un opérateur aguerri change tout</h4>
+      <p>Un marchand de biens expérimenté ne vous dira jamais ce qu'il sait. Il fera la moue, dira « c'est dur en ce moment » — alors qu'il a déjà un mandat de recherche signé avec une enseigne, avec clause de revente à dix ans. <b>Ce qui manque au dirigeant, ce n'est pas une idée : c'est l'intermédiaire qui a la vision longue.</b></p>
+      <p>Avec un ami de ce métier, la bonne approche n'est jamais de proposer le deal : « je ne vais pas lui proposer comme ça, il va mettre sa casquette et je ne serai même plus un pote. » On demande : <b>« Tiens, j'ai ce projet. Toi, tu aurais fait quoi ? »</b> Et seulement ensuite : « est-ce que dans ton réseau, quelqu'un pourrait être intéressé ? »</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Le réflexe le plus simple, souvent oublié</h4>
+      <p>Les places de parking. En centre-ville de ville moyenne, une place vaut 15 000 à 25 000 €. On trouve un commerçant du quartier qui galère à se garer tous les jours, on en vend deux, et voilà 30 000 € encaissés. C'est agaçant pour l'équipe, mais si c'est ce qu'il faut pour tenir un an ou deux de plus, on le fait — et dans deux ans on rachètera la place de celui qui aura fermé.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s9" data-c="a">
+  <div class="chead">
+    <span class="num">9</span>
+    <h2>Le crédit lombard</h2>
+    <p class="tc">68:18 — 73:18</p>
+  </div>
+  <div class="cbody">
+    <p>Un outil que le dirigeant ne connaissait pas, et qui se révèle le plus intéressant pour sa situation patrimoniale.</p>
+
+    <div class="box b-info">
+      <h4>Qu'est-ce que c'est, et où le trouver</h4>
+      <p>Un crédit adossé à un actif nanti — du cash immobilisé ou un bien sans crédit restant dû. C'est la <b>branche gestion de patrimoine</b> des banques qui le propose : les grandes banques françaises en ont toutes un. Le mot s'écrit L-O-M-B-A-R-D.</p>
+    </div>
+
+    <h3>Le mécanisme</h3>
+    <div class="tl">
+      <div class="tli"><b>Le nantissement.</b> On immobilise une somme (dans une holding, par exemple, ou dans les filiales) et on la nantit auprès de la banque, rémunérée autour de 3 %. La banque prélève des frais de gestion. Ce n'est pas pour le rendement de l'actif qu'on le fait.</div>
+      <div class="tli"><b>Le prêt.</b> Une fois nanti, la banque prête <b>jusqu'à 80 %</b> de la valeur sur du cash. Sur un million immobilisé : 800 000 € disponibles d'un coup.</div>
+      <div class="tli"><b>Sur l'immobilier.</b> Même logique, quotité plus prudente : <b>50 à 70 %</b> selon la vitesse de revente estimée et l'état du bien. On remboursera mensuellement, intérêts compris, et on vit sur le différentiel.</div>
+    </div>
+
+    <div class="box b-key">
+      <h4>Pourquoi c'est un arbitrage fiscal, pas seulement un prêt</h4>
+      <p>Si l'on se verse des dividendes, on paie la flat tax. Si l'on laisse l'argent immobilisé dans la structure et qu'on vit sur un lombard adossé à ce capital, <b>on n'est pas imposé sur ce qu'on perçoit</b> : c'est un crédit, pas un revenu.</p>
+      <p>L'arbitrage chiffré de la session : environ <b>31,5 % d'imposition contre 2,5 à 3 % d'intérêt</b>. Un écart d'environ 28 points. Et en plus, on <b>préserve le capital</b>, qui reste investi.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Les « millionnaires pauvres »</h4>
+      <p>L'expression employée pour décrire le cas de figure : très fortuné en immobilier, peu liquide en cash. C'est exactement la situation du dirigeant accompagné — et la raison pour laquelle le lombard lui convient. L'argument commercial habituel des banques (financer un tour du monde, les études des enfants, un bateau) masque un outil de gestion de trésorerie tout à fait sérieux.</p>
+      <p>C'est aussi pour cela qu'il devient utile avec l'âge : passé un certain cap, les banques refusent un crédit sur 25 ans à cause du taux d'usure — l'assurance rend le dossier irrecevable. Le lombard contourne ce blocage.</p>
+    </div>
+
+    <p>Sa propre simulation, citée en exemple : sur une résidence évaluée entre 800 000 € et un million, la banque est prête à débloquer 700 000 €.</p>
+  </div>
+</section>
+
+<section class="chap" id="s10" data-c="g">
+  <div class="chead">
+    <span class="num">10</span>
+    <h2>Protéger les gens avant les structures</h2>
+    <p class="tc">73:18 — 74:47</p>
+  </div>
+  <div class="cbody">
+    <p>Court passage, mais c'est le conseil le plus tranchant de la session, et il n'est pas financier.</p>
+
+    <div class="box b-key">
+      <h4>Verser les indemnités maintenant</h4>
+      <p>La comptable a une trentaine d'années d'ancienneté. Plutôt que de laisser traîner ses indemnités de départ — et de la retrouver en situation fragile dans dix ans, sans certitude de pouvoir payer — le conseil est de <b>liquider le sujet tout de suite</b> : lui verser son dû, lui constituer son pécule, repartir sur une base claire. Elle a déjà dit qu'elle n'arrêterait pas de travailler pour lui.</p>
+      <p>« Il vaut mieux caler de la thune aujourd'hui pour en profiter que dans dix ans. Surtout si dans dix ans tu n'es pas sûr de pouvoir la verser. »</p>
+    </div>
+
+    <h3>Le montage qui permet de continuer ensemble</h3>
+    <div class="box b-info">
+      <p>L'exemple cité : un label revendu récemment. Au moment de la cession, le dirigeant a fait une cessation d'activité, a versé à chacun de ses salariés de longue carrière un très beau solde — généreusement — puis les a tous <b>repris comme prestataires externes</b>.</p>
+      <p>La précaution à ne pas oublier : un contrat de prestation accompagné d'une <b>lettre d'engagement</b> dans laquelle le prestataire s'engage à chercher d'autres clients, à tenir ses cotisations à jour, et confirme qu'il n'engage en rien la responsabilité du donneur d'ordre. C'est ce document qui protège en cas de contrôle.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s11" data-c="b">
+  <div class="chead">
+    <span class="num">11</span>
+    <h2>Ce qui se resserre en 2027</h2>
+    <p class="tc">74:47 — 83:27</p>
+  </div>
+  <div class="cbody">
+    <p>Cette partie explique pourquoi la session insiste autant sur la vitesse d'exécution : les dispositifs sur lesquels repose le plan sont eux-mêmes sous pression.</p>
+
+    <div class="cards">
+      <div class="card"><h4>Les sociétés civiles</h4><p>Des réductions de budget significatives sont annoncées en interne pour l'année suivante. Les rémunérations des administrateurs seront préservées en priorité ; ce sont les <b>fonds d'aide et de secours</b>, et les réserves sur irrépartissables, qui seront mobilisés pour absorber la baisse.</p></div>
+      <div class="card"><h4>Les financeurs de la branche</h4><p>Le budget de l'organisme qui finance les intermittents sera réduit, « il n'y a même pas de débat ». Mais le projet va plus loin : <b>restreindre le champ des formations éligibles</b> à quelques thèmes prioritaires — sécurité, intelligence artificielle, prévention.</p></div>
+    </div>
+
+    <div class="box b-warn">
+      <h4>La mécanique, expliquée par un spécialiste du secteur</h4>
+      <p>Le point a été exposé lors d'une réunion avec un lobbyiste qui avait participé à la conception du CPF. L'objectif n'est pas d'annoncer une coupe : c'est de <b>réduire l'éligibilité</b>. Si les thèmes éligibles ne couvrent plus les métiers de la musique et de l'audiovisuel, il y aura <b>80 % de demandes en moins</b>. On pourra alors écrire : « nous avons répondu à toutes les demandes, donc nous fonctionnons très bien — et en plus nous avons réduit le budget. »</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Le revers de la médaille</h4>
+      <p>Au même moment, d'autres enveloppes sont triplées sans besoin identifié — un fonds de dotation culturelle passé de 2 à 7 millions, dans une zone où les organisateurs ne se plaignaient pas du tout de manquer de moyens. Avec pour seule conséquence, de l'aveu même du bénéficiaire, qu'il faudra « cramer l'enveloppe » pour qu'elle soit renouvelée. La contrainte budgétaire n'est pas répartie : elle est déplacée.</p>
+    </div>
+
+    <p>Le constat qui en découle, partagé avec le dirigeant : les compétences réelles ne sont pas toujours là où se trouvent les décisions. L'un des exemples cités est celui d'une « méritophobie » décrite par un médecin connu — l'idée qu'il ne faut surtout pas montrer qu'on est compétent, pour ne pas inquiéter ceux qui décident. On peut en discuter. Mais la conséquence opérationnelle, elle, est claire.</p>
+
+    <div class="pull">« Il faut penser mondial. Développe une clientèle hors France et même hors UE, réduis tes charges au maximum. Ça va être compliqué, mais ça devrait passer. »</div>
+  </div>
+</section>
+
+<section class="chap" id="s12" data-c="r">
+  <div class="chead">
+    <span class="num">12</span>
+    <h2>Développer hors de France : la méthode</h2>
+    <p class="tc">83:27 — 94:50</p>
+  </div>
+  <div class="cbody">
+    <p>C'est la partie la plus directement réutilisable, parce qu'elle livre un protocole complet, étape par étape.</p>
+
+    <h3>D'abord, ce qu'il ne faut pas faire</h3>
+    <div class="box b-warn">
+      <p><b>Délocaliser la société est une fausse bonne idée.</b> La France n'a pas de problème de fiscalité d'entreprise — elle a un problème de charges sociales. Fiscalement, les sociétés y sont bien. Chaque pays voisin impose par ailleurs ses propres obligations de présence, et le coût de la vie y est souvent dissuasif.</p>
+      <p>Le vrai sujet, c'est le moment où l'on se verse l'argent en personnel. Tant qu'on a un schéma mère-fille qui fonctionne, il reste beaucoup à optimiser avant de se plaindre de sa rémunération. Ce qu'il faut délocaliser, ce n'est pas la structure : <b>c'est la clientèle.</b></p>
+    </div>
+
+    <h3>Pourquoi vendre ailleurs paie mieux</h3>
+    <p>L'exemple de la Floride est frappant : le coût de la vie y est extrêmement élevé — une assiette de pâtes affichée à 25 $ en ressort à 35 $ une fois la taxe et le service ajoutés — mais les salaires y sont les plus élevés du pays. Pour un prestataire français, cela signifie <b>facturer trois fois son tarif habituel tout en restant moins cher que la concurrence locale</b>.</p>
+
+    <h3>La routine, une fois par mois</h3>
+    <div class="tl">
+      <div class="tli"><b>Un créneau bloqué dans l'agenda.</b> Une fois par mois, un temps réservé pour aller sur LinkedIn et se connecter à des organisateurs d'événements professionnels dans les zones visées.</div>
+      <div class="tli"><b>Accepter les connexions sans objectif immédiat.</b> Les gens vous voient, vous suivent, vous connaissent. C'est le préalable, pas le résultat.</div>
+      <div class="tli"><b>Demander des conseils.</b> La technique explicite : « de temps en temps, je leur demande des conseils. Je n'en ai pas besoin, mais je le fais exprès pour créer du lien. » On appelle, on expose une contrainte réelle, on demande : « vous, de votre côté, comment ça se passe ? Qu'est-ce que tu préconises ? »</div>
+      <div class="tli"><b>Écouter les failles.</b> Dans l'échange, on comprend les failles de leur système. Ce qui permet, sans jamais vendre, <b>de se positionner comme celui qui peut y répondre</b>. Et comme on a passé quarante minutes au téléphone, le lien existe.</div>
+      <div class="tli"><b>Impliquer.</b> Deux ou trois jours plus tard : « on développe un outil en bêta-test qui pourrait s'adapter à votre marché. Tu peux le tester et me dire si c'est OK, m'envoyer des retours pour m'aider à l'améliorer ? » L'implication crée la réciprocité : au bout d'un moment, c'est eux qui appellent avec un dossier.</div>
+    </div>
+    <p>Résultat concret cité : un contact dans un pays d'Afrique de l'Ouest, un autre en Afrique centrale — et c'est ce dernier qui l'a envoyé donner une conférence en Égypte à une date où il ne pouvait pas y aller lui-même.</p>
+
+    <h3>Le script d'approche d'un partenaire étranger</h3>
+    <div class="box b-key">
+      <ol>
+        <li><b>Identifier.</b> Un bel acteur local dans votre métier — par exemple un studio de cinéma dans un pays qui s'enrichit vite et produit beaucoup. « Il y en a plus qu'on ne le croit. »</li>
+        <li><b>Se présenter avec ses références.</b> « Nous sommes un studio en France, affilié à tel diffuseur. » L'effet est réel : vous ne vous rendez pas compte de ce que votre quotidien représente vu de l'extérieur. Flattez-les un peu, ils seront flattés aussi.</li>
+        <li><b>Poser la question technique qui ouvre la porte.</b> « Est-ce que vous traitez les demandes en Dolby Atmos ? » La réponse est souvent : non, pas le matériel, on sous-traite. Vous venez de trouver votre entrée.</li>
+        <li><b>Proposer un cadre, pas une prestation.</b> « Sachez que nous pourrions le faire dans le cadre d'un partenariat entre votre studio et le nôtre. » Et ajouter les bénéfices annexes : facilitation des demandes de visas professionnels quand une structure locale vous accueille dans le cadre d'un contrat sur un projet, aides locales à l'export.</li>
+        <li><b>Faire le premier contrat au rabais.</b> Moins 20 % sur le tarif habituel. Ça permet de gagner le marché et d'entrer. « Une fois qu'on est dedans et que la relation est établie, c'est festival. »</li>
+        <li><b>Laisser l'effet réseau opérer.</b> Un client peut en amener dix.</li>
+      </ol>
+    </div>
+
+    <div class="box b-info">
+      <h4>Une illustration du même marché, côté droits</h4>
+      <p>Au Maroc, beaucoup d'artistes sont aussi comédiens et découvrent par la plateforme qu'ils ont des droits voisins d'artistes-interprètes dormants. Les montants récupérés sont de l'ordre de 4 000 à 5 000 € — deux ou trois mois de visibilité en France, mais souvent l'équivalent d'une année de cachets sur place. Preuve qu'il y a là des productions bien faites, exploitées en France, et donc des ponts à construire sur toute la chaîne.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s13" data-c="a">
+  <div class="chead">
+    <span class="num">13</span>
+    <h2>Négocier : prix de départ, cartes cachées, dernier recours</h2>
+    <p class="tc">94:50 — 111:20</p>
+  </div>
+  <div class="cbody">
+    <p>La dernière partie technique de la session porte sur la négociation elle-même : celle de la vente du lot, celle de l'accord avec le loueur, et une dernière option à garder sous le coude.</p>
+
+    <h3>Fixer le prix de départ</h3>
+    <div class="box b-key">
+      <p><b>Si on veut 80 000 €, on démarre à 115 000 €.</b> Quitte à jouer l'ingénu : « je ne comprends pas, mes deux agents sont venus, ils m'ont évalué à 115, 120. Je ne pense pas être déconnant. »</p>
+      <p>La raison est mécanique : si le point de départ est trop bas, l'acheteur tirera quand même vers le bas. Si on part haut et qu'il tire un peu, il sera content d'avoir obtenu une concession, et on sera revenu au prix réellement visé. Tout le monde est content.</p>
+    </div>
+
+    <h3>Reconnaître le jeu des agents immobiliers</h3>
+    <p>Le premier agent venu pour l'évaluation « a fait pleurer » : le marché, le secteur, le fait qu'on ne veuille plus de projets de ce côté de la ville. C'est normal — <b>son métier est de vous faire comprendre que ce que vous avez vaut peu et qu'il faut s'en débarrasser vite.</b></p>
+    <div class="box b-tip">
+      <h4>Et comment le retourner</h4>
+      <p>S'il veut un mandat exclusif, il rappellera quelques jours plus tard : « on en a parlé avec l'équipe, les dernières transactions se sont relevées, on peut tenter plus haut. » Parce qu'une fois le mandat obtenu, il visera un prix plus élevé pour une meilleure commission.</p>
+      <p>On joue sur ce ressort : <b>pour obtenir le mandat, il sera obligé de vous faire une évaluation au prix que vous demandez</b> — même s'il sait que ce prix ne se fera pas. Et cette évaluation signée vous sert ensuite : « regardez, trois agences concurrentes, qui ne se connaissent pas, ont évalué au même prix. J'ai les comptes rendus, signés et tamponnés. Je ne suis pas professionnel, je fais ce qu'on me dit. » Document utile devant une banque ou un partenaire.</p>
+    </div>
+
+    <h3>Au rendez-vous avec le loueur : ne pas tout sortir</h3>
+    <div class="box b-info">
+      <p>Selon qui est en face, il ne faut pas abattre toutes ses cartes d'un coup. Le scénario le plus probable, s'ils sont de bonne foi : « on ne va pas vous faire cadeau d'un an, mais on peut décaler avec un zéro pendant un an et reprendre ensuite. Par contre, qu'est-ce qui me dit que vous serez encore là dans un an ? »</p>
+      <p><b>C'est à ce moment-là qu'on sort la division.</b> « Je comprends. Sachez que j'étudie en parallèle une division de mes locaux. J'ai plus de 300 m², dont une cinquantaine inutilisés et facilement divisibles. J'ai rendez-vous avec un géomètre, c'est dans le pipe. Ça fera rentrer de la trésorerie pour relancer l'activité. Maintenant, c'est à vous de décider si vous voulez qu'on avance dans le même sens — ou si vous voulez couper court, avec les risques que ça implique. »</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Deux arbitrages chiffrés à garder en tête</h4>
+      <p><b>Taux contre inflation.</b> Même en empruntant à 4 % quand l'inflation réelle est à 7 %, on gagne 3 points sur de l'argent qu'on n'a pas. Tant qu'on ne met pas trop d'apport et que le marché locatif tient, un report de paiement vous est favorable : « s'il ne fait que reculer, avec l'inflation j'y gagne au bout du compte. »</p>
+      <p><b>Un an ou dix-huit mois.</b> Si un report d'un an passe et qu'ils veulent y greffer un avenant avec des frais, la réponse est : « je n'ai rien à y gagner. Ou alors vous me donnez dix-huit mois, ce qui me laissera le temps d'absorber les frais aussi. » Et vous venez de gagner six mois.</p>
+    </div>
+
+    <h3>La dernière option, en dernier recours</h3>
+    <p>Le dirigeant avait mentionné en passant que son éditeur ne l'avait pas crédité sur une exploitation en cours. Point de départ d'une dernière piste.</p>
+    <div class="tl">
+      <div class="tli"><b>Proposer la revente de sa part éditoriale.</b> « Il y a une grosse exploitation en cours, je suis dans les crédits, et en ce moment je suis vendeur. Si ça vous intéresse, faites-moi une proposition. »</div>
+      <div class="tli"><b>Ne jamais annoncer son besoin.</b> « Je n'ai besoin de rien, tout va bien de mon côté. Simplement, en ce moment, je suis vendeur pour investir dans d'autres activités, notamment l'immobilier. » Précisez « immobilier commercial » et ils imagineront des montants encore plus importants. Si on donne un chiffre, on plafonne la proposition.</div>
+      <div class="tli"><b>Laisser la balle de leur côté.</b> « Sentez-vous libre d'en parler entre vous et de me faire une proposition si ça vous intéresse. » Les grandes maisons ont les moyens : un back catalogue mondial à plusieurs dizaines de millions par an rentre avant même qu'on se lève le matin. Si une somme à six chiffres arrive, l'opération se boucle en quelques jours.</div>
+      <div class="tli"><b>Le repli, s'ils refusent.</b> « Dans ce cas, est-ce que la branche éditoriale en charge des admin deals serait intéressée ? »</div>
+    </div>
+
+    <div class="box b-info">
+      <h4>Ce qu'est un admin deal</h4>
+      <p>L'éditeur administre votre catalogue d'édition — avec plus ou moins de pouvoir selon ce que vous lui concédez — moyennant environ <b>10 % de commission</b> pour service rendu. Ils se font 10 % sans beaucoup d'effort, puisque la plupart des opportunités, c'est vous qui les rapportez. Mais cela permet de récupérer une <b>avance, au minimum autour de 20 000 €</b>, davantage selon la taille du catalogue.</p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Et l'option la plus agressive</h4>
+      <p>Aller voir un concurrent direct de l'éditeur sur le marché de la synchronisation et lui dire : « j'ai une exploitation chez eux, j'ai les éditions, j'ai envie de les revendre. » Parce qu'il arrive qu'ils rachètent des catalogues uniquement pour se nuire mutuellement — et le nouveau co-éditeur vient ensuite renégocier le contrat. C'est efficace et c'est compliqué. À manier avec précaution.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s14" data-c="g">
+  <div class="chead">
+    <span class="num">14</span>
+    <h2>La leçon du dojo</h2>
+    <p class="tc">111:20 — 115:30</p>
+  </div>
+  <div class="cbody">
+    <p>La session se referme sur une adresse directe à Emma, qui a assisté à tout l'exercice sans intervenir : « tu es dans un cas d'école. Tout ce que tu as appris là dépasse largement ce que tu as pu apprendre à l'école. »</p>
+
+    <div class="box b-key">
+      <h4>La métaphore</h4>
+      <p>L'école, c'est un dojo. On vous apprend les bases, vous en sortez avec l'impression d'être ceinture noire et imbattable. Puis vient la première compétition : <b>la technique ne marche pas, l'autre bouge trop vite.</b></p>
+      <p>À ce moment-là, deux réactions. Certains sont déstabilisés et concluent : « ça ne m'a servi à rien. » Les autres se disent : <b>« non, il y a juste une forme d'agilité et d'adaptation à développer. Quand je fais ça et qu'il contre avec ça, je peux le contrer autrement. »</b> Et c'est le plus malin, ou le plus rapide, qui gagne.</p>
+      <p>Dans la vie professionnelle, c'est identique. Se dire « c'est bon, je suis calé, j'y vais » est l'erreur. Se dire « j'ai les bases, et je continue à acquérir des compétences tranquillement » mène, à un moment, à un pivot qui change tout.</p>
+    </div>
+
+    <h3>Les prochaines étapes, telles qu'elles sont fixées</h3>
+    <div class="tl">
+      <div class="tli">Le compte rendu de la session est transmis à la comptable, qui doit examiner les trois hypothèses avec le dirigeant.</div>
+      <div class="tli">Le rendez-vous avec le loueur de matériel est demandé pour le jeudi ou le vendredi de la semaine en cours. Tout en dépend.</div>
+      <div class="tli">Le géomètre est à contacter pour le devis de division — à faire chiffrer, pas à commander.</div>
+      <div class="tli">La recherche de certificateurs continue sur France Compétences, sans attendre l'issue du reste.</div>
+      <div class="tli">Un marchand de biens du réseau personnel sera consulté, en mode « toi, tu aurais fait quoi ? ».</div>
+    </div>
+
+    <div class="pull">« Tant que tu as du foncier, tout va bien. Tu as toujours quelqu'un qui le voudra — c'est ce qu'on appelle la loi du plus fou : il y aura toujours quelqu'un prêt à racheter au prix et plus, parce qu'il aura une idée différente, ou un peu folle. »</div>
+
+    <p>Et la remarque de clôture du dirigeant, qui résume ce qui vient de se jouer : plutôt que de prendre l'argent et d'en faire autre chose — « une façon de gérer un portefeuille comme on gérerait son porte-monnaie » — les trois options proposées sont une manière plus intelligente de faire travailler ce qu'on a déjà.</p>
+  </div>
+</section>
+
+<div class="faq">
+  <div class="bar"></div>
+  <div class="faqhead">
+    <h2>Questions / Réponses</h2>
+    <p>Les 63 points traités pendant la session, regroupés par thème.</p>
+  </div>
+  <div class="faqbody">
+
+    <div class="faqcat">Poser le diagnostic</div>
+    <div class="qa"><div class="q"><span>Q1.</span>Quelle est la première question à trancher dans une entreprise en difficulté ?</div><div class="a"><p>La fenêtre de temps. <strong>Reste-t-il un an, ou l'affaire se termine dans six semaines ?</strong> Les deux réponses mènent à deux plans opposés : dans le premier cas on investit dans le levier le plus efficace, dans le second on sauve ce qu'il y a à sauver et on reconstruit ailleurs. Travailler sans avoir tranché, c'est « un coup d'épée dans l'eau ».</p></div></div>
+    <div class="qa"><div class="q"><span>Q2.</span>Quelles questions poser avant de proposer la moindre solution ?</div><div class="a"><p>Six, dans cet ordre : <strong>qui détient quoi ; comment l'argent circule entre les structures (régime mère-fille, conventions de trésorerie, sens de la dette interne) ; quelle est la charge qui tue ; quelle est la valeur de liquidation réelle de l'actif ; quelle est la dette totale ; et quelles structures sont saines.</strong> Aucun conseil n'est fiable avant d'avoir les six réponses.</p></div></div>
+    <div class="qa"><div class="q"><span>Q3.</span>Pourquoi la valeur comptable du matériel est-elle trompeuse ?</div><div class="a"><p>Parce qu'elle ignore la conjoncture du secteur. Du matériel valorisé 180 000 € au bilan ne vaut plus que 30 000 € à la revente quand la moitié des prestataires du marché ferment en même temps et vendent le même matériel. <strong>C'est cet écart qui ouvre toute l'ingénierie</strong> : on rachète à la valeur de marché, pas à la valeur comptable.</p></div></div>
+    <div class="qa"><div class="q"><span>Q4.</span>Qu'est-ce qui fait passer un dossier devant le tribunal ?</div><div class="a"><p>Des perspectives prouvées. <em class="q">« S'il arrive le 15 et qu'il dit : j'ai 25 stagiaires en formation, je serai payé dans deux mois, ça passe. S'il arrive le 15 en disant : on cherche toujours, ça va être compliqué. »</em></p></div></div>
+
+    <div class="faqcat">Le financement de la formation</div>
+    <div class="qa"><div class="q"><span>Q5.</span>Quel est le seul vrai frein des stagiaires ?</div><div class="a"><p>Le prix, systématiquement. D'où l'intérêt du financement : <strong>si le stagiaire n'a rien à sortir de sa poche, le frein disparaît</strong> et il ne reste plus qu'une objection possible — « je ne pense pas que vous soyez bons pour ça » — à laquelle on sait répondre.</p></div></div>
+    <div class="qa"><div class="q"><span>Q6.</span>Comment le CPF fonctionnait-il avant la réforme ?</div><div class="a"><p>Un organisme ouvrait un compte, s'y inscrivait, encaissait. <em class="q">« C'était comme mettre une clé USB, limite. »</em> N'importe qui pouvait se déclarer formateur sur n'importe quel sujet, sans contrôle de fond.</p></div></div>
+    <div class="qa"><div class="q"><span>Q7.</span>Qu'est-ce qui a changé ?</div><div class="a"><p>Le système a été formalisé « à l'extrême » : toute formation éligible doit désormais être <strong>certifiante</strong>, avec au minimum une certification enregistrée. Beaucoup d'organismes ont alors créé leur propre certification — pour eux-mêmes.</p></div></div>
+    <div class="qa"><div class="q"><span>Q8.</span>Un certificateur peut-il refuser qu'on forme à sa certification ?</div><div class="a"><p>Non, pas au motif que « c'est compliqué ». <strong>Un certificateur enregistré sur France Compétences doit opposer un niveau d'exigence objectif : le référentiel.</strong> Si le formateur présente un CV conforme, le passage du jury doit être possible. Le refus doit se justifier par l'exigence, pas par la complexité.</p></div></div>
+    <div class="qa"><div class="q"><span>Q9.</span>Pourquoi refusent-ils en pratique ?</div><div class="a"><p>Pour une raison économique. <strong>Quand le jury se tient chez eux, ils encaissent 200 à 300 € par stagiaire</strong> pour une demi-heure, désormais mutualisable sur plusieurs candidats. Déléguer la formation sans le jury, c'est renoncer à cette marge. L'argument administratif masque l'argument financier.</p></div></div>
+    <div class="qa"><div class="q"><span>Q10.</span>Que faire face à un refus oral ?</div><div class="a"><p>Le pousser. <em class="q">« Expliquez-moi en quoi c'est compliqué, ça m'intéresse. C'est quoi le process ? Qu'est-ce que vous demandez ? »</em> La question bloque l'interlocuteur. Et demander la réponse <strong>par écrit</strong>, puisqu'elle n'est pas légale en l'état.</p></div></div>
+    <div class="qa"><div class="q"><span>Q11.</span>Un refus ferme-t-il le dossier ?</div><div class="a"><p>Jamais. Il reste <strong>cinq ou six certificateurs à contacter</strong> sur France Compétences, y compris avec des intitulés légèrement différents qu'on peut adapter. Cette recherche doit continuer en parallèle de tout le reste, sans attendre l'issue des autres chantiers.</p></div></div>
+    <div class="qa"><div class="q"><span>Q12.</span>Combien de temps faut-il pour monter une offre financée ?</div><div class="a"><p><strong>Deux à trois mois minimum</strong> pour la monter et contractualiser, plus environ deux semaines de délai d'inscription réglementaire. Soit trois mois et demi avant de pouvoir vendre, puis le temps de la formation, puis le paiement.</p></div></div>
+    <div class="qa"><div class="q"><span>Q13.</span>Quel est le délai de paiement ?</div><div class="a"><p>Trente jours — <strong>et le paiement tombe le trentième jour</strong>. S'il s'agit d'un jour férié, deux jours de plus.</p></div></div>
+    <div class="qa"><div class="q"><span>Q14.</span>Quel est le piège de trésorerie que personne n'anticipe ?</div><div class="a"><p>Le certificateur se paie <strong>d'avance</strong> : frais d'intermédiation plus présentation au jury, soit 300 à 400 € par stagiaire à sortir avant d'encaisser le moindre euro. Vingt stagiaires, c'est 8 000 € d'avance de trésorerie.</p></div></div>
+    <div class="qa"><div class="q"><span>Q15.</span>Que se passe-t-il si cette trésorerie manque ?</div><div class="a"><p>Le projet ne ralentit pas : il s'annule. <strong>Sans trésorerie on ne peut pas inscrire, et au bout de quelques jours sans inscription on est dégagé de la plateforme</strong> — donc plus éligible à la certification. C'est pour cette raison que l'argent doit être trouvé <em>avant</em>, pas pendant.</p></div></div>
+    <div class="qa"><div class="q"><span>Q16.</span>Combien de temps pour reconstruire sur une autre structure ?</div><div class="a"><p>On modifie légèrement les statuts d'une société existante, on tient deux comptabilités distinctes, on repasse un Qualiopi — <strong>deux à trois mois, « chiant mais ça s'obtient »</strong> — et si le certificateur a déjà été approché en amont, tout s'enchaîne. Compter six mois au total.</p></div></div>
+    <div class="qa"><div class="q"><span>Q17.</span>Et si la formation a besoin de locaux et de matériel qu'on perd ?</div><div class="a"><p>C'est un vrai frein, mais pas le principal. <strong>On trouve des confrères équipés qui sous-louent leur studio le temps d'une formation.</strong> Le vrai obstacle reste la certification et le Qualiopi.</p></div></div>
+
+    <div class="faqcat">Récupérer l'outil de production</div>
+    <div class="qa"><div class="q"><span>Q18.</span>Quelle question déclenche tout le montage ?</div><div class="a"><p>Deux questions enchaînées : <strong>« es-tu affilié au CNM sur ton label ? »</strong> et <strong>« as-tu activé une demande d'agrément au crédit d'impôt phonographique ? »</strong>. Avec deux oui, un label peut racheter du matériel avec une prise en charge d'environ 40 %.</p></div></div>
+    <div class="qa"><div class="q"><span>Q19.</span>Quel est le schéma proposé ?</div><div class="a"><p>Laisser couler la structure déficitaire, mais <strong>récupérer le matériel</strong> : on liste le parc, on fait acter par huissier (environ 200 €), on revend au label à la valeur de marché, le crédit d'impôt rembourse 40 %, et le produit de la vente sert à <strong>solder la banque</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q20.</span>Pourquoi solder la banque est-il le point crucial ?</div><div class="a"><p>Parce que les dettes bancaires sont celles qui suivent le dirigeant derrière. <strong>Les éteindre avant la liquidation, c'est éteindre le risque personnel.</strong> Les autres créanciers s'assiéront sur ce qui reste.</p></div></div>
+    <div class="qa"><div class="q"><span>Q21.</span>Quelle est la condition sine qua non du montage ?</div><div class="a"><p>Le <strong>transfert de propriété du matériel</strong>, négocié avec le loueur. Sans lui, le matériel reste le sien : s'il n'est pas payé, il peut venir le saisir. Tout le reste en dépend.</p></div></div>
+    <div class="qa"><div class="q"><span>Q22.</span>Quel argument présenter au loueur ?</div><div class="a"><p>Une alternative, pas une faveur : <em class="q">« Vous ne récupérez rien parce que ça ne se vendra pas de toute façon »</em>, ou <em class="q">« vous nous laissez travailler un an — et en plus le nouveau bailleur sera peut-être plus solvable »</em>. Puis on <strong>renégocie l'étalement dans la foulée</strong> : ce qui était dû sur trois ans passe sur six, avec quelques euros de frais de dossier pour qu'ils y trouvent leur compte.</p></div></div>
+    <div class="qa"><div class="q"><span>Q23.</span>Que peut-on encore rattacher au dispositif ?</div><div class="a"><p>Une partie des salaires, si l'intitulé de poste est rattaché à un projet éligible identifié et à une mission de deux ans. Pas la totalité du brut, mais une bonne partie. Les <strong>loyers de matériel</strong> rattachés aux projets du label entrent aussi : le coût réel du bail résiduel peut être divisé par deux.</p></div></div>
+    <div class="qa"><div class="q"><span>Q24.</span>Qu'est-ce qui n'entre pas dans le dispositif ?</div><div class="a"><p>Les <strong>charges générales</strong> : loyer des locaux, électricité, expert-comptable. Elles ne sont rattachables à aucun projet, et tenter de les y rattacher n'est « même pas justifiable ». Or ce poste représente ici environ <strong>12 000 € par mois</strong>, dont la moitié reste à trouver même après tous les montages.</p></div></div>
+
+    <div class="faqcat">Le tribunal</div>
+    <div class="qa"><div class="q"><span>Q25.</span>Comment se comporter à l'audience ?</div><div class="a"><p>L'expérience racontée est celle d'un juge qui parle très mal — « vous êtes irresponsable », « vous avez de la chance qu'on ne vous mette pas une interdiction de gérer ». La consigne de l'avocat : <strong>ne rien répondre, les laisser se lâcher.</strong> Vingt minutes, et on ressort tranquille.</p></div></div>
+    <div class="qa"><div class="q"><span>Q26.</span>Le tribunal ne fait-il que sanctionner ?</div><div class="a"><p>Non. Dans ce dossier, il a <strong>ordonné à l'organisme de cotisations sociales de s'asseoir sur le solde de la dette</strong> — une ponction partielle déjà faite, mille euros avec échéancier, le reste effacé. Et l'organisme a accepté. C'est aussi une instance qui peut trancher en faveur de la continuité.</p></div></div>
+    <div class="qa"><div class="q"><span>Q27.</span>Les juges décident-ils seuls ?</div><div class="a"><p>Jamais : ils sont cinq ou six. L'un fait de la comptabilité et ne lève pas la tête, un autre écoute vraiment et pose les bonnes questions, un troisième observe. <strong>Il y a de l'intelligence dans la salle</strong> — et dans ce dossier, un premier juge connaissait la maison et trouvait remarquable qu'une entreprise tienne quarante ans.</p></div></div>
+    <div class="qa"><div class="q"><span>Q28.</span>Combien coûte la procédure ?</div><div class="a"><p>Quatre intervenants nommés sur une entreprise de deux personnes, facturant chacun <strong>1 000 à 1 400 € par mois</strong> pour répondre à quelques courriels et autoriser quelques dépenses. Un dispositif conçu pour éviter les plans sociaux massifs dans les grands groupes, appliqué mécaniquement à tout le monde.</p></div></div>
+
+    <div class="faqcat">Faire parler l'immobilier</div>
+    <div class="qa"><div class="q"><span>Q29.</span>Quelle est la question qui ouvre toutes les options ?</div><div class="a"><p><strong>« Est-ce que ton immeuble est divisible ? »</strong> — pas au sens du démembrement, physiquement : entrée commune, escalier, compteurs dédiés, un étage à l'un et un étage à l'autre. Ici, l'immeuble l'était déjà en partie, avec une aile de 40 m² inutilisée depuis la perte du marché.</p></div></div>
+    <div class="qa"><div class="q"><span>Q30.</span>Que permet un immeuble sans crédit restant dû ?</div><div class="a"><p>Beaucoup. Pas de servitude, probablement pas d'hypothèque (et si oui, un notaire la fait lever puisqu'il n'y a plus de dette). <strong>On peut alors emprunter en s'appuyant sur une hypothèque : la banque prête jusqu'à 70 % de la valeur</strong>, parfois 50 % par prudence. Sur 100 000 € empruntés à des taux pros sur 5 à 10 ans, le coût total est de 110 000 à 115 000 € assurances comprises.</p></div></div>
+    <div class="qa"><div class="q"><span>Q31.</span>Comment se prépare une division-revente ?</div><div class="a"><p>On fait venir un <strong>géomètre pour chiffrer la division sans la commander</strong> (1 500 à 2 000 €). Le devis atteste que la division est faisable, et c'est tout ce dont on a besoin. Puis on demande aux agences d'être connecté à leur <strong>réseau de marchands de biens</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q32.</span>Pourquoi les agences accepteront-elles de jouer ce rôle ?</div><div class="a"><p>Parce que c'est tout bénéfice : commission à l'entrée, commission à la revente six mois ou un an plus tard, et gestion locative si l'acquéreur reloue. Et on leur <strong>fait miroiter la suite</strong> : « l'autre partie viendra plus tard, c'est déjà en projet ». Deux ou trois commissions en perspective.</p></div></div>
+    <div class="qa"><div class="q"><span>Q33.</span>Marchand de biens ou investisseur ?</div><div class="a"><p>Marchand de biens. <strong>Ils vont vite, c'est leur métier.</strong> Un investisseur réfléchit lentement. Et il ne faut pas s'inquiéter de sa plus-value : il va changer la destination, revendre en location courte durée ou diviser en studios. <strong>On le laisse faire son pognon tant qu'il paie le prix demandé.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q34.</span>Qu'est-ce qu'une vente à option ?</div><div class="a"><p>Une <strong>vente future</strong> : on vend aujourd'hui la promesse de vendre l'immeuble à une date précise, avec une décote (25 %, par exemple, pour la vétusté future et pour motiver l'acquéreur) et un système d'acomptes — un montant à la signature, un à cinq ans, le solde à dix ans. Rédigée devant notaire : <strong>le vôtre, pas le sien.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q35.</span>Quel est le risque de cette option ?</div><div class="a"><p>On vend à prix fixe. <strong>Si l'immobilier double en dix ans, on ne le captera pas.</strong> Et il ne faut pas se tromper sur la date. En échange, on sécurise un acquéreur et on maîtrise sa date de sortie.</p></div></div>
+    <div class="qa"><div class="q"><span>Q36.</span>Qu'est-ce qu'un crédit lombard ?</div><div class="a"><p>Un crédit adossé à un actif nanti — du cash immobilisé ou un bien sans crédit restant dû. Proposé par la <strong>branche gestion de patrimoine</strong> des grandes banques. La banque nantit l'actif autour de 3 %, puis prête jusqu'à <strong>80 % sur du cash, 50 à 70 % sur de l'immobilier</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q37.</span>Pourquoi est-ce un arbitrage fiscal ?</div><div class="a"><p>Parce qu'un crédit n'est pas un revenu. Se verser des dividendes déclenche la flat tax ; vivre sur un lombard adossé au capital laissé dans la structure ne déclenche rien. L'arbitrage chiffré : <strong>environ 31,5 % d'imposition contre 2,5 à 3 % d'intérêt — un écart de 28 points</strong>. Et le capital reste investi.</p></div></div>
+    <div class="qa"><div class="q"><span>Q38.</span>À qui s'adresse cet outil ?</div><div class="a"><p>Aux <strong>« millionnaires pauvres »</strong> : très fortunés en immobilier, peu liquides en cash. Il devient aussi très utile avec l'âge, puisque passé un certain cap les banques refusent un crédit long à cause du taux d'usure — l'assurance rend le dossier irrecevable. Le lombard contourne ce blocage.</p></div></div>
+    <div class="qa"><div class="q"><span>Q39.</span>Et le réflexe le plus simple, souvent oublié ?</div><div class="a"><p>Les <strong>places de parking</strong>. En centre-ville de ville moyenne, une place vaut 15 000 à 25 000 €. On trouve un commerçant du quartier qui galère à se garer, on en vend deux, et voilà 30 000 €. C'est gênant pour l'équipe, mais si c'est ce qu'il faut pour tenir un an de plus, on le fait.</p></div></div>
+
+    <div class="faqcat">Protéger les gens</div>
+    <div class="qa"><div class="q"><span>Q40.</span>Faut-il attendre pour verser des indemnités de départ ?</div><div class="a"><p>Non — c'est le conseil le plus tranchant de la session. Plutôt que de laisser traîner et de retrouver la personne en situation fragile dans dix ans, sans certitude de pouvoir payer, on <strong>liquide le sujet tout de suite</strong>. <em class="q">« Il vaut mieux caler de la thune aujourd'hui pour en profiter que dans dix piges. Surtout si dans dix piges tu n'es pas sûr de pouvoir la filer. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q41.</span>Comment continuer à travailler ensemble après ?</div><div class="a"><p>Le modèle cité : au moment d'une cession, un dirigeant a fait une cessation d'activité, versé un beau solde à chacun de ses salariés de longue carrière, puis les a <strong>tous repris comme prestataires externes</strong>. Avec une précaution : un contrat de prestation accompagné d'une <strong>lettre d'engagement</strong> où le prestataire s'engage à chercher d'autres clients, à tenir ses cotisations à jour, et confirme qu'il n'engage pas la responsabilité du donneur d'ordre. C'est ce document qui protège en cas de contrôle.</p></div></div>
+    <div class="qa"><div class="q"><span>Q42.</span>Pourquoi aller si vite sur tous ces chantiers ?</div><div class="a"><p>Parce que les dispositifs eux-mêmes se resserrent. Les budgets des sociétés civiles baissent, les fonds d'aide et de secours sont mobilisés pour absorber, et le projet évoqué par un spécialiste du secteur est de <strong>restreindre le champ des formations éligibles</strong> à quelques thèmes prioritaires — ce qui produirait mécaniquement 80 % de demandes en moins sans qu'aucune coupe ne soit annoncée.</p></div></div>
+
+    <div class="faqcat">Développer ailleurs</div>
+    <div class="qa"><div class="q"><span>Q43.</span>Faut-il délocaliser sa société ?</div><div class="a"><p>Non. <strong>La France n'a pas de problème de fiscalité d'entreprise, elle a un problème de charges sociales.</strong> Chaque pays voisin impose ses propres obligations de présence, et le coût de la vie y est souvent dissuasif. Ce qu'il faut délocaliser, c'est la <strong>clientèle</strong>, pas la structure.</p></div></div>
+    <div class="qa"><div class="q"><span>Q44.</span>Pourquoi vendre à l'étranger paie-t-il mieux ?</div><div class="a"><p>Parce que les niveaux de prix ne sont pas les mêmes. Dans certaines régions des États-Unis, le coût de la vie est extrême — une assiette de pâtes affichée à 25 $ ressort à 35 $ taxes et service inclus — mais les salaires sont les plus élevés du pays. Un prestataire français peut y <strong>facturer trois fois son tarif habituel en restant moins cher que la concurrence locale</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q45.</span>Quelle est la routine de prospection décrite ?</div><div class="a"><p>Un créneau bloqué <strong>une fois par mois</strong> pour se connecter sur LinkedIn à des organisateurs d'événements professionnels dans les zones visées, sans objectif immédiat. Les gens vous voient, vous suivent, vous connaissent. C'est le préalable, pas le résultat.</p></div></div>
+    <div class="qa"><div class="q"><span>Q46.</span>Comment transformer une connexion en relation ?</div><div class="a"><p>En demandant conseil. <em class="q">« De temps en temps, je leur demande des conseils. Je n'en ai pas besoin, mais je fais exprès pour créer du lien. »</em> On appelle, on expose une contrainte réelle, on demande comment ça se passe chez eux. <strong>Dans l'échange, on comprend les failles de leur système</strong> — ce qui permet de se positionner comme celui qui peut y répondre, sans jamais vendre.</p></div></div>
+    <div class="qa"><div class="q"><span>Q47.</span>Et ensuite ?</div><div class="a"><p>On implique. Deux ou trois jours plus tard : <em class="q">« on développe un outil en bêta-test qui pourrait s'adapter à votre marché, tu peux le tester et m'envoyer des retours ? »</em> <strong>L'implication crée la réciprocité</strong> : au bout d'un moment, c'est eux qui appellent avec un dossier.</p></div></div>
+    <div class="qa"><div class="q"><span>Q48.</span>Quel est le script d'approche d'un partenaire étranger ?</div><div class="a"><p>Identifier un bel acteur local ; se présenter avec ses références (« nous sommes un studio en France, affilié à tel diffuseur » — l'effet est réel vu de l'extérieur) ; poser la <strong>question technique qui ouvre la porte</strong> (« traitez-vous les demandes en Dolby Atmos ? » — la réponse est souvent non, on sous-traite) ; proposer un <strong>partenariat, pas une prestation</strong> ; et faire le premier contrat à <strong>moins 20 %</strong> pour entrer.</p></div></div>
+    <div class="qa"><div class="q"><span>Q49.</span>Quels bénéfices annexes mettre en avant ?</div><div class="a"><p>La facilitation des <strong>demandes de visas professionnels</strong> quand une structure locale accueille dans le cadre d'un contrat sur un projet, et les <strong>aides locales à l'export</strong> dont dispose souvent le partenaire. Il vous donnera lui-même toutes les réponses si vous posez les questions.</p></div></div>
+
+    <div class="faqcat">Négocier</div>
+    <div class="qa"><div class="q"><span>Q50.</span>Comment fixer un prix de départ ?</div><div class="a"><p>Au-dessus. <strong>Pour obtenir 80 000 €, on démarre à 115 000 €</strong>, quitte à jouer l'ingénu : « mes deux agents m'ont évalué à 115, 120, je ne pense pas être déconnant ». Si le point de départ est trop bas, l'acheteur tirera quand même vers le bas. S'il tire depuis un point haut, il sera content de sa concession et vous serez revenu à votre prix.</p></div></div>
+    <div class="qa"><div class="q"><span>Q51.</span>Pourquoi un agent immobilier dénigre-t-il votre bien ?</div><div class="a"><p>C'est son métier : vous faire comprendre que ce que vous avez vaut peu et qu'il faut s'en débarrasser vite. <strong>Il fera pleurer sur le marché, le secteur, l'orientation de la ville.</strong> Ce n'est pas une information, c'est une position de négociation.</p></div></div>
+    <div class="qa"><div class="q"><span>Q52.</span>Comment retourner le jeu du mandat exclusif ?</div><div class="a"><p>Pour obtenir le mandat, il sera <strong>obligé de vous faire une évaluation au prix que vous demandez</strong>, même en sachant que ce prix ne se fera pas. Cette évaluation signée vous sert ensuite : « trois agences concurrentes, qui ne se connaissent pas, ont évalué au même prix, j'ai les comptes rendus signés ». Document utile devant une banque ou un partenaire.</p></div></div>
+    <div class="qa"><div class="q"><span>Q53.</span>Faut-il tout dire au rendez-vous décisif ?</div><div class="a"><p>Non. <strong>On ne sort pas toutes ses cartes d'un coup.</strong> On attend l'objection prévisible — « qu'est-ce qui me dit que vous serez encore là dans un an ? » — et c'est seulement là qu'on sort la division des locaux, le rendez-vous avec le géomètre et la trésorerie attendue. Puis on leur laisse la décision : avancer dans le même sens, ou couper court avec les risques que ça implique.</p></div></div>
+    <div class="qa"><div class="q"><span>Q54.</span>Un report de paiement est-il vraiment un gain ?</div><div class="a"><p>Oui, mécaniquement. <strong>Même en empruntant à 4 % quand l'inflation réelle est à 7 %, on gagne 3 points sur de l'argent qu'on n'a pas.</strong> Tant qu'on ne met pas trop d'apport et que le marché locatif tient, tout report joue en votre faveur.</p></div></div>
+    <div class="qa"><div class="q"><span>Q55.</span>Un an, ou plus ?</div><div class="a"><p>Toujours tenter plus. Si un report d'un an passe et qu'ils veulent y greffer un avenant avec des frais : <em class="q">« je n'ai rien à y gagner. Ou alors vous me donnez dix-huit mois, ça me laissera le temps d'absorber les frais aussi. »</em> <strong>Et vous venez de gagner six mois.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q56.</span>Comment proposer la revente d'une part éditoriale ?</div><div class="a"><p>En se présentant vendeur, pas demandeur. <em class="q">« Il y a une grosse exploitation en cours, je suis dans les crédits, en ce moment je suis vendeur. Si ça vous intéresse, faites-moi une proposition. »</em> Et surtout : <strong>ne jamais donner de chiffre</strong> — « je n'ai besoin de rien, je suis simplement vendeur pour investir ailleurs, notamment dans l'immobilier commercial ». Un chiffre annoncé plafonne la proposition.</p></div></div>
+    <div class="qa"><div class="q"><span>Q57.</span>Qu'est-ce qu'un admin deal ?</div><div class="a"><p>L'éditeur administre votre catalogue d'édition — avec plus ou moins de pouvoir selon ce que vous concédez — moyennant environ <strong>10 % de commission</strong>. Ils se font 10 % sans beaucoup d'effort, puisque la plupart des opportunités viennent de vous. Mais cela permet de récupérer une <strong>avance, au minimum autour de 20 000 €</strong>, davantage selon la taille du catalogue.</p></div></div>
+    <div class="qa"><div class="q"><span>Q58.</span>Et l'option la plus agressive ?</div><div class="a"><p>Aller voir un concurrent direct de l'éditeur sur le marché de la synchronisation : « j'ai une exploitation chez eux, j'ai les éditions, j'ai envie de les revendre. » Il arrive qu'ils rachètent des catalogues <strong>uniquement pour se nuire mutuellement</strong>, et le nouveau co-éditeur vient ensuite renégocier le contrat. Efficace, mais compliqué — à manier avec précaution.</p></div></div>
+
+    <div class="faqcat">La leçon</div>
+    <div class="qa"><div class="q"><span>Q59.</span>Quelle est la vraie leçon de l'affaire de Bénodet ?</div><div class="a"><p>Que la solution décisive n'est presque jamais celle qu'on avait prévue. Ici, elle est venue d'un <strong>juge, dans une procédure perdue</strong> (« rachetez-lui le fonds de commerce »), puis d'un <strong>appel en transparence totale</strong> à un acteur dont les intérêts convergeaient. <em class="q">« Des fois, tu as des options auxquelles tu ne vas pas forcément croire ou ne serait-ce qu'imaginer, et en fait ça passe. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q60.</span>Pourquoi passer par un intermédiaire aguerri ?</div><div class="a"><p>Parce qu'il a la vision longue et ne vous la dira jamais. Il fera la moue, dira « c'est dur en ce moment » — alors qu'il a peut-être déjà un mandat de recherche signé avec une enseigne, clause de revente à dix ans incluse. <strong>Ce qui manque au dirigeant, ce n'est pas une idée : c'est l'intermédiaire.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q61.</span>Comment aborder un ami qui exerce ce métier ?</div><div class="a"><p>Jamais en lui proposant le deal : <em class="q">« il va mettre tout de suite sa casquette et je ne serai même plus un pote. »</em> On demande <strong>« toi, tu aurais fait quoi ? »</strong>, on écoute, et seulement ensuite : « est-ce que dans ton réseau, quelqu'un pourrait être intéressé ? »</p></div></div>
+    <div class="qa"><div class="q"><span>Q62.</span>Que signifie la métaphore du dojo ?</div><div class="a"><p>L'école donne les bases, et on en sort avec l'impression d'être ceinture noire. Puis vient la compétition : la technique ne marche pas, l'autre bouge trop vite. Certains concluent « ça ne m'a servi à rien ». Les autres comprennent qu'il y a <strong>une forme d'agilité et d'adaptation à développer</strong> — et c'est le plus malin, ou le plus rapide, qui gagne. Se dire « je suis calé, j'y vais » est l'erreur ; continuer à acquérir des compétences mène à un pivot qui change tout.</p></div></div>
+    <div class="qa"><div class="q"><span>Q63.</span>Pourquoi le foncier change-t-il la nature du problème ?</div><div class="a"><p>Parce qu'il y a toujours un acquéreur. <strong>« Tant que tu as du foncier, tout va bien »</strong> — c'est ce que certains appellent la loi du plus fou : il y aura toujours quelqu'un prêt à racheter au prix et plus, parce qu'il aura une idée différente, ou un peu folle. Trois agences avaient déjà appelé sans que rien n'ait été lancé.</p></div></div>
+
+  </div>
+</div>
+
+<div class="plan">
+  <h2>Plan d'action</h2>
+  <p>Cochez au fur et à mesure. Les quatre phases suivent la logique de la session : d'abord savoir de combien de temps on dispose, puis sécuriser l'outil et les gens, puis faire parler le patrimoine, et enfin reconstruire le revenu.</p>
+
+  <div class="phase">Phase 1 — Savoir de combien de temps on dispose</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Priorité absolue</b>Obtenir le rendez-vous avec le loueur de matériel cette semaine — jeudi ou vendredi. Tout le reste en dépend</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Cartographie</b>Écrire noir sur blanc les six réponses : qui détient quoi, sens des dettes internes, charge principale, valeur de liquidation réelle de l'actif, dette totale, structures saines</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Compte rendu</b>Transmettre le compte rendu de la session à la comptable pour qu'elle examine les trois hypothèses</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Vérification</b>Faire confirmer par l'expert-comptable que les achats et les salaires visés entrent bien dans le dispositif de crédit d'impôt</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Décision</b>Trancher explicitement : fenêtre d'un an (on investit) ou fenêtre fermée (on reconstruit ailleurs). Ne rien lancer avant d'avoir tranché</span></li>
+  </ul>
+
+  <div class="phase">Phase 2 — Sécuriser l'outil de production et les gens</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Inventaire</b>Lister l'intégralité du parc matériel avec sa valeur de marché, pas sa valeur comptable</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Huissier</b>Faire acter l'état et la valeur du parc par un huissier (compter environ 200 €)</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Transfert</b>Négocier le transfert de propriété du matériel avec le loueur — condition sine qua non du montage</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Rachat</b>Faire racheter le parc par le label agréé, en appliquant la prise en charge du crédit d'impôt</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Banque</b>Solder la dette bancaire avec le produit de la vente, avant toute liquidation — ce sont les dettes qui suivent le dirigeant</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Étalement</b>Renégocier l'échéancier du loueur dans la foulée : trois ans deviennent six, avec quelques frais de dossier concédés</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Statuts</b>Vérifier que l'objet du label couvre la prestation studio — et le modifier légèrement si nécessaire</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Les gens d'abord</b>Chiffrer et planifier le versement immédiat des indemnités et de l'ancienneté de la comptable, plutôt que de les laisser traîner</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Continuité</b>Préparer le contrat de prestation et la lettre d'engagement qui permettront de continuer à travailler ensemble après</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Loyers</b>Formaliser le décalage de perception des loyers par la SCI pour alléger les charges du studio</span></li>
+  </ul>
+
+  <div class="phase">Phase 3 — Faire parler le patrimoine</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Géomètre</b>Faire chiffrer la division physique de l'aile inutilisée — faire chiffrer, pas commander</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Évaluations</b>Faire évaluer l'immeuble par trois agences distinctes et conserver les rapports signés</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Notaire</b>Vérifier l'absence d'hypothèque et de servitude, et la faire lever le cas échéant</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Réseau</b>Demander explicitement aux agences d'être connecté à leur réseau de marchands de biens, en faisant miroiter la vente de la seconde partie plus tard</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Conseil informel</b>Consulter le marchand de biens du réseau personnel en mode « toi, tu aurais fait quoi ? », sans proposer le deal</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Prix</b>Fixer le prix de départ au-dessus de la cible : viser 80 000 € en démarrant à 115 000 €</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Banque</b>Simuler un emprunt hypothécaire sur l'immeuble (jusqu'à 70 % de la valeur) et comparer au produit d'une division-revente</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Lombard</b>Demander une simulation de crédit lombard à la branche gestion de patrimoine de deux banques</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Parkings</b>Identifier les commerçants du quartier qui cherchent une place et chiffrer la vente de deux places</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>À étudier</b>Faire rédiger par son propre notaire un projet de vente à option à dix ans, avec décote et acomptes, pour comparaison</span></li>
+  </ul>
+
+  <div class="phase">Phase 4 — Reconstruire le revenu</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Certificateurs</b>Reprendre la liste France Compétences et contacter cinq ou six certificateurs, y compris à intitulés voisins adaptables</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Relance</b>Redemander par écrit au certificateur qui a refusé le détail du process et du référentiel — le non oral n'est pas opposable</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Trésorerie</b>Chiffrer l'avance nécessaire (300 à 400 € par stagiaire) et la sécuriser avant d'ouvrir les inscriptions</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Locaux</b>Identifier deux ou trois confrères équipés susceptibles de sous-louer un studio le temps d'une formation</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Plan B</b>Préparer en parallèle le dossier Qualiopi sur une autre structure du groupe, avec comptabilités distinctes</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Argumentaire</b>Réécrire le script téléphonique autour de « vous n'avez rien à sortir de votre poche »</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>International</b>Bloquer un créneau mensuel dans l'agenda pour se connecter à des acteurs hors UE sur LinkedIn</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Approche</b>Identifier deux studios étrangers cibles et préparer la question technique qui ouvre la porte</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Entrée</b>Prévoir le premier contrat à moins 20 % pour gagner le marché</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Dernier recours</b>Proposer à l'éditeur le rachat de la part éditoriale — en se présentant vendeur, sans jamais annoncer de chiffre</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Repli</b>Si refus, demander si la branche en charge des admin deals est intéressée (avance d'au moins 20 000 €)</span></li>
+  </ul>
+</div>
+
+<div class="quiz">
+  <h2>Quiz — 7 questions</h2>
+  <p>Pour vérifier que les mécanismes de la session sont bien assimilés.</p>
+
+  <div class="qz" data-g="1">
+    <p class="qt">1. Quelle est la toute première question à trancher dans une entreprise en difficulté ?</p>
+    <div class="opt">Quelle est la dette totale</div>
+    <div class="opt">De combien de temps dispose-t-on réellement</div>
+    <div class="opt">Quel est le levier le plus rentable</div>
+    <div class="fb">La fenêtre de temps. Un an ou six semaines mènent à deux plans opposés : investir dans le levier le plus efficace, ou sauver ce qu'il y a à sauver et reconstruire ailleurs. Travailler sans l'avoir tranchée, c'est « un coup d'épée dans l'eau ».</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <p class="qt">2. Un certificateur enregistré sur France Compétences peut-il refuser qu'un organisme forme à sa certification ?</p>
+    <div class="opt">Oui, il reste libre de choisir ses partenaires</div>
+    <div class="opt">Oui, si le jury doit se tenir dans ses locaux</div>
+    <div class="opt">Non, pas au motif que c'est compliqué — il doit opposer un référentiel</div>
+    <div class="fb">Il doit opposer un niveau d'exigence objectif. Si le formateur présente un CV conforme au référentiel, le passage du jury doit être possible. En pratique le refus est économique : le jury chez eux rapporte 200 à 300 € par stagiaire.</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <p class="qt">3. Dans le schéma de rachat du matériel, pourquoi solder la banque est-il le point crucial ?</p>
+    <div class="opt">Parce que les dettes bancaires suivent le dirigeant après la liquidation</div>
+    <div class="opt">Parce que la banque peut bloquer la procédure</div>
+    <div class="opt">Parce que le crédit d'impôt l'exige</div>
+    <div class="fb">Ce sont les dettes qui suivent derrière. Les éteindre avant la liquidation éteint le risque personnel — les autres créanciers s'assiéront sur ce qui reste.</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <p class="qt">4. Quel est le piège de trésorerie d'une offre de formation financée ?</p>
+    <div class="opt">Le certificateur ne paie qu'à la fin de l'année</div>
+    <div class="opt">Le certificateur se paie d'avance, 300 à 400 € par stagiaire</div>
+    <div class="opt">Il faut avancer la totalité du coût de la formation</div>
+    <div class="fb">Frais d'intermédiation plus présentation au jury, à sortir avant d'encaisser. Vingt stagiaires, c'est 8 000 € d'avance. Et sans cette trésorerie on ne peut pas inscrire — donc au bout de quelques jours on perd l'éligibilité à la certification.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <p class="qt">5. Quelle question ouvre toutes les options sur un immeuble ?</p>
+    <div class="opt">Combien vaut-il au mètre carré</div>
+    <div class="opt">Est-il libre d'occupation</div>
+    <div class="opt">Est-il physiquement divisible</div>
+    <div class="fb">Divisible au sens physique : entrée commune, escalier, compteurs dédiés. Une aile de 40 m² inutilisée représente ici 70 000 à 90 000 € — et sa revente fait aussi baisser les charges et la taxe foncière.</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <p class="qt">6. Pourquoi un crédit lombard est-il un arbitrage fiscal ?</p>
+    <div class="opt">Parce que les intérêts sont déductibles</div>
+    <div class="opt">Parce qu'un crédit n'est pas un revenu : pas de flat tax sur ce qu'on perçoit</div>
+    <div class="opt">Parce que le nantissement est exonéré</div>
+    <div class="fb">Environ 31,5 % d'imposition sur des dividendes contre 2,5 à 3 % d'intérêt sur un lombard adossé au capital laissé dans la structure. Un écart d'environ 28 points — et le capital reste investi.</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <p class="qt">7. Comment aborder un ami marchand de biens sur une opération qui vous concerne ?</p>
+    <div class="opt">En demandant « toi, tu aurais fait quoi ? » avant toute autre chose</div>
+    <div class="opt">En lui proposant directement le deal, puisqu'on se connaît</div>
+    <div class="opt">En passant par une agence pour rester neutre</div>
+    <div class="fb">« Je ne vais pas lui proposer comme ça, il va mettre tout de suite sa casquette et je ne serai même plus un pote. » On demande conseil, on écoute, et seulement ensuite : « est-ce que dans ton réseau, quelqu'un pourrait être intéressé ? »</div>
+  </div>
+
+  <div class="score" id="score"></div>
+</div>
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="wrap">
+    <p><b>Producteur à Succès</b> — Session de mentorat du 9 novembre 2026</p>
+    <p>113 chapitres · 14 sections · 63 questions-réponses · plan d'action en 4 phases</p>
+  </div>
+</footer>
+
+<script>
+var CH = [[6, "Ouverture : on attend Loïc"], [117, "Le point hebdo : démarchage des lieux culturels"], [254, "Le marché public qui a tout fait basculer"], [374, "La vraie question : combien de temps reste-t-il"], [397, "Le 15 décembre : jugement ou liquidation"], [471, "Le prix : le seul vrai frein des stagiaires"], [481, "Refus du certificateur contacté"], [505, "Sous-traitance refusée : le jury reste chez eux"], [596, "Comment le CPF fonctionnait avant"], [687, "Tu n'as pas le droit de refuser un organisme"], [745, "Arrivée de Loïc"], [762, "L'hommage rendu à un ami disparu"], [929, "La question stratégique du jour"], [959, "Poser le cadre : la deadline de mi-décembre"], [1045, "Tout dépend du loueur de matériel"], [1159, "Le vaisseau amiral et la raison d'être du groupe"], [1192, "Les quatre structures du groupe"], [1260, "La charge principale : le crédit-bail matériel"], [1287, "180 000 au bilan, 30 000 à la revente"], [1338, "La pub qui tourne et les droits d'édition"], [1461, "La question clé : l'agrément crédit d'impôt phono"], [1488, "Le schéma : laisser couler, garder le matériel"], [1503, "Le CIPP : 40 % du matériel pris en charge"], [1561, "Solder la banque avant la liquidation"], [1603, "Négocier le transfert de propriété du matériel"], [1629, "Rallonger l'échéancier de 3 à 6 ans"], [1774, "Rattacher un salaire au dispositif"], [1864, "Huit ans en redressement : c'est possible"], [1891, "Ce que coûtent les mandataires de justice"], [2002, "12 000 € par mois à trouver"], [2039, "Les charges générales restent à ta charge"], [2139, "La vraie priorité : acheter du temps"], [2160, "Le temps d'incubation d'une offre CPF"], [2184, "L'argument qui fait signer un stagiaire"], [2214, "Les 30 jours de la Caisse des dépôts"], [2230, "L'avance de trésorerie par stagiaire"], [2289, "Si la fenêtre est d'un an : tout sur le CPF"], [2323, "Si la fenêtre se referme : ne pas s'acharner"], [2341, "Reconstruire sur une structure existante"], [2383, "Le vrai frein : les locaux et le matériel"], [2426, "Décaler les loyers pour baisser les charges"], [2525, "À quoi ressemble vraiment une audience"], [2549, "Sa propre faillite à dix-neuf ans"], [2607, "Des dettes effacées par le tribunal"], [2658, "Le juge qui connaissait la maison"], [2703, "Quatre mandataires pour une boîte de deux"], [2818, "Pourquoi il faut un plan B"], [2837, "La priorité : les indemnités de la comptable"], [2893, "Évaluer l'immeuble : emplacement et parking"], [2964, "La question qui ouvre tout : est-il divisible"], [3001, "L'aile inutilisée depuis la perte du marché"], [3078, "Trois options sur la table"], [3103, "Option 1 : emprunter sur l'immeuble"], [3134, "Jusqu'à 70 % de la valeur hypothéquée"], [3222, "Option 2 : diviser et revendre un lot"], [3253, "Passer par le réseau des marchands de biens"], [3385, "Option 3 : vendre une promesse à terme"], [3465, "Le contrat d'option expliqué"], [3556, "Son conseil : l'option 2"], [3587, "L'histoire de l'immeuble de Bénodet"], [3612, "Un locataire à 700 € au lieu de 6 500"], [3664, "Le projet d'hôtel bloqué par un locataire"], [3697, "La procédure d'éviction et son échec"], [3715, "La solution venue du juge lui-même"], [3744, "De 800 000 à moins de 600 000"], [3780, "L'appel qui débloque tout"], [3824, "La leçon : chercher l'option impensée"], [3959, "Vendre deux places de parking"], [4098, "Le crédit lombard"], [4251, "Le mécanisme du nantissement"], [4294, "Lombard contre flat tax : l'arbitrage"], [4398, "Verser les indemnités maintenant"], [4447, "Reprendre ses salariés en prestataires"], [4487, "Le risque politique de 2027"], [4591, "Les budgets des sociétés civiles sous pression"], [4610, "Les fonds d'aide et de secours menacés"], [4671, "L'AFDAS et la réduction du champ éligible"], [4734, "La mécanique : 80 % de demandes en moins"], [4758, "L'absurdité des enveloppes à cramer"], [4886, "La méritophobie décrite par un médecin"], [5007, "Penser mondial : la consigne des plus avisés"], [5046, "Facturer trois fois plus aux États-Unis"], [5165, "Délocaliser la société : fausse bonne idée"], [5189, "Le vrai problème français : les charges sociales"], [5244, "Le Maroc, un marché qui s'enrichit vite"], [5341, "Sa routine LinkedIn une fois par mois"], [5371, "Demander conseil pour créer du lien"], [5404, "Comprendre les failles pour se positionner"], [5455, "Approcher un studio étranger : le script"], [5490, "La question technique qui ouvre la porte"], [5533, "Le premier contrat à moins vingt pour cent"], [5603, "Les droits voisins dormants au Maroc"], [5690, "Récapitulatif des trois hypothèses"], [5721, "Le marchand de biens à appeler"], [5782, "Le sourcing de lots avant le dropshipping"], [5942, "Négociation : fixer un prix de départ haut"], [5999, "Le jeu du mandat exclusif"], [6030, "Utiliser l'évaluation à ton avantage"], [6119, "L'immobilier comme filet de sécurité"], [6188, "Ne pas montrer toutes ses cartes"], [6283, "Taux contre inflation : qui gagne"], [6317, "Demander dix-huit mois au lieu de douze"], [6395, "La dernière option, en dernier recours"], [6414, "Revendre sa part éditoriale"], [6439, "Ne jamais annoncer son besoin"], [6557, "Ce qu'est un admin deal"], [6587, "Les avances à espérer"], [6604, "L'option la plus agressive"], [6680, "La métaphore du dojo"], [6703, "L'agilité plutôt que la technique"], [6817, "Continuer à chercher des certificateurs"], [6862, "Tant que tu as du foncier"], [6871, "La loi du plus fou"]];
+
+var frame = document.getElementById('vimeoPlayer');
+
+function fmt(s){ var m = Math.floor(s/60), x = s%60; return m + ':' + (x<10?'0':'') + x; }
+
+function seek(sec){
+  if (!frame || !frame.contentWindow) return;
+  try {
+    frame.contentWindow.postMessage(JSON.stringify({method:'setCurrentTime', value: sec}), '*');
+    frame.contentWindow.postMessage(JSON.stringify({method:'play'}), '*');
+  } catch(e){}
+  var top = frame.getBoundingClientRect().top + window.pageYOffset - 20;
+  window.scrollTo({top: top < 0 ? 0 : top, behavior:'smooth'});
+}
+
+(function(){
+  var host = document.getElementById('chlist');
+  if (!host) return;
+  CH.forEach(function(c){
+    var b = document.createElement('button');
+    var t = document.createElement('b'); t.textContent = fmt(c[0]);
+    var s = document.createElement('span'); s.textContent = c[1];
+    b.appendChild(t); b.appendChild(s);
+    b.addEventListener('click', function(){ seek(c[0]); });
+    host.appendChild(b);
+  });
+})();
+
+(function(){
+  document.querySelectorAll('.tc').forEach(function(el){
+    var parts = el.textContent.split(/(\d+:\d{2})/);
+    if (parts.length < 2) return;
+    el.textContent = '';
+    parts.forEach(function(p){
+      if (/^\d+:\d{2}$/.test(p)) {
+        var mm = p.split(':');
+        var sec = parseInt(mm[0],10)*60 + parseInt(mm[1],10);
+        var btn = document.createElement('button');
+        btn.className = 'seek'; btn.textContent = p;
+        btn.addEventListener('click', function(){ seek(sec); });
+        el.appendChild(btn);
+      } else {
+        el.appendChild(document.createTextNode(p));
+      }
+    });
+  });
+})();
+
+window.addEventListener('scroll', function(){
+  var h = document.documentElement;
+  var max = h.scrollHeight - h.clientHeight;
+  var p = max > 0 ? (h.scrollTop / max) * 100 : 0;
+  document.getElementById('progress').style.width = p + '%';
+});
+
+document.querySelectorAll('.chk li').forEach(function(li){
+  li.addEventListener('click', function(){ li.classList.toggle('done'); });
+});
+
+(function(){
+  var total = document.querySelectorAll('.qz').length, answered = 0, good = 0;
+  document.querySelectorAll('.qz').forEach(function(qz){
+    var g = parseInt(qz.getAttribute('data-g'), 10);
+    var opts = qz.querySelectorAll('.opt');
+    var fb = qz.querySelector('.fb');
+    opts.forEach(function(opt, i){
+      opt.addEventListener('click', function(){
+        if (qz.classList.contains('answered')) return;
+        qz.classList.add('answered');
+        answered++;
+        if (i === g) { opt.classList.add('good'); good++; }
+        else { opt.classList.add('bad'); opts[g].classList.add('good'); }
+        fb.classList.add('show');
+        if (answered === total) {
+          var sc = document.getElementById('score');
+          sc.textContent = 'Score : ' + good + ' / ' + total + (good === total ? ' — parfait.' : ' — relisez les chapitres concernés.');
+          sc.classList.add('show');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

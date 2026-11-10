@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subventions, contrats et droits — Session du 10 novembre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED; --primary-dark:#4C1D95; --primary-light:#EDE9FE;
+  --accent:#F59E0B; --accent-light:#FEF3C7;
+  --success:#10B981; --success-light:#D1FAE5;
+  --danger:#EF4444; --danger-light:#FEE2E2;
+  --info:#3B82F6; --info-light:#DBEAFE;
+  --ink:#1A1523; --muted:#5B5670; --line:#E7E4EF; --bg:#FAF9FC; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+.progress-wrap{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(108,58,237,.12);z-index:999}
+#progress{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+.wrap{max-width:940px;margin:0 auto;padding-inline:20px}
+
+.hero{background:linear-gradient(140deg,#3B1D80 0%,#6C3AED 55%,#8B5CF6 100%);color:#fff;padding-block:60px 52px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{content:"";position:absolute;left:-60px;bottom:-120px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.05)}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:700;margin-bottom:14px;position:relative;z-index:2}
+.hero .sub{font-size:17px;opacity:.92;max-width:690px;position:relative;z-index:2}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;position:relative;z-index:2}
+.meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:7px 14px;border-radius:10px;font-size:13.5px;font-weight:500}
+
+/* LECTEUR */
+.player-wrap{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:-32px;position:relative;z-index:6;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.vid{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.chx{margin-top:16px;border:1px solid var(--line);border-radius:12px;background:#FBFAFE}
+.chx summary{cursor:pointer;padding:12px 16px;font-weight:650;font-size:14.5px;color:var(--primary-dark);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chx summary::-webkit-details-marker{display:none}
+.chx summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+.chx[open] summary::before{content:"▾ "}
+.chx summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+.chlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:2px;max-height:330px;overflow-y:auto;padding:0 10px 12px}
+.chlist button{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;background:transparent;border:0;border-radius:9px;padding:8px 10px;font-family:inherit;font-size:14.5px;color:var(--ink);cursor:pointer;line-height:1.45;transition:background .12s}
+.chlist button:hover{background:var(--primary-light);color:var(--primary-dark)}
+.chlist b{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;min-width:54px}
+button.seek{background:var(--primary-light);border:1px solid #DDD3FA;color:var(--primary-dark);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;cursor:pointer;font-variant-numeric:tabular-nums;transition:all .12s}
+button.seek:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.player-wrap + .toc{margin-top:26px}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:-32px;position:relative;z-index:5;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.toc h2{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:16px;color:var(--primary-dark)}
+.toc ol{list-style:none;counter-reset:toc;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.toc li{counter-increment:toc}
+.toc a{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink);padding:9px 10px;border-radius:10px;font-size:14.5px;transition:background .15s}
+.toc a:hover{background:var(--primary-light);color:var(--primary-dark)}
+.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);font-size:13px;flex-shrink:0;padding-top:1px}
+
+section.chap{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+section.chap>.bar{height:5px;background:var(--primary)}
+.chap[data-c="a"]>.bar{background:var(--accent)} .chap[data-c="g"]>.bar{background:var(--success)}
+.chap[data-c="b"]>.bar{background:var(--info)} .chap[data-c="r"]>.bar{background:var(--danger)}
+.chead{padding:26px 28px 0;display:flex;gap:14px;align-items:center}
+.cnum{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--primary-light);color:var(--primary-dark);display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px}
+.chap[data-c="a"] .cnum{background:var(--accent-light);color:#92400E}
+.chap[data-c="g"] .cnum{background:var(--success-light);color:#065F46}
+.chap[data-c="b"] .cnum{background:var(--info-light);color:#1E40AF}
+.chap[data-c="r"] .cnum{background:var(--danger-light);color:#991B1B}
+.chead h2{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.25;font-weight:700}
+.tc{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-top:3px}
+.cbody{padding:18px 28px 28px}
+.cbody p{margin-bottom:14px}
+.cbody h3{font-family:'Space Grotesk',sans-serif;font-size:16.5px;margin:22px 0 10px;color:var(--primary-dark)}
+.cbody ul,.cbody ol{margin:0 0 14px 20px}
+.cbody li{margin-bottom:7px}
+strong{font-weight:650;color:#2D2540}
+em.q{font-style:italic;color:#413655}
+
+.box{border-radius:12px;padding:16px 18px;margin:18px 0;border-left:4px solid;font-size:15px}
+.box .bt{display:block;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.box p:last-child{margin-bottom:0}
+.b-key{background:var(--primary-light);border-color:var(--primary)} .b-key .bt{color:var(--primary-dark)}
+.b-warn{background:var(--accent-light);border-color:var(--accent)} .b-warn .bt{color:#92400E}
+.b-tip{background:var(--success-light);border-color:var(--success)} .b-tip .bt{color:#065F46}
+.b-info{background:var(--info-light);border-color:var(--info)} .b-info .bt{color:#1E40AF}
+.b-danger{background:var(--danger-light);border-color:var(--danger)} .b-danger .bt{color:#991B1B}
+
+.tbl{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:12px 14px;font-weight:600;font-size:13.5px}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#FBFAFE}
+
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.pc>div{border-radius:12px;padding:16px 18px;font-size:14.5px}
+.pc .ok{background:var(--success-light);border:1px solid #A7F3D0}
+.pc .ko{background:var(--danger-light);border:1px solid #FECACA}
+.pc h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.pc .ok h4{color:#065F46} .pc .ko h4{color:#991B1B}
+.pc ul{margin:0 0 0 18px} .pc li{margin-bottom:5px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
+.card{background:#FBFAFE;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h4{font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:6px;color:var(--primary-dark)}
+.card p{font-size:14px;color:var(--muted);margin:0}
+.stat h4{font-size:22px;font-family:'Space Grotesk',sans-serif}
+
+.tl{list-style:none;margin:18px 0;padding-left:26px;border-left:2px dashed var(--line)}
+.tl li{position:relative;margin-bottom:16px;font-size:15px}
+.tl li::before{content:"";position:absolute;left:-33px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light)}
+.tl b{display:block;font-family:'Space Grotesk',sans-serif;color:var(--primary-dark)}
+
+details{border:1px solid var(--line);border-radius:12px;margin:14px 0;background:#FBFAFE}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:15px;color:var(--primary-dark);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+details[open] summary::before{content:"▾ "}
+details .dc{padding:0 18px 16px;font-size:14.5px}
+
+.pull{margin:22px 0;padding:20px 24px;border-radius:14px;background:linear-gradient(120deg,#2D1B69,#4C1D95);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:19px;line-height:1.45;font-weight:600}
+.pull span{display:block;margin-top:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;opacity:.7;letter-spacing:.03em}
+
+.faq{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+.faq>.bar{height:5px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.faqhead{padding:26px 28px 0}
+.faqhead h2{font-family:'Space Grotesk',sans-serif;font-size:26px;color:var(--primary-dark)}
+.faqhead p{color:var(--muted);font-size:15px;margin-top:4px}
+.faqbody{padding:18px 28px 28px}
+.faqcat{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.faqcat:first-child{margin-top:6px}
+.qa{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:#FDFCFF}
+.qa .q{background:linear-gradient(90deg,var(--primary-light),#F6F3FF);padding:13px 18px;font-weight:650;color:var(--primary-dark);font-size:15.5px;display:flex;gap:10px}
+.qa .q span{flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.qa .a{padding:15px 18px;font-size:15px}
+.qa .a p{margin-bottom:10px} .qa .a p:last-child{margin-bottom:0}
+
+.plan{background:linear-gradient(140deg,#0F172A,#1E1B4B);color:#fff;border-radius:18px;padding:30px 28px;margin-top:26px}
+.plan h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:8px}
+.plan>p{opacity:.8;margin-bottom:20px;font-size:15px}
+.phase{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin:22px 0 10px}
+.phase:first-of-type{margin-top:0}
+.chk{list-style:none;margin:0;padding:0}
+.chk li{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;margin-bottom:9px;font-size:15px;cursor:pointer;transition:background .15s}
+.chk li:hover{background:rgba(255,255,255,.09)}
+.chk .bx{flex-shrink:0;width:20px;height:20px;border:2px solid rgba(255,255,255,.4);border-radius:6px;margin-top:3px;display:grid;place-items:center;font-size:13px;font-weight:700;color:transparent}
+.chk li.done .bx{background:var(--success);border-color:var(--success);color:#fff}
+.chk li.done .tx{opacity:.5;text-decoration:line-through}
+.chk .tx b{display:block;font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.04em;text-transform:uppercase;opacity:.65;margin-bottom:2px}
+
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px;margin-top:26px}
+.quiz h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:6px;color:var(--primary-dark)}
+.quiz>p{color:var(--muted);margin-bottom:22px;font-size:15px}
+.qz{margin-bottom:24px;padding-bottom:22px;border-bottom:1px dashed var(--line)}
+.qz:last-of-type{border-bottom:none}
+.qz .qt{font-weight:650;margin-bottom:12px;font-size:15.5px}
+.opt{display:block;width:100%;text-align:left;background:#FBFAFE;border:1.5px solid var(--line);border-radius:10px;padding:11px 15px;margin-bottom:8px;cursor:pointer;font-family:inherit;font-size:14.5px;color:var(--ink);transition:all .15s}
+.opt:hover{border-color:var(--primary);background:var(--primary-light)}
+.opt.good{background:var(--success-light);border-color:var(--success);font-weight:600}
+.opt.bad{background:var(--danger-light);border-color:var(--danger)}
+.fb{display:none;margin-top:10px;padding:12px 15px;border-radius:10px;font-size:14.5px;background:var(--info-light);border-left:4px solid var(--info)}
+.fb.show{display:block}
+.score{margin-top:20px;padding:16px;border-radius:12px;background:var(--primary-light);text-align:center;font-weight:650;color:var(--primary-dark);display:none}
+.score.show{display:block}
+
+footer{text-align:center;padding-block:40px 50px;color:var(--muted);font-size:14px}
+footer b{color:var(--primary-dark);font-family:'Space Grotesk',sans-serif}
+
+@media(max-width:640px){
+  .pc{grid-template-columns:1fr}
+  .chead,.faqhead{padding:22px 18px 0} .cbody,.faqbody{padding:16px 18px 22px}
+  .toc{padding:22px 18px} .plan,.quiz{padding:24px 18px}
+  .hero h1{font-size:27px} .pull{font-size:17px;padding:18px}
+  .player-wrap{padding:14px} .chlist{grid-template-columns:1fr;max-height:280px}
+}
+@media print{
+  .progress-wrap{display:none} body{background:#fff}
+  section.chap,.toc,.quiz,.faq{box-shadow:none;break-inside:avoid}
+  .opt{display:none}
+  .vid{display:none} .player-wrap{box-shadow:none;margin-top:20px}
+  .chlist{max-height:none;overflow:visible} .chlist button{padding:3px 0}
+  button.seek{background:none;border:0;padding:0;color:var(--primary-dark)}
+}
+</style>
+</head>
+<body>
+<div class="progress-wrap"><div id="progress"></div></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">Session individuelle · 10 novembre 2026</div>
+    <h1>Subventions, contrats, droits —<br>deux heures de questions</h1>
+    <p class="sub">Une session entièrement construite sur les questions d'une stagiaire manager, reprises une par une. Financer un projet avant de l'avoir créé, monter un dossier de subvention qui passe en commission, comprendre ce que vaut vraiment un dépôt d'œuvre, cadrer l'achat d'une instru en trois contrats, démarcher un éditeur ou un distributeur sans se faire ignorer — et, pour finir, le récit d'un contrat signé à dix-sept ans qui explique pourquoi tout le reste compte.</p>
+    <div class="meta">
+      <span>⏱ 2 h 07</span>
+      <span>🎙 Tarik Hamiche</span>
+      <span>👤 Session individuelle</span>
+      <span>📌 117 chapitres</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="player-wrap">
+  <div class="vid">
+    <iframe id="vimeoPlayer"
+      src="https://player.vimeo.com/video/1245396648?h=ff81748058"
+      title="Session individuelle du 10 novembre 2026"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  <details class="chx" id="chx">
+    <summary><span>Les 117 chapitres de la session</span><em>Cliquez un chapitre pour y aller</em></summary>
+    <div class="chlist" id="chlist"></div>
+  </details>
+</div>
+
+<nav class="toc">
+  <h2>Au programme</h2>
+  <ol>
+    <li><a href="#s1">Le Lean Startup appliqué à la musique</a></li>
+    <li><a href="#s2">Le financement participatif : quand et comment</a></li>
+    <li><a href="#s3">Aides, précompte et double ponction</a></li>
+    <li><a href="#s4">Ce qui fait vraiment passer un dossier en commission</a></li>
+    <li><a href="#s5">Choisir sa case : les fenêtres de tir</a></li>
+    <li><a href="#s6">Faire rentrer un budget dans un cadre subventionnable</a></li>
+    <li><a href="#s7">La presse : à quoi elle sert vraiment</a></li>
+    <li><a href="#s8">Les trois leviers pour obtenir des articles</a></li>
+    <li><a href="#s9">Ce que valent les plateformes de mise en relation</a></li>
+    <li><a href="#s10">Démarcher un éditeur sans se faire ignorer</a></li>
+    <li><a href="#s11">Ce que vaut un dépôt d'œuvre</a></li>
+    <li><a href="#s12">Documenter, y compris son usage de l'IA</a></li>
+    <li><a href="#s13">Acheter une instru : les trois points à cadrer</a></li>
+    <li><a href="#s14">Radio : Yacast, BMAT et les tests</a></li>
+    <li><a href="#s15">Démarcher un distributeur</a></li>
+    <li><a href="#s16">L'analyse de risque contractuel</a></li>
+    <li><a href="#s17">Les deux biais qui font signer</a></li>
+    <li><a href="#s18">Comment on apprend ce métier</a></li>
+  </ol>
+</nav>
+
+<section class="chap" id="s1" data-c="a">
+  <div class="chead">
+    <span class="num">1</span>
+    <h2>Le Lean Startup appliqué à la musique</h2>
+    <p class="tc">3:23 — 6:12</p>
+  </div>
+  <div class="cbody">
+    <p>La session s'ouvre sur une question de vocabulaire tirée du premier module : qu'est-ce que le Lean Startup ? La réponse tient en une phrase.</p>
+
+    <div class="box b-key">
+      <h4>Le principe</h4>
+      <p>Le Lean Startup — concept formalisé dans un livre d'Eric Ries — <b>consiste à vendre quelque chose avant même de l'avoir créé</b>. Appliqué à la musique, c'est l'un des leviers les plus puissants qui existent.</p>
+    </div>
+
+    <h3>Le montage, étape par étape</h3>
+    <div class="tl">
+      <div class="tli"><b>Un concept, pas un produit.</b> Pas de studio, pas de maquette, aucune idée du contenu. Mais un titre d'album et une direction.</div>
+      <div class="tli"><b>Une pochette.</b> Produite par IA, pour quelques euros.</div>
+      <div class="tli"><b>Un objet unique.</b> Les usines de pressage envoient des échantillons sur demande — on leur transmet n'importe quel son et elles renvoient un vinyle unique, souvent autour de 20 €.</div>
+      <div class="tli"><b>Une campagne de précommande.</b> Crowdfunding ou opération marketing : on vend un vinyle qui n'existe pas encore.</div>
+      <div class="tli"><b>Le calcul.</b> Mille ventes à 25 € l'unité, c'est <b>25 000 € encaissés</b> — de quoi produire l'album <i>et</i> livrer les mille exemplaires.</div>
+    </div>
+
+    <div class="box b-info">
+      <h4>Pourquoi Tesla fait exactement ça</h4>
+      <p>N'importe quel concessionnaire vous fait signer un contrat de vente et prend 250 €. Vous pouvez annuler quand vous voulez. L'intérêt pour eux n'est pas cet argent : c'est d'avoir <b>un volume de ventes cohérent pour l'usine</b> et une prédiction fiable sur les ventes futures.</p>
+    </div>
+
+    <div class="pull">« Dans la musique, c'est génial de faire ça, parce que tu peux souvent, via le crowdfunding, vendre un album avant même d'avoir dépensé un centime. »</div>
+  </div>
+</section>
+
+<section class="chap" id="s2" data-c="g">
+  <div class="chead">
+    <span class="num">2</span>
+    <h2>Le financement participatif : quand et comment</h2>
+    <p class="tc">6:12 — 8:44</p>
+  </div>
+  <div class="cbody">
+    <p>Question suivante : à quel moment du développement d'un artiste lancer un financement participatif ? Il n'y a pas de règle absolue, mais il y a un schéma optimal.</p>
+
+    <div class="box b-key">
+      <h4>Le bon moment</h4>
+      <p>Après un, deux, trois singles, quand un début de visibilité existe. <b>On le sent : les quelques personnes atteintes hors amis et famille aiment ce qu'on fait, mais on n'en atteint pas assez</b>, et il faut des moyens pour augmenter la portée. C'est là.</p>
+    </div>
+
+    <div class="pc">
+      <div class="pro"><h4>Ce qui marche</h4><p>Une campagne <b>bien construite</b>, avec un projet lisible et des contreparties réfléchies. Et surtout : en refaire. Beaucoup d'artistes croient qu'après un crowdfunding réussi, c'est terminé.</p></div>
+      <div class="con"><h4>Ce qui ne marche pas</h4><p>« Donnez-moi de l'argent pour développer mes projets. » Et surtout, le crowdfunding <b>en tout début de parcours</b> : les gens ne soutiennent pas un projet que personne d'autre ne soutient. On se retrouve avec la famille et les amis — et parfois même pas eux.</p></div>
+    </div>
+
+    <h3>Un crowdfunding par projet</h3>
+    <p>Une fois que ça a marché une fois, il ne faut pas hésiter à recommencer, sur chaque projet :</p>
+    <div class="cards">
+      <div class="card"><h4>Release party</h4><p>On vend des places. Et on étage les contreparties : place simple, place VIP, VIP avec dîner, VIP avec dîner et présence aux balances deux heures avant le show.</p></div>
+      <div class="card"><h4>Clip</h4><p>Un clip, c'est un projet identifiable avec un budget identifiable. Parfait pour une campagne.</p></div>
+      <div class="card"><h4>Album suivant</h4><p>On recommence. Les fans les plus engagés seront là à chaque fois ; les autres feront le premier ou le quatrième.</p></div>
+    </div>
+
+    <div class="box b-tip">
+      <p>Le préalable, dans tous les cas : <b>montrer d'abord qu'on a été capable d'aller au bout d'un projet, puis d'un deuxième, puis d'un troisième</b> — et seulement ensuite solliciter pour accélérer.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s3" data-c="b">
+  <div class="chead">
+    <span class="num">3</span>
+    <h2>Aides, précompte et double ponction</h2>
+    <p class="tc">8:44 — 12:24</p>
+  </div>
+  <div class="cbody">
+    <p>Trois questions techniques enchaînées, dont la réponse n'est écrite nulle part clairement.</p>
+
+    <h3>L'aide à l'autoproduction est-elle imposable ?</h3>
+    <div class="box b-key">
+      <p><b>Non. Elle est nette de tout</b>, et c'est la seule dans ce cas, parce qu'elle est <b>ponctionnée à la source</b> : quand la société civile verse 5 000 €, elle a en réalité débloqué un peu plus et déjà réglé les charges sociales pour votre compte.</p>
+    </div>
+
+    <h3>L'exception : la dispense de précompte</h3>
+    <p>Pour un artiste-auteur, le mécanisme normal est le suivant : sur 1 000 € de droits, la société civile prélève la TVA sur le droit d'auteur, mais aussi les charges sociales, la retraite, la formation — et reverse du net. Or les revenus sont <i>aussi</i> déclarés auprès de l'Urssaf artiste-auteur, qui ponctionne à son tour. <b>Double sanction sur le même revenu.</b></p>
+    <div class="box b-info">
+      <p>D'où la <b>demande de dispense de précompte</b> auprès de l'Urssaf : au lieu de verser 1 000 € nets, la société civile verse 1 400 €, et c'est vous qui reversez les 400 € en fin d'année. Vous n'êtes chargé qu'une fois.</p>
+      <p><b>Le flou :</b> si la même année vous obtenez une aide à l'autoproduction, l'Urssaf peut considérer qu'il s'agit d'un revenu et reprendre une petite ponction. Ce n'est pas bien méchant, mais le point n'est pas tranché.</p>
+    </div>
+
+    <h3>Les trois critères de l'aide</h3>
+    <table class="tbl">
+      <thead><tr><th>Critère</th><th>Détail</th></tr></thead>
+      <tbody>
+        <tr><td>Calendrier</td><td>Le projet doit être déjà commercialisé, ou la demande déposée au plus tard un mois avant la sortie. Idéalement il est déjà sorti : on a <b>six mois après la date de sortie</b> pour déposer.</td></tr>
+        <tr><td>Paternité</td><td>Le demandeur doit être l'auteur ou le compositeur <b>majoritairement représenté</b> sur le projet. 70 % du projet avec un ou deux featurings : aucun problème.</td></tr>
+        <tr><td>Volume</td><td><b>Cinq titres</b> en musiques actuelles. Ou <b>vingt minutes</b> de musique enregistrée, ce qui permet aux œuvres lyriques et classiques de déposer avec deux titres.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="box b-warn">
+      <p>Mais remplir les trois critères ne suffit pas : <b>« si tu te contentes de ça, tu es quasiment certaine de ne pas obtenir de subvention. »</b> La suite explique pourquoi.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s4" data-c="r">
+  <div class="chead">
+    <span class="num">4</span>
+    <h2>Ce qui fait vraiment passer un dossier en commission</h2>
+    <p class="tc">12:24 — 17:11</p>
+  </div>
+  <div class="cbody">
+    <p>C'est le passage le plus directement actionnable de la session. Deux dossiers identiques sur le papier n'ont pas du tout les mêmes chances.</p>
+
+    <div class="box b-key">
+      <h4>Ce qui pèse : l'entourage, par écrit</h4>
+      <p>Un plan promo, une biographie bien construite, un entourage professionnel — et surtout <b>des attestations écrites de cet entourage</b>. Une lettre d'un distributeur que la commission connaît : « c'est un projet dans lequel on croit beaucoup. » Une lettre d'un manager qui dit la même chose. Une salle ou une structure d'accompagnement qui atteste : « c'est un projet qu'on encadre, chaque euro est bien tracé, bien investi dans la culture. »</p>
+      <p>Pourquoi ça marche : <b>même si votre projet est plus faible qu'un autre, l'entourage rassure.</b> La commission considère que l'argent ne va pas disparaître.</p>
+    </div>
+
+    <h3>Les attestations accessibles dès maintenant</h3>
+    <div class="cards">
+      <div class="card"><h4>Le tourneur</h4><p>Une lettre de la personne qui fait le booking, « c'est déjà beaucoup ». Avoir un tourneur est en soi un signal fort.</p></div>
+      <div class="card"><h4>La structure d'accompagnement</h4><p>Les plateformes et structures d'accompagnement délivrent des attestations sans difficulté — il suffit d'être affilié.</p></div>
+      <div class="card"><h4>Le manager</h4><p>« En ma qualité de manager, j'atteste que c'est un projet que j'accompagne avec le plus grand sérieux. Le projet consiste à… Nous avons de bonnes perspectives. » Ça fonctionne bien.</p></div>
+    </div>
+
+    <h3>Ce qui est éliminatoire</h3>
+    <div class="box b-danger">
+      <p>Ce que la commission cherche à détecter, ce sont <b>les gens complètement à côté de la réalité</b>. « On a prévu de faire une promo radio, d'être numéro un sur une grande radio la semaine prochaine » : élimination immédiate.</p>
+      <p>À l'inverse, une démarche construite, <b>ambitieuse mais réaliste</b>, signale quelqu'un qui a compris le métier, qui sait travailler et qui est bien entouré.</p>
+    </div>
+
+    <h3>Les critères non écrits</h3>
+    <div class="box b-info">
+      <p><b>La ventilation par esthétique musicale.</b> Une commission a l'obligation de répartir ses soutiens entre esthétiques : elle ne peut pas soutenir 24 dossiers d'un même genre sur 25, ce serait indéfendable devant son autorité de contrôle. En pratique, elle respecte à peu près les parts de marché — l'urbain représentant environ 50 %, elle ne dépassera pas 50 %.</p>
+      <p><b>Conséquence directe :</b> un projet reggae ou pop bien monté passe mécaniquement un peu mieux qu'un projet urbain. L'expression française est un plus, les genres moins représentés aussi.</p>
+      <p><b>L'équilibre hommes-femmes.</b> Son observation de terrain : les commissions, régulièrement interpellées sur les inégalités, soutiennent un peu plus les dossiers portés par des femmes en ce moment. Ce n'est écrit nulle part, et il le présente comme un constat, pas comme une règle.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s5" data-c="a">
+  <div class="chead">
+    <span class="num">5</span>
+    <h2>Choisir sa case : les fenêtres de tir</h2>
+    <p class="tc">17:11 — 20:21</p>
+  </div>
+  <div class="cbody">
+    <p>Le cas évoqué : une artiste systématiquement recalée des playlists pop urbaine, à qui on répond que c'est de la pop. Le diagnostic retourne complètement le problème.</p>
+
+    <div class="box b-key">
+      <h4>Si on vous range en pop, restez en pop</h4>
+      <p>« L'urbain, c'est saturé. Trop. » C'est une musique très écoutée, mais <b>quand il y a trop de monde à l'entrée, les barrières à l'entrée montent</b>. Si le projet a une coloration pop, il faut sauter dessus : il y a plus de place.</p>
+      <p>Et au fond, le public tranchera lui-même. Certains artistes sont décrits comme africains par les uns, urbains par les autres — <b>ils s'en moquent tant qu'on les écoute.</b> On prend ce qu'il y a à prendre et on va là où il y a de la place.</p>
+    </div>
+
+    <h3>Ce que dit un ancien responsable éditorial de plateforme</h3>
+    <p>Préparant une masterclass avec l'ancien responsable des équipes éditoriales monde (hors États-Unis) d'une grande plateforme, il lui rapporte ceci :</p>
+    <div class="box b-info">
+      <p><b>« Les artistes ne se rendent même pas compte qu'il y a des fenêtres de tir exceptionnelles. »</b></p>
+      <p>Sur le rock, pendant des années : « on était en galère, on n'avait rien. C'est pour ça qu'on avait de moins en moins de playlists rock — on n'avait aucune nouveauté, et on ne peut pas ne mettre que des titres d'il y a quinze ou vingt ans. Donc le moindre artiste qui arrivait, on le mettait sur des playlists importantes. »</p>
+      <p>L'asymétrie, en une phrase : sur une playlist urbaine, <b>« mes équipes viennent me voir en me disant : on se base sur une trentaine de morceaux, on ne sait pas lequel trancher »</b>. Sur d'autres, <b>« on a trois titres et on en a besoin de dix »</b>.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Le hack</h4>
+      <p>Se positionner sur un créneau adjacent. Exemple cité : la soul en France, où deux noms seulement occupent le terrain. « Tu arrives avec un truc où tu chantes un peu, tu te mets en soul-R&B en français, ça part. »</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s6" data-c="g">
+  <div class="chead">
+    <span class="num">6</span>
+    <h2>Faire rentrer un budget dans un cadre subventionnable</h2>
+    <p class="tc">20:21 — 24:53</p>
+  </div>
+  <div class="cbody">
+    <p>Question : une séance photo peut-elle passer dans l'aide à la musique à l'image ? <b>Non</b> — ce dispositif ne couvre que de la vidéo. Mais la réponse ne s'arrête pas là, et c'est un passage où il faut lire ses propres mises en garde avec attention.</p>
+
+    <div class="box b-warn">
+      <h4>Son cadre, énoncé par lui-même</h4>
+      <p>« En formation, il y a des trucs que je peux dire et que je ne peux pas dire. Sur les sessions qu'on fait, je dis ce que j'ai à dire. Quand tu fais des demandes, au début, <b>il faut mordre un peu la ligne</b>. »</p>
+      <p>Et la limite, répétée deux fois : <b>« Le tout, c'est de rester cohérent. Il ne faut pas trop abuser. Il faut garder un cadre subventionnable raisonnable. »</b></p>
+    </div>
+
+    <h3>Le montage décrit</h3>
+    <div class="tl">
+      <div class="tli"><b>Trouver un prestataire polyvalent.</b> Un vidéaste qui a une boîte de production et qui, le plus souvent, fait aussi de la photo ou travaille avec quelqu'un qui en fait.</div>
+      <div class="tli"><b>Lui acheter l'ensemble.</b> « On part sur 3 000 €, je te prends tout : un clip, une séance photo, le graphisme de la pochette d'album et d'un single. Et pendant le tournage, on prend trente minutes sur fond d'interview — tu m'en fais un montage rapide, ça fait un EPK. »</div>
+      <div class="tli"><b>Lui expliquer pourquoi.</b> « Je vais chercher une subvention. Sans elle, mon budget maximum serait de 300 €. Là, tu peux prendre dix fois plus — mais il faut que tu joues le jeu avec moi. »</div>
+      <div class="tli"><b>Le devis présenté.</b> Il ne mentionne que l'EPK, avec ses postes : montage, location des lumières, du lieu. 3 000 €.</div>
+      <div class="tli"><b>Un contrat à côté.</b> On signe quand même l'ensemble de la prestation par contrat, séparément du devis déposé.</div>
+      <div class="tli"><b>Après notification.</b> On retourne voir le prestataire avec le montant obtenu, on valide, on réalise. On livre l'EPK au financeur avec son logo, diffusé sur la plateforme vidéo. Le solde est libéré.</div>
+    </div>
+
+    <div class="box b-info">
+      <h4>Pourquoi ça fonctionne, selon lui</h4>
+      <p>Les barèmes des commissions sont déconnectés du marché : « il y a un mec en commission qui s'est dit qu'un EPK vidéo, ça pouvait coûter 3 ou 4 000 balles. » Et sur les clips, il déposait des factures à 40 000 € en se disant que ça ne passerait jamais — ça passait sans problème. Son explication : le contrôle porte sur la livraison, pas sur la valorisation.</p>
+      <p>Il en retirait trois ou quatre clips pour le budget d'un. « Tout le monde est content » : le financeur a son livrable, l'artiste a ses contenus, le réalisateur a vendu quatre clips au lieu d'un.</p>
+    </div>
+
+    <div class="box b-danger">
+      <h4>La ligne qu'il ne franchit pas</h4>
+      <p>« Tant que tu ne te barres pas avec une enveloppe de cash en vacances, tout va bien. On a fait des clips, on a payé des réalisateurs, des figurants, des lieux. <b>On a tout réinjecté dans la culture.</b> » C'est l'argument de fond, et c'est aussi la condition : chaque euro reste dans le projet.</p>
+      <p>À lire comme son retour d'expérience, pas comme un avis juridique — une requalification reste possible, et c'est lui-même qui parle de « mordre la ligne ».</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s7" data-c="b">
+  <div class="chead">
+    <span class="num">7</span>
+    <h2>La presse : à quoi elle sert vraiment</h2>
+    <p class="tc">24:53 — 26:57</p>
+  </div>
+  <div class="cbody">
+    <p>Question sur l'achat de revue de presse. La réponse commence par un démenti.</p>
+
+    <div class="box b-key">
+      <p><b>« Avoir des articles de presse pour un artiste, ça ne sert strictement à rien de base. »</b> Ça n'apporte pas de visibilité. Il y a exactement deux intérêts, et le second est devenu le plus important.</p>
+    </div>
+
+    <div class="pc">
+      <div class="pro"><h4>Intérêt 1 — le support de dossier</h4><p>Pouvoir arriver en commission en disant : « tel média parle de moi, tel autre aussi. » C'est l'usage historique, et il reste valable.</p></div>
+      <div class="pro"><h4>Intérêt 2 — le référencement</h4><p>Celui qui compte désormais : <b>être cité par les moteurs, et surtout par les modèles de langage.</b></p></div>
+    </div>
+
+    <h3>Le raisonnement sur les IA</h3>
+    <div class="box b-info">
+      <p>Son pari, formulé sans détour : <b>« J'ai la certitude que dans deux ans maximum, 90 % des requêtes de recherche vont passer par des LLM. »</b> Et il y voit la même fenêtre qu'il y a quelques années quand il disait à tout le monde d'aller sur une plateforme vidéo courte : aujourd'hui, il dit de se référencer auprès des IA.</p>
+      <p>Le mécanisme : <b>« Ma source à moi est peut-être biaisée, parce que je parle de moi. Mais toutes ces sources-là corroborent une grosse partie de la narrative que je porte. »</b> Tant qu'il n'existe pas de contre-narrative, le modèle considère que c'est vrai — il part du principe que les journalistes font bien leur travail.</p>
+    </div>
+
+    <div class="box b-tip">
+      <p>Précision de la session : une formation dédiée au référencement auprès des IA est offerte à qui termine le cursus.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s8" data-c="r">
+  <div class="chead">
+    <span class="num">8</span>
+    <h2>Les trois leviers pour obtenir des articles</h2>
+    <p class="tc">26:57 — 31:32</p>
+  </div>
+  <div class="cbody">
+    <p>Un protocole en trois phases, à exécuter dans cet ordre précis.</p>
+
+    <h3>Levier 1 — écrire directement aux rédactions</h3>
+    <div class="box b-info">
+      <p>Presque toutes les plateformes ont une adresse de type <code>redac@…</code>. On les cherche, on les répertorie, on écrit. Parfois ça suffit.</p>
+      <p><b>Combien ?</b> Pas 200. On en liste <b>30 à 40</b>. Et selon la niche, dix suffisent : « dans l'urbain, tu as dix sites. Si tu es sur les dix, tu couvres 80 % du marché. »</p>
+      <p><b>La limite :</b> les plus gros ne répondent pas. Ils n'y ont aucun intérêt.</p>
+    </div>
+
+    <h3>Levier 2 — passer par la régie publicitaire</h3>
+    <div class="box b-key">
+      <p>Variante décisive de la même démarche : <b>« Je suis dans une démarche de promotion pour mon artiste. J'aimerais proposer un format interview ou chronique à la rédaction, et je suis prêt à investir un budget publicitaire pour mettre cette chronique en avant sur la page d'accueil. Est-ce que le projet vous intéresse ? »</b></p>
+      <p>Dans huit cas sur dix, un commercial propose un appel. C'est son métier : il voit une vente possible.</p>
+    </div>
+    <div class="box b-tip">
+      <h4>Comment cadrer l'appel</h4>
+      <p>Il essaiera de vendre des formats et des mises en avant. On recadre immédiatement : <b>« Je suis en indépendant, je n'ai pas un gros budget. En revanche je suis prêt à investir un budget régulier chez vous. Ce ne sera pas beaucoup — peut-être 200 € — mais souvent. On compte sortir des singles tous les mois. »</b></p>
+      <p>Il faut lui faire entrevoir un bon client récurrent. À partir de là, <b>il se bat pour vous</b> auprès de la rédaction : s'ils refusent, il ne vend rien.</p>
+      <p>Et le résultat est durable : <b>la mise en avant disparaîtra, l'article restera.</b> Dix plateformes travaillées de cette façon, et en un mois on est présent partout dans sa niche. Le commercial relancera — on n'a aucune obligation.</p>
+    </div>
+
+    <h3>Levier 3 — l'attaché de presse spécialisé webzines</h3>
+    <table class="tbl">
+      <thead><tr><th>Niveau</th><th>Budget indicatif</th></tr></thead>
+      <tbody>
+        <tr><td>Bancal</td><td>500 à 700 €</td></tr>
+        <tr><td>Bon</td><td>1 000 à 1 200 €</td></tr>
+        <tr><td>Excellent</td><td>1 500 € et plus</td></tr>
+      </tbody>
+    </table>
+    <p>Son travail est exactement celui décrit au levier 1 — à une différence près : <b>il connaît les rédactions et elles le connaissent.</b> Et il a de temps en temps de gros projets à défendre, ce qui lui permet de greffer des dossiers qui ne passeraient pas autrement : « on se connaît, je compte sur toi. En plus, le mois prochain, j'aurai un gros truc, je te l'envoie en priorité. »</p>
+
+    <div class="box b-key">
+      <h4>Pourquoi cet ordre</h4>
+      <p>La publicité coûte beaucoup moins cher qu'un attaché de presse <b>et garantit une mise en avant</b>. Qui dit mise en avant dit plus de clics, plus de lectures — donc plus d'autorité pour les IA et une visibilité réelle auprès d'une bonne audience. L'attaché de presse vient en dernier recours.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s9" data-c="a">
+  <div class="chead">
+    <span class="num">9</span>
+    <h2>Ce que valent les plateformes de mise en relation</h2>
+    <p class="tc">31:32 — 40:17</p>
+  </div>
+  <div class="cbody">
+    <p>Partie entièrement composée de retours d'expérience, avec un verdict clair d'un côté et une piste intéressante de l'autre.</p>
+
+    <h3>Le retour sur une plateforme de pitch à prix cassé</h3>
+    <p>Contacté à l'époque par l'un des fondateurs pour une interview et un partenariat, il a testé la plateforme et en est ressorti avec trois constats.</p>
+    <div class="tl">
+      <div class="tli"><b>Le prix.</b> « Quand je vois ce que je dépense pour me connecter à des gens intéressants, c'est miraculeux ce que tu proposes. » Deux euros le contact — c'est le premier signal.</div>
+      <div class="tli"><b>Aucun contact connu.</b> Pas « un ou deux », aucun. Ni les grands médias, ni les blogs, ni les journalistes musicaux qu'on croise partout et qui répondent dès qu'on leur écrit. « C'est chelou quand même. » Réponse de l'époque : « on commence, ça va venir. »</div>
+      <div class="tli"><b>Les réponses.</b> Dix réponses, toutes différentes — et « le même niveau d'émotion, c'est-à-dire zéro ». « Oui, on a écouté, c'est pas mal. » Un retour évoquait même une basse sur un titre en piano-voix.</div>
+    </div>
+    <div class="box b-danger">
+      <p>Six ans plus tard, même système, étendu à d'autres pays. Les playlists proposées sont des listes de curateurs tiers quasiment sans écoute. Et quand des artistes lui envoient leurs « résultats », il passe les pages dans un outil d'analyse de trafic : <b>deux visites — dont celles de l'artiste venu lire son article.</b></p>
+      <p><b>« Tu vends de l'espoir sans aucune forme de résultat. »</b> Le pire n'étant pas l'argent, mais l'énergie et le temps investis pour rien.</p>
+      <p>Sa nuance : l'idée de départ était excellente. Simplement, <b>pour qu'elle fonctionne, il faudrait compter au minimum 100 € par contact.</b> En dessous, le modèle ne tient pas.</p>
+    </div>
+
+    <h3>La piste qui a l'air sérieuse</h3>
+    <div class="box b-key">
+      <p>À l'opposé, une plateforme de consulting à l'heure avec des professionnels de l'industrie : des noms qu'il reconnaît un par un — éditeurs, préparateurs scéniques, anciens de maisons de disques et de plateformes, analystes de données. <b>« Il y a des vrais gens. »</b></p>
+      <p>Son argument chiffré : <b>150 € pour une heure avec quelqu'un qui cumule plus d'un milliard de streams sur les titres qu'il a placés, « c'est donné ».</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>L'idée à décliner — et c'est là que c'est instructif</h4>
+      <p>Ce modèle n'existe pas encore côté médias, et il devrait. <b>« Tu prends un programmateur radio et tu lui dis : tu ne veux pas t'embêter avec des artistes indépendants ? Vends-leur un consulting à 150 €, écoute leur musique, explique-leur pourquoi tu ne vas pas la programmer, donne-leur des conseils. »</b></p>
+      <p>Pour le programmateur : <b>dix heures dans le mois et son salaire est doublé.</b> Pour l'artiste : un vrai retour et un vrai contact. Même logique pour une rédaction : trois rédacteurs sur des sessions de 30 minutes, 150 € la session — et de temps en temps une vraie découverte, avec une chronique facile à écrire puisqu'on a parlé à l'artiste.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s10" data-c="g">
+  <div class="chead">
+    <span class="num">10</span>
+    <h2>Démarcher un éditeur sans se faire ignorer</h2>
+    <p class="tc">40:17 — 48:32</p>
+  </div>
+  <div class="cbody">
+    <p>Question posée : est-ce intéressant, pour un artiste émergent, de travailler avec un éditeur quand on a un gros catalogue d'œuvres non exploitées ? La réponse commence par reformuler la question.</p>
+
+    <div class="box b-key">
+      <h4>La question mal posée</h4>
+      <p>« C'est toujours intéressant de travailler avec un éditeur, ça dépend de la collaboration. » Un bon éditeur mobilise en quelques jours un réseau qu'on mettrait des mois à atteindre. <b>Mais s'il ne fait rien, ça ne sert à rien.</b></p>
+      <p>Donc la vraie question : <b>comment trouver un éditeur intéressant et intéressé, qui va se bouger pour faire vivre ce catalogue ?</b> Et la réponse : en rencontrant beaucoup d'éditeurs, en comprenant leurs besoins et ce qu'ils recherchent.</p>
+    </div>
+
+    <h3>Les deux approches, côte à côte</h3>
+    <div class="pc">
+      <div class="con"><h4>Ce qui ne marche pas</h4><p>« Bonjour, je représente un artiste, il a 150 œuvres jamais exploitées, je pense que ça pourrait vous intéresser, on cherche quelqu'un pour les plugger. » Laisse tomber.</p></div>
+      <div class="pro"><h4>Ce qui inverse le rapport de force</h4><p>« Je représente un créateur très productif, plus de 150 œuvres en catalogue qu'on n'a encore envoyées à personne. Et <b>ma question aujourd'hui, c'est de savoir de quoi vous avez besoin.</b> Avez-vous été sollicité récemment sur des briefs synchro auxquels vous n'avez pas pu répondre ? Des directeurs artistiques vous ont-ils demandé des choses que vous n'avez pas en catalogue ? »</p></div>
+    </div>
+
+    <div class="box b-info">
+      <h4>Ce que fait cette question</h4>
+      <p>Soit il n'a aucun besoin — « très bien, merci, au revoir », et vous avez économisé des semaines. Soit il décrit un manque : « on a eu une demande de classiques, et on n'a pas trop de classiques. » Et là on rebondit.</p>
+      <p><b>L'objectif : trouver quelque chose auquel il ne peut pas répondre et auquel vous pouvez répondre.</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Et surtout : trois titres, pas un catalogue</h4>
+      <p>« Vous m'avez parlé de ça, un son type années 70 avec des sonorités très synthétiques. Je vais vous en envoyer trois et vous me dites si ça colle. » <b>Trois, c'est facile à écouter — trente secondes et on a l'idée générale.</b> Un catalogue de 150 œuvres est inaudible.</p>
+      <p>S'il accroche : « ça serait bien qu'on se voie. » Le rendez-vous est déclenché.</p>
+    </div>
+
+    <h3>Chaque éditeur a ses propres besoins</h3>
+    <p>Il n'existe pas de catalogue universellement intéressant : il faut que le vôtre réponde à un besoin précis. Certains cherchent des <i>top lines</i> et se désintéressent des compositions et des textes. D'autres veulent exactement les textes. D'autres les compositions. Et pour la synchronisation — demande qui revient de plus en plus — <b>des morceaux finis, instrumental, voix et texte, collant à un brief particulier</b>.</p>
+
+    <h3>Le cas concret : deux cents chansons qui dorment</h3>
+    <p>L'artiste accompagnée écrit « comme elle respire » et a deux cents chansons non enregistrées, surtout des textes de bonne qualité. Deux voies :</p>
+    <div class="tl">
+      <div class="tli"><b>Les sortir à son nom</b>, si elle veut les porter elle-même.</div>
+      <div class="tli"><b>Chercher des artistes qui ont besoin de textes</b> — et il y en a bien plus qu'on ne le croit. Exemple donné : tous les candidats d'émissions de télé-crochet qui échouent au concours. Ils ne vont pas s'arrêter là, ils vont développer des projets, et <b>la plupart ne savent pas écrire</b>. Le travail consiste à trouver ceux qui veulent n'être présents que vocalement, ou qui sont ouverts à la coécriture : « j'ai un texte, on peut le réadapter ensemble. » Et on signe une coécriture sur leur projet.</div>
+    </div>
+    <div class="box b-info">
+      <p><b>Le marché des textes en France :</b> il n'existe pas de place de marché. En anglais, une plateforme de mise en relation de professionnels permet de faire des propositions. En France, <b>c'est le bouche-à-oreille</b> : l'artiste en studio qui dit à son musicien, son arrangeur ou son ingénieur du son qu'il n'écrit pas ses textes. D'où l'intérêt de se bâtir un réseau de musiciens, d'arrangeurs et de studios — mais c'est long.</p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>L'avertissement</h4>
+      <p><b>« Si tu te positionnes comme la personne qui est un peu le couteau suisse et qui fait tout, tu vas vite te cramer. »</b> L'exemple inverse : un éditeur à Londres qui s'est dit dès le départ « je veux faire que ça — placer des compositions et des textes d'artistes sur des artistes ». Pendant des années, aucun placement. Puis un, deux, trois. Aujourd'hui, quand il envoie un titre on l'écoute, et quand on cherche quelque chose on l'appelle. <b>Mais c'est un travail long.</b></p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s11" data-c="r">
+  <div class="chead">
+    <span class="num">11</span>
+    <h2>Ce que vaut un dépôt d'œuvre</h2>
+    <p class="tc">48:32 — 57:05</p>
+  </div>
+  <div class="cbody">
+    <p>Question franche : pourquoi ne recommande-t-il pas tel outil de dépôt sur blockchain ? La réponse est le passage le plus juridiquement dense de la session — et le plus utile.</p>
+
+    <div class="box b-key">
+      <h4>Le constat</h4>
+      <p>L'outil fonctionne très bien pour ce qu'il fait : <b>acter un jour J à l'heure H une répartition</b>. « Néanmoins, ça ne protège personne. »</p>
+      <p>Et le même raisonnement vaut pour le dépôt classique auprès de la société civile : <b>« un dépôt ne te protège en rien. »</b> Il protège la captation des sommes dues à l'exploitation — pas la propriété de l'œuvre.</p>
+    </div>
+
+    <div class="box b-danger">
+      <h4>L'argument qui tue, devant un juge</h4>
+      <p>« Alors, votre preuve ? — J'ai un dépôt horodaté. — <b>Oui, mais ma grand-mère peut en faire un demain si elle veut. Qu'est-ce qui l'en empêche ?</b> Moi, j'ai une session MIDI, et une vidéo où on est en studio un an avant, en train de faire le son que vous m'avez pris. »</p>
+      <p>Un dépôt ne repose que sur du déclaratif. Personne ne vous a jamais demandé de prouver que vous aviez écrit, et personne ne vous le demandera.</p>
+    </div>
+
+    <h3>Ce qui protège : l'accord contresigné</h3>
+    <div class="box b-info">
+      <p>À partir du moment où <b>tous les ayants droit ont contresigné un accord de dépôt et une clé de répartition</b>, même si le titre n'est pas déposé, c'est un engagement sur l'honneur — et <b>ça a une valeur juridique</b>. « C'est comme si tu avais signé un contrat. »</p>
+    </div>
+
+    <h3>Le cas d'école, déroulé pas à pas</h3>
+    <div class="tl">
+      <div class="tli"><b>Le point de départ.</b> Deux personnes font un son : l'une écrit, l'autre compose. Elles signent le jour même un accord contresigné : 50 % des points à l'auteur, 50 % au compositeur.</div>
+      <div class="tli"><b>Deux ans plus tard.</b> On s'est oubliés. Les pistes sont restées chez l'une des deux. Un artiste pose dessus, le son est légèrement modifié, il sort — et les points de composition sont pris au passage.</div>
+      <div class="tli"><b>Le dépôt.</b> Un enregistrement horodaté acte une nouvelle répartition. La société civile valide. Le titre devient un hit.</div>
+      <div class="tli"><b>L'attaque.</b> Le compositeur écarté arrive devant le juge avec <b>trois preuves</b>.</div>
+    </div>
+    <div class="cards">
+      <div class="card"><h4>Preuve 1 — la session</h4><p>Une session MIDI dans son logiciel, avec le <b>suivi de toutes les modifications</b>. L'historique montre que la composition existait deux ans avant. On peut la faire écouter : il est facile de voir que 80 % du son vient de là.</p></div>
+      <div class="card"><h4>Preuve 2 — l'accord</h4><p>L'accord contresigné où l'autre partie <b>atteste elle-même</b> qu'il est le compositeur. Elle a changé d'avis deux ans plus tard — l'écrit, lui, n'a pas changé.</p></div>
+      <div class="card"><h4>Preuve 3 — la vidéo</h4><p>La session filmée. Le téléphone horodate la vidéo, le dépôt dans le cloud est horodaté aussi. <b>« Ça fait beaucoup de choses à falsifier. »</b></p></div>
+    </div>
+
+    <div class="box b-key">
+      <h4>L'issue</h4>
+      <p>La seule défense de bonne foi possible : « j'avais oublié, je croyais que c'était moi. » Les droits sont rendus. Et au-delà : <b>remboursement des frais de justice, plus des dommages et intérêts</b> — « elle a nui à mon image, pendant un an je suis passée pour une voleuse, ça m'a fait perdre des opportunités. »</p>
+      <p>Il précise sa position : <b>il ne dénigre pas l'outil, « l'idée n'était pas mauvaise ». Elle n'est simplement pas protectrice.</b> Si l'outil ajoutait une preuve factuelle indiscutable à la blockchain et à l'horodatage, « ce serait le premier outil à utiliser ».</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s12" data-c="b">
+  <div class="chead">
+    <span class="num">12</span>
+    <h2>Documenter, y compris son usage de l'IA</h2>
+    <p class="tc">57:05 — 60:49</p>
+  </div>
+  <div class="cbody">
+    <p>Le même raisonnement, appliqué à un sujet tout neuf — et c'est probablement le conseil le plus urgent de la session.</p>
+
+    <div class="box b-danger">
+      <h4>Ce qui se passe déjà</h4>
+      <p>Des artistes se font retirer des plateformes de streaming pour « utilisation frauduleuse de l'IA ». Et <b>les plateformes ne font pas la différence entre celui qui a généré un morceau entier d'un clic et celui qui a généré une piste de violon à la fin de son titre.</b></p>
+      <p>Quand elles demandent de justifier, sans session ni trace de ce qui a été fait, c'est perdu. Et les conflits avec les sociétés de gestion arriveront aussi.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>La recommandation</h4>
+      <p><b>Filmer son écran pendant qu'on utilise l'IA.</b> « Filmez-vous en train de dire au générateur : j'ai fait ce son, écoute-le, rajoute-moi juste un piano à cet endroit. Puis j'exporte le piano, je le réintègre dans ma session. Filme-toi en train de faire tout ça. »</p>
+      <p>Parce que le jour où on refuse de vous payer : <b>« Oui, j'ai utilisé l'IA, mais sur un fragment de l'œuvre. Il y a 25 pistes sur le son, c'en est une. Est-ce qu'on peut dire que tout le reste n'est pas à moi ? Non. Donc payez-moi. »</b></p>
+    </div>
+
+    <div class="pull">« C'est tout ce que tu peux prouver qui a de la valeur. C'est comme si tu dis : l'autre m'a mis un coup de boule. Pas de preuve, sa parole contre la tienne, il ne sera jamais condamné. Mais : l'autre m'a mis un coup de boule, et ma voisine a filmé. Ça change complètement la donne. »</div>
+
+    <div class="box b-info">
+      <h4>Et pourquoi on n'arrive presque jamais au procès</h4>
+      <p>L'accord contresigné laisse des traces à plusieurs endroits : envoi de signature, signature horodatée sous licence, courriels d'échange, accusé de téléchargement. On peut falsifier son propre courriel — pas la signature de l'autre, ni le courriel qu'il a reçu, ni sa réponse. <b>Ça fait trop d'éléments à modifier.</b></p>
+      <p>Résultat : face à ce dossier, l'avocat de la partie adverse dit à son client qu'il va falloir payer. <b>« Autant payer maintenant en négociant que dans quatre ans devant un juge. »</b></p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s13" data-c="a">
+  <div class="chead">
+    <span class="num">13</span>
+    <h2>Acheter une instru : les trois points à cadrer</h2>
+    <p class="tc">60:49 — 73:10</p>
+  </div>
+  <div class="cbody">
+    <p>Question très concrète : comment répartir les droits auteur-compositeur quand on a acheté une instrumentale ? La réponse dépend d'abord du régime juridique du vendeur.</p>
+
+    <div class="box b-key">
+      <h4>Le principe de base en France</h4>
+      <p><b>Le droit d'auteur ne se vend pas.</b> Si vous achetez une instru à un membre d'une société d'auteurs française, même payé, <b>vous devez lui laisser ses points</b>. Vous pouvez vous servir de cette vente pour récupérer les éditions et pour ne rien lui devoir sur les recettes d'exploitation — mais pas pour prendre ses droits d'auteur.</p>
+    </div>
+
+    <h3>Point 1 — le contrat de cession et de vente</h3>
+    <div class="box b-info">
+      <p>La transaction doit prévoir, c'est la loi, <b>une rémunération juste et équitable</b> pour le créateur. En pratique : 100, 150, 200, 300 € — certains vendent à 3 000, peu importe.</p>
+      <p>Et il faut y insérer une <b>clause de buy out</b> : « je t'ai payé, et maintenant que je t'ai payé, tu es d'accord pour dire que je ne te dois plus rien sur les recettes d'exploitation futures. »</p>
+      <p><b>Sans cette clause</b>, si le titre devient un hit, il peut revenir en invoquant un contrat abusif : « j'ai été payé pour les trois minutes trente de composition, pas pour la cession du droit d'exploiter mon œuvre. » Ça se négocie en général à 0,5 ou 1 % des recettes d'exploitation.</p>
+    </div>
+    <div class="box b-danger">
+      <h4>Ce que ça coûte quand ça manque</h4>
+      <p>Cas vu la veille de la session : un artiste en conflit sur un titre à très gros volume. <b>250 000 albums vendus, 1 % sur un prix de gros de 10 € hors taxes, soit 2,5 millions — 25 000 € dus.</b> Pas de contrat, et prescription acquise. Vingt-cinq mille euros qui étaient récupérables.</p>
+    </div>
+
+    <h3>Point 2 — le bulletin de déclaration d'œuvre</h3>
+    <div class="box b-warn">
+      <p>Le compositeur <b>doit apparaître</b> sur le bulletin. <b>« Tu n'as pas le droit de prendre le patrimonial d'un créateur. C'est illégal en France. »</b></p>
+      <p>Même si tout le monde le fait — « je l'ai fait, tout le monde l'a fait ». On achète une prod en ligne, le vendeur dit « c'est bon, dépose-la à ton nom, j'ai pris mon billet ». <b>S'il revient six ans plus tard en disant qu'on lui a volé un son, il aura gain de cause.</b> Et s'il est lui-même membre d'une société d'auteurs, il n'avait pas le droit de céder : tout ce qu'il crée doit être apporté au répertoire à son nom, c'est dans les statuts. D'où un conflit de normes très difficile à démêler.</p>
+    </div>
+
+    <h3>Point 3 — les éditions</h3>
+    <div class="box b-key">
+      <p>C'est là que se trouve la marge de manœuvre. Si votre artiste écrit et que le compositeur est le vendeur de l'instru, vous pouvez <b>récupérer les éditions du beatmaker</b> en plus de celles de votre artiste. Ce qui donne :</p>
+      <table class="tbl">
+        <thead><tr><th>Part</th><th>Bénéficiaire</th></tr></thead>
+        <tbody>
+          <tr><td>50 %</td><td>Vous, en tant qu'éditeur</td></tr>
+          <tr><td>25 %</td><td>Votre artiste, en tant qu'auteur</td></tr>
+          <tr><td>25 %</td><td>Le beatmaker, en tant que compositeur</td></tr>
+        </tbody>
+      </table>
+      <p><b>La plus grosse part des droits vous revient</b> — ce qui permet de réinvestir dans le développement du projet.</p>
+    </div>
+    <div class="box b-tip">
+      <h4>Comment l'argumenter</h4>
+      <p>« Je t'ai quand même payé ton instru, c'est normal que j'aie la part éditoriale. J'en ai besoin pour négocier avec des médias, pour aller chercher un label derrière, pour amortir un investissement sur un clip et sur la promotion. » N'importe quel beatmaker comprend qu'il vaut mieux concéder et qu'il se passe quelque chose sur le titre, plutôt que de bloquer et qu'il ne se passe rien. <b>Et de toute façon, ça peut être posé comme condition.</b></p>
+    </div>
+
+    <h3>Le cas concret : des instrus achetées en ligne</h3>
+    <div class="box b-info">
+      <p>L'artiste accompagnée a acheté ses instrus en ligne, auprès de compositeurs anglophones, avec des contrats en anglais, et les titres ne sont pas encore déposés.</p>
+      <p><b>Le régime change tout.</b> Dans les pays de copyright — Royaume-Uni, Irlande, États-Unis, Canada selon les États, Caraïbes — ce n'est pas le créateur qui est protégé, c'est l'œuvre. S'il concède la paternité par contrat, cela crée un conflit avec le droit français, qui interdit de déclarer à son nom une œuvre qu'on n'a pas créée. <b>Mais dans ce flou, à cette échelle, c'est faisable</b> — et si un jour le titre devient un tube mondial, ce sera « un problème de riches » qui se résoudra.</p>
+      <p><b>La condition impérative :</b> le contrat doit l'autoriser. Il faut une <b>vente exclusive, pas un leasing</b>. « Si c'est un leasing, c'est mort, tu ne peux rien en faire. »</p>
+      <p><b>Le signal à ne pas ignorer :</b> un distributeur a refusé l'un des titres parce qu'un second compositeur manquait aux crédits. Cela veut dire que ces compositeurs ont déjà des titres référencés ailleurs, peut-être commercialisés par eux — et qu'ils ont été identifiés automatiquement.</p>
+    </div>
+
+    <h3>Pourquoi il conseille finalement de laisser les droits</h3>
+    <div class="box b-danger">
+      <h4>Le conflit vécu</h4>
+      <p>Un vendeur nord-américain lui a vendu une licence exclusive. Un jour, quelqu'un lui écrit : « c'est moi qui ai les droits exclusifs sur ce son. » Les deux s'envoient leurs contrats. En creusant, ils découvrent qu'<b>au moins huit personnes avaient acheté l'exclusivité sur la même composition</b>. Le vendeur avait parié qu'ils ne se croiseraient jamais. Et personne n'attaque quelqu'un à l'autre bout du monde pour 300 €.</p>
+    </div>
+    <div class="box b-key">
+      <h4>Sa recommandation</h4>
+      <p><b>Laisser ses droits au beatmaker, et prendre une part en éditions.</b> La raison est une protection, pas une générosité : <b>si le beatmaker a utilisé un sample sans le dire, c'est vous qui devenez attaquable.</b></p>
+      <p>Le scénario : il a samplé un titre d'album bien caché, vous sortez le morceau, ça devient numéro un. Les ayants droit l'entendront. « Vous avez capté 200 000 € de droits, on en demande 300 000. » Vous répondez que vous avez acheté une prod. Réponse : <b>« Non, c'est crédité à ton nom. C'est toi qui as fait la composition, donc c'est toi qui n'as pas clearé le son. »</b> Et votre contrat dit justement que le beatmaker vous cède tout et que vous assumez tout. On ne peut pas tout avoir.</p>
+      <p>En éditions, c'est l'inverse : <b>l'auteur vous garantit contre tout recours de tiers dont il aurait violé les droits.</b> Vous êtes tranquille, il prend ses droits, et voilà.</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Les droits réservés, et une pratique à connaître</h4>
+      <p>Les <b>droits réservés</b> consistent à déclarer qu'il y a des droits à payer à quelqu'un, qu'on ne sait pas encore à qui, et qu'ils sont non répartissables en attendant. Les plateformes de streaming les rejettent désormais : elles obligent à déclarer l'identité des auteurs-compositeurs.</p>
+      <p><b>Mais en physique, ça reste un piège classique.</b> Un label propose : « ne déposons pas les sons tout de suite, on déposera tout d'un coup. » Il presse alors 100 000 albums dont les droits mécaniques ne sont rattachés à aucune œuvre déclarée : personne à payer, donc seule la part minimale due est versée, en centaines d'euros. Sur 100 000 exemplaires, l'économie représente dans les 50 000 € — de l'argent qui aurait été reversé aux auteurs et compositeurs.</p>
+      <p><b>La parade, en une phrase :</b> « Non, déposez tout avant de presser, sinon on ne presse pas. »</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s14" data-c="g">
+  <div class="chead">
+    <span class="num">14</span>
+    <h2>Radio : Yacast, BMAT et les tests</h2>
+    <p class="tc">76:44 — 84:17</p>
+  </div>
+  <div class="cbody">
+    <p>Deux questions pratiques, dont une qui ouvre sur un mécanisme très peu connu des artistes.</p>
+
+    <div class="box b-info">
+      <h4>D'abord : l'attestation d'autoproduction</h4>
+      <p>Une déclaration sur l'honneur précisant qu'on s'autoproduit. Elle sert surtout aux artistes : pour adhérer à certaines sociétés de gestion en qualité d'artiste-interprète, il faut attester de son activité artistique — or en autoproduction, il n'y a pas de bulletin de paie. <b>L'attestation remplace la fiche de salaire exigée.</b> Il existe des modèles types. Un producteur qui a déjà une structure n'en a pas besoin : il est producteur par définition.</p>
+    </div>
+
+    <h3>La différence entre les deux outils</h3>
+    <div class="tl">
+      <div class="tli"><b>Avant.</b> Quand une radio vous jouait, quelqu'un notait à la main : « j'ai joué tel titre à 18 h 22 pendant 3 minutes. » En pratique, personne ne le faisait sérieusement, et tout était rempli à la fin de la semaine. <b>Et quand on était ami avec un programmateur, on pouvait obtenir un nombre de diffusions incalculable</b> : 400 diffusions déclarées sur une radio qui vous avait joué dix fois. Quelqu'un, quelque part, était spolié de ses droits.</div>
+      <div class="tli"><b>La technologie.</b> Une société a breveté un système d'<b>empreintes sonores</b> : chaque son enregistre une empreinte, traquée par ses outils. C'est l'origine du tracking des diffusions en radio, en club, en télévision et sur certaines webradios.</div>
+      <div class="tli"><b>L'interface.</b> L'acteur français sous-loue cette technologie pour reconnaître de façon horodatée tous les titres diffusés sur les antennes membres — <b>soit presque 100 % de l'audience radiophonique</b>, puisque seules les radios associatives n'y sont pas, pour à peine 3 % de parts de marché. Il détient environ 70 % de ce marché d'interface, et fait aussi de la publicité et des audiences.</div>
+    </div>
+
+    <h3>Les tests radio</h3>
+    <div class="box b-key">
+      <p>Quand un titre entre en nouveauté, le directeur d'antenne ou le programmateur peut demander un <b>test</b>. Le titre est joué deux semaines, et un institut de mesure d'audience est mandaté.</p>
+      <p>Le protocole : <b>on appelle environ mille personnes correspondant à la cible de la radio.</b> On leur fait écouter une vingtaine de secondes. Connaissez-vous ce titre ? Pouvez-vous citer l'artiste ? Le titre ? Est-ce que vous aimez ? L'avez-vous entendu en radio ? Ailleurs ? Terminé.</p>
+      <p>Et les résultats décident : <b>« Ce titre qui a une diffusion par jour, il teste bien, on l'augmente. »</b> Ou : « il teste mal, on le baisse, voire on le sort. » Ce sont les mots qu'on entend en programmation.</p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Pourquoi c'est devenu très biaisé</h4>
+      <p>Sur un titre destiné à un jeune public, le panel peut être composé de 800 personnes de plus de 35 ans — qui n'en ont évidemment jamais entendu parler. Résultat : on le sort. « Avant, je pense que c'était vraiment efficace, quand 90 % des gens écoutaient la radio. » Aujourd'hui, une génération entière ne connaît ni la radio ni la télévision.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Le levier, une fois qu'on connaît le mécanisme</h4>
+      <p><b>Matraquer en digital en parallèle d'une entrée en radio.</b> Pour que le jour où on demande à quelqu'un « vous connaissez ? », la réponse soit « oui, ça fait longtemps que j'écoute ». Ça crée immédiatement un résultat de test positif.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s15" data-c="b">
+  <div class="chead">
+    <span class="num">15</span>
+    <h2>Démarcher un distributeur</h2>
+    <p class="tc">84:17 — 94:02</p>
+  </div>
+  <div class="cbody">
+    <p>Question : existe-t-il une bonne manière de démarcher un distributeur ? « Ça dépend de ce que tu attends de lui. » Pour une artiste inconnue qui se lance, la réponse est une séquence.</p>
+
+    <div class="tl">
+      <div class="tli"><b>D'abord exister.</b> Passer par un agrégateur, montrer qu'il se passe des choses — sans parler de chiffres ni de scores. Des articles, deux ou trois dates, des choses qui bougent.</div>
+      <div class="tli"><b>Ensuite cibler.</b> Il y a environ <b>70 distributeurs référencés en France</b> : ça ne sert à rien d'aller les voir tous. On repère les cinq ou six qui sont vraiment dans son univers musical, et plutôt les plus ouverts. Les très grosses structures ne sont pas forcément de bonnes options au début.</div>
+      <div class="tli"><b>Puis écrire comme quelqu'un qui a fait ses devoirs.</b> « Je viens vers vous pour ce projet. J'ai vu que vous distribuez tel, tel et tel artiste, et nous sommes dans cette mouvance. Je vois que vous faites un bon travail autour d'eux, et ça m'intéresserait d'avoir un contact. Je vous laisse un lien d'écoute. » Juste ça.</div>
+    </div>
+
+    <div class="box b-key">
+      <p>Le contraste est le cœur du conseil. Le mail générique — « bonjour, nous cherchons un distributeur, nous espérons que ça vous plaira » — ne produit rien. La démarche proactive dit : <b>« je me suis intéressé à vous, j'ai fait mes devoirs, c'est vous que j'ai choisi. Est-ce que vous êtes ouvert à la discussion ? »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Pourquoi les distributeurs sont ouverts</h4>
+      <p>« C'est un modèle d'affaires génial, la distribution. Tu distribues, tu ne fais rien, tu es payé. Tu travailles, tu es payé mieux — mais si tu ne fais rien, tu es déjà payé. » Ils travaillent sur le volume : un million d'œuvres, même à un euro par an, fait un million par an. <b>C'est tout bénéfice pour eux</b> — d'où l'intérêt d'arriver avec la bonne démarche.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Deux détails qui changent le taux de réponse</h4>
+      <p><b>Passer par le formulaire de contact général.</b> Beaucoup de gens y sont réticents, à tort : « c'est la meilleure porte d'entrée. » On écrit à l'adresse générale en précisant « à l'attention de », avec un mail court, bien construit, un lien, un bonjour, un merci et une signature. Même traité par un assistant, il partira au bon service, qui le traitera comme une demande entrante classique. <b>Et ça autorise la relance :</b> « je suis passé par votre site » — sous-entendu, je sais que vous l'avez reçu.</p>
+      <p><b>La phrase qui légitime une relance insistante :</b> « Je tiens vraiment à être en distribution chez vous. <b>Pour l'instant, le projet, je ne l'ai envoyé à personne d'autre.</b> » Elle permet de revenir en disant : « comme je ne l'ai envoyé à personne d'autre, vous comprenez que ça me bloque. C'est juste une réponse qu'il me faut — oui ou non. Une raison, c'est mieux, mais sinon ce n'est pas grave. » Et elle leur donne le <b>sentiment d'être choisis</b>, tout en rendant l'urgence compréhensible.</p>
+    </div>
+
+    <h3>Pourquoi ne pas s'installer chez un agrégateur</h3>
+    <div class="box b-warn">
+      <p>Un agrégateur fait le travail au début. <b>« Il faut juste savoir que ce n'est qu'une option de passage »</b> et préparer sa transition rapidement.</p>
+      <p>Et le vrai problème n'est pas quand ça ne marche pas. <b>« Le pire, moi, je l'ai vécu quand ça marche. »</b> Un morceau fait deux millions de streams en un mois, on veut que ça bouge, et personne ne répond. Même avec un excellent contact chez une plateforme : « il faut que ça passe par ton distributeur, je ne peux pas justifier auprès de mon responsable d'avoir poussé un titre en direct. »</p>
+    </div>
+
+    <h3>Pourquoi une grosse playlist passe forcément par un deal</h3>
+    <div class="box b-key">
+      <p>Maintenant qu'il est lui-même distributeur, il voit le mécanisme de l'intérieur. Le distributeur obtient un <b>rendez-vous d'écoute</b>. Si la plateforme est intéressée, elle demande <b>une part plus importante</b>.</p>
+      <p>Les chiffres qu'il donne en transparence : la commission concédée à la plateforme est de <b>5 %</b> en régime normal. Lors d'une opération de placement, <b>elle passe de 5 à 40 %</b> — et on négocie : limiter à six mois ou un an, ou descendre à 30 %. Tant que le deal n'est pas validé, <b>la plateforme n'a aucun intérêt à mettre en avant</b>. « Crois bien qu'ils n'ont pas créé leurs playlists juste pour le plaisir de leurs utilisateurs. »</p>
+      <p>Même logique sur le mode de recyclage des morceaux qui n'ont pas marché : <b>50 % de commission</b>. Ça reste un bon deal côté artiste — ce sont des titres dont on ne faisait rien — mais c'est une recette considérable côté plateforme.</p>
+    </div>
+
+    <div class="box b-tip">
+      <p>En attendant, la consigne est simple : <b>être méticuleux.</b> Le bon master, la bonne pochette, les bons crédits, l'orthographe juste. « Comme ça, tu n'as pas besoin d'y revenir. »</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s16" data-c="r">
+  <div class="chead">
+    <span class="num">16</span>
+    <h2>L'analyse de risque contractuel</h2>
+    <p class="tc">94:02 — 108:34</p>
+  </div>
+  <div class="cbody">
+    <p>Dernière partie technique, partie de l'exercice du module contrats — « j'ai mis quatre heures à le faire » — et de la question : comment évaluer le niveau de gravité d'une clause ?</p>
+
+    <div class="box b-key">
+      <h4>La méthode : se projeter dans la vraie vie</h4>
+      <p>« Selon le type de contrat que tu signes et le type de clause que tu valides, ça peut juste te chatouiller ou clairement te mettre dans la difficulté. » L'analyse consiste à trier : <b>« Ça, jamais de la vie, je ne le signe. Mais ça, ça m'embête et ça ne m'handicape pas — donc si c'est la condition à concéder pour obtenir ce qui est vital pour moi, alors ce n'est pas un mauvais contrat. »</b></p>
+      <p>Le critère décisif : <b>l'existence de portes de sortie.</b> On peut signer un contrat dur s'il en comporte.</p>
+    </div>
+
+    <h3>Cas 1 — le catalogue présent et futur</h3>
+    <div class="box b-danger">
+      <p>Un artiste signe une licence exclusive pour <b>l'ensemble de son catalogue présent et futur</b>, avec beaucoup d'options, <b>pour la durée de vie du copyright</b> et pour le monde entier.</p>
+      <p>Le label sort le premier projet, puis plus rien. Et comme l'artiste a concédé un pouvoir irrévocable et qu'il est engagé à titre exclusif sur tout son catalogue, <b>il ne peut plus sortir de ce contrat sans accord écrit préalable du label</b>. Trois ans sans rien faire.</p>
+      <p>Il finit par sortir des choses quand même ; le label ne dit rien. Quand le succès arrive et qu'une maison de disques se positionne, le label réapparaît : <b>« on signe avec vous, mais l'avance est chez nous et la plus grosse part est chez nous. »</b> L'artiste n'a pas eu le choix. Le conseil donné à l'époque : « vas-y quand même — les droits d'auteur sont pour toi, le booking est pour toi. Simplement, là où tu vas prendre 100 000, dis-toi que tu aurais dû en prendre un million. »</p>
+    </div>
+
+    <h3>Cas 2 — quarante mille là où il y avait cent cinquante mille</h3>
+    <div class="box b-danger">
+      <p>Un groupe avec un titre qui avait cartonné signe un contrat de distribution avec une major. Ils annoncent fièrement s'être « mis bien ». Le contrat, lui, dit autre chose :</p>
+      <table class="tbl">
+        <thead><tr><th>Ce qu'ils ont signé</th><th>Ce qui était atteignable</th></tr></thead>
+        <tbody>
+          <tr><td>40 000 € d'avance, divisés par quatre</td><td>150 000 € au minimum</td></tr>
+          <tr><td>10 ans d'exclusivité</td><td>Une durée courte avec portes de sortie</td></tr>
+          <tr><td>70 % du digital concédé</td><td>30 % pour le distributeur, 70 % pour eux</td></tr>
+        </tbody>
+      </table>
+      <p><b>Le calcul qu'il leur a fait :</b> 10 000 € sur 10 ans, c'est 1 000 € par an — <b>80 € par mois.</b> « Tu viens de signer pour 80 € par mois. »</p>
+      <p>Et l'argument qu'ils n'ont pas vu : <b>« Vous avez déjà fait tout le travail. Vous avez ouvert la porte, vous avez un public, des millions de streams, un tube. Ils auraient dû se battre et ramer à quatre pattes pour que vous acceptiez un contrat chez eux. »</b> Tout était négociable. Ils ont regardé le montant de l'avance. Dix ans plus tard, ils n'existent plus.</p>
+    </div>
+
+    <h3>Ce que ces cas ont en commun</h3>
+    <div class="box b-info">
+      <p>Un documentaire récent sur un rappeur français est cité comme cas d'école — « c'est ce qui arrive à 80 % des rappeurs, 90 peut-être ». Le schéma : on vous héberge, on vous nourrit, le studio est ouvert jour et nuit, on vous paie des clips, et on vous verse des avances quand ça marche. Tout va bien, jusqu'au jour où on demande les comptes. <b>Une tournée à guichets fermés qui a généré sept ou huit millions d'euros ; 300 000 à 400 000 € touchés.</b> Et quand on interroge, tout le monde se renvoie la balle.</p>
+      <p>Un autre artiste a raconté la même chose dans un documentaire : des salles remplies, 2 000 € à la fin de la soirée. Son explication, dans ses mots : « on m'a ramené un truc, je ne savais pas ce que c'était, on m'a dit signe là, je signais et je passais à autre chose. » <b>Quand on ne sait pas, on fait confiance.</b></p>
+      <p>Et ça n'épargne pas les professionnels. Le manager cité, dix ans aux côtés d'un grand artiste : « j'arrivais sur des contrats devant une major, persuadé d'avoir bien négocié. Et on s'est rendu compte que le merchandising, c'était 100 % pour eux. Que les utilisations en synchronisation, c'était 100 % pour eux ou quasiment. »</p>
+      <p><b>Le piège le plus courant :</b> l'avance échelonnée. « L'avance c'était 100 000, je n'ai touché que 20 000. » Lecture du contrat : 20 000 à la signature, 30 000 à la sortie de l'album, 50 000 un an après. <b>« Ce n'est pas vraiment une avance.</b> Tu as peut-être 100 000 garantis, mais ils vont mettre un bon paquet de temps avant de te les verser — à peu près deux ans. » Et c'est ce genre de malentendu qui casse la relation entre un artiste et son manager.</p>
+    </div>
+
+    <h3>Les points vitaux à vérifier</h3>
+    <div class="box b-key">
+      <p>L'exercice ne couvre pas tous les risques, mais il isole les points clés : <b>l'objet, l'exclusivité, le taux, l'avance, le budget marketing, les abattements.</b></p>
+      <p>La routine recommandée pour tout contrat reçu : <b>le faire traduire par une IA si nécessaire, puis appliquer la grille</b> — l'objet, l'exclusivité, chaque point, et ce que chacun implique concrètement. À partir de là, certaines choses se refusent sans discussion (« ça, non, il n'y a pas de débat, on peut s'arrêter tout de suite »), et d'autres se concèdent. <b>Et tout ça avant de s'engager.</b></p>
+      <p>Une fois les points vitaux verrouillés, on peut lâcher du lest ailleurs : « je vais te payer en dollars — d'accord, on perdra quelques euros au change, on s'en moque, l'important est verrouillé. »</p>
+    </div>
+
+    <div class="pull">« Mais beaucoup ne lisent pas les contrats. Pour eux, c'est comme une langue étrangère. »</div>
+  </div>
+</section>
+
+<section class="chap" id="s17" data-c="a">
+  <div class="chead">
+    <span class="num">17</span>
+    <h2>Les deux biais qui font signer</h2>
+    <p class="tc">108:34 — 115:54</p>
+  </div>
+  <div class="cbody">
+    <p>Au-delà de la lecture, il identifie deux mécanismes psychologiques — et il les illustre avec sa propre histoire, sans se mettre à part.</p>
+
+    <div class="pc">
+      <div class="con"><h4>Biais 1 — l'amitié</h4><p><b>« Il n'y a aucun ami dans cette industrie, c'est du business, c'est tout. »</b> On peut très bien s'entendre avec des gens. Mais à partir du moment où leur intérêt n'est plus aligné avec le vôtre, il n'y a pas d'amis. « Tu es mon distributeur, tu n'es pas mon pote. »</p></div>
+      <div class="con"><h4>Biais 2 — le sentiment d'être choisi</h4><p>Quand un artiste se sent choisi, désiré pour sa créativité et son talent, <b>il obstrue le reste</b>. Il s'imagine qu'une industrie entière va se construire autour de lui parce qu'on l'a choisi. « Ça flatte suffisamment ton ego pour t'éviter de réfléchir. »</p></div>
+    </div>
+
+    <div class="box b-info">
+      <p>Et il précise aussitôt : <b>« Encore une fois, ce n'est pas un jugement de valeur. Moi, ça m'est arrivé, c'est arrivé à tout le monde. »</b> Puis il raconte.</p>
+    </div>
+
+    <h3>Son propre récit</h3>
+    <div class="tl">
+      <div class="tli"><b>Dix-sept ans.</b> Il compose la production d'un titre qui deviendra un succès pour une chanteuse encore inconnue. On lui propose 3 000 € — l'équivalent d'une année de bourse étudiante à l'époque. Payé en une fois, pour une composition : « truc de ouf ».</div>
+      <div class="tli"><b>Le dispositif.</b> Invitation à Paris, train en première classe — « je ne savais pas ce que c'était la première classe ». Un restaurant : la première fois qu'il met les pieds dans un restaurant en dehors d'un kebab. Il est stressé : comment se tenir, comment s'habiller.</div>
+      <div class="tli"><b>Le studio.</b> Un grand studio de major, en souterrain. Un ingénieur du son qui le salue : « c'est toi qui as fait la prod ? Vraiment bien, talent de ouf, ça y est, c'est parti, tu vas bosser avec tout le monde. »</div>
+      <div class="tli"><b>La signature.</b> Au restaurant, on lui présente le contrat. « C'est ton premier contrat. » Le chèque est posé à côté. <b>« Si tu veux le faire relire par un avocat, il n'y a pas de problème. Après, on se fait confiance. »</b> Un clin d'œil. « T'inquiète, c'est bon, je te fais confiance. » Et le repas est offert par le label. « Je me suis dit : j'ai percé, c'est parti. »</div>
+      <div class="tli"><b>Le silence.</b> Des semaines sans nouvelles. Puis il entend le son à la radio. C'est le sien — modifié, et quelqu'un mérite légitimement des points d'arrangement ou de co-composition, mais il est dessus, c'est certain. Autour de lui, tout le monde lui dit qu'il va être riche : le titre est partout.</div>
+      <div class="tli"><b>La porte.</b> Il rappelle, personne ne répond. Il appelle la major, l'accueil l'expédie. Il s'y rend : un agent de sécurité l'empêche d'entrer. « Vous n'avez pas rendez-vous. »</div>
+      <div class="tli"><b>La conversation finale.</b> On finit par le rappeler. <b>« Tu as fait signer un contrat, on t'a payé. On t'a payé, oui ou non ? — Oui. — C'est terminé. »</b></div>
+      <div class="tli"><b>Le détail qui coûte tout.</b> <b>Il n'avait même pas pris de copie du contrat.</b> Il a signé, pris son chèque, et ils sont partis avec.</div>
+      <div class="tli"><b>La justice.</b> Un avocat à 2 000 € — « tout ce que j'avais à ce moment-là ». Il est pourtant crédité sur l'album, il le montre. Un courrier est envoyé, puis plus rien. Six mois plus tard : « il faut relancer, mais ça va vous coûter 2 000 € de plus. » Il n'a pas 2 000 €. Il lâche l'affaire.</div>
+      <div class="tli"><b>Des années plus tard.</b> Il rencontre l'artiste sur une date et lui en parle. <b>« Tu n'étais pas le premier. Je suis tellement désolée. Moi-même, je ne savais pas tout ce qui se passait. Il y a plein de gens qui ont été lésés — des musiciens qui n'ont même pas été payés. »</b></div>
+      <div class="tli"><b>Le bilan.</b> La composition avait été déposée au nom de quelqu'un d'autre. <b>Cette personne a capté plus de 700 000 € de droits</b> et s'est acheté une maison. Son avocate, bien plus tard : prescription. Les pistes étaient sur un vieil ordinateur, il n'avait plus rien. « Laisse tomber. »</div>
+    </div>
+
+    <div class="box b-key">
+      <h4>La leçon, telle qu'il la formule</h4>
+      <p>« — Comme on disait, tu as appris beaucoup avec cette expérience. <b>— Oui, tu as appris que tu n'avais pas d'amis, c'est tout. C'est un business avant toute chose.</b> Tu es dans des transactions commerciales. Il faut te protéger, il faut comprendre comment ça marche le plus tôt possible. Tu feras des erreurs, c'est sûr. Si elles sont moins graves que les miennes, je serai fier de moi. »</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s18" data-c="g">
+  <div class="chead">
+    <span class="num">18</span>
+    <h2>Comment on apprend ce métier</h2>
+    <p class="tc">115:54 — 126:44</p>
+  </div>
+  <div class="cbody">
+    <p>Dernière question de la session, posée pour les lycéens qu'elle côtoie et qui veulent percer : quelles écoles conseiller pour comprendre l'écosystème de la filière, plutôt que d'apprendre à composer ou à chanter ?</p>
+
+    <div class="box b-key">
+      <h4>« Honnêtement, il n'y en a pas. »</h4>
+      <p>Cette industrie s'apprend de trois manières, dans cet ordre :</p>
+      <ol>
+        <li><b>Une formation concrète de terrain</b>, où l'on va chercher de l'information, des éléments et de l'expérience.</li>
+        <li><b>L'implémentation et la pratique par essai-erreur.</b> On ne mettra pas sa vie ni son avenir en danger, mais on fera des erreurs — et c'est ça qui apprend.</li>
+        <li><b>Les rencontres.</b> Discuter avec des gens qui racontent des cas de figure, et apprendre d'eux en posant des questions.</li>
+      </ol>
+      <p>Et au milieu du parcours, un quatrième moment, quand on bute : <b>le mentorat</b> — « je me suis formé, j'ai compris, je n'y arrive vraiment pas, j'ai besoin qu'on me prenne par la main et qu'on implémente ensemble. » Puis on repart sur des projets.</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Pourquoi le troisième canal compte autant : un exemple</h4>
+      <p>Le métier de l'édition, il l'a beaucoup appris comme ça. Pendant longtemps il croyait qu'une reprise exigeait une autorisation. <b>Sur le digital, il n'en faut aucune, du moment qu'on ne modifie pas l'œuvre.</b> C'est le responsable d'un grand éditeur qui lui l'a appris, exemples et cas à l'appui.</p>
+      <p>Six mois plus tard, il sortait une reprise d'un classique très connu. Droits voisins perçus, recettes d'exploitation perçues, numéro un des clubs, des dates vendues derrière — et personne n'est jamais venu. <b>« Effectivement, tu n'avais aucune autorisation à demander à personne. Ça t'ouvre un champ des possibles. »</b></p>
+    </div>
+
+    <h3>Son constat sur les cursus</h3>
+    <div class="box b-warn">
+      <p><b>Les formations théoriques d'avant :</b> 300 € la journée, un intervenant qui récite un cours. « Et tu lui dis : dans mon cas, il s'est passé ça, qu'est-ce que je dois faire ? — C'est un autre sujet, le cours est terminé. » On repart sans rien.</p>
+      <p><b>Dans les écoles :</b> invité à donner des conférences, il ne l'est plus — « parce que les gens se désinscrivent après ». Les élèves lui disent : « ça fait un an qu'on est en cursus music business, on a plus appris avec toi en une après-midi qu'en un an. » Ce qu'on leur fait faire ? <b>Deux mois sur la lecture et l'analyse d'un contrat d'édition</b> — « vous n'êtes pas avocats, vous n'allez pas les rédiger ». Ou décortiquer une playlist de radio : « ce que tu veux, c'est rentrer en radio, pas comprendre comment le programmateur construit sa playlist. »</p>
+      <p><b>Le prix :</b> 20 000 € l'année. La stagiaire elle-même en a payé 10 000 pour une école, et l'artiste qu'elle accompagne 20 000 pour une autre. Son avis est tranché : il aimerait que les jeunes boycottent ces cursus, « où ils ressortent broyés, où ils n'en savent pas plus, parfois moins — et derrière, c'est difficile de se reconstruire, surtout qu'on a lâché un gros billet. »</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Son conseil à leur place</h4>
+      <p><b>« Monte des projets, c'est tout. Tu as juste besoin de monter un projet, et forme-toi à côté. »</b> En autodidacte si possible, ou en formation — mais pratique. D'un projet à l'autre, on devient meilleur.</p>
+      <p>Ce que la formation change, concrètement : <b>« il te faudra deux projets et pas vingt-cinq avant de bien maîtriser les choses. »</b> Sans formation, il en faut davantage, et l'échelle de temps s'allonge.</p>
+      <p>Et avec le même budget : « rien que ça, tu lâches un billet de 20 000 pour sortir ton premier EP — tu fais déjà la différence. »</p>
+    </div>
+
+    <h3>L'horloge d'une carrière</h3>
+    <div class="box b-info">
+      <p>À 16 ans, prendre du temps n'est pas grave : lui a commencé à 16 ans et a connu son premier gros succès à 22. Six ans, aucune importance. <b>Mais démarrer à 22 pour percer à 30, c'est différent : il reste alors une dizaine d'années vraiment actives.</b> À l'inverse, un beatmaker qui obtient son premier gros placement à 20 ans sait qu'il a de la marge — il en fera des dizaines, parce qu'il est jeune, créatif, motivé et qu'il a le temps.</p>
+      <p>Et il parle très franchement de ce qui change ensuite : les enfants, les nuits de studio qui ne sont plus possibles, les séminaires auxquels il n'allait plus. « Tu as moins de placements, mécaniquement. » Il évoque des artistes croisés récemment en festival, cinquante ans, encore à signer des dédicaces à trois heures du matin, du studio et de la promotion derrière — et l'un d'eux lui disant qu'il n'a quasiment pas vu ses enfants grandir, parce qu'il partait en festival le week-end et en studio le soir. « Ce sont des choix, c'est toujours pareil. »</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le parallèle qu'il aime</h4>
+      <p>« Tu démarres, tu es ceinture blanche, tu ne sais rien faire. Le moindre type qui a trois mois de plus que toi fait ce qu'il veut de toi. Mais au bout d'un an ou deux, quand tu vois les ceintures blanches arriver, tu souris : <b>j'étais comme lui à l'époque.</b> Puis tu deviens ceinture noire dans ton domaine et tout devient facile. »</p>
+      <p><b>« Mais c'est dix ans, quoi que tu fasses. »</b></p>
+    </div>
+
+    <p>La session se referme sur l'organisation pratique : la certification à préparer lors d'une des dernières sessions — « on cale la session et l'inscription dès que tu es décidée, comme ça c'est bien frais dans ta tête » —, la prochaine session individuelle déjà programmée, les feuilles d'émargement à signer, et l'envoi du replay chapitré avec son compte rendu.</p>
+  </div>
+</section>
+
+<div class="faq">
+  <div class="bar"></div>
+  <div class="faqhead">
+    <h2>Questions / Réponses</h2>
+    <p>Les 105 points traités pendant la session, regroupés par thème.</p>
+  </div>
+  <div class="faqbody">
+
+    <div class="faqcat">Financer avant de produire</div>
+    <div class="qa"><div class="q"><span>Q1.</span>Qu'est-ce que le Lean Startup ?</div><div class="a"><p>Un concept de développement de produit formalisé par Eric Ries, qui tient en une phrase : <strong>vendre quelque chose avant même de l'avoir créé.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q2.</span>À quoi ça ressemble concrètement dans la musique ?</div><div class="a"><p>On part d'un concept sans studio ni maquette. Une pochette produite par IA, un <strong>vinyle unique obtenu en échantillon</strong> auprès d'une usine de pressage (souvent une vingtaine d'euros), puis une campagne de précommande. <strong>Mille ventes à 25 € font 25 000 €</strong> — de quoi produire l'album et livrer les mille exemplaires.</p></div></div>
+    <div class="qa"><div class="q"><span>Q3.</span>Pourquoi un constructeur automobile fait-il des préventes ?</div><div class="a"><p>Pas pour les 250 € d'acompte, annulables à tout moment. Pour avoir <strong>un volume de ventes cohérent pour l'usine</strong> et une prédiction fiable sur les ventes futures. C'est exactement la logique applicable à un pressage.</p></div></div>
+    <div class="qa"><div class="q"><span>Q4.</span>Quand lancer un financement participatif ?</div><div class="a"><p>Après un, deux, trois singles, quand <strong>les quelques personnes atteintes hors amis et famille aiment ce qu'on fait mais qu'on n'en atteint pas assez.</strong> C'est le moment où il faut des moyens pour augmenter la portée — et on le sent.</p></div></div>
+    <div class="qa"><div class="q"><span>Q5.</span>Pourquoi pas en tout début de parcours ?</div><div class="a"><p>Parce que <strong>les gens ne soutiennent pas un projet que personne d'autre ne soutient.</strong> On se retrouve avec la famille et les amis, et parfois même pas eux. Mieux vaut montrer d'abord qu'on sait aller au bout d'un projet, puis d'un deuxième, puis d'un troisième.</p></div></div>
+    <div class="qa"><div class="q"><span>Q6.</span>Peut-on en faire plusieurs ?</div><div class="a"><p>Oui, et c'est l'erreur la plus répandue de croire le contraire. <strong>Un crowdfunding par projet :</strong> release party (avec des contreparties étagées — place simple, VIP, VIP avec dîner, VIP avec présence aux balances), clip, album suivant. Les fans les plus engagés seront là chaque fois ; les autres feront le premier ou le quatrième.</p></div></div>
+
+    <div class="faqcat">Aides, précompte et fiscalité</div>
+    <div class="qa"><div class="q"><span>Q7.</span>L'aide à l'autoproduction est-elle imposable ?</div><div class="a"><p>Non, <strong>elle est nette de tout</strong> — et c'est la seule dans ce cas, parce qu'elle est <strong>ponctionnée à la source</strong> : quand on vous verse 5 000 €, la société civile a débloqué un peu plus et déjà réglé les charges sociales pour votre compte.</p></div></div>
+    <div class="qa"><div class="q"><span>Q8.</span>Qu'est-ce qu'une demande de dispense de précompte ?</div><div class="a"><p>Le mécanisme normal prélève deux fois : la société civile retient TVA, charges sociales, retraite et formation, puis l'Urssaf artiste-auteur ponctionne les mêmes revenus. <strong>La dispense fait que la société civile verse brut (1 400 € au lieu de 1 000 € nets) et que vous reversez vous-même en fin d'année.</strong> Vous n'êtes chargé qu'une fois.</p></div></div>
+    <div class="qa"><div class="q"><span>Q9.</span>Et si on cumule la dispense et une aide la même année ?</div><div class="a"><p>C'est le point flou. <strong>L'Urssaf peut considérer l'aide comme un revenu</strong> et reprendre une petite ponction. Ce n'est pas bien méchant, mais la question n'est pas tranchée.</p></div></div>
+
+    <div class="faqcat">Monter un dossier qui passe</div>
+    <div class="qa"><div class="q"><span>Q10.</span>Un featuring compte-t-il dans les cinq titres exigés ?</div><div class="a"><p>Oui. Il faut être l'auteur ou le compositeur <strong>majoritairement représenté</strong> sur le projet : 70 % du projet avec un ou deux featurings ne pose aucun problème.</p></div></div>
+    <div class="qa"><div class="q"><span>Q11.</span>Quels sont les trois critères ?</div><div class="a"><p><strong>Le calendrier</strong> (projet déjà commercialisé, ou demande déposée au plus tard un mois avant la sortie ; idéalement déjà sorti, puisqu'on a six mois après la sortie pour déposer). <strong>La paternité</strong> (être majoritaire). <strong>Le volume</strong> (cinq titres en musiques actuelles, ou vingt minutes enregistrées, ce qui permet au classique de déposer avec deux titres).</p></div></div>
+    <div class="qa"><div class="q"><span>Q12.</span>Remplir les critères suffit-il ?</div><div class="a"><p>Non : <em class="q">« si tu te contentes de ça, tu es quasiment certaine de ne pas obtenir de subvention. »</em> Il faut arriver avec un plan promo, une biographie construite, un entourage professionnel et <strong>des attestations écrites de cet entourage.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q13.</span>Pourquoi l'entourage pèse-t-il autant ?</div><div class="a"><p>Parce qu'il rassure. Une lettre d'un distributeur que la commission connaît, d'un manager, d'une salle qui atteste encadrer le projet et tracer chaque euro : <strong>même si votre projet est plus faible qu'un autre, la commission considère que l'argent ne disparaîtra pas.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q14.</span>Quelles attestations peut-on obtenir facilement ?</div><div class="a"><p>Celle du <strong>tourneur</strong> — avoir un tourneur est déjà un signal fort. Celle de la <strong>structure d'accompagnement</strong> à laquelle on est affilié, qui les délivre sans difficulté. Et celle du <strong>manager</strong> lui-même : « en ma qualité de manager, j'atteste que c'est un projet que j'accompagne avec le plus grand sérieux ; le projet consiste à… ; nous avons de bonnes perspectives. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q15.</span>Qu'est-ce qui est éliminatoire ?</div><div class="a"><p>Ce que la commission cherche à détecter, ce sont <strong>les gens complètement à côté de la réalité.</strong> « On a prévu d'être numéro un sur une grande radio la semaine prochaine » : élimination immédiate. À l'inverse, une démarche <strong>ambitieuse mais réaliste</strong> signale quelqu'un qui a compris le métier.</p></div></div>
+    <div class="qa"><div class="q"><span>Q16.</span>Qu'est-ce que la ventilation par esthétique ?</div><div class="a"><p>Une commission <strong>ne peut pas soutenir 24 dossiers d'un même genre sur 25</strong> — ce serait indéfendable devant son autorité de contrôle. Elle respecte à peu près les parts de marché, et l'urbain représentant environ 50 %, elle ne dépassera pas 50 %. <strong>Conséquence : un projet reggae ou pop bien monté passe un peu mieux qu'un projet urbain.</strong> L'expression française et les genres moins représentés sont des plus.</p></div></div>
+    <div class="qa"><div class="q"><span>Q17.</span>Y a-t-il d'autres critères non écrits ?</div><div class="a"><p>Il rapporte une observation de terrain : les commissions, régulièrement interpellées sur les inégalités hommes-femmes, <strong>soutiennent un peu plus les dossiers portés par des femmes en ce moment.</strong> Ce n'est écrit nulle part, et il le présente comme un constat, pas comme une règle.</p></div></div>
+
+    <div class="faqcat">Choisir son créneau</div>
+    <div class="qa"><div class="q"><span>Q18.</span>Mon artiste est recalée des playlists pop urbaine, que faire ?</div><div class="a"><p>Rester en pop. <strong>« L'urbain, c'est saturé. Trop. »</strong> C'est une musique très écoutée, mais quand il y a trop de monde à l'entrée, les barrières montent. Si le projet a une coloration pop, il faut sauter dessus : il y a plus de place.</p></div></div>
+    <div class="qa"><div class="q"><span>Q19.</span>Et le risque d'être mal rangé ?</div><div class="a"><p>Le public tranchera de toute façon. Certains artistes sont décrits comme africains par les uns, urbains par les autres : <strong>ils s'en moquent tant qu'on les écoute.</strong> On prend ce qu'il y a à prendre et on va là où il y a de la place.</p></div></div>
+    <div class="qa"><div class="q"><span>Q20.</span>Qu'est-ce qu'une « fenêtre de tir » ?</div><div class="a"><p>Un créneau sous-alimenté. Un ancien responsable éditorial monde d'une grande plateforme le lui a décrit ainsi : sur le rock, pendant des années, <em class="q">« on n'avait aucune nouveauté, donc le moindre artiste qui arrivait, on le mettait sur des playlists importantes. »</em> L'asymétrie en une phrase : sur une playlist urbaine, <strong>« on se base sur une trentaine de morceaux, on ne sait pas lequel trancher »</strong> ; sur d'autres, <strong>« on a trois titres et on en a besoin de dix ».</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q21.</span>Comment exploiter ça ?</div><div class="a"><p>Se positionner sur un créneau adjacent. Exemple cité : <strong>la soul en France, où deux noms seulement occupent le terrain.</strong> « Tu arrives avec un truc où tu chantes un peu, tu te mets en soul-R&amp;B en français, ça part. »</p></div></div>
+
+    <div class="faqcat">Budgets et cadre subventionnable</div>
+    <div class="qa"><div class="q"><span>Q22.</span>Une séance photo passe-t-elle dans l'aide à la musique à l'image ?</div><div class="a"><p>Non : ce dispositif ne couvre <strong>que de la vidéo.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q23.</span>Que veut dire « mordre la ligne » ?</div><div class="a"><p>C'est son expression, et il la pose avec ses propres limites : <em class="q">« En formation, il y a des trucs que je peux dire et que je ne peux pas dire… Quand tu fais des demandes, au début, il faut mordre un peu la ligne. »</em> Avec la contrepartie répétée deux fois : <strong>« le tout, c'est de rester cohérent, il ne faut pas trop abuser, il faut garder un cadre subventionnable raisonnable. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q24.</span>Quel est le montage décrit ?</div><div class="a"><p>Trouver un prestataire polyvalent et lui acheter l'ensemble : « on part sur 3 000 €, je te prends tout — un clip, une séance photo, le graphisme de la pochette d'album et d'un single, et trente minutes d'interview pendant le tournage dont tu me fais un montage ». <strong>Le devis déposé ne mentionne que le livrable éligible</strong>, avec ses postes ; un contrat couvre l'ensemble à côté. Après notification, on réalise, on livre avec le logo du financeur, le solde est libéré.</p></div></div>
+    <div class="qa"><div class="q"><span>Q25.</span>Pourquoi ça passe, selon lui ?</div><div class="a"><p>Parce que les barèmes sont déconnectés du marché : <em class="q">« il y a un mec en commission qui s'est dit qu'un EPK vidéo, ça pouvait coûter 3 ou 4 000 balles. »</em> Il déposait des factures de clip à 40 000 € en pensant que ça ne passerait jamais — ça passait. <strong>Le contrôle porte sur la livraison, pas sur la valorisation.</strong> Il en retirait trois ou quatre clips pour le budget d'un.</p></div></div>
+    <div class="qa"><div class="q"><span>Q26.</span>Où est la limite ?</div><div class="a"><p>Dans la destination de l'argent : <em class="q">« tant que tu ne te barres pas avec une enveloppe de cash en vacances, tout va bien. On a payé des réalisateurs, des figurants, des lieux. <strong>On a tout réinjecté dans la culture.</strong> »</em> C'est son argument de fond — et c'est aussi la condition. À lire comme un retour d'expérience, pas comme un avis juridique : une requalification reste possible, et c'est lui-même qui parle de « mordre la ligne ».</p></div></div>
+
+    <div class="faqcat">La presse et le référencement</div>
+    <div class="qa"><div class="q"><span>Q27.</span>À quoi sert une revue de presse ?</div><div class="a"><p><strong>« De base, ça ne sert strictement à rien. »</strong> Ça n'apporte pas de visibilité. Il y a exactement deux intérêts : <strong>le support de dossier</strong> pour les demandes de subvention, et — le plus important aujourd'hui — <strong>le référencement.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q28.</span>Quel est son raisonnement sur les IA ?</div><div class="a"><p>Son pari : <strong>« dans deux ans maximum, 90 % des requêtes de recherche vont passer par des LLM. »</strong> Il y voit la même fenêtre qu'il y a quelques années quand il disait à tout le monde d'aller sur une plateforme vidéo courte. Aujourd'hui, il dit de se référencer auprès des IA.</p></div></div>
+    <div class="qa"><div class="q"><span>Q29.</span>Pourquoi des articles influencent-ils une IA ?</div><div class="a"><p>Par corroboration : <em class="q">« Ma source à moi est peut-être biaisée, parce que je parle de moi. Mais toutes ces sources-là corroborent une grosse partie de la narrative que je porte. »</em> <strong>Tant qu'il n'existe pas de contre-narrative, le modèle considère que c'est vrai</strong> — il part du principe que les journalistes font bien leur travail.</p></div></div>
+    <div class="qa"><div class="q"><span>Q30.</span>Quel est le premier levier pour obtenir des articles ?</div><div class="a"><p>Écrire directement aux rédactions. Presque toutes ont une adresse de type <code>redac@…</code>. <strong>On en liste 30 à 40</strong>, et selon la niche dix suffisent : « dans l'urbain, tu as dix sites ; si tu es sur les dix, tu couvres 80 % du marché. » La limite : les plus gros ne répondent pas.</p></div></div>
+    <div class="qa"><div class="q"><span>Q31.</span>Quel est le deuxième levier ?</div><div class="a"><p>La régie publicitaire, avec cette formulation précise : <strong>« J'aimerais proposer un format interview ou chronique à la rédaction, et je suis prêt à investir un budget publicitaire pour le mettre en avant sur la page d'accueil. Est-ce que le projet vous intéresse ? »</strong> Dans huit cas sur dix, un commercial propose un appel.</p></div></div>
+    <div class="qa"><div class="q"><span>Q32.</span>Comment cadrer cet appel ?</div><div class="a"><p>Immédiatement : <em class="q">« Je suis en indépendant, je n'ai pas un gros budget. En revanche je suis prêt à investir un budget régulier chez vous. Ce ne sera pas beaucoup — peut-être 200 € — mais souvent. On compte sortir des singles tous les mois. »</em> <strong>Il faut lui faire entrevoir un bon client récurrent</strong> : à partir de là, il se bat pour vous auprès de la rédaction, puisque s'ils refusent il ne vend rien.</p></div></div>
+    <div class="qa"><div class="q"><span>Q33.</span>Qu'est-ce qui reste de cette opération ?</div><div class="a"><p>La mise en avant disparaîtra, <strong>l'article restera.</strong> Dix plateformes travaillées de cette façon, et en un mois on est présent partout dans sa niche. Le commercial relancera — on n'a aucune obligation.</p></div></div>
+    <div class="qa"><div class="q"><span>Q34.</span>Et le troisième levier ?</div><div class="a"><p>L'attaché de presse spécialisé webzines : <strong>500 à 700 € pour un prestataire bancal, 1 000 à 1 200 € pour un bon, 1 500 € et plus pour un excellent.</strong> Son travail est le même que le levier 1, à une différence près : <strong>il connaît les rédactions et elles le connaissent</strong>, et ses gros projets lui permettent de greffer des dossiers qui ne passeraient pas autrement.</p></div></div>
+    <div class="qa"><div class="q"><span>Q35.</span>Pourquoi cet ordre ?</div><div class="a"><p>Parce que <strong>la publicité coûte beaucoup moins cher qu'un attaché de presse et garantit une mise en avant.</strong> Qui dit mise en avant dit plus de clics et de lectures — donc plus d'autorité pour les IA et une visibilité réelle. L'attaché de presse vient en dernier.</p></div></div>
+
+    <div class="faqcat">Les plateformes de mise en relation</div>
+    <div class="qa"><div class="q"><span>Q36.</span>Que vaut une plateforme de pitch à prix cassé ?</div><div class="a"><p>Son retour, après l'avoir testée à la demande d'un fondateur, tient en trois constats : <strong>le prix</strong> (deux euros le contact, « c'est miraculeux ce que tu proposes » — premier signal) ; <strong>aucun contact connu</strong>, pas même les blogs et journalistes musicaux qui répondent dès qu'on leur écrit ; <strong>des réponses au même niveau d'émotion, c'est-à-dire zéro</strong>, dont un retour évoquant une basse sur un titre en piano-voix.</p></div></div>
+    <div class="qa"><div class="q"><span>Q37.</span>Et six ans plus tard ?</div><div class="a"><p>Même système, étendu à d'autres pays. Les playlists sont des listes de curateurs tiers quasiment sans écoute. Et quand des artistes lui envoient leurs « résultats », il passe les pages dans un outil d'analyse de trafic : <strong>deux visites — dont celles de l'artiste venu lire son article.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q38.</span>Son verdict ?</div><div class="a"><p><strong>« Tu vends de l'espoir sans aucune forme de résultat. »</strong> Le pire n'étant pas l'argent mais l'énergie et le temps investis. Sa nuance : l'idée de départ était excellente — simplement, pour qu'elle fonctionne, <strong>il faudrait compter au minimum 100 € par contact.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q39.</span>Qu'est-ce qui lui semble sérieux, à l'inverse ?</div><div class="a"><p>Une plateforme de consulting à l'heure avec de vrais professionnels — éditeurs, préparateurs scéniques, anciens de maisons de disques et de plateformes, analystes de données, des noms qu'il reconnaît un par un. Son argument : <strong>150 € pour une heure avec quelqu'un qui cumule plus d'un milliard de streams sur les titres qu'il a placés, « c'est donné ».</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q40.</span>Quelle idée en tire-t-il ?</div><div class="a"><p>La décliner côté médias, où elle n'existe pas encore : <strong>« Tu prends un programmateur radio et tu lui dis : vends-leur un consulting à 150 €, écoute leur musique, explique-leur pourquoi tu ne vas pas la programmer, donne-leur des conseils. »</strong> Dix heures dans le mois et son salaire est doublé ; l'artiste obtient un vrai retour et un vrai contact. Même logique pour une rédaction, en sessions de 30 minutes.</p></div></div>
+
+    <div class="faqcat">Éditeurs et placement de textes</div>
+    <div class="qa"><div class="q"><span>Q41.</span>Est-ce intéressant de travailler avec un éditeur quand on a un gros catalogue ?</div><div class="a"><p>La question est mal posée. <strong>C'est toujours intéressant — ça dépend de la collaboration.</strong> Un bon éditeur mobilise en quelques jours un réseau qu'on mettrait des mois à atteindre ; s'il ne fait rien, ça ne sert à rien. La vraie question : <strong>comment trouver un éditeur intéressant et intéressé</strong> — et la réponse est : en en rencontrant beaucoup.</p></div></div>
+    <div class="qa"><div class="q"><span>Q42.</span>Quelle est la mauvaise approche ?</div><div class="a"><p>« Bonjour, je représente un artiste, il a 150 œuvres jamais exploitées, je pense que ça pourrait vous intéresser, on cherche quelqu'un pour les plugger. » <strong>Laisse tomber.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q43.</span>Et la bonne ?</div><div class="a"><p>Celle qui inverse le rapport de force : <strong>« Ma question aujourd'hui, c'est de savoir de quoi vous avez besoin. Avez-vous été sollicité récemment sur des briefs synchro auxquels vous n'avez pas pu répondre ? Des directeurs artistiques vous ont-ils demandé des choses que vous n'avez pas en catalogue ? »</strong> Soit il n'a aucun besoin — vous avez économisé des semaines. Soit il décrit un manque, et vous rebondissez.</p></div></div>
+    <div class="qa"><div class="q"><span>Q44.</span>Combien de titres envoyer ?</div><div class="a"><p><strong>Trois.</strong> « Vous m'avez parlé d'un son type années 70 avec des sonorités synthétiques. Je vais vous en envoyer trois et vous me dites si ça colle. » Trois, c'est facile à écouter — trente secondes et on a l'idée générale. <strong>Un catalogue de 150 œuvres est inaudible.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q45.</span>Tous les éditeurs cherchent-ils la même chose ?</div><div class="a"><p>Non, et c'est le point à retenir. Certains veulent des <em>top lines</em> et se désintéressent des compositions et des textes ; d'autres veulent exactement les textes ; d'autres les compositions. Et pour la synchronisation — demande qui revient de plus en plus — <strong>des morceaux finis, instrumental, voix et texte, collant à un brief précis.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q46.</span>Que faire de deux cents chansons qui dorment ?</div><div class="a"><p>Soit les sortir à son nom, si l'artiste veut les porter. Soit <strong>chercher des artistes qui ont besoin de textes</strong> — il y en a bien plus qu'on ne le croit. Exemple donné : les candidats d'émissions de télé-crochet qui échouent au concours, qui vont développer des projets et dont <strong>la plupart ne savent pas écrire.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q47.</span>Comment aborder ces artistes ?</div><div class="a"><p>En visant ceux qui ne veulent être présents que vocalement, ou qui sont ouverts à la coécriture : <em class="q">« j'ai un texte, on peut le réadapter ou le réécrire ensemble, ce n'est pas un souci. »</em> Et <strong>on signe une coécriture sur leur projet.</strong> Plus on en fait, plus on se place ; plus on se place, plus on vous appelle. Mais c'est un travail long.</p></div></div>
+    <div class="qa"><div class="q"><span>Q48.</span>Existe-t-il un marché pour vendre des textes ?</div><div class="a"><p>En France, non. En anglais, une plateforme de mise en relation de professionnels permet de faire des propositions. <strong>En France, c'est le bouche-à-oreille</strong> : l'artiste en studio qui dit à son musicien, son arrangeur ou son ingénieur du son qu'il n'écrit pas ses textes. D'où l'intérêt de se bâtir un réseau de musiciens, d'arrangeurs et de studios.</p></div></div>
+    <div class="qa"><div class="q"><span>Q49.</span>Faut-il tout savoir faire ?</div><div class="a"><p>Surtout pas : <strong>« si tu te positionnes comme la personne qui est un peu le couteau suisse et qui fait tout, tu vas vite te cramer. »</strong> L'exemple inverse : un éditeur à Londres qui s'est dit dès le départ « je veux faire que ça ». Des années sans aucun placement, puis un, deux, trois. Aujourd'hui, quand il envoie un titre on l'écoute.</p></div></div>
+
+    <div class="faqcat">Protéger ses œuvres</div>
+    <div class="qa"><div class="q"><span>Q50.</span>Pourquoi ne recommande-t-il pas tel outil de dépôt sur blockchain ?</div><div class="a"><p>L'outil fonctionne très bien pour ce qu'il fait — <strong>acter un jour J à l'heure H une répartition.</strong> « Néanmoins, ça ne protège personne. » Et le même raisonnement vaut pour le dépôt classique auprès de la société civile : <strong>il protège la captation des sommes dues à l'exploitation, pas la propriété de l'œuvre.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q51.</span>Quel est l'argument qui tue devant un juge ?</div><div class="a"><p><em class="q">« — Votre preuve ? — J'ai un dépôt horodaté. — <strong>Oui, mais ma grand-mère peut en faire un demain si elle veut. Qu'est-ce qui l'en empêche ?</strong> Moi, j'ai une session MIDI, et une vidéo où on est en studio un an avant, en train de faire le son que vous m'avez pris. »</em> Un dépôt ne repose que sur du déclaratif.</p></div></div>
+    <div class="qa"><div class="q"><span>Q52.</span>Qu'est-ce qui protège alors ?</div><div class="a"><p><strong>Un accord contresigné par tous les ayants droit, portant la clé de répartition.</strong> Même si le titre n'est pas déposé, c'est un engagement sur l'honneur, et ça a une valeur juridique : « c'est comme si tu avais signé un contrat. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q53.</span>Quelles sont les trois preuves du cas d'école ?</div><div class="a"><p><strong>La session</strong> (un projet dans son logiciel avec le suivi de toutes les modifications, qui montre que la composition existait deux ans avant et que 80 % du son vient de là). <strong>L'accord contresigné</strong>, où l'autre partie atteste elle-même qui est le compositeur. <strong>La vidéo de la session</strong>, horodatée par le téléphone et par le dépôt dans le cloud. <em class="q">« Ça fait beaucoup de choses à falsifier. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q54.</span>Quelle est l'issue d'un tel dossier ?</div><div class="a"><p>La seule défense de bonne foi possible est « j'avais oublié, je croyais que c'était moi ». Les droits sont rendus — et au-delà : <strong>remboursement des frais de justice, plus des dommages et intérêts</strong> (« pendant un an je suis passée pour une voleuse, ça m'a fait perdre des opportunités »).</p></div></div>
+    <div class="qa"><div class="q"><span>Q55.</span>Et si un artiste utilise l'IA ?</div><div class="a"><p>Il faut absolument <strong>documenter son process de création : filmer son écran.</strong> « Filmez-vous en train de dire au générateur : j'ai fait ce son, rajoute-moi juste un piano à cet endroit. Puis j'exporte le piano, je le réintègre dans ma session. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q56.</span>Pourquoi est-ce urgent ?</div><div class="a"><p>Parce que des artistes se font déjà retirer des plateformes de streaming pour « utilisation frauduleuse de l'IA », et que <strong>les plateformes ne distinguent pas celui qui a généré un morceau entier d'un clic de celui qui a généré une piste de violon.</strong> Sans trace, c'est perdu. Avec : <em class="q">« oui, j'ai utilisé l'IA, mais sur un fragment. Il y a 25 pistes sur le son, c'en est une. Donc payez-moi. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q57.</span>Pourquoi n'arrive-t-on presque jamais au procès ?</div><div class="a"><p>Parce qu'un accord contresigné laisse des traces à plusieurs endroits : envoi de signature, signature horodatée, courriels d'échange, accusé de téléchargement. On peut falsifier son propre courriel, pas celui de l'autre ni sa réponse. <strong>Face à ce dossier, l'avocat adverse dit à son client qu'il va falloir payer</strong> — « autant payer maintenant en négociant que dans quatre ans devant un juge ».</p></div></div>
+
+    <div class="faqcat">Acheter une instru</div>
+    <div class="qa"><div class="q"><span>Q58.</span>Comment répartir les droits sur une instru achetée ?</div><div class="a"><p>En France, <strong>le droit d'auteur ne se vend pas.</strong> Même payé, un compositeur membre d'une société d'auteurs française garde ses points. La vente permet de récupérer les éditions et de ne rien devoir sur les recettes d'exploitation — pas de prendre ses droits d'auteur.</p></div></div>
+    <div class="qa"><div class="q"><span>Q59.</span>Qu'est-ce qu'une clause de buy out ?</div><div class="a"><p>La clause par laquelle le vendeur reconnaît que, <strong>maintenant qu'il est payé, plus rien ne lui est dû sur les recettes d'exploitation futures.</strong> Sans elle, si le titre devient un hit, il peut invoquer un contrat abusif : « j'ai été payé pour les trois minutes trente de composition, pas pour la cession du droit d'exploiter mon œuvre. » Ça se négocie à 0,5 ou 1 % des recettes.</p></div></div>
+    <div class="qa"><div class="q"><span>Q60.</span>Ce que ça coûte quand ça manque ?</div><div class="a"><p>Cas vu la veille de la session : <strong>250 000 albums vendus, 1 % sur un prix de gros de 10 € hors taxes — soit 2,5 millions et 25 000 € dus.</strong> Pas de contrat, et prescription acquise. Vingt-cinq mille euros qui étaient récupérables.</p></div></div>
+    <div class="qa"><div class="q"><span>Q61.</span>Et la déclaration d'œuvre ?</div><div class="a"><p>Le compositeur <strong>doit apparaître</strong> sur le bulletin : « tu n'as pas le droit de prendre le patrimonial d'un créateur, c'est illégal en France. » Même si tout le monde le fait. <strong>S'il revient six ans plus tard, il aura gain de cause</strong> — et s'il est lui-même membre d'une société d'auteurs, il n'avait pas le droit de céder, puisque tout ce qu'il crée doit être apporté au répertoire à son nom.</p></div></div>
+    <div class="qa"><div class="q"><span>Q62.</span>Où est la marge de manœuvre, alors ?</div><div class="a"><p>Dans les éditions. En récupérant celles du beatmaker en plus de celles de son artiste, la répartition devient <strong>50 % pour l'éditeur, 25 % pour l'auteur, 25 % pour le compositeur</strong> — la plus grosse part des droits vous revient, ce qui permet de réinvestir dans le projet.</p></div></div>
+    <div class="qa"><div class="q"><span>Q63.</span>Comment l'argumenter auprès du beatmaker ?</div><div class="a"><p><em class="q">« Je t'ai quand même payé ton instru, c'est normal que j'aie la part éditoriale. J'en ai besoin pour négocier avec des médias, pour aller chercher un label derrière, pour amortir un investissement sur un clip et sur la promotion. »</em> N'importe quel beatmaker comprend qu'il vaut mieux concéder et qu'il se passe quelque chose, plutôt que de bloquer et qu'il ne se passe rien. <strong>Et ça peut être posé comme condition.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q64.</span>Et si l'instru vient d'un compositeur étranger ?</div><div class="a"><p>Le régime change tout. Dans les pays de copyright, <strong>ce n'est pas le créateur qui est protégé, c'est l'œuvre</strong> — il peut concéder la paternité par contrat. Cela crée un conflit avec le droit français, mais dans ce flou et à cette échelle c'est faisable. <strong>La condition impérative : une vente exclusive, pas un leasing.</strong> « Si c'est un leasing, c'est mort, tu ne peux rien en faire. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q65.</span>Un titre refusé par le distributeur faute d'un second compositeur, qu'est-ce que ça dit ?</div><div class="a"><p>Que ces compositeurs <strong>ont déjà des titres référencés ailleurs</strong>, peut-être commercialisés par eux, et qu'ils ont été identifiés automatiquement. C'est un signal à ne pas ignorer : il faut regarder les contrats.</p></div></div>
+    <div class="qa"><div class="q"><span>Q66.</span>Que se passe-t-il quand un vendeur triche ?</div><div class="a"><p>Son propre conflit : un vendeur nord-américain lui vend une licence exclusive. Un jour, quelqu'un lui écrit : « c'est moi qui ai les droits exclusifs. » Ils comparent leurs contrats et découvrent qu'<strong>au moins huit personnes avaient acheté l'exclusivité sur la même composition.</strong> Le vendeur avait parié qu'ils ne se croiseraient jamais — et personne n'attaque à l'autre bout du monde pour 300 €.</p></div></div>
+    <div class="qa"><div class="q"><span>Q67.</span>Que recommande-t-il finalement ?</div><div class="a"><p><strong>Laisser ses droits au beatmaker et prendre une part en éditions.</strong> C'est une protection, pas une générosité : <strong>si le beatmaker a utilisé un sample sans le dire, c'est vous qui devenez attaquable.</strong> Crédité comme compositeur, c'est vous qui n'avez pas clearé le son — et votre contrat dit justement qu'il vous cède tout et que vous assumez tout.</p></div></div>
+    <div class="qa"><div class="q"><span>Q68.</span>En quoi les éditions protègent-elles mieux ?</div><div class="a"><p>Parce que, en éditions, <strong>l'auteur vous garantit contre tout recours de tiers dont il aurait violé les droits.</strong> Il prend ses droits, vous êtes tranquille.</p></div></div>
+    <div class="qa"><div class="q"><span>Q69.</span>Qu'est-ce que les droits réservés ?</div><div class="a"><p>Déclarer qu'il y a des droits à payer à quelqu'un, qu'on ne sait pas encore à qui, et qu'ils sont non répartissables en attendant. <strong>Les plateformes de streaming les rejettent désormais</strong>, puisqu'elles obligent à déclarer l'identité des auteurs-compositeurs.</p></div></div>
+    <div class="qa"><div class="q"><span>Q70.</span>Pourquoi est-ce un piège en physique ?</div><div class="a"><p>Un label propose : « ne déposons pas les sons tout de suite, on déposera tout d'un coup. » Il presse 100 000 albums dont les droits mécaniques ne sont rattachés à aucune œuvre : <strong>personne à payer, donc seule la part minimale est versée, en centaines d'euros.</strong> Sur 100 000 exemplaires, l'économie est de l'ordre de 50 000 € — de l'argent qui aurait été reversé aux auteurs. <strong>La parade : « déposez tout avant de presser, sinon on ne presse pas. »</strong></p></div></div>
+
+    <div class="faqcat">Radio et distribution</div>
+    <div class="qa"><div class="q"><span>Q71.</span>Qu'est-ce qu'une attestation d'autoproduction ?</div><div class="a"><p>Une déclaration sur l'honneur précisant qu'on s'autoproduit. Elle sert surtout aux artistes : pour adhérer à certaines sociétés de gestion en qualité d'artiste-interprète, il faut attester de son activité artistique, et en autoproduction il n'y a pas de bulletin de paie. <strong>L'attestation remplace la fiche de salaire exigée.</strong> Un producteur qui a déjà une structure n'en a pas besoin.</p></div></div>
+    <div class="qa"><div class="q"><span>Q72.</span>Quelle est la différence entre les deux outils de suivi radio ?</div><div class="a"><p>L'un est la <strong>technologie</strong> : une société a breveté un système d'empreintes sonores, à l'origine du tracking des diffusions en radio, en club, en télévision et sur certaines webradios. L'autre est l'<strong>interface française</strong>, qui sous-loue cette technologie pour reconnaître de façon horodatée tous les titres diffusés sur les antennes membres — <strong>presque 100 % de l'audience radiophonique</strong>, puisque seules les radios associatives n'y sont pas, pour à peine 3 % de parts de marché. Il détient environ 70 % de ce marché, et fait aussi de la publicité et des audiences.</p></div></div>
+    <div class="qa"><div class="q"><span>Q73.</span>Comment faisait-on avant ?</div><div class="a"><p>À la main : quelqu'un notait « j'ai joué tel titre à 18 h 22 pendant 3 minutes ». En pratique, personne ne le faisait sérieusement, et tout était rempli en fin de semaine. <strong>Et quand on était ami avec un programmateur, on pouvait obtenir 400 diffusions déclarées sur une radio qui vous avait joué dix fois</strong> — quelqu'un, quelque part, était spolié.</p></div></div>
+    <div class="qa"><div class="q"><span>Q74.</span>Qu'est-ce qu'un test radio ?</div><div class="a"><p>Quand un titre entre en nouveauté, le programmateur peut demander un test : le titre est joué deux semaines, et un institut de mesure d'audience <strong>appelle environ mille personnes correspondant à la cible.</strong> On leur fait écouter une vingtaine de secondes : connaissez-vous ce titre, pouvez-vous citer l'artiste, le titre, est-ce que vous aimez, l'avez-vous entendu en radio, ailleurs.</p></div></div>
+    <div class="qa"><div class="q"><span>Q75.</span>Qu'est-ce que ça décide ?</div><div class="a"><p>La rotation : <strong>« ce titre qui a une diffusion par jour, il teste bien, on l'augmente »</strong> — ou « il teste mal, on le baisse, voire on le sort ». Ce sont les mots qu'on entend en programmation.</p></div></div>
+    <div class="qa"><div class="q"><span>Q76.</span>Peut-on se fier à ces tests ?</div><div class="a"><p>De moins en moins. Sur un titre destiné à un jeune public, le panel peut être composé de <strong>800 personnes de plus de 35 ans</strong> qui n'en ont jamais entendu parler — et on sort le titre. « Avant, c'était vraiment efficace, quand 90 % des gens écoutaient la radio. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q77.</span>Peut-on les influencer ?</div><div class="a"><p>Oui, une fois qu'on connaît le mécanisme : <strong>matraquer en digital en parallèle d'une entrée en radio</strong>, pour que le jour où on demande « vous connaissez ? », la réponse soit « oui, ça fait longtemps que j'écoute ». Ça crée immédiatement un résultat positif.</p></div></div>
+    <div class="qa"><div class="q"><span>Q78.</span>Comment démarcher un distributeur ?</div><div class="a"><p>En trois temps. <strong>D'abord exister</strong> via un agrégateur — montrer qu'il se passe des choses, sans parler de chiffres. <strong>Puis cibler</strong> : il y a environ 70 distributeurs référencés en France, on repère les cinq ou six vraiment dans son univers, plutôt les plus ouverts (les très grosses structures ne sont pas forcément de bonnes options au début). <strong>Puis écrire comme quelqu'un qui a fait ses devoirs.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q79.</span>À quoi ressemble ce message ?</div><div class="a"><p><em class="q">« Je viens vers vous pour ce projet. J'ai vu que vous distribuez tel, tel et tel artiste, et nous sommes dans cette mouvance. Je vois que vous faites un bon travail autour d'eux, et ça m'intéresserait d'avoir un contact. Je vous laisse un lien d'écoute. »</em> Juste ça. Ce qu'il dit en creux : <strong>« je me suis intéressé à vous, j'ai fait mes devoirs, c'est vous que j'ai choisi. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q80.</span>Pourquoi sont-ils ouverts ?</div><div class="a"><p>« C'est un modèle d'affaires génial, la distribution. Tu distribues, tu ne fais rien, tu es payé. » Ils travaillent sur le volume : <strong>un million d'œuvres, même à un euro par an, font un million par an.</strong> C'est tout bénéfice — d'où l'intérêt d'arriver avec la bonne démarche.</p></div></div>
+    <div class="qa"><div class="q"><span>Q81.</span>Faut-il éviter le formulaire de contact général ?</div><div class="a"><p>Au contraire : <strong>« c'est la meilleure porte d'entrée. »</strong> On écrit à l'adresse générale en précisant « à l'attention de », avec un mail court, bien construit, un lien, un bonjour, un merci et une signature. Même traité par un assistant, il partira au bon service. <strong>Et ça autorise la relance</strong> : « je suis passé par votre site » — sous-entendu, je sais que vous l'avez reçu.</p></div></div>
+    <div class="qa"><div class="q"><span>Q82.</span>Quelle phrase permet de relancer plus fermement ?</div><div class="a"><p><strong>« Je tiens vraiment à être en distribution chez vous. Pour l'instant, le projet, je ne l'ai envoyé à personne d'autre. »</strong> Elle permet de revenir en disant que ça vous bloque, qu'il vous faut juste une réponse — oui ou non. Et elle leur donne le <strong>sentiment d'être choisis</strong> tout en rendant l'urgence compréhensible.</p></div></div>
+    <div class="qa"><div class="q"><span>Q83.</span>Peut-on rester chez un agrégateur ?</div><div class="a"><p>Au début oui, il fait le travail. Mais <strong>« ce n'est qu'une option de passage »</strong>, et il faut préparer sa transition rapidement. Le vrai problème n'est pas quand ça ne marche pas : <strong>« le pire, moi, je l'ai vécu quand ça marche »</strong> — deux millions de streams en un mois, et personne ne répond.</p></div></div>
+    <div class="qa"><div class="q"><span>Q84.</span>Pourquoi une grosse playlist passe-t-elle forcément par un deal ?</div><div class="a"><p>Parce que le distributeur obtient un <strong>rendez-vous d'écoute</strong>, et que si la plateforme est intéressée elle demande une part plus importante. Les chiffres donnés en transparence : la commission concédée est de <strong>5 %</strong> en régime normal, et <strong>passe de 5 à 40 %</strong> lors d'une opération de placement — ça se négocie (limiter à six mois ou un an, ou descendre à 30 %). <strong>Tant que le deal n'est pas validé, la plateforme n'a aucun intérêt à mettre en avant.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q85.</span>Et le mode de recyclage des morceaux qui n'ont pas marché ?</div><div class="a"><p><strong>50 % de commission.</strong> Ça reste un bon deal côté artiste — ce sont des titres dont on ne faisait rien — mais une recette considérable côté plateforme : sur dix millions de dollars de volume mensuel, ils en captent cinq au lieu d'un.</p></div></div>
+
+    <div class="faqcat">Lire un contrat</div>
+    <div class="qa"><div class="q"><span>Q86.</span>Comment évaluer le niveau de gravité d'une clause ?</div><div class="a"><p>En se projetant dans la vraie vie : selon le contrat et la clause, <strong>« ça peut juste te chatouiller ou clairement te mettre dans la difficulté. »</strong> L'analyse consiste à trier : « ça, jamais de la vie je ne le signe ; mais ça, ça m'embête et ça ne m'handicape pas — donc si c'est la condition pour obtenir ce qui est vital, ce n'est pas un mauvais contrat. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q87.</span>Quel est le critère décisif ?</div><div class="a"><p><strong>L'existence de portes de sortie.</strong> On peut signer un contrat dur s'il en comporte. Dans les cas qu'il raconte, il n'y en avait aucune.</p></div></div>
+    <div class="qa"><div class="q"><span>Q88.</span>Quel est le pire cas qu'il ait vu ?</div><div class="a"><p>Une licence exclusive sur <strong>l'ensemble du catalogue présent et futur, pour la durée de vie du copyright et pour le monde entier</strong>, avec beaucoup d'options. Le label sort un projet puis plus rien, et comme l'artiste a concédé un pouvoir irrévocable, <strong>il ne peut plus sortir du contrat sans accord écrit préalable.</strong> Trois ans bloqués. Et quand le succès arrive, le label réapparaît pour prendre l'avance et la plus grosse part.</p></div></div>
+    <div class="qa"><div class="q"><span>Q89.</span>Et le cas du contrat de distribution ?</div><div class="a"><p>Un groupe avec un tube signe <strong>40 000 € d'avance divisés par quatre, 10 ans d'exclusivité, 70 % du digital concédé</strong> — là où 150 000 € étaient atteignables. Le calcul qu'il leur a fait : <strong>10 000 € sur 10 ans, c'est 1 000 € par an, soit 80 € par mois.</strong> « Tu viens de signer pour 80 € par mois. » Dix ans plus tard, ils n'existent plus.</p></div></div>
+    <div class="qa"><div class="q"><span>Q90.</span>Qu'est-ce qu'ils n'avaient pas vu ?</div><div class="a"><p>Le rapport de force. <strong>« Vous avez déjà fait tout le travail. Vous avez ouvert la porte, vous avez un public, des millions de streams, un tube. Ils auraient dû se battre et ramer à quatre pattes pour que vous acceptiez un contrat chez eux. »</strong> Sur ce type de contrat, c'est 30 % pour le distributeur et 70 % pour l'artiste. Tout était négociable.</p></div></div>
+    <div class="qa"><div class="q"><span>Q91.</span>Est-ce que ça n'arrive qu'aux débutants ?</div><div class="a"><p>Non. Un documentaire récent sur un rappeur français est cité comme cas d'école — « c'est ce qui arrive à 80 % des rappeurs, 90 peut-être » : <strong>une tournée à guichets fermés qui a généré sept ou huit millions, 300 000 à 400 000 € touchés.</strong> Un autre artiste a raconté des salles remplies pour 2 000 € la soirée. Et un manager chevronné : « j'étais persuadé d'avoir bien négocié, et on s'est rendu compte que le merchandising c'était 100 % pour eux, les synchronisations aussi. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q92.</span>Quel est le piège le plus courant ?</div><div class="a"><p><strong>L'avance échelonnée.</strong> « L'avance c'était 100 000, je n'ai touché que 20 000. » Lecture du contrat : 20 000 à la signature, 30 000 à la sortie de l'album, 50 000 un an après. <strong>« Ce n'est pas vraiment une avance »</strong> — 100 000 garantis, mais versés sur environ deux ans. Et c'est ce malentendu qui casse la relation entre un artiste et son manager.</p></div></div>
+    <div class="qa"><div class="q"><span>Q93.</span>Quels sont les points vitaux à vérifier ?</div><div class="a"><p><strong>L'objet, l'exclusivité, le taux, l'avance, le budget marketing, les abattements.</strong> La routine : faire traduire le contrat par une IA si nécessaire, puis appliquer la grille point par point en se demandant ce que chacun implique concrètement. <strong>Et tout ça avant de s'engager.</strong> Une fois les points vitaux verrouillés, on peut lâcher du lest ailleurs.</p></div></div>
+    <div class="qa"><div class="q"><span>Q94.</span>Pourquoi tant de gens signent-ils quand même ?</div><div class="a"><p>D'abord parce que <strong>beaucoup ne lisent pas les contrats</strong> — « pour eux c'est comme une langue étrangère ». Mais surtout à cause de deux biais : <strong>le biais de l'amitié</strong> (« il n'y a aucun ami dans cette industrie, c'est du business ; tu es mon distributeur, tu n'es pas mon pote ») et <strong>le biais d'être choisi</strong> (quand un artiste se sent désiré pour son talent, il obstrue le reste — « ça flatte suffisamment ton ego pour t'éviter de réfléchir »).</p></div></div>
+    <div class="qa"><div class="q"><span>Q95.</span>Est-ce un jugement sur les artistes ?</div><div class="a"><p>Non, et il le précise avant de raconter sa propre histoire : <strong>« ce n'est pas un jugement de valeur. Moi, ça m'est arrivé, c'est arrivé à tout le monde. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q96.</span>Que retient-il de son expérience à dix-sept ans ?</div><div class="a"><p>Le dispositif entier : 3 000 € — une année de bourse étudiante — le train en première classe, le premier restaurant de sa vie en dehors d'un kebab, le studio de major, l'ingénieur du son qui le félicite, le contrat présenté avec le chèque posé à côté et un clin d'œil, « si tu veux le faire relire par un avocat, pas de problème — après, on se fait confiance ». Puis le silence, le titre partout à la radio, l'agent de sécurité à l'entrée, et <strong>« on t'a payé, oui ou non ? C'est terminé. »</strong> Le détail qui a tout coûté : <strong>il n'avait même pas pris de copie du contrat.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q97.</span>Et la suite ?</div><div class="a"><p>Un avocat à 2 000 € — tout ce qu'il avait — un courrier, puis plus rien, puis « il faut relancer, ça va vous coûter 2 000 € de plus ». Il lâche l'affaire. Des années plus tard, l'artiste lui dit : <strong>« tu n'étais pas le premier, il y a plein de gens qui ont été lésés — des musiciens qui n'ont même pas été payés. »</strong> La composition avait été déposée au nom de quelqu'un d'autre, <strong>qui a capté plus de 700 000 € de droits.</strong> Prescription.</p></div></div>
+    <div class="qa"><div class="q"><span>Q98.</span>Quelle leçon en tire-t-il ?</div><div class="a"><p><strong>« Tu as appris que tu n'avais pas d'amis, c'est tout. C'est un business avant toute chose. Il faut te protéger, il faut comprendre comment ça marche le plus tôt possible. Tu feras des erreurs, c'est sûr. Si elles sont moins graves que les miennes, je serai fier de moi. »</strong></p></div></div>
+
+    <div class="faqcat">Apprendre ce métier</div>
+    <div class="qa"><div class="q"><span>Q99.</span>Quelles écoles conseiller à un lycéen qui veut percer ?</div><div class="a"><p><strong>« Honnêtement, il n'y en a pas. »</strong> Cette industrie s'apprend de trois manières : <strong>une formation concrète de terrain ; l'implémentation par essai-erreur ; les rencontres.</strong> Avec, au milieu du parcours quand on bute, un quatrième moment : le mentorat.</p></div></div>
+    <div class="qa"><div class="q"><span>Q100.</span>Que valent les rencontres, concrètement ?</div><div class="a"><p>L'exemple qu'il donne : il croyait depuis longtemps qu'une reprise exigeait une autorisation. <strong>Sur le digital, il n'en faut aucune du moment qu'on ne modifie pas l'œuvre</strong> — appris du responsable d'un grand éditeur. Six mois plus tard il sortait une reprise d'un classique : droits voisins perçus, recettes perçues, numéro un des clubs, des dates vendues, et personne n'est jamais venu. <strong>« Ça t'ouvre un champ des possibles. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q101.</span>Pourquoi est-il si critique sur les cursus ?</div><div class="a"><p>Parce qu'il les a vus des deux côtés. Les formations théoriques d'avant : 300 € la journée, un cours récité, et « c'est un autre sujet, le cours est terminé » dès qu'on pose un cas réel. Les écoles : <strong>deux mois sur la lecture d'un contrat d'édition</strong> — « vous n'êtes pas avocats » — ou décortiquer une playlist de radio, « alors que ce que tu veux, c'est rentrer en radio ». <strong>Pour 20 000 € l'année.</strong> Il n'est plus invité à y donner des conférences, « parce que les gens se désinscrivent après ».</p></div></div>
+    <div class="qa"><div class="q"><span>Q102.</span>Que conseille-t-il à leur place ?</div><div class="a"><p><strong>« Monte des projets, c'est tout. Tu as juste besoin de monter un projet, et forme-toi à côté. »</strong> D'un projet à l'autre on devient meilleur. Ce que la formation change : <strong>« il te faudra deux projets et pas vingt-cinq avant de bien maîtriser les choses. »</strong> Et avec le même budget : « tu lâches un billet de 20 000 pour sortir ton premier EP, tu fais déjà la différence. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q103.</span>L'âge compte-t-il ?</div><div class="a"><p>Oui. À 16 ans, prendre du temps n'est pas grave — lui a commencé à 16 ans et connu son premier gros succès à 22. <strong>Mais démarrer à 22 pour percer à 30, c'est différent : il reste une dizaine d'années vraiment actives.</strong> À l'inverse, un beatmaker avec un premier gros placement à 20 ans a de la marge, et il en fera des dizaines.</p></div></div>
+    <div class="qa"><div class="q"><span>Q104.</span>Et la vie de famille ?</div><div class="a"><p>Il en parle franchement : les nuits de studio qui ne sont plus possibles, les séminaires auxquels il n'allait plus, « tu as moins de placements, mécaniquement ». Il cite des artistes croisés en festival, cinquante ans, encore à signer des dédicaces à trois heures du matin, et l'un d'eux disant <strong>qu'il n'a quasiment pas vu ses enfants grandir.</strong> « Ce sont des choix, c'est toujours pareil. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q105.</span>Combien de temps pour maîtriser ?</div><div class="a"><p>Dix ans, et il l'illustre par les arts martiaux : <em class="q">« tu démarres ceinture blanche, le moindre type qui a trois mois de plus fait ce qu'il veut de toi. Au bout d'un an ou deux, quand tu vois les ceintures blanches arriver, tu souris. Puis tu deviens ceinture noire dans ton domaine et tout devient facile. »</em> <strong>« Mais c'est dix ans, quoi que tu fasses. »</strong></p></div></div>
+
+  </div>
+</div>
+
+<div class="plan">
+  <h2>Plan d'action</h2>
+  <p>Cochez au fur et à mesure. Les quatre phases suivent la logique de la session : sécuriser les droits en priorité, puis financer, puis se rendre visible, puis ouvrir les portes.</p>
+
+  <div class="phase">Phase 1 — Sécuriser les droits (le plus urgent)</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Contrats</b>Récupérer les contrats signés avec les compositeurs des instrus, les faire traduire si nécessaire, et vérifier qu'il s'agit bien de ventes exclusives et non de leasings</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Clause</b>Vérifier la présence d'une clause de buy out sur chaque contrat — et l'exiger systématiquement sur les prochains achats</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Déclaration</b>Préparer les bulletins de déclaration d'œuvre en y faisant figurer chaque compositeur, puis déposer les titres de l'EP</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Éditions</b>Formaliser la part éditoriale sur la base 50 / 25 / 25, en utilisant l'argumentaire « j'en ai besoin pour négocier avec des médias et amortir un clip »</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Alerte</b>Élucider le titre refusé faute d'un second compositeur : ces compositeurs ont des titres référencés ailleurs, il faut savoir lesquels</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Accords</b>Mettre en place un accord contresigné par tous les ayants droit sur chaque nouvelle création, avec sa clé de répartition</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Documentation</b>Instaurer la règle : on filme son écran et sa session dès qu'un outil d'IA intervient, même sur une seule piste</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Archives</b>Conserver les sessions avec leur historique de modifications — c'est la preuve la plus solide, et elle ne se reconstitue pas après coup</span></li>
+  </ul>
+
+  <div class="phase">Phase 2 — Financer le prochain projet</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Éligibilité</b>Vérifier les trois critères de l'aide à l'autoproduction : calendrier, paternité majoritaire, cinq titres ou vingt minutes</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Attestations</b>Demander la lettre de la personne qui fait le booking — c'est déjà un signal fort pour la commission</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Affiliation</b>Affilier l'artiste à la structure d'accompagnement pour obtenir les attestations qu'elle délivre</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Attestation</b>Rédiger sa propre attestation de manager : qualité, sérieux de l'accompagnement, projet, perspectives</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Dossier</b>Écrire un plan promo ambitieux mais réaliste — c'est ce qui distingue un dossier crédible d'un dossier éliminé</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Positionnement</b>Présenter le projet dans l'esthétique la moins encombrée, en tenant compte de la ventilation par genre</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Prestataire</b>Identifier un vidéaste polyvalent capable de livrer clip, photos, artwork et EPK, et négocier l'ensemble dans un cadre cohérent</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Précompte</b>Vérifier la situation de l'artiste au regard du précompte et déposer une demande de dispense si elle est concernée</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>À préparer</b>Construire une campagne de précommande sur le prochain projet, avec des contreparties étagées</span></li>
+  </ul>
+
+  <div class="phase">Phase 3 — Se rendre visible</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Arrêter</b>Cesser d'investir dans les plateformes de pitch à deux euros le contact : aucun résultat mesurable, deux visites par article</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Levier 1</b>Lister 30 à 40 rédactions pertinentes (dix suffisent dans une niche) et écrire à leurs adresses de rédaction</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Levier 2</b>Contacter les régies publicitaires avec la proposition « interview ou chronique + budget de mise en avant »</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Cadrage</b>Annoncer 200 € par opération mais une récurrence mensuelle — c'est la récurrence qui motive le commercial</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Levier 3</b>Garder l'attaché de presse webzine en dernier recours, et demander une mise en relation selon le genre du projet</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Référencement</b>Traiter la revue de presse comme un actif de référencement, pas comme un outil de visibilité</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Formation</b>Suivre la formation sur le référencement auprès des IA offerte à la fin du cursus</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Radio</b>Si une entrée en radio se profile, matraquer en digital en parallèle pour influencer les tests</span></li>
+  </ul>
+
+  <div class="phase">Phase 4 — Ouvrir les portes</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Éditeurs</b>Lister des éditeurs à démarcher et préparer la question qui inverse le rapport de force : « de quoi avez-vous besoin ? »</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Discipline</b>N'envoyer que trois titres par demande, choisis pour répondre au besoin exprimé — jamais le catalogue</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Textes</b>Repérer des artistes qui cherchent des textes (candidats d'émissions musicales, projets en développement) et proposer la coécriture</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Réseau</b>Commencer à bâtir un réseau de musiciens, d'arrangeurs et de studios — en France, les placements de textes passent par là</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Focus</b>Choisir une spécialité et s'y tenir, plutôt que d'être le couteau suisse qui fait tout</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Distribution</b>Repérer cinq ou six distributeurs dans l'univers du projet et écrire le message « j'ai fait mes devoirs, c'est vous que j'ai choisi »</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Relance</b>Inclure « je ne l'ai envoyé à personne d'autre » pour s'autoriser une relance ferme</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Transition</b>Préparer la sortie de l'agrégateur : c'est une option de passage, pas une solution</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Méthode</b>Appliquer la grille des points vitaux (objet, exclusivité, taux, avance, budget marketing, abattements) à tout contrat reçu, avant de signer</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Certification</b>Caler la session de préparation à l'oral et l'inscription à l'examen dès que la date est décidée</span></li>
+  </ul>
+</div>
+
+<div class="quiz">
+  <h2>Quiz — 8 questions</h2>
+  <p>Pour vérifier que les mécanismes de la session sont bien assimilés.</p>
+
+  <div class="qz" data-g="1">
+    <p class="qt">1. Qu'est-ce que le Lean Startup, appliqué à un projet musical ?</p>
+    <div class="opt">Produire d'abord, vendre ensuite, avec un budget minimal</div>
+    <div class="opt">Vendre le projet avant même de l'avoir créé</div>
+    <div class="opt">Tester plusieurs singles avant de choisir l'album</div>
+    <div class="fb">Un concept, une pochette, un vinyle unique obtenu en échantillon — et une campagne de précommande. Mille ventes à 25 € font 25 000 €, de quoi produire l'album et livrer les mille exemplaires.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <p class="qt">2. Qu'est-ce qui fait vraiment passer un dossier en commission ?</p>
+    <div class="opt">La qualité artistique du projet</div>
+    <div class="opt">Le respect strict des trois critères d'éligibilité</div>
+    <div class="opt">Un entourage professionnel qui atteste par écrit</div>
+    <div class="fb">Lettres d'un distributeur, d'un manager, d'une salle qui atteste encadrer le projet. Même si votre projet est plus faible qu'un autre, l'entourage rassure : la commission considère que l'argent ne disparaîtra pas.</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <p class="qt">3. Dans quel ordre travailler les trois leviers de presse ?</p>
+    <div class="opt">Rédactions, puis régies publicitaires, puis attaché de presse</div>
+    <div class="opt">Attaché de presse, puis rédactions, puis régies</div>
+    <div class="opt">Régies publicitaires uniquement, les deux autres ne servent à rien</div>
+    <div class="fb">La publicité coûte beaucoup moins cher qu'un attaché de presse et garantit une mise en avant — donc plus de clics, plus d'autorité pour les IA. L'attaché de presse vient en dernier recours.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <p class="qt">4. Que vaut un dépôt d'œuvre horodaté devant un juge ?</p>
+    <div class="opt">C'est une preuve de propriété opposable</div>
+    <div class="opt">Rien du tout, il ne faut pas en faire</div>
+    <div class="opt">Il acte une date, mais ne prouve pas la propriété</div>
+    <div class="fb">« Ma grand-mère peut en faire un demain si elle veut. » Un dépôt ne repose que sur du déclaratif. Ce qui protège, c'est un accord contresigné par tous les ayants droit, une session avec son historique, et une vidéo horodatée.</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <p class="qt">5. Pourquoi conseille-t-il de laisser ses droits au beatmaker ?</p>
+    <div class="opt">Par principe, parce que c'est son œuvre</div>
+    <div class="opt">Parce que crédité compositeur, c'est vous qui répondez d'un sample non clearé</div>
+    <div class="opt">Parce que c'est obligatoire dans tous les pays</div>
+    <div class="fb">Si le beatmaker a samplé sans le dire et que le titre marche, les ayants droit s'adressent au compositeur crédité — vous. Et votre contrat dit qu'il vous cède tout et que vous assumez tout. En éditions, c'est l'inverse : l'auteur vous garantit contre tout recours de tiers.</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <p class="qt">6. Qu'est-ce qu'un test radio décide ?</p>
+    <div class="opt">La rotation du titre : on l'augmente, on le baisse ou on le sort</div>
+    <div class="opt">Le montant des droits perçus par l'artiste</div>
+    <div class="opt">L'entrée du titre dans les playlists de streaming</div>
+    <div class="fb">Mille personnes de la cible sont appelées et écoutent une vingtaine de secondes. « Il teste bien, on l'augmente ; il teste mal, on le baisse, voire on le sort. » D'où l'intérêt de matraquer en digital en parallèle d'une entrée en radio.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <p class="qt">7. Comment démarcher un distributeur ?</p>
+    <div class="opt">Envoyer le même mail aux 70 distributeurs référencés</div>
+    <div class="opt">Attendre d'avoir des chiffres solides avant tout contact</div>
+    <div class="opt">Cibler cinq ou six distributeurs de son univers et montrer qu'on a fait ses devoirs</div>
+    <div class="fb">« J'ai vu que vous distribuez tel et tel artiste, nous sommes dans cette mouvance, je vois que vous faites un bon travail autour d'eux. » Ce que ça dit en creux : c'est vous que j'ai choisi. Et « je ne l'ai envoyé à personne d'autre » autorise une relance ferme.</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <p class="qt">8. Quel est le critère décisif d'une analyse de risque contractuel ?</p>
+    <div class="opt">Le montant de l'avance proposée</div>
+    <div class="opt">L'existence de portes de sortie</div>
+    <div class="opt">La réputation de la structure qui propose le contrat</div>
+    <div class="fb">On peut signer un contrat dur s'il comporte des portes de sortie. Dans le cas de la licence exclusive sur le catalogue présent et futur pour la durée du copyright, il n'y en avait aucune : trois ans bloqués, puis le label qui réapparaît pour prendre l'avance.</div>
+  </div>
+
+  <div class="score" id="score"></div>
+</div>
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="wrap">
+    <p><b>Producteur à Succès</b> — Session individuelle du 10 novembre 2026</p>
+    <p>117 chapitres · 18 sections · 105 questions-réponses · plan d'action en 4 phases</p>
+  </div>
+</footer>
+
+<script>
+var CH = [[17, "Ouverture : une session finalement en tête-à-tête"], [71, "Les justificatifs de présence en formation"], [156, "Le cadre de la session"], [203, "Le Lean Startup : vendre avant d'avoir créé"], [279, "Le vinyle unique fabriqué en échantillon"], [324, "Pourquoi Tesla fait des préventes"], [372, "Quand lancer un financement participatif"], [434, "L'erreur : n'en faire qu'un seul"], [481, "Pourquoi pas au tout début"], [524, "L'aide autoproducteur est-elle imposable"], [604, "Dispense de précompte : éviter la double ponction"], [652, "Le flou quand les deux se cumulent"], [699, "Un featuring compte-t-il dans les cinq titres"], [744, "Les trois critères de l'aide à l'autoprod"], [791, "Ce qui fait la différence : l'entourage écrit"], [836, "Son observation sur l'équilibre hommes-femmes"], [894, "Les attestations délivrées par la structure"], [946, "Ce qui est éliminatoire en commission"], [992, "La ventilation par esthétique musicale"], [1031, "Le cas : recalée en pop urbaine"], [1123, "Ce que dit un ancien responsable éditorial"], [1202, "Trente morceaux pour une place, trois pour dix"], [1245, "Mordre la ligne : tout acheter au même prestataire"], [1324, "Ce qui apparaît sur le devis présenté"], [1393, "Les factures de clip à 40 000 €"], [1435, "La limite : rester cohérent et tout réinjecter"], [1493, "Revue de presse : pourquoi ça ne sert à rien"], [1535, "Le vrai intérêt : le référencement"], [1597, "Levier 1 : écrire aux rédactions"], [1660, "Levier 2 : passer par la régie publicitaire"], [1720, "Cadrer le budget et se rendre désirable"], [1781, "Levier 3 : l'attaché de presse webzine"], [1853, "L'ordre recommandé : un, deux, trois"], [1892, "Deux agences qu'il recommande"], [1977, "Le cas Groover"], [2019, "Les trois choses qui l'ont choqué"], [2080, "Des réponses sans aucun contenu"], [2141, "Vendre de l'espoir : le prix d'un vrai contact"], [2303, "Un milliard de streams pour 150 €"], [2417, "Faut-il un éditeur quand on a un gros catalogue"], [2478, "La vraie question à se poser"], [2528, "Inverser le rapport de force"], [2598, "Trois titres, selon les besoins de l'éditeur"], [2664, "Deux cents chansons qui dorment"], [2709, "Où trouver des artistes qui cherchent des textes"], [2756, "La coécriture comme porte d'entrée"], [2824, "En France, tout passe par le bouche-à-oreille"], [2861, "Ne pas être le couteau suisse"], [2912, "Pourquoi il ne recommande pas cet outil"], [2971, "L'argument qui tue devant un juge"], [3046, "Ce que vaut un accord contresigné"], [3121, "Les dommages et intérêts en plus"], [3156, "Le cas d'école, déroulé pas à pas"], [3266, "Preuve 1 : l'historique de la session"], [3309, "Preuve 3 : la vidéo horodatée"], [3425, "Usage de l'IA : filmer son écran"], [3485, "Les comptes supprimés sans distinction"], [3549, "Seul ce qui se prouve a de la valeur"], [3606, "Pourquoi on n'arrive jamais au procès"], [3649, "Instru achetée : le droit d'auteur ne se vend pas"], [3709, "Point 1 : le contrat de cession et de vente"], [3770, "La clause de buy out et 25 000 € perdus"], [3810, "Point 2 : le bulletin de déclaration d'œuvre"], [3858, "Point 3 : les éditions, et la répartition 50/25/25"], [3898, "Comment argumenter la part éditoriale"], [3992, "Instrus achetées en ligne : le cas du copyright"], [4067, "Vente exclusive ou leasing"], [4148, "La même licence exclusive vendue huit fois"], [4212, "Laisser les droits : le risque du sample caché"], [4300, "Droits réservés et douille sur le physique"], [4390, "Comment il a appris tout ça"], [4446, "Sa méthode : inviter les gens au restaurant"], [4505, "Ce qu'il ne savait pas et lui a coûté cher"], [4604, "L'attestation d'autoproduction"], [4690, "Yacast ou BMAT : la différence"], [4764, "L'empreinte sonore"], [4886, "Les tests radio : mille personnes appelées"], [4940, "Comment un test décide d'une rotation"], [5028, "Influencer un test en amont"], [5111, "Démarcher un distributeur : cibler cinq ou six"], [5179, "Pourquoi les distributeurs sont ouverts"], [5232, "Quelques distributeurs cités"], [5279, "Passer par le formulaire de contact"], [5339, "La phrase qui autorise la relance"], [5402, "L'agrégateur n'est qu'un passage"], [5459, "Le pire : quand ça marche et personne ne répond"], [5515, "Grosses playlists : de 5 % a 40 % de commission"], [5557, "Le discovery mode à 50 %"], [5642, "Les exercices et leur fonction"], [5701, "Viser 100 % au QCM"], [5737, "Quatre heures sur l'exercice contrats"], [5894, "Évaluer un risque : se projeter dans la vraie vie"], [5941, "Cas 1 : trois ans sans pouvoir rien sortir"], [6012, "Cas 2 : 40 000 là où il y avait 150 000"], [6071, "Dix ans d'exclusivité pour 80 € par mois"], [6142, "Ce que veut dire une analyse de risque"], [6193, "Un documentaire comme cas d'école"], [6256, "Sept millions générés, 400 000 touchés"], [6334, "Les lignes qu'on découvre après coup"], [6419, "Les points vitaux d'un contrat"], [6514, "Beaucoup ne lisent même pas"], [6554, "Les deux biais psychologiques qui font signer"], [6630, "Son propre récit : une prod vendue à dix-sept ans"], [6672, "Le chèque, le clin d'œil et la confiance"], [6773, "Même pas une copie du contrat"], [6852, "Les droits captés par un autre"], [6892, "La leçon qu'il en tire"], [6954, "Quelles écoles : les trois manières d'apprendre"], [7045, "Ce qu'il a appris sur les reprises"], [7111, "Les formations théoriques d'avant"], [7166, "Ce qu'on y apprend vraiment"], [7222, "Son avis tranché sur ces cursus"], [7269, "Monter des projets : deux au lieu de vingt-cinq"], [7323, "L'horloge d'une carrière et la vie de famille"], [7470, "Le parallèle avec les arts martiaux"], [7506, "Dix ans, quoi qu'on fasse"], [7604, "Clôture et prochaine session"]];
+
+var frame = document.getElementById('vimeoPlayer');
+
+function fmt(s){ var m = Math.floor(s/60), x = s%60; return m + ':' + (x<10?'0':'') + x; }
+
+function seek(sec){
+  if (!frame || !frame.contentWindow) return;
+  try {
+    frame.contentWindow.postMessage(JSON.stringify({method:'setCurrentTime', value: sec}), '*');
+    frame.contentWindow.postMessage(JSON.stringify({method:'play'}), '*');
+  } catch(e){}
+  var top = frame.getBoundingClientRect().top + window.pageYOffset - 20;
+  window.scrollTo({top: top < 0 ? 0 : top, behavior:'smooth'});
+}
+
+(function(){
+  var host = document.getElementById('chlist');
+  if (!host) return;
+  CH.forEach(function(c){
+    var b = document.createElement('button');
+    var t = document.createElement('b'); t.textContent = fmt(c[0]);
+    var s = document.createElement('span'); s.textContent = c[1];
+    b.appendChild(t); b.appendChild(s);
+    b.addEventListener('click', function(){ seek(c[0]); });
+    host.appendChild(b);
+  });
+})();
+
+(function(){
+  document.querySelectorAll('.tc').forEach(function(el){
+    var parts = el.textContent.split(/(\d+:\d{2})/);
+    if (parts.length < 2) return;
+    el.textContent = '';
+    parts.forEach(function(p){
+      if (/^\d+:\d{2}$/.test(p)) {
+        var mm = p.split(':');
+        var sec = parseInt(mm[0],10)*60 + parseInt(mm[1],10);
+        var btn = document.createElement('button');
+        btn.className = 'seek'; btn.textContent = p;
+        btn.addEventListener('click', function(){ seek(sec); });
+        el.appendChild(btn);
+      } else {
+        el.appendChild(document.createTextNode(p));
+      }
+    });
+  });
+})();
+
+window.addEventListener('scroll', function(){
+  var h = document.documentElement;
+  var max = h.scrollHeight - h.clientHeight;
+  var p = max > 0 ? (h.scrollTop / max) * 100 : 0;
+  document.getElementById('progress').style.width = p + '%';
+});
+
+document.querySelectorAll('.chk li').forEach(function(li){
+  li.addEventListener('click', function(){ li.classList.toggle('done'); });
+});
+
+(function(){
+  var total = document.querySelectorAll('.qz').length, answered = 0, good = 0;
+  document.querySelectorAll('.qz').forEach(function(qz){
+    var g = parseInt(qz.getAttribute('data-g'), 10);
+    var opts = qz.querySelectorAll('.opt');
+    var fb = qz.querySelector('.fb');
+    opts.forEach(function(opt, i){
+      opt.addEventListener('click', function(){
+        if (qz.classList.contains('answered')) return;
+        qz.classList.add('answered');
+        answered++;
+        if (i === g) { opt.classList.add('good'); good++; }
+        else { opt.classList.add('bad'); opts[g].classList.add('good'); }
+        fb.classList.add('show');
+        if (answered === total) {
+          var sc = document.getElementById('score');
+          sc.textContent = 'Score : ' + good + ' / ' + total + (good === total ? ' — parfait.' : ' — relisez les chapitres concernés.');
+          sc.classList.add('show');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

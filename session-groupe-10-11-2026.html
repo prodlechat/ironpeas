@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Financer, obtenir des playlists, protéger ses œuvres — 10 novembre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED; --primary-dark:#4C1D95; --primary-light:#EDE9FE;
+  --accent:#F59E0B; --accent-light:#FEF3C7;
+  --success:#10B981; --success-light:#D1FAE5;
+  --danger:#EF4444; --danger-light:#FEE2E2;
+  --info:#3B82F6; --info-light:#DBEAFE;
+  --ink:#1A1523; --muted:#5B5670; --line:#E7E4EF; --bg:#FAF9FC; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+.progress-wrap{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(108,58,237,.12);z-index:999}
+#progress{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+.wrap{max-width:940px;margin:0 auto;padding-inline:20px}
+
+.hero{background:linear-gradient(140deg,#3B1D80 0%,#6C3AED 55%,#8B5CF6 100%);color:#fff;padding-block:60px 52px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{content:"";position:absolute;left:-60px;bottom:-120px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.05)}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:700;margin-bottom:14px;position:relative;z-index:2}
+.hero .sub{font-size:17px;opacity:.92;max-width:690px;position:relative;z-index:2}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;position:relative;z-index:2}
+.meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:7px 14px;border-radius:10px;font-size:13.5px;font-weight:500}
+
+/* LECTEUR */
+.player-wrap{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:-32px;position:relative;z-index:6;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.vid{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.chx{margin-top:16px;border:1px solid var(--line);border-radius:12px;background:#FBFAFE}
+.chx summary{cursor:pointer;padding:12px 16px;font-weight:650;font-size:14.5px;color:var(--primary-dark);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chx summary::-webkit-details-marker{display:none}
+.chx summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+.chx[open] summary::before{content:"▾ "}
+.chx summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+.chlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:2px;max-height:330px;overflow-y:auto;padding:0 10px 12px}
+.chlist button{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;background:transparent;border:0;border-radius:9px;padding:8px 10px;font-family:inherit;font-size:14.5px;color:var(--ink);cursor:pointer;line-height:1.45;transition:background .12s}
+.chlist button:hover{background:var(--primary-light);color:var(--primary-dark)}
+.chlist b{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;min-width:54px}
+button.seek{background:var(--primary-light);border:1px solid #DDD3FA;color:var(--primary-dark);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;cursor:pointer;font-variant-numeric:tabular-nums;transition:all .12s}
+button.seek:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.player-wrap + .toc{margin-top:26px}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:-32px;position:relative;z-index:5;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.toc h2{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:16px;color:var(--primary-dark)}
+.toc ol{list-style:none;counter-reset:toc;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.toc li{counter-increment:toc}
+.toc a{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink);padding:9px 10px;border-radius:10px;font-size:14.5px;transition:background .15s}
+.toc a:hover{background:var(--primary-light);color:var(--primary-dark)}
+.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);font-size:13px;flex-shrink:0;padding-top:1px}
+
+section.chap{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+section.chap>.bar{height:5px;background:var(--primary)}
+.chap[data-c="a"]>.bar{background:var(--accent)} .chap[data-c="g"]>.bar{background:var(--success)}
+.chap[data-c="b"]>.bar{background:var(--info)} .chap[data-c="r"]>.bar{background:var(--danger)}
+.chead{padding:26px 28px 0;display:flex;gap:14px;align-items:center}
+.cnum{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--primary-light);color:var(--primary-dark);display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px}
+.chap[data-c="a"] .cnum{background:var(--accent-light);color:#92400E}
+.chap[data-c="g"] .cnum{background:var(--success-light);color:#065F46}
+.chap[data-c="b"] .cnum{background:var(--info-light);color:#1E40AF}
+.chap[data-c="r"] .cnum{background:var(--danger-light);color:#991B1B}
+.chead h2{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.25;font-weight:700}
+.tc{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-top:3px}
+.cbody{padding:18px 28px 28px}
+.cbody p{margin-bottom:14px}
+.cbody h3{font-family:'Space Grotesk',sans-serif;font-size:16.5px;margin:22px 0 10px;color:var(--primary-dark)}
+.cbody ul,.cbody ol{margin:0 0 14px 20px}
+.cbody li{margin-bottom:7px}
+strong{font-weight:650;color:#2D2540}
+em.q{font-style:italic;color:#413655}
+
+.box{border-radius:12px;padding:16px 18px;margin:18px 0;border-left:4px solid;font-size:15px}
+.box .bt{display:block;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.box p:last-child{margin-bottom:0}
+.b-key{background:var(--primary-light);border-color:var(--primary)} .b-key .bt{color:var(--primary-dark)}
+.b-warn{background:var(--accent-light);border-color:var(--accent)} .b-warn .bt{color:#92400E}
+.b-tip{background:var(--success-light);border-color:var(--success)} .b-tip .bt{color:#065F46}
+.b-info{background:var(--info-light);border-color:var(--info)} .b-info .bt{color:#1E40AF}
+.b-danger{background:var(--danger-light);border-color:var(--danger)} .b-danger .bt{color:#991B1B}
+
+.tbl{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:12px 14px;font-weight:600;font-size:13.5px}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#FBFAFE}
+
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.pc>div{border-radius:12px;padding:16px 18px;font-size:14.5px}
+.pc .ok{background:var(--success-light);border:1px solid #A7F3D0}
+.pc .ko{background:var(--danger-light);border:1px solid #FECACA}
+.pc h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.pc .ok h4{color:#065F46} .pc .ko h4{color:#991B1B}
+.pc ul{margin:0 0 0 18px} .pc li{margin-bottom:5px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
+.card{background:#FBFAFE;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h4{font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:6px;color:var(--primary-dark)}
+.card p{font-size:14px;color:var(--muted);margin:0}
+.stat h4{font-size:22px;font-family:'Space Grotesk',sans-serif}
+
+.tl{list-style:none;margin:18px 0;padding-left:26px;border-left:2px dashed var(--line)}
+.tl li{position:relative;margin-bottom:16px;font-size:15px}
+.tl li::before{content:"";position:absolute;left:-33px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light)}
+.tl b{display:block;font-family:'Space Grotesk',sans-serif;color:var(--primary-dark)}
+
+details{border:1px solid var(--line);border-radius:12px;margin:14px 0;background:#FBFAFE}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:15px;color:var(--primary-dark);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+details[open] summary::before{content:"▾ "}
+details .dc{padding:0 18px 16px;font-size:14.5px}
+
+.pull{margin:22px 0;padding:20px 24px;border-radius:14px;background:linear-gradient(120deg,#2D1B69,#4C1D95);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:19px;line-height:1.45;font-weight:600}
+.pull span{display:block;margin-top:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;opacity:.7;letter-spacing:.03em}
+
+.faq{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+.faq>.bar{height:5px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.faqhead{padding:26px 28px 0}
+.faqhead h2{font-family:'Space Grotesk',sans-serif;font-size:26px;color:var(--primary-dark)}
+.faqhead p{color:var(--muted);font-size:15px;margin-top:4px}
+.faqbody{padding:18px 28px 28px}
+.faqcat{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.faqcat:first-child{margin-top:6px}
+.qa{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:#FDFCFF}
+.qa .q{background:linear-gradient(90deg,var(--primary-light),#F6F3FF);padding:13px 18px;font-weight:650;color:var(--primary-dark);font-size:15.5px;display:flex;gap:10px}
+.qa .q span{flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.qa .a{padding:15px 18px;font-size:15px}
+.qa .a p{margin-bottom:10px} .qa .a p:last-child{margin-bottom:0}
+
+.plan{background:linear-gradient(140deg,#0F172A,#1E1B4B);color:#fff;border-radius:18px;padding:30px 28px;margin-top:26px}
+.plan h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:8px}
+.plan>p{opacity:.8;margin-bottom:20px;font-size:15px}
+.phase{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin:22px 0 10px}
+.phase:first-of-type{margin-top:0}
+.chk{list-style:none;margin:0;padding:0}
+.chk li{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;margin-bottom:9px;font-size:15px;cursor:pointer;transition:background .15s}
+.chk li:hover{background:rgba(255,255,255,.09)}
+.chk .bx{flex-shrink:0;width:20px;height:20px;border:2px solid rgba(255,255,255,.4);border-radius:6px;margin-top:3px;display:grid;place-items:center;font-size:13px;font-weight:700;color:transparent}
+.chk li.done .bx{background:var(--success);border-color:var(--success);color:#fff}
+.chk li.done .tx{opacity:.5;text-decoration:line-through}
+.chk .tx b{display:block;font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.04em;text-transform:uppercase;opacity:.65;margin-bottom:2px}
+
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px;margin-top:26px}
+.quiz h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:6px;color:var(--primary-dark)}
+.quiz>p{color:var(--muted);margin-bottom:22px;font-size:15px}
+.qz{margin-bottom:24px;padding-bottom:22px;border-bottom:1px dashed var(--line)}
+.qz:last-of-type{border-bottom:none}
+.qz .qt{font-weight:650;margin-bottom:12px;font-size:15.5px}
+.opt{display:block;width:100%;text-align:left;background:#FBFAFE;border:1.5px solid var(--line);border-radius:10px;padding:11px 15px;margin-bottom:8px;cursor:pointer;font-family:inherit;font-size:14.5px;color:var(--ink);transition:all .15s}
+.opt:hover{border-color:var(--primary);background:var(--primary-light)}
+.opt.good{background:var(--success-light);border-color:var(--success);font-weight:600}
+.opt.bad{background:var(--danger-light);border-color:var(--danger)}
+.fb{display:none;margin-top:10px;padding:12px 15px;border-radius:10px;font-size:14.5px;background:var(--info-light);border-left:4px solid var(--info)}
+.fb.show{display:block}
+.score{margin-top:20px;padding:16px;border-radius:12px;background:var(--primary-light);text-align:center;font-weight:650;color:var(--primary-dark);display:none}
+.score.show{display:block}
+
+footer{text-align:center;padding-block:40px 50px;color:var(--muted);font-size:14px}
+footer b{color:var(--primary-dark);font-family:'Space Grotesk',sans-serif}
+
+@media(max-width:640px){
+  .pc{grid-template-columns:1fr}
+  .chead,.faqhead{padding:22px 18px 0} .cbody,.faqbody{padding:16px 18px 22px}
+  .toc{padding:22px 18px} .plan,.quiz{padding:24px 18px}
+  .hero h1{font-size:27px} .pull{font-size:17px;padding:18px}
+  .player-wrap{padding:14px} .chlist{grid-template-columns:1fr;max-height:280px}
+}
+@media print{
+  .progress-wrap{display:none} body{background:#fff}
+  section.chap,.toc,.quiz,.faq{box-shadow:none;break-inside:avoid}
+  .opt{display:none}
+  .vid{display:none} .player-wrap{box-shadow:none;margin-top:20px}
+  .chlist{max-height:none;overflow:visible} .chlist button{padding:3px 0}
+  button.seek{background:none;border:0;padding:0;color:var(--primary-dark)}
+}
+</style>
+</head>
+<body>
+<div class="progress-wrap"><div id="progress"></div></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">Session de groupe · 10 novembre 2026</div>
+    <h1>Financer, obtenir des playlists,<br>protéger ses œuvres</h1>
+    <p class="sub">Deux heures de questions-réponses en groupe. Comment vendre un projet avant de l'avoir produit, construire une campagne de financement participatif qui atteint son objectif, comprendre les trois règles non écrites qui décident vraiment d'une subvention, pourquoi une playlist streaming ne s'obtient jamais sans contrepartie — et la stratégie de genre qui contourne le problème. Puis ce qui protège réellement une œuvre, et les deux biais psychologiques qui font signer les pires contrats.</p>
+    <div class="meta">
+      <span>⏱ 2 h 09</span>
+      <span>🎙 Tarik Hamiche</span>
+      <span>👥 Session de groupe</span>
+      <span>📌 124 chapitres</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="player-wrap">
+  <div class="vid">
+    <iframe id="vimeoPlayer"
+      src="https://player.vimeo.com/video/1245728958?h=dda01d8573"
+      title="Session de groupe du 10 novembre 2026"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  <details class="chx" id="chx">
+    <summary><span>Les 124 chapitres de la session</span><em>Cliquez un chapitre pour y aller</em></summary>
+    <div class="chlist" id="chlist"></div>
+  </details>
+</div>
+
+<nav class="toc">
+  <h2>Au programme</h2>
+  <ol>
+    <li><a href="#s1">Vendre avant de produire : le Lean Startup</a></li>
+    <li><a href="#s2">Quand lancer un financement participatif</a></li>
+    <li><a href="#s3">Les aides sont-elles imposables ?</a></li>
+    <li><a href="#s4">Les trois règles non écrites des subventions</a></li>
+    <li><a href="#s5">Pourquoi une playlist ne s'obtient jamais sans contrepartie</a></li>
+    <li><a href="#s6">La stratégie du genre</a></li>
+    <li><a href="#s7">La presse, le référencement et les IA</a></li>
+    <li><a href="#s8">Changer de public sans casser son algorithme</a></li>
+    <li><a href="#s9">Le faux stream et la publicité</a></li>
+    <li><a href="#s10">Ce que valent les plateformes de mise en relation</a></li>
+    <li><a href="#s11">Ce qui protège vraiment une œuvre</a></li>
+    <li><a href="#s12">Construire une campagne qui atteint son objectif</a></li>
+    <li><a href="#s13">Les deux biais qui font signer un mauvais contrat</a></li>
+  </ol>
+</nav>
+
+<section class="chap" id="s1" data-c="a">
+  <div class="chead">
+    <span class="num">1</span>
+    <h2>Vendre avant de produire : le Lean Startup</h2>
+    <p class="tc">15:17 — 21:53</p>
+  </div>
+  <div class="cbody">
+    <p>Première question du lot envoyé entre deux sessions : <i>comment vendre un album avant même de l'avoir produit ?</i> Elle vient d'un producteur qui n'avait pas compris le terme employé dans la formation.</p>
+
+    <div class="box b-key">
+      <h4>L'origine du concept</h4>
+      <p>Le Lean Startup vient du monde des start-up. Il y a vingt ans, développer un logiciel coûtait très cher : <b>les fondateurs créaient donc une page de vente, allaient la vendre en B2B, et ne commençaient à développer le produit qu'une fois 100 000 ou 200 000 $ de commandes encaissées</b> — en faisant patienter les premiers clients.</p>
+    </div>
+
+    <h3>La transposition musicale, étape par étape</h3>
+    <div class="tl">
+      <div class="tli"><b>Commander un échantillon.</b> On contacte une usine de pressage et on lui demande un échantillon de vinyle. On le paie — 20 à 25 € — et on reçoit un objet physique avec sa pochette. <b>Il peut n'y avoir aucune musique dessus</b>, ou deux vieux morceaux : ce n'est pas le sujet.</div>
+      <div class="tli"><b>Filmer une vidéo de vente.</b> Pour un album qui n'existe pas. Pas une note composée, pas un mot écrit.</div>
+      <div class="tli"><b>Lancer la précommande.</b> Via une campagne de financement participatif ou une opération marketing. Objectif : 300, 500 ou 1 000 exemplaires vendus en un mois.</div>
+      <div class="tli"><b>Produire avec les fonds encaissés.</b> Et développer une communication qui fait patienter le public pendant ce temps.</div>
+    </div>
+
+    <div class="box b-info">
+      <h4>Le calcul qu'il donne, vinyle en main</h4>
+      <p>Le vinyle collector sera vendu <b>35 €</b> à la sortie. En précommande, première dotation : <b>le vinyle dédicacé à 25 €</b>. Mille ventes font <b>25 000 €</b> ; cent ventes font 2 500 €.</p>
+      <p>Mais il corrige immédiatement l'enthousiasme : <b>fabriquer ce vinyle en petite série coûte environ 15 €.</b> La marge n'est pas énorme et ne couvrira pas le studio. Le vinyle, c'est le point d'entrée — pas le modèle.</p>
+    </div>
+
+    <h3>Le vrai moteur : le love money, à condition de lui donner une raison</h3>
+    <div class="box b-key">
+      <p>« Vos proches n'ont pas envie de vous considérer comme un clochard, donc ils ne veulent pas vous donner d'argent. <b>Si demain vous leur donnez une raison de vous en donner, ils vous le donneront.</b> »</p>
+      <p>L'exemple cité : une chanteuse suisse qui a levé <b>17 000 francs</b>. Le conseil donné à l'époque — mettre en place une dotation « dîner en amoureux » à 1 000 €, prévenir son compagnon avant la mise en ligne et le taquiner : « à 18 h précises c'est en ligne ; si ce n'est pas toi qui la prends, j'irai dîner avec la première personne qui la réservera. » <b>Les 1 000 € sont tombés la première minute du premier soir.</b> Même mécanique avec ses parents. Des dotations à marge quasi totale : un repas à 100 €, 900 € de marge.</p>
+    </div>
+
+    <p>D'où la formule qui résume tout : <b>l'album n'est qu'un prétexte.</b> Pour la masse, un prétexte à 25 ou 30 € — ce qu'ils sont capables de donner s'il existe un motif valable. « Si je dis : donnez-moi du pognon, j'ai une idée, vous ne m'en donnerez pas. Si je dis : j'organise un séminaire, je fais venir des intervenants, j'ai besoin de réserver la salle, la place vaudra 100 € mais pour vous ce sera 25 si vous l'achetez maintenant — là, c'est beaucoup plus convaincant. »</p>
+
+    <div class="pull">« C'est ça, le Lean Startup : se servir d'une idée pour lever des fonds, et utiliser ces fonds pour donner vie à l'idée. »</div>
+
+    <h3>La même logique sur les produits dérivés</h3>
+    <div class="box b-warn">
+      <h4>L'erreur qu'il a payée</h4>
+      <p>Son premier produit dérivé : un t-shirt. Fournisseur, matière, design, 250 exemplaires commandés — sans rien demander, faute de savoir quoi demander. Le fabricant a livré <b>moitié coupe homme, moitié coupe femme</b>, et une répartition de tailles arbitraire : très peu de S, un peu de M, beaucoup de L. Résultat : de la demande sur les M qu'il n'avait pas, du stock mort sur les L, et les coupes femme bien mieux vendues que les coupes homme.</p>
+      <p>La leçon : <b>ne jamais investir dans un stock à l'aveugle.</b> Depuis, il vend en <b>prévente</b> — on commande, puis on produit selon les commandes réelles — ou en <b>print on demand</b> : un peu plus cher à l'unité, mais <b>aucun risque financier</b>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s2" data-c="g">
+  <div class="chead">
+    <span class="num">2</span>
+    <h2>Quand lancer un financement participatif</h2>
+    <p class="tc">21:53 — 28:36</p>
+  </div>
+  <div class="cbody">
+    <p>Deuxième question du lot : à quel moment d'une carrière lance-t-on une campagne, et peut-on en refaire ?</p>
+
+    <div class="box b-key">
+      <h4>La réponse courte</h4>
+      <p><b>« À partir du moment où vous avez une idée. Il n'y a pas de bon ou de mauvais moment. »</b> Avec 200 abonnés et une bonne idée, ça peut se tenter.</p>
+      <p>Mais le moment où ça marche vraiment, d'expérience : des artistes qui ont <b>un ou deux ans de sorties derrière eux</b> — un premier EP, deux ou trois singles, quelques dates annoncées. Un début de mouvement existe, et ils préparent quelque chose de plus qualitatif. « On cherche à monter d'un cran. »</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Pourquoi, illustré hors musique</h4>
+      <p>Un ami vient lui demander de financer un bar bistronomique. Expérience en restauration ? Aucune. Un lieu ? Non. De l'argent ? Non. <b>Refus net.</b></p>
+      <p>Trois ans plus tard, le même revient : il a monté un food truck avec ses propres moyens, développé ses recettes et son concept, et ça cartonne. Il veut un lieu. <b>« Là, ça m'intéresse. Pourquoi ? Parce que tu as réussi à me prouver que tu étais en capacité de le faire, et qu'il y avait un marché. »</b> Avec une précaution : trois ou quatre associés pour diluer le risque.</p>
+      <p>« Il n'y a rien de pire que de demander à quelqu'un de croire en vous alors que vous n'avez aucun fan. »</p>
+    </div>
+
+    <h3>Les trois vagues d'une campagne</h3>
+    <div class="tl">
+      <div class="tli"><b>Le love money.</b> Famille, amis, collègues. C'est toujours le premier argent.</div>
+      <div class="tli"><b>La communauté, via l'effet de jauge.</b> « Vous avez un objectif de 5 000 € et vous êtes déjà à 1 008 : elle se dit, allez, moi aussi je peux participer. » Son propre comportement : <b>« s'il y a zéro, je ne mets pas un centime. Si je vois 20 % de l'objectif, je me dis qu'il y a quand même quelqu'un qui croit en lui, et je mets un billet. »</b></div>
+      <div class="tli"><b>La plateforme elle-même.</b> Une fois les <b>30 premiers pour cent</b> atteints rapidement, la plateforme prend le relais — et c'est là que ça devient intéressant.</div>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Le relais institutionnel, peu connu</h4>
+      <p>Les organismes de la filière ont des fonds dédiés au soutien de projets musicaux <b>par le financement participatif</b> : ils apparaissent dans la liste des donateurs. En général <b>1 000 €</b>, parfois 1 500, jamais plus — c'est plafonné. Et on peut cumuler deux organismes.</p>
+      <p>Ensuite la plateforme vous positionne dans ses projets à suivre, « et là ça draine d'illustres inconnus capables de faire exploser les chiffres ».</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>En refaire, et souvent</h4>
+      <p>Un vinyle, puis un autre, puis une release party, puis une mini-tournée ou une date importante. <b>« Des fois vous aurez un noyau dur de fans qui financera tout. Et des fois, ceux qui ont financé la première ne financeront pas la deuxième ni la troisième, mais reviendront financer la quatrième. »</b></p>
+      <p>La seule condition, non négociable : <b>délivrer à chaque fois.</b> C'est la réputation qui est en jeu.</p>
+    </div>
+
+    <p>Une masterclass de deux heures et quart sur le sujet est partagée pendant la session. Et le chiffre qu'il avance : avec cette méthodologie, <b>plusieurs artistes qu'il a accompagnés ont levé près de 100 000 € au total.</b></p>
+  </div>
+</section>
+
+<section class="chap" id="s3" data-c="b">
+  <div class="chead">
+    <span class="num">3</span>
+    <h2>Les aides sont-elles imposables ?</h2>
+    <p class="tc">28:36 — 35:21</p>
+  </div>
+  <div class="cbody">
+    <p>Question technique, et la réponse est plus nuancée qu'un oui ou un non.</p>
+
+    <table class="tbl">
+      <thead><tr><th>Type d'aide</th><th>Traitement</th></tr></thead>
+      <tbody>
+        <tr><td>Toutes les aides, en général</td><td><b>Imposables.</b> En nom propre, à déclarer dans les revenus artistiques (case spécifique selon le régime). Via une structure, <b>c'est une recette comptabilisée en chiffre d'affaires</b> — il n'existe aucune case particulière pour les dotations.</td></tr>
+        <tr><td>L'aide à l'autoproduction</td><td><b>Non imposable</b> — la seule dans ce cas. « Ne me demandez pas pourquoi, je ne sais pas. »</td></tr>
+      </tbody>
+    </table>
+
+    <div class="box b-warn">
+      <h4>Mais non imposable ne veut pas dire nette de charges</h4>
+      <p>Si vous n'êtes pas déclaré comme artiste-auteur auprès de l'Urssaf : la société civile vous verse les 5 000 €, et sur votre <b>prochaine répartition de droits</b> elle prélève environ <b>16 % de charges sociales</b> — ce que vous auriez dû reverser vous-même. C'est ponctionné à la source.</p>
+      <p>Et si ce montant vous fait franchir le plafond (autour de 8 000 à 9 000 €), vous devenez redevable de la cotisation retraite — <b>4 à 8 % de plus</b>. D'où ce constat contre-intuitif : <b>« il y a des années où ce n'est pas forcément une bonne chose d'avoir l'aide à l'autoproduction. »</b></p>
+    </div>
+
+    <h3>Le meilleur schéma, selon lui</h3>
+    <div class="box b-key">
+      <p>Être <b>artiste-auteur déclaré à l'Urssaf, avec un numéro de SIRET et un régime déclaratif au réel</b>. Deux choses deviennent possibles.</p>
+      <p><b>1. La dispense de précompte.</b> Un document demandé à l'Urssaf et remis à la société civile : « je suis déjà ponctionné par l'Urssaf, ils me connaissent. Quand vous me devez 5 000 €, versez-moi 5 000 €, je me débrouille ensuite avec eux. » Résultat immédiat : 15 à 16 % de droits en plus à chaque répartition.</p>
+      <p><b>La nuance qu'il insiste à poser :</b> « sur le moment c'est flatteur, mais en réalité ce sont des sommes que vous devrez reverser l'année suivante. <b>Ça vous fait gagner du temps, pas des charges sociales.</b> »</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>2. Piloter ses revenus déclarés</h4>
+      <p>C'est le montant annuel déclaré en revenus artistiques qui détermine l'assujettissement aux régimes obligatoires. Quand on contrôle ce flux, on peut s'organiser : lui facturait ses prestations de composition par ce canal et, <b>dès qu'il approchait de sa limite, retardait des facturations</b> — uniquement avec des clients solides, « tu bosses avec de très gros labels, ils ne vont pas faire faillite dans six mois ». Une façon de piloter à la fois sa fiscalité et son assujettissement, année après année.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Et le régime au réel permet deux choses de plus</h4>
+      <p>Les <b>dépenses engagées dans le cadre de l'activité d'artiste-auteur viennent en déduction du volume d'affaires</b> — ce qui comprime le net imposable. Il corrige lui-même une imprécision au passage : cela ne réduit pas les charges sociales, mais <b>l'économie fiscale obtenue couvre les charges sociales qu'on aurait de toute façon à régler</b>, ce qui crée un point d'équilibre intéressant.</p>
+      <p>Et surtout : ces revenus peuvent être <b>lissés sur cinq ans</b>. Son exemple : 20 000 € de recettes moins 10 000 € de frais justifiés, soit 10 000 € — lissés sur cinq ans, 2 000 € déclarés par an. « Vous êtes en dessous de tous les seuils. » Avec la conclusion qui va avec : <b>« et le jour où vous devenez riche, vous paierez. »</b></p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s4" data-c="r">
+  <div class="chead">
+    <span class="num">4</span>
+    <h2>Les trois règles non écrites des subventions</h2>
+    <p class="tc">35:21 — 47:14</p>
+  </div>
+  <div class="cbody">
+    <p>C'est le passage le plus instructif de la session, et il commence par un aveu : <i>pourquoi, même 100 % éligible, on n'obtient pas l'aide ?</i> « Il y a des raisons dites, et il y a des raisons non dites. »</p>
+
+    <div class="box b-info">
+      <h4>Ce qu'il a vu de l'intérieur</h4>
+      <p>Il a siégé plusieurs années dans l'instance jeunes producteurs d'une société civile, puis dans des commissions d'aide. Vers 2015, il militait pour faire tomber un critère d'éligibilité : <b>avoir déjà produit et commercialisé au moins un album physique distribué à l'échelle nationale, contrat de distribution à l'appui.</b></p>
+      <p>Sans ce critère, aucune aide — peu importe le niveau réel. L'exemple qu'il cite : <b>un artiste électro aujourd'hui mondialement connu tournait déjà dans de nombreux pays et se faisait refuser toutes ses demandes</b>, faute d'album physique.</p>
+      <p>La réponse qu'il a reçue en réunion, de la part de la présidence de l'époque : <b>« Vous avez tous des aides ici. Vous n'avez pas envie qu'il y ait deux mille inconnus qui viennent demain gratter sur vos budgets. Alors on laisse le critère. »</b> Et en privé : si les gros cotisants n'ont plus les budgets dont ils ont besoin, ils partent, la structure disparaît et il n'y a plus de droits pour personne. « Le système est ainsi conçu. »</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Règle 1 — pour demander de l'argent, il faut d'abord en donner</h4>
+      <p>Pas de salarié avec des charges sociales, pas d'impôts, pas de TVA — autrement dit pas de structure commerciale qui s'acquitte de charges et de taxes : <b>« tu seras éligible à rien. »</b></p>
+      <p>Les rares associations qui lèvent des subventions ne sont souvent pas de simples associations loi 1901 : elles sont assujetties à l'impôt sur les sociétés, existent depuis vingt ans, et sont connues. Ou bien leur cadre subventionnable est si élevé qu'elles deviennent une exception (une chorale avec 200 salariés). <b>« On est dans un système où d'abord tu déverses, et ensuite tu peux espérer récupérer. Et ce n'est pas garanti. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Règle 2 — les montants sont corrélés aux droits générés l'année précédente</h4>
+      <p>« Si tu débarques en disant : j'ai généré 200 € de droits l'année dernière, j'ai monté un projet, j'aimerais 5 000 € — on va dire qu'il y a un truc qui ne va pas. »</p>
+      <p>C'est encore plus marqué dans les organismes administrés par des producteurs et des maisons de disques : sans plusieurs milliers d'euros générés l'année précédente, une demande de 10 000 € pour un clip aboutira <b>au mieux à 800 €</b>. Et si vous demandez pourquoi : <b>« la commission n'a pas à se justifier sur les aides qu'elle accorde. »</b></p>
+      <p>Ce qu'il a entendu en coulisses : les membres sortant leurs propres chiffres de collecte sur dix ans pour les comparer à ceux du demandeur. <b>Ce qu'il faut démontrer n'est pas un chiffre exceptionnel, c'est un modèle d'affaires qui tourne</b> — et donc la capacité à réinvestir l'argent pour en générer encore.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Règle 3 — l'entourage professionnel, parce qu'il partage le risque</h4>
+      <p>La plus grande peur d'une commission : financer quelqu'un qui part dépenser l'argent ailleurs. L'entourage professionnel est son assurance — et il le formule crûment, du point de vue du décideur : <b>« s'il y a le président d'une salle qui a signé une lettre d'intention et qui s'engage à accompagner le projet, si ça part de travers, j'irai lui taper dessus aussi. Ça me fera un coupable. Ce n'est pas ma tête qui va tomber. »</b></p>
+      <p>Et ce que la commission doit pouvoir dire à son autorité de contrôle : « nous avons fait ce que nous pouvions. Il y avait un bon projet, bien produit, un distributeur professionnel, un éditeur, une salle pour encadrer, un tourneur, un gestionnaire de droits. On ne peut pas deviner. » <b>Soit cinq escrocs organisés, soit un dossier qui devrait bien se passer.</b></p>
+    </div>
+
+    <h3>Les trois combinées</h3>
+    <div class="box b-info">
+      <p>Une structure qui tourne, qui a investi dans l'humain — techniciens payés en cachets, minima conventionnels respectés, cotisations à jour depuis un ou deux ans — qui génère des droits, et qui est entourée d'acteurs locaux sérieux installés depuis des années. <b>Plus un projet de qualité : « là, ça fonctionne quasiment à coup sûr. »</b></p>
+      <p>Sinon, c'est ce qu'il appelle <b>un canard à la patte cassée</b> : il manque toujours quelque chose. Le projet et l'historique mais pas l'entourage ; le projet et l'entourage mais pas l'historique, et ainsi de suite.</p>
+      <p>Et comme <b>les résultats de commission sont publics</b>, la vérification est facile : la plupart des projets soutenus sont reliés de près ou de loin à un entourage professionnel que la commission connaît.</p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Le détail qui se vérifie en trente secondes</h4>
+      <p>Sur une aide à l'autoproduction, la commission regarde <b>combien d'œuvres vous avez déposées par an sur les trois à cinq dernières années.</b> Il le sait pour l'avoir vécu : sa propre demande a été refusée. L'explication qu'on lui a donnée après coup : <b>« ils ont ouvert ton compte devant nous. Tu n'as rien déposé depuis trois ans. Forcément, c'était mort. Tu aurais même juste déposé une instru cette année, c'était OK. »</b></p>
+      <p>« Des fois, ça ne tient vraiment à rien. »</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s5" data-c="a">
+  <div class="chead">
+    <span class="num">5</span>
+    <h2>Pourquoi une playlist ne s'obtient jamais sans contrepartie</h2>
+    <p class="tc">47:14 — 52:53</p>
+  </div>
+  <div class="cbody">
+    <p>Préambule : une masterclass est prévue le 8 décembre avec l'ancien responsable mondial (hors États-Unis) des équipes éditoriales d'une grande plateforme — quelqu'un qui a eu des dizaines de curateurs sous ses ordres. Ce qui suit vient de leurs échanges.</p>
+
+    <div class="box b-danger">
+      <h4>Le point à noter</h4>
+      <p><b>« Dans la manière dont fonctionnent les plateformes, l'obtention de playlists streaming est quelque chose qu'ils n'octroient jamais sans contrepartie. »</b></p>
+      <p>Et il désigne la croyance qu'il faut abandonner : « j'entends encore des gens qui pensent que si le pitch est bien fait, que le titre est génial et qu'en plus il marche sur une plateforme vidéo, c'est sûr, ils vont avoir des playlists. <b>C'est faux.</b> »</p>
+    </div>
+
+    <h3>Le mécanisme, vu depuis un distributeur</h3>
+    <div class="tl">
+      <div class="tli"><b>Le rendez-vous d'écoute.</b> Proposé par la plateforme. Pour lui, tous les quinze jours ; certains l'ont à la semaine. Ce n'est pas un droit, c'est un accès.</div>
+      <div class="tli"><b>Ce n'est pas le distributeur qui choisit.</b> Sur cent sorties en quinze jours, il ne peut pas dire « celle-là est géniale, il faut la pousser ». <b>C'est la plateforme qui désigne</b> : « cette semaine rien ne nous a intéressés, merci » — et le rendez-vous dure deux minutes. Ou bien : « ce projet est pas mal, dis-nous-en plus. Qu'est-ce qui se passe derrière, c'est quoi le plan promo ? »</div>
+      <div class="tli"><b>Le deal.</b> Quand ils sentent quelque chose : « on va le mettre sur telle et telle playlist. En revanche, <b>là où notre taux de retenue était de 5 %, on passe à 35</b>. » Oui ou non. <b>« Si tu dis non, il y en a 400 qui attendent derrière. »</b></div>
+    </div>
+
+    <div class="box b-info">
+      <h4>Pourquoi les majors, elles, ont un vrai levier</h4>
+      <p>Dans l'accord de licence de catalogue renégocié il y a trois ou quatre ans, il est prévu que les grandes maisons <b>disposent d'une part de décision dans la politique éditoriale</b>. Le travail du responsable éditorial consistait précisément à composer avec leurs priorités. Elles ont leurs propres playlists, des passe-droits sur les mises en avant, et des passe-droits sur les playlists éditoriales internes.</p>
+      <p><b>La conséquence directe pour un indépendant :</b> si toutes demandent une mise en avant au même moment, il n'y a pas de place. <b>Si elles sont en vacances au même moment, il y a de la place et on obtient plus de deals</b> — ce qui laisse à la plateforme la possibilité de gagner davantage sur des opérations où <b>sa commission est multipliée par sept ou par dix</b>.</p>
+      <p>« Vous captez un peu le mécanisme ? C'est vraiment un business, c'est tout. »</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>La part laissée au hasard</h4>
+      <p>Les coups de cœur de curateurs existent : il cite un DJ électro dont le deuxième titre a fait <b>800 000 streams</b> après avoir été placé sur deux playlists de niche bien écoutées. Parce qu'à la fin, <b>c'est l'utilisateur qui vote par sa fidélité</b> : quand une playlist est trop « téléphonée », les gens décrochent et les statistiques baissent. Mais ces cas restent rares.</p>
+      <p>Et la nuance sur les petites playlists : « la playlist d'ambiance à 8 000 abonnés, ils s'en moquent. Celle-là, ils nous la donnent pour nous donner de la visibilité de courtoisie. »</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s6" data-c="g">
+  <div class="chead">
+    <span class="num">6</span>
+    <h2>La stratégie du genre</h2>
+    <p class="tc">52:53 — 61:20</p>
+  </div>
+  <div class="cbody">
+    <p>« Quand on comprend ça, <b>il y a une faille dans le système que vous pouvez exploiter.</b> » C'est, de son propre aveu, le passage le plus précieux de la session — issu d'un échange récent, et la raison pour laquelle il a accepté la masterclass.</p>
+
+    <h3>Le raisonnement, étape par étape</h3>
+    <div class="tl">
+      <div class="tli"><b>L'urbain représente environ la moitié du marché.</b> Donc les labels signent urbain, pour répondre à la demande en parts de marché. Logique : quand la moitié d'une playlist radio est urbaine, on a beaucoup plus de chances de placer un titre urbain qu'un titre dans une esthétique à 0,3 % de part de marché.</div>
+      <div class="tli"><b>Les curateurs doivent renouveler leurs playlists chaque semaine.</b> Sinon l'écoute baisse : « si tu vas sur une playlist que tu utilises pour faire du sport et que toutes les semaines c'est la même musique, au bout d'un moment tu zappes. » Et ils détectent ces comportements — outils de mesure du temps d'écoute par titre à l'appui. Ils ont besoin de sang neuf en permanence.</div>
+      <div class="tli"><b>Or les genres de niche sont très écoutés et très peu alimentés.</b> Les playlists rock, blues, électro existent partout dans le monde et trouvent leur public. Mais là où un curateur devrait avoir, chiffres extrapolés, 10 000 sorties rock parmi lesquelles choisir, il en a 400. <b>Mécaniquement, il est beaucoup plus enclin à aller chercher un parfait inconnu.</b></div>
+    </div>
+
+    <div class="box b-key">
+      <h4>La stratégie</h4>
+      <p>« Je suis un peu pop, un peu urbain, un peu électro. <b>Au lieu d'estampiller ma sortie comme une sortie urbaine, je vais l'estampiller comme une sortie électro.</b> »</p>
+      <p>Pourquoi ça change tout : dans un genre peu alimenté, <b>on ne vous juge plus à la visibilité, à l'impact ou au label qui vous a signé. On vous juge à la qualité et au coup de cœur du curateur.</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Le mécanisme côté curateur, en urbain</h4>
+      <p>« J'ai 25 places cette semaine. <b>J'ai 120 priorités majors, priorités absolues.</b> Et après j'ai tous les autres. Je vais d'abord prendre dans mes 120 priorités, sinon je vais me faire taper sur les doigts. Si je n'arrive pas à combler ma playlist — ce qui n'arrive jamais — j'irai demander au patron l'autorisation d'aller chercher un coup de cœur. »</p>
+      <p>Sur une playlist de niche, à l'inverse : presque pas de sorties, impossible de ne mettre que des classiques, donc des nouveautés obligatoires. <b>« J'ai deux sorties cette semaine. Si les deux sont ultra-qualitatives, il est possible que j'aie la permission de jouer les deux. »</b></p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>La limite : on ne peut pas tricher</h4>
+      <p>« Si c'est trop hip-hop, le mec en face qui a des oreilles va se dire : mais non, même en blues, c'est du hip-hop. » Le conseil donné à une chanteuse située entre l'urbain et la folk : <b>revendiquer l'étiquette folk, et modifier légèrement les éléments rythmiques</b> pour que personne n'ait le sentiment d'être pris pour un idiot. « Tente ta chance et vois ce qui se passe. »</p>
+    </div>
+
+    <h3>Deux autres leviers du même ordre</h3>
+    <div class="cards">
+      <div class="card"><h4>Le ratio hommes-femmes</h4><p>Avec la politique d'égalité en place depuis deux ans dans la culture, les plateformes ont créé des playlists dédiées et un ratio dans la plupart de leurs listes. Il n'est pas respecté partout, mais <b>une artiste a aujourd'hui sensiblement plus de chances d'être mise en avant</b>.</p></div>
+      <div class="card"><h4>Le pays de rattachement</h4><p>Pas l'origine ethnique : le pays depuis lequel l'artiste se présente. Le test qu'il a mené avec une artiste franco-portugaise — un an de pitchs comme artiste basée à Paris, aucun résultat. Puis un pitch <b>depuis Lisbonne</b>, où la concurrence est incomparablement plus faible. <b>Elle a obtenu des playlists, au Portugal et en France.</b></p></div>
+    </div>
+
+    <div class="box b-tip">
+      <p>Et rien n'est figé : « un artiste peut être en France cette année, au Portugal l'année prochaine et au Canada l'année d'après. » <b>À condition que ça reste cohérent avec l'image et la biographie</b> — et sans négliger le reste : fiche à jour avant une sortie, pitch soigné, le canevas vu en formation.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s7" data-c="b">
+  <div class="chead">
+    <span class="num">7</span>
+    <h2>La presse, le référencement et les IA</h2>
+    <p class="tc">61:20 — 71:58</p>
+  </div>
+  <div class="cbody">
+    <p><i>Faut-il acheter une revue de presse ? À quoi sert-elle réellement aujourd'hui ?</i> Il annonce d'emblée une réponse longue mais importante.</p>
+
+    <div class="box b-info">
+      <p>Ce dont on parle : une chronique ou un article dans un webzine. <b>La presse écrite a été remplacée par le digital</b> — il reste un ou deux titres, « les irréductibles ».</p>
+      <p>Son verdict d'il y a deux ans, et toujours valable sur le fond : <b>« si ça vous fait plaisir, faites-le, ça n'a pas grand impact. »</b> Mais deux choses ont changé, et il les présente crescendo.</p>
+    </div>
+
+    <h3>Changement 1 — les commissions y sont devenues sensibles</h3>
+    <div class="box b-key">
+      <p>Elles regardent désormais si des chroniques mettent le projet en avant. Le test : <b>on tape votre nom dans un moteur de recherche. Voit-on, sur deux ou trois pages, des liens d'articles vers des sites différents — ou uniquement vos propres réseaux sociaux ?</b></p>
+      <p>Le principe : <b>« on doit parler de vous ailleurs que là où vous contrôlez le narratif. »</b> C'est ce qui crée un contradictoire et prouve que vous n'êtes pas la seule source sur vous-même.</p>
+    </div>
+
+    <h3>Changement 2 — l'intelligence artificielle</h3>
+    <div class="box b-info">
+      <p>En août, le grand moteur de recherche a basculé son algorithme de recommandation <b>intégralement en IA</b>. Le référencement naturel tel qu'on le connaissait n'est plus le mécanisme : c'est l'IA qui gère, et le mode conversationnel qui s'active sur une requête répond à partir de sources qu'elle juge pertinentes.</p>
+      <p>Et la prédiction qu'il relaie : <b>d'ici fin 2027, plus de 90 % des recherches dans le monde ne passeront plus par un moteur de recherche mais par un modèle de langage.</b> Il dit avoir fait ce constat presque un an avant la mise à jour et travaillé le sujet depuis.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Comment on influence une IA</h4>
+      <p>Plusieurs leviers : les bases de données ouvertes de référence, son propre site avec des données structurées dans le code, un blog, de l'actualité. Mais <b>deux leviers sont, selon lui, infalsifiables</b> :</p>
+      <ol>
+        <li><b>Les articles de presse.</b> « Plus vous avez de médias qui ne sont pas vous et qui parlent de vous, plus l'IA crédibilise ce que vous dites. » Son illustration : <b>« si je dis que je suis un magnat du pétrole, le moteur le note mais ne le met pas en avant. S'il y a cinquante sites de référence qui le disent, alors à chaque fois qu'on demandera qui je suis, on répondra que je suis un magnat du pétrole. »</b></li>
+        <li><b>Les avis en ligne vérifiés.</b> D'où sa demande récente à ses anciens stagiaires de laisser un avis : ce sont des comptes réels, identifiés comme actifs depuis dix ou quinze ans. <b>« Ça sécurise la démarche »</b> et augmente l'autorité de tout ce qui est publié à son sujet.</li>
+      </ol>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Son historique de prédictions, qu'il assume</h4>
+      <p>En 2016 : « créez du contenu format court, vous allez voir, c'est l'avenir. » Puis : « allez sur cette nouvelle plateforme vidéo, pour l'instant ça ne ressemble à rien, moi-même je ne sais pas comment en tirer parti, mais ceux qui trouveront verront que ça va exploser. » Le DJ à qui il l'a dit a aujourd'hui <b>deux millions d'abonnés</b>.</p>
+      <p><b>« Là, je vous le dis : la fenêtre de tir, ce sont les modèles de langage »</b> — parce qu'ils ont la courbe d'adoption la plus rapide de l'histoire des technologies. « Si les IA ne savent pas qui vous êtes, elles ne vous citeront jamais. Ceux qui commencent ce travail seront en pôle position quand la masse arrivera. »</p>
+      <p>Ses propres tests : il interroge régulièrement les différentes IA sur son domaine pour voir où il se positionne — « avant j'étais inexistant, maintenant j'existe. Je ne suis pas encore premier, j'y travaille. » Et un groupe qu'il accompagne, parti d'un site et de quelques articles, sort désormais en premier sur une recommandation de concert dans sa région.</p>
+    </div>
+
+    <h3>Donc : faut-il payer pour ça ?</h3>
+    <div class="pc">
+      <div class="pro"><h4>Faut-il le faire ?</h4><p>Oui. Les articles de presse sont devenus, selon lui, essentiels.</p></div>
+      <div class="con"><h4>Faut-il payer ?</h4><p>Pas forcément. Et surtout pas en commençant par un attaché de presse.</p></div>
+    </div>
+    <div class="box b-key">
+      <h4>Les deux essais, dans l'ordre</h4>
+      <p><b>1. Écrire directement aux rédactions.</b> L'adresse générale ou le formulaire de contact est très souvent lu par quelqu'un de la rédaction. Si la démarche est bonne, ils peuvent répondre favorablement.</p>
+      <p><b>2. Passer par la régie publicitaire.</b> Même formulation : « j'ai un peu d'argent à investir sur votre webzine. J'aimerais proposer à la rédaction un concept d'interview ou de chronique autour de ma sortie. Et une fois que c'est fait, je suis prêt à acheter une mise en avant sur la page d'accueil. » <b>« Là, c'est le commercial qui va se battre pour vous pour que la rédaction fasse le travail. Et dans neuf cas sur dix, ça aboutit. »</b></p>
+      <p><b>L'écart de prix est le vrai argument :</b> un bon attaché de presse web démarre à <b>1 000 €</b> et peut monter bien au-delà. Une publicité sur un webzine correct, lu sans être un grand média : <b>environ 200 €</b>.</p>
+      <p>Et le résultat est durable : <b>la mise en avant disparaît au bout d'une semaine, l'article reste.</b> « Ils ne vont pas le supprimer, c'est du contenu pour la rédaction. » Ce qui sert tous les projets suivants : les dossiers de subvention, la visibilité, et les IA.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s8" data-c="r">
+  <div class="chead">
+    <span class="num">8</span>
+    <h2>Changer de public sans casser son algorithme</h2>
+    <p class="tc">71:58 — 79:49</p>
+  </div>
+  <div class="cbody">
+    <p>Question posée en direct, et elle décrit une situation très répandue : des premiers morceaux sortis il y a quatre ans qui ont construit une audience, une musique qui a depuis évolué, et des algorithmes qui continuent de proposer les nouvelles sorties aux auditeurs des débuts. Résultats en baisse, cercle vicieux, sentiment de plafond de verre. Faut-il quitter l'agrégateur pour un distributeur, quitte à céder davantage de royalties ?</p>
+
+    <h3>Sur le distributeur</h3>
+    <div class="box b-key">
+      <p><b>Oui, quitter l'agrégateur n'est pas une mauvaise idée</b> — « un agrégateur n'est pas un distributeur, tu n'as pas de label manager dédié, tu te fermes certaines portes dès le départ ». Mais un distributeur ne garantit pas des résultats sensationnels pour autant.</p>
+      <p>Ce qu'il faut chercher : <b>un distributeur qui a le réseau de votre cible, qui comprend le projet, et qui arrive déjà avec un plan ou des ouvertures.</b> Un vrai distributeur, pas un agrégateur. Quelques rendez-vous valent l'investissement en temps — « avec les statistiques que tu as, ça peut intéresser du monde ».</p>
+      <p>Le prix : <b>entre 35 % et 45 %, voire plus, sur une distribution améliorée.</b> « Mais si c'est pour exploser le plafond de verre et faire deux, trois ou quatre fois plus de scores, ce n'est pas une mauvaise idée. »</p>
+      <p><b>Les deux précautions :</b> prévoir une clause de sortie, bien encadrer le contrat — et « ne pas te jeter sur le premier qui te fera les yeux doux et te montrera de l'intérêt ».</p>
+    </div>
+
+    <h3>Sur l'algorithme : pourquoi c'est normal</h3>
+    <div class="box b-info">
+      <p>À chaque sortie, <b>la première audience à laquelle la plateforme propose votre musique, ce sont vos auditeurs les plus fidèles</b> : les abonnés, les auditeurs mensuels, et les <i>multiplayers</i> — ceux qui ont déjà écouté plusieurs de vos titres.</p>
+      <p>Si le public a évolué, ces auditeurs accueillent mal le nouveau projet, passent plus vite, et le signal renvoyé à la plateforme est mauvais. <b>Moins de relais, statistiques en baisse. Le cercle vicieux est mécanique, pas mystérieux.</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>La sortie : saturer l'ancien public pour en créer un nouveau</h4>
+      <p><b>Sortir beaucoup de titres dans un laps de temps court.</b> Deux effets simultanés : saturer la mauvaise audience pour qu'elle se désengage, et servir la nouvelle assez densément pour que ce soit <i>elle</i> qui devienne la base de multiplayers.</p>
+      <p>Le scénario visé : quelqu'un découvre un titre, adore, découvre qu'il en existe déjà un deuxième, puis un troisième — <b>et se met à éduquer l'algorithme à votre place.</b></p>
+    </div>
+
+    <h3>Les campagnes ciblées, et leur piège</h3>
+    <div class="box b-danger">
+      <p><b>Ne jamais renvoyer du trafic publicitaire directement vers une plateforme de streaming.</b> « Ça ne marche pas, tu vas être considéré comme faux stream. » Il faut passer par un mécanisme intermédiaire.</p>
+    </div>
+    <div class="box b-tip">
+      <h4>Les mécanismes qui fonctionnent</h4>
+      <p><b>Un concept qui force des écoutes longues et répétées.</b> Son exemple volontairement absurde : un concours de poésie à partir d'un passage du morceau, écoutable uniquement sur la plateforme. Personne n'est inspiré à la première écoute en trois minutes — « ça va créer plusieurs écoutes de temps long où la jauge se remplit à 100 % ».</p>
+      <p><b>L'astuce observée chez un artiste connu :</b> un passage laissé vide dans la version digitale, ce qui a poussé ceux qui voulaient poser dessus à faire replay en boucle. <b>Le temps d'écoute par utilisateur a explosé</b> — le titre n'a pas percé pour autant, mais les scores de stream ont largement dépassé les précédents.</p>
+      <p><b>Promouvoir une playlist plutôt qu'un titre.</b> Une playlist à soi, où ses propres morceaux figurent en tête mais ne sont pas seuls, et qui draine la bonne cible. « Nostalgie des années 2000 » convertit mieux que « allez écouter mon projet », et drainera une communauté plus intéressante. Le risque de faux stream existe mais il est moindre quand on promet un concept.</p>
+      <p><b>Et si le distributeur peut ouvrir des playlists thématiques très suivies</b>, c'est l'idéal : un pic de visibilité sur la bonne cible, à condition d'alimenter en nouveautés régulières et de revenir y figurer. « Là, ça peut marcher. »</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s9" data-c="a">
+  <div class="chead">
+    <span class="num">9</span>
+    <h2>Le faux stream et la publicité</h2>
+    <p class="tc">79:49 — 83:41</p>
+  </div>
+  <div class="cbody">
+    <p>Question en direct d'un autre participant : le faux stream, c'était autrefois les fermes à clics, identifiables comme des blocs. Aujourd'hui, le moindre coup de pouce semble déclencher le signal. C'est bien ça ?</p>
+
+    <div class="box b-danger">
+      <h4>La règle, dans les conditions générales</h4>
+      <p><b>« À partir du moment où l'écoute a été stimulée, c'est un faux stream. »</b> Et la publicité, par définition, stimule. D'où l'interdiction de la publicité directe vers les plateformes.</p>
+      <p>À l'inverse, <b>ce qu'elles considèrent comme normal</b> : un utilisateur qui se connecte lui-même sur son téléphone, tape le nom de l'artiste et du morceau, appuie sur play et fait replay pendant quatre heures. Parce qu'<b>elles tracent la source</b>.</p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Le vrai risque n'est pas celui qu'on croit</h4>
+      <p>Ce n'est pas la publicité en soi, c'est la <b>qualité de l'audience</b> : « le risque, ce serait d'avoir 1 000 auditeurs dont 800 partent au bout de trois secondes ». Les plateformes ne savent pas qu'il s'agit de publicité, mais elles voient la provenance — et un comportement d'écoute catastrophique sur un trafic soudain est un signal autrement plus dommageable.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Ce qu'il recommande</h4>
+      <ol>
+        <li><b>Y aller progressivement.</b> Éviter les gros coups quand on n'est pas connu.</li>
+        <li><b>Diversifier les sources.</b> Le conseil donné à un label qui voulait absolument faire de la publicité : au lieu de mettre 1 000 € sur une seule plateforme, <b>mettre 150 € sur six plateformes différentes</b>. « Ça paraît plus cohérent que de passer de 1 à 1 000 visiteurs d'un coup depuis la même source. »</li>
+        <li><b>Privilégier le retargeting</b> — des gens qui vous connaissent déjà. « C'est le must. »</li>
+        <li><b>Mettre un filtre intermédiaire.</b> Renvoyer vers un clip ou vers son propre site, et placer l'appel à l'action là. « Il faut trouver un hack qui élimine tous les touristes d'office. »</li>
+      </ol>
+    </div>
+
+    <div class="box b-info">
+      <h4>Le point sur les fermes à clics</h4>
+      <p>Son avertissement : <b>le plus gros fournisseur de clics parasites est l'un des grands réseaux sociaux lui-même.</b> « Si tu ne fais pas attention à tes paramètres, la moitié de ton trafic ce sont des clics de gens sur des applis de jeux qui veulent juste que tu disparaisses pour continuer à jouer. Ils cliquent partout, toi tu te manges trois clics, mais ça n'aboutit jamais. »</p>
+    </div>
+
+    <p>La synthèse pour le cas du plafond de verre : travailler la nouvelle cible, envoyer beaucoup de sorties rapidement à des gens bien qualifiés, s'appuyer sur un distributeur capable d'ouvrir des playlists — et multiplier les émissions et les contextes où la cible est réellement présente, <b>pour que 200 clics à 22 h soient 200 clics ultra-qualifiés</b>. « Il faut reconstruire l'audience. »</p>
+  </div>
+</section>
+
+<section class="chap" id="s10" data-c="g">
+  <div class="chead">
+    <span class="num">10</span>
+    <h2>Ce que valent les plateformes de mise en relation</h2>
+    <p class="tc">83:41 — 91:20</p>
+  </div>
+  <div class="cbody">
+    <p><i>Que valent les plateformes de pitch à deux euros le contact ?</i> Réponse immédiate : « rien du tout. » Puis il nuance longuement, et c'est la nuance qui est instructive.</p>
+
+    <div class="box b-info">
+      <h4>Ce qu'il reconnaît à l'idée</h4>
+      <p>« J'aime bien l'idée de ce qu'ils ont conçu. » Une plateforme où l'on paie par contact pour mettre sa musique dans les oreilles de décideurs intéressants — directeurs artistiques, attachés de presse, managers, labels, tourneurs — pas seulement des radios ou des télévisions. <b>« Génial comme idée. »</b></p>
+    </div>
+
+    <div class="box b-danger">
+      <h4>Ce qu'il reproche</h4>
+      <p><b>« Ils ont bâti un modèle d'affaires basé sur l'espoir qui ne délivre pas l'espoir promis. »</b> On dit à des artistes qui débutent et qui ont du mal à capter l'attention de qui que ce soit : pour 2 €, on va te répondre, et ça peut changer ta vie. « Le truc, c'est que tu vas dépenser 100 €, puis 100 €. À la fin de l'année tu auras peut-être claqué 1 000 ou 1 500 € pour te rendre compte que tu as les mêmes réponses, quasiment copiées-collées de la campagne précédente. »</p>
+      <p>Ses constats après avoir testé la plateforme : <b>aucun contact connu</b> — « je veux bien que je ne connaisse pas grand monde, mais là, strictement aucun nom familier » — des <b>réponses à côté de la demande</b> (« la qualité du mix est très bonne » en réponse à une question sur une programmation d'antenne), et des playlists identiques à celles trouvables ailleurs pour quelques dollars. Quant aux classements de la plateforme, « il n'y a pas un seul artiste du top 50 que je connais ».</p>
+      <p><b>Son verdict : « l'idée était bonne, l'exécution ne l'était pas. »</b></p>
+    </div>
+
+    <h3>Pourquoi deux euros est le problème</h3>
+    <div class="box b-key">
+      <p>L'argument le plus éclairant de la section, et il part de son propre budget. Pour rencontrer l'ancien responsable éditorial de plateforme qu'il reçoit en masterclass : <b>deux allers-retours à Londres, un séminaire à 1 800 €, un consulting privé à 2 000 €, et l'hébergement et les repas sur place.</b> Total : <b>un seul contact lui a coûté environ 8 000 €.</b></p>
+      <p>D'où la conclusion : <b>« quand tu l'as à 80 ou 100 €, c'est une très bonne affaire. Si demain il était à 2 €, je me douterais bien que ce serait une IA assistante qui répondrait à sa place. »</b></p>
+      <p>Et la même logique s'applique ailleurs : <b>un agrégateur qui promet de reverser 100 % de ce qui rentre, pour 20 € par an, a forcément un modèle d'affaires ailleurs</b> — souvent des commissions d'apporteur d'affaires. « À chaque fois qu'il y a quelque chose comme ça, ça me dérange, parce qu'on bâtit une stratégie sur l'espoir. »</p>
+      <p><b>La ligne qu'il trace : « quand c'est gratuit, ça se tente, ça ne coûte rien. À partir du moment où c'est facturé, il faut que ça délivre un peu. »</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Ce qui, à l'inverse, lui semble bien exécuté</h4>
+      <p>Une application de consulting à l'heure avec de vrais professionnels, qu'il parcourt en partage d'écran pendant la session : il reconnaît un nom sur deux — éditeurs, préparateurs scéniques, anciens de maisons de disques et de plateformes, analystes de données, producteurs qu'il a vus débuter. <b>« Là, il y a des gens. C'est crédible. »</b> Et oui, ça ne coûte pas deux euros — « et c'est normal ».</p>
+      <p>« J'espère que ça va marcher. Parce que si ça marche, ça aura été la même idée, bien mieux exécutée. »</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s11" data-c="r">
+  <div class="chead">
+    <span class="num">11</span>
+    <h2>Ce qui protège vraiment une œuvre</h2>
+    <p class="tc">91:20 — 103:50</p>
+  </div>
+  <div class="cbody">
+    <p>Une stagiaire demande pourquoi il ne recommande pas tel outil de dépôt sur blockchain. La réponse va beaucoup plus loin que l'outil, et c'est l'un des deux ou trois passages à retenir absolument.</p>
+
+    <div class="box b-danger">
+      <h4>Le point de départ</h4>
+      <p><b>« Un dépôt ne protège pas votre œuvre. »</b> Ni la blockchain, ni le dépôt classique auprès de la société d'auteurs. Et il le dit sans détour : <b>« c'est un truc que j'ai découvert un peu tard, mais la société d'auteurs ne protège pas vos œuvres. C'est vraiment important de bien le comprendre. »</b></p>
+      <p><b>Pourquoi : le système est purement déclaratif.</b> « Si je fais un son avec quelqu'un, j'ai le droit d'aller le déposer et de dire que je l'ai fait tout seul. La société ne va pas rejeter le titre : elle va le valider, le tamponner, l'intégrer à sa base. <b>Charge à l'autre de prouver, par une procédure judiciaire, que je lui ai volé ses droits.</b> »</p>
+      <p>La preuve par l'absurde : il a donné deux instrumentaux à un ami qui n'avait jamais rien composé, pour qu'il puisse ouvrir un compte d'auteur. <b>« Il a déposé des œuvres qui sont à moi, à son nom. C'est vous dire : ils ne contrôlent absolument pas. »</b> Et il ajoute, honnêtement : « c'est normal, ils ne peuvent pas. »</p>
+    </div>
+
+    <h3>Première protection : la preuve indiscutable</h3>
+    <div class="box b-key">
+      <p><b>Documenter sa création.</b> Ce qui vaut quelque chose, c'est ce qu'on peut prouver.</p>
+      <p>Le scénario qu'il déroule, en se mettant dans le rôle du fautif : « si elle vient me voir de bonne foi et me dit : j'ai la session MIDI à la maison, avec tous tes historiques de version. <b>Avant même que tu m'envoies un message pour confirmer le studio, j'ai déjà quelque chose qui ressemble à 80 % à ce que tu as déposé.</b> Demain, devant un juge, c'est très facile pour moi à prouver. Toi, je serais curieux de savoir ce que tu vas répondre » — <b>et il conclut qu'il serait idiot de ne pas lui donner raison.</b></p>
+      <p>Une vidéo de la session de travail est une preuve de même nature.</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Et une raison nouvelle de filmer son écran : l'IA</h4>
+      <p>Il recommande de plus en plus aux artistes de filmer leur écran pendant qu'ils créent, à cause des outils génératifs. Son propre usage, qu'il décrit sans détour : quand il lui faut une ligne de cordes sur un pont, plutôt que de réunir quatre violonistes pour 1 500 € de studio, il génère la piste, ajuste la tonalité et le tempo, la réintègre dans sa session, et continue. <b>Sur vingt pistes, huit mesures d'une seule piste viennent de là. Et il a tout filmé.</b></p>
+      <p>Pourquoi : « demain, si on me dit qu'on ne me paiera pas parce qu'on a détecté de l'IA, c'est très facile pour moi de prouver ma création. <b>Les gars, il y a de l'IA, c'est vrai, ça représente 1 % de la création. Vous allez me payer les 99 %, et je vous fais cadeau du 1 % si vous voulez.</b> »</p>
+    </div>
+
+    <h3>Deuxième protection : l'accord contresigné sur le moment</h3>
+    <div class="box b-key">
+      <p>Quand on ne peut pas documenter — « en studio, dans l'ivresse du moment » — il reste les témoignages, difficiles à obtenir. D'où l'outil : <b>un accord court, contresigné par toutes les parties avant de quitter le studio</b>, portant la clé de répartition.</p>
+      <p>Pourquoi c'est efficace sur le moment : <b>« je n'ai pas trop d'options que de dire oui, il n'y a pas de souci. »</b> Et trois ans plus tard, quand on a sincèrement oublié avec qui on a travaillé un soir à quatre heures du matin : « attends, je t'envoie un truc. <b>Je vais voir ma signature dessus à 4 h 17 du matin. Je ne peux rien faire.</b> Même si je ne m'en souviens pas, tu as raison. »</p>
+      <p>Et plus il y a de signataires, plus c'est solide : <b>« si on est cinq crédités sur le son, c'est compliqué de graisser la patte aux quatre autres. Il y en aura toujours un qui aura un peu d'éthique. »</b></p>
+      <p>Matériellement : un document de deux pages, la version courte d'un contrat long. Un outil gratuit et multilingue qu'il a développé est partagé pendant la session : on remplit les parties, la clé de répartition, chacun reçoit un code par courriel et signe.</p>
+    </div>
+
+    <h3>L'angle mort : les musiciens additionnels</h3>
+    <div class="box b-warn">
+      <p>« Les auteurs-compositeurs ne sont pas les pires. <b>Le vrai oubli, c'est sur les musiciens.</b> »</p>
+      <p>Son propre cas, raconté de l'intérieur : appelé pour poser des claviers additionnels, rien de créatif en principe. Mais il enregistrait en live, inspiré, sans s'arrêter mesure par mesure. <b>Deux mois plus tard, le morceau sort et sa boucle de quatre mesures est devenue le thème principal.</b> « Filez-moi quelques points. Je sais que j'étais venu gratuitement parce que ça devait durer deux secondes — mais vous avez repris mon idée et c'est devenu un élément central. »</p>
+      <p>Sans accord écrit, c'est compliqué : « oui, mais ce n'est pas toi, c'est moi qui l'ai rejoué ». D'où le réflexe à prendre : <b>« quoi que je fasse, je veux un accord écrit avec un minimum de points. »</b> Même déséquilibré. « Si j'avais gratté cinq points, j'aurais pu en gratter vingt, mais j'en ai au moins cinq — c'est mieux que zéro. Il n'y a rien de pire que d'avoir un titre qui fait dix fois le tour du monde et de n'avoir pas touché un centime. »</p>
+    </div>
+
+    <div class="box b-danger">
+      <h4>Les arguments abusifs, à reconnaître</h4>
+      <p>Deux qu'il a entendus de ses propres oreilles :</p>
+      <p>À un bassiste : « ta ligne, si je veux je ne la garde pas, je la rejoue. Elle n'est pas déposée. » <b>« Ça s'appelle du vol de propriété intellectuelle. Ce n'est pas parce qu'elle n'est pas déposée qu'elle n'a pas été créée par quelqu'un d'autre. »</b></p>
+      <p>À un batteur qui avait entièrement retravaillé une batterie et demandait trois à cinq points : « ton pattern, je l'ai déjà entendu dans un plugin, donc ce n'est pas une création. » Son commentaire : « il avait changé la face du son, vraiment. Les gars, vous abusez. »</p>
+      <p>Et pourquoi un écrit est indispensable : <b>ces discussions arrivent un an plus tard, à la sortie de l'album</b> — quand on a oublié, que le projet est passé entre quinze mains, qu'un éditeur s'est greffé et qu'il a changé de propriétaire.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s12" data-c="b">
+  <div class="chead">
+    <span class="num">12</span>
+    <h2>Construire une campagne qui atteint son objectif</h2>
+    <p class="tc">103:50 — 120:43</p>
+  </div>
+  <div class="cbody">
+    <p>Dernière question longue, posée par une artiste qui passe d'un duo à un format live avec musiciens, n'a joué qu'une seule date en groupe, n'a pas de manager et a une page de campagne encore à zéro. Elle veut savoir comment la construire. La réponse est une méthode complète.</p>
+
+    <div class="box b-key">
+      <h4>Les trois éléments de la création</h4>
+      <p>Avant même la diffusion, une bonne campagne repose sur trois choses : <b>la clarté de la présentation, la maîtrise du budget, et la qualité des dotations.</b></p>
+    </div>
+
+    <h3>Élément 1 — la clarté</h3>
+    <div class="box b-info">
+      <p>Des éléments visuels faciles à lire, pas trop chargés. <b>« Quand les gens préparent des slides, c'est corporate : un titre, un sous-titre, des paragraphes. Mais personne ne lit ça. On lit en diagonale, comme un article de presse à scandale : tu vois le gros titre, c'est bon, tu as compris l'histoire. »</b></p>
+      <p>Et surtout, <b>ne pas hésiter à utiliser la vidéo face caméra : elle augmente très largement le taux de conversion d'une campagne.</b> Il faut y présenter pourquoi on sollicite le public, et détailler ce qu'on fera avec l'argent.</p>
+    </div>
+
+    <h3>Élément 2 — la maîtrise du budget</h3>
+    <div class="box b-key">
+      <p>Être capable de dire : « je lève 10 000 € pour produire un album et le lancer », avec <b>une date de sortie précise</b> et l'affectation détaillée — tant pour le studio, tant pour le reste. « Là, tu as un camembert qui se dessine, encore une fois très visuel. » Et ne pas oublier d'y inclure <b>les 8 % de commission de la plateforme</b>.</p>
+      <p><b>Puis montrer sa propre mise — le <i>skin in the game</i>.</b> Pas forcément de l'argent. « Il faut que le donateur se dise : ce n'est pas moi qui paye tout. » La formulation : « le budget de l'album est de 20 000 €, mais la campagne ne porte pas sur 20 000, parce que la moitié c'est moi qui l'investis — par ma bourse, par mon temps, par le fait de ne pas me rémunérer. <b>L'autre moitié, c'est la partie incompressible sur laquelle j'ai besoin de vous.</b> » Rien que ça met en confiance.</p>
+    </div>
+
+    <h3>Élément 3 — les dotations, palier par palier</h3>
+    <div class="box b-info">
+      <p>Repère statistique : la dotation moyenne était autour de <b>50 €</b> en 2020 ; par prudence, il conseille aujourd'hui de tabler sur <b>35 €</b>. Et ensuite, ça peut monter sans limite.</p>
+    </div>
+    <table class="tbl">
+      <thead><tr><th>Palier</th><th>Montant</th><th>Contenu</th></tr></thead>
+      <tbody>
+        <tr><td>Entrée</td><td><b>20 €</b></td><td>Du digital, qui ne coûte rien à distribuer : l'album avec des titres exclusifs absents de la version commercialisée.</td></tr>
+        <tr><td>Masse</td><td><b>~35 €</b></td><td>Le palier le plus vendu : le vinyle, l'album physique.</td></tr>
+        <tr><td>Fan</td><td><b>50 à 70 €</b></td><td>De la valeur perçue élevée à coût réel faible, en pack avec les paliers précédents.</td></tr>
+        <tr><td>Sur mesure</td><td><b>200 à 500 €</b></td><td>Des dotations construites pour une personne précise.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="box b-tip">
+      <h4>Pourquoi le premier palier doit être à 20 €</h4>
+      <p><b>« Une personne capable de mettre 15 est capable de mettre 20. Autant aller à 20 directement. »</b> Et le raisonnement qu'il généralise : « c'est pour ça que si tu achètes un livre, de 0 à 20 € tu ne regardes pas le prix. Ceux qui se vendent à 8 ont tort, ils devraient se vendre à 12. Et à 12, autant se vendre à 15 ou 17. <b>De 0 à 20, il n'y a aucune différence pour le cerveau.</b> »</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le palier fan : l'exemple du documentaire</h4>
+      <p>« Si tu vends un reportage documentaire sur ton parcours et la création de l'album, dans l'inconscient collectif, documentaire égale deux types avec des grosses caméras qui te suivent partout pendant deux ans. Donc ça coûte de l'argent. »</p>
+      <p><b>La réalité : on peut le tourner au téléphone</b>, 45 minutes sur fond d'interview, dans une pièce avec une belle lumière tamisée, et confier le montage à quelqu'un pour 300 €. En pack avec les deux premiers paliers, cela se vend facilement <b>50 à 60 €</b>.</p>
+      <p><b>Le point économique :</b> « tu viens de réaliser une marge sur quelque chose qui te coûte une fois, et que tu pourras revendre à 100 ou 150 personnes sans coût de distribution supplémentaire. »</p>
+      <p>Les produits dérivés se greffent au même palier — mais <b>uniquement ce qui ne pose pas de problème de taille</b> : un sweat, une casquette, un t-shirt en taille unique.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Les dotations sur mesure, et comment calibrer sa jauge</h4>
+      <p>C'est sa recommandation principale, et elle inverse la logique habituelle : <b>on part des personnes, pas des contreparties.</b></p>
+      <p>« Mes parents, je connais leurs moyens, je sais qu'ils vont vouloir me soutenir. Ce qui les ferait vraiment plaisir, c'est un concert privé à la maison. <b>Je mets un concert privé à 500 €. Mais je les prévois avant : attention, je n'en ferai qu'un seul, j'espère que ce sera pour vous — si quelqu'un d'autre le prend, voilà.</b> » Et ils attendront l'ouverture. « Si je dis ça à ma mère, elle se lèvera à 5 h du matin et appellera mon frère pour qu'il lui montre comment cliquer. »</p>
+      <p>Même logique sur un groupe d'amies : une soirée apéro qui finit en guitare-voix, ou un passage en live dans un bar sans que le bar soit au courant. <b>« Si elles peuvent toutes mettre 200 € et qu'elles sont cinq, ça fait 1 000 €. »</b></p>
+      <p><b>En cumulant ces dotations connues, on obtient le montant qu'on est à peu près sûr de lever</b> — puis on place la barre un peu plus haut tout en la gardant accessible.</p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Ne pas gonfler artificiellement l'objectif</h4>
+      <p>« Si ton vrai budget était de 10 000, ça ne sert à rien de faire le coup des 20 000 divisés par deux. <b>Tu restes à 10 000 et tu dis : tout ce que je vous demande, c'est un tiers de ce budget, le reste je m'en débrouille.</b> » On augmente ainsi ses chances de l'atteindre — et comme on sait qu'on remplira les deux tiers de la jauge dès le début, le reste n'est qu'une affaire de diffusion.</p>
+    </div>
+
+    <h3>La diffusion, puis l'après</h3>
+    <div class="tl">
+      <div class="tli"><b>Faire relayer.</b> Les réseaux, les amis d'amis, et surtout demander à chacun des premiers donateurs de relayer à son tour.</div>
+      <div class="tli"><b>Lancer avant un moment de public.</b> Démarrer la campagne une semaine avant un concert important, et y faire un appel à l'action avec <b>un grand QR code affiché sur écran</b> pour que les gens scannent et participent sur place.</div>
+      <div class="tli"><b>Ce qui dépasse l'objectif est acquis.</b> « C'est là où tu n'atteins pas ta jauge que tu ne débloques pas les fonds. » Au-delà, tout est reversé — et la plateforme sera ravie de prélever sa commission sur 5 000 € plutôt que sur 3 000.</div>
+      <div class="tli"><b>Bâtir une communauté.</b> Remercier tout le monde, créer un espace (un outil communautaire gratuit, un groupe de discussion) et l'entretenir.</div>
+      <div class="tli"><b>Le live de suite.</b> Dès la campagne terminée — annoncé deux ou trois semaines avant : « on fait un live pour vous remercier et pour que je vous explique la suite du projet, le déroulé, le calendrier. » On implique les donateurs dans le processus, et on a déjà une base de fans.</div>
+    </div>
+
+    <div class="box b-tip">
+      <h4>La dotation qu'il recommande le plus</h4>
+      <p><b>La session d'écoute finale.</b> « On fait toujours plus de titres que ceux qui finiront sur l'album. Quand tu en as 20 et que tu veux en garder 13 : <i>pour X euros, vous serez invités à la session d'écoute finale.</i> »</p>
+      <p>À 300 € la place, dix personnes en studio, « ce n'est pas un problème » : <b>« vous venez en studio avec moi, on passe la journée ensemble, on écoute les sons, et à la fin c'est vous qui choisissez le tracklisting final avec moi — et votre nom sera crédité sur le disque comme les gens qui m'ont aidé à finaliser ce projet. »</b> Beaucoup de gens mettront 300 € pour cet honneur. <b>Trois cents fois dix, 3 000 €.</b> Et cette dotation peut même être vendue après la campagne.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Et le conseil final : délivrer plus que promis</h4>
+      <p>« Si tu dis aux gens que tu leur envoies un vinyle, envoie-leur un vinyle » — et ajoute quelque chose. Ce qu'il faisait avec les programmateurs radio : <b>une carte postale manuscrite et personnalisée.</b> « Vingt centimes et une minute de ton temps, mais ça les amène dans un délire : là, vraiment, elle m'a respecté. »</p>
+      <p>Sa propre technique de réseautage, qu'il assume complètement : <b>il apporte des crêpes bretonnes.</b> Il les offre en arrivant, les gens les emportent, et le soir il reçoit un message. « C'est un point d'entrée et un point de sortie. » Et l'explication qu'il en donne : <b>« c'est tribal, la nourriture. Quand tu manges un truc et que c'est bon, la personne qui te l'a donné devient ton meilleur ami. »</b></p>
+      <p>Pourquoi ça compte pour la suite : un an plus tard, quand vous relancez une campagne, ils savent que ce sera bien fait. Ils suivent.</p>
+    </div>
+
+    <div class="pull">« Il faut vraiment voir un financement participatif comme la construction d'une relation avec les autres, plutôt que comme un moyen de lever des fonds. »</div>
+  </div>
+</section>
+
+<section class="chap" id="s13" data-c="a">
+  <div class="chead">
+    <span class="num">13</span>
+    <h2>Les deux biais qui font signer un mauvais contrat</h2>
+    <p class="tc">120:43 — 129:00</p>
+  </div>
+  <div class="cbody">
+    <p>Dernière question de la session, issue d'une conférence qu'il a donnée dans une école. <b>« Il y a deux biais psychologiques qui poussent un artiste à signer un mauvais contrat. C'est important de les connaître, parce que ça peut vous aider à mettre en place la bonne défense. »</b></p>
+
+    <h3>Biais 1 — la méconnaissance et la confiance</h3>
+    <div class="box b-key">
+      <p>Le plus répandu : « ils ont un pote qui les produit, un ami d'enfance, ils lui font confiance. <b>Ils ne lisent pas, ils ne savent même pas ce qu'ils lisent, ils ne savent pas en quoi ça les engage. Ils signent à la confiance.</b> » La familiarité, l'amitié, le lien.</p>
+      <p>La règle qu'il en tire : <b>« il n'y a pas d'amis dans cette industrie. C'est du business pur et dur. »</b> Certains en sont gênés, d'autres le prennent comme un jeu — « moi, personnellement, ça ne m'a jamais gêné. Il faut juste être très au clair avec ça. »</p>
+      <p>Et les signaux d'alerte, énumérés tels quels : <b>« quand des gens vous invitent chez eux, attention quand même. Quand des gens vous invitent à manger, attention quand même. Quand des gens vous font croire que vous êtes la huitième merveille du monde, attention quand même. »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Il s'inclut dans le mécanisme</h4>
+      <p>Un participant relève la contradiction avec les crêpes. Sa réponse : <b>« mais grave, vraiment. Et je n'ai pas de honte à le dire. »</b> C'est culturel chez lui — on n'arrive jamais les mains vides — et c'est aussi une démarche de fidélisation qu'il ne cache pas. <b>« Il faut comprendre que c'est un jeu, et que la flatterie et les invitations font partie de ce jeu. Quand on n'a pas envie de jouer le jeu, il faut rester à distance. »</b></p>
+      <p>C'est la raison qu'il donne à son installation loin des centres de décision : « je n'aimais pas les soirées mondaines. J'en ai fait, des lancements privés sur les toits. C'est marrant cinq minutes, mais je savais que ce n'était pas pour moi. »</p>
+      <p>Et la vérification, implacable : <b>« le jour où tu n'es pas bankable, tu ne passes pas l'étape des secrétaires. Il n'y a pas d'amis, il n'y a pas de famille, il n'y a plus personne qui te répond. Et ça, beaucoup l'ont vécu. »</b></p>
+    </div>
+
+    <h3>Biais 2 — le sentiment d'être choisi</h3>
+    <div class="box b-danger">
+      <p>« Lui est un peu plus dangereux, parce qu'il touche à une forme de manipulation. » Et il l'illustre par une analogie de séduction : la meilleure stratégie est de faire en sorte que l'autre <b>se sente choisi</b>.</p>
+      <p>La séquence type, telle qu'il la décrit :</p>
+      <div class="tl">
+        <div class="tli"><b>Le premier contact.</b> « J'ai vu ce que tu faisais, je trouve ça génial, j'aimerais qu'on se rencontre. » Un appel d'abord. <b>Vous vous sentez trouvé, choisi.</b></div>
+        <div class="tli"><b>Le rendez-vous de courtoisie.</b> Un beau bureau, des disques d'or au mur. « Regarde, il y en a plein » — sous-entendu : c'est ce qui va t'arriver.</div>
+        <div class="tli"><b>Les présentations.</b> On vous présente une personne, deux personnes. On vous emmène sur un tournage. « Tu te dis : ça y est, je suis dans le game, au bon endroit, au bon moment, avec les bonnes personnes. On me respecte, on m'écoute. »</div>
+      </div>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Les techniques qu'il a vues</h4>
+      <p>Un bon attaché de presse <b>écoutera tous vos morceaux du début à la fin</b> — « ils sont même capables de faire replay alors qu'ils détestent. Juste pour vous dire <i>j'ai écouté</i> sans vous dire qu'ils ont écouté. Vous le voyez, et vous vous dites : tiens, quelqu'un a écouté. »</p>
+      <p>Et la mise en scène qu'un professionnel lui a racontée : il se lève dans son bureau et appelle son équipe — <b>briefée d'avance</b> — « venez voir, venez voir, vous avez entendu ? » Les collaborateurs arrivent, s'assoient, écoutent, s'enthousiasment. <b>« Ça tue. »</b></p>
+      <p>Ce que ce sentiment fait signer, concrètement : <b>« ça te fait payer quelqu'un 7 000 € pour une promotion et en plus lui laisser la moitié de tes droits. Ça te fait signer un contrat verrouillé alors que tu n'en avais pas besoin. »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Ses propres erreurs</h4>
+      <p>« Ça m'est arrivé un nombre de fois incalculable. » L'exemple qu'il donne : <b>il a refusé un contrat avec une major pour l'Amérique du Sud</b> parce que quelqu'un d'un label indépendant l'avait mis à l'aise. « Tu te dis : il est cool, on est pareils, il vaut mieux que je travaille avec lui. Pas du tout. Mais sur le moment, il a réussi : il a eu son contrat. »</p>
+      <p>Et ça n'épargne personne, pas même aujourd'hui : « j'ai des appels de maisons de disques, j'ai même eu un financeur qui m'a appelé pour me prendre comme formateur sur un projet. <b>Tu te sens choisi. Et quand tu n'es pas préparé, tu te dis : j'ai une opportunité incroyable, tout va changer. Pas du tout. Il faut rester les pieds sur terre.</b> »</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>La défense, et son subtil équilibre</h4>
+      <p>La phrase à avoir en tête : <b>« J'attends le deal. Parlez-moi deal, et après on parlera famille, amis, champagne, ce que vous voulez. Tant que le deal n'est pas là, ça ne sert à rien de me parler. »</b></p>
+      <p><b>Mais on est obligé de jouer le jeu</b> — et c'est la nuance la plus fine de la session. Si vous êtes trop sur la défensive, on vous trouvera, dans les mots mêmes des maisons de disques, <b>« pas assez malléable »</b>. Or il faut qu'ils aient le sentiment que vous l'êtes pour que les portes s'ouvrent.</p>
+      <p>Donc : <b>paraître malléable tout en restant sur ses gardes, jusqu'à arriver dans une position où la porte est trop ouverte pour qu'ils puissent la refermer — et où ils ne vous ont pas encore verrouillé.</b></p>
+      <p>Son meilleur contrat est né exactement de là : <b>« la porte était tellement grande ouverte qu'ils ne pouvaient plus la refermer. Pour des questions d'image et de parts de marché, ils ne pouvaient plus faire machine arrière. Ils m'ont donné tout ce que je voulais. »</b> Ils le lui ont fait payer sur d'autres projets ensuite — « mais sur celui-là, c'est passé comme une lettre à la poste, parce que j'avais compris ce jeu et que je l'avais très bien joué. »</p>
+    </div>
+  </div>
+</section>
+
+<div class="faq">
+  <div class="bar"></div>
+  <div class="faqhead">
+    <h2>Questions / Réponses</h2>
+    <p>Les 127 points traités pendant la session, regroupés par thème.</p>
+  </div>
+  <div class="faqbody">
+
+    <div class="faqcat">Financer avant de produire</div>
+    <div class="qa"><div class="q"><span>Q1.</span>D'où vient le concept de Lean Startup ?</div><div class="a"><p>Du monde des start-up. Il y a vingt ans, développer un logiciel coûtait très cher : les fondateurs <strong>créaient une page de vente, la vendaient en B2B, et ne développaient le produit qu'après avoir encaissé 100 000 ou 200 000 $ de commandes</strong> — en faisant patienter les premiers clients.</p></div></div>
+    <div class="qa"><div class="q"><span>Q2.</span>Comment l'appliquer à un album ?</div><div class="a"><p>En quatre étapes : <strong>commander un échantillon de vinyle à une usine de pressage</strong> (20 à 25 €, la musique dessus n'a aucune importance), <strong>filmer une vidéo de vente</strong> pour un album qui n'existe pas, <strong>lancer la précommande</strong>, puis <strong>produire avec les fonds encaissés</strong> en faisant patienter le public.</p></div></div>
+    <div class="qa"><div class="q"><span>Q3.</span>Quels sont les chiffres réels ?</div><div class="a"><p>Le vinyle collector se vendra 35 € à la sortie ; en précommande dédicacée, <strong>25 €</strong>. Mille ventes font <strong>25 000 €</strong>, cent ventes font 2 500 €. Mais il tempère aussitôt : <strong>fabriquer ce vinyle en petite série coûte environ 15 €</strong> — la marge ne couvrira pas le studio. Le vinyle est le point d'entrée, pas le modèle.</p></div></div>
+    <div class="qa"><div class="q"><span>Q4.</span>Qu'est-ce qui fait réellement vivre une campagne ?</div><div class="a"><p>Le love money, à condition de lui donner une raison. <em class="q">« Vos proches n'ont pas envie de vous considérer comme un clochard, donc ils ne veulent pas vous donner d'argent. Si demain vous leur donnez une raison de vous en donner, ils vous le donneront. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q5.</span>Un exemple de dotation qui exploite ce ressort ?</div><div class="a"><p>Une chanteuse suisse qui a levé <strong>17 000 francs</strong>. Le conseil donné : une dotation « dîner en amoureux » à 1 000 €, annoncée à son compagnon avant la mise en ligne, avec une taquinerie — <em class="q">« à 18 h précises c'est en ligne ; si ce n'est pas toi qui la prends, j'irai dîner avec la première personne qui réservera »</em>. <strong>Les 1 000 € sont tombés la première minute.</strong> Un repas à 100 €, 900 € de marge.</p></div></div>
+    <div class="qa"><div class="q"><span>Q6.</span>Et pour ceux qui ne sont pas des proches ?</div><div class="a"><p>L'album n'est qu'un prétexte — à 25 ou 30 €, ce qu'ils sont capables de donner <strong>s'il existe un motif valable</strong>. <em class="q">« Si je dis : donnez-moi du pognon, j'ai une idée, vous ne m'en donnerez pas. Si je dis : j'organise un séminaire, je fais venir des intervenants, la place vaudra 100 € mais pour vous ce sera 25 si vous l'achetez maintenant — là, c'est beaucoup plus convaincant. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q7.</span>Quelle erreur a-t-il payée sur les produits dérivés ?</div><div class="a"><p>250 t-shirts commandés sans rien spécifier. Le fabricant a livré <strong>moitié coupe homme, moitié coupe femme</strong>, avec une répartition de tailles arbitraire : de la demande sur les M qu'il n'avait pas, du stock mort sur les L, et des coupes femme bien mieux vendues. <strong>La leçon : ne jamais investir dans un stock à l'aveugle.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q8.</span>Quelle est l'alternative ?</div><div class="a"><p>La <strong>prévente</strong> (on commande, puis on produit selon les commandes réelles) ou le <strong>print on demand</strong> : un peu plus cher à l'unité, mais <strong>aucun risque financier</strong>.</p></div></div>
+
+    <div class="faqcat">La campagne de financement participatif</div>
+    <div class="qa"><div class="q"><span>Q9.</span>À quel moment la lancer ?</div><div class="a"><p><strong>« À partir du moment où vous avez une idée. Il n'y a pas de bon ou de mauvais moment. »</strong> Avec 200 abonnés et une bonne idée, ça se tente. Mais celles qui marchent vraiment sont portées par des artistes ayant <strong>un ou deux ans de sorties derrière eux</strong> — un EP, deux ou trois singles, quelques dates — qui préparent quelque chose de plus ambitieux.</p></div></div>
+    <div class="qa"><div class="q"><span>Q10.</span>Pourquoi pas plus tôt ?</div><div class="a"><p>Son anecdote hors musique : un ami veut financer un bar bistronomique. Aucune expérience, aucun lieu, aucun argent — refus net. Trois ans plus tard il revient avec un food truck monté par ses propres moyens, qui cartonne : <strong>« là, ça m'intéresse, parce que tu as réussi à me prouver que tu étais en capacité de le faire, et qu'il y avait un marché. »</strong> <em class="q">« Il n'y a rien de pire que de demander à quelqu'un de croire en vous alors que vous n'avez aucun fan. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q11.</span>Quelles sont les trois vagues d'une campagne ?</div><div class="a"><p><strong>Le love money</strong> (famille, amis, collègues) ; <strong>la communauté par effet de jauge</strong> ; puis <strong>la plateforme elle-même</strong>, qui prend le relais une fois les 30 premiers pour cent atteints rapidement.</p></div></div>
+    <div class="qa"><div class="q"><span>Q12.</span>Qu'est-ce que l'effet de jauge ?</div><div class="a"><p>Son propre comportement de donateur : <strong>« s'il y a zéro, je ne mets pas un centime. Si je vois 20 % de l'objectif, je me dis qu'il y a quand même quelqu'un qui croit en lui, et je mets un billet. »</strong> C'est ce qui décide les fans en devenir.</p></div></div>
+    <div class="qa"><div class="q"><span>Q13.</span>Les institutions participent-elles aux campagnes ?</div><div class="a"><p>Oui, et c'est peu connu : les organismes de la filière ont <strong>des fonds dédiés au soutien par le financement participatif</strong> et apparaissent dans la liste des donateurs. En général <strong>1 000 €</strong>, parfois 1 500, jamais plus — c'est plafonné. Et on peut cumuler deux organismes. Ensuite la plateforme vous positionne dans ses projets à suivre.</p></div></div>
+    <div class="qa"><div class="q"><span>Q14.</span>Peut-on en refaire plusieurs ?</div><div class="a"><p>Oui, et il le recommande : un vinyle, puis un autre, puis une release party, puis une date importante. <em class="q">« Des fois vous aurez un noyau dur qui financera tout. Et des fois, ceux qui ont financé la première ne financeront pas la deuxième ni la troisième, mais reviendront financer la quatrième. »</em> <strong>La seule condition non négociable : délivrer à chaque fois.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q15.</span>Sur quoi repose la construction d'une bonne campagne ?</div><div class="a"><p>Trois éléments, avant même la diffusion : <strong>la clarté de la présentation, la maîtrise du budget, et la qualité des dotations.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q16.</span>Que veut dire « clarté » concrètement ?</div><div class="a"><p>Des visuels faciles à lire, pas chargés. <em class="q">« Quand les gens préparent des slides, c'est corporate : un titre, un sous-titre, des paragraphes. Mais personne ne lit ça. On lit en diagonale, comme un article de presse à scandale. »</em> Et surtout : <strong>la vidéo face caméra augmente très largement le taux de conversion</strong> — il faut y présenter pourquoi on sollicite et ce qu'on fera de l'argent.</p></div></div>
+    <div class="qa"><div class="q"><span>Q17.</span>Comment présenter le budget ?</div><div class="a"><p>Un montant, <strong>une date de sortie précise</strong>, et l'affectation détaillée sous forme visuelle — sans oublier <strong>les 8 % de commission de la plateforme</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q18.</span>Qu'est-ce que le <em>skin in the game</em> ?</div><div class="a"><p>Montrer sa propre mise, pas nécessairement financière. <em class="q">« Le budget de l'album est de 20 000 €, mais la campagne ne porte pas sur 20 000, parce que la moitié c'est moi qui l'investis — par ma bourse, par mon temps, par le fait de ne pas me rémunérer. L'autre moitié, c'est la partie incompressible sur laquelle j'ai besoin de vous. »</em> <strong>Il faut que le donateur se dise : ce n'est pas moi qui paye tout.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q19.</span>Combien vaut une dotation moyenne ?</div><div class="a"><p>Autour de <strong>50 €</strong> en 2020 ; par prudence, il conseille aujourd'hui de tabler sur <strong>35 €</strong>. Et ensuite, ça peut monter sans limite.</p></div></div>
+    <div class="qa"><div class="q"><span>Q20.</span>Pourquoi le premier palier doit-il être à 20 € ?</div><div class="a"><p><strong>« Une personne capable de mettre 15 est capable de mettre 20. Autant aller à 20 directement. »</strong> Le raisonnement général : <em class="q">« si tu achètes un livre, de 0 à 20 € tu ne regardes pas le prix. Ceux qui se vendent à 8 ont tort. De 0 à 20, il n'y a aucune différence pour le cerveau. »</em> Et ce palier contient du digital, qui ne coûte rien à distribuer : l'album avec des titres exclusifs.</p></div></div>
+    <div class="qa"><div class="q"><span>Q21.</span>Quel est le palier le plus vendu ?</div><div class="a"><p>Le deuxième, autour de <strong>35 €</strong> : le vinyle, l'album physique. C'est celui destiné à la masse.</p></div></div>
+    <div class="qa"><div class="q"><span>Q22.</span>Qu'est-ce que le palier « fan » ?</div><div class="a"><p>Un palier à <strong>50 à 70 €</strong> contenant des choses à <strong>valeur perçue élevée et coût réel faible</strong>. Son exemple : un reportage documentaire sur le parcours et la création de l'album. Dans l'inconscient collectif, cela signifie deux cameramen pendant deux ans — <strong>en réalité on le tourne au téléphone, 45 minutes sur fond d'interview, avec 300 € de montage.</strong> L'intérêt économique : « tu réalises une marge sur quelque chose qui te coûte une fois et que tu revendras à 100 ou 150 personnes sans coût supplémentaire. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q23.</span>Et les produits dérivés ?</div><div class="a"><p>À greffer au même palier, mais <strong>uniquement ce qui ne pose pas de problème de taille</strong> : un sweat, une casquette, un t-shirt en taille unique.</p></div></div>
+    <div class="qa"><div class="q"><span>Q24.</span>Comment construire les gros paliers ?</div><div class="a"><p>En partant des personnes, pas des contreparties. <em class="q">« Mes parents, je connais leurs moyens. Ce qui leur ferait plaisir, c'est un concert privé à la maison. Je mets un concert privé à 500 € — mais je les prévois avant : attention, je n'en ferai qu'un seul, j'espère que ce sera pour vous. »</em> <strong>Et ils attendront l'ouverture.</strong> Même logique sur un groupe d'amies : une soirée qui finit en guitare-voix, « si elles peuvent toutes mettre 200 € et qu'elles sont cinq, ça fait 1 000 € ».</p></div></div>
+    <div class="qa"><div class="q"><span>Q25.</span>Comment fixer son objectif ?</div><div class="a"><p><strong>En cumulant les dotations sur mesure qu'on est à peu près sûr de vendre</strong>, puis en plaçant la barre un peu plus haut tout en la gardant accessible.</p></div></div>
+    <div class="qa"><div class="q"><span>Q26.</span>Faut-il gonfler l'objectif pour avoir de la marge ?</div><div class="a"><p>Non. <em class="q">« Si ton vrai budget était de 10 000, ça ne sert à rien de faire le coup des 20 000 divisés par deux. Tu restes à 10 000 et tu dis : tout ce que je vous demande, c'est un tiers de ce budget, le reste je m'en débrouille. »</em> <strong>On augmente ainsi ses chances de l'atteindre</strong> — et le reste n'est plus qu'une affaire de diffusion.</p></div></div>
+    <div class="qa"><div class="q"><span>Q27.</span>Comment diffuser la campagne ?</div><div class="a"><p>Faire relayer par les premiers donateurs eux-mêmes, et <strong>lancer la campagne une semaine avant un concert important</strong> avec un appel à l'action et <strong>un grand QR code affiché sur écran</strong> pour que le public participe sur place.</p></div></div>
+    <div class="qa"><div class="q"><span>Q28.</span>Que se passe-t-il si on dépasse l'objectif ?</div><div class="a"><p>Tout est reversé. <strong>« C'est là où tu n'atteins pas ta jauge que tu ne débloques pas les fonds. »</strong> Au-delà, la plateforme sera ravie de prélever sa commission sur 5 000 € plutôt que sur 3 000.</p></div></div>
+    <div class="qa"><div class="q"><span>Q29.</span>Et après la campagne ?</div><div class="a"><p>Remercier, <strong>bâtir un espace communautaire</strong> et l'entretenir. Puis <strong>un live annoncé deux ou trois semaines à l'avance</strong> : « pour vous remercier et vous expliquer la suite du projet, le déroulé, le calendrier ». On implique les donateurs dans le processus — et on a déjà une base de fans.</p></div></div>
+    <div class="qa"><div class="q"><span>Q30.</span>Quelle est la dotation qu'il recommande le plus ?</div><div class="a"><p><strong>La session d'écoute finale.</strong> « On fait toujours plus de titres que ceux qui finiront sur l'album. » À 300 € la place, dix personnes en studio : <em class="q">« vous venez avec moi, on passe la journée ensemble, on écoute les sons, et à la fin c'est vous qui choisissez le tracklisting final — et votre nom sera crédité sur le disque. »</em> <strong>Trois cents fois dix, 3 000 €.</strong> Et elle peut même être vendue après la campagne.</p></div></div>
+    <div class="qa"><div class="q"><span>Q31.</span>Quel est son dernier conseil ?</div><div class="a"><p><strong>Délivrer plus que ce qui était promis.</strong> Ce qu'il faisait avec les programmateurs radio : une carte postale manuscrite et personnalisée. « Vingt centimes et une minute de ton temps, mais ça les amène dans un délire : là, vraiment, elle m'a respecté. » Sa propre technique de réseautage : <strong>il apporte des crêpes bretonnes</strong> — « c'est tribal, la nourriture. Quand tu manges un truc et que c'est bon, la personne qui te l'a donné devient ton meilleur ami. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q32.</span>Comment faut-il voir un financement participatif, au fond ?</div><div class="a"><p><strong>« Il faut vraiment le voir comme la construction d'une relation avec les autres, plutôt que comme un moyen de lever des fonds. »</strong> C'est ce qui fait qu'un an plus tard, la campagne suivante fonctionne.</p></div></div>
+
+    <div class="faqcat">Aides et fiscalité</div>
+    <div class="qa"><div class="q"><span>Q33.</span>Les aides sont-elles imposables ?</div><div class="a"><p>Oui, toutes — <strong>sauf l'aide à l'autoproduction, la seule qui ne l'est pas</strong>. « Ne me demandez pas pourquoi, je ne sais pas. » Pour les autres : en nom propre, à déclarer dans les revenus artistiques ; via une structure, <strong>c'est une recette comptabilisée en chiffre d'affaires</strong> — il n'existe aucune case particulière pour les dotations.</p></div></div>
+    <div class="qa"><div class="q"><span>Q34.</span>Non imposable veut-il dire net de charges ?</div><div class="a"><p>Non, et c'est le piège. Sans déclaration d'artiste-auteur, la société civile verse les 5 000 € puis prélève <strong>environ 16 % de charges sociales sur votre prochaine répartition de droits</strong> — ce que vous auriez dû reverser vous-même.</p></div></div>
+    <div class="qa"><div class="q"><span>Q35.</span>Une aide peut-elle coûter plus qu'elle ne rapporte ?</div><div class="a"><p>Indirectement, oui : si le montant vous fait franchir le plafond (autour de 8 000 à 9 000 €), vous devenez redevable de la cotisation retraite — <strong>4 à 8 % de plus</strong>. D'où ce constat contre-intuitif : <strong>« il y a des années où ce n'est pas forcément une bonne chose d'avoir l'aide à l'autoproduction. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q36.</span>Qu'est-ce qu'une dispense de précompte ?</div><div class="a"><p>Un document demandé à l'Urssaf et remis à la société civile : <em class="q">« je suis déjà ponctionné par l'Urssaf, ils me connaissent. Quand vous me devez 5 000 €, versez-moi 5 000 €, je me débrouille ensuite avec eux. »</em> Résultat immédiat : <strong>15 à 16 % de droits en plus à chaque répartition</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q37.</span>Est-ce un gain réel ?</div><div class="a"><p>Il insiste sur la nuance : <strong>« sur le moment c'est flatteur, mais ce sont des sommes que vous devrez reverser l'année suivante. Ça vous fait gagner du temps, pas des charges sociales. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q38.</span>Quel est alors l'intérêt principal ?</div><div class="a"><p>Le pilotage. <strong>C'est le montant annuel déclaré en revenus artistiques qui détermine l'assujettissement aux régimes obligatoires.</strong> Quand on contrôle ce flux, on peut s'organiser — lui facturait ses prestations par ce canal et, approchant de sa limite, <strong>retardait des facturations</strong>, uniquement avec des clients solides.</p></div></div>
+    <div class="qa"><div class="q"><span>Q39.</span>Qu'apporte le régime déclaratif au réel ?</div><div class="a"><p>Les dépenses engagées dans le cadre de l'activité viennent <strong>en déduction du volume d'affaires</strong>, ce qui comprime le net imposable. Il corrige lui-même une imprécision : cela ne réduit pas les charges sociales, mais <strong>l'économie fiscale obtenue couvre les charges qu'on aurait de toute façon à régler</strong>. Et ces revenus peuvent être <strong>lissés sur cinq ans</strong> : 20 000 € de recettes moins 10 000 € de frais, lissés, font 2 000 € déclarés par an.</p></div></div>
+
+    <div class="faqcat">Les trois règles non écrites des subventions</div>
+    <div class="qa"><div class="q"><span>Q40.</span>Pourquoi, même 100 % éligible, n'obtient-on pas l'aide ?</div><div class="a"><p>« Il y a des raisons dites et il y a des raisons non dites. » Et le diagnostic qu'il pose : <strong>une industrie assez opaque où les gens en place bloquent ceux qui ne le sont pas, pour maintenir un certain niveau de confort.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q41.</span>Sur quoi fonde-t-il ce constat ?</div><div class="a"><p>Sur plusieurs années passées dans l'instance jeunes producteurs d'une société civile, puis en commissions d'aide. Il y militait pour supprimer un critère : <strong>avoir déjà produit et commercialisé un album physique distribué nationalement, contrat à l'appui.</strong> Sans ça, aucune aide — un artiste électro aujourd'hui mondialement connu se faisait refuser toutes ses demandes pour cette seule raison.</p></div></div>
+    <div class="qa"><div class="q"><span>Q42.</span>Que lui a-t-on répondu ?</div><div class="a"><p>En réunion : <strong>« Vous avez tous des aides ici. Vous n'avez pas envie qu'il y ait deux mille inconnus qui viennent demain gratter sur vos budgets. Alors on laisse le critère. »</strong> Et en privé : si les gros cotisants n'ont plus les budgets dont ils ont besoin, ils partent, la structure disparaît et il n'y a plus de droits pour personne. « Le système est ainsi conçu. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q43.</span>Quelle est la première règle non écrite ?</div><div class="a"><p><strong>Pour demander de l'argent, il faut d'abord en donner.</strong> Pas de salarié avec des charges, pas d'impôts, pas de TVA — pas de structure commerciale qui s'acquitte de charges et de taxes : « tu seras éligible à rien ». <strong>« D'abord tu déverses, et ensuite tu peux espérer récupérer. Et ce n'est pas garanti. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q44.</span>Une association peut-elle obtenir des subventions ?</div><div class="a"><p>Rarement. Celles qui y arrivent ne sont souvent pas de simples associations : <strong>elles sont assujetties à l'impôt sur les sociétés, existent depuis vingt ans et sont connues</strong>. Ou bien leur cadre subventionnable est si important qu'elles deviennent une exception — une chorale avec 200 salariés.</p></div></div>
+    <div class="qa"><div class="q"><span>Q45.</span>Quelle est la deuxième règle ?</div><div class="a"><p><strong>Les montants accordés sont corrélés au volume de droits générés l'année précédente.</strong> « Si tu débarques en disant : j'ai généré 200 € de droits l'année dernière, j'aimerais 5 000 € — on va dire qu'il y a un truc qui ne va pas. » Dans les organismes administrés par des producteurs, une demande de 10 000 € pour un clip aboutira <strong>au mieux à 800 €</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q46.</span>Peut-on connaître la raison d'un refus ?</div><div class="a"><p>Non : <strong>« la commission n'a pas à se justifier sur les aides qu'elle accorde. »</strong> Ce qu'il a entendu en coulisses : les membres sortant leurs propres chiffres de collecte sur dix ans pour les comparer à ceux du demandeur.</p></div></div>
+    <div class="qa"><div class="q"><span>Q47.</span>Faut-il donc des chiffres exceptionnels ?</div><div class="a"><p>Non. <strong>Ce qu'il faut démontrer, c'est un modèle d'affaires qui tourne</strong> — et donc la capacité à réinvestir l'argent pour en générer encore. « Ce n'est pas fou, mais ça a le mérite d'être là, d'exister. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q48.</span>Quelle est la troisième règle ?</div><div class="a"><p><strong>L'entourage professionnel</strong>, parce qu'il partage le risque. Il le formule du point de vue du décideur : <em class="q">« s'il y a le président d'une salle qui a signé une lettre d'intention et qui s'engage à accompagner le projet, si ça part de travers, j'irai lui taper dessus aussi. Ça me fera un coupable. Ce n'est pas ma tête qui va tomber. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q49.</span>Que doit pouvoir dire la commission à son autorité de contrôle ?</div><div class="a"><p>« Nous avons fait ce que nous pouvions. Il y avait un bon projet, bien produit, un distributeur professionnel, un éditeur, une salle pour encadrer, un tourneur, un gestionnaire de droits. On ne peut pas deviner. » <strong>Soit cinq escrocs organisés, soit un dossier qui devrait bien se passer.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q50.</span>Que donne la combinaison des trois ?</div><div class="a"><p>Une structure qui tourne, qui a investi dans l'humain (techniciens en cachets, minima conventionnels, cotisations à jour depuis un ou deux ans), qui génère des droits, entourée d'acteurs locaux sérieux — <strong>plus un projet de qualité : « là, ça fonctionne quasiment à coup sûr. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q51.</span>Qu'est-ce qu'un « canard à la patte cassée » ?</div><div class="a"><p>Un dossier auquel il manque toujours quelque chose : <strong>le projet et l'historique mais pas l'entourage ; le projet et l'entourage mais pas l'historique</strong>, et ainsi de suite. Et comme <strong>les résultats de commission sont publics</strong>, on vérifie facilement : la plupart des projets soutenus sont reliés à un entourage que la commission connaît.</p></div></div>
+    <div class="qa"><div class="q"><span>Q52.</span>Quel détail peut faire échouer un dossier en trente secondes ?</div><div class="a"><p>Le nombre d'œuvres déposées. <strong>La commission regarde combien vous en avez déposé par an sur les trois à cinq dernières années.</strong> Sa propre demande a été refusée pour cette raison : <em class="q">« ils ont ouvert ton compte devant nous. Tu n'as rien déposé depuis trois ans. Forcément, c'était mort. Tu aurais même juste déposé une instru cette année, c'était OK. »</em></p></div></div>
+
+    <div class="faqcat">Les playlists streaming</div>
+    <div class="qa"><div class="q"><span>Q53.</span>Peut-on obtenir une playlist sur la seule qualité d'un titre ?</div><div class="a"><p>Non. <strong>« Dans la manière dont fonctionnent les plateformes, l'obtention de playlists streaming est quelque chose qu'ils n'octroient jamais sans contrepartie. »</strong> Et la croyance à abandonner : « j'entends encore des gens qui pensent que si le pitch est bien fait, que le titre est génial et qu'en plus il marche sur une plateforme vidéo, c'est sûr, ils vont avoir des playlists. <strong>C'est faux.</strong> »</p></div></div>
+    <div class="qa"><div class="q"><span>Q54.</span>Comment ça se passe concrètement ?</div><div class="a"><p>Par un <strong>rendez-vous d'écoute</strong> proposé par la plateforme — tous les quinze jours dans son cas. <strong>Et ce n'est pas le distributeur qui choisit ce qu'il pitche :</strong> sur cent sorties, c'est la plateforme qui désigne. « Cette semaine rien ne nous a intéressés, merci » — et le rendez-vous dure deux minutes.</p></div></div>
+    <div class="qa"><div class="q"><span>Q55.</span>Et quand ils sont intéressés ?</div><div class="a"><p>Ils proposent un deal : « on va le mettre sur telle et telle playlist. En revanche, <strong>là où notre taux de retenue était de 5 %, on passe à 35</strong>. » Oui ou non. <strong>« Si tu dis non, il y en a 400 qui attendent derrière. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q56.</span>Pourquoi les majors ont-elles un vrai levier ?</div><div class="a"><p>Parce que l'accord de licence de catalogue renégocié il y a trois ou quatre ans prévoit qu'elles <strong>disposent d'une part de décision dans la politique éditoriale</strong>. Elles ont leurs propres playlists, des passe-droits sur les mises en avant, et des passe-droits sur les playlists éditoriales internes.</p></div></div>
+    <div class="qa"><div class="q"><span>Q57.</span>Quelle conséquence pour un indépendant ?</div><div class="a"><p>Mécanique : si toutes demandent une mise en avant au même moment, il n'y a pas de place. <strong>« Si elles sont en vacances au même moment, il y a plus de place pour les indés et tu peux obtenir plus de deals »</strong> — ce qui laisse à la plateforme la possibilité de gagner davantage sur des opérations où <strong>sa commission est multipliée par sept ou par dix</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q58.</span>Les coups de cœur existent-ils encore ?</div><div class="a"><p>Oui, mais rarement. Il cite un DJ électro dont le deuxième titre a fait <strong>800 000 streams</strong> après avoir été placé sur deux playlists de niche bien écoutées. Parce qu'à la fin, <strong>c'est l'utilisateur qui vote par sa fidélité</strong> : quand une playlist est trop « téléphonée », les gens décrochent et les statistiques baissent.</p></div></div>
+    <div class="qa"><div class="q"><span>Q59.</span>Et les petites playlists d'ambiance ?</div><div class="a"><p>« La playlist à 8 000 abonnés, ils s'en moquent. <strong>Celle-là, ils nous la donnent pour nous donner de la visibilité de courtoisie.</strong> »</p></div></div>
+
+    <div class="faqcat">La stratégie du genre</div>
+    <div class="qa"><div class="q"><span>Q60.</span>Quelle est la faille du système ?</div><div class="a"><p>Un déséquilibre entre l'offre et la demande par genre. <strong>L'urbain représente environ la moitié du marché, donc les labels signent urbain</strong> pour répondre à la demande. Résultat : les genres de niche sont très écoutés et très peu alimentés.</p></div></div>
+    <div class="qa"><div class="q"><span>Q61.</span>Pourquoi les curateurs sont-ils en demande ?</div><div class="a"><p>Parce qu'ils doivent <strong>renouveler leurs playlists chaque semaine</strong>, sinon l'écoute baisse : « si tu vas sur une playlist que tu utilises pour faire du sport et que c'est toujours la même musique, au bout d'un moment tu zappes. » Et ils détectent ces comportements, outils de mesure à l'appui.</p></div></div>
+    <div class="qa"><div class="q"><span>Q62.</span>Quelle est l'ampleur du déséquilibre ?</div><div class="a"><p>Chiffres extrapolés par lui : là où un curateur rock devrait avoir <strong>10 000 sorties parmi lesquelles choisir, il en a 400</strong>. <strong>« Mécaniquement, c'est plus dur pour eux à combler, donc ils sont beaucoup plus enclins à aller chercher des titres de parfaits inconnus. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q63.</span>Quelle est la stratégie qui en découle ?</div><div class="a"><p>Changer le genre déclaré de sa sortie : <em class="q">« je suis un peu pop, un peu urbain, un peu électro. Au lieu d'estampiller ma sortie comme urbaine, je vais l'estampiller comme électro. »</em> Parce que dans un genre peu alimenté, <strong>on ne vous juge plus à la visibilité, à l'impact ou au label qui vous a signé — on vous juge à la qualité et au coup de cœur.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q64.</span>Comment le curateur raisonne-t-il en urbain ?</div><div class="a"><p>« J'ai 25 places cette semaine. <strong>J'ai 120 priorités majors, priorités absolues.</strong> Et après j'ai tous les autres. Je prends d'abord dans mes 120 priorités, sinon je me fais taper sur les doigts. Si je n'arrive pas à combler — ce qui n'arrive jamais — j'irai demander au patron l'autorisation d'aller chercher un coup de cœur. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q65.</span>Et sur une playlist de niche ?</div><div class="a"><p>Presque pas de sorties, impossible de ne mettre que des classiques, donc des nouveautés obligatoires. <strong>« J'ai deux sorties cette semaine. Si les deux sont ultra-qualitatives, il est possible que j'aie la permission de jouer les deux. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q66.</span>Peut-on déclarer n'importe quel genre ?</div><div class="a"><p>Non. <strong>« Si c'est trop hip-hop, le mec en face qui a des oreilles va se dire : mais non, même en blues, c'est du hip-hop. »</strong> Le conseil donné à une chanteuse entre urbain et folk : revendiquer l'étiquette folk <strong>et modifier légèrement les éléments rythmiques</strong> pour que personne ne se sente pris pour un idiot.</p></div></div>
+    <div class="qa"><div class="q"><span>Q67.</span>Y a-t-il d'autres leviers du même ordre ?</div><div class="a"><p>Deux. <strong>Le ratio hommes-femmes</strong> : avec la politique d'égalité en place depuis deux ans dans la culture, les plateformes ont créé des playlists dédiées et un ratio dans la plupart de leurs listes — « si vous êtes une femme, vous avez beaucoup plus de chances d'être mise en avant aujourd'hui ». Et <strong>le pays de rattachement</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q68.</span>Comment fonctionne le levier du pays ?</div><div class="a"><p>Pas l'origine ethnique : le pays depuis lequel l'artiste se présente. Son test avec une artiste franco-portugaise — <strong>un an de pitchs comme artiste basée à Paris, aucun résultat. Puis un pitch depuis Lisbonne, où la concurrence est incomparablement plus faible : elle a obtenu des playlists, au Portugal et en France.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q69.</span>Est-ce figé ?</div><div class="a"><p>Non : « un artiste peut être en France cette année, au Portugal l'année prochaine et au Canada l'année d'après. » <strong>À condition que ça reste cohérent avec l'image et la biographie</strong> — et sans négliger le reste : fiche à jour avant une sortie, pitch soigné.</p></div></div>
+
+    <div class="faqcat">Presse, référencement et IA</div>
+    <div class="qa"><div class="q"><span>Q70.</span>Faut-il acheter une revue de presse ?</div><div class="a"><p>Son verdict sur le fond n'a pas changé : <strong>« si ça vous fait plaisir, faites-le, ça n'a pas grand impact. »</strong> Mais deux choses ont changé autour, et elles renversent la conclusion pratique.</p></div></div>
+    <div class="qa"><div class="q"><span>Q71.</span>Premier changement ?</div><div class="a"><p><strong>Les commissions d'aide y sont devenues sensibles.</strong> Le test : on tape votre nom dans un moteur de recherche. Voit-on, sur deux ou trois pages, des liens d'articles vers des sites différents — ou uniquement vos propres réseaux ? Le principe : <strong>« on doit parler de vous ailleurs que là où vous contrôlez le narratif. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q72.</span>Deuxième changement ?</div><div class="a"><p>L'IA. <strong>En août, le grand moteur de recherche a basculé son algorithme de recommandation intégralement en IA</strong> : le référencement naturel tel qu'on le connaissait n'est plus le mécanisme. Et la prédiction qu'il relaie : <strong>d'ici fin 2027, plus de 90 % des recherches dans le monde ne passeront plus par un moteur mais par un modèle de langage.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q73.</span>Comment influence-t-on une IA ?</div><div class="a"><p>Plusieurs leviers : les bases de données ouvertes de référence, son propre site avec des <strong>données structurées dans le code</strong>, un blog, de l'actualité. Mais deux leviers sont, selon lui, <strong>infalsifiables</strong> : les articles de presse et les avis en ligne vérifiés.</p></div></div>
+    <div class="qa"><div class="q"><span>Q74.</span>Pourquoi les articles de presse pèsent-ils autant ?</div><div class="a"><p>Par corroboration. Son illustration : <strong>« si je dis que je suis un magnat du pétrole, le moteur le note mais ne le met pas en avant. S'il y a cinquante sites de référence qui le disent, alors à chaque fois qu'on demandera qui je suis, on répondra que je suis un magnat du pétrole. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q75.</span>Et les avis en ligne ?</div><div class="a"><p>Ce sont des comptes réels, identifiés comme actifs depuis dix ou quinze ans. <strong>« Ça sécurise la démarche »</strong> et augmente l'autorité de tout ce qui est publié à votre sujet — d'où sa demande récente à ses anciens stagiaires d'en laisser un.</p></div></div>
+    <div class="qa"><div class="q"><span>Q76.</span>Pourquoi le croire sur ce sujet ?</div><div class="a"><p>Il met son historique en avant : en 2016, « créez du contenu format court, c'est l'avenir ». Puis « allez sur cette nouvelle plateforme vidéo, pour l'instant ça ne ressemble à rien, mais ceux qui trouveront verront que ça va exploser » — le DJ à qui il l'a dit a <strong>deux millions d'abonnés</strong>. <strong>« Là, je vous le dis : la fenêtre de tir, ce sont les modèles de langage. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q77.</span>Quelle preuve apporte-t-il ?</div><div class="a"><p>Ses propres tests : il interroge régulièrement les différentes IA sur son domaine pour voir où il se positionne — « avant j'étais inexistant, maintenant j'existe ». Et un groupe qu'il accompagne, parti d'un site et de quelques articles, <strong>sort désormais en premier sur une recommandation de concert dans sa région</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q78.</span>Faut-il donc payer un attaché de presse ?</div><div class="a"><p>Pas en premier. <strong>Deux essais avant :</strong> écrire directement aux rédactions (l'adresse générale est très souvent lue par quelqu'un de la rédaction), puis <strong>passer par la régie publicitaire</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q79.</span>Comment formuler la démarche auprès d'une régie ?</div><div class="a"><p><em class="q">« J'ai un peu d'argent à investir sur votre webzine. J'aimerais proposer à la rédaction un concept d'interview ou de chronique autour de ma sortie. Et une fois que c'est fait, je suis prêt à acheter une mise en avant sur la page d'accueil. »</em> <strong>« Là, c'est le commercial qui va se battre pour vous pour que la rédaction fasse le travail. Et dans neuf cas sur dix, ça aboutit. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q80.</span>Quel est l'écart de prix ?</div><div class="a"><p>Un bon attaché de presse web démarre à <strong>1 000 €</strong> et peut monter bien au-delà. Une publicité sur un webzine correct, lu sans être un grand média : <strong>environ 200 €</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q81.</span>Que reste-t-il de l'opération ?</div><div class="a"><p><strong>La mise en avant disparaît au bout d'une semaine, l'article reste.</strong> « Ils ne vont pas le supprimer, c'est du contenu pour la rédaction. » Et cela sert tous les projets suivants : les dossiers de subvention, la visibilité, et les IA.</p></div></div>
+
+    <div class="faqcat">Changer de public, et la publicité</div>
+    <div class="qa"><div class="q"><span>Q82.</span>Mon public a changé mais l'algorithme sert l'ancien. Pourquoi ?</div><div class="a"><p>C'est mécanique. À chaque sortie, <strong>la première audience à laquelle la plateforme propose votre musique, ce sont vos auditeurs les plus fidèles</strong> — abonnés, auditeurs mensuels et <em>multiplayers</em>. Si le public a évolué, ils accueillent mal le projet, passent plus vite, et le signal renvoyé est mauvais. Moins de relais, statistiques en baisse.</p></div></div>
+    <div class="qa"><div class="q"><span>Q83.</span>Faut-il quitter son agrégateur ?</div><div class="a"><p>Oui, ce n'est pas une mauvaise idée : <strong>« un agrégateur n'est pas un distributeur, tu n'as pas de label manager dédié, tu te fermes certaines portes dès le départ. »</strong> Mais un distributeur ne garantit pas des résultats sensationnels pour autant.</p></div></div>
+    <div class="qa"><div class="q"><span>Q84.</span>Que chercher chez un distributeur ?</div><div class="a"><p><strong>Le réseau de votre cible, la compréhension du projet, et un plan ou des ouvertures déjà formulés.</strong> Un vrai distributeur, pas un agrégateur. Le prix : <strong>entre 35 % et 45 %, voire plus</strong>, sur une distribution améliorée — « mais si c'est pour exploser le plafond de verre et faire deux, trois ou quatre fois plus de scores, ce n'est pas une mauvaise idée ».</p></div></div>
+    <div class="qa"><div class="q"><span>Q85.</span>Quelles précautions avant de signer ?</div><div class="a"><p><strong>Prévoir une clause de sortie et bien encadrer le contrat</strong> — et « ne pas te jeter sur le premier qui te fera les yeux doux et te montrera de l'intérêt ».</p></div></div>
+    <div class="qa"><div class="q"><span>Q86.</span>Comment reconstruire une audience ?</div><div class="a"><p><strong>Sortir beaucoup de titres dans un laps de temps court.</strong> Deux effets simultanés : saturer la mauvaise audience pour qu'elle se désengage, et servir la nouvelle assez densément pour qu'elle devienne la base de multiplayers. Le scénario visé : quelqu'un découvre un titre, en trouve un deuxième, puis un troisième — <strong>et se met à éduquer l'algorithme à votre place.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q87.</span>Peut-on faire de la publicité vers une plateforme de streaming ?</div><div class="a"><p>Jamais en direct. <strong>« Ça ne marche pas, tu vas être considéré comme faux stream. »</strong> Il faut passer par un mécanisme intermédiaire.</p></div></div>
+    <div class="qa"><div class="q"><span>Q88.</span>Quels mécanismes intermédiaires fonctionnent ?</div><div class="a"><p>Ceux qui créent des <strong>écoutes longues et répétées de manière naturelle</strong>. Son exemple volontairement absurde : un concours de poésie à partir d'un passage du morceau, écoutable uniquement sur la plateforme — personne n'est inspiré en trois minutes, donc plusieurs écoutes complètes sur des jours différents.</p></div></div>
+    <div class="qa"><div class="q"><span>Q89.</span>Un exemple observé chez un artiste connu ?</div><div class="a"><p>Un passage laissé vide dans la version digitale, ce qui a poussé ceux qui voulaient poser dessus à faire replay en boucle. <strong>Le temps d'écoute par utilisateur a explosé</strong> — le titre n'a pas percé pour autant, mais les scores de stream ont largement dépassé les précédents.</p></div></div>
+    <div class="qa"><div class="q"><span>Q90.</span>Et promouvoir une playlist ?</div><div class="a"><p>Bonne idée : une playlist à soi, où ses morceaux figurent en tête mais ne sont pas seuls. <strong>« Nostalgie des années 2000 » convertit mieux que « allez écouter mon projet »</strong> et draine une communauté plus intéressante. Le risque de faux stream existe mais il est moindre quand on promet un concept.</p></div></div>
+    <div class="qa"><div class="q"><span>Q91.</span>Qu'est-ce qui est considéré comme un faux stream ?</div><div class="a"><p>La règle, dans les conditions générales : <strong>« à partir du moment où l'écoute a été stimulée, c'est un faux stream. »</strong> Et la publicité, par définition, stimule. À l'inverse, ce qu'elles considèrent comme normal : un utilisateur qui se connecte lui-même, tape le nom de l'artiste, appuie sur play et fait replay pendant quatre heures. <strong>Parce qu'elles tracent la source.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q92.</span>Quel est le vrai risque de la publicité ?</div><div class="a"><p>Pas la publicité en soi : <strong>la qualité de l'audience</strong>. « Le risque, ce serait d'avoir 1 000 auditeurs dont 800 partent au bout de trois secondes. » Un comportement d'écoute catastrophique sur un trafic soudain est un signal autrement plus dommageable.</p></div></div>
+    <div class="qa"><div class="q"><span>Q93.</span>Que recommande-t-il concrètement ?</div><div class="a"><p>Quatre choses : <strong>y aller progressivement</strong> (éviter les gros coups quand on n'est pas connu) ; <strong>diversifier les sources</strong> — à un label qui voulait absolument faire de la publicité, il a conseillé 150 € sur six plateformes plutôt que 1 000 € sur une ; <strong>privilégier le retargeting</strong>, sur des gens qui vous connaissent déjà ; et <strong>mettre un filtre intermédiaire</strong>, en renvoyant vers un clip ou son propre site. « Il faut trouver un hack qui élimine tous les touristes d'office. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q94.</span>D'où vient le trafic parasite ?</div><div class="a"><p>Son avertissement : <strong>le plus gros fournisseur de clics parasites est l'un des grands réseaux sociaux lui-même.</strong> « Si tu ne fais pas attention à tes paramètres, la moitié de ton trafic ce sont des clics de gens sur des applis de jeux qui veulent juste que tu disparaisses. Toi, tu te manges trois clics, mais ça n'aboutit jamais. »</p></div></div>
+
+    <div class="faqcat">Les plateformes de mise en relation</div>
+    <div class="qa"><div class="q"><span>Q95.</span>Que valent les plateformes de pitch à deux euros le contact ?</div><div class="a"><p>« Rien du tout. » Puis la nuance : <strong>« j'aime bien l'idée de ce qu'ils ont conçu »</strong> — payer par contact pour mettre sa musique dans les oreilles de décideurs, pas seulement des médias. « Génial comme idée. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q96.</span>Que leur reproche-t-il alors ?</div><div class="a"><p><strong>« Ils ont bâti un modèle d'affaires basé sur l'espoir qui ne délivre pas l'espoir promis. »</strong> « Tu vas dépenser 100 €, puis 100 €. À la fin de l'année tu auras peut-être claqué 1 000 ou 1 500 € pour te rendre compte que tu as les mêmes réponses, quasiment copiées-collées de la campagne précédente. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q97.</span>Qu'a-t-il constaté en testant ?</div><div class="a"><p>Trois choses : <strong>aucun contact connu</strong> (« je veux bien que je ne connaisse pas grand monde, mais là, strictement aucun nom familier ») ; des <strong>réponses à côté de la demande</strong> — « la qualité du mix est très bonne » en réponse à une question sur une programmation d'antenne ; et des playlists identiques à celles trouvables ailleurs pour quelques dollars. Quant aux classements : « il n'y a pas un seul artiste du top 50 que je connais. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q98.</span>Pourquoi deux euros est-il structurellement le problème ?</div><div class="a"><p>Parce qu'un bon contact coûte cher. Pour rencontrer l'ancien responsable éditorial de plateforme qu'il reçoit en masterclass : <strong>deux allers-retours à Londres, un séminaire à 1 800 €, un consulting privé à 2 000 €, plus l'hébergement et les repas — environ 8 000 € pour un seul contact.</strong> D'où : <strong>« quand tu l'as à 80 ou 100 €, c'est une très bonne affaire. Si demain il était à 2 €, je me douterais bien que ce serait une IA assistante qui répondrait à sa place. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q99.</span>La même logique vaut-elle ailleurs ?</div><div class="a"><p>Oui : <strong>un agrégateur qui promet de reverser 100 % de ce qui rentre pour 20 € par an a forcément un modèle d'affaires ailleurs</strong> — souvent des commissions d'apporteur d'affaires. « On bâtit une stratégie sur l'espoir. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q100.</span>Où place-t-il la ligne ?</div><div class="a"><p><strong>« Quand c'est gratuit, ça se tente, ça ne coûte rien. À partir du moment où c'est facturé, il faut que ça délivre un peu. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q101.</span>Qu'est-ce qui lui semble bien exécuté, à l'inverse ?</div><div class="a"><p>Une application de consulting à l'heure avec de vrais professionnels, qu'il parcourt en direct pendant la session : il reconnaît un nom sur deux — éditeurs, préparateurs scéniques, anciens de maisons de disques et de plateformes, analystes de données. <strong>« Là, il y a des gens. C'est crédible. »</strong> Et ça ne coûte pas deux euros — « et c'est normal ».</p></div></div>
+
+    <div class="faqcat">Protéger ses œuvres</div>
+    <div class="qa"><div class="q"><span>Q102.</span>Un dépôt protège-t-il une œuvre ?</div><div class="a"><p>Non. Ni la blockchain, ni le dépôt classique. <strong>« C'est un truc que j'ai découvert un peu tard, mais la société d'auteurs ne protège pas vos œuvres. C'est vraiment important de bien le comprendre. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q103.</span>Pourquoi ?</div><div class="a"><p>Parce que <strong>le système est purement déclaratif</strong>. « Si je fais un son avec quelqu'un, j'ai le droit d'aller le déposer et de dire que je l'ai fait tout seul. La société ne va pas rejeter le titre : elle va le valider, le tamponner, l'intégrer à sa base. <strong>Charge à l'autre de prouver, par une procédure judiciaire, que je lui ai volé ses droits.</strong> »</p></div></div>
+    <div class="qa"><div class="q"><span>Q104.</span>Une preuve de ce laxisme ?</div><div class="a"><p>Il a donné deux instrumentaux à un ami qui n'avait jamais rien composé, pour qu'il puisse ouvrir un compte d'auteur. <strong>« Il a déposé des œuvres qui sont à moi, à son nom. C'est vous dire : ils ne contrôlent absolument pas. »</strong> Et il ajoute honnêtement : « c'est normal, ils ne peuvent pas. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q105.</span>Qu'est-ce qui protège, alors ?</div><div class="a"><p>Deux choses. <strong>La preuve indiscutable</strong> — documenter sa création — et <strong>l'accord contresigné sur le moment</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q106.</span>À quoi ressemble une preuve indiscutable ?</div><div class="a"><p>Une <strong>session MIDI avec tous ses historiques de version</strong>, ou une vidéo de la session de travail. Le scénario qu'il déroule en se mettant dans le rôle du fautif : <em class="q">« j'ai la session à la maison, avec tes historiques. Avant même que tu m'envoies un message pour confirmer le studio, j'ai déjà quelque chose qui ressemble à 80 % à ce que tu as déposé. Demain, devant un juge, c'est très facile à prouver. »</em> Et il conclut qu'il serait idiot de ne pas donner raison à l'autre partie.</p></div></div>
+    <div class="qa"><div class="q"><span>Q107.</span>Pourquoi filmer son écran quand on crée ?</div><div class="a"><p>À cause des outils génératifs. Son propre usage : plutôt que de réunir quatre violonistes pour 1 500 € de studio, il génère une piste de cordes, ajuste tonalité et tempo, et la réintègre. <strong>Sur vingt pistes, huit mesures d'une seule piste viennent de là — et il a tout filmé.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q108.</span>À quoi ça sert concrètement ?</div><div class="a"><p>« Demain, si on me dit qu'on ne me paiera pas parce qu'on a détecté de l'IA, c'est très facile pour moi de prouver ma création : <strong>les gars, il y a de l'IA, c'est vrai, ça représente 1 % de la création. Vous allez me payer les 99 %, et je vous fais cadeau du 1 % si vous voulez.</strong> »</p></div></div>
+    <div class="qa"><div class="q"><span>Q109.</span>Et quand on ne peut pas documenter ?</div><div class="a"><p>Il reste les témoignages, difficiles à obtenir — d'où <strong>l'accord court contresigné par toutes les parties avant de quitter le studio</strong>, portant la clé de répartition. Pourquoi c'est efficace sur le moment : <strong>« je n'ai pas trop d'options que de dire oui, il n'y a pas de souci. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q110.</span>Et trois ans plus tard ?</div><div class="a"><p>C'est tout l'intérêt. Quand on a sincèrement oublié avec qui on a travaillé un soir à quatre heures du matin : « attends, je t'envoie un truc. <strong>Je vais voir ma signature dessus à 4 h 17 du matin. Je ne peux rien faire. Même si je ne m'en souviens pas, tu as raison.</strong> »</p></div></div>
+    <div class="qa"><div class="q"><span>Q111.</span>Pourquoi est-ce plus solide à plusieurs ?</div><div class="a"><p><strong>« Si on est cinq crédités sur le son, c'est compliqué de graisser la patte aux quatre autres. Il y en aura toujours un qui aura un peu d'éthique »</strong> — ou qui sera plus proche de vous, et capable de dire « oui, on a tous signé, on était tous d'accord ».</p></div></div>
+    <div class="qa"><div class="q"><span>Q112.</span>À quoi ressemble ce document ?</div><div class="a"><p>Deux pages : la version courte d'un contrat long. Un outil gratuit et multilingue qu'il a développé est partagé pendant la session — on remplit les parties et la clé de répartition, chacun reçoit un code par courriel et signe.</p></div></div>
+    <div class="qa"><div class="q"><span>Q113.</span>Qui est le plus exposé, en pratique ?</div><div class="a"><p>Pas les auteurs-compositeurs : <strong>« le vrai oubli, c'est sur les musiciens. »</strong> Son propre cas : appelé pour des claviers additionnels, rien de créatif en principe, mais il enregistrait en live, inspiré. <strong>Deux mois plus tard, sa boucle de quatre mesures était devenue le thème principal du morceau.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q114.</span>Quel réflexe un musicien doit-il prendre ?</div><div class="a"><p><strong>« Quoi que je fasse, je veux un accord écrit avec un minimum de points. »</strong> Même déséquilibré : « si j'avais gratté cinq points, j'aurais pu en gratter vingt, mais j'en ai au moins cinq — c'est mieux que zéro. <strong>Il n'y a rien de pire que d'avoir un titre qui fait dix fois le tour du monde et de n'avoir pas touché un centime.</strong> »</p></div></div>
+    <div class="qa"><div class="q"><span>Q115.</span>Quels arguments abusifs faut-il savoir reconnaître ?</div><div class="a"><p>Deux qu'il a entendus. À un bassiste : « ta ligne, si je veux je ne la garde pas, je la rejoue. Elle n'est pas déposée. » — <strong>« Ça s'appelle du vol de propriété intellectuelle. Ce n'est pas parce qu'elle n'est pas déposée qu'elle n'a pas été créée par quelqu'un d'autre. »</strong> Et à un batteur qui avait entièrement retravaillé une batterie : « ton pattern, je l'ai déjà entendu dans un plugin, donc ce n'est pas une création. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q116.</span>Pourquoi l'écrit est-il indispensable ?</div><div class="a"><p>Parce que <strong>ces discussions arrivent un an plus tard, à la sortie de l'album</strong> — quand on a oublié, que le projet est passé entre quinze mains, qu'un éditeur s'est greffé et qu'il a changé de propriétaire.</p></div></div>
+
+    <div class="faqcat">Les deux biais</div>
+    <div class="qa"><div class="q"><span>Q117.</span>Quel est le premier biais qui fait signer un mauvais contrat ?</div><div class="a"><p><strong>La méconnaissance et la confiance.</strong> « Ils ont un pote qui les produit, un ami d'enfance, ils lui font confiance. Ils ne lisent pas, ils ne savent même pas ce qu'ils lisent, ils ne savent pas en quoi ça les engage. <strong>Ils signent à la confiance.</strong> »</p></div></div>
+    <div class="qa"><div class="q"><span>Q118.</span>Quelle règle en tire-t-il ?</div><div class="a"><p><strong>« Il n'y a pas d'amis dans cette industrie. C'est du business pur et dur. »</strong> Et les signaux d'alerte, tels quels : « quand des gens vous invitent chez eux, attention quand même. Quand des gens vous invitent à manger, attention quand même. Quand des gens vous font croire que vous êtes la huitième merveille du monde, attention quand même. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q119.</span>N'est-ce pas contradictoire avec sa technique des crêpes ?</div><div class="a"><p>Un participant le relève, et sa réponse est franche : <strong>« mais grave, vraiment. Et je n'ai pas de honte à le dire. »</strong> C'est culturel chez lui, et c'est aussi une démarche de fidélisation qu'il ne cache pas. <strong>« Il faut comprendre que c'est un jeu, et que la flatterie et les invitations font partie de ce jeu. Quand on n'a pas envie de jouer le jeu, il faut rester à distance. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q120.</span>Comment vérifie-t-on qu'il n'y a pas d'amis ?</div><div class="a"><p><strong>« Le jour où tu n'es pas bankable, tu ne passes pas l'étape des secrétaires. Il n'y a pas d'amis, il n'y a pas de famille, il n'y a plus personne qui te répond. Et ça, beaucoup l'ont vécu. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q121.</span>Quel est le second biais ?</div><div class="a"><p><strong>Le sentiment d'être choisi, d'être désiré.</strong> « Lui est un peu plus dangereux, parce qu'il touche à une forme de manipulation. » La séquence type : un premier contact flatteur, puis un rendez-vous de courtoisie dans un beau bureau avec des disques d'or au mur — sous-entendu : c'est ce qui va t'arriver — puis des présentations, un tournage. <strong>« Tu te dis : ça y est, je suis dans le game. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q122.</span>Quelles techniques concrètes a-t-il vues ?</div><div class="a"><p>Un bon attaché de presse <strong>écoutera tous vos morceaux du début à la fin</strong> — « ils sont même capables de faire replay alors qu'ils détestent, juste pour vous dire <em>j'ai écouté</em> sans vous le dire ». Et la mise en scène qu'un professionnel lui a racontée : il se lève et appelle son équipe, <strong>briefée d'avance</strong> — « venez voir, vous avez entendu ? » Les collaborateurs arrivent, écoutent, s'enthousiasment. <strong>« Ça tue. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q123.</span>Que fait signer ce sentiment ?</div><div class="a"><p><strong>« Ça te fait payer quelqu'un 7 000 € pour une promotion et en plus lui laisser la moitié de tes droits. Ça te fait signer un contrat verrouillé alors que tu n'en avais pas besoin. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q124.</span>En est-il lui-même victime ?</div><div class="a"><p>Il l'assume : « ça m'est arrivé un nombre de fois incalculable. » Son exemple — <strong>il a refusé un contrat avec une major pour l'Amérique du Sud parce que quelqu'un d'un label indépendant l'avait mis à l'aise.</strong> « Tu te dis : il est cool, on est pareils, il vaut mieux que je travaille avec lui. Pas du tout. Mais sur le moment, il a réussi : il a eu son contrat. » Et ça continue aujourd'hui, en tant que formateur : « tu te sens choisi. Et quand tu n'es pas préparé, tu te dis : tout va changer. <strong>Pas du tout. Il faut rester les pieds sur terre.</strong> »</p></div></div>
+    <div class="qa"><div class="q"><span>Q125.</span>Quelle est la bonne défense ?</div><div class="a"><p>Une phrase : <strong>« J'attends le deal. Parlez-moi deal, et après on parlera famille, amis, champagne, ce que vous voulez. Tant que le deal n'est pas là, ça ne sert à rien de me parler. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q126.</span>Peut-on rester purement sur la défensive ?</div><div class="a"><p>Non, et c'est la nuance la plus fine de la session. <strong>Si vous êtes trop sur la défensive, on vous trouvera « pas assez malléable »</strong> — le terme employé dans les maisons de disques. Or il faut qu'ils aient le sentiment que vous l'êtes pour que les portes s'ouvrent.</p></div></div>
+    <div class="qa"><div class="q"><span>Q127.</span>Quel est l'équilibre à trouver ?</div><div class="a"><p><strong>Paraître malléable tout en restant sur ses gardes, jusqu'à arriver dans une position où la porte est trop ouverte pour qu'ils puissent la refermer — et où ils ne vous ont pas encore verrouillé.</strong> Son meilleur contrat est né exactement de là : « la porte était tellement grande ouverte qu'ils ne pouvaient plus la refermer. Pour des questions d'image et de parts de marché, ils ne pouvaient plus faire machine arrière. <strong>Ils m'ont donné tout ce que je voulais.</strong> » Ils le lui ont fait payer sur d'autres projets ensuite — « mais sur celui-là, c'est passé comme une lettre à la poste, parce que j'avais compris ce jeu et que je l'avais très bien joué. »</p></div></div>
+
+  </div>
+</div>
+
+<div class="plan">
+  <h2>Plan d'action</h2>
+  <p>Cochez au fur et à mesure. Les quatre phases suivent la logique de la session : sécuriser d'abord, financer ensuite, se rendre visible, puis négocier.</p>
+
+  <div class="phase">Phase 1 — Sécuriser ses œuvres (à faire avant tout le reste)</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Réflexe</b>Instaurer la règle : aucun titre ne quitte le studio sans un accord contresigné par toutes les parties, avec sa clé de répartition</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Outil</b>Prendre en main l'outil d'accord gratuit partagé pendant la session, et le tester sur un titre existant</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Musiciens</b>Étendre la règle aux musiciens additionnels, même pour une intervention courte et non rémunérée</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Documentation</b>Conserver les sessions avec leur historique de versions — c'est la preuve la plus solide, et elle ne se reconstitue pas après coup</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>IA</b>Filmer son écran dès qu'un outil génératif intervient, même sur une seule piste de huit mesures</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Dépôts</b>Continuer les dépôts (c'est gratuit et c'est utile pour la collecte) sans croire qu'ils protègent la propriété de l'œuvre</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Régularité</b>Déposer au moins une œuvre par an — une commission ouvre votre compte et regarde les trois à cinq dernières années</span></li>
+  </ul>
+
+  <div class="phase">Phase 2 — Financer le prochain projet</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Statut</b>Vérifier sa déclaration d'artiste-auteur et, le cas échéant, déposer une demande de dispense de précompte</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Anticipation</b>Vérifier qu'une aide reçue cette année ne fait pas franchir le plafond qui déclenche la cotisation retraite</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Dossier</b>Lister les attestations écrites à obtenir : tourneur, éditeur, salle, structure d'accompagnement, gestionnaire de droits</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Historique</b>Vérifier son volume de droits généré l'année précédente avant de calibrer le montant demandé</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Cadre</b>Construire un cadre subventionnable qualitatif : cachets de musiciens, factures de studio, pas un projet entièrement fait à la maison</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Prévente</b>Commander un échantillon de vinyle ou de support physique à une usine de pressage pour servir de visuel de précommande</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Dérivés</b>Passer tous les produits dérivés en prévente ou en print on demand — plus jamais de stock à l'aveugle</span></li>
+  </ul>
+
+  <div class="phase">Phase 3 — Construire la campagne</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Présentation</b>Préparer des visuels lisibles en diagonale, et tourner une vidéo face caméra — c'est elle qui fait le taux de conversion</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Budget</b>Écrire le budget détaillé avec une date de sortie précise, la commission de plateforme incluse</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Skin in the game</b>Formuler explicitement sa propre mise : argent, temps, absence de rémunération</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Paliers</b>Construire les quatre paliers : 20 € digital exclusif, ~35 € physique, 50-70 € pack fan, puis le sur-mesure</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Valeur perçue</b>Produire un documentaire au téléphone (45 min, 300 € de montage) à greffer au palier fan</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Sur mesure</b>Lister nommément les proches susceptibles de prendre une grosse dotation, et créer la contrepartie qui leur parle</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Prévenance</b>Les prévenir avant la mise en ligne, en précisant qu'il n'y aura qu'un seul exemplaire de la dotation</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Objectif</b>Calibrer la jauge sur ce qu'on est sûr de lever, sans gonfler le budget — demander un tiers et assumer le reste</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Diffusion</b>Lancer la campagne une semaine avant un concert et y prévoir un grand QR code sur écran</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Après</b>Prévoir le live de remerciement, l'espace communautaire, et la session d'écoute finale à vendre même après la campagne</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Surprise</b>Préparer le petit plus non promis sur les grosses dotations — carte manuscrite ou autre</span></li>
+  </ul>
+
+  <div class="phase">Phase 4 — Visibilité et négociation</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Genre</b>Tester la stratégie du genre : déclarer la sortie dans l'esthétique la moins alimentée, sans tricher sur le son</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Pays</b>Tester un pitch depuis un pays où la concurrence est plus faible, à condition que ce soit cohérent avec la biographie</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Plateformes</b>Mettre à jour sa fiche artiste avant chaque sortie et soigner le pitch selon le canevas vu en formation</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Presse</b>Écrire d'abord aux rédactions par l'adresse générale, puis passer par les régies publicitaires avec l'offre interview + mise en avant</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Budget presse</b>Compter environ 200 € par opération de régie plutôt que 1 000 € d'attaché de presse</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>IA</b>Commencer le travail de référencement auprès des IA : site avec données structurées, bases ouvertes, articles tiers, avis vérifiés</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Mesure</b>Tester régulièrement sa position en interrogeant les différentes IA sur son domaine</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Publicité</b>Ne jamais renvoyer de trafic publicitaire en direct vers une plateforme de streaming — toujours un filtre intermédiaire</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Publicité</b>Diversifier les sources et privilégier le retargeting plutôt qu'un gros budget sur une seule plateforme</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Distribution</b>Faire le tour de cinq ou six distributeurs du bon réseau et exiger une clause de sortie dans le contrat</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Négociation</b>S'entraîner à la phrase « parlez-moi deal » — et repérer les deux biais quand on les subit</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Arrêter</b>Cesser d'investir dans les plateformes de pitch à deux euros le contact</span></li>
+  </ul>
+</div>
+
+<div class="quiz">
+  <h2>Quiz — 8 questions</h2>
+  <p>Pour vérifier que les mécanismes de la session sont bien assimilés.</p>
+
+  <div class="qz" data-g="1">
+    <p class="qt">1. Qu'est-ce que le Lean Startup appliqué à un album ?</p>
+    <div class="opt">Produire avec un budget minimal, puis vendre au prix fort</div>
+    <div class="opt">Se servir d'une idée pour lever des fonds, et utiliser ces fonds pour donner vie à l'idée</div>
+    <div class="opt">Tester plusieurs singles pour choisir le contenu de l'album</div>
+    <div class="fb">Un échantillon de vinyle commandé à l'usine, une vidéo de vente pour un album qui n'existe pas, une précommande — puis on produit avec les fonds encaissés. L'album n'est qu'un prétexte : ce qui compte, c'est le motif valable donné au donateur.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <p class="qt">2. Quel est le premier levier d'une campagne de financement participatif ?</p>
+    <div class="opt">La mise en avant par la plateforme</div>
+    <div class="opt">Les fonds institutionnels de la filière</div>
+    <div class="opt">Le love money, à condition de lui donner une raison</div>
+    <div class="fb">« Vos proches n'ont pas envie de vous considérer comme un clochard, donc ils ne veulent pas vous donner d'argent. Si demain vous leur donnez une raison de vous en donner, ils vous le donneront. » Vient ensuite la communauté par effet de jauge, puis la plateforme après les 30 premiers pour cent.</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <p class="qt">3. L'aide à l'autoproduction est-elle nette de tout ?</p>
+    <div class="opt">Non : non imposable, mais environ 16 % de charges sont prélevés à la source</div>
+    <div class="opt">Oui, c'est la seule aide totalement nette</div>
+    <div class="opt">Non, elle est imposable comme toutes les autres</div>
+    <div class="fb">C'est la seule aide non imposable, mais elle n'est pas nette de charges : la société civile prélève environ 16 % sur la répartition suivante. Et si le montant fait franchir le plafond, s'ajoute la cotisation retraite — 4 à 8 % de plus.</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <p class="qt">4. Quelles sont les trois règles non écrites des subventions ?</p>
+    <div class="opt">La qualité du projet, l'originalité, et la nouveauté du genre</div>
+    <div class="opt">Donner avant de demander, le volume de droits de l'année précédente, l'entourage professionnel</div>
+    <div class="opt">Être adhérent, être éligible, et déposer dans les délais</div>
+    <div class="fb">« D'abord tu déverses, et ensuite tu peux espérer récupérer. » Les montants sont corrélés aux droits générés à N-1. Et l'entourage professionnel sert d'assurance à la commission : « ça me fera un coupable, ce n'est pas ma tête qui va tomber ».</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <p class="qt">5. Comment obtient-on réellement une grosse playlist streaming ?</p>
+    <div class="opt">Par un pitch bien construit sur un titre de qualité</div>
+    <div class="opt">En buzzant d'abord sur une plateforme vidéo courte</div>
+    <div class="opt">Par un deal où le taux de retenue de la plateforme passe de 5 % à 35 %</div>
+    <div class="fb">« L'obtention de playlists streaming est quelque chose qu'ils n'octroient jamais sans contrepartie. » Le distributeur ne choisit même pas ce qu'il pitche : c'est la plateforme qui désigne, puis propose le deal. « Si tu dis non, il y en a 400 qui attendent derrière. »</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <p class="qt">6. En quoi consiste la stratégie du genre ?</p>
+    <div class="opt">Déclarer sa sortie dans l'esthétique la moins alimentée en nouveautés</div>
+    <div class="opt">Changer de style musical pour suivre les parts de marché</div>
+    <div class="opt">Sortir le même titre sous plusieurs genres différents</div>
+    <div class="fb">Les labels signent urbain parce que l'urbain fait la moitié du marché — donc les genres de niche sont très écoutés et très peu alimentés. Là où un curateur rock devrait avoir 10 000 sorties, il en a 400. On n'est plus jugé à la visibilité mais à la qualité. Avec une limite : on ne peut pas tricher sur le son.</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <p class="qt">7. Un dépôt horodaté protège-t-il la propriété d'une œuvre ?</p>
+    <div class="opt">Oui, c'est précisément sa fonction</div>
+    <div class="opt">Non : le système est déclaratif, c'est à la victime de prouver le vol</div>
+    <div class="opt">Oui, à condition d'y ajouter la blockchain</div>
+    <div class="fb">« Si je fais un son avec quelqu'un, j'ai le droit d'aller le déposer et de dire que je l'ai fait tout seul. » Ce qui protège : la preuve indiscutable (session avec historiques, vidéo) et l'accord contresigné sur le moment — « je vais voir ma signature dessus à 4 h 17 du matin, je ne peux rien faire ».</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <p class="qt">8. Face au sentiment d'être choisi, quelle est la bonne posture ?</p>
+    <div class="opt">Rester totalement sur la défensive jusqu'à la signature</div>
+    <div class="opt">Jouer le jeu sans réserve pour que les portes s'ouvrent</div>
+    <div class="opt">Paraître malléable tout en restant sur ses gardes</div>
+    <div class="fb">Trop sur la défensive, on vous trouve « pas assez malléable » et les portes restent fermées. L'équilibre : arriver dans une position où la porte est trop ouverte pour être refermée, et où ils ne vous ont pas encore verrouillé. Avec la phrase de garde : « parlez-moi deal, et après on parlera famille et champagne. »</div>
+  </div>
+
+  <div class="score" id="score"></div>
+</div>
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="wrap">
+    <p><b>Producteur à Succès</b> — Session de groupe du 10 novembre 2026</p>
+    <p>124 chapitres · 13 sections · 127 questions-réponses · plan d'action en 4 phases</p>
+  </div>
+</footer>
+
+<script>
+var CH = [[25, "Ouverture de la session de groupe"], [76, "Le cadre : replay chapitré et résumé"], [122, "Pourquoi les exports Zoom ne valent rien"], [262, "Présentation : autrice-interprète et son groupe"], [327, "Une demande d'aide en cours de commission"], [377, "Présentation : le booking en micro-entreprise"], [429, "Passer par une boîte de prod pour les contrats"], [485, "Présentation : soixante-dix ans de musique"], [584, "Un parcours d'éditeur de synchronisation"], [621, "La cassette qui a changé une trajectoire"], [673, "Les cinq titres qui ont tout déclenché"], [723, "D'un disque à cent"], [769, "Un premier groupe réédité quarante ans après"], [917, "Vendre un album avant même de l'avoir produit"], [979, "Le vinyle échantillon commandé à l'usine"], [1039, "Le calcul : 1 000 vinyles à 25 €"], [1077, "Love money : l'exemple de la chanteuse suisse"], [1158, "Il faut un motif valable, pas une idée"], [1205, "L'erreur des 250 t-shirts"], [1265, "La prévente et le print on demand"], [1313, "Quand lancer un crowdfunding"], [1349, "Le moment idéal : un ou deux ans de sorties"], [1389, "L'anecdote du bar et du food truck"], [1430, "Prouver qu'on est en capacité de faire"], [1483, "L'effet de jauge sur les premiers donateurs"], [1521, "Les 30 premiers pour cent, puis la plateforme"], [1578, "En refaire à chaque projet"], [1635, "La masterclass crowdfunding offerte"], [1670, "Cent mille euros levés avec cette méthode"], [1716, "Les aides sont-elles imposables"], [1759, "Une aide est une recette comme une autre"], [1813, "Les 16 % ponctionnés à la source"], [1864, "La dispense de précompte expliquée"], [1943, "Piloter ses revenus pour rester sous les seuils"], [2065, "Le lissage des revenus sur cinq ans"], [2121, "Pourquoi les critères ne suffisent jamais"], [2165, "Son passage en commission d'aide"], [2215, "L'anomalie : un artiste international recalé"], [2259, "Ce qu'on lui a répondu en réunion"], [2329, "Règle 1 : donner avant de demander"], [2397, "Règle 2 : le volume de droits générés avant"], [2483, "Démontrer un modèle d'affaires qui tourne"], [2541, "Règle 3 : l'entourage qui partage le risque"], [2673, "Le canard à la patte cassée"], [2731, "Combien d'œuvres déposées : son propre refus"], [2834, "La masterclass avec un ancien de Spotify"], [2898, "Jamais de playlist sans contrepartie"], [2949, "Le rendez-vous d'écoute tous les quinze jours"], [3019, "Le deal : de 5 % à 35 % de retenue"], [3060, "Pourquoi les majors ont un vrai levier"], [3105, "Une commission multipliée par sept ou dix"], [3173, "La faille du système : la stratégie du genre"], [3239, "Pourquoi les curateurs ont besoin de sang neuf"], [3311, "Les genres mal servis par la production"], [3369, "Changer le genre déclaré de sa sortie"], [3407, "Vingt-cinq places et cent vingt priorités"], [3482, "La limite : on ne peut pas tricher"], [3548, "Le levier du ratio hommes-femmes"], [3598, "L'artiste qui pitche depuis Lisbonne"], [3639, "Rien n'est figé : changer de pays"], [3680, "Faut-il acheter une revue de presse"], [3721, "La presse écrite remplacée par le digital"], [3764, "Changement 1 : les commissions y sont sensibles"], [3809, "Changement 2 : Google passe en mode IA"], [3873, "La prédiction : 90 % des recherches via LLM"], [3923, "Les leviers pour influencer une IA"], [3968, "L'exemple du magnat du pétrole"], [4050, "Les avis Google et son historique de prédictions"], [4087, "La fenêtre de tir actuelle"], [4124, "Son propre test de positionnement"], [4179, "Premier essai : écrire aux rédactions"], [4237, "La régie pub : 200 € contre 1 000 €"], [4318, "Un public qui ne correspond plus au projet"], [4367, "Quitter l'agrégateur pour un distributeur"], [4441, "Toujours prévoir une clause de sortie"], [4527, "Saturer l'ancien public pour en créer un neuf"], [4569, "Jamais de pub directe vers les plateformes"], [4632, "L'astuce du passage laissé vide"], [4715, "Promouvoir une playlist plutôt qu'un titre"], [4789, "Toute écoute stimulée est un faux stream"], [4830, "Le vrai risque : une audience non qualifiée"], [4873, "Diversifier les sources plutôt qu'un gros budget"], [4936, "Les fermes à clics et le trafic parasite"], [5021, "Que valent les plateformes à deux euros"], [5113, "Un modèle basé sur l'espoir : aucun contact connu"], [5173, "La plateforme qui exécute mieux l'idée"], [5323, "Ce que lui a coûté un seul bon contact"], [5406, "Ce que montrent les classements"], [5480, "Pourquoi il ne recommande pas cet outil"], [5543, "Le dépôt ne protège pas : il est déclaratif"], [5600, "Ce qui protège : la preuve indiscutable"], [5661, "La session MIDI et ses historiques de version"], [5696, "Filmer son écran pendant la création"], [5741, "Huit mesures d'IA sur vingt pistes"], [5788, "La deuxième protection : l'accord contresigné"], [5838, "Ce qu'on ne peut pas contester"], [5909, "À quoi ressemble un accord de ce type"], [5969, "L'angle mort : les musiciens additionnels"], [6081, "Les arguments abusifs faits aux musiciens"], [6118, "Pourquoi ces discussions arrivent trop tard"], [6230, "Améliorer une campagne de crowdfunding"], [6337, "Les trois éléments d'une bonne campagne"], [6373, "Clarté de la présentation et vidéo face caméra"], [6429, "Maîtrise du budget et skin in the game"], [6491, "Élément 3 : la qualité des dotations"], [6556, "Pourquoi le premier palier doit être à 20 €"], [6603, "Le palier fan : le documentaire à valeur perçue"], [6705, "Dotations sur mesure : le concert privé"], [6814, "Ne pas gonfler artificiellement son objectif"], [6868, "Le QR code lancé avant un concert"], [6907, "Bâtir une communauté après la campagne"], [6951, "La session d'écoute finale à 300 €"], [7038, "Délivrer plus que ce qui était promis"], [7075, "Sa technique de réseautage"], [7111, "Pourquoi la nourriture crée du lien"], [7154, "Un crowdfunding est une relation, pas une levée"], [7243, "Les deux biais qui font signer un mauvais contrat"], [7295, "Biais 1 : il n'y a pas d'amis dans cette industrie"], [7410, "Le jour où vous n'êtes plus bankable"], [7486, "Biais 2 : se sentir choisi, et les disques d'or"], [7559, "Ce que ces biais font signer"], [7648, "Parlez-moi deal, on parlera famille après"], [7692, "Son meilleur contrat et la porte trop ouverte"], [7735, "Clôture de la session"]];
+
+var frame = document.getElementById('vimeoPlayer');
+
+function fmt(s){ var m = Math.floor(s/60), x = s%60; return m + ':' + (x<10?'0':'') + x; }
+
+function seek(sec){
+  if (!frame || !frame.contentWindow) return;
+  try {
+    frame.contentWindow.postMessage(JSON.stringify({method:'setCurrentTime', value: sec}), '*');
+    frame.contentWindow.postMessage(JSON.stringify({method:'play'}), '*');
+  } catch(e){}
+  var top = frame.getBoundingClientRect().top + window.pageYOffset - 20;
+  window.scrollTo({top: top < 0 ? 0 : top, behavior:'smooth'});
+}
+
+(function(){
+  var host = document.getElementById('chlist');
+  if (!host) return;
+  CH.forEach(function(c){
+    var b = document.createElement('button');
+    var t = document.createElement('b'); t.textContent = fmt(c[0]);
+    var s = document.createElement('span'); s.textContent = c[1];
+    b.appendChild(t); b.appendChild(s);
+    b.addEventListener('click', function(){ seek(c[0]); });
+    host.appendChild(b);
+  });
+})();
+
+(function(){
+  document.querySelectorAll('.tc').forEach(function(el){
+    var parts = el.textContent.split(/(\d+:\d{2})/);
+    if (parts.length < 2) return;
+    el.textContent = '';
+    parts.forEach(function(p){
+      if (/^\d+:\d{2}$/.test(p)) {
+        var mm = p.split(':');
+        var sec = parseInt(mm[0],10)*60 + parseInt(mm[1],10);
+        var btn = document.createElement('button');
+        btn.className = 'seek'; btn.textContent = p;
+        btn.addEventListener('click', function(){ seek(sec); });
+        el.appendChild(btn);
+      } else {
+        el.appendChild(document.createTextNode(p));
+      }
+    });
+  });
+})();
+
+window.addEventListener('scroll', function(){
+  var h = document.documentElement;
+  var max = h.scrollHeight - h.clientHeight;
+  var p = max > 0 ? (h.scrollTop / max) * 100 : 0;
+  document.getElementById('progress').style.width = p + '%';
+});
+
+document.querySelectorAll('.chk li').forEach(function(li){
+  li.addEventListener('click', function(){ li.classList.toggle('done'); });
+});
+
+(function(){
+  var total = document.querySelectorAll('.qz').length, answered = 0, good = 0;
+  document.querySelectorAll('.qz').forEach(function(qz){
+    var g = parseInt(qz.getAttribute('data-g'), 10);
+    var opts = qz.querySelectorAll('.opt');
+    var fb = qz.querySelector('.fb');
+    opts.forEach(function(opt, i){
+      opt.addEventListener('click', function(){
+        if (qz.classList.contains('answered')) return;
+        qz.classList.add('answered');
+        answered++;
+        if (i === g) { opt.classList.add('good'); good++; }
+        else { opt.classList.add('bad'); opts[g].classList.add('good'); }
+        fb.classList.add('show');
+        if (answered === total) {
+          var sc = document.getElementById('score');
+          sc.textContent = 'Score : ' + good + ' / ' + total + (good === total ? ' — parfait.' : ' — relisez les chapitres concernés.');
+          sc.classList.add('show');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

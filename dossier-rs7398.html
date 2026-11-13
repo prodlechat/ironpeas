@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mon dossier RS7398 · Muziforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#191970; --navy2:#2b2b8a; --ink:#1d1d27; --muted:#5a5a6e; --line:#d6d6e6; --soft:#f4f4fa; --ok:#1a7f45; --warn:#b7791f; --bad:#b0203a; --gold:#f0b429; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:Inter, system-ui, sans-serif; color:var(--ink); background:#f7f7fb; font-size:14px; line-height:1.45; }
+header.top { background:var(--navy); color:#fff; padding:18px 24px; }
+header.top h1 { margin:0; font-size:20px; }
+header.top p { margin:4px 0 0; opacity:.85; font-size:13px; }
+.wrap { display:grid; grid-template-columns: 270px 1fr; gap:20px; max-width:1280px; margin:0 auto; padding:20px; }
+aside { position:sticky; top:12px; align-self:start; background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px; max-height:calc(100vh - 24px); overflow:auto; }
+aside h2 { font-size:13px; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); margin:0 0 8px; }
+.navitem { display:block; padding:7px 8px; border-radius:8px; color:var(--ink); text-decoration:none; cursor:pointer; margin-bottom:2px; border:0; background:none; width:100%; text-align:left; font:inherit; }
+.navitem:hover, .navitem.on { background:var(--soft); }
+.navitem .st { float:right; font-size:12px; font-weight:700; }
+.checks { margin-top:12px; border-top:1px solid var(--line); padding-top:10px; }
+.chk { font-size:12px; margin:3px 0; display:flex; gap:6px; }
+.chk .i { width:16px; flex:none; font-weight:800; }
+.chk.ok .i { color:var(--ok); } .chk.no .i { color:var(--bad); }
+.chk .c { color:var(--muted); }
+.chk.ok .c { color:var(--ink); }
+.btns { display:flex; flex-direction:column; gap:6px; margin-top:12px; }
+button.b { font:inherit; font-weight:600; border-radius:8px; border:1px solid var(--navy); padding:9px 12px; cursor:pointer; background:#fff; color:var(--navy); }
+button.b.primary { background:var(--navy); color:#fff; }
+button.b.small { padding:5px 9px; font-size:12px; }
+button.b.danger { border-color:var(--bad); color:var(--bad); }
+main { min-width:0; }
+.panel { background:#fff; border:1px solid var(--line); border-radius:12px; padding:20px 22px; margin-bottom:18px; }
+.panel h2 { margin:0 0 4px; color:var(--navy); font-size:19px; }
+.panel .crit { font-size:12.5px; color:var(--muted); border-left:3px solid var(--gold); background:#fff8e6; padding:6px 10px; margin:6px 0 14px; border-radius:0 6px 6px 0; }
+.panel h3 { font-size:14px; color:var(--navy2); margin:18px 0 6px; }
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+label.f { display:block; font-size:12.5px; font-weight:600; margin-bottom:10px; }
+label.f .h { display:block; font-weight:400; color:var(--muted); font-size:11.5px; margin:1px 0 3px; }
+input[type=text], textarea, select { width:100%; font:inherit; font-size:13.5px; padding:7px 9px; border:1px solid #c9c9dc; border-radius:7px; background:#fff; color:var(--ink); }
+textarea { min-height:62px; resize:vertical; }
+input:focus, textarea:focus, select:focus { outline:2px solid #9ea8ff; border-color:var(--navy); }
+.row { border:1px solid var(--line); border-radius:10px; padding:12px; margin-bottom:10px; background:#fcfcff; position:relative; }
+.row .rh { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; font-weight:700; color:var(--navy); font-size:13px; }
+.listhead { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.count { font-size:12px; font-weight:700; padding:2px 8px; border-radius:99px; }
+.count.ok { background:#e5f5ec; color:var(--ok); } .count.no { background:#fdecef; color:var(--bad); }
+.toast { position:fixed; bottom:18px; left:50%; transform:translateX(-50%); background:var(--ink); color:#fff; padding:10px 16px; border-radius:8px; font-size:13px; opacity:0; transition:opacity .3s; pointer-events:none; z-index:50; max-width:90vw; }
+.toast.on { opacity:1; }
+.info { background:#eef0ff; border:1px solid #c9cdf5; border-radius:10px; padding:12px 14px; font-size:13px; margin-bottom:18px; }
+.modal { position:fixed; inset:0; background:rgba(20,20,40,.45); display:none; align-items:center; justify-content:center; z-index:60; }
+.modal.on { display:flex; }
+.modal .box { background:#fff; border-radius:12px; padding:20px; max-width:480px; width:92vw; }
+.modal .box h3 { margin:0 0 8px; color:var(--navy); }
+.modal .acts { display:flex; gap:8px; justify-content:flex-end; margin-top:14px; }
+#previewWrap { display:none; }
+#previewWrap.on { display:block; }
+.prevbar { position:sticky; top:0; z-index:5; background:#fff; border-bottom:1px solid var(--line); padding:10px 16px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.prevbar .sp { flex:1; }
+.missing { background:#fdecef; border:1px solid #f2b8c3; border-radius:10px; padding:10px 14px; margin:12px auto; max-width:1100px; font-size:13px; }
+.missing ul { margin:4px 0 0 18px; padding:0; }
+.docscroll { overflow:auto; padding:16px; }
+@media (max-width:900px){ .wrap{grid-template-columns:1fr;} aside{position:static; max-height:none;} .grid2,.grid3{grid-template-columns:1fr;} }
+
+/* ======= DOSSIER (rendu) ======= */
+.doc { width:1047px; margin:0 auto; font-size:12.2px; line-height:1.42; color:var(--ink); }
+.doc .pg { background:#fff; padding:26px 30px; margin:0 0 16px; border:1px solid var(--line); min-height:700px; page-break-after:always; break-after:page; }
+.doc .pg:last-child { page-break-after:auto; break-after:auto; }
+.doc h1 { font-size:36px; color:var(--navy); line-height:1.1; margin:0 0 8px; }
+.doc h2 { font-size:21px; color:var(--navy); margin:0 0 4px; }
+.doc h2 .num { display:inline-block; background:var(--navy); color:#fff; border-radius:7px; padding:0 10px; margin-right:9px; }
+.doc h3 { font-size:14px; color:var(--navy2); margin:14px 0 5px; }
+.doc .crit { font-size:10.5px; color:var(--muted); border-left:3px solid var(--gold); background:#fff8e6; padding:4px 9px; margin:4px 0 12px; }
+.doc table { width:100%; border-collapse:collapse; margin:4px 0 10px; font-size:11.3px; }
+.doc th { background:#e9e9f7; color:var(--navy); text-align:left; padding:6px 7px; border:1px solid #c9c9e0; font-weight:700; vertical-align:top; }
+.doc td { padding:6px 7px; border:1px solid var(--line); vertical-align:top; white-space:pre-wrap; }
+.doc tr { page-break-inside:avoid; break-inside:avoid; }
+.doc .cols { display:flex; gap:14px; }
+.doc .cols > div { flex:1; }
+.doc .card { border:1px solid var(--line); border-radius:9px; padding:10px 12px; page-break-inside:avoid; break-inside:avoid; }
+.doc .card h4 { margin:0 0 5px; color:var(--navy); font-size:13px; }
+.doc .kv { margin:2px 0; white-space:pre-wrap; }
+.doc .kv b { color:var(--navy2); }
+.doc .choice { background:#e8f6ee; border:1px solid #9bd3b2; border-radius:8px; padding:10px 12px; margin:10px 0; white-space:pre-wrap; page-break-inside:avoid; break-inside:avoid; }
+.doc .blank { color:#9a9ab0; font-style:italic; }
+.doc .line { display:block; border-bottom:1px dotted #9a9ab0; min-height:18px; margin:3px 0; }
+.doc .tag { display:inline-block; background:var(--navy); color:#fff; font-weight:700; padding:4px 10px; border-radius:4px; font-size:11px; margin-bottom:14px; }
+.doc .cover { display:flex; flex-direction:column; justify-content:center; min-height:640px; }
+.doc .org { display:flex; flex-wrap:wrap; gap:8px; }
+.doc .org .card { flex:1 1 30%; min-width:30%; }
+
+body.printmode { background:#fff; }
+body.printmode header.top, body.printmode .wrap, body.printmode .prevbar, body.printmode .missing { display:none !important; }
+body.printmode #previewWrap { display:block; }
+body.printmode .docscroll { padding:0; overflow:visible; }
+body.printmode .doc { width:auto; }
+body.printmode .doc .pg { border:0; margin:0; padding:0; min-height:0; }
+@page { size:A4 landscape; margin:14mm 16mm; }
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Mon dossier de projet professionnel · Certification RS7398</h1>
+  <p>« Structurer et développer une activité artistique musicale » · Trame de préparation Muziforma</p>
+</header>
+
+<div class="wrap" id="formView">
+  <aside>
+    <h2>Parties</h2>
+    <div id="nav"></div>
+    <div class="checks"><h2>Exigences du référentiel</h2><div id="checks"></div></div>
+    <div class="btns">
+      <button class="b primary" id="btnValider">Valider et générer mon dossier</button>
+      <button class="b" id="btnExport">Sauvegarder mes réponses (fichier)</button>
+      <button class="b" id="btnImport">Reprendre une sauvegarde</button>
+      <input type="file" id="fileImport" accept=".json,application/json" style="display:none">
+      <button class="b danger small" id="btnReset">Tout effacer</button>
+    </div>
+    <p style="font-size:11px;color:#5a5a6e;margin:10px 0 0;" id="saveState">Vos réponses restent dans ce navigateur, sur cet appareil.</p>
+  </aside>
+  <main id="form"></main>
+</div>
+
+<div id="previewWrap">
+  <div class="prevbar">
+    <button class="b" id="btnBack">← Revenir au formulaire</button>
+    <span class="sp"></span>
+    <button class="b primary" id="btnPdf">Télécharger le PDF</button>
+    <button class="b" id="btnHtml">Télécharger en HTML</button>
+  </div>
+  <div id="missing"></div>
+  <div class="docscroll"><div class="doc" id="doc"></div></div>
+</div>
+
+<div class="modal" id="modal"><div class="box"><h3 id="mTitle"></h3><div id="mBody"></div><div class="acts" id="mActs"></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================== SCHÉMA ================== */
+const NATURES = ["Durée","Cession de droits","Exclusivité","Rémunération","Autre"];
+const ROLES = ["Facturation","Trésorerie","Droits d'auteur","Droits voisins","Catalogue et contrats","Autre"];
+const DOMAINES = ["Artistique","Technologique","Réglementaire","Artistique et réglementaire","Technologique et réglementaire","Artistique et technologique","Business"];
+const SIGNAUX = ["Signal faible","Opportunité"];
+const OBJ_TYPES = ["Notoriété","Streaming","Engagement","Billetterie","Ventes (CD, vinyles)","Merchandising","Fidélisation","Autre"];
+
+const LISTS = {
+  objPro:   { min:1, label:"Objectif professionnel", fields:[
+    {k:"horizon",l:"Horizon",h:"Ex. : date ou période"},
+    {k:"objectif",l:"Objectif",t:"ta",h:"Ce que vous voulez atteindre, concrètement"},
+    {k:"lien",l:"Lien avec le dossier",h:"Quelle partie du dossier y répond ?"} ]},
+  formes:   { min:2, label:"Forme juridique", fields:[
+    {k:"nom",l:"Forme juridique",h:"EI, micro-entreprise, association, société (SAS, SASU, SARL...)"},
+    {k:"revenus",l:"Revenus artistiques",t:"ta",h:"Quels revenus peut-elle encaisser ? Que ne peut-elle pas facturer ?"},
+    {k:"droits",l:"Gestion des droits d'auteur",t:"ta",h:"Comment s'articule-t-elle avec vos droits d'auteur et droits voisins ?"},
+    {k:"oblig",l:"Obligations sociales et fiscales",t:"ta",h:"Cotisations, impôt, comptabilité, coûts fixes, formalités"} ]},
+  statuts:  { min:2, label:"Statut professionnel", fields:[
+    {k:"nom",l:"Statut",h:"Intermittent du spectacle, artiste-auteur, salarié, mandataire..."},
+    {k:"revenus",l:"Revenus artistiques",t:"ta",h:"Quels revenus relèvent de ce statut ?"},
+    {k:"droits",l:"Gestion des droits d'auteur",t:"ta",h:"Rôle de la SACEM, de l'Adami, de la Spedidam..."},
+    {k:"oblig",l:"Obligations sociales et fiscales",t:"ta",h:"Cotisations, déclarations, protection sociale, imposition"} ]},
+  clauses:  { min:4, label:"Clause sensible", fields:[
+    {k:"nature",l:"Nature",t:"sel",o:NATURES},
+    {k:"texte",l:"Ce que dit la clause",t:"ta",h:"Citez ou résumez l'article (avec son numéro)"},
+    {k:"sensible",l:"Pourquoi elle est sensible",t:"ta",h:"Qu'est-ce qui pose problème pour l'artiste ?"},
+    {k:"engagement",l:"Engagement associé",t:"ta",h:"À quoi vous engagez-vous en signant ?"},
+    {k:"artistiques",l:"Risques sur les droits artistiques",t:"ta"},
+    {k:"financiers",l:"Risques sur les droits financiers",t:"ta"},
+    {k:"moraux",l:"Risques sur les droits moraux",t:"ta"} ]},
+  ajust:    { min:2, label:"Ajustement", fields:[
+    {k:"prop",l:"Proposition d'ajustement",t:"ta",h:"Quelle nouvelle rédaction proposez-vous ?"},
+    {k:"justif",l:"Justification",t:"ta",h:"Quel intérêt artistique, financier ou moral cela protège-t-il ?"} ]},
+  ressJur:  { min:2, label:"Ressource juridique", fields:[
+    {k:"nom",l:"Nom de la ressource"},
+    {k:"type",l:"Type",h:"Guide professionnel, modèle de contrat, avocat spécialisé, plateforme juridique, organisme..."},
+    {k:"fiab",l:"Pourquoi elle est fiable",t:"ta"} ]},
+  outils:   { min:3, label:"Outil", fields:[
+    {k:"role",l:"Rôle",t:"sel",o:ROLES},
+    {k:"nom",l:"Nom de l'outil"},
+    {k:"usage",l:"À quoi il sert",t:"ta"},
+    {k:"integ",l:"Comment je l'intègre dans mon projet",t:"ta",h:"Quand et comment vous l'utilisez, concrètement"} ]},
+  process:  { min:2, label:"Processus", fields:[
+    {k:"nom",l:"Nom du processus",h:"Ex. : gestion des droits d'une sortie, suivi des contrats, archivage..."},
+    {k:"droits",l:"Concerne la gestion des droits ?",t:"sel",o:["Non","Oui"]},
+    {k:"etapes",l:"Étapes",t:"ta",h:"Décrivez les étapes dans l'ordre"},
+    {k:"freq",l:"Fréquence et outils"} ]},
+  presta:   { min:3, label:"Prestataire", fields:[
+    {k:"cat",l:"Catégorie",h:"Gestion des droits, juridique, comptable, distribution, production..."},
+    {k:"nom",l:"Nom ou type de prestataire"},
+    {k:"role",l:"Rôle dans mon activité",t:"ta"},
+    {k:"legit",l:"Légitimité dans le secteur et obligations couvertes",t:"ta"} ]},
+  bench:    { min:2, label:"Artiste du benchmark", fields:[
+    {k:"artiste",l:"Artiste ou projet de référence"},
+    {k:"canaux",l:"Canaux de communication",h:"Instagram, TikTok, YouTube, plateformes..."},
+    {k:"formats",l:"Formats dominants",t:"ta"},
+    {k:"posit",l:"Positionnement (image, ton, angle)",t:"ta"},
+    {k:"retenu",l:"Ce que j'en retiens pour mon projet",t:"ta"} ]},
+  objCom:   { min:1, label:"Objectif de communication", fields:[
+    {k:"type",l:"Type d'objectif",t:"sel",o:OBJ_TYPES},
+    {k:"cible",l:"Cible chiffrée"},
+    {k:"horizon",l:"Horizon",h:"Ex. : 30 jours, 90 jours"} ]},
+  personas: { min:2, label:"Persona", fields:[
+    {k:"nom",l:"Prénom et surnom du persona"},
+    {k:"age",l:"Âge"},
+    {k:"csp",l:"Profil, CSP, métier"},
+    {k:"lieu",l:"Lieu d'habitation"},
+    {k:"loisirs",l:"Loisirs"},
+    {k:"genre",l:"Genres musicaux écoutés"},
+    {k:"plateformes",l:"Plateformes utilisées"},
+    {k:"desc",l:"Habitudes et motivations",t:"ta"} ]},
+  kpis:     { min:3, label:"Indicateur (KPI)", fields:[
+    {k:"kpi",l:"Indicateur"},
+    {k:"plateforme",l:"Plateforme et outil de mesure"},
+    {k:"obj",l:"Objectif lié"},
+    {k:"cible",l:"Valeur cible chiffrée"} ]},
+  planning: { min:4, label:"Période du planning", fields:[
+    {k:"periode",l:"Période",h:"Ex. : semaine 1, du ... au ..."},
+    {k:"plateformes",l:"Plateformes"},
+    {k:"actions",l:"Actions et formats",t:"ta",h:"Publications organiques, campagnes pub, formats"},
+    {k:"obj",l:"Objectif",h:"Engagement, conversion, notoriété..."},
+    {k:"budget",l:"Budget",h:"Mettre 0 € si organique"} ]},
+  result:   { min:2, label:"Optimisation", fields:[
+    {k:"res",l:"Résultat observé",t:"ta",h:"Chiffres issus de l'outil d'analyse"},
+    {k:"optim",l:"Optimisation proposée",t:"ta",h:"Contenu, créneau, horaire, format, ciblage..."},
+    {k:"justif",l:"Justification",t:"ta"} ]},
+  contenus: { min:1, label:"Contenu", fields:[
+    {k:"type",l:"Type de contenu",h:"Reel, vidéo, post, story..."},
+    {k:"access",l:"Accessibilité intégrée",t:"ta",h:"Sous-titrage, audiodescription, police adaptée, pas d'effets lumineux agressifs..."},
+    {k:"sobr",l:"Sobriété numérique",t:"ta",h:"Format compressé (.WebP, .AVIF), durée réduite, pas de lecture automatique..."},
+    {k:"justif",l:"Justification (cible, plateforme, attractivité)",t:"ta"} ]},
+  sources:  { min:4, label:"Source de veille", fields:[
+    {k:"nom",l:"Source"},
+    {k:"secteur",l:"Secteur couvert"},
+    {k:"fiab",l:"Fiabilité (justification)",t:"ta"},
+    {k:"dom",l:"Domaine",t:"sel",o:DOMAINES} ]},
+  outVeille:{ min:1, label:"Outil de veille", fields:[
+    {k:"outil",l:"Outil",h:"Google Alertes, agrégateur RSS, newsletters..."},
+    {k:"param",l:"Paramétrage",t:"ta",h:"Mots-clés, fréquence, sources, langue, région..."},
+    {k:"justif",l:"Justification du paramétrage",t:"ta"} ]},
+  signaux:  { min:2, label:"Signal ou opportunité", fields:[
+    {k:"type",l:"Type",t:"sel",o:SIGNAUX},
+    {k:"element",l:"Élément repéré et source",t:"ta"},
+    {k:"impact",l:"Impact sur mon positionnement",t:"ta"} ]}
+};
+
+const SECTIONS = [
+ { id:"s-id", n:"", title:"Mes informations", crit:"Ces informations apparaissent sur la couverture de votre dossier.",
+   blocks:[ {grid:3, fields:[{k:"id_nom",l:"Nom"},{k:"id_prenom",l:"Prénom"},{k:"id_scene",l:"Nom de scène ou du projet"}]},
+            {grid:2, fields:[{k:"id_role",l:"Je présente le projet en tant que",t:"sel",o:["Artiste","Manager d'artiste"]},{k:"id_projet",l:"Projet présenté",h:"Ex. : sortie d'un EP, d'un album, d'une tournée..."}]} ]},
+ { id:"s0", n:"0", title:"Clarifier son projet artistique et professionnel",
+   crit:"À l'oral : présentez brièvement les fondements de votre projet (genre, influences, objectifs). Chaque choix des parties 1 à 6 doit pouvoir s'y rattacher.",
+   blocks:[ {h:"1 · Identité musicale", grid:2, fields:[{k:"s0_genre",l:"Genre et sous-genre précis"},{k:"s0_infl",l:"Influences majeures",t:"ta"},{k:"s0_mots",l:"Mots-clés descriptifs"},{k:"s0_langues",l:"Langues et autres éléments d'identité"}]},
+            {h:"2 · Univers visuel", grid:3, fields:[{k:"s0_palette",l:"Palette de couleurs"},{k:"s0_typo",l:"Typographies principales"},{k:"s0_style",l:"Style photographique ou graphique",t:"ta"}]},
+            {h:"3 · Stratégie de contenu", grid:3, fields:[{k:"s0_formats",l:"Formats récurrents (sur tous les réseaux)",t:"ta"},{k:"s0_ton",l:"Ton de communication"},{k:"s0_freq",l:"Fréquence de publication"}]},
+            {h:"Objectifs professionnels", list:"objPro"},
+            {fields:[{k:"s0_situation",l:"Situation actuelle",t:"ta",h:"Où en êtes-vous aujourd'hui : sorties, audience, concerts, équipe..."}]} ]},
+ { id:"s1", n:"1", title:"Analyse comparative de la structure juridique et du statut professionnel", comp:"C1",
+   crit:"Cr1.1 : au moins 2 formes juridiques et 2 statuts spécifiques aux artistes, analysés selon 3 critères (revenus artistiques, gestion des droits d'auteur, obligations sociales et fiscales). Cr1.2 : choix final justifié au regard de la sécurisation juridique et fiscale, en lien avec votre projet.",
+   blocks:[ {h:"Formes juridiques", list:"formes"}, {h:"Statuts professionnels spécifiques aux artistes", list:"statuts"},
+            {h:"Choix final et justification", grid:2, fields:[{k:"s1_structure",l:"Structure juridique choisie"},{k:"s1_statut",l:"Statut professionnel choisi"}]},
+            {fields:[{k:"s1_jur",l:"En quoi ce choix sécurise juridiquement mon activité",t:"ta"},{k:"s1_fisc",l:"En quoi ce choix sécurise fiscalement et socialement mon activité",t:"ta"},{k:"s1_coh",l:"Cohérence avec mon projet artistique (et conditions d'évolution)",t:"ta"}]} ]},
+ { id:"s2", n:"2", title:"Analyse d'un contrat musical et protection des intérêts de l'artiste", comp:"C2",
+   crit:"Cr2.1 : au moins 1 contrat-type et au moins 4 clauses sensibles, dont au moins 1 sur la cession de droits et 1 sur la rémunération. Cr2.2 : engagements et risques sur les droits artistiques, financiers et moraux. Cr2.3 : au moins 2 ajustements argumentés. Cr2.4 : au moins 2 ressources juridiques dont la fiabilité est justifiée.",
+   blocks:[ {h:"Contrat analysé", grid:2, fields:[{k:"s2_type",l:"Type de contrat analysé",h:"Distribution, licence, artiste, édition, management..."},{k:"s2_projet",l:"Projet artistique concerné"},{k:"s2_obj",l:"Objectif du contrat",t:"ta"},{k:"s2_ref",l:"Référence du contrat joint en annexe",t:"ta",h:"Origine, nombre de pages, date. Joignez le contrat en annexe."}]},
+            {h:"Clauses sensibles", list:"clauses"}, {h:"Ajustements proposés", list:"ajust"}, {h:"Ressources juridiques mobilisées", list:"ressJur"} ]},
+ { id:"s3", n:"3", title:"Pilotage de la gestion administrative et financière du projet musical", comp:"C3",
+   crit:"Cr3.1 : outils justifiés couvrant la facturation, la gestion de trésorerie et la gestion des droits d'auteur et droits voisins. Cr3.2 : au moins 2 processus opérationnels, dont au moins 1 relatif à la gestion des droits. Cr3.3 : organigramme des prestataires, leur rôle et la justification de leur légitimité.",
+   blocks:[ {h:"Outils", list:"outils"}, {h:"Processus opérationnels", list:"process"}, {h:"Organigramme des prestataires", list:"presta"} ]},
+ { id:"s4", n:"4", title:"Stratégie de communication digitale", comp:"C4",
+   crit:"Cr4.1 : benchmark comparatif d'artistes analogues (formats, canaux, positionnements). Cr4.2 : objectifs et au moins 2 personas. Cr4.3 : calendrier éditorial et publicitaire sur au moins 2 plateformes et au moins 1 mois, avec un budget justifié. Cr4.4 : au moins 3 indicateurs chiffrés liés aux objectifs.",
+   blocks:[ {h:"Benchmark", list:"bench"}, {fields:[{k:"s4_concl",l:"Conclusion du benchmark : mon angle différenciant",t:"ta"}]},
+            {h:"Objectifs stratégiques", list:"objCom"}, {h:"Personas", list:"personas"}, {h:"Indicateurs clés de performance", list:"kpis"},
+            {h:"Planning éditorial et publicitaire sur 30 jours", fields:[{k:"s4_periode",l:"Période couverte",h:"Ex. : du 1er au 30 mars"}]}, {list:"planning"},
+            {fields:[{k:"s4_budget",l:"Budget total et justification",t:"ta",h:"Montant total, répartition et raisons de ce choix"}]} ]},
+ { id:"s5", n:"5", title:"Campagne digitale inclusive et éco-responsable", comp:"C5",
+   crit:"Cr5.1 : au moins 1 adaptation d'accessibilité et au moins 1 principe de sobriété numérique. Cr5.2 : adaptation justifiée à la cible et à la plateforme, et attractivité. Cr5.3 : fonctionnalités de la régie publicitaire exploitées sur au moins 1 plateforme, type et format de campagne justifiés. Cr5.4 : résultats interprétés avec au moins 1 outil d'analyse et au moins 2 optimisations justifiées.",
+   blocks:[ {h:"Exploitation de la campagne", grid:2, fields:[{k:"s5_regie",l:"Régie publicitaire utilisée",h:"Meta Ads, TikTok for Business, Google Ads..."},{k:"s5_type",l:"Type et format de campagne",h:"Objectif (trafic, notoriété...), format, budget, durée"},{k:"s5_fonct",l:"Fonctionnalités exploitées",t:"ta",h:"Ciblage, zone géographique, placements, test A/B, reciblage..."},{k:"s5_kpi",l:"Indicateurs mesurés et outils d'analyse",t:"ta",h:"YouTube Studio, statistiques Instagram, Spotify for Artists..."}]},
+            {fields:[{k:"s5_pourquoi",l:"Pourquoi ce type de campagne",t:"ta"},{k:"s5_fictif",l:"Nature de la campagne",t:"sel",o:["Campagne réelle","Campagne passée","Cas fictif (aucune campagne lancée)"]}]},
+            {h:"Résultats et optimisations", list:"result"}, {h:"Contenu inclusif et éco-responsable", list:"contenus"} ]},
+ { id:"s6", n:"6", title:"Dispositif de veille du secteur musical", comp:"C6",
+   crit:"Cr6.1 : au moins 4 sources spécialisées distinctes, de fiabilité justifiée, couvrant les aspects artistiques, technologiques et réglementaires. Cr6.2 : paramétrage justifié d'au moins un outil de veille automatisée. Cr6.3 : au moins 2 signaux faibles ou 1 opportunité, avec leur impact sur votre positionnement.",
+   blocks:[ {h:"Sources de veille", list:"sources"}, {h:"Outils de veille automatisée", list:"outVeille"}, {h:"Signaux faibles et opportunités", list:"signaux"} ]},
+ { id:"s7", n:"", title:"Annexes", crit:"Listez les pièces jointes à votre dossier : contrat analysé, captures du benchmark, contenu produit, captures des statistiques, etc.",
+   blocks:[ {fields:[{k:"annexes",l:"Liste des annexes",t:"ta",h:"Une ligne par annexe : Annexe A : ..., Annexe B : ..."}]} ]}
+];
+
+/* ================== ÉTAT ================== */
+const KEY = "muziforma_rs7398_dossier_v1";
+let S = { f:{}, l:{} };
+function blankRow(name){ const o={}; LISTS[name].fields.forEach(f=>o[f.k]=""); return o; }
+function ensureLists(){ for (const n in LISTS){ if(!Array.isArray(S.l[n])) S.l[n]=[]; while(S.l[n].length<LISTS[n].min) S.l[n].push(blankRow(n)); } }
+function load(){ try{ const r=localStorage.getItem(KEY); if(r){ const p=JSON.parse(r); if(p&&p.f&&p.l) S=p; } }catch(e){} ensureLists(); }
+let saveT=null;
+function save(){ clearTimeout(saveT); saveT=setTimeout(()=>{ try{ localStorage.setItem(KEY, JSON.stringify(S)); setSaveState("Enregistré automatiquement dans ce navigateur."); }catch(e){ setSaveState("Enregistrement automatique indisponible ici : pensez à « Sauvegarder mes réponses »."); } },400); }
+function setSaveState(t){ document.getElementById("saveState").textContent=t; }
+
+/* ================== FORMULAIRE ================== */
+const esc = s => String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function fieldHTML(f, val, attrs){
+  const h = f.h ? `<span class="h">${esc(f.h)}</span>` : "";
+  let inp;
+  if (f.t==="ta") inp = `<textarea ${attrs}>${esc(val)}</textarea>`;
+  else if (f.t==="sel") inp = `<select ${attrs}><option value="">Choisir...</option>${f.o.map(o=>`<option ${o===val?"selected":""}>${esc(o)}</option>`).join("")}</select>`;
+  else inp = `<input type="text" value="${esc(val)}" ${attrs}>`;
+  return `<label class="f">${esc(f.l)}${h}${inp}</label>`;
+}
+function listHTML(name){
+  const L=LISTS[name], rows=S.l[name];
+  let h=`<div class="listhead"><span class="count" data-count="${name}"></span><button class="b small" data-add="${name}">+ Ajouter : ${esc(L.label.toLowerCase())}</button></div><div style="margin-top:8px">`;
+  rows.forEach((r,i)=>{
+    const g = L.fields.length>=4 ? "grid2" : (L.fields.length===3?"grid3":"grid2");
+    h+=`<div class="row"><div class="rh"><span>${esc(L.label)} n°${i+1}</span>${rows.length>1?`<button class="b small danger" data-del="${name}" data-i="${i}">Retirer</button>`:""}</div><div class="${g}">`;
+    L.fields.forEach(f=>{ h+=fieldHTML(f, r[f.k], `data-l="${name}" data-i="${i}" data-k="${f.k}"`); });
+    h+=`</div></div>`;
+  });
+  return h+`</div>`;
+}
+function renderForm(){
+  const m=document.getElementById("form"); let h=`<div class="info"><b>Comment ça marche.</b> Complétez chaque partie avec <b>votre propre projet</b> et <b>vos propres choix</b> : vous devrez les défendre à l'oral devant le jury. La colonne de gauche vous indique si vous atteignez les minimums du référentiel. Vos réponses sont enregistrées automatiquement dans ce navigateur. Pour changer d'appareil, utilisez « Sauvegarder mes réponses ». Quand tout est prêt, cliquez sur « Valider et générer mon dossier ».</div>`;
+  SECTIONS.forEach(s=>{
+    h+=`<section class="panel" id="${s.id}"><h2>${s.n!==""?s.n+" · ":""}${esc(s.title)}</h2><div class="crit">${esc(s.crit)}</div>`;
+    s.blocks.forEach(b=>{
+      if(b.h) h+=`<h3>${esc(b.h)}</h3>`;
+      if(b.fields){ h+=`<div class="${b.grid===3?"grid3":b.grid===2?"grid2":""}">`; b.fields.forEach(f=>h+=fieldHTML(f, S.f[f.k], `data-f="${f.k}"`)); h+=`</div>`; }
+      if(b.list) h+=`<div data-list="${b.list}">${listHTML(b.list)}</div>`;
+    });
+    h+=`</section>`;
+  });
+  m.innerHTML=h; refresh();
+}
+function rerenderList(name){ document.querySelectorAll(`[data-list="${name}"]`).forEach(el=>el.innerHTML=listHTML(name)); refresh(); }
+document.addEventListener("input", e=>{
+  const t=e.target;
+  if(t.dataset.f){ S.f[t.dataset.f]=t.value; save(); refresh(); }
+  else if(t.dataset.l){ S.l[t.dataset.l][+t.dataset.i][t.dataset.k]=t.value; save(); refresh(); }
+});
+document.addEventListener("change", e=>{ const t=e.target; if(t.tagName==="SELECT"){ t.dispatchEvent(new Event("input",{bubbles:true})); } });
+document.addEventListener("click", e=>{
+  const t=e.target.closest("button"); if(!t) return;
+  if(t.dataset.add){ S.l[t.dataset.add].push(blankRow(t.dataset.add)); save(); rerenderList(t.dataset.add); }
+  if(t.dataset.del){ const n=t.dataset.del; S.l[n].splice(+t.dataset.i,1); ensureLists(); save(); rerenderList(n); }
+  if(t.dataset.go){ document.getElementById(t.dataset.go).scrollIntoView({behavior:"smooth"}); }
+});
+
+/* ================== CONTRÔLES ================== */
+const filled = v => String(v||"").trim().length>0;
+const rowFilled = (name,r) => LISTS[name].fields.filter(f=>f.t!=="sel").slice(0,2).every(f=>filled(r[f.k])) || LISTS[name].fields.every(f=>f.t==="sel"?true:filled(r[f.k]));
+function nFilled(name){ return S.l[name].filter(r=>rowFilled(name,r)).length; }
+function has(name,k,v){ return S.l[name].some(r=>rowFilled(name,r)&&r[k]===v); }
+function domainsCovered(){ const d=new Set(); S.l.sources.forEach(r=>{ if(rowFilled("sources",r)){ const x=r.dom||""; if(x.includes("Artistique"))d.add("A"); if(x.includes("Technologique"))d.add("T"); if(x.includes("Réglementaire"))d.add("R"); } }); return d.size; }
+function platformsCount(){ const set=new Set(); S.l.planning.forEach(r=>String(r.plateformes||"").split(/[,;\/+]| et /).map(x=>x.trim().toLowerCase()).filter(Boolean).forEach(x=>set.add(x))); return set.size; }
+function checks(){
+  const f=S.f;
+  return [
+   {c:"C0", s:"s0", t:"Projet artistique décrit (genre, influences, objectifs)", ok: filled(f.s0_genre)&&filled(f.s0_infl)&&nFilled("objPro")>=1},
+   {c:"C1", s:"s1", t:`Formes juridiques : ${nFilled("formes")} sur 2 minimum`, ok:nFilled("formes")>=2},
+   {c:"C1", s:"s1", t:`Statuts d'artiste : ${nFilled("statuts")} sur 2 minimum`, ok:nFilled("statuts")>=2},
+   {c:"C1", s:"s1", t:"Choix final justifié", ok: filled(f.s1_structure)&&filled(f.s1_statut)&&(filled(f.s1_jur)||filled(f.s1_fisc))},
+   {c:"C2", s:"s2", t:`Clauses sensibles : ${nFilled("clauses")} sur 4 minimum`, ok:nFilled("clauses")>=4},
+   {c:"C2", s:"s2", t:"Dont 1 clause de cession de droits et 1 de rémunération", ok:has("clauses","nature","Cession de droits")&&has("clauses","nature","Rémunération")},
+   {c:"C2", s:"s2", t:"Risques artistiques, financiers et moraux renseignés", ok:S.l.clauses.filter(r=>rowFilled("clauses",r)).every(r=>filled(r.artistiques)||filled(r.financiers)||filled(r.moraux)) && nFilled("clauses")>0},
+   {c:"C2", s:"s2", t:`Ajustements : ${nFilled("ajust")} sur 2 minimum`, ok:nFilled("ajust")>=2},
+   {c:"C2", s:"s2", t:`Ressources juridiques : ${nFilled("ressJur")} sur 2 minimum`, ok:nFilled("ressJur")>=2},
+   {c:"C3", s:"s3", t:"Outils : facturation, trésorerie et droits couverts", ok:has("outils","role","Facturation")&&has("outils","role","Trésorerie")&&(has("outils","role","Droits d'auteur")||has("outils","role","Droits voisins"))},
+   {c:"C3", s:"s3", t:`Processus : ${nFilled("process")} sur 2 minimum, dont 1 sur les droits`, ok:nFilled("process")>=2&&has("process","droits","Oui")},
+   {c:"C3", s:"s3", t:`Prestataires : ${nFilled("presta")} renseignés (3 conseillés)`, ok:nFilled("presta")>=3},
+   {c:"C4", s:"s4", t:`Benchmark : ${nFilled("bench")} artistes (2 minimum conseillés)`, ok:nFilled("bench")>=2},
+   {c:"C4", s:"s4", t:`Objectifs : ${nFilled("objCom")} · Personas : ${nFilled("personas")} sur 2`, ok:nFilled("objCom")>=1&&nFilled("personas")>=2},
+   {c:"C4", s:"s4", t:`Planning : ${nFilled("planning")} périodes sur ${platformsCount()} plateforme(s)`, ok:nFilled("planning")>=4&&platformsCount()>=2},
+   {c:"C4", s:"s4", t:"Budget déterminé et justifié", ok:filled(f.s4_budget)},
+   {c:"C4", s:"s4", t:`Indicateurs : ${nFilled("kpis")} sur 3 minimum`, ok:nFilled("kpis")>=3},
+   {c:"C5", s:"s5", t:"Accessibilité et sobriété numérique intégrées", ok:S.l.contenus.some(r=>filled(r.access)&&filled(r.sobr))},
+   {c:"C5", s:"s5", t:"Régie, fonctionnalités et type de campagne", ok:filled(f.s5_regie)&&filled(f.s5_fonct)&&filled(f.s5_type)},
+   {c:"C5", s:"s5", t:`Optimisations : ${nFilled("result")} sur 2 minimum`, ok:nFilled("result")>=2&&filled(f.s5_kpi)},
+   {c:"C6", s:"s6", t:`Sources : ${nFilled("sources")} sur 4 · domaines couverts : ${domainsCovered()} sur 3`, ok:nFilled("sources")>=4&&domainsCovered()>=3},
+   {c:"C6", s:"s6", t:"Outil de veille automatisée paramétré", ok:S.l.outVeille.some(r=>filled(r.outil)&&filled(r.param))},
+   {c:"C6", s:"s6", t:"2 signaux faibles ou 1 opportunité", ok:S.l.signaux.filter(r=>rowFilled("signaux",r)&&r.type==="Signal faible").length>=2 || has("signaux","type","Opportunité")}
+  ];
+}
+function refresh(){
+  const cs=checks();
+  document.getElementById("checks").innerHTML=cs.map(c=>`<div class="chk ${c.ok?"ok":"no"}"><span class="i">${c.ok?"✓":"○"}</span><span class="c"><b>${c.c}</b> ${esc(c.t)}</span></div>`).join("");
+  document.getElementById("nav").innerHTML=SECTIONS.map(s=>{ const mine=cs.filter(c=>c.s===s.id); const ok=mine.filter(c=>c.ok).length; const st=mine.length?`<span class="st" style="color:${ok===mine.length?"var(--ok)":"var(--muted)"}">${ok}/${mine.length}</span>`:""; return `<button class="navitem" data-go="${s.id}">${s.n!==""?s.n+" · ":""}${esc(s.title.length>34?s.title.slice(0,32)+"…":s.title)}${st}</button>`; }).join("");
+  document.querySelectorAll("[data-count]").forEach(el=>{ const n=el.dataset.count, k=nFilled(n), m=LISTS[n].min; el.className="count "+(k>=m?"ok":"no"); el.textContent=`${k} complété(s) · minimum ${m}`; });
+}
+
+/* ================== RENDU DU DOSSIER ================== */
+let BLANK=false;
+function v(x, lines){ if(filled(x)) return esc(x); if(!BLANK) return `<span class="blank">Non renseigné</span>`; let s=""; for(let i=0;i<(lines||1);i++) s+=`<span class="line"></span>`; return s; }
+function rowsOf(name){ const r=S.l[name].filter(x=>BLANK||rowFilled(name,x)); return r.length?r:(BLANK?S.l[name]:[]); }
+function tableOf(name, cols, opts){
+  opts=opts||{}; const rows=rowsOf(name); const L=LISTS[name];
+  const fs=cols.map(k=>L.fields.find(f=>f.k===k));
+  let h=`<table><tr>${opts.num?'<th style="width:4%">N°</th>':""}${fs.map((f,i)=>`<th${opts.w&&opts.w[i]?` style="width:${opts.w[i]}"`:""}>${esc(f.l)}</th>`).join("")}</tr>`;
+  if(!rows.length) h+=`<tr><td colspan="${fs.length+(opts.num?1:0)}"><span class="blank">Non renseigné</span></td></tr>`;
+  rows.forEach((r,i)=>{ h+=`<tr>${opts.num?`<td>${i+1}</td>`:""}${fs.map(f=>`<td>${v(r[f.k], f.t==="ta"?3:1)}</td>`).join("")}</tr>`; });
+  return h+`</table>`;
+}
+function crit(t){ return `<p class="crit">${esc(t)}</p>`; }
+function renderDoc(){
+  const f=S.f, sec=id=>SECTIONS.find(s=>s.id===id);
+  let h="";
+  const who = [f.id_nom?String(f.id_nom).toUpperCase():"", f.id_prenom].filter(filled).join(" ");
+  h+=`<div class="pg"><div class="cover"><div><span class="tag">Dossier de projet professionnel</span></div>
+    <h1>Livrable<br>Structurer et développer<br>une activité artistique musicale</h1>
+    <p style="font-size:16px;margin:4px 0 22px;">Certification RS7398 · My Music Ads</p>
+    <p style="font-size:17px;margin:0;"><b>${filled(who)?esc(who):(BLANK?"NOM Prénom : ..........................................":"NOM Prénom")}</b>${filled(f.id_scene)?` (${esc(f.id_scene)})`:""}</p>
+    <p style="margin:6px 0 0;">${filled(f.id_role)?esc(f.id_role)+" · ":""}${filled(f.id_projet)?"Projet : "+esc(f.id_projet):(BLANK?"Projet présenté : ..........................................":"")}</p></div></div>`;
+  // 0
+  h+=`<div class="pg"><h2><span class="num">0</span>${esc(sec("s0").title)}</h2>${crit(sec("s0").crit)}
+   <div class="cols"><div class="card"><h4>1 · Identité musicale</h4><div class="kv"><b>Genre :</b> ${v(f.s0_genre)}</div><div class="kv"><b>Influences :</b> ${v(f.s0_infl,2)}</div><div class="kv"><b>Mots-clés :</b> ${v(f.s0_mots)}</div><div class="kv"><b>Identité :</b> ${v(f.s0_langues)}</div></div>
+   <div class="card"><h4>2 · Univers visuel</h4><div class="kv"><b>Palette :</b> ${v(f.s0_palette)}</div><div class="kv"><b>Typographies :</b> ${v(f.s0_typo)}</div><div class="kv"><b>Style :</b> ${v(f.s0_style,2)}</div></div>
+   <div class="card"><h4>3 · Stratégie de contenu</h4><div class="kv"><b>Formats récurrents :</b> ${v(f.s0_formats,2)}</div><div class="kv"><b>Ton :</b> ${v(f.s0_ton)}</div><div class="kv"><b>Fréquence :</b> ${v(f.s0_freq)}</div></div></div>
+   <h3>Objectifs professionnels</h3>${tableOf("objPro",["horizon","objectif","lien"],{w:["18%","","32%"]})}
+   <h3>Situation actuelle</h3><div class="kv">${v(f.s0_situation,3)}</div></div>`;
+  // 1
+  h+=`<div class="pg"><h2><span class="num">1</span>${esc(sec("s1").title)}</h2>${crit(sec("s1").crit)}
+   <h3>Formes juridiques</h3>${tableOf("formes",["nom","revenus","droits","oblig"],{w:["15%"]})}
+   <h3>Statuts professionnels spécifiques aux artistes</h3>${tableOf("statuts",["nom","revenus","droits","oblig"],{w:["15%"]})}
+   <div class="choice"><b>Choix final et justification</b>
+<b>Structure juridique choisie :</b> ${v(f.s1_structure)}
+<b>Statut professionnel choisi :</b> ${v(f.s1_statut)}
+<b>Sécurisation juridique :</b> ${v(f.s1_jur,2)}
+<b>Sécurisation fiscale et sociale :</b> ${v(f.s1_fisc,2)}
+<b>Cohérence avec mon projet :</b> ${v(f.s1_coh,2)}</div></div>`;
+  // 2
+  h+=`<div class="pg"><h2><span class="num">2</span>${esc(sec("s2").title)}</h2>${crit(sec("s2").crit)}
+   <table><tr><th style="width:24%">Type de contrat analysé</th><td>${v(f.s2_type)}</td></tr><tr><th>Projet artistique concerné</th><td>${v(f.s2_projet)}</td></tr><tr><th>Objectif du contrat</th><td>${v(f.s2_obj,2)}</td></tr><tr><th>Contrat (annexe)</th><td>${v(f.s2_ref)}</td></tr></table>
+   <h3>Identification et analyse des clauses sensibles</h3>`;
+  { const rows=rowsOf("clauses"); h+=`<table><tr><th style="width:4%">N°</th><th style="width:11%">Nature</th><th style="width:20%">Ce que dit la clause</th><th style="width:19%">Pourquoi elle est sensible</th><th>Engagements et risques</th></tr>`;
+    rows.forEach((r,i)=>{ h+=`<tr><td>${i+1}</td><td>${v(r.nature)}</td><td>${v(r.texte,3)}</td><td>${v(r.sensible,3)}</td><td><b>Engagement :</b> ${v(r.engagement)}<br><b>Artistiques :</b> ${v(r.artistiques)}<br><b>Financiers :</b> ${v(r.financiers)}<br><b>Moraux :</b> ${v(r.moraux)}</td></tr>`; });
+    h+=`</table>`; }
+  h+=`<h3>Ajustements proposés</h3>${tableOf("ajust",["prop","justif"],{num:true,w:["46%"]})}
+   <h3>Ressources juridiques mobilisées</h3>${tableOf("ressJur",["nom","type","fiab"],{num:true,w:["26%","22%"]})}</div>`;
+  // 3
+  h+=`<div class="pg"><h2><span class="num">3</span>${esc(sec("s3").title)}</h2>${crit(sec("s3").crit)}
+   <h3>Outils</h3>${tableOf("outils",["role","nom","usage","integ"],{w:["14%","16%","30%"]})}
+   <h3>Processus opérationnels</h3>`;
+  { const rows=rowsOf("process"); h+=`<table><tr><th style="width:22%">Processus</th><th>Étapes</th><th style="width:20%">Fréquence et outils</th></tr>`;
+    rows.forEach((r,i)=>{ h+=`<tr><td><b>${i+1} · </b>${v(r.nom)}${r.droits==="Oui"?"<br><i>(processus relatif aux droits)</i>":""}</td><td>${v(r.etapes,3)}</td><td>${v(r.freq)}</td></tr>`; }); h+=`</table>`; }
+  h+=`<h3>Organigramme des prestataires</h3><div class="org">`;
+  rowsOf("presta").forEach(r=>{ h+=`<div class="card"><h4>${filled(r.cat)?esc(r.cat):(BLANK?"Catégorie : ....................":"Prestataire")}</h4><div class="kv"><b>Prestataire :</b> ${v(r.nom)}</div><div class="kv"><b>Rôle :</b> ${v(r.role,2)}</div><div class="kv"><b>Légitimité :</b> ${v(r.legit,2)}</div></div>`; });
+  h+=`</div></div>`;
+  // 4
+  h+=`<div class="pg"><h2><span class="num">4</span>Stratégie digitale : benchmark</h2>${crit(sec("s4").crit)}
+   ${tableOf("bench",["artiste","canaux","formats","posit","retenu"],{w:["15%","17%","22%","22%"]})}
+   <div class="choice"><b>Conclusion du benchmark :</b> ${v(f.s4_concl,2)}</div>
+   <h2 style="margin-top:16px"><span class="num">4</span>Objectifs, personas et indicateurs</h2>
+   ${tableOf("objCom",["type","cible","horizon"],{w:["22%","","18%"]})}
+   <div class="cols">`;
+  rowsOf("personas").forEach((r,i)=>{ h+=`<div class="card"><h4>Persona ${i+1}${filled(r.nom)?" · "+esc(r.nom):""}</h4><div class="kv"><b>Âge :</b> ${v(r.age)}</div><div class="kv"><b>Profil, CSP, métier :</b> ${v(r.csp)}</div><div class="kv"><b>Lieu :</b> ${v(r.lieu)}</div><div class="kv"><b>Loisirs :</b> ${v(r.loisirs)}</div><div class="kv"><b>Genres musicaux :</b> ${v(r.genre)}</div><div class="kv"><b>Plateformes :</b> ${v(r.plateformes)}</div><div class="kv"><b>Habitudes :</b> ${v(r.desc,2)}</div></div>`; });
+  h+=`</div><h3>Indicateurs clés de performance</h3>${tableOf("kpis",["kpi","plateforme","obj","cible"])}</div>`;
+  h+=`<div class="pg"><h2><span class="num">4</span>Planning éditorial et publicitaire sur 30 jours</h2>${crit("Cr4.3 : calendrier organisé par plateformes (au moins 2), formats et objectifs, sur au moins 1 mois, avec un budget déterminé et justifié.")}
+   <p><b>Période :</b> ${v(f.s4_periode)}</p>
+   ${tableOf("planning",["periode","plateformes","actions","obj","budget"],{w:["13%","15%","","15%","11%"]})}
+   <div class="choice"><b>Budget et justification :</b> ${v(f.s4_budget,3)}</div></div>`;
+  // 5
+  h+=`<div class="pg"><h2><span class="num">5</span>Exploitation et analyse de la campagne</h2>${crit(sec("s5").crit)}
+   <table><tr><th style="width:16%">Régie publicitaire</th><th>Fonctionnalités exploitées</th><th style="width:22%">Type et format de campagne</th><th style="width:24%">Indicateurs mesurés et outils</th></tr><tr><td>${v(f.s5_regie)}</td><td>${v(f.s5_fonct,3)}</td><td>${v(f.s5_type,2)}</td><td>${v(f.s5_kpi,2)}</td></tr></table>
+   <p><b>Pourquoi ce type de campagne :</b> ${v(f.s5_pourquoi,2)}</p>
+   ${filled(f.s5_fictif)?`<p><b>Nature de la campagne :</b> ${esc(f.s5_fictif)}</p>`:""}
+   <h3>Résultats et optimisations</h3>${tableOf("result",["res","optim","justif"],{w:["32%","32%"]})}
+   <h2 style="margin-top:16px"><span class="num">5</span>Contenu inclusif et éco-responsable</h2>
+   ${tableOf("contenus",["type","access","sobr","justif"],{w:["16%","28%","25%"]})}</div>`;
+  // 6
+  h+=`<div class="pg"><h2><span class="num">6</span>${esc(sec("s6").title)}</h2>${crit(sec("s6").crit)}
+   ${tableOf("sources",["nom","secteur","fiab","dom"],{w:["18%","22%","","18%"]})}
+   <h3>Outils de veille automatisée et paramétrage</h3>${tableOf("outVeille",["outil","param","justif"],{w:["16%","","30%"]})}
+   <h3>Signaux faibles, opportunités et impact sur ma stratégie</h3>${tableOf("signaux",["type","element","impact"],{w:["14%","40%"]})}</div>`;
+  // annexes
+  if(filled(f.annexes)||BLANK) h+=`<div class="pg"><h2>Annexes</h2><div class="kv">${v(f.annexes,8)}</div></div>`;
+  document.getElementById("doc").innerHTML=h;
+}
+
+/* ================== ACTIONS ================== */
+function toast(t){ const el=document.getElementById("toast"); el.textContent=t; el.classList.add("on"); setTimeout(()=>el.classList.remove("on"),3200); }
+function modal(title, body, acts){ document.getElementById("mTitle").textContent=title; document.getElementById("mBody").innerHTML=body; const a=document.getElementById("mActs"); a.innerHTML=""; acts.forEach(x=>{ const b=document.createElement("button"); b.className="b"+(x.primary?" primary":"")+(x.danger?" danger":""); b.textContent=x.l; b.onclick=()=>{ document.getElementById("modal").classList.remove("on"); x.fn&&x.fn(); }; a.appendChild(b); }); document.getElementById("modal").classList.add("on"); }
+function showPreview(){
+  BLANK=false; renderDoc();
+  const miss=checks().filter(c=>!c.ok);
+  document.getElementById("missing").innerHTML = miss.length ? `<div class="missing"><b>${miss.length} exigence(s) du référentiel ne sont pas encore atteintes.</b> Vous pouvez générer le dossier, mais complétez-les avant le dépôt :<ul>${miss.map(c=>`<li><b>${c.c}</b> · ${esc(c.t)}</li>`).join("")}</ul></div>` : `<div class="missing" style="background:#e8f6ee;border-color:#9bd3b2"><b>Toutes les exigences minimales sont atteintes.</b> Relisez votre dossier : chaque choix doit être justifié et vous devez pouvoir le défendre à l'oral.</div>`;
+  document.getElementById("formView").style.display="none"; document.querySelector("header.top").style.display="none";
+  document.getElementById("previewWrap").classList.add("on"); window.scrollTo(0,0);
+}
+document.getElementById("btnValider").onclick=showPreview;
+document.getElementById("btnBack").onclick=()=>{ document.getElementById("previewWrap").classList.remove("on"); document.getElementById("formView").style.display=""; document.querySelector("header.top").style.display=""; };
+function fname(ext){ const n=[S.f.id_nom,S.f.id_prenom].filter(filled).join("_").replace(/[^\wÀ-ÿ-]+/g,"_"); return `Dossier_RS7398_${n||"candidat"}.${ext}`; }
+let DL=null; (async()=>{ try{ if(window.claude&&claude.use) DL=await claude.use("downloads"); }catch(e){ DL=null; } })();
+async function offer(filename, data){
+  if(!DL){ try{ if(window.claude&&claude.use) DL=await claude.use("downloads"); }catch(e){} }
+  if(!DL){
+    try{
+      const blob = data instanceof Blob ? data : new Blob([data], {type: filename.endsWith(".json")?"application/json":filename.endsWith(".html")?"text/html":"application/octet-stream"});
+      const url = URL.createObjectURL(blob); const a=document.createElement("a"); a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url), 4000); toast("Fichier téléchargé."); return true;
+    }catch(e){ toast("Le téléchargement n'est pas disponible dans cette vue."); return false; }
+  }
+  try{ await DL.save({filename, data}); toast("Fichier prêt."); return true; }
+  catch(err){ const c=err&&err.code; if(c==="declined") toast("Téléchargement annulé."); else if(c==="rate_limited") toast("Une demande est déjà ouverte, réessayez dans un instant."); else toast("Téléchargement impossible ici."); return false; }
+}
+function loadScript(src){ return new Promise((res,rej)=>{ const s=document.createElement("script"); s.src=src; s.onload=res; s.onerror=rej; document.head.appendChild(s); }); }
+document.getElementById("btnPdf").onclick=async()=>{
+  const btn=document.getElementById("btnPdf"); btn.disabled=true; btn.textContent="Génération du PDF...";
+  try{
+    if(!window.html2pdf) await loadScript("https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js");
+    const el=document.getElementById("doc"); el.classList.add("exporting");
+    const opt={ margin:[8,8,8,8], image:{type:"jpeg",quality:0.95}, html2canvas:{scale:2,useCORS:true,backgroundColor:"#ffffff"}, jsPDF:{unit:"mm",format:"a4",orientation:"landscape"}, pagebreak:{mode:["css","legacy"], avoid:["tr",".card",".choice"]} };
+    const blob=await html2pdf().set(opt).from(el).outputPdf("blob");
+    el.classList.remove("exporting");
+    await offer(fname("pdf"), blob);
+  }catch(e){ toast("La génération du PDF a échoué. Essayez « Télécharger en HTML » puis imprimez en PDF."); }
+  btn.disabled=false; btn.textContent="Télécharger le PDF";
+};
+function standaloneHTML(){ const css=[...document.querySelectorAll("style")].map(s=>s.textContent).join("\n"); return `<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><title>${esc(fname("pdf").replace(".pdf",""))}</title><style>${css}\nbody{background:#fff}.doc .pg{border:0}@media print{.doc .pg{margin:0;padding:0;min-height:0}}</style></head><body><div class="doc">${document.getElementById("doc").innerHTML}</div></body></html>`; }
+document.getElementById("btnHtml").onclick=()=>offer(fname("html"), standaloneHTML());
+document.getElementById("btnExport").onclick=()=>offer(fname("json").replace("Dossier_","Sauvegarde_"), JSON.stringify(S,null,1));
+document.getElementById("btnImport").onclick=()=>document.getElementById("fileImport").click();
+document.getElementById("fileImport").onchange=e=>{ const file=e.target.files[0]; if(!file) return; const r=new FileReader(); r.onload=()=>{ try{ const p=JSON.parse(r.result); if(!p.f||!p.l) throw 0; S=p; ensureLists(); save(); renderForm(); toast("Sauvegarde reprise."); }catch(err){ toast("Ce fichier n'est pas une sauvegarde valide."); } }; r.readAsText(file); e.target.value=""; };
+document.getElementById("btnReset").onclick=()=>modal("Tout effacer ?","<p>Toutes vos réponses seront supprimées de ce navigateur. Pensez à sauvegarder avant si besoin.</p>",[{l:"Annuler"},{l:"Tout effacer",danger:true,fn:()=>{ S={f:{},l:{}}; ensureLists(); try{localStorage.removeItem(KEY);}catch(e){} renderForm(); toast("Réponses effacées."); }}]);
+
+/* ================== DÉMARRAGE ================== */
+load();
+if(location.hash==="#modele-vide"){ document.body.classList.add("printmode"); BLANK=true; S={f:{},l:{}}; for(const n in LISTS){ S.l[n]=[]; const k=Math.max(LISTS[n].min, n==="planning"?4:0); for(let i=0;i<k;i++) S.l[n].push(blankRow(n)); } renderDoc(); }
+else renderForm();
+</script>
+</body>
+</html>

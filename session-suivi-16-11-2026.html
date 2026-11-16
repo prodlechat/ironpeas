@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mairies, royalties et vente de dates — 16 novembre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED; --primary-dark:#4C1D95; --primary-light:#EDE9FE;
+  --accent:#F59E0B; --accent-light:#FEF3C7;
+  --success:#10B981; --success-light:#D1FAE5;
+  --danger:#EF4444; --danger-light:#FEE2E2;
+  --info:#3B82F6; --info-light:#DBEAFE;
+  --ink:#1A1523; --muted:#5B5670; --line:#E7E4EF; --bg:#FAF9FC; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+.progress-wrap{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(108,58,237,.12);z-index:999}
+#progress{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+.wrap{max-width:940px;margin:0 auto;padding-inline:20px}
+
+.hero{background:linear-gradient(140deg,#3B1D80 0%,#6C3AED 55%,#8B5CF6 100%);color:#fff;padding-block:60px 52px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{content:"";position:absolute;left:-60px;bottom:-120px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.05)}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:700;margin-bottom:14px;position:relative;z-index:2}
+.hero .sub{font-size:17px;opacity:.92;max-width:690px;position:relative;z-index:2}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;position:relative;z-index:2}
+.meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:7px 14px;border-radius:10px;font-size:13.5px;font-weight:500}
+
+/* LECTEUR */
+.player-wrap{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:-32px;position:relative;z-index:6;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.vid{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.chx{margin-top:16px;border:1px solid var(--line);border-radius:12px;background:#FBFAFE}
+.chx summary{cursor:pointer;padding:12px 16px;font-weight:650;font-size:14.5px;color:var(--primary-dark);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chx summary::-webkit-details-marker{display:none}
+.chx summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+.chx[open] summary::before{content:"▾ "}
+.chx summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+.chlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:2px;max-height:330px;overflow-y:auto;padding:0 10px 12px}
+.chlist button{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;background:transparent;border:0;border-radius:9px;padding:8px 10px;font-family:inherit;font-size:14.5px;color:var(--ink);cursor:pointer;line-height:1.45;transition:background .12s}
+.chlist button:hover{background:var(--primary-light);color:var(--primary-dark)}
+.chlist b{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;min-width:54px}
+button.seek{background:var(--primary-light);border:1px solid #DDD3FA;color:var(--primary-dark);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;cursor:pointer;font-variant-numeric:tabular-nums;transition:all .12s}
+button.seek:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.player-wrap + .toc{margin-top:26px}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:-32px;position:relative;z-index:5;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.toc h2{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:16px;color:var(--primary-dark)}
+.toc ol{list-style:none;counter-reset:toc;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.toc li{counter-increment:toc}
+.toc a{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink);padding:9px 10px;border-radius:10px;font-size:14.5px;transition:background .15s}
+.toc a:hover{background:var(--primary-light);color:var(--primary-dark)}
+.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);font-size:13px;flex-shrink:0;padding-top:1px}
+
+section.chap{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+section.chap>.bar{height:5px;background:var(--primary)}
+.chap[data-c="a"]>.bar{background:var(--accent)} .chap[data-c="g"]>.bar{background:var(--success)}
+.chap[data-c="b"]>.bar{background:var(--info)} .chap[data-c="r"]>.bar{background:var(--danger)}
+.chead{padding:26px 28px 0;display:flex;gap:14px;align-items:center}
+.cnum{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--primary-light);color:var(--primary-dark);display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px}
+.chap[data-c="a"] .cnum{background:var(--accent-light);color:#92400E}
+.chap[data-c="g"] .cnum{background:var(--success-light);color:#065F46}
+.chap[data-c="b"] .cnum{background:var(--info-light);color:#1E40AF}
+.chap[data-c="r"] .cnum{background:var(--danger-light);color:#991B1B}
+.chead h2{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.25;font-weight:700}
+.tc{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-top:3px}
+.cbody{padding:18px 28px 28px}
+.cbody p{margin-bottom:14px}
+.cbody h3{font-family:'Space Grotesk',sans-serif;font-size:16.5px;margin:22px 0 10px;color:var(--primary-dark)}
+.cbody ul,.cbody ol{margin:0 0 14px 20px}
+.cbody li{margin-bottom:7px}
+strong{font-weight:650;color:#2D2540}
+em.q{font-style:italic;color:#413655}
+
+.box{border-radius:12px;padding:16px 18px;margin:18px 0;border-left:4px solid;font-size:15px}
+.box .bt{display:block;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.box p:last-child{margin-bottom:0}
+.b-key{background:var(--primary-light);border-color:var(--primary)} .b-key .bt{color:var(--primary-dark)}
+.b-warn{background:var(--accent-light);border-color:var(--accent)} .b-warn .bt{color:#92400E}
+.b-tip{background:var(--success-light);border-color:var(--success)} .b-tip .bt{color:#065F46}
+.b-info{background:var(--info-light);border-color:var(--info)} .b-info .bt{color:#1E40AF}
+.b-danger{background:var(--danger-light);border-color:var(--danger)} .b-danger .bt{color:#991B1B}
+
+.tbl{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:12px 14px;font-weight:600;font-size:13.5px}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#FBFAFE}
+
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.pc>div{border-radius:12px;padding:16px 18px;font-size:14.5px}
+.pc .ok{background:var(--success-light);border:1px solid #A7F3D0}
+.pc .ko{background:var(--danger-light);border:1px solid #FECACA}
+.pc h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.pc .ok h4{color:#065F46} .pc .ko h4{color:#991B1B}
+.pc ul{margin:0 0 0 18px} .pc li{margin-bottom:5px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
+.card{background:#FBFAFE;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h4{font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:6px;color:var(--primary-dark)}
+.card p{font-size:14px;color:var(--muted);margin:0}
+.stat h4{font-size:22px;font-family:'Space Grotesk',sans-serif}
+
+.tl{list-style:none;margin:18px 0;padding-left:26px;border-left:2px dashed var(--line)}
+.tl li{position:relative;margin-bottom:16px;font-size:15px}
+.tl li::before{content:"";position:absolute;left:-33px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light)}
+.tl b{display:block;font-family:'Space Grotesk',sans-serif;color:var(--primary-dark)}
+
+details{border:1px solid var(--line);border-radius:12px;margin:14px 0;background:#FBFAFE}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:15px;color:var(--primary-dark);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+details[open] summary::before{content:"▾ "}
+details .dc{padding:0 18px 16px;font-size:14.5px}
+
+.pull{margin:22px 0;padding:20px 24px;border-radius:14px;background:linear-gradient(120deg,#2D1B69,#4C1D95);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:19px;line-height:1.45;font-weight:600}
+.pull span{display:block;margin-top:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;opacity:.7;letter-spacing:.03em}
+
+.faq{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+.faq>.bar{height:5px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.faqhead{padding:26px 28px 0}
+.faqhead h2{font-family:'Space Grotesk',sans-serif;font-size:26px;color:var(--primary-dark)}
+.faqhead p{color:var(--muted);font-size:15px;margin-top:4px}
+.faqbody{padding:18px 28px 28px}
+.faqcat{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.faqcat:first-child{margin-top:6px}
+.qa{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:#FDFCFF}
+.qa .q{background:linear-gradient(90deg,var(--primary-light),#F6F3FF);padding:13px 18px;font-weight:650;color:var(--primary-dark);font-size:15.5px;display:flex;gap:10px}
+.qa .q span{flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.qa .a{padding:15px 18px;font-size:15px}
+.qa .a p{margin-bottom:10px} .qa .a p:last-child{margin-bottom:0}
+
+.plan{background:linear-gradient(140deg,#0F172A,#1E1B4B);color:#fff;border-radius:18px;padding:30px 28px;margin-top:26px}
+.plan h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:8px}
+.plan>p{opacity:.8;margin-bottom:20px;font-size:15px}
+.phase{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin:22px 0 10px}
+.phase:first-of-type{margin-top:0}
+.chk{list-style:none;margin:0;padding:0}
+.chk li{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;margin-bottom:9px;font-size:15px;cursor:pointer;transition:background .15s}
+.chk li:hover{background:rgba(255,255,255,.09)}
+.chk .bx{flex-shrink:0;width:20px;height:20px;border:2px solid rgba(255,255,255,.4);border-radius:6px;margin-top:3px;display:grid;place-items:center;font-size:13px;font-weight:700;color:transparent}
+.chk li.done .bx{background:var(--success);border-color:var(--success);color:#fff}
+.chk li.done .tx{opacity:.5;text-decoration:line-through}
+.chk .tx b{display:block;font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.04em;text-transform:uppercase;opacity:.65;margin-bottom:2px}
+
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px;margin-top:26px}
+.quiz h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:6px;color:var(--primary-dark)}
+.quiz>p{color:var(--muted);margin-bottom:22px;font-size:15px}
+.qz{margin-bottom:24px;padding-bottom:22px;border-bottom:1px dashed var(--line)}
+.qz:last-of-type{border-bottom:none}
+.qz .qt{font-weight:650;margin-bottom:12px;font-size:15.5px}
+.opt{display:block;width:100%;text-align:left;background:#FBFAFE;border:1.5px solid var(--line);border-radius:10px;padding:11px 15px;margin-bottom:8px;cursor:pointer;font-family:inherit;font-size:14.5px;color:var(--ink);transition:all .15s}
+.opt:hover{border-color:var(--primary);background:var(--primary-light)}
+.opt.good{background:var(--success-light);border-color:var(--success);font-weight:600}
+.opt.bad{background:var(--danger-light);border-color:var(--danger)}
+.fb{display:none;margin-top:10px;padding:12px 15px;border-radius:10px;font-size:14.5px;background:var(--info-light);border-left:4px solid var(--info)}
+.fb.show{display:block}
+.score{margin-top:20px;padding:16px;border-radius:12px;background:var(--primary-light);text-align:center;font-weight:650;color:var(--primary-dark);display:none}
+.score.show{display:block}
+
+footer{text-align:center;padding-block:40px 50px;color:var(--muted);font-size:14px}
+footer b{color:var(--primary-dark);font-family:'Space Grotesk',sans-serif}
+
+@media(max-width:640px){
+  .pc{grid-template-columns:1fr}
+  .chead,.faqhead{padding:22px 18px 0} .cbody,.faqbody{padding:16px 18px 22px}
+  .toc{padding:22px 18px} .plan,.quiz{padding:24px 18px}
+  .hero h1{font-size:27px} .pull{font-size:17px;padding:18px}
+  .player-wrap{padding:14px} .chlist{grid-template-columns:1fr;max-height:280px}
+}
+@media print{
+  .progress-wrap{display:none} body{background:#fff}
+  section.chap,.toc,.quiz,.faq{box-shadow:none;break-inside:avoid}
+  .opt{display:none}
+  .vid{display:none} .player-wrap{box-shadow:none;margin-top:20px}
+  .chlist{max-height:none;overflow:visible} .chlist button{padding:3px 0}
+  button.seek{background:none;border:0;padding:0;color:var(--primary-dark)}
+}
+</style>
+</head>
+<body>
+<div class="progress-wrap"><div id="progress"></div></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">Session de suivi · 16 novembre 2026</div>
+    <h1>Faire entrer un projet en mairie,<br>récupérer ses royalties, vendre une date</h1>
+    <p class="sub">Deux heures de travail sur trois chantiers très concrets. Comment un courrier déposé en mairie devient un document opposable — et pourquoi deux mois de silence peuvent valoir acceptation. Comment reprendre la main sur une édition dont la clé de répartition a changé sans vous, et quel levier utiliser quand l'éditeur ne répond plus. Puis la partie la plus dense : vendre une date de concert quand on vous dit systématiquement « c'est trop cher » — et pourquoi, dans la quasi-totalité des cas, l'objection n'est pas le prix mais le risque.</p>
+    <div class="meta">
+      <span>⏱ 1 h 58</span>
+      <span>🎙 Tarik Hamiche</span>
+      <span>👥 Session de suivi</span>
+      <span>📌 129 chapitres</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="player-wrap">
+  <div class="vid">
+    <iframe id="vimeoPlayer"
+      src="https://player.vimeo.com/video/1247204692?h=d9afc371cb"
+      title="Session de suivi du 16 novembre 2026"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  <details class="chx" id="chx">
+    <summary><span>Les 129 chapitres de la session</span><em>Cliquez un chapitre pour y aller</em></summary>
+    <div class="chlist" id="chlist"></div>
+  </details>
+</div>
+
+<nav class="toc">
+  <h2>Au programme</h2>
+  <ol>
+    <li><a href="#s1">Faire entrer un projet dans une mairie</a></li>
+    <li><a href="#s2">Le mécanisme du courrier enregistré</a></li>
+    <li><a href="#s3">Le levier : passer d'une mairie à cent</a></li>
+    <li><a href="#s4">Reprendre la main sur une édition</a></li>
+    <li><a href="#s5">Le relevé de royalties : une obligation, pas une faveur</a></li>
+    <li><a href="#s6">Lire un contrat de coédition, clause par clause</a></li>
+    <li><a href="#s7">Quand l'éditeur ne répond plus : le levier syndical</a></li>
+    <li><a href="#s8">Pourquoi les délais de paiement s'allongent</a></li>
+    <li><a href="#s9">Le calendrier publicitaire et les fenêtres de sortie</a></li>
+    <li><a href="#s10">Diagnostiquer une campagne qui coûte trop cher</a></li>
+    <li><a href="#s11">Vendre une date : le prix n'est pas le problème</a></li>
+    <li><a href="#s12">La séquence d'objection, pas à pas</a></li>
+    <li><a href="#s13">Rationaliser sans donner tort</a></li>
+    <li><a href="#s14">L'inversion du risque</a></li>
+    <li><a href="#s15">Le CRM et les boucles anti-objection</a></li>
+    <li><a href="#s16">Faire venir les décideurs</a></li>
+  </ol>
+</nav>
+
+<section class="chap" id="s1" data-c="a">
+  <div class="chead">
+    <span class="num">1</span>
+    <h2>Faire entrer un projet dans une mairie</h2>
+    <p class="tc">2:32 — 5:52</p>
+  </div>
+  <div class="cbody">
+    <p>Point de départ : une activité de scènes mobiles à placer auprès des collectivités, et une prise de contact qui s'est faite de la manière la plus informelle possible — une conversation avec un maire, hors cadre professionnel, qui s'est révélée être musicien.</p>
+
+    <div class="box b-key">
+      <h4>Le principe qui structure toute la séquence</h4>
+      <p>« Quand tu t'adresses au mec qui porte les responsabilités, il se dit : <b>attends, moi, ça m'intéresse.</b> »</p>
+      <p>Un élu n'est pas sensible à votre offre pour les mêmes raisons qu'un agent de service. <b>Il est sensible à ce qui peut lui retomber dessus.</b> Une scène mal montée, un incident sur un événement public, c'est lui qui en répond. Votre prestation n'est pas vendue comme un spectacle : elle est vendue comme une réduction de son exposition.</p>
+    </div>
+
+    <h3>Pourquoi ne pas passer par les services</h3>
+    <div class="box b-warn">
+      <p><b>« Il ne faut pas appeler les sous-fifres, parce qu'eux, ils ne voient pas l'intérêt. Ça ne va pas leur brûler les fesses qu'il y ait une scène qui s'envole, ce n'est pas eux les responsables. »</b></p>
+      <p>Ce n'est pas un jugement sur les agents : c'est une observation sur les incitations. Celui qui ne porte pas le risque n'a aucune raison de faire bouger un budget. Celui qui le porte en a une, immédiatement.</p>
+    </div>
+
+    <h3>Ce que l'élu a lui-même conseillé de faire</h3>
+    <div class="tl">
+      <div class="tli"><b>Écrire, pas téléphoner.</b> « Il faut faire un courrier à la mairie, et on est obligé de l'enregistrer. » C'est le point de bascule de toute la session : l'écrit crée une trace, le téléphone n'en crée aucune.</div>
+      <div class="tli"><b>Rester formel.</b> Vouvoiement, aucune mention de la relation personnelle. Le courrier doit pouvoir circuler dans les services sans poser de problème à personne.</div>
+      <div class="tli"><b>Déposer soi-même.</b> Dans la boîte aux lettres de la mairie, ou en main propre.</div>
+    </div>
+
+    <div class="box b-info">
+      <h4>Ce qui a été obtenu dans la conversation</h4>
+      <p>Une <b>résidence pratiquement actée</b>, mais limitée à deux jours. Le commentaire de Tarik : deux jours, c'est très court. <b>Il faut y arriver avec tout prêt : on ne fait que de la répétition de scène, pas de mise au point de morceaux.</b> Une résidence courte n'est pas un temps de création, c'est un temps de rodage.</p>
+    </div>
+
+    <h3>Être élu, et ce que ça change pour vous</h3>
+    <p>Une partie de la conversation porte sur la réalité du mandat : un élu local est exposé de tous les côtés, attaqué de partout, rarement protégé. Au-delà de l'anecdote, ce qu'il faut en retenir est opérationnel : <b>moins votre interlocuteur aura de casseroles à gérer, mieux ce sera — et votre offre doit se présenter comme une casserole en moins, pas comme une dépense en plus.</b></p>
+  </div>
+</section>
+
+<section class="chap" id="s2" data-c="g">
+  <div class="chead">
+    <span class="num">2</span>
+    <h2>Le mécanisme du courrier enregistré</h2>
+    <p class="tc">9:37 — 12:50</p>
+  </div>
+  <div class="cbody">
+    <p>C'est le passage le plus techniquement utile de la première heure. Il est vérifié en direct, pendant la session, et il s'applique à toute démarche auprès d'une collectivité : scène, formation, prestation, demande de salle.</p>
+
+    <div class="box b-key">
+      <h4>Les trois obligations de la mairie</h4>
+      <div class="tl">
+        <div class="tli"><b>Le tampon d'arrivée.</b> Quand un courrier arrive au secrétariat, il doit porter un tampon avec sa date d'arrivée.</div>
+        <div class="tli"><b>L'inscription au registre.</b> Il est inscrit dans un registre, qui acte la réception.</div>
+        <div class="tli"><b>L'accusé de réception.</b> La collectivité est tenue d'accuser réception de votre courrier.</div>
+      </div>
+      <p><b>« C'est cette date qui fait courir les délais légaux. »</b> C'est tout l'intérêt de la procédure : vous ne demandez pas une faveur, vous déclenchez un compteur.</p>
+    </div>
+
+    <h3>Ce que ça vous permet concrètement</h3>
+    <p>Vous pouvez rappeler et dire : <i>« nous avons déposé un courrier tel jour, il a été enregistré à la mairie. Qu'en est-il ? »</i> La conversation ne démarre plus à zéro et ne dépend plus de la mémoire de votre interlocuteur.</p>
+
+    <div class="box b-tip">
+      <h4>Le détail qui change le destinataire réel</h4>
+      <p>La mention <b>« personnel et confidentiel »</b> sur l'enveloppe. Avec elle, le courrier est remis au maire fermé : personne d'autre ne peut l'ouvrir pour lui.</p>
+      <p>Sans elle, le pli peut être ouvert par le directeur général des services ou le secrétaire de mairie, puis réorienté vers le service compétent — c'est-à-dire exactement vers les personnes qui ne portent pas le risque.</p>
+    </div>
+
+    <h3>Le silence de l'administration</h3>
+    <div class="box b-info">
+      <p>Passé <b>deux mois sans réponse</b>, le silence de l'administration vaut en principe acceptation — avec <b>un nombre important d'exceptions dans lesquelles le silence vaut au contraire refus.</b></p>
+      <p>Le test fait en direct pendant la session : une proposition de formation. Vérification faite, <b>ce cas tombe dans les exceptions : si la collectivité ne répond pas, c'est un refus.</b> Autrement dit : la règle existe, mais il faut toujours vérifier dans quel panier tombe votre démarche avant de compter dessus.</p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Le point le plus intéressant, et le plus à manier avec précaution</h4>
+      <p>En revanche, sur le volet commande publique : <b>une facture ou un bon de commande envoyé par ce circuit, et non refusé dans le délai, est considéré comme accepté</b> — y compris, dans certains cas, lorsque le montant dépasse celui du devis signé.</p>
+      <p>C'est présenté comme une faille du système, découverte en séance et vérifiée en ligne. <b>À utiliser pour sécuriser une commande réellement validée en réunion — un compte rendu, un accord écrit — pas pour faire passer un montant que personne n'a accepté.</b> Et ce n'est pas un avis juridique : sur un montant significatif, on fait valider par un professionnel.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s3" data-c="b">
+  <div class="chead">
+    <span class="num">3</span>
+    <h2>Le levier : passer d'une mairie à cent</h2>
+    <p class="tc">13:10 — 18:00</p>
+  </div>
+  <div class="cbody">
+    <p>Une fois la méthode trouvée sur une commune, la question devient : comment ne pas la rejouer cent fois à la main.</p>
+
+    <div class="box b-key">
+      <h4>Le principe du levier</h4>
+      <p>« Moi, je fonctionne beaucoup au levier. C'est un principe de vie que je vous recommande. <b>Quand un truc marche sur une ligne, essayez de faire en sorte que pour le même travail, vous arriviez à toucher mille lignes.</b> »</p>
+      <p>Et plus loin : « Au lieu d'essayer une fois, essayons mille fois d'un coup, et voyons ce qui se passe. <b>C'est beaucoup plus significatif.</b> »</p>
+    </div>
+
+    <h3>La technique d'abordage</h3>
+    <p>L'image est assumée : on est un bateau pirate et on va à l'abordage. <b>On dépose le même courrier, construit de la même manière, sur un ensemble de mairies comparables</b> — même taille, même profil, même type de besoin.</p>
+
+    <div class="box b-tip">
+      <h4>Repérer les communes qui ont du budget</h4>
+      <p>Le critère n'est pas la notoriété de la ville mais son tissu économique. L'exemple donné : il suffit de suivre un fleuve et certains cours d'eau pour trouver les industries les plus florissantes — pétrochimie, silos à grains, zones agricoles. <b>Là où les entreprises paient, les municipalités ont de la trésorerie.</b></p>
+      <p>Autre indice : les communes qui se sont regroupées, souvent pour des raisons de foncier, forment des ensembles étendus avec des besoins d'événements dispersés sur tout le territoire — donc un besoin récurrent de scènes.</p>
+    </div>
+
+    <h3>Le vrai point d'entrée : l'association des maires</h3>
+    <div class="box b-info">
+      <p>« Est-ce que ce ne serait pas intéressant de prendre contact avec <b>l'association des maires</b>, qui doit avoir une antenne régionale, et directement se linker à eux pour proposer ça à tous leurs adhérents ? »</p>
+      <p>L'intérêt : <b>plusieurs centaines de communes atteignables par une seule porte.</b> Et un chemin pour y entrer — l'élu avec qui le contact est déjà établi est peut-être membre, et peut vous coopter pour une présentation lors d'une prochaine réunion. <b>« Sur une présentation qui se passe bien, tu peux faire cinquante touches. »</b></p>
+    </div>
+
+    <div class="pull">« Ces gars-là se réunissent entre eux souvent. Il faut comprendre de quelle manière ils le font et pourquoi. Puis tu prends le moment le plus propice, tu viens, tu fais une présentation, et c'est parti. »</div>
+
+    <p>À noter aussi, en marge : une piste de régie publicitaire cinéma obtenue par recommandation, avec un mot d'ordre affiché côté acheteur — <b>la qualité</b>. Ce qui vaut rappel : sur ces marchés, ce n'est pas le prix qui ouvre la porte, c'est le niveau de finition.</p>
+  </div>
+</section>
+<section class="chap" id="s4" data-c="r">
+  <div class="chead">
+    <span class="num">4</span>
+    <h2>Reprendre la main sur une édition</h2>
+    <p class="tc">18:20 — 27:30</p>
+  </div>
+  <div class="cbody">
+    <p>Deuxième chantier de la session, et cas d'école : un morceau placé sur une publicité, une part d'édition qui existe bien au dépôt, et une clé de répartition qui a changé sans que l'intéressé soit consulté. La séquence est reproduite à l'écran, document par document.</p>
+
+    <div class="box b-key">
+      <h4>Premier réflexe : aller lire le dépôt</h4>
+      <p>Avant toute discussion, on ouvre la fiche de l'œuvre à la société d'auteurs et on lit <b>la liste exacte des ayants droit et leur rôle déclaré.</b> C'est là qu'on découvre ce qui a réellement été enregistré — qui est éditeur, qui est coéditeur, et dans quelles proportions.</p>
+    </div>
+
+    <h3>Les codes de rôle, et celui que personne n'explique</h3>
+    <div class="box b-info">
+      <p>Sur la fiche apparaît une ligne <b>« autre ayant droit »</b> avec un code de rôle inhabituel, à côté des mentions classiques de compositeur et d'éditeur. Hypothèse retenue en séance : un code d'interprète, peut-être ajouté récemment par la société d'auteurs.</p>
+      <p>Réponse honnête de Tarik : <b>« vraiment, c'est la première fois que je vois ça, donc je ne saurais pas te l'expliquer. »</b> Ce qui vaut règle générale : <b>une ligne que vous ne comprenez pas sur un dépôt se fait expliquer par écrit par la société d'auteurs, pas deviner.</b></p>
+    </div>
+
+    <h3>Pourquoi la clé de répartition a pu changer sans accord</h3>
+    <div class="box b-warn">
+      <h4>Le mécanisme du dépôt à signature unique</h4>
+      <p>Jusqu'à récemment, <b>on ne pouvait pas déposer une œuvre en France sans la signature de tous les ayants droit.</b> Les structures internationales contournaient donc la contrainte en déposant au Royaume-Uni, où <b>une seule signature suffit</b> : à charge pour les autres de se manifester s'ils ne sont pas d'accord.</p>
+      <p>La raison d'être de cette règle : <b>éviter qu'un titre reste bloqué cinq ans parce qu'une seule personne ne veut pas signer.</b></p>
+      <p>Et le changement important : <b>depuis 2025-2026, c'est désormais possible aussi en France</b> — s'il vous manque des ayants droit, un seul contresignataire suffit.</p>
+    </div>
+
+    <p>D'où la lecture de la situation : la nouvelle clé a probablement été validée sur ce fondement, en se disant que si l'autre ayant droit se réveille, on lui expliquera. <b>« À partir du moment où c'est justifié, ça passe, c'est légal. »</b></p>
+
+    <div class="box b-info">
+      <h4>La justification côté éditeur, et ce qu'elle vaut</h4>
+      <p>L'argument classique : <i>« nos parts aussi ont été diluées, elles ont été réparties avec un coéditeur ; pour que le placement se fasse, c'était la condition nécessaire. On est parti du principe que chacun faisait un effort équitable, donc c'est valable. »</i></p>
+      <p>Cet argument tient — <b>mais il ne supprime ni l'obligation de rendre des comptes, ni le droit à la part correspondante.</b> C'est toute la suite de la séquence.</p>
+    </div>
+
+    <h3>Les factures : savoir à quoi correspond le montant</h3>
+    <p>Deux factures ont été émises à la demande de l'éditeur, au titre de droits d'utilisation de musique, pour un total d'environ <b>6 000 €</b> — l'une d'environ 1 500 €, l'autre d'environ 4 500 €, au titre d'un complément de rémunération pour une extension de campagne. Le mail reçu donne un montant à facturer, sans explication, avec la mention « correspondant à votre pourcentage de répartition ».</p>
+
+    <div class="box b-danger">
+      <h4>Le risque que personne ne voit venir</h4>
+      <p>« Si c'est une part, à mon avis la somme est bonne — <b>c'est la ventilation qu'il faut comprendre.</b> »</p>
+      <p>Si le montant facturé englobe la part d'un autre ayant droit, <b>il faut procéder à la division de son côté</b>, avec une partie facturée par l'autre structure et une partie en nom propre. Sinon : « un beau matin, tu peux te réveiller et te dire : tiens, telle structure n'a rien facturé depuis trois ans. Tu demandes les factures, <b>et on te répond : on te l'a déjà payé.</b> »</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>La question à poser, par écrit</h4>
+      <p><b>« À quoi correspond le montant que tu veux que je te facture ? »</b> Une phrase, un mail, et tout le reste de la discussion devient vérifiable.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Et le piège de lecture à éviter</h4>
+      <p>Un pourcentage de répartition touché <b>en tant que compositeur</b> n'est pas le même que celui dû <b>en tant qu'éditeur</b>. Les deux coexistent sur la même œuvre et se facturent séparément. Confondre les deux, c'est renoncer à l'une des deux sans s'en apercevoir.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s5" data-c="a">
+  <div class="chead">
+    <span class="num">5</span>
+    <h2>Le relevé de royalties : une obligation, pas une faveur</h2>
+    <p class="tc">28:27 — 29:57</p>
+  </div>
+  <div class="cbody">
+    <p>C'est le levier le plus simple de toute la session, et celui qui peut rapporter le plus vite.</p>
+
+    <div class="box b-key">
+      <h4>Ce que dit le contrat, et ce que dit la loi</h4>
+      <p>Le contrat prévoit un <b>arrêté des comptes au 30 juin et au 31 décembre.</b> À chaque arrêté, l'éditeur doit vous envoyer <b>un relevé de royalties</b> indiquant où en est la comptabilisation des revenus.</p>
+      <p><b>« C'est une obligation légale de l'éditeur. Même un relevé négatif, ils sont obligés de te l'envoyer. »</b></p>
+    </div>
+
+    <h3>Le courrier à envoyer, mot pour mot</h3>
+    <div class="box b-tip">
+      <p><i>« Dans le cadre de ce contrat de coédition, depuis [année de signature], je n'ai reçu aucun relevé de royalties concernant la coédition de cette œuvre. Ci-joint le contrat de coédition. Pouvez-vous m'envoyer un récapitulatif ? »</i></p>
+      <p>C'est tout. Pas de reproche, pas d'argumentation. <b>Une demande de document que l'éditeur est tenu de produire.</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Pourquoi ça peut valoir très cher</h4>
+      <p>« Et peut-être que là, <b>tu as dix mille balles qui t'attendent</b>, ou plus. »</p>
+      <p>Et si une avance a été perçue en amont et n'est pas encore recoupée, la réponse sera : « l'avance n'est toujours pas recoupée ». Pas de problème — <b>mais je dois voir la balance négative tous les six mois, ou a minima tous les ans.</b> Un relevé négatif reste un relevé : il vous dit où vous en êtes et à partir de quand vous commencerez à toucher.</p>
+    </div>
+
+    <div class="pull">« Même un relevé négatif, ils sont obligés de te l'envoyer. »</div>
+  </div>
+</section>
+
+<section class="chap" id="s6" data-c="g">
+  <div class="chead">
+    <span class="num">6</span>
+    <h2>Lire un contrat de coédition, clause par clause</h2>
+    <p class="tc">29:57 — 33:40</p>
+  </div>
+  <div class="cbody">
+    <p>Le contrat est ouvert à l'écran et lu dans l'ordre. Cette grille de lecture est transposable à n'importe quel contrat de coédition.</p>
+
+    <h3>1. Le droit applicable</h3>
+    <div class="box b-key">
+      <p>Première chose à vérifier, avant tout le reste : <b>« Le présent contrat est interprété selon la loi française, fait à Paris, tribunal compétent de Paris. »</b></p>
+      <p>C'est décisif : quoi qu'il se soit passé ailleurs — y compris un dépôt réalisé à l'étranger — <b>les parties restaient tenues par un accord préalable écrit avec vous.</b> L'argument « ça se passe à Londres » ne tient pas si le contrat désigne le droit français.</p>
+    </div>
+
+    <h3>2. La répartition inscrite au contrat</h3>
+    <p>Trois éditeurs, un tiers chacun. C'est le chiffre de référence contre lequel on compare ce que montre le dépôt. <b>Tout écart entre le contrat et le dépôt est le cœur du dossier.</b></p>
+
+    <h3>3. L'exploitation à l'étranger</h3>
+    <div class="box b-info">
+      <p>« En ce qui concerne l'exploitation à l'étranger, <b>chacune des parties sera autorisée pour la part qu'elle contrôle.</b> Seul l'éditeur principal se chargera de la rémunération des artistes. »</p>
+      <p>Il faut donc identifier qui est l'éditeur principal au contrat — c'est lui qui porte les obligations de reversement.</p>
+    </div>
+
+    <h3>4. Les licences, et qui est à la table</h3>
+    <div class="box b-warn">
+      <p>« Les éditeurs A et B se chargeront, après accord mutuel, de la négociation des licences. »</p>
+      <p>Lecture directe : si vous êtes l'éditeur C, <b>vous êtes contractuellement exclu de la table de négociation.</b> « Il est possible qu'ils t'aient exclu de la table des discussions. Ce sont les éditeurs A et B qui ont la main dessus. »</p>
+      <p>Et la nuance importante : <b>ce n'est pas anormal en soi, et ça ne vous enlève rien.</b> « Ce qui en soi n'est pas mal, parce qu'ils t'ont fait faire un placement sympa. <b>Mais ils te doivent quand même une part des recettes.</b> »</p>
+    </div>
+
+    <h3>5. Les deux contrats</h3>
+    <p>Une clause prévoit que l'éditeur A accepte de ne pas être mentionné au contrat de cession éditoriale — d'où <b>deux contrats signés pour une seule opération.</b> Quand on vous fait signer deux documents sur le même sujet, il faut relire les deux ensemble : l'un dit souvent ce que l'autre tait.</p>
+
+    <h3>6. La durée</h3>
+    <div class="box b-danger">
+      <p><b>Cinq ans, « reconductible pour des durées successives de cinq années chacune, sauf dénonciation ».</b></p>
+      <p>Signé en mai, et toujours en cours : la reconduction a joué. <b>C'est reparti pour cinq ans.</b> La clause de reconduction tacite est le point qu'on oublie de regarder à la signature et qu'on découvre trop tard.</p>
+    </div>
+
+    <h3>Le calcul de ce qui est en jeu</h3>
+    <div class="box b-info">
+      <p>Raisonnement fait en direct : <b>si une somme d'environ 6 000 € représente un quart, l'enveloppe globale est de l'ordre de 40 000 € à répartir.</b> Même à une quote-part réduite, <b>il reste environ 3 000 € à réclamer.</b></p>
+      <p>Logique de fond : « puisque j'ai touché 25 % d'une somme, <b>normalement, chaque coéditeur devrait toucher la même chose.</b> »</p>
+    </div>
+
+    <div class="pull">« Pour moi, tu as de l'argent en attente. Il faut le demander. »</div>
+  </div>
+</section>
+
+<section class="chap" id="s7" data-c="b">
+  <div class="chead">
+    <span class="num">7</span>
+    <h2>Quand l'éditeur ne répond plus : le levier syndical</h2>
+    <p class="tc">33:40 — 36:20</p>
+  </div>
+  <div class="cbody">
+    <p>Si la demande de relevé reste sans réponse, ou si on vous botte en touche, il existe un levier simple et très efficace.</p>
+
+    <div class="box b-key">
+      <h4>La méthode en trois temps</h4>
+      <div class="tl">
+        <div class="tli"><b>Identifier l'organisation professionnelle dont l'éditeur est membre.</b> Pour l'édition musicale en France, c'est le plus souvent la <b>CSDEM</b> — la Chambre syndicale de l'édition musicale. On vérifie l'adhésion : la liste des membres actifs est publique.</div>
+        <div class="tli"><b>Envoyer un courrier recommandé avec accusé de réception</b>, et mettre l'organisation en copie.</div>
+        <div class="tli"><b>Laisser la réputation faire le travail.</b> « Je mets en copie des parties dont je sais qu'ils ne veulent pas perdre la bonne réputation. »</div>
+      </div>
+    </div>
+
+    <div class="box b-info">
+      <h4>Pourquoi ça fonctionne</h4>
+      <p>Une exclusion pour non-respect des règles en vigueur coûterait à l'éditeur une part majeure de ses relations professionnelles. <b>Personne ne prend ce risque pour quelques milliers d'euros.</b></p>
+      <p>Le scénario le plus probable, décrit sans naïveté : <b>« ils vont plutôt enterrer le dossier »</b> — vous régler, puis demander un courrier rectificatif expliquant qu'il y avait erreur et que c'était déjà réglé. <b>Vous êtes payé, ils sont blanchis.</b> C'est l'issue normale et elle vous convient.</p>
+    </div>
+
+    <h3>La nuance : mauvaise foi ou simple désorganisation ?</h3>
+    <div class="box b-tip">
+      <p>Avant de dégainer le recommandé, poser le bon diagnostic. Dans ce cas précis, la lecture est : <b>« c'est plus des gens bordéliques qu'autre chose »</b> — une très grosse structure, un catalogue énorme, des réponses vaporeuses et jamais claires, des relances à répéter quinze fois.</p>
+      <p>Si c'est de la désorganisation, un simple courrier clair suffit souvent. <b>Le levier syndical se garde pour la mauvaise foi.</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>L'habitude qui évite tout ça</h4>
+      <p><b>« Moi, je n'ai jamais eu de problème parce que je mets toujours quinze personnes en copie. »</b></p>
+      <p>Ce n'est pas de l'agressivité : c'est de la visibilité. Un mail avec plusieurs destinataires impliqués dans le dossier obtient un délai de réponse qui n'a rien à voir avec un mail en tête-à-tête.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s8" data-c="a">
+  <div class="chead">
+    <span class="num">8</span>
+    <h2>Pourquoi les délais de paiement s'allongent</h2>
+    <p class="tc">36:20 — 37:45</p>
+  </div>
+  <div class="cbody">
+    <p>Un passage court mais qui explique une bonne partie des comportements de paiement qu'on subit sans les comprendre.</p>
+
+    <div class="box b-key">
+      <h4>Deux raisons, pas une</h4>
+      <div class="tl">
+        <div class="tli"><b>L'oubli.</b> « Je pense qu'il compte sur le fait que tu puisses oublier. » Un dossier qui traîne depuis juin finit souvent par ne plus être réclamé.</div>
+        <div class="tli"><b>Le calendrier fiscal.</b> « Selon la date de clôture de ton exercice, c'est plus ou moins intéressant de faire traîner les paiements ou pas. »</div>
+      </div>
+    </div>
+
+    <h3>La logique d'exercice, vue de l'autre côté</h3>
+    <div class="box b-info">
+      <p>Certaines années, la structure vous <b>met la pression pour que vous envoyiez votre facture</b>, voire vous paie avant de l'avoir reçue : elle a besoin de décaisser. D'autres années, c'est l'inverse : elle garde la trésorerie pour boucler son exercice et débloque plus tard.</p>
+      <p>« Quand tu as plusieurs millions qui bougent, à quelques pour cent, certaines années tu préfères les garder. <b>Et les années où tu sais que tu auras de l'impôt, tu forces le décaissement.</b> »</p>
+      <p>Le commentaire final est honnête : <b>« on fait tous pareil — mais pas à cette échelle. »</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Ce qu'il faut en faire</h4>
+      <p>Ne pas lire un retard de paiement comme un signal personnel, et <b>ne jamais laisser une facture reposer sur votre seule mémoire.</b> C'est exactement l'usage du suivi décrit plus bas : une ligne, une date, une relance programmée.</p>
+    </div>
+  </div>
+</section>
+<section class="chap" id="s9" data-c="g">
+  <div class="chead">
+    <span class="num">9</span>
+    <h2>Le calendrier publicitaire et les fenêtres de sortie</h2>
+    <p class="tc">37:45 — 41:30</p>
+  </div>
+  <div class="cbody">
+    <p>Troisième chantier. Le constat de départ : les campagnes publicitaires coûtent soudain beaucoup plus cher, « on a l'impression de monter une côte » alors qu'il y a quelques mois « on était sur le plat ».</p>
+
+    <div class="box b-key">
+      <h4>La réponse est un calendrier, pas un réglage</h4>
+      <p>« Journées de promo, octobre noir, Black Friday, Noël : <b>c'est la pire période pour la pub.</b> Pour sortir du jeu, je dirais juste avant Halloween. Après Halloween, c'est terminé. »</p>
+      <p>Raison : <b>tous les gros annonceurs sont sur les plateformes jusqu'au 24 décembre, parfois jusqu'au 31.</b> Les coûts ne peuvent que grimper. « Donc pour les petits annonceurs, il faut sortir du jeu. <b>Il faut les laisser se battre entre mastodontes.</b> »</p>
+    </div>
+
+    <h3>Les deux fenêtres verrouillées de l'année</h3>
+    <div class="box b-info">
+      <div class="tl">
+        <div class="tli"><b>De mi-octobre à janvier.</b> Les grosses sorties se concentrent là — best-of, hommages, rééditions — parce que c'est la saison du cadeau : « quand tu dois faire un cadeau à quelqu'un de cinquante ans et que tu ne sais pas quoi prendre, tu vois un best-of inédit à quinze euros, tu te dis : allez, ça passe. » À ça s'ajoute tout le reste du marché — téléphonie, jeux vidéo, promotions généralisées. <b>Les playlists sont verrouillées jusqu'en janvier.</b></div>
+        <div class="tli"><b>De juin à mi-août.</b> Verrouillage d'une autre nature : <b>les radios organisent leurs concerts d'été</b> et ne bougent plus leurs playlists jusqu'à la reprise, après la mi-août.</div>
+      </div>
+      <p><b>Conclusion : ces deux périodes sont à éviter, en publicité comme en sortie.</b></p>
+    </div>
+
+    <h3>Mais la prospection, elle, ne s'arrête jamais</h3>
+    <div class="box b-tip">
+      <p>Objection légitime d'Emma : c'est justement maintenant qu'il faut se battre pour trouver des dates. Réponse : <b>« attention, tu peux prospecter à n'importe quel moment. Ces gens-là ne sont pas sollicités par les gros annonceurs. »</b></p>
+      <p>Simplement, <b>on le fait moins par les réseaux et plus en direct</b> : prospection active, prise de rendez-vous, coup de fil, courrier. « Tu envoies un petit courrier à la mairie, à l'attention du comité des fêtes ou du service culturel. <b>Ça se tente.</b> » — ce qui reboucle exactement sur la méthode du début de session.</p>
+    </div>
+
+    <div class="pull">« Les dates, c'est autre chose. Tu peux prospecter à n'importe quel moment — mais pas par le même canal. »</div>
+  </div>
+</section>
+
+<section class="chap" id="s10" data-c="a">
+  <div class="chead">
+    <span class="num">10</span>
+    <h2>Diagnostiquer une campagne qui coûte trop cher</h2>
+    <p class="tc">41:30 — 46:00</p>
+  </div>
+  <div class="cbody">
+    <p>Le cas concret : un coût par clic passé d'environ 0,08 € à 0,14 €. Réponse immédiate : <b>« l'augmentation n'est pas encore trop violente — des fois, c'est fois trois, fois cinq. »</b> Avant de tout changer, il faut distinguer ce qui vient de la régie et ce qui vient de vos créations.</p>
+
+    <div class="box b-key">
+      <h4>Test 1 — La lassitude créative</h4>
+      <p><b>« Tu devrais régulièrement injecter de nouvelles pubs, même si ça fonctionne bien. »</b></p>
+      <p>Le signal de diagnostic : <b>si les nouvelles créations coûtent moins cher que les anciennes, il y a une forme de lassitude.</b> Et le remède : remplacer toutes les anciennes par des nouvelles peut faire baisser le coût global.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Test 2 — Couper puis relancer</h4>
+      <p>« De temps en temps, j'ai des campagnes qui tournent, je vois un emballement, je sais que la période n'est pas bonne mais j'ai besoin de visibilité. <b>Du coup je coupe la campagne, je laisse passer deux ou trois jours, je la réactive.</b> »</p>
+      <p>Ce qui se passe ensuite : <b>les deux premiers jours sont mauvais, puis au troisième ça se régule et ça revient à des coûts normaux.</b> Honnêteté sur la méthode : « des fois ça marche, des fois ça ne marche pas. »</p>
+      <p>Les hypothèses avancées : une régie qui ne veut pas voir partir un annonceur, même petit — ou tout simplement deux gros annonceurs qui coupent au même moment et vous laissent une semaine tranquille avant de revenir.</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Les autres facteurs, hors de votre contrôle</h4>
+      <p>Le flux de connexions : <b>un grand événement télévisé réduit le nombre de personnes connectées, et le coût par utilisateur augmente</b> — parce que la régie ne réduit pas son exposition, elle l'élargit vers des profils moins qualifiés pour continuer à tourner.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le test qui tranche</h4>
+      <p><b>« Si au bout d'une à deux semaines tu ne vois pas d'amélioration, c'est que ça vient de la régie : elle est saturée, c'est tout. »</b></p>
+      <p>Sinon, les coûts fluctuent : des jours chers, des jours nettement moins chers que d'habitude. <b>Une saturation de régie, elle, ne fluctue pas.</b></p>
+    </div>
+
+    <h3>Et le facteur qu'on sous-estime : l'attention</h3>
+    <p>Fin de période, soldes, cadeaux, anticipation des dépenses, inquiétudes générales, marchés spéculatifs qui corrigent — <b>la tête des gens est ailleurs.</b> « Ça crée un mécanisme où beaucoup de monde cherche à capter une attention déjà saturée. » Ce n'est pas un problème de ciblage : c'est un problème de moment.</p>
+  </div>
+</section>
+
+<section class="chap" id="s11" data-c="r">
+  <div class="chead">
+    <span class="num">11</span>
+    <h2>Vendre une date : le prix n'est pas le problème</h2>
+    <p class="tc">58:09 — 69:30</p>
+  </div>
+  <div class="cbody">
+    <p>Voici la partie la plus dense de la session, et la plus directement applicable. Le contexte : un projet scénique vendu <b>de 1 500 € en formule duo jusqu'à 4 500 € en formule complète</b>, démarché auprès des communes et des collectivités — avec, à chaque fois, la même réponse : au-delà de 1 000 €, ça leur fait peur.</p>
+
+    <div class="box b-info">
+      <h4>Ce que renvoie le terrain</h4>
+      <p>La prospection passe par les communes, les collectivités, les festivals, et la Fête de la musique — <b>qui se booke dès maintenant pour l'édition de l'année suivante.</b> Les retours convergent : les programmateurs fonctionnent sur recommandation, à partir d'artistes qui se sont déjà produits sur leur territoire. « C'est super compliqué, quand on n'a jamais fait ce genre de choses pour des collectivités, d'arriver comme ça. » <b>Traduction : ils ne veulent pas prendre le risque.</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le diagnostic</h4>
+      <p><b>« Je ne pense pas que le prix soit le problème principal. Je ne pense vraiment pas. »</b></p>
+      <p>« Si tu arrivais sur recommandation comme la huitième merveille du monde, entre 1 000 et 1 500, la différence n'est pas énorme et je pense que ça passerait. »</p>
+      <p>La seule exception franche : les communes dont le budget annuel maximum est de 1 000 € pour un concert. <b>Là, il n'y a pas de débat — soit vous n'y allez pas, soit vous y allez en sachant que c'est leur plafond.</b></p>
+    </div>
+
+    <h3>Conseil 1 — Assumer pleinement son prix</h3>
+    <div class="box b-key">
+      <p><b>« Il faut même que tu aies l'impression de leur faire une fleur. Parce que s'ils sentent que même pour toi c'est beaucoup, ça ne va pas les rassurer — et ils vont le sentir à ta voix. »</b></p>
+      <p>L'exemple donné sur son propre tarif de consulting : « je suis très à l'aise avec ça, parce que je n'ai pas de problème à le vendre et parce que je connais la valeur de ce que je délivre. Tu peux me dire que c'est trop cher, je vais te dire : oui, c'est sûr, <b>c'est peut-être trop cher pour toi.</b> Maintenant, ce prix reflète vingt ans d'expérience dans lesquels j'ai perdu des centaines de milliers d'euros pour apprendre ce que je peux te transmettre aujourd'hui. »</p>
+      <p>Et la posture qui va avec : <b>« je n'ai pas besoin que tu l'achètes. À partir du moment où tu trouves ça trop cher, c'est que tu n'es pas dans la cible. »</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>L'effet recherché</h4>
+      <p>« Quand tu dégages ce truc-là, c'est bizarre à dire, mais <b>la personne en face est presque dégoûtée de ne pas pouvoir l'acheter.</b> Elle se dit : si je l'avais, le budget, elle n'aurait pas tort, ce n'est peut-être pas si cher. C'est même clairement une bonne affaire. »</p>
+    </div>
+
+    <h3>Conseil 2 — Un appel de vente, c'est 90 % de questions</h3>
+    <div class="box b-key">
+      <p><b>« Un appel de vente, c'est 5 % d'introduction, 5 % de conclusion. Les 90 % du temps, tu ne fais que poser des questions. C'est tout. »</b></p>
+      <p>Et la raison : <b>« plus tu vas poser de questions, plus tu vas te rapprocher de quelqu'un qui est motivé à acheter. »</b></p>
+    </div>
+
+    <h4>La séquence, mot pour mot</h4>
+    <div class="tl">
+      <div class="tli">« C'est trop cher ? Ah oui ? <b>Qu'est-ce qui vous fait penser que c'est trop cher ?</b> »</div>
+      <div class="tli">« — Parce que d'habitude les artistes, c'est moins de 1 000. » → <b>« Ah oui ? Vous avez programmé qui récemment qui a coûté moins de 1 000 € ? »</b></div>
+      <div class="tli">« OK, c'est cool. C'est régulier ? <b>Vous êtes en poste depuis combien de temps, d'ailleurs ?</b> »</div>
+      <div class="tli">« Et vous en faites combien, de concerts chaque année ? — Dix. » → <b>« Donc si je suis vos calculs, vous avez investi 10 000 € dans dix concerts sur l'année. »</b></div>
+      <div class="tli">« Il n'y a eu aucune année où vous en avez fait huit, par exemple, en payant un peu plus cher ? <b>Finalement, si demain vous faites un événement que vos administrés adorent et dont tout le monde va vous parler pendant six mois, est-ce que ça ne vaut pas le coup de faire un ou deux événements en moins, mais plus qualitatifs ?</b> »</div>
+    </div>
+
+    <div class="box b-info">
+      <p>Ce que vous êtes en train de faire : <b>changer son framework, sa manière de voir les choses.</b> « Là, tu es en train de l'envelopper tranquillement. »</p>
+      <p>Et la règle d'arrêt, posée clairement : « il y a des gens qui ne seront pas d'accord, qui vont dire : non, on ne mettra pas plus de 1 000, ni dans ton truc ni dans un autre. <b>Pas de problème, tu lâches.</b> Mais tant que tu as quelqu'un qui te répond, tu continues de poser des questions. »</p>
+    </div>
+
+    <h3>Conseil 3 — Bâtir un process qui amplifie</h3>
+    <div class="box b-key">
+      <p><b>« Le bouche-à-oreille, c'est très bien, c'est ce qui marche le mieux en général — mais il n'y a pas de levier. »</b></p>
+      <p>D'où le retour au principe du début de session : au lieu d'essayer une fois, essayer mille fois d'un coup.</p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>La règle des 33 points d'entrée</h4>
+      <p><b>« Statistiquement, 33 points d'entrée donnent une statistique viable. »</b></p>
+      <p>Si 33 personnes de la même cible vous disent que votre prix est trop élevé, <b>probablement qu'elles ont raison et qu'il faut revoir la grille.</b> Peut-être que sur votre territoire, les concerts ne coûtent vraiment pas cher, et c'est comme ça.</p>
+      <p>Mais en dessous : <b>« si tu as cinq personnes, il suffit que tu en aies cinq autres la semaine prochaine qui te disent : plus de 3 000, c'est mort — et tout de suite le gap a changé. »</b> Cinq refus ne prouvent rien.</p>
+    </div>
+
+    <p>C'est aussi la réponse au doute exprimé en séance : <i>« on a vite fait de douter de son projet à partir du moment où on a des refus »</i>. Un refus n'est pas une donnée. Trente-trois refus, oui.</p>
+  </div>
+</section>
+<section class="chap" id="s12" data-c="b">
+  <div class="chead">
+    <span class="num">12</span>
+    <h2>La séquence d'objection, pas à pas</h2>
+    <p class="tc">69:30 — 74:20</p>
+  </div>
+  <div class="cbody">
+    <p>C'est le script complet. Il se joue dans l'ordre, et chaque étape sert à mesurer autre chose que le prix.</p>
+
+    <h3>Étape 1 — Retirer le prix de l'équation</h3>
+    <div class="box b-key">
+      <p><b>« OK, retirons l'équation du prix. Disons que c'est gratuit. Demain, le spectacle en guitare-voix ou en formule complète, c'est gratuit. Vous prenez ou pas ? »</b></p>
+      <p>Puis on insiste : « vraiment, je vous envoie le contrat là, maintenant, tout de suite, c'est gratuit — vous prenez ou pas ? »</p>
+      <p>Objectif : <b>savoir s'il y a une acceptation ou un refus de principe.</b> Parce que si même le gratuit est un refus, le prix n'a jamais été le sujet.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Si la réponse est « il faut qu'on en parle »</h4>
+      <p>On creuse : <b>« il faut que vous en parliez à qui ? Qui décide ? Je veux juste comprendre, ça m'intéresse. »</b></p>
+      <p>Vous venez de cartographier le circuit de décision, ce que la discussion sur le prix ne vous aurait jamais donné.</p>
+    </div>
+
+    <h3>Étape 2 — Remonter le prix palier par palier</h3>
+    <div class="box b-info">
+      <p>Si le gratuit est un oui franc, on rebondit : <i>« vous vous doutez bien que je ne peux pas rappeler le groupe et leur dire que ce sera gratuit, et que je ne peux pas non plus les payer de ma poche. Mais gratuit, c'est OK. <b>Disons que ce n'est pas gratuit, mais 500 €. C'est toujours OK ou pas ?</b> »</i></p>
+      <p>Et la consigne la plus importante de tout le passage : <b>« là, il faut laisser des blancs, il ne faut pas parler. "C'est toujours OK ou pas ?" Et tu attends. »</b></p>
+      <p>On continue à monter : « disons que c'est 1 000 € maintenant. Visiblement, c'est les prix du marché, vous m'avez dit qu'en dessous de 1 000 c'est compliqué. <b>1 000 € là, maintenant, je vous envoie un contrat, on fixe une date. C'est oui ou c'est non ?</b> »</p>
+      <p>À chaque palier, vous jaugez. <b>Quand vous avez trouvé le montant plafond, vous vous placez juste en dessous.</b></p>
+    </div>
+
+    <h3>Étape 3 — Devenir leur allié</h3>
+    <div class="box b-key">
+      <h4>La technique de l'agent immobilier</h4>
+      <p><i>« OK, je prends note. Vous savez quoi ? Je ne le fais pas habituellement, mais pour vous, <b>je suis prêt à aller me prendre un bouillon</b> : je vais me retourner vers le groupe et je vais en parler avec eux. Je vous tiens informé. Ça m'étonnerait que ça passe, mais je vais tenter. »</i></p>
+      <p>Double effet : <b>ça vous donne une fenêtre de tir pour revenir</b>, et ça vous place en position d'empathie — « je comprends que c'est votre limite, je vais quand même me battre pour vous. »</p>
+    </div>
+
+    <h3>Étape 4 — Revenir avec une raison</h3>
+    <div class="box b-warn">
+      <p><b>« Si tu n'as pas de raison, ça ne sert à rien, ce que tu as fait. »</b></p>
+      <p>Au retour, on détaille : « j'ai essayé ça, j'ai essayé en réduisant la formule, j'ai essayé de voir si la chanteuse pouvait venir seule avec sa guitare. Rien n'est possible. <b>Parce que le show est conçu de cette manière et qu'il n'y a aucune autre configuration où on peut être moins de deux.</b> »</p>
+      <p>Puis on ouvre les comptes : <b>sur cette somme, on règle les artistes — même au minimum conventionnel, chargé, ça représente ça.</b> Derrière, il y a la location du studio de répétition, les frais de déplacement. « Au final, on y va de notre poche. »</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le mot magique</h4>
+      <p><b>« Le prix le plus juste qu'on puisse vous proposer, c'est ça. Est-ce que vous, de votre côté, il n'y a pas une possibilité de vous aligner avec ce prix ? »</b></p>
+      <p>« Le prix le plus juste » — ce n'est pas « notre meilleur prix », ce n'est pas « un geste ». C'est une formulation qui transforme la négociation en question d'équité.</p>
+    </div>
+
+    <h3>Étape 5 — Conclure, ou refermer proprement</h3>
+    <div class="box b-info">
+      <p>Quand quelqu'un s'est battu pour vous et vous explique pourquoi ça n'est pas passé, <b>s'il a la possibilité de mettre un billet supplémentaire, il le fera.</b> « Si tu attendais 1 500, il va peut-être te dire : 1 500 vraiment on ne peut pas, mais je peux voir pour monter à 1 300 ou 1 400. » <b>Une vente à 200 € de moins reste une vente.</b></p>
+      <p>Et quand c'est vraiment non, on referme sans rien casser : <b>« là, on ne peut pas, mais je prends note. Si demain on est capable de concevoir un show qui peut convenir à cette enveloppe, est-ce que vous êtes OK pour que je revienne vers vous ? »</b></p>
+    </div>
+
+    <div class="pull">« Tant que tu as quelqu'un qui te répond, tu continues de poser des questions et tu enchaînes. »</div>
+  </div>
+</section>
+
+<section class="chap" id="s13" data-c="a">
+  <div class="chead">
+    <span class="num">13</span>
+    <h2>Rationaliser sans donner tort</h2>
+    <p class="tc">80:46 — 88:00</p>
+  </div>
+  <div class="cbody">
+    <p>Deuxième moitié du module vente : ce qui se joue dans le ton, et comment ramener l'interlocuteur à ses propres chiffres.</p>
+
+    <div class="box b-danger">
+      <h4>Le piège d'attitude</h4>
+      <p><b>« Il faut que, dans ton mindset, quand on te dit que c'est vraiment trop cher, il ait raison dans ton regard, dans ton attitude — et ça, c'est mortel. Si le gars sent qu'il peut avoir raison, tu es cuite. »</b></p>
+      <p>À l'inverse : <b>« il faut presque que tu sois choquée. "Attends, je ne comprends pas pourquoi ce serait trop cher." »</b> Pas de l'arrogance : de la connaissance de son métier.</p>
+    </div>
+
+    <h3>Tout le travail derrière le cachet</h3>
+    <div class="box b-key">
+      <p>« Si tu connais bien ton métier, tu sais que 1 000 ou 1 500 balles, ce n'est pas grand-chose. <b>Parce qu'il y a les répétitions, parce qu'il y a le matériel, parce qu'il y a le transport.</b> »</p>
+      <p>L'analogie du studio : une interprète qui pose une voix en trois minutes parce qu'elle est excellente s'entend dire « c'est cher pour trois minutes de boulot ». <b>Ce ne sont pas trois minutes de boulot.</b> La technique employée dans ce cas : « comme vous avez réservé une heure de studio et qu'on a déjà fini, allez-y, faites-la, la voix. » On rit, et la démonstration est faite.</p>
+      <p>Mais Emma pose la bonne limite : expliquer que le prix est légitime <b>ne change pas le fait que, pour eux, ça reste cher.</b> Et c'est vrai — d'où l'étape suivante.</p>
+    </div>
+
+    <h3>Faire ses devoirs avant l'appel</h3>
+    <div class="box b-tip">
+      <p>« Quand j'ai un appel avec un artiste, je lui demande de m'envoyer des liens d'écoute. <b>Je fais mes devoirs.</b> » Il écoute, regarde les clips, et <b>évalue le budget déjà dépensé</b> : figuration, lieu, production.</p>
+      <p>Ensuite, quand on lui dit « c'est un peu cher » : <b>« attends, je prends ta chaîne. Ce clip-là, il t'a coûté combien à peu près ? Celui-ci ? Et celui-là ? »</b></p>
+      <p>Et l'image qui conclut : <b>« c'est comme si tu me disais que tu achetais un moteur de voiture à 10 000 €, mais que la carrosserie ne doit pas coûter plus de 100 €. Tu ne vas pas aller très loin avec. »</b> Variante plus simple encore : la marque du téléphone de l'interlocuteur.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>La règle de ton</h4>
+      <p><b>« Tu ne leur dis pas que tu as raison et qu'ils ont tort. Tu dis : je peux comprendre qu'à première vue ça te paraisse beaucoup. Et là, tu rationalises. »</b></p>
+      <p>Le sous-entendu n'est jamais formulé : s'ils ont le budget pour ça, ça et ça, <b>le problème n'est pas votre prix — c'est l'arbitrage de leur budget et l'envie d'y investir.</b></p>
+    </div>
+
+    <h3>La version mairie : arriver avec des clés</h3>
+    <div class="box b-info">
+      <div class="tl">
+        <div class="tli"><b>Leurs propres programmations.</b> « Attendez, ce n'est pas cher du tout. Tel groupe, c'est de notoriété publique — arrêtez-moi si je me trompe — minimum 2 500 €. Vous avez peut-être eu un très bon prix, mais ça n'a pas coûté moins de 1 000. <b>Donc si vous êtes capables de les mettre pour eux, qu'est-ce qui vous empêche de les mettre pour nous ?</b> »</div>
+        <div class="tli"><b>Leurs autres événements.</b> Un salon annuel, une manifestation récurrente, dont on connaît l'ordre de grandeur. « Vous êtes capables de mettre tant dans ça, et pas tant dans la culture ? »</div>
+        <div class="tli"><b>Des statistiques sur leurs administrés.</b> « X % de vos administrés sont dans cette tranche d'âge, et cette tranche d'âge réclame surtout des événements culturels. »</div>
+      </div>
+      <p>Dans les trois cas, on termine par une interrogation, pas une affirmation. <b>« Tu les amènes dans une réflexion. »</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Le même conseil, hors musique</h4>
+      <p>Donné à un artisan qui essayait systématiquement de faire le devis le moins cher : <b>« non. Mets ton juste prix, et quand tu as des objections, prépare-toi. »</b></p>
+    </div>
+
+    <h3>La vraie nature de l'objection</h3>
+    <div class="box b-key">
+      <p>« Des fois, tu auras des gens pour qui le prix est le critère principal. <b>Tu ne les auras jamais, et il faut l'accepter dès le départ.</b> Mais la plupart du temps, le critère, ce n'est pas le prix. »</p>
+      <p>C'est : <b>« moi, dans ma tête, ça coûtait tant, donc je ne me voyais pas mettre plus. »</b> Une habitude, pas une contrainte.</p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Le SMIC d'un concert, et la responsabilité des artistes</h4>
+      <p>« Je sais que certains artistes acceptent, mais je peux vous assurer <b>qu'ils viennent à perte, à contrecœur.</b> Alors si vous cautionnez ça, vous en trouverez — ce ne sera pas nous, mais vous en trouverez. Si par contre vous êtes ouvert à quelque chose de juste et d'équitable : <b>oui, le SMIC pour un concert, c'est 1 500, ce n'est pas 1 000.</b> Et là, on est au SMIC. On ne vous vole pas. »</p>
+      <p>Et la conséquence : <b>« c'est là où les artistes ont une part de responsabilité. Il y a des choses qu'il ne faut pas accepter. »</b> Chaque date vendue sous le seuil installe le seuil.</p>
+    </div>
+
+    <p>Dernière nuance, honnête : certaines communes n'ont réellement pas les moyens, et refusent même un concert gratuit — parce qu'il faut monter une scène, mobiliser du staff, préparer. <b>« Là, tu ne peux vraiment rien faire, il n'y a pas photo. »</b> Savoir identifier cette cible, c'est économiser des semaines.</p>
+  </div>
+</section>
+<section class="chap" id="s14" data-c="r">
+  <div class="chead">
+    <span class="num">14</span>
+    <h2>L'inversion du risque</h2>
+    <p class="tc">88:00 — 99:50</p>
+  </div>
+  <div class="cbody">
+    <p>C'est le cœur de la session, et la réponse définitive à l'objection prix. Elle arrive après une histoire vécue qui en donne la démonstration complète.</p>
+
+    <div class="box b-info">
+      <h4>L'histoire qui révèle tout</h4>
+      <p>Une commune de 8 000 habitants, démarchée <b>pendant cinq ans</b> : « les gars, je suis à côté, je peux vous amener de beaux artistes à des prix qui défient toute concurrence. » Toujours non.</p>
+      <p>Puis un matin, il voit <b>une tête d'affiche nationale programmée dans cette même ville.</b> Il connaît l'artiste, et il connaît son prix. Il déjeune avec lui, récupère discrètement le montant : <b>environ 6 800 €</b>, payés directement par la mairie — alors qu'on lui refusait des propositions à 2 000 €.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Ce que le contact a fini par avouer</h4>
+      <p><i>« C'était un coup de cœur, on était tous fans, le maire est fan. Donc voilà, si on se plantait, ce n'était pas trop grave. »</i></p>
+      <p>Et la conclusion : <b>« là, j'ai compris que ce n'était pas une question de budget. C'est une question de prise de risque sur un budget. »</b></p>
+      <p>La peur réelle : <b>« si jamais on se plante, ça retombe sur ma pomme, je suis sur un siège éjectable, je ne veux pas qu'on vienne me reprocher d'avoir mal géré le budget de la commune. »</b></p>
+    </div>
+
+    <p>C'est exactement ce que décrivait Emma sans le nommer : ils ne programment que sur recommandation, à partir d'artistes déjà passés sur leur territoire. <b>Ce n'est pas de la frilosité budgétaire, c'est de la couverture de risque.</b></p>
+
+    <h3>La solution : la garantie indiscutable</h3>
+    <div class="box b-key">
+      <h4>Le montage, mot pour mot</h4>
+      <p><i>« Voilà ma garantie. L'artiste se facture 3 500. Voilà ce qu'on fait : <b>on met un minimum garanti à 1 500.</b> Quoi qu'il se passe — qu'il y ait une tempête ou ce que tu veux — il sera payé 1 500, et <b>les 2 000 restants sont en suspens.</b> Si on dépasse la jauge qui te permet d'être tranquille, alors tu nous payes. Si on ne la dépasse pas, tu ne nous payes pas. »</i></p>
+      <p>Puis, immédiatement : <b>« et tu mets ça par contrat. »</b></p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Le seuil, écrit noir sur blanc</h4>
+      <p>« Tu me donnes un chiffre. Si c'est une salle de 300 places et qu'on fait plus de 150, tu nous payes. <b>Si on fait moins de 150 — même 149 — c'est écrit comme ça : alors la somme des 2 000 € restants n'est pas due.</b> Est-ce que là, tu es OK ? »</p>
+      <p>La réponse obtenue : « oui, si c'est contractualisé. » <b>Ce qui n'est pas écrit n'enlève pas le risque.</b></p>
+    </div>
+
+    <div class="pull">« En gros, on a inversé le risque. On a compris qu'il ne voulait pas le porter, on l'a porté. »</div>
+
+    <h3>Ce qui se passe ensuite</h3>
+    <div class="box b-info">
+      <p>La jauge a été dépassée, la mairie a payé, <b>tout le monde est rentré dans ses frais.</b> Et surtout : <b>« toutes les mairies se parlent, parce que les communautés de communes se réunissent régulièrement. »</b> Elles se racontent : « on a rempli la salle, et en plus ils ont été vachement flexibles sur le contrat. »</p>
+      <p>Derrière, on capitalise aussitôt : <b>« allô les gars, on est passés là-bas, c'était un franc succès. Est-ce que ça vous intéresse ? »</b> Plusieurs autres dates vendues avec le même type de garantie, adaptée chaque fois à la jauge du lieu : « où est-ce que vous situez votre seuil de rentabilité, en vendant la place à tel prix ? »</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le calcul qui justifie la méthode</h4>
+      <p>Une seule fois, la jauge n'a pas été atteinte et la date n'a pas été payée. <b>« Mais à côté, ça a permis de vendre trente dates. Donc je préfère louper 2 000 balles une fois, mais les gagner vingt-neuf fois, plutôt que de ne pas les prendre du tout. »</b></p>
+      <p>Et la sécurité à ne pas oublier : <b>votre perte est plafonnée par votre propre coût plateau.</b> On fixe le minimum garanti au-dessus de ce coût, et le risque réel disparaît.</p>
+    </div>
+
+    <h3>La variante : le concert au chapeau avec minimum</h3>
+    <div class="box b-tip">
+      <p>Même logique, appliquée aux petites salles et aux bars. Le discours au patron : <b>« l'artiste n'est pas payé. Tu fais de la com, tu as ta clientèle, ça fait un plus pour tes clients — tout le monde va filmer et poster. Nous on amène la qualité du show. Sauf que nous, on ne va rien te coûter : on est payés au chapeau. »</b></p>
+      <p>Une fois validé, la vraie demande arrive : <b>« en revanche, je te demande d'expliquer dans ta com que c'est au chapeau, mais avec un minimum de 10 €. Est-ce que tu penses que c'est acceptable ? »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Et si le patron dit non</h4>
+      <p>« OK, mais est-ce que tu refuses du monde le samedi ? — Oui, plein. » → <b>« Ça fera un filtre naturel. Tu vas avoir des clients un peu plus dépensiers ce jour-là, et des gens respectueux du show »</b> — parce que quelqu'un qui accepte de mettre 10 € sait pourquoi il vient. <b>« Tu n'auras pas de clients insatisfaits qui diront : j'étais là pour manger, il y avait du bruit. »</b></p>
+      <p>L'argument économique, enfin : les 10 € symboliques correspondent à peu près au cocktail qu'il ne vendra pas. <b>Ce n'est pas une grosse perte pour lui.</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le résultat</h4>
+      <p><b>100 personnes à 10 €, ça fait 1 000 €.</b> Et dans l'inconscient collectif, personne n'a payé — « 10 balles, ce n'est rien ». Même une salle à moitié remplie fait 600 € un vendredi soir. <b>« C'est entre ça et rester chez toi. »</b></p>
+      <p>Avec un bénéfice invisible : <b>le track record.</b> « Le public ne voit pas l'envers du décor. » Mais vous, vous pouvez dire à la mairie suivante : on est passés là, là et là — appelez-les, ça s'est très bien passé. Et <b>« la plupart du temps les gens sont flemmards : ils ne vont pas se renseigner, ou ils vont appeler un copain »</b> qui confirmera.</p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>La seule objection qui reste un vrai problème</h4>
+      <p><b>« Donc le prix n'est pas un problème. Mais si tu comprends qu'en vrai ils ne mettent pas de valeur sur ce que tu proposes, ça, c'est un problème. Et ça, tu peux travailler dessus — mais c'est un autre job. »</b></p>
+    </div>
+
+    <h3>Le parallèle des arts martiaux</h3>
+    <div class="box b-info">
+      <p>« C'est comme en combat. Je vais tenter une clé de bras — elle n'est pas passée. Ça ne veut pas dire que c'est fini : <b>je me retourne, j'essaie autre chose, puis une autre.</b> Puis si rien ne passe, tu as perdu. C'est le jeu, tu ne peux pas gagner à tous les coups. »</p>
+      <p>Et la mise en garde sur la théorie : <b>« là, c'est de la théorie. En pratique, il y a plein de trucs qui ne passent pas. Mais plus tu as de possibilités qui s'offrent à toi, plus tu peux contourner. »</b></p>
+      <p>Avec, en complément, l'habitude de noter : « lui, c'est un casse-pieds » — pour savoir qui éviter les jours où la motivation est basse.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s15" data-c="g">
+  <div class="chead">
+    <span class="num">15</span>
+    <h2>Le CRM et les boucles anti-objection</h2>
+    <p class="tc">74:20 — 80:40</p>
+  </div>
+  <div class="cbody">
+    <p>Tout ce qui précède ne tient que s'il est tracé. C'est l'outil, et il est gratuit.</p>
+
+    <div class="box b-key">
+      <h4>Ce que c'est, et pourquoi</h4>
+      <p>Un <b>CRM</b> — <i>Customer Relationship Manager</i> — est un outil de suivi de tous vos appels. <b>« Tu peux t'en faire un gratuit. Moi, j'en ai fait un gratuit sur Notion. »</b></p>
+    </div>
+
+    <h3>Les colonnes du pipeline</h3>
+    <div class="box b-info">
+      <div class="tl">
+        <div class="tli"><b>Appels faits.</b> La colonne par défaut, pour tout ce qu'on ne sait pas encore où classer.</div>
+        <div class="tli"><b>Qualifiés.</b> Projet réel, besoin immédiat, financement identifié — mais pas encore de « go ».</div>
+        <div class="tli"><b>Disqualifiés.</b> Rendez-vous non honorés, budget impossible, refus net. <b>« Mais je le garde quand même en base, parce que si un jour j'ai besoin, je le relancerai peut-être. »</b></div>
+        <div class="tli"><b>Relances.</b> Ce qu'on travaille quand on a un peu de temps. <b>« Très souvent, ça les convertit. »</b></div>
+        <div class="tli"><b>Ventes.</b> Et ça fonctionne.</div>
+      </div>
+    </div>
+
+    <div class="box b-key">
+      <h4>La fiche d'appel</h4>
+      <p>Date, heure, coordonnées — et <b>des notes de tout ce qui se dit pendant l'appel.</b> « C'est aussi pour ça que je pose beaucoup de questions : ça me permet de repartir avec plein d'informations. »</p>
+      <p>Jusqu'au détail apparemment inutile : <b>« tu me donnes le prénom de ton copain, je vais le noter. Tu me donnes ta date d'anniversaire, je vais la noter. Je vais me souvenir d'absolument tout — pas parce que j'ai une mémoire, mais parce que j'ai un système. »</b></p>
+    </div>
+
+    <h3>Les boucles anti-objection, préparées à l'avance</h3>
+    <div class="box b-tip">
+      <p>« Avant, je notais même toutes les questions à lui poser, et <b>toutes les boucles anti-objection.</b> J'avais d'avance un écran où, quand il y avait écrit "le frein, c'est le prix", j'avais tout de suite la réponse : <i>à quel endroit c'est un blocage ? — Le budget.</i> Et j'avais tout de suite la deuxième question : <i>mais qui décide de ça ? Est-ce que vous faites des exceptions ?</i> Et juste après, ça basculait sur la case 3 : <i>admettons que demain on sorte le prix de l'équation…</i> »</p>
+      <p>Résultat : <b>« tous les appels sont fluides. Je ne suis pas là en train de dire : OK, d'accord… et qu'est-ce que je dois dire, là ? Non, j'ai tout de suite la contre-proposition. »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Et au bout de combien de temps ça devient naturel</h4>
+      <p><b>« Si tu as l'habitude d'avoir cette cible-là, je peux te garantir qu'au bout de 150 appels, tu n'auras plus besoin d'une feuille. Ça va être fluide, du tac au tac. Mais il faut de l'entraînement. »</b></p>
+    </div>
+
+    <h3>Relancer utilement</h3>
+    <div class="box b-key">
+      <p>Le CRM sert aussi à <b>ne pas être trop insistant et à relancer de manière ciblée.</b> L'exemple donné : une personne bloquée par une démarche administrative préalable à son inscription. Note prise. Le mercredi suivant : <i>« salut, ça a donné quoi ton rendez-vous ? C'est réglé ? — Non, il y a eu un problème. — Ne t'inquiète pas, j'ai anticipé : je t'envoie un lien, c'est la procédure pour contourner ça. On se tient informés. »</i></p>
+      <p><b>Un petit apport de valeur, et on attend.</b> Au bout de quinze jours, le problème est réglé et la vente aboutit.</p>
+    </div>
+
+    <div class="box b-danger">
+      <h4>Ce qui se passe sans CRM</h4>
+      <p>On revient un mois plus tard avec : <b>« au fait, tu n'es toujours pas inscrit, qu'est-ce qui ne va pas ? »</b> L'autre est déjà passé à autre chose. <b>« Il ne se sent pas écouté, il ne s'est pas senti respecté. »</b></p>
+    </div>
+
+    <p>Et un point relevé en séance par Tarik lui-même : il arrive de rater des éléments pendant un appel — « la personne m'a dit ça, j'aurais dû lui répondre ça, mais sur le moment je n'ai pas relevé. » <b>C'est précisément à ça que sert la relance : appuyer sur ce qu'on a oublié. « Et des fois, ça suffit à déclencher. »</b></p>
+  </div>
+</section>
+
+<section class="chap" id="s16" data-c="b">
+  <div class="chead">
+    <span class="num">16</span>
+    <h2>Faire venir les décideurs</h2>
+    <p class="tc">102:07 — 117:55</p>
+  </div>
+  <div class="cbody">
+    <p>Dernier module : le raccourci qui court-circuite toute la négociation.</p>
+
+    <div class="box b-key">
+      <h4>Le concert « bac blanc »</h4>
+      <p>« Ce qui peut vraiment vous aider, et là pour le coup <b>c'est bien subventionné, ce sont des aides faciles à obtenir</b> : showcase, promo, release party. »</p>
+      <p>L'idéal : <b>un concert où vous invitez précisément les programmateurs que vous démarchez</b>, et où ils voient d'eux-mêmes que c'est pro, que ça se passe bien, que les gens aiment. <b>« Il faut vraiment qu'ils arrivent à se projeter. Parce que si tu arrives à faire ça, le soir même, tu peux faire quarante ventes. Mais littéralement. »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>La même mécanique ailleurs</h4>
+      <p>L'exemple des salons : un salon du mariage régional avec une scène. Quand 150 personnes qui se marient l'année suivante vous voient jouer, <b>« tu descends de la scène, tu peux littéralement signer. »</b> « Très bien, je vous envoie un SMS, on confirme, je bloque la date, je vous envoie le contrat dès demain. »</p>
+      <p>La limite est posée tout de suite : ce circuit relève du répertoire de reprises. <b>L'exemple ne sert pas de modèle commercial, il sert à montrer ce que produit le fait d'avoir été vu.</b> « Quand ils t'ont vu et qu'ils ont ressenti l'énergie, tout devient beaucoup plus simple après. »</p>
+    </div>
+
+    <h3>Comment inviter</h3>
+    <div class="box b-tip">
+      <div class="tl">
+        <div class="tli"><b>Utiliser le CRM pour ça.</b> « Là, j'ai cette date. Venez, je vous invite. »</div>
+        <div class="tli"><b>Inviter à dîner avant, si le budget le permet.</b> « On va manger ensemble, comme ça on se réunit. Et après, on va au concert. »</div>
+        <div class="tli"><b>Toujours « plus un ».</b> Chacun vient accompagné.</div>
+        <div class="tli"><b>La formule d'invitation.</b> « Venez voir de vos yeux. <b>Ça n'engage à rien, mais au moins vous saurez de quoi je vous ai parlé.</b> »</div>
+      </div>
+      <p>Et ce qu'ils se diront : <i>« c'est pas mal. Ça vaut le coup. Oui, 1 500 balles, c'est donné. »</i> <b>C'est ça qui relativise le prix — pas l'argumentation.</b></p>
+    </div>
+
+    <h3>Le bouche-à-oreille joue dans les deux sens</h3>
+    <div class="box b-warn">
+      <p>Contre-exemple assumé : un groupe à très grosse notoriété, vu sur une date majeure en bord de mer devant des dizaines de milliers de personnes — et un show jugé mauvais. <b>Depuis, chaque fois qu'on lui demande son avis, il le dit.</b> « Ça freine aussi. »</p>
+      <p>Ce qui rendait le show mauvais, point par point : <b>aucune énergie, un son très mal géré, un visuel brouillon, aucune interaction avec le public, des titres déroulés à la chaîne dont la moitié n'était pas connue du public.</b> C'est une grille d'autodiagnostic utilisable telle quelle avant une date importante.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Et l'inverse, qui vaut de l'or</h4>
+      <p>« Demain, ils sont en comité, ils sont vingt-cinq maires de petites communes du coin. Il y en a un qui pose la question : qui a déjà programmé untel ? <b>S'il y en a ne serait-ce qu'un qui dit devant tout le monde : ça, c'est un truc, il faut le faire au moins une fois, c'était génial, j'en ai encore des frissons — les autres le notent en rentrant.</b> »</p>
+      <p>Et à ce moment-là : <b>« 1 000 ou 1 500, il n'y a pas de différence. Là, tu peux même vendre le gros package à 4 500 : à 1 500 vous aurez un show d'exception, mais celui à 4 500, si vous pouvez le prendre, ça va rester dans l'histoire. »</b></p>
+      <p>« Parce que là, ce n'est plus une question de prix. <b>C'est une question de : on la veut, et on veut que ce soit marquant.</b> » C'est d'ailleurs pour ça que certains groupes se vendent 50 000 ou 70 000 € : ce sont des structures qui veulent marquer un anniversaire.</p>
+    </div>
+
+    <h3>La conclusion de la session</h3>
+    <div class="box b-info">
+      <p><b>« Je pense que votre cible est la bonne. Les mairies, il faut attaquer ça. Maintenant, il faut juste y aller avec un peu plus de méthode. »</b></p>
+      <p>Et la projection : <b>« à chaque fois qu'on m'émet une objection, en réalité il y a un moyen de la contourner. Si tu es prête avant l'appel, tu verras que petit à petit tu auras les gens plus longtemps au téléphone, et plus positivement.</b> Tu ne vendras pas au début, c'est le jeu — mais tu te diras : lui, avant, c'était expéditif ; là, on est restés une demi-heure au téléphone, il m'a posé des questions, il s'est intéressé à l'artiste. <b>C'est un peu ça qu'on va rechercher.</b> »</p>
+    </div>
+
+    <div class="pull">« Les dix premières dates sont bien plus dures à vendre que les cent suivantes. »</div>
+
+    <h3>Les derniers points, en fin de session</h3>
+    <div class="box b-key">
+      <h4>Inverser le risque… sans en prendre</h4>
+      <p>Trois dates gagnées par inversion du risque servent à en gagner d'autres <b>avant même d'être jouées</b> : « telle mairie, telle mairie, telle mairie nous font confiance. »</p>
+      <p>Mais la condition : <b>quand tu inverses le risque, toi, tu ne dois pas en prendre.</b> L'exemple : un album dont la fabrication coûte 2 €. « Je te le vends 2 € ; si tu aimes bien, tu me payes les 8 autres ; si tu n'aimes pas, tu les gardes. » <b>Il n'y a pas vraiment de risque, parce que le coût de fabrication est déjà amorti par ces 2 €. C'est une fausse inversion du risque, mais elle est perçue comme une inversion complète. Et c'est ça qui est intéressant.</b></p>
+      <p>Le seul risque réel qui reste : <b>le risque réputationnel.</b> « Tu ne peux pas faire que des salles pleines. Il faut aussi que la mairie fasse sa com de son côté. »</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>L'ordre des problèmes</h4>
+      <p><b>« Là, pour l'instant, le problème, c'est de ploguer les dates. Une fois qu'elles sont ploguées, vous aurez un autre problème, qui va être de les remplir. Mais chaque chose en son temps. »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Le mot de la fin sur le prix</h4>
+      <p>Ce qui ressort des retours terrain : <b>c'était surtout « cher pour quelqu'un qu'on ne connaît pas ». Ils n'ont aucune garantie que ça va marcher, et la peur du flop.</b></p>
+      <p>Réponse : <b>« et c'est normal. Il serait absurde de ne pas avoir ce risque en tête. Mais si tu arrives à inverser le risque, qu'ils te donnent ta chance et que tu transformes l'essai, là c'est festival — parce qu'après, ils vont te recommander. »</b></p>
+      <p>Et ce qu'ils se diront entre eux : <i>« les gars, on a une artiste, elle ne coûte vraiment pas cher, dépêchez-vous parce que ça cartonne. »</i></p>
+      <p>Pour finir sur une mise en perspective : <b>1 500 €, ce n'est pas cher pour une commune — rien que l'installation des décorations de Noël coûte cet ordre de grandeur. C'est juste que dans le budget culture, on ne veut pas que ça coûte plus, parce qu'on ne sait pas rentabiliser plus.</b> Montrez qu'on peut faire fois deux ou fois trois, et la ligne budgétaire bouge.</p>
+    </div>
+  </div>
+</section>
+<div class="faq">
+  <div class="bar"></div>
+  <div class="faqhead">
+    <h2>Questions / Réponses</h2>
+    <p>Les 116 points traités pendant la session, regroupés par thème.</p>
+  </div>
+  <div class="faqbody">
+
+    <div class="faqcat">Entrer dans une mairie</div>
+    <div class="qa"><div class="q"><span>Q1.</span>À qui faut-il s'adresser dans une collectivité ?</div><div class="a"><p>À celui qui porte la responsabilité. <em class="q">« Quand tu t'adresses au mec qui porte les responsabilités, il se dit : attends, moi, ça m'intéresse. »</em> <strong>Un élu est sensible à ce qui peut lui retomber dessus</strong> — une scène mal montée, un incident sur un événement public.</p></div></div>
+    <div class="qa"><div class="q"><span>Q2.</span>Pourquoi ne pas passer par les services ?</div><div class="a"><p><em class="q">« Il ne faut pas appeler les sous-fifres, parce qu'eux, ils ne voient pas l'intérêt. Ça ne va pas leur brûler les fesses qu'il y ait une scène qui s'envole, ce n'est pas eux les responsables. »</em> <strong>Celui qui ne porte pas le risque n'a aucune raison de faire bouger un budget.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q3.</span>Comment doit-on formuler le contact ?</div><div class="a"><p>Par écrit, pas par téléphone — <strong>l'écrit crée une trace</strong>. En restant formel : vouvoiement, aucune mention d'une éventuelle relation personnelle, afin que le courrier puisse circuler dans les services sans poser problème.</p></div></div>
+    <div class="qa"><div class="q"><span>Q4.</span>Que vaut une résidence de deux jours ?</div><div class="a"><p>C'est très court. <strong>Il faut y arriver avec tout prêt : on ne fait que de la répétition de scène, pas de mise au point de morceaux.</strong> Une résidence courte est un temps de rodage, pas un temps de création.</p></div></div>
+
+    <div class="faqcat">Le mécanisme du courrier enregistré</div>
+    <div class="qa"><div class="q"><span>Q5.</span>Que se passe-t-il quand un courrier arrive en mairie ?</div><div class="a"><p>Trois obligations : <strong>un tampon avec la date d'arrivée, une inscription au registre, et un accusé de réception.</strong> <em class="q">« C'est cette date qui fait courir les délais légaux. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q6.</span>Quel usage en faire ensuite ?</div><div class="a"><p>Rappeler en disant : <em class="q">« nous avons déposé un courrier tel jour, il a été enregistré à la mairie. Qu'en est-il ? »</em> <strong>La conversation ne démarre plus à zéro et ne dépend plus de la mémoire de l'interlocuteur.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q7.</span>Comment s'assurer que le maire lira le courrier lui-même ?</div><div class="a"><p>Avec la mention <strong>« personnel et confidentiel »</strong> sur l'enveloppe : le pli est remis au maire fermé, personne d'autre ne peut l'ouvrir pour lui.</p></div></div>
+    <div class="qa"><div class="q"><span>Q8.</span>Et sans cette mention ?</div><div class="a"><p>Le courrier peut être ouvert par <strong>le directeur général des services ou le secrétaire de mairie</strong>, puis réorienté vers le service compétent — c'est-à-dire vers des personnes qui ne portent pas le risque.</p></div></div>
+    <div class="qa"><div class="q"><span>Q9.</span>Deux mois de silence valent-ils acceptation ?</div><div class="a"><p>En principe oui, <strong>avec un nombre important d'exceptions dans lesquelles le silence vaut au contraire refus.</strong> Il faut donc toujours vérifier dans quel panier tombe sa démarche avant de compter dessus.</p></div></div>
+    <div class="qa"><div class="q"><span>Q10.</span>Qu'en est-il d'une proposition de formation ?</div><div class="a"><p>Vérification faite en séance : <strong>ce cas tombe dans les exceptions. Si la collectivité ne répond pas, c'est un refus.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q11.</span>Et une facture ou un bon de commande ?</div><div class="a"><p>Envoyé par ce circuit et non refusé dans le délai, il est considéré comme accepté — y compris, dans certains cas, <strong>lorsque le montant dépasse celui du devis signé.</strong> À utiliser pour sécuriser une commande réellement validée en réunion, pas pour faire passer un montant que personne n'a accepté. <strong>Ce n'est pas un avis juridique : sur un montant significatif, on fait valider par un professionnel.</strong></p></div></div>
+
+    <div class="faqcat">Le levier</div>
+    <div class="qa"><div class="q"><span>Q12.</span>Quel est le principe du levier ?</div><div class="a"><p><em class="q">« Quand un truc marche sur une ligne, essayez de faire en sorte que pour le même travail, vous arriviez à toucher mille lignes. »</em> Et : <em class="q">« au lieu d'essayer une fois, essayons mille fois d'un coup, et voyons ce qui se passe. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q13.</span>En quoi consiste la technique d'abordage ?</div><div class="a"><p><strong>Déposer le même courrier, construit de la même manière, sur un ensemble de mairies comparables</strong> — même taille, même profil, même type de besoin.</p></div></div>
+    <div class="qa"><div class="q"><span>Q14.</span>Comment repérer les communes qui ont du budget ?</div><div class="a"><p>Par leur tissu économique, pas par leur notoriété. <strong>Il suffit de suivre un fleuve et certains cours d'eau pour trouver les industries les plus florissantes</strong> — pétrochimie, silos à grains, zones agricoles. Là où les entreprises paient, les municipalités ont de la trésorerie.</p></div></div>
+    <div class="qa"><div class="q"><span>Q15.</span>Quel est le meilleur point d'entrée collectif ?</div><div class="a"><p><strong>L'association des maires</strong>, qui dispose d'antennes régionales. <em class="q">« Si tu arrives à rentrer par cette porte-là, c'est plusieurs centaines de communes dans la région qui peuvent être sollicitées. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q16.</span>Comment y accéder ?</div><div class="a"><p>En se faisant coopter par un élu déjà rencontré, pour <strong>une présentation lors d'une prochaine réunion.</strong> <em class="q">« Sur une présentation qui se passe bien, tu peux faire cinquante touches. »</em></p></div></div>
+
+    <div class="faqcat">Reprendre la main sur une édition</div>
+    <div class="qa"><div class="q"><span>Q17.</span>Quel est le premier réflexe en cas de doute sur une édition ?</div><div class="a"><p><strong>Aller lire la fiche de l'œuvre à la société d'auteurs</strong> et relever la liste exacte des ayants droit et leur rôle déclaré — qui est éditeur, qui est coéditeur, et dans quelles proportions.</p></div></div>
+    <div class="qa"><div class="q"><span>Q18.</span>Que faire d'un code de rôle inconnu sur un dépôt ?</div><div class="a"><p>Le faire expliquer. Dans ce cas précis, une ligne « autre ayant droit » avec un code inhabituel : hypothèse d'un code d'interprète, sans certitude. <em class="q">« Vraiment, c'est la première fois que je vois ça, donc je ne saurais pas te l'expliquer. »</em> <strong>Une ligne qu'on ne comprend pas se fait expliquer par écrit par la société d'auteurs, pas deviner.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q19.</span>Comment une clé de répartition peut-elle changer sans accord ?</div><div class="a"><p>Par le mécanisme du dépôt à signature unique. <strong>Jusqu'à récemment, un dépôt en France exigeait la signature de tous les ayants droit ; les structures internationales déposaient donc au Royaume-Uni, où une seule signature suffit</strong> — à charge pour les autres de se manifester.</p></div></div>
+    <div class="qa"><div class="q"><span>Q20.</span>Pourquoi cette règle existe-t-elle ?</div><div class="a"><p>Pour <strong>éviter qu'un titre reste bloqué cinq ans parce qu'une seule personne ne veut pas signer.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q21.</span>Qu'est-ce qui a changé en France ?</div><div class="a"><p><strong>Depuis 2025-2026, le dépôt est possible avec un seul contresignataire</strong>, même s'il manque des ayants droit. C'est très probablement sur ce fondement que la nouvelle clé a été validée.</p></div></div>
+    <div class="qa"><div class="q"><span>Q22.</span>Est-ce illégal pour autant ?</div><div class="a"><p>Non. <em class="q">« À partir du moment où c'est justifié, ça passe, c'est légal. »</em> Ce qui est surprenant, c'est l'écart entre ce que dit le contrat et ce que montre le résultat.</p></div></div>
+    <div class="qa"><div class="q"><span>Q23.</span>Quelle est la justification habituelle de l'éditeur ?</div><div class="a"><p><em class="q">« Nos parts aussi ont été diluées, elles ont été réparties avec un coéditeur ; pour que le placement se fasse, c'était la condition nécessaire. On est parti du principe que chacun faisait un effort équitable. »</em> <strong>L'argument tient, mais il ne supprime ni l'obligation de rendre des comptes, ni le droit à la part correspondante.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q24.</span>Que faire quand on reçoit un montant à facturer sans explication ?</div><div class="a"><p>Demander par écrit : <strong>« à quoi correspond le montant que tu veux que je te facture ? »</strong> <em class="q">« Si c'est une part, à mon avis la somme est bonne — c'est la ventilation qu'il faut comprendre. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q25.</span>Quel risque si on ne comprend pas la ventilation ?</div><div class="a"><p>Si le montant englobe la part d'un autre ayant droit, il faut procéder à la division de son côté. Sinon : <em class="q">« un beau matin tu demandes les factures de l'autre structure, et on te répond : on te l'a déjà payé. »</em> <strong>Et là, il peut y avoir un vrai problème.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q26.</span>Peut-on confondre part de compositeur et part d'éditeur ?</div><div class="a"><p>Non, et c'est le piège. <strong>Un pourcentage touché en tant que compositeur n'est pas celui dû en tant qu'éditeur.</strong> Les deux coexistent sur la même œuvre et se facturent séparément — confondre les deux, c'est renoncer à l'une sans s'en apercevoir.</p></div></div>
+
+    <div class="faqcat">Le relevé de royalties</div>
+    <div class="qa"><div class="q"><span>Q27.</span>Qu'impose le contrat de coédition en matière de comptes ?</div><div class="a"><p>Un <strong>arrêté des comptes au 30 juin et au 31 décembre</strong>, et à chaque arrêté l'envoi d'un relevé de royalties indiquant où en est la comptabilisation des revenus.</p></div></div>
+    <div class="qa"><div class="q"><span>Q28.</span>Est-ce une obligation ou une faveur ?</div><div class="a"><p><strong>« C'est une obligation légale de l'éditeur. Même un relevé négatif, ils sont obligés de te l'envoyer. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q29.</span>Quel courrier envoyer ?</div><div class="a"><p><em class="q">« Dans le cadre de ce contrat de coédition, depuis [année], je n'ai reçu aucun relevé de royalties concernant la coédition de cette œuvre. Ci-joint le contrat. Pouvez-vous m'envoyer un récapitulatif ? »</em> <strong>Pas de reproche, pas d'argumentation : une demande de document.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q30.</span>Qu'est-ce que ça peut rapporter ?</div><div class="a"><p><em class="q">« Et peut-être que là, tu as dix mille balles qui t'attendent, ou plus. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q31.</span>Et si une avance a été versée ?</div><div class="a"><p>La réponse sera « l'avance n'est toujours pas recoupée ». Ce n'est pas un problème — <strong>mais la balance négative doit être communiquée tous les six mois, ou a minima tous les ans.</strong> Un relevé négatif reste un relevé : il dit à partir de quand on commencera à toucher.</p></div></div>
+
+    <div class="faqcat">Lire un contrat de coédition</div>
+    <div class="qa"><div class="q"><span>Q32.</span>Quelle clause faut-il vérifier en premier ?</div><div class="a"><p>Le droit applicable. <em class="q">« Le présent contrat est interprété selon la loi française, fait à Paris, tribunal compétent de Paris. »</em> <strong>Quoi qu'il se soit passé ailleurs, les parties restaient tenues par un accord préalable écrit.</strong> L'argument « ça se passe à Londres » ne tient pas.</p></div></div>
+    <div class="qa"><div class="q"><span>Q33.</span>Que vérifier sur la répartition ?</div><div class="a"><p>Le chiffre inscrit au contrat — ici trois éditeurs, un tiers chacun. <strong>Tout écart entre le contrat et le dépôt est le cœur du dossier.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q34.</span>Que dit la clause d'exploitation à l'étranger ?</div><div class="a"><p>Que <strong>chaque partie est autorisée pour la part qu'elle contrôle</strong>, et que seul l'éditeur principal se charge de la rémunération des artistes. Il faut donc identifier qui est l'éditeur principal : c'est lui qui porte les obligations de reversement.</p></div></div>
+    <div class="qa"><div class="q"><span>Q35.</span>Qui négocie les licences ?</div><div class="a"><p><strong>Les éditeurs A et B, après accord mutuel.</strong> Si vous êtes l'éditeur C, vous êtes contractuellement exclu de la table de négociation.</p></div></div>
+    <div class="qa"><div class="q"><span>Q36.</span>Est-ce anormal d'en être exclu ?</div><div class="a"><p>Pas forcément. <em class="q">« Ce qui en soi n'est pas mal, parce qu'ils t'ont fait faire un placement sympa. Mais ils te doivent quand même une part des recettes. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q37.</span>Pourquoi deux contrats pour une seule opération ?</div><div class="a"><p>Parce qu'une clause prévoit que l'éditeur A ne soit pas mentionné au contrat de cession éditoriale. <strong>Quand on fait signer deux documents sur le même sujet, il faut relire les deux ensemble : l'un dit souvent ce que l'autre tait.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q38.</span>Quelle est la durée, et le piège ?</div><div class="a"><p><strong>Cinq ans, « reconductible pour des durées successives de cinq années chacune, sauf dénonciation ».</strong> La reconduction a joué : c'est reparti pour cinq ans. <strong>La reconduction tacite est la clause qu'on oublie à la signature et qu'on découvre trop tard.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q39.</span>Comment estimer ce qui est en jeu ?</div><div class="a"><p>Par règle de trois. <strong>Si une somme d'environ 6 000 € représente un quart, l'enveloppe globale est de l'ordre de 40 000 €</strong> — et même à quote-part réduite, il reste environ 3 000 € à réclamer. <em class="q">« Puisque j'ai touché 25 % d'une somme, normalement chaque coéditeur devrait toucher la même chose. »</em></p></div></div>
+
+    <div class="faqcat">Quand l'éditeur ne répond plus</div>
+    <div class="qa"><div class="q"><span>Q40.</span>Quel levier utiliser ?</div><div class="a"><p><strong>Identifier l'organisation professionnelle dont l'éditeur est membre</strong> — pour l'édition musicale, le plus souvent la CSDEM, la Chambre syndicale de l'édition musicale. La liste des membres actifs est publique.</p></div></div>
+    <div class="qa"><div class="q"><span>Q41.</span>Comment procéder ?</div><div class="a"><p><strong>Un courrier recommandé avec accusé de réception, et l'organisation en copie.</strong> <em class="q">« Je mets en copie des parties dont je sais qu'ils ne veulent pas perdre la bonne réputation. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q42.</span>Pourquoi ça fonctionne ?</div><div class="a"><p>Parce qu'une exclusion pour non-respect des règles coûterait une part majeure des relations professionnelles de l'éditeur. <strong>Personne ne prend ce risque pour quelques milliers d'euros.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q43.</span>Quelle est l'issue la plus probable ?</div><div class="a"><p><em class="q">« Ils vont plutôt enterrer le dossier »</em> : vous régler, puis demander un courrier rectificatif expliquant qu'il y avait erreur. <strong>Vous êtes payé, ils sont blanchis — et c'est l'issue qui vous convient.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q44.</span>Faut-il toujours en arriver là ?</div><div class="a"><p>Non. Il faut d'abord poser le diagnostic : <em class="q">« c'est plus des gens bordéliques qu'autre chose »</em> — une très grosse structure, un catalogue énorme, des réponses vaporeuses, des relances à répéter quinze fois. <strong>Si c'est de la désorganisation, un courrier clair suffit souvent. Le levier syndical se garde pour la mauvaise foi.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q45.</span>Quelle habitude évite le problème en amont ?</div><div class="a"><p><strong>« Moi, je n'ai jamais eu de problème parce que je mets toujours quinze personnes en copie. »</strong> Ce n'est pas de l'agressivité, c'est de la visibilité : les délais de réponse n'ont rien à voir.</p></div></div>
+
+    <div class="faqcat">Délais de paiement</div>
+    <div class="qa"><div class="q"><span>Q46.</span>Pourquoi un paiement traîne-t-il ?</div><div class="a"><p>Deux raisons. <strong>L'oubli</strong> — <em class="q">« je pense qu'il compte sur le fait que tu puisses oublier »</em> — et <strong>le calendrier fiscal</strong> : selon la date de clôture de l'exercice, il est plus ou moins intéressant de faire traîner.</p></div></div>
+    <div class="qa"><div class="q"><span>Q47.</span>Comment fonctionne cette logique d'exercice ?</div><div class="a"><p>Certaines années la structure vous presse de facturer, voire vous paie avant d'avoir la facture : elle a besoin de décaisser. D'autres années elle garde la trésorerie. <em class="q">« Les années où tu sais que tu auras de l'impôt, tu forces le décaissement. On fait tous pareil — mais pas à cette échelle. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q48.</span>Qu'en conclure pratiquement ?</div><div class="a"><p><strong>Ne pas lire un retard comme un signal personnel, et ne jamais laisser une facture reposer sur sa seule mémoire.</strong> Une ligne, une date, une relance programmée.</p></div></div>
+
+    <div class="faqcat">Calendrier publicitaire et fenêtres de sortie</div>
+    <div class="qa"><div class="q"><span>Q49.</span>Pourquoi la publicité coûte-t-elle plus cher en fin d'année ?</div><div class="a"><p><em class="q">« Journées de promo, octobre noir, Black Friday, Noël : c'est la pire période pour la pub. »</em> <strong>Tous les gros annonceurs sont sur les plateformes jusqu'au 24 décembre, parfois jusqu'au 31.</strong> « Pour sortir du jeu, je dirais juste avant Halloween. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q50.</span>Que doit faire un petit annonceur ?</div><div class="a"><p><strong>Sortir du jeu. « Il faut les laisser se battre entre mastodontes. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q51.</span>Quelles sont les deux fenêtres verrouillées de l'année ?</div><div class="a"><p><strong>De mi-octobre à janvier</strong> — saison du cadeau, best-of, hommages, et tout le reste du marché ; les playlists sont verrouillées. Et <strong>de juin à mi-août</strong> — les radios organisent leurs concerts d'été et ne bougent plus leurs playlists jusqu'après le 15 août.</p></div></div>
+    <div class="qa"><div class="q"><span>Q52.</span>Faut-il décaler ses sorties ?</div><div class="a"><p>Oui. <strong>Ces deux périodes sont à éviter, en publicité comme en sortie.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q53.</span>Et la prospection de dates ?</div><div class="a"><p>Elle ne s'arrête jamais. <em class="q">« Attention, tu peux prospecter à n'importe quel moment. Ces gens-là ne sont pas sollicités par les gros annonceurs. »</em> <strong>Simplement, on le fait moins par les réseaux et plus en direct</strong> : prospection active, prise de rendez-vous, coup de fil, courrier au comité des fêtes ou au service culturel.</p></div></div>
+
+    <div class="faqcat">Diagnostiquer une campagne</div>
+    <div class="qa"><div class="q"><span>Q54.</span>Un coût par clic qui passe de 0,08 à 0,14 €, c'est grave ?</div><div class="a"><p><strong>« L'augmentation n'est pas encore trop violente — des fois, c'est fois trois, fois cinq. »</strong> Avant de tout changer, il faut distinguer ce qui vient de la régie de ce qui vient des créations.</p></div></div>
+    <div class="qa"><div class="q"><span>Q55.</span>Comment détecter la lassitude créative ?</div><div class="a"><p><strong>Si les nouvelles créations coûtent moins cher que les anciennes, il y a lassitude.</strong> Remède : remplacer toutes les anciennes. Et de manière générale, <em class="q">« tu devrais régulièrement injecter de nouvelles pubs, même si ça fonctionne bien ».</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q56.</span>Qu'est-ce que la technique couper-relancer ?</div><div class="a"><p><strong>Couper la campagne, laisser passer deux ou trois jours, la réactiver.</strong> « Les deux premiers jours elle ne va pas être bonne, mais au bout du troisième elle se régule et revient à des coûts normaux. » Honnêtement : « des fois ça marche, des fois ça ne marche pas. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q57.</span>Pourquoi ça pourrait fonctionner ?</div><div class="a"><p>Deux hypothèses : une régie qui ne veut pas voir partir un annonceur même petit, ou simplement <strong>deux gros annonceurs qui coupent au même moment et vous laissent une semaine tranquille.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q58.</span>Quel autre facteur fait monter les coûts ?</div><div class="a"><p>Le flux de connexions. <strong>Un grand événement télévisé réduit le nombre de connectés et le coût par utilisateur augmente</strong> — la régie n'y réduit pas son exposition, elle l'élargit vers des profils moins qualifiés.</p></div></div>
+    <div class="qa"><div class="q"><span>Q59.</span>Quel test permet de trancher ?</div><div class="a"><p><strong>« Si au bout d'une à deux semaines tu ne vois pas d'amélioration, c'est que ça vient de la régie : elle est saturée, c'est tout. »</strong> Sinon les coûts fluctuent — une saturation de régie, elle, ne fluctue pas.</p></div></div>
+
+    <div class="faqcat">Vendre une date : le diagnostic</div>
+    <div class="qa"><div class="q"><span>Q60.</span>Le prix est-il le vrai obstacle ?</div><div class="a"><p><strong>« Je ne pense pas que le prix soit le problème principal. Je ne pense vraiment pas. »</strong> <em class="q">« Si tu arrivais sur recommandation comme la huitième merveille du monde, entre 1 000 et 1 500, la différence n'est pas énorme et je pense que ça passerait. »</em> Seule exception franche : les communes dont le budget annuel maximum est de 1 000 €.</p></div></div>
+    <div class="qa"><div class="q"><span>Q61.</span>Premier conseil ?</div><div class="a"><p>Assumer pleinement son prix. <strong>« Il faut même que tu aies l'impression de leur faire une fleur. Parce que s'ils sentent que même pour toi c'est beaucoup, ça ne va pas les rassurer — et ils vont le sentir à ta voix. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q62.</span>Comment répond-il lui-même à « c'est trop cher » ?</div><div class="a"><p><em class="q">« Oui, c'est sûr, c'est peut-être trop cher pour toi. Maintenant, ce prix reflète vingt ans d'expérience dans lesquels j'ai perdu des centaines de milliers d'euros pour apprendre ce que je peux te transmettre aujourd'hui. »</em> Et la posture : <strong>« je n'ai pas besoin que tu l'achètes. À partir du moment où tu trouves ça trop cher, c'est que tu n'es pas dans la cible. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q63.</span>Quel est l'effet recherché ?</div><div class="a"><p><strong>« La personne en face est presque dégoûtée de ne pas pouvoir l'acheter. »</strong> Elle se dit : si j'avais le budget, ce n'est peut-être pas si cher — c'est même une bonne affaire.</p></div></div>
+    <div class="qa"><div class="q"><span>Q64.</span>Deuxième conseil ?</div><div class="a"><p><strong>« Un appel de vente, c'est 5 % d'introduction, 5 % de conclusion. Les 90 % du temps, tu ne fais que poser des questions. »</strong> Parce que « plus tu vas poser de questions, plus tu vas te rapprocher de quelqu'un qui est motivé à acheter ».</p></div></div>
+    <div class="qa"><div class="q"><span>Q65.</span>Quand faut-il lâcher ?</div><div class="a"><p>Quand on vous dit qu'on ne mettra pas plus, ni chez vous ni ailleurs. <strong>« Pas de problème, tu lâches. Mais tant que tu as quelqu'un qui te répond, tu continues de poser des questions. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q66.</span>Troisième conseil ?</div><div class="a"><p>Bâtir un process qui amplifie. <strong>« Le bouche-à-oreille, c'est très bien, c'est ce qui marche le mieux — mais il n'y a pas de levier. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q67.</span>Combien de refus faut-il pour conclure que le prix est mauvais ?</div><div class="a"><p><strong>Trente-trois. « Statistiquement, 33 points d'entrée donnent une statistique viable. »</strong> En dessous : <em class="q">« si tu as cinq personnes, il suffit que tu en aies cinq autres la semaine prochaine qui te disent : plus de 3 000, c'est mort — et tout de suite le gap a changé. »</em></p></div></div>
+
+    <div class="faqcat">La séquence d'objection</div>
+    <div class="qa"><div class="q"><span>Q68.</span>Comment ouvre-t-on la séquence ?</div><div class="a"><p>En retirant le prix de l'équation. <strong>« Disons que c'est gratuit. Vous prenez ou pas ? »</strong> Objectif : savoir s'il y a acceptation ou refus de principe. <strong>Si même le gratuit est un refus, le prix n'a jamais été le sujet.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q69.</span>Et si la réponse est « il faut qu'on en parle » ?</div><div class="a"><p>On creuse : <strong>« il faut que vous en parliez à qui ? Qui décide ? Je veux juste comprendre, ça m'intéresse. »</strong> Vous venez de cartographier le circuit de décision.</p></div></div>
+    <div class="qa"><div class="q"><span>Q70.</span>Comment remonte-t-on le prix ?</div><div class="a"><p>Palier par palier : gratuit, puis 500, puis 1 000. <em class="q">« C'est toujours OK ou pas ? »</em> Avec la consigne essentielle : <strong>« là, il faut laisser des blancs, il ne faut pas parler. Et tu attends. »</strong> Quand on a trouvé le plafond, on se place juste en dessous.</p></div></div>
+    <div class="qa"><div class="q"><span>Q71.</span>Qu'est-ce que la technique de l'agent immobilier ?</div><div class="a"><p>Se poser en allié. <em class="q">« Je ne le fais pas habituellement, mais pour vous je suis prêt à aller me prendre un bouillon : je vais me retourner vers le groupe. Ça m'étonnerait que ça passe, mais je vais tenter. »</em> <strong>Ça donne une fenêtre pour revenir, et une position d'empathie.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q72.</span>Que faut-il absolument au retour ?</div><div class="a"><p>Une raison. <strong>« Si tu n'as pas de raison, ça ne sert à rien, ce que tu as fait. »</strong> On détaille ce qui a été tenté, pourquoi la configuration ne peut pas descendre, et ce que paie réellement le cachet : artistes au minimum conventionnel chargé, studio de répétition, déplacements.</p></div></div>
+    <div class="qa"><div class="q"><span>Q73.</span>Quelle est la formulation à retenir ?</div><div class="a"><p><strong>« Le prix le plus juste qu'on puisse vous proposer, c'est ça. Est-ce que vous, de votre côté, il n'y a pas une possibilité de vous aligner ? »</strong> « Le prix le plus juste » transforme la négociation en question d'équité.</p></div></div>
+    <div class="qa"><div class="q"><span>Q74.</span>Et si l'écart ne se comble pas entièrement ?</div><div class="a"><p>On conclut quand même. <em class="q">« 1 500 vraiment on ne peut pas, mais je peux voir pour monter à 1 300 ou 1 400. »</em> <strong>Une vente à 200 € de moins reste une vente.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q75.</span>Comment refermer quand c'est non ?</div><div class="a"><p><strong>« Je prends note. Si demain on est capable de concevoir un show qui peut convenir à cette enveloppe, est-ce que vous êtes OK pour que je revienne vers vous ? »</strong></p></div></div>
+
+    <div class="faqcat">Rationaliser sans donner tort</div>
+    <div class="qa"><div class="q"><span>Q76.</span>Quel est le piège d'attitude ?</div><div class="a"><p>Laisser voir qu'on pense qu'il a raison. <strong>« Si le gars sent qu'il peut avoir raison, tu es cuite. »</strong> À l'inverse : <em class="q">« il faut presque que tu sois choquée : attends, je ne comprends pas pourquoi ce serait trop cher. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q77.</span>Comment expliquer le travail derrière un cachet ?</div><div class="a"><p>Par l'énumération : <strong>répétitions, matériel, transport.</strong> Et par l'analogie du studio : une interprète qui pose une voix en trois minutes parce qu'elle est excellente — « ce ne sont pas trois minutes de boulot ». La technique employée : « vous avez réservé une heure, allez-y, faites-la, la voix. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q78.</span>Est-ce que ça suffit ?</div><div class="a"><p>Non, et la limite est posée en séance : <strong>expliquer que le prix est légitime ne change pas le fait que, pour eux, ça reste cher.</strong> D'où l'étape de rationalisation.</p></div></div>
+    <div class="qa"><div class="q"><span>Q79.</span>Qu'est-ce que « faire ses devoirs » ?</div><div class="a"><p>Écouter et regarder ce que le prospect a déjà produit, <strong>et évaluer le budget déjà dépensé.</strong> Puis lui faire chiffrer lui-même : « ce clip-là, il t'a coûté combien à peu près ? Celui-ci ? »</p></div></div>
+    <div class="qa"><div class="q"><span>Q80.</span>Quelle image conclut la démonstration ?</div><div class="a"><p><strong>« C'est comme si tu me disais que tu achetais un moteur de voiture à 10 000 €, mais que la carrosserie ne doit pas coûter plus de 100 €. Tu ne vas pas aller très loin avec. »</strong> Variante plus simple : la marque du téléphone de l'interlocuteur.</p></div></div>
+    <div class="qa"><div class="q"><span>Q81.</span>Quelle est la règle de ton ?</div><div class="a"><p><strong>« Tu ne leur dis pas que tu as raison et qu'ils ont tort. Tu dis : je peux comprendre qu'à première vue ça te paraisse beaucoup. Et là, tu rationalises. »</strong> Le sous-entendu n'est jamais formulé : le problème n'est pas le prix, c'est l'arbitrage du budget.</p></div></div>
+    <div class="qa"><div class="q"><span>Q82.</span>Quelles clés apporter en mairie ?</div><div class="a"><p>Trois. <strong>Leurs propres programmations</strong> (« tel groupe, c'est minimum 2 500 € — si vous êtes capables de les mettre pour eux, qu'est-ce qui vous empêche de les mettre pour nous ? »), <strong>leurs autres événements</strong>, et <strong>des statistiques sur leurs administrés</strong>. Toujours en terminant par une interrogation.</p></div></div>
+    <div class="qa"><div class="q"><span>Q83.</span>Quelle est la vraie nature de l'objection, le plus souvent ?</div><div class="a"><p><strong>Une habitude : « moi, dans ma tête, ça coûtait tant, donc je ne me voyais pas mettre plus. »</strong> Et pour une minorité, le prix est réellement le critère principal — <em class="q">« tu ne les auras jamais, et il faut l'accepter dès le départ ».</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q84.</span>Quel est le « SMIC » d'un concert ?</div><div class="a"><p><strong>1 500 €, pas 1 000.</strong> <em class="q">« Je sais que certains artistes acceptent, mais je peux vous assurer qu'ils viennent à perte, à contrecœur. »</em> D'où la conclusion : <strong>« c'est là où les artistes ont une part de responsabilité. Il y a des choses qu'il ne faut pas accepter. »</strong></p></div></div>
+
+    <div class="faqcat">L'inversion du risque</div>
+    <div class="qa"><div class="q"><span>Q85.</span>Quelle histoire révèle la vraie objection ?</div><div class="a"><p>Une commune de 8 000 habitants démarchée <strong>pendant cinq ans</strong> avec des propositions à 2 000 € — toujours non. Puis une tête d'affiche nationale programmée dans cette même ville, <strong>payée environ 6 800 € directement par la mairie.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q86.</span>Quelle explication a été donnée ?</div><div class="a"><p><em class="q">« C'était un coup de cœur, on était tous fans, le maire est fan. Donc si on se plantait, ce n'était pas trop grave. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q87.</span>Quelle est donc la vraie objection ?</div><div class="a"><p><strong>« Ce n'était pas une question de budget. C'est une question de prise de risque sur un budget. »</strong> La peur réelle : <em class="q">« si on se plante, ça retombe sur ma pomme, je suis sur un siège éjectable. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q88.</span>En quoi consiste la garantie indiscutable ?</div><div class="a"><p>Un <strong>minimum garanti</strong> versé quoi qu'il arrive, et <strong>un solde conditionné au dépassement d'une jauge</strong> que l'acheteur fixe lui-même. Exemple donné : artiste facturé 3 500, minimum garanti 1 500, 2 000 en suspens.</p></div></div>
+    <div class="qa"><div class="q"><span>Q89.</span>Qu'est-ce qui rend le montage crédible ?</div><div class="a"><p><strong>Le contrat. « Et tu mets ça par contrat. »</strong> Avec le seuil écrit noir sur blanc : « si on fait moins de 150 — même 149 — la somme restante n'est pas due. » La réponse obtenue : « oui, si c'est contractualisé. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q90.</span>Que se passe-t-il après une première date réussie ?</div><div class="a"><p><strong>« Toutes les mairies se parlent, parce que les communautés de communes se réunissent régulièrement. »</strong> Elles se racontent le succès et la flexibilité du contrat. Derrière, on capitalise aussitôt : « on est passés là-bas, c'était un franc succès, est-ce que ça vous intéresse ? »</p></div></div>
+    <div class="qa"><div class="q"><span>Q91.</span>Et si la jauge n'est pas atteinte ?</div><div class="a"><p>C'est arrivé une fois. <strong>« Mais à côté, ça a permis de vendre trente dates. Je préfère louper 2 000 balles une fois, mais les gagner vingt-neuf fois, plutôt que de ne pas les prendre du tout. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q92.</span>Comment se protéger ?</div><div class="a"><p><strong>En plafonnant sa perte par son propre coût plateau</strong> : on fixe le minimum garanti au-dessus de ce coût, et le risque réel disparaît.</p></div></div>
+    <div class="qa"><div class="q"><span>Q93.</span>Qu'est-ce que le concert au chapeau avec minimum ?</div><div class="a"><p>La même logique en petite salle. <strong>L'artiste n'est pas payé par le lieu ; il est payé au chapeau, avec un minimum de 10 € annoncé dans la communication.</strong> Le lieu ne débourse rien, l'artiste est rémunéré.</p></div></div>
+    <div class="qa"><div class="q"><span>Q94.</span>Que répondre si le patron refuse le minimum ?</div><div class="a"><p><em class="q">« Est-ce que tu refuses du monde le samedi ? — Oui, plein. — Ça fera un filtre naturel. »</em> <strong>Des clients plus dépensiers, et des gens respectueux du show — donc moins de clients insatisfaits.</strong> Et les 10 € correspondent à peu près au cocktail qu'il ne vendra pas.</p></div></div>
+    <div class="qa"><div class="q"><span>Q95.</span>Quel est le résultat ?</div><div class="a"><p><strong>100 personnes à 10 €, ça fait 1 000 €</strong> — et dans l'inconscient collectif, personne n'a payé. Même une salle à moitié remplie fait 600 € un vendredi soir. <em class="q">« C'est entre ça et rester chez toi. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q96.</span>Quel bénéfice invisible en tire-t-on ?</div><div class="a"><p><strong>Le track record.</strong> « Le public ne voit pas l'envers du décor » — mais vous pouvez dire à la mairie suivante : on est passés là, là et là, appelez-les. Et <em class="q">« la plupart du temps les gens sont flemmards : ils ne vont pas se renseigner, ou ils vont appeler un copain »</em> qui confirmera.</p></div></div>
+    <div class="qa"><div class="q"><span>Q97.</span>Quelle objection reste un vrai problème ?</div><div class="a"><p><strong>« Si tu comprends qu'en vrai ils ne mettent pas de valeur sur ce que tu proposes, ça, c'est un problème. Et ça, tu peux travailler dessus — mais c'est un autre job. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q98.</span>Que signifie inverser le risque sans en prendre ?</div><div class="a"><p>L'exemple de l'album fabriqué à 2 € : « je te le vends 2 € ; si tu aimes bien, tu me payes les 8 autres ; si tu n'aimes pas, tu les gardes ». <strong>Le coût est déjà amorti : c'est une fausse inversion du risque, mais elle est perçue comme une inversion complète. Et c'est ça qui est intéressant.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q99.</span>Quel risque reste-t-il malgré tout ?</div><div class="a"><p><strong>Le risque réputationnel.</strong> « Tu ne peux pas faire que des salles pleines. Il faut aussi que la mairie fasse sa com de son côté. »</p></div></div>
+
+    <div class="faqcat">Le CRM</div>
+    <div class="qa"><div class="q"><span>Q100.</span>Qu'est-ce qu'un CRM et pourquoi en faut-il un ?</div><div class="a"><p><em>Customer Relationship Manager</em> : un outil de suivi de tous ses appels. <strong>« Tu peux t'en faire un gratuit. Moi, j'en ai fait un gratuit sur Notion. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q101.</span>Quelles colonnes ?</div><div class="a"><p><strong>Appels faits, qualifiés, disqualifiés, relances, ventes.</strong> Et un principe : <em class="q">« je le garde quand même en base, parce que si un jour j'ai besoin, je le relancerai peut-être ».</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q102.</span>Que note-t-on sur la fiche ?</div><div class="a"><p>Date, heure, coordonnées, et <strong>tout ce qui se dit pendant l'appel</strong> — jusqu'au prénom du compagnon ou à la date d'anniversaire. <em class="q">« Je vais me souvenir d'absolument tout — pas parce que j'ai une mémoire, mais parce que j'ai un système. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q103.</span>Qu'est-ce qu'une boucle anti-objection ?</div><div class="a"><p>Une réponse écrite d'avance pour chaque frein. <strong>Frein = prix → « à quel endroit c'est un blocage ? » → « mais qui décide de ça ? Est-ce que vous faites des exceptions ? » → « admettons que demain on sorte le prix de l'équation… »</strong> Résultat : « j'ai tout de suite la contre-proposition ».</p></div></div>
+    <div class="qa"><div class="q"><span>Q104.</span>Combien de temps avant que ce soit naturel ?</div><div class="a"><p><strong>« Au bout de 150 appels, tu n'auras plus besoin d'une feuille. Ça va être fluide, du tac au tac. Mais il faut de l'entraînement. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q105.</span>Comment relancer utilement ?</div><div class="a"><p>En apportant de la valeur sur le point qui bloque. L'exemple : une démarche administrative en cours — <em class="q">« ne t'inquiète pas, j'ai anticipé : je t'envoie un lien, c'est la procédure pour contourner ça ».</em> <strong>Au bout de quinze jours, le problème est réglé et la vente aboutit.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q106.</span>Que se passe-t-il sans CRM ?</div><div class="a"><p>On revient un mois plus tard avec « au fait, tu n'es toujours pas inscrit ». L'autre est passé à autre chose. <strong>« Il ne se sent pas écouté, il ne s'est pas senti respecté. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q107.</span>À quoi sert encore la relance ?</div><div class="a"><p>À rattraper ce qu'on a raté pendant l'appel. <em class="q">« La personne m'a dit ça, j'aurais dû lui répondre ça, mais sur le moment je n'ai pas relevé. »</em> <strong>On laisse passer une semaine, et on appuie dessus. « Et des fois, ça suffit à déclencher. »</strong></p></div></div>
+
+    <div class="faqcat">Faire venir les décideurs</div>
+    <div class="qa"><div class="q"><span>Q108.</span>Quelles aides sont faciles à obtenir ?</div><div class="a"><p><strong>Showcase, promo, release party.</strong> « Là pour le coup, c'est bien subventionné, ce sont des aides faciles à obtenir. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q109.</span>Qu'est-ce que le concert « bac blanc » ?</div><div class="a"><p><strong>Un concert où l'on invite précisément les programmateurs démarchés</strong>, et où ils constatent d'eux-mêmes que c'est pro et que le public aime. « Il faut vraiment qu'ils arrivent à se projeter. Parce que si tu arrives à faire ça, le soir même, tu peux faire quarante ventes. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q110.</span>Comment inviter ?</div><div class="a"><p>Via le CRM, en proposant un dîner avant si le budget le permet, <strong>toujours « plus un »</strong>, et avec la formule : <em class="q">« venez voir de vos yeux. Ça n'engage à rien, mais au moins vous saurez de quoi je vous ai parlé. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q111.</span>Le bouche-à-oreille peut-il jouer contre vous ?</div><div class="a"><p>Oui. Un show jugé mauvais sur une date majeure et l'avis circule durablement. <strong>Les critères relevés : aucune énergie, un son mal géré, un visuel brouillon, aucune interaction avec le public, des titres déroulés à la chaîne dont la moitié n'était pas connue.</strong> C'est une grille d'autodiagnostic utilisable avant une date importante.</p></div></div>
+    <div class="qa"><div class="q"><span>Q112.</span>Et quand il joue pour vous ?</div><div class="a"><p>En comité, un seul avis enthousiaste devant vingt-cinq élus et <strong>les autres le notent en rentrant.</strong> À ce moment-là, <em class="q">« 1 000 ou 1 500, il n'y a pas de différence »</em> — on peut même vendre la formule haute. <strong>« Parce que là, ce n'est plus une question de prix. C'est une question de : on la veut, et on veut que ce soit marquant. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q113.</span>Quelle est la conclusion sur la cible ?</div><div class="a"><p><strong>« Je pense que votre cible est la bonne. Les mairies, il faut attaquer ça. Maintenant, il faut juste y aller avec un peu plus de méthode. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q114.</span>Quel est le bon indicateur de progrès ?</div><div class="a"><p>Pas la vente, au début : <strong>la durée et la qualité des appels.</strong> <em class="q">« Lui, avant, c'était expéditif ; là, on est restés une demi-heure au téléphone, il m'a posé des questions, il s'est intéressé à l'artiste. C'est un peu ça qu'on va rechercher. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q115.</span>Dans quel ordre régler les problèmes ?</div><div class="a"><p><strong>« Là, pour l'instant, le problème, c'est de ploguer les dates. Une fois qu'elles sont ploguées, vous aurez un autre problème, qui va être de les remplir. Mais chaque chose en son temps. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q116.</span>Le mot de la fin ?</div><div class="a"><p><strong>1 500 €, ce n'est pas cher pour une commune — l'installation des décorations de Noël coûte cet ordre de grandeur.</strong> « C'est juste que dans le budget culture, on ne veut pas que ça coûte plus, parce qu'on ne sait pas rentabiliser plus. » Montrez qu'on peut faire fois deux ou fois trois, et la ligne bouge. Et <em class="q">« les dix premières dates sont bien plus dures à vendre que les cent suivantes »</em>.</p></div></div>
+
+  </div>
+</div>
+<div class="plan">
+  <h2>Plan d'action</h2>
+  <p>Cochez au fur et à mesure. Les quatre phases suivent la logique de la session : ouvrir les portes institutionnelles, récupérer ce qui est dû, préparer la vente, puis la systématiser.</p>
+
+  <div class="phase">Phase 1 — Ouvrir les portes institutionnelles</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Destinataire</b>Identifier, pour chaque commune visée, la personne qui porte la responsabilité — et ne plus écrire aux services</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Courrier type</b>Rédiger un courrier officiel réutilisable : formel, vouvoiement, aucune mention d'une relation personnelle</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Enveloppe</b>Porter systématiquement la mention « personnel et confidentiel » pour que le pli soit remis fermé</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Trace</b>Déposer, puis relancer en citant la date de dépôt et l'enregistrement au registre</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Délais</b>Vérifier, pour chaque type de démarche, si le silence de deux mois vaut acceptation ou refus — ne jamais le supposer</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Liste cible</b>Constituer une liste de mairies comparables : taille, tissu économique, besoin récurrent d'événements</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Levier</b>Prendre contact avec l'antenne régionale de l'association des maires et demander une cooptation pour une présentation</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Comité des fêtes</b>Ajouter un courrier à l'attention du comité des fêtes ou du service culturel pour la prospection de dates</span></li>
+  </ul>
+
+  <div class="phase">Phase 2 — Récupérer ce qui est dû sur l'édition</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Dépôt</b>Éditer la fiche de chaque œuvre placée : liste des ayants droit, rôles déclarés, pourcentages réels</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Codes</b>Faire expliquer par écrit par la société d'auteurs toute ligne ou code de rôle non compris</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Écart</b>Comparer ligne à ligne la répartition du contrat et celle du dépôt, et documenter chaque écart</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Relevé</b>Envoyer la demande de relevé de royalties, contrat de coédition en pièce jointe — c'est une obligation légale, même négatif</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Ventilation</b>Demander par écrit à quoi correspond chaque montant facturé, et si une part revient à un autre ayant droit</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Double facturation</b>Vérifier qu'aucune part n'a été versée globalement sans que l'autre structure ait facturé sa portion</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Contrat</b>Relire les clauses clés : droit applicable, répartition, exploitation à l'étranger, licences, durée et reconduction tacite</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Échéance</b>Noter la date de dénonciation possible du contrat, et la programmer dès maintenant dans son agenda</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Levier</b>Si pas de réponse : recommandé avec accusé de réception, organisation professionnelle en copie</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Habitude</b>Mettre systématiquement plusieurs destinataires concernés en copie des échanges importants</span></li>
+  </ul>
+
+  <div class="phase">Phase 3 — Préparer la vente de dates</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Grille</b>Finaliser la grille tarifaire, formule par formule, et vérifier qu'elle est rentable pour tout le monde</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Coût plateau</b>Calculer précisément son coût plateau par formule — c'est le plancher du minimum garanti</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Posture</b>S'entraîner à annoncer le prix sans hésitation, et à ne jamais laisser voir qu'on trouve soi-même que c'est beaucoup</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Script</b>Écrire la séquence complète : « disons que c'est gratuit » → qui décide → paliers 500 / 1 000 / prix cible → l'allié → le prix le plus juste</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Silences</b>S'entraîner à poser la question puis se taire — « il faut laisser des blancs »</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Contrat de garantie</b>Faire rédiger un modèle de contrat avec minimum garanti et solde conditionné à une jauge chiffrée</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Devoirs</b>Avant chaque appel : repérer les programmations passées, les autres événements, et un ordre de grandeur de leurs budgets</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Statistiques</b>Préparer une ou deux données sur les administrés de la commune, par tranche d'âge et attente culturelle</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Seuil de décision</b>Se fixer la règle des 33 : ne pas toucher à la grille avant 33 retours de la même cible</span></li>
+  </ul>
+
+  <div class="phase">Phase 4 — Systématiser et faire venir les décideurs</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>CRM</b>Créer le CRM gratuit avec les cinq colonnes : appels faits, qualifiés, disqualifiés, relances, ventes</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Fiches</b>Ouvrir une fiche par contact et y noter tout l'appel, y compris les détails personnels anodins</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Boucles</b>Rédiger les boucles anti-objection, frein par frein, avec la question suivante déjà prête</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Relances</b>Programmer chaque relance avec un apport de valeur concret, jamais un simple rappel</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Volume</b>Viser 150 appels pour ne plus avoir besoin de la feuille</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Aides</b>Déposer une demande showcase / promo / release party pour financer un concert de démonstration</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Invitations</b>Inviter les programmateurs du CRM à cette date, toujours « plus un », avec la formule « ça n'engage à rien »</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Autodiagnostic</b>Passer son propre show au crible : énergie, son, visuel, interaction avec le public, choix des titres</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Références</b>Dès les premières dates obtenues, les utiliser comme preuve auprès des suivantes — avant même qu'elles soient jouées</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Calendrier</b>Éviter les deux fenêtres verrouillées (mi-octobre → janvier, juin → mi-août) pour les sorties et la publicité, sans jamais arrêter la prospection</span></li>
+  </ul>
+</div>
+
+<div class="quiz">
+  <h2>Quiz — 8 questions</h2>
+  <p>Pour vérifier que les mécanismes de la session sont bien assimilés.</p>
+
+  <div class="qz" data-g="1">
+    <p class="qt">1. Pourquoi faut-il écrire au maire et non aux services ?</p>
+    <div class="opt">Parce que les services ne transmettent jamais les courriers</div>
+    <div class="opt">Parce que seul celui qui porte la responsabilité a une raison de faire bouger un budget</div>
+    <div class="opt">Parce que le maire est le seul habilité à signer un contrat de prestation</div>
+    <div class="fb">« Il ne faut pas appeler les sous-fifres, parce qu'eux ne voient pas l'intérêt. Ça ne va pas leur brûler les fesses qu'il y ait une scène qui s'envole, ce n'est pas eux les responsables. » L'offre se vend comme une réduction de l'exposition de l'élu, pas comme une dépense.</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <p class="qt">2. À quoi sert l'enregistrement d'un courrier en mairie ?</p>
+    <div class="opt">Il porte un tampon daté et une inscription au registre, et cette date fait courir les délais légaux</div>
+    <div class="opt">Il garantit une réponse de la mairie dans les quinze jours</div>
+    <div class="opt">Il vaut acceptation automatique de la proposition</div>
+    <div class="fb">Trois obligations : tampon d'arrivée, inscription au registre, accusé de réception. On ne demande pas une faveur, on déclenche un compteur — et on peut relancer en citant la date de dépôt.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <p class="qt">3. Le silence de deux mois de l'administration vaut-il acceptation ?</p>
+    <div class="opt">Oui, toujours</div>
+    <div class="opt">Non, jamais</div>
+    <div class="opt">En principe oui, mais avec de nombreuses exceptions où il vaut refus</div>
+    <div class="fb">Vérification faite en séance sur une proposition de formation : ce cas tombe dans les exceptions, donc le silence vaut refus. La règle existe, mais il faut toujours vérifier dans quel panier tombe sa démarche avant de compter dessus.</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <p class="qt">4. Un éditeur doit-il envoyer un relevé de royalties même s'il n'y a rien à verser ?</p>
+    <div class="opt">Non, un relevé n'est dû que s'il y a des sommes à reverser</div>
+    <div class="opt">Oui : c'est une obligation légale, même un relevé négatif</div>
+    <div class="opt">Seulement si le contrat le prévoit expressément</div>
+    <div class="fb">Arrêté des comptes au 30 juin et au 31 décembre, relevé à chaque arrêté. Si une avance n'est pas recoupée, la balance négative doit quand même être communiquée tous les six mois — elle dit à partir de quand on commencera à toucher.</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <p class="qt">5. Comment une clé de répartition a-t-elle pu changer sans accord ?</p>
+    <div class="opt">Par un dépôt réalisé là où une seule signature d'ayant droit suffit</div>
+    <div class="opt">Par une décision unilatérale de la société d'auteurs</div>
+    <div class="opt">Parce qu'un contrat de coédition n'engage pas sur les pourcentages</div>
+    <div class="fb">Le dépôt à signature unique existait déjà au Royaume-Uni et est désormais possible en France depuis 2025-2026. L'objectif de la règle : éviter qu'un titre reste bloqué cinq ans parce qu'une seule personne refuse de signer. C'est légal — mais le contrat, soumis au droit français, imposait un accord préalable écrit, et la part reste due.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <p class="qt">6. Combien de retours faut-il avant de revoir sa grille tarifaire ?</p>
+    <div class="opt">Cinq, c'est déjà une tendance nette</div>
+    <div class="opt">Dix, si tous disent la même chose</div>
+    <div class="opt">Trente-trois, en dessous la statistique n'est pas fiable</div>
+    <div class="fb">« Statistiquement, 33 points d'entrée donnent une statistique viable. » En dessous : « si tu as cinq personnes, il suffit que tu en aies cinq autres la semaine prochaine qui te disent : plus de 3 000, c'est mort — et tout de suite le gap a changé. »</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <p class="qt">7. Quelle est la vraie objection derrière « c'est trop cher » chez un programmateur ?</p>
+    <div class="opt">Le budget culture est réellement épuisé</div>
+    <div class="opt">La prise de risque sur un budget, pas le budget lui-même</div>
+    <div class="opt">Le manque d'intérêt pour le projet artistique</div>
+    <div class="fb">La commune qui refusait des propositions à 2 000 € pendant cinq ans a payé environ 6 800 € pour une tête d'affiche. L'explication : « on était tous fans, donc si on se plantait, ce n'était pas trop grave. » La peur réelle : « je suis sur un siège éjectable, je ne veux pas qu'on me reproche d'avoir mal géré le budget. »</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <p class="qt">8. En quoi consiste l'inversion du risque ?</p>
+    <div class="opt">Un minimum garanti, plus un solde conditionné contractuellement au dépassement d'une jauge</div>
+    <div class="opt">Baisser son prix jusqu'au budget annoncé par l'acheteur</div>
+    <div class="opt">Jouer gratuitement la première date pour obtenir les suivantes</div>
+    <div class="fb">« L'artiste se facture 3 500 : on met un minimum garanti à 1 500, les 2 000 restants sont en suspens. Si on dépasse la jauge, tu nous payes ; sinon, non. » Et surtout : « tu mets ça par contrat », avec le seuil écrit noir sur blanc. Le minimum garanti doit couvrir son coût plateau — sinon ce n'est plus une inversion, c'est un pari.</div>
+  </div>
+
+  <div class="score" id="score"></div>
+</div>
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="wrap">
+    <p><b>Producteur à Succès</b> — Session de suivi du 16 novembre 2026</p>
+    <p>129 chapitres · 16 sections · 116 questions-réponses · plan d'action en 4 phases</p>
+  </div>
+</footer>
+<script>
+var CH = [[0, "Accueil et mise en route"], [42, "Emma envoyée chez l'administrateur judiciaire"], [152, "Prospection : Quasar, rectorat, Scènes Mobiles"], [187, "Le maire est un voisin, et musicien"], [232, "S'adresser au responsable, pas aux sous-fifres"], [310, "Deux jours de résidence : ce que ça permet"], [395, "Être élu : l'envers du décor"], [456, "La réalité du terrain pour un élu"], [577, "Déposer un courrier officiel : le registre"], [639, "Tampon, registre et mention confidentielle"], [692, "Deux mois de silence vaut acceptation"], [737, "Facture et bon de commande : acceptation tacite"], [790, "La piste Mediavision : le mot d'ordre qualité"], [859, "Technique d'abordage : viser les bonnes mairies"], [983, "Le principe du levier"], [1017, "L'association des maires : des centaines de villes"], [1100, "La pub et l'édition disparue"], [1156, "Lost Tapes : le placeur de pubs"], [1201, "Le code de rôle « IN » inexpliqué"], [1256, "Qui a apporté l'affaire : la chaîne des éditeurs"], [1292, "Ta part divisée sans ton avis"], [1323, "La clé de répartition vient du PRS"], [1363, "Une signature suffit, maintenant aussi en France"], [1404, "La justification : l'effort équitable"], [1440, "Deux factures et un pourcentage de répartition"], [1498, "6 000 € facturés en tout"], [1531, "La moitié en tant qu'éditeur : 3 000 € dormants"], [1561, "Un mail, un montant, débrouille-toi"], [1593, "Ventilation : le risque d'une part déjà payée"], [1632, "Compositeur ou éditeur : ne pas confondre"], [1707, "Arrêté des comptes : 30 juin, 31 décembre"], [1739, "Le courrier à envoyer, mot pour mot"], [1776, "Relevé obligatoire, même négatif, tous les 6 mois"], [1807, "Le contrat est soumis au droit français"], [1841, "La répartition et l'exploitation à l'étranger"], [1870, "Licences : exclu de la table des négociations"], [1937, "Deux contrats, cinq ans reconductibles"], [1972, "3 000 € à réclamer : le calcul"], [2010, "Exclu des licences, mais la part reste due"], [2051, "Le levier syndical : mettre la CSDEM en copie"], [2087, "Recommandé et copies : jouer sur la réputation"], [2155, "Mettre 15 personnes en copie"], [2198, "Payer ou retarder : la logique d'exercice"], [2269, "La pub Meta devient plus dure"], [2302, "La pire période de l'année pour la pub"], [2387, "Playlists verrouillées : Noël et l'été"], [2450, "Prospecter toute l'année, par courrier"], [2492, "Le coût par clic qui grimpe"], [2523, "Injecter régulièrement de nouvelles pubs"], [2554, "Couper puis relancer une campagne"], [2668, "Le test des deux semaines"], [2729, "L'attention du public est ailleurs"], [2802, "La claque du petit synthé"], [2860, "80 € contre un Juno : le marché bascule"], [2896, "La MPC, le GGOS et la logique du gratuit"], [3136, "Au final, c'est le public qui vote"], [3191, "Qualité sonore : des sons non mixés en millions"], [3272, "Fruity Loops : la vraie révolution"], [3339, "L'IA et le montage vidéo aujourd'hui"], [3425, "Produire en mode nomade"], [3489, "Isola Natal : le problème des dates"], [3539, "La grille tarifaire : de 1 500 à 4 500 €"], [3570, "Cibler les communes : la Fête de la musique"], [3649, "La recommandation : le retour de Barentin"], [3718, "Le plafond psychologique des 1 000 €"], [3774, "Le prix n'est pas le vrai problème"], [3830, "Conseil 1 : assumer pleinement son prix"], [3867, "Exemple : un consulting à 10 000 €"], [3927, "Conseil 2 : 90 % de questions"], [3989, "Creuser l'objection : poser des questions"], [4049, "Conseil 3 : un process qui amplifie"], [4085, "La règle des 33 points d'entrée"], [4171, "La technique : disons que c'est gratuit"], [4196, "Qui décide vraiment ?"], [4231, "Remonter le prix palier par palier"], [4315, "L'allié : la technique de l'agent immobilier"], [4386, "Le prix le plus juste : le mot magique"], [4420, "Conclure 200 € plus bas"], [4451, "Garder la porte ouverte"], [4485, "Il faut un CRM : un gratuit sur Notion"], [4528, "Fiche d'appel, qualifiés, disqualifiés"], [4585, "Organiser les relances"], [4620, "Boucles anti-objection : des appels fluides"], [4711, "Après 150 appels, c'est automatique"], [4753, "Relancer utilement, sans insister"], [4811, "Emma : le CRM à mettre en place"], [4846, "Ne jamais lui donner raison"], [4900, "Tout le travail derrière le cachet"], [4974, "Se préparer aux objections"], [5020, "Faire ses devoirs : chiffrer leurs clips"], [5062, "Le moteur, la carrosserie, le téléphone"], [5148, "Comparer avec leurs autres dépenses"], [5189, "Le cas de l'artisan et du juste prix"], [5214, "La vraie objection : une habitude"], [5242, "Le SMIC d'un concert, et les artistes"], [5319, "Cinq ans de refus d'une commune"], [5352, "Une tête d'affiche programmée à 6 800 €"], [5429, "Pas le budget, mais la prise de risque"], [5482, "La garantie indiscutable : minimum garanti"], [5522, "Contractualiser le seuil, noir sur blanc"], [5548, "L'inversion du risque : les mairies se parlent"], [5595, "Une fois non payé, 30 dates vendues"], [5640, "Porter le risque à leur place"], [5735, "La méthode du concert au chapeau"], [5784, "S'entendre avec le patron : on ne coûte rien"], [5820, "Le minimum de 10 € : un filtre naturel"], [5875, "100 personnes = 1 000 €"], [5975, "Track record et valeur perçue"], [5999, "Les arts martiaux : enchaîner les techniques"], [6127, "Showcase et release party : les aides"], [6168, "Le concert bac blanc et le salon du mariage"], [6253, "Inviter les programmateurs à vos dates"], [6292, "Le bouche-à-oreille joue dans les deux sens"], [6321, "Un gros nom, un mauvais show"], [6365, "À l'inverse : le show inoubliable"], [6411, "Là, le prix n'a plus d'importance"], [6450, "Vendre le gros format : pourquoi 50 000 €"], [6512, "Autres contacts : un circuit qui ne colle pas"], [6609, "La cible est la bonne : les mairies"], [6651, "Toute objection a un contournement"], [6676, "Les 10 premières dates, les plus dures"], [6706, "Administrateur judiciaire : où on en est"], [6739, "La seule vraie question : en avoir envie"], [6772, "Faire le deuil du studio ?"], [6824, "Agenda et engagement sur le CRM"], [6905, "Inverser le risque sans en prendre vraiment"], [6963, "D'abord ploguer les dates, ensuite remplir"], [7046, "Cher pour un inconnu : aucune garantie"], [7071, "1 500 € face au budget des décos de Noël"]];
+
+var frame = document.getElementById('vimeoPlayer');
+
+function fmt(s){ var m = Math.floor(s/60), x = s%60; return m + ':' + (x<10?'0':'') + x; }
+
+function seek(sec){
+  if (!frame || !frame.contentWindow) return;
+  try {
+    frame.contentWindow.postMessage(JSON.stringify({method:'setCurrentTime', value: sec}), '*');
+    frame.contentWindow.postMessage(JSON.stringify({method:'play'}), '*');
+  } catch(e){}
+  var top = frame.getBoundingClientRect().top + window.pageYOffset - 20;
+  window.scrollTo({top: top < 0 ? 0 : top, behavior:'smooth'});
+}
+
+(function(){
+  var host = document.getElementById('chlist');
+  if (!host) return;
+  CH.forEach(function(c){
+    var b = document.createElement('button');
+    var t = document.createElement('b'); t.textContent = fmt(c[0]);
+    var s = document.createElement('span'); s.textContent = c[1];
+    b.appendChild(t); b.appendChild(s);
+    b.addEventListener('click', function(){ seek(c[0]); });
+    host.appendChild(b);
+  });
+})();
+
+(function(){
+  document.querySelectorAll('.tc').forEach(function(el){
+    var parts = el.textContent.split(/(\d+:\d{2})/);
+    if (parts.length < 2) return;
+    el.textContent = '';
+    parts.forEach(function(p){
+      if (/^\d+:\d{2}$/.test(p)) {
+        var mm = p.split(':');
+        var sec = parseInt(mm[0],10)*60 + parseInt(mm[1],10);
+        var btn = document.createElement('button');
+        btn.className = 'seek'; btn.textContent = p;
+        btn.addEventListener('click', function(){ seek(sec); });
+        el.appendChild(btn);
+      } else {
+        el.appendChild(document.createTextNode(p));
+      }
+    });
+  });
+})();
+
+window.addEventListener('scroll', function(){
+  var h = document.documentElement;
+  var max = h.scrollHeight - h.clientHeight;
+  var p = max > 0 ? (h.scrollTop / max) * 100 : 0;
+  document.getElementById('progress').style.width = p + '%';
+});
+
+document.querySelectorAll('.chk li').forEach(function(li){
+  li.addEventListener('click', function(){ li.classList.toggle('done'); });
+});
+
+(function(){
+  var total = document.querySelectorAll('.qz').length, answered = 0, good = 0;
+  document.querySelectorAll('.qz').forEach(function(qz){
+    var g = parseInt(qz.getAttribute('data-g'), 10);
+    var opts = qz.querySelectorAll('.opt');
+    var fb = qz.querySelector('.fb');
+    opts.forEach(function(opt, i){
+      opt.addEventListener('click', function(){
+        if (qz.classList.contains('answered')) return;
+        qz.classList.add('answered');
+        answered++;
+        if (i === g) { opt.classList.add('good'); good++; }
+        else { opt.classList.add('bad'); opts[g].classList.add('good'); }
+        fb.classList.add('show');
+        if (answered === total) {
+          var sc = document.getElementById('score');
+          sc.textContent = 'Score : ' + good + ' / ' + total + (good === total ? ' — parfait.' : ' — relisez les chapitres concernés.');
+          sc.classList.add('show');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

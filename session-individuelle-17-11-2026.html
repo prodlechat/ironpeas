@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faire des sons, atteindre les décideurs, vendre une date — 17 novembre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED; --primary-dark:#4C1D95; --primary-light:#EDE9FE;
+  --accent:#F59E0B; --accent-light:#FEF3C7;
+  --success:#10B981; --success-light:#D1FAE5;
+  --danger:#EF4444; --danger-light:#FEE2E2;
+  --info:#3B82F6; --info-light:#DBEAFE;
+  --ink:#1A1523; --muted:#5B5670; --line:#E7E4EF; --bg:#FAF9FC; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+.progress-wrap{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(108,58,237,.12);z-index:999}
+#progress{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+.wrap{max-width:940px;margin:0 auto;padding-inline:20px}
+
+.hero{background:linear-gradient(140deg,#3B1D80 0%,#6C3AED 55%,#8B5CF6 100%);color:#fff;padding-block:60px 52px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{content:"";position:absolute;left:-60px;bottom:-120px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.05)}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:700;margin-bottom:14px;position:relative;z-index:2}
+.hero .sub{font-size:17px;opacity:.92;max-width:690px;position:relative;z-index:2}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;position:relative;z-index:2}
+.meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:7px 14px;border-radius:10px;font-size:13.5px;font-weight:500}
+
+/* LECTEUR */
+.player-wrap{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:-32px;position:relative;z-index:6;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.vid{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.chx{margin-top:16px;border:1px solid var(--line);border-radius:12px;background:#FBFAFE}
+.chx summary{cursor:pointer;padding:12px 16px;font-weight:650;font-size:14.5px;color:var(--primary-dark);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chx summary::-webkit-details-marker{display:none}
+.chx summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+.chx[open] summary::before{content:"▾ "}
+.chx summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+.chlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:2px;max-height:330px;overflow-y:auto;padding:0 10px 12px}
+.chlist button{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;background:transparent;border:0;border-radius:9px;padding:8px 10px;font-family:inherit;font-size:14.5px;color:var(--ink);cursor:pointer;line-height:1.45;transition:background .12s}
+.chlist button:hover{background:var(--primary-light);color:var(--primary-dark)}
+.chlist b{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;min-width:54px}
+button.seek{background:var(--primary-light);border:1px solid #DDD3FA;color:var(--primary-dark);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;cursor:pointer;font-variant-numeric:tabular-nums;transition:all .12s}
+button.seek:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.player-wrap + .toc{margin-top:26px}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:-32px;position:relative;z-index:5;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.toc h2{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:16px;color:var(--primary-dark)}
+.toc ol{list-style:none;counter-reset:toc;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.toc li{counter-increment:toc}
+.toc a{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink);padding:9px 10px;border-radius:10px;font-size:14.5px;transition:background .15s}
+.toc a:hover{background:var(--primary-light);color:var(--primary-dark)}
+.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);font-size:13px;flex-shrink:0;padding-top:1px}
+
+section.chap{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+section.chap>.bar{height:5px;background:var(--primary)}
+.chap[data-c="a"]>.bar{background:var(--accent)} .chap[data-c="g"]>.bar{background:var(--success)}
+.chap[data-c="b"]>.bar{background:var(--info)} .chap[data-c="r"]>.bar{background:var(--danger)}
+.chead{padding:26px 28px 0;display:flex;gap:14px;align-items:center}
+.cnum{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--primary-light);color:var(--primary-dark);display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px}
+.chap[data-c="a"] .cnum{background:var(--accent-light);color:#92400E}
+.chap[data-c="g"] .cnum{background:var(--success-light);color:#065F46}
+.chap[data-c="b"] .cnum{background:var(--info-light);color:#1E40AF}
+.chap[data-c="r"] .cnum{background:var(--danger-light);color:#991B1B}
+.chead h2{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.25;font-weight:700}
+.tc{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-top:3px}
+.cbody{padding:18px 28px 28px}
+.cbody p{margin-bottom:14px}
+.cbody h3{font-family:'Space Grotesk',sans-serif;font-size:16.5px;margin:22px 0 10px;color:var(--primary-dark)}
+.cbody ul,.cbody ol{margin:0 0 14px 20px}
+.cbody li{margin-bottom:7px}
+strong{font-weight:650;color:#2D2540}
+em.q{font-style:italic;color:#413655}
+
+.box{border-radius:12px;padding:16px 18px;margin:18px 0;border-left:4px solid;font-size:15px}
+.box .bt{display:block;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.box p:last-child{margin-bottom:0}
+.b-key{background:var(--primary-light);border-color:var(--primary)} .b-key .bt{color:var(--primary-dark)}
+.b-warn{background:var(--accent-light);border-color:var(--accent)} .b-warn .bt{color:#92400E}
+.b-tip{background:var(--success-light);border-color:var(--success)} .b-tip .bt{color:#065F46}
+.b-info{background:var(--info-light);border-color:var(--info)} .b-info .bt{color:#1E40AF}
+.b-danger{background:var(--danger-light);border-color:var(--danger)} .b-danger .bt{color:#991B1B}
+
+.tbl{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:12px 14px;font-weight:600;font-size:13.5px}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#FBFAFE}
+
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.pc>div{border-radius:12px;padding:16px 18px;font-size:14.5px}
+.pc .ok{background:var(--success-light);border:1px solid #A7F3D0}
+.pc .ko{background:var(--danger-light);border:1px solid #FECACA}
+.pc h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.pc .ok h4{color:#065F46} .pc .ko h4{color:#991B1B}
+.pc ul{margin:0 0 0 18px} .pc li{margin-bottom:5px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
+.card{background:#FBFAFE;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h4{font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:6px;color:var(--primary-dark)}
+.card p{font-size:14px;color:var(--muted);margin:0}
+.stat h4{font-size:22px;font-family:'Space Grotesk',sans-serif}
+
+.tl{list-style:none;margin:18px 0;padding-left:26px;border-left:2px dashed var(--line)}
+.tl li{position:relative;margin-bottom:16px;font-size:15px}
+.tl li::before{content:"";position:absolute;left:-33px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light)}
+.tl b{display:block;font-family:'Space Grotesk',sans-serif;color:var(--primary-dark)}
+
+details{border:1px solid var(--line);border-radius:12px;margin:14px 0;background:#FBFAFE}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:15px;color:var(--primary-dark);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+details[open] summary::before{content:"▾ "}
+details .dc{padding:0 18px 16px;font-size:14.5px}
+
+.pull{margin:22px 0;padding:20px 24px;border-radius:14px;background:linear-gradient(120deg,#2D1B69,#4C1D95);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:19px;line-height:1.45;font-weight:600}
+.pull span{display:block;margin-top:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;opacity:.7;letter-spacing:.03em}
+
+.faq{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+.faq>.bar{height:5px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.faqhead{padding:26px 28px 0}
+.faqhead h2{font-family:'Space Grotesk',sans-serif;font-size:26px;color:var(--primary-dark)}
+.faqhead p{color:var(--muted);font-size:15px;margin-top:4px}
+.faqbody{padding:18px 28px 28px}
+.faqcat{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.faqcat:first-child{margin-top:6px}
+.qa{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:#FDFCFF}
+.qa .q{background:linear-gradient(90deg,var(--primary-light),#F6F3FF);padding:13px 18px;font-weight:650;color:var(--primary-dark);font-size:15.5px;display:flex;gap:10px}
+.qa .q span{flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.qa .a{padding:15px 18px;font-size:15px}
+.qa .a p{margin-bottom:10px} .qa .a p:last-child{margin-bottom:0}
+
+.plan{background:linear-gradient(140deg,#0F172A,#1E1B4B);color:#fff;border-radius:18px;padding:30px 28px;margin-top:26px}
+.plan h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:8px}
+.plan>p{opacity:.8;margin-bottom:20px;font-size:15px}
+.phase{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin:22px 0 10px}
+.phase:first-of-type{margin-top:0}
+.chk{list-style:none;margin:0;padding:0}
+.chk li{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;margin-bottom:9px;font-size:15px;cursor:pointer;transition:background .15s}
+.chk li:hover{background:rgba(255,255,255,.09)}
+.chk .bx{flex-shrink:0;width:20px;height:20px;border:2px solid rgba(255,255,255,.4);border-radius:6px;margin-top:3px;display:grid;place-items:center;font-size:13px;font-weight:700;color:transparent}
+.chk li.done .bx{background:var(--success);border-color:var(--success);color:#fff}
+.chk li.done .tx{opacity:.5;text-decoration:line-through}
+.chk .tx b{display:block;font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.04em;text-transform:uppercase;opacity:.65;margin-bottom:2px}
+
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px;margin-top:26px}
+.quiz h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:6px;color:var(--primary-dark)}
+.quiz>p{color:var(--muted);margin-bottom:22px;font-size:15px}
+.qz{margin-bottom:24px;padding-bottom:22px;border-bottom:1px dashed var(--line)}
+.qz:last-of-type{border-bottom:none}
+.qz .qt{font-weight:650;margin-bottom:12px;font-size:15.5px}
+.opt{display:block;width:100%;text-align:left;background:#FBFAFE;border:1.5px solid var(--line);border-radius:10px;padding:11px 15px;margin-bottom:8px;cursor:pointer;font-family:inherit;font-size:14.5px;color:var(--ink);transition:all .15s}
+.opt:hover{border-color:var(--primary);background:var(--primary-light)}
+.opt.good{background:var(--success-light);border-color:var(--success);font-weight:600}
+.opt.bad{background:var(--danger-light);border-color:var(--danger)}
+.fb{display:none;margin-top:10px;padding:12px 15px;border-radius:10px;font-size:14.5px;background:var(--info-light);border-left:4px solid var(--info)}
+.fb.show{display:block}
+.score{margin-top:20px;padding:16px;border-radius:12px;background:var(--primary-light);text-align:center;font-weight:650;color:var(--primary-dark);display:none}
+.score.show{display:block}
+
+footer{text-align:center;padding-block:40px 50px;color:var(--muted);font-size:14px}
+footer b{color:var(--primary-dark);font-family:'Space Grotesk',sans-serif}
+
+@media(max-width:640px){
+  .pc{grid-template-columns:1fr}
+  .chead,.faqhead{padding:22px 18px 0} .cbody,.faqbody{padding:16px 18px 22px}
+  .toc{padding:22px 18px} .plan,.quiz{padding:24px 18px}
+  .hero h1{font-size:27px} .pull{font-size:17px;padding:18px}
+  .player-wrap{padding:14px} .chlist{grid-template-columns:1fr;max-height:280px}
+}
+@media print{
+  .progress-wrap{display:none} body{background:#fff}
+  section.chap,.toc,.quiz,.faq{box-shadow:none;break-inside:avoid}
+  .opt{display:none}
+  .vid{display:none} .player-wrap{box-shadow:none;margin-top:20px}
+  .chlist{max-height:none;overflow:visible} .chlist button{padding:3px 0}
+  button.seek{background:none;border:0;padding:0;color:var(--primary-dark)}
+}
+</style>
+</head>
+<body>
+<div class="progress-wrap"><div id="progress"></div></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">Session individuelle · 17 novembre 2026</div>
+    <h1>Faire des sons, atteindre les décideurs,<br>vendre une date</h1>
+    <p class="sub">Deux heures en tête à tête, en deux temps. D'abord la question que presque tous les artistes indépendants finissent par se poser : pourquoi est-ce que je n'avance pas, alors que je sais quoi faire ? La réponse donnée ici n'est pas une méthode de productivité, c'est une manière de trouver son propre système. Puis la partie opérationnelle, dense : la stratégie la plus simple et la plus sous-estimée du métier — faire des titres ; la procédure légale qui permet d'atteindre un maire à coup sûr ; le hack LinkedIn qui ne demande aucun contenu ; comment négocier une date quand il n'y a pas de billetterie ; et une fonction de YouTube Studio qui vous dit littéralement quoi publier.</p>
+    <div class="meta">
+      <span>⏱ 2 h 01</span>
+      <span>🎙 Tarik Hamiche</span>
+      <span>👤 Session individuelle</span>
+      <span>📌 128 chapitres</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="player-wrap">
+  <div class="vid">
+    <iframe id="vimeoPlayer"
+      src="https://player.vimeo.com/video/1247526941?h=55ffa9f947"
+      title="Session individuelle du 17 novembre 2026"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  <details class="chx" id="chx">
+    <summary><span>Les 128 chapitres de la session</span><em>Cliquez un chapitre pour y aller</em></summary>
+    <div class="chlist" id="chlist"></div>
+  </details>
+</div>
+
+<nav class="toc">
+  <h2>Au programme</h2>
+  <ol>
+    <li><a href="#s1">Chercher son « pourquoi », pas sa motivation</a></li>
+    <li><a href="#s2">Chaque personne est un système : trouvez le vôtre</a></li>
+    <li><a href="#s3">Accepter les phases creuses</a></li>
+    <li><a href="#s4">Relâcher pour avancer</a></li>
+    <li><a href="#s5">La stratégie la plus sous-estimée : faire des sons</a></li>
+    <li><a href="#s6">Pourquoi un seul titre change tout</a></li>
+    <li><a href="#s7">Sortir brut : la leçon jamaïcaine</a></li>
+    <li><a href="#s8">Découverte 1 : comment atteindre un maire</a></li>
+    <li><a href="#s9">La technique des deux courriers</a></li>
+    <li><a href="#s10">La page unique et la prospection à froid</a></li>
+    <li><a href="#s11">Le hack LinkedIn, sans créer de contenu</a></li>
+    <li><a href="#s12">Du commentaire à l'appel de découverte</a></li>
+    <li><a href="#s13">Négocier une date quand il n'y a pas de billetterie</a></li>
+    <li><a href="#s14">L'inversion du risque</a></li>
+    <li><a href="#s15">Le chapeau avec minimum</a></li>
+    <li><a href="#s16">Découverte 2 : les vidéos hors normes de YouTube</a></li>
+    <li><a href="#s17">Modéliser, et les micro-victoires</a></li>
+  </ol>
+</nav>
+
+<section class="chap" id="s1" data-c="a">
+  <div class="chead">
+    <span class="num">1</span>
+    <h2>Chercher son « pourquoi », pas sa motivation</h2>
+    <p class="tc">1:22 — 7:00</p>
+  </div>
+  <div class="cbody">
+    <p>Le point de départ de la session est une situation que beaucoup d'artistes indépendants connaissent : dix ans de pratique, le même plaisir à chanter ou à produire, et pourtant les mêmes blocages qu'au début. Le diagnostic posé en séance ne porte pas sur la discipline.</p>
+
+    <div class="box b-key">
+      <h4>Le vrai problème n'est pas la procrastination</h4>
+      <p>« Au départ, je lutte contre la procrastination. Après, je me dis qu'il faut peut-être travailler le mental. <b>Et au final, je ne peux pas savoir où je vais parce que je n'ai pas de but.</b> »</p>
+      <p>C'est la bonne piste : <b>on ne peut pas se discipliner vers une destination qu'on n'a pas définie.</b> Travailler la volonté avant d'avoir un but, c'est pousser une voiture sans savoir où aller.</p>
+    </div>
+
+    <h3>La méthode : la cascade de « pourquoi »</h3>
+    <div class="box b-info">
+      <p>La référence donnée est le livre <b><i>Why</i> de Simon Sinek</b>, à lire d'une traite. Le principe : <b>pour trouver ce qui compte vraiment, il suffit de se demander pourquoi — et quand on a trouvé, de se redemander pourquoi. Sans s'arrêter.</b></p>
+      <div class="tl">
+        <div class="tli">« Tu veux faire de la musique ? — Oui. <b>Pourquoi ?</b> »</div>
+        <div class="tli">« — Parce que ça m'habite. <b>Pourquoi est-ce que ça t'habite ?</b> »</div>
+        <div class="tli">« — Parce que quand je suis sur scène, je kiffe. <b>Pourquoi, à ton avis, tu kiffes quand tu es sur scène ?</b> »</div>
+      </div>
+      <p>Et la seule condition : <b>« si tu es honnête avec toi-même, tu vas arriver à quelque chose de très profond. »</b></p>
+    </div>
+
+    <h3>Un exemple de ce que ça donne au bout</h3>
+    <div class="box b-key">
+      <p>Tarik raconte sa propre descente. Ce qu'il a trouvé n'avait rien à voir avec la musique : <b>« je ne peux pas être heureux si les gens autour de moi ne sont pas heureux. Même si j'ai tout ce que je veux, si je l'ai seul, ça ne me va pas. »</b></p>
+      <p>Et ce qu'il a éliminé en route est aussi instructif que ce qu'il a gardé :</p>
+      <div class="tl">
+        <div class="tli"><b>Le confort n'était pas la réponse.</b> « Une fois que tu atteins le confort, tu te rends compte que ce n'est pas ça. »</div>
+        <div class="tli"><b>La liberté non plus.</b> « J'ai beaucoup voyagé, ce n'était pas ça. » Y compris dans des paysages magnifiques, où il ne se sentait pas bien — le signal que la quête était ailleurs.</div>
+      </div>
+      <p>La formulation finale : <b>« quand je suis entouré de gens heureux par mes efforts, alors le jeu en vaut la peine. »</b> C'est aussi, dit-il, ce qui explique qu'il ait arrêté la musique à un moment : sa quête n'était pas là.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>La question qui permet de démarrer</h4>
+      <p><b>« Qu'est-ce qui manque dans ta vie ? »</b> Si la réponse honnête est « rien », alors le travail à faire est intérieur, pas extérieur — et c'est une bonne nouvelle, pas un échec.</p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Mais attention au piège du travail sur soi</h4>
+      <p><b>« Dans 99 % des cas de gens que je croise, la solution, c'est de ne rien faire pour régler le problème, mais juste d'avancer. »</b></p>
+      <p>Avec une définition précise d'« avancer » : <b>des choses simples, tangibles, mesurables.</b> Et un rappel utile quand on a l'impression de ne rien faire : <i>« là, tu es là, c'est une action. »</i> Participer à une session, écrire un mail, finir une maquette — ce sont des actions, même quand on ne les compte pas.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s2" data-c="g">
+  <div class="chead">
+    <span class="num">2</span>
+    <h2>Chaque personne est un système : trouvez le vôtre</h2>
+    <p class="tc">9:05 — 17:30</p>
+  </div>
+  <div class="cbody">
+    <p>C'est la partie la plus originale de la première heure, et elle s'applique à n'importe quelle activité indépendante.</p>
+
+    <div class="box b-info">
+      <h4>Le mécanisme du blocage, décrit de l'intérieur</h4>
+      <p>Un cas concret donné en séance : une base de contacts montée, un premier envoi fait, de la fierté — <b>puis plus rien.</b> Ce qui s'est passé entre les deux :</p>
+      <div class="tl">
+        <div class="tli"><b>Une insatisfaction esthétique.</b> « Le mail envoyé, je trouve qu'il n'est pas forcément beau, ça ne donne pas envie. »</div>
+        <div class="tli"><b>Puis une excuse technique.</b> « Je n'ai pas mis de lien, il faut que je fasse une vidéo, mais je ne sais pas faire, et c'est long de choisir des vidéos vraiment qualitatives. »</div>
+        <div class="tli"><b>Puis une fuite dans l'analyse.</b> Une semaine plus tard : « il va peut-être falloir regarder les statistiques. » Et là, le flou — 36 000 choses à regarder, rien qui tranche.</div>
+      </div>
+      <p>Diagnostic : <b>tout cela a été fait à l'instinct, sans plan.</b> D'où la première question : <i>« est-ce que ce dont tu as besoin, ce n'est pas juste de mettre un plan et une vision dans tout ce que tu fais ? »</i></p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Sauf que le plan parfait ne suffit pas</h4>
+      <p>Un plan avait déjà été construit : trois axes — créativité, visibilité, commercial — bien rodé, carré. <b>Ouvert trois fois.</b></p>
+      <p>Conclusion : <b>le problème n'est pas l'outil, et pas non plus la qualité du plan.</b> C'est l'adéquation entre le plan et la personne.</p>
+    </div>
+
+    <h3>Le principe : chaque système a son mode de fonctionnement</h3>
+    <div class="box b-key">
+      <p>« Je suis sûr d'un truc : dans la vie, chaque système a un mode de fonctionnement. Et je pense que nous, les humains, on est des systèmes. »</p>
+      <div class="tl">
+        <div class="tli"><b>Les systèmes simples.</b> Des gens qui veulent qu'on leur donne un ordre, l'exécutent, et point. « Ces gens-là, c'est ce que j'appelle les bienheureux. » Leur vie est fluide, ils ne se posent pas de questions.</div>
+        <div class="tli"><b>Les systèmes incompatibles.</b> « Je pense qu'il y a des gens dont le système est juste incompatible avec tous les modes qu'on leur a proposés. » Ce n'est pas un défaut : c'est une combinaison qui n'a pas encore été trouvée.</div>
+      </div>
+      <p>L'image employée : <b>« c'est comme un coffre. Des fois 0000, ça passe ; des fois c'est 1234 ; et des fois il faut chercher, et c'est plus long. »</b></p>
+      <p>Et l'avertissement : <b>« peut-être que tu as juste un système un peu plus complexe — ou que tu le complexifies en permanence. »</b> Changer de méthode chaque semaine, c'est se déstabiliser soi-même.</p>
+    </div>
+
+    <h3>Un exemple de combinaison trouvée</h3>
+    <div class="box b-tip">
+      <p>Pour obtenir d'un enfant qu'il fasse ce qu'il y a à faire : <b>une liste posée sur la table la veille au soir.</b> Rien à dire le matin, tout est fait 45 minutes plus tard. Et une amélioration découverte ensuite : <b>ajouter un timing à chaque ligne.</b> « Brossage de dents, 5 minutes. Et il respecte. »</p>
+      <p>La morale n'est pas sur les enfants : <b>« elle a les codes, la combinaison — mais dans son système, ce n'est pas concevable de faire ça. Donc elle ne le fait pas. »</b> Connaître la solution et ne pas l'appliquer est un cas de figure courant, et il se travaille.</p>
+    </div>
+
+    <h3>Les deux nuances qui évitent de se fustiger</h3>
+    <div class="box b-info">
+      <div class="tl">
+        <div class="tli"><b>Un système ne marche pas dans tous les domaines.</b> « Il y a des gens très disciplinés pour faire leurs devoirs, mais pas pour aller courir ou pour bien manger. <b>Le même schéma ne marchera pas dans une autre sphère de vie.</b> »</div>
+        <div class="tli"><b>Accepter le désordre fait partie de la méthode.</b> « À partir du moment où tu acceptes que ça peut être le chaos partout tout le temps, tu testes des choses, mais sans pression. »</div>
+      </div>
+    </div>
+
+    <div class="box b-key">
+      <h4>La contre-proposition concrète</h4>
+      <p>Le plan complexe n'a pas marché ? <b>Essayer exactement l'inverse : « je fais un truc, c'est tout le temps le même, je le fais tous les jours, et je vois ce qui se passe. »</b></p>
+      <p>Et si même tenir trois jours est impossible : <b>« cool, accepte de faire un truc différent tous les jours. »</b> On arrête de se battre contre son propre fonctionnement et on construit avec.</p>
+    </div>
+
+    <div class="pull">« Je suis persuadé que quand tu trouves le bon mode, c'est-à-dire le bon alignement, ça marche. »</div>
+  </div>
+</section>
+<section class="chap" id="s3" data-c="b">
+  <div class="chead">
+    <span class="num">3</span>
+    <h2>Accepter les phases creuses</h2>
+    <p class="tc">30:24 — 46:20</p>
+  </div>
+  <div class="cbody">
+    <p>Cette section vaut d'être écoutée telle quelle, parce que Tarik y décrit son propre fonctionnement sans rien enjoliver — et que c'est exactement l'inverse de ce que raconte habituellement quelqu'un qui enseigne.</p>
+
+    <div class="box b-key">
+      <h4>Le constat qui remet tout à plat</h4>
+      <p>Face à la description d'un quotidien fait de remises au lendemain, la réponse est nette : <b>« ce que tu décris, c'est juste la vie de tout le monde. »</b> Et pour le prouver, il décrit sa propre journée.</p>
+      <p>Le réveil sonne, aucune envie de se lever, il fait semblant de ne pas entendre. <b>« Ce n'est pas pour moi, c'est pour eux que je me suis levé. »</b> Puis l'enchaînement : la douche parce qu'on est déjà debout, le lit parce qu'on passe devant. <b>« Et ça y est, c'est parti. »</b></p>
+      <p>Le principe : <b>l'action crée l'énergie et le mouvement, pas l'inverse.</b> Et ça ne s'arrête jamais : <b>« jusqu'à cinq secondes avant de monter sur scène, je n'ai pas envie d'y aller. Des fois, je cherche même des excuses. »</b></p>
+    </div>
+
+    <h3>Comment c'était avant</h3>
+    <div class="box b-info">
+      <p>Lever vers 15 h. Studio l'après-midi. Clients annulés par flemme — <b>« je reportais tout le temps, jusqu'à ce que les gars me disent : laisse tomber, on ne viendra pas »</b>, et là seulement il acceptait. Sans inspiration, l'énervement, puis une série. Et un documentaire remis en boucle pour déclencher quelque chose — <b>« et là, bizarrement, j'avais de l'inspiration »</b>, une boucle qui claquait, puis plus rien.</p>
+      <p>Le bilan, encore vrai aujourd'hui : <b>« j'ai des milliers de sessions que je n'ai jamais terminées. Et quand je réécoute, des fois, il y avait des vraies pépites dedans. »</b></p>
+      <p>Avec, de temps en temps, sans savoir pourquoi, <b>le moment où on est frappé par la grâce</b> : on s'installe, on a une idée, trente minutes plus tard le morceau est fini et on ne comprend pas comment.</p>
+    </div>
+
+    <h3>Ce qui a changé, et ce qui ne change pas</h3>
+    <div class="box b-tip">
+      <p>Ce qui a structuré, ce n'est pas une méthode mais deux bascules concrètes :</p>
+      <div class="tl">
+        <div class="tli"><b>Un constat chiffré.</b> « Quand j'ai compris que je faisais trois prods bien sur cent, je me suis dit : il faut que j'arrête de les vendre, il faut que je les loue. » Le passage au leasing a tout changé, parce qu'une production qui met tout le monde d'accord se vend toute seule.</div>
+        <div class="tli"><b>Une responsabilité envers quelqu'un d'autre.</b> « Quand j'avais un artiste et que je lui disais : ne stresse pas, on va trouver un studio — il fallait que j'appelle soixante-dix personnes, je n'ai jamais eu aucun mal à le faire. <b>Parce que j'étais investi d'une mission.</b> »</div>
+      </div>
+      <p>C'est transposable : <b>la contrainte externe fait ce que la discipline interne ne fait pas.</b> Une échéance donnée à un partenaire, une date annoncée publiquement, une commande acceptée.</p>
+    </div>
+
+    <div class="box b-danger">
+      <h4>Le blocage arrive aussi à ceux qui enseignent</h4>
+      <p>Trois ans sans produire de formation, puis l'envie de s'y remettre, et l'impossibilité de démarrer : <b>« laisse tomber, c'est rincé, ce n'est pas bon, le marché est saturé. »</b></p>
+      <p>Ce qui l'a débloqué n'est pas une technique : <b>sa femme lui donnait raison.</b> « Et moi, quand elle me disait "laisse tomber", je me disais : mais non, tu ne devrais pas me dire ça. <b>En fait, elle faisait de la psychologie inversée.</b> »</p>
+      <p>Et la posture qu'il a prise : <b>« j'acceptais juste que j'étais mauvais à ce moment-là. »</b> Puis, des mois plus tard, le déclic revient de lui-même. Le plan parfait rédigé en juin ? Resté lettre morte des mois. <b>« La seule différence avec toi, c'est que ça ne me gêne pas. »</b></p>
+    </div>
+
+    <h3>La clé : avoir toujours un domaine où l'on progresse</h3>
+    <div class="box b-key">
+      <p>C'est le mécanisme inconscient qu'il identifie chez lui : <b>pendant les phases où un projet n'avance pas, il progresse ailleurs.</b></p>
+      <div class="tl">
+        <div class="tli"><b>La phase art martial.</b> « Tant que je progresse, je veux ma ceinture noire. Alors je ne loupe aucun entraînement. »</div>
+        <div class="tli"><b>La phase IA.</b> « En ce moment j'apprends plein de trucs sur l'IA. <b>Je n'en fais rien, mais je m'en fous, je progresse de ouf.</b> Je suis en train de prendre cinq ans d'avance. »</div>
+      </div>
+      <p>Objection légitime : <i>« oui, mais ce sont des trucs qui ne servent à rien »</i>. Réponse : <b>ça travaille sur plein d'étages</b> — l'IA servira, l'art martial sert déjà sans qu'on le voie. Ce qui compte, c'est que la sensation de progresser ne s'arrête jamais complètement.</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Le mindset entrepreneurial, en une phrase</h4>
+      <p><b>« Moi, ça ne me gêne pas d'avancer dans le chaos. J'ai toujours fait ça. »</b> Et l'illustration : <i>« quand je squattais chez des gens et que je n'avais même pas de quoi m'acheter un steak, dans ma tête, j'étais déjà un producteur à succès. »</i></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Se projeter à dix ans</h4>
+      <p>L'exemple d'une chanteuse de gospel accompagnée à ses débuts : excellente chanteuse, incapable de créer, et <b>qui se fustigeait tous les jours de ne pas savoir plaquer quatre accords.</b> Douze ans plus tard, elle joue du piano, de la guitare, et chante mieux qu'avant.</p>
+      <p>D'où l'analogie des ceintures : <b>« une ceinture blanche, c'est une ceinture noire de dans dix ans. C'est pour ça qu'il faut toujours respecter une ceinture blanche — parce que dans dix ans, elle va t'éclater. »</b></p>
+      <p>Avec la nuance honnête : <b>« et si ça ne tient pas, c'est que ce n'était pas fait pour toi. »</b></p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s4" data-c="a">
+  <div class="chead">
+    <span class="num">4</span>
+    <h2>Relâcher pour avancer</h2>
+    <p class="tc">48:56 — 52:50</p>
+  </div>
+  <div class="cbody">
+    <p>Passage court et très concret, sur une chose que presque personne ne fait plus.</p>
+
+    <div class="box b-key">
+      <h4>Le constat physiologique</h4>
+      <p>« Ce que les gens oublient, c'est que le corps est tenu par des os, des muscles, du sang — <b>mais il est aussi et surtout tenu par un système nerveux.</b> Et ton système nerveux, de temps en temps, il a besoin d'être complètement relâché pour mieux fonctionner. »</p>
+      <p>Son propre usage : <b>deux jours par mois où il ne fait rien du tout</b>, annoncés comme une indisponibilité. « Et vraiment, ça fait du bien. »</p>
+    </div>
+
+    <h3>L'exercice, en cinq minutes</h3>
+    <div class="box b-tip">
+      <p><b>« Quand tu te sens dépassée, tu jettes ton téléphone loin de toi, tu t'allonges par terre cinq minutes. Rien que ça. »</b></p>
+      <p>Et la précision importante : <b>ce n'est pas de la méditation.</b> « C'est réfléchi, de méditer. <b>Juste, allonge-toi et ne fais rien.</b> Et dis-toi que tu es bien, et que tout va bien. »</p>
+      <p>Pourquoi cinq minutes suffisent : <b>« ton système nerveux, cinq minutes, ça lui suffit pour complètement se relâcher. »</b> Le problème n'est pas la durée, c'est que ça n'arrive jamais : <i>« quand tu as fini une tâche, tu prends ton téléphone, tu prends ta voiture, tu parles à quelqu'un, tu cuisines — tu es tout le temps dans une action. »</i></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Les variantes qui marchent</h4>
+      <div class="tl">
+        <div class="tli"><b>Laisser passer les pensées.</b> « Ça vient, tu prends juste conscience : tiens, je suis en train de penser à ça. OK, je n'ai pas envie d'y penser. Puis tu penses à autre chose. »</div>
+        <div class="tli"><b>Compter, en visualisant les chiffres.</b> « Ça détend de ouf. » C'est la technique qu'il utilise pour endormir ses enfants, avec une histoire improvisée et des marches à compter — <b>« ça concentre tellement le cerveau que ça finit par l'endormir »</b>.</div>
+        <div class="tli"><b>Un lieu où l'on ne peut rien faire.</b> Le jacuzzi, par exemple : « tu es dedans, tu ne peux rien faire. »</div>
+        <div class="tli"><b>Le scan corporel.</b> Dix minutes guidées, qui « rechargent le capital énergie de la journée ».</div>
+      </div>
+      <p>Et le point à entendre si l'on passe ses journées à penser : <b>« penser n'est pas une action »</b> — mais la sensation de ne pas se reposer est réelle, et c'est précisément ce que l'exercice vise.</p>
+    </div>
+  </div>
+</section>
+<section class="chap" id="s5" data-c="r">
+  <div class="chead">
+    <span class="num">5</span>
+    <h2>La stratégie la plus sous-estimée : faire des sons</h2>
+    <p class="tc">52:52 — 62:20</p>
+  </div>
+  <div class="cbody">
+    <p>Ici commence la partie opérationnelle, et elle démarre par le conseil le plus simple et le plus contre-intuitif de toute la session.</p>
+
+    <div class="box b-key">
+      <h4>Le retour sur un morceau, et ce qu'il révèle</h4>
+      <p>Un titre envoyé en amont de la session, dépouillé. Le verdict : <b>« la qualité, l'esthétique, je m'en fous. L'idée et la performance vocale sont là. Pour moi, ça déchire. »</b></p>
+      <p>Et la question suivante — « des idées d'arrangement ? » — reçoit une réponse qui surprend : <b>« moi, je l'aurais laissé comme ça, et j'en aurais fait un deuxième. »</b></p>
+    </div>
+
+    <div class="pull">« Tu n'as même pas besoin de finir tes titres. Tu as juste besoin de faire des titres. »</div>
+
+    <h3>Pourquoi la finition n'est pas le levier</h3>
+    <div class="box b-info">
+      <p><b>« Quand tu as l'idée, tu as l'idée. Le reste, après, c'est de l'habillage. »</b></p>
+      <p>Et le constat sur le répertoire : <b>la plupart des gros titres de ce type d'univers n'ont presque rien dans la production.</b> « C'est un orgue, une voix. C'est un piano, une voix. Des fois, c'est même juste une voix. » Une grande voix et quelques claquements de doigts peuvent faire un succès.</p>
+      <p>La seule réserve : <b>le live est un autre sujet</b> — là, il faudra travailler la pénétration et l'habillage.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Et si l'on veut quand même sortir quelque chose</h4>
+      <p>C'est légitime — il faut de l'actualité, une présence. La réponse : <b>« enregistre proprement, mixe, et sors-le en l'état. »</b> Pas d'arrangements supplémentaires, pas de cordes, pas de chorale. <b>« Pourquoi tu veux te prendre la tête à faire plus ? »</b></p>
+      <p>Et le prérequis à garder en tête : <b>cela suppose d'avoir une mécanique de production.</b> C'est-à-dire d'être capable d'enchaîner, pas de sortir une pièce unique tous les deux ans.</p>
+    </div>
+
+    <h3>Imposer une échéance à ses partenaires</h3>
+    <div class="box b-key">
+      <p>Sur une collaboration en cours, où les allers-retours s'étiraient, la phrase employée est reprise en séance comme un bon réflexe : <b>« les gars, il faut que vous me donniez une échéance, parce que sinon ça peut durer. »</b> Et la contre-échéance posée en retour : une date limite pour les voix.</p>
+      <p>Sans échéance, un projet collaboratif dérive par construction — ce n'est pas de la mauvaise volonté, c'est l'absence de contrainte.</p>
+    </div>
+
+    <h3>Ce que vit l'auditeur, et qui justifie la cadence</h3>
+    <div class="box b-info">
+      <p><b>« Je ne peux pas écouter quinze fois la même piste. Par contre, si tu m'en donnes une deuxième rapidement derrière, je vais l'écouter aussi. Et une troisième, pareil. »</b></p>
+      <p>Puis l'auditeur se fait sa préférée, en réécoute une plus que les autres — et c'est normal. L'inverse est beaucoup plus coûteux : <b>« je suis dégoûté quand des artistes que je kiffe ne sortent plus rien. »</b></p>
+      <p>Et la permission qui va avec : <b>décevoir de temps en temps n'est pas grave.</b> « Des fois il sort des trucs et tu es déçu aussi. Et c'est OK. Parce qu'un jour, il peut sortir un truc et boum. »</p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Le test de la finition</h4>
+      <p><b>« Fais-le écouter. Si tout le monde te dit : ça claque — sincèrement, pourquoi tu veux changer un truc qui marche ? »</b></p>
+      <p>Et le critère inverse, tout aussi simple : <b>si quelqu'un dit « il manque un truc quand même, il y a quelque chose qui me gêne » — là, on retravaille.</b> Le retour d'écoute remplace l'interrogation intérieure sans fin.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s6" data-c="b">
+  <div class="chead">
+    <span class="num">6</span>
+    <h2>Pourquoi un seul titre change tout</h2>
+    <p class="tc">53:47 — 60:00</p>
+  </div>
+  <div class="cbody">
+    <p>C'est l'argumentaire qui fonde la stratégie précédente. Et il est présenté comme une question de mathématiques, pas de talent.</p>
+
+    <div class="box b-key">
+      <h4>Le constat de départ</h4>
+      <p><b>« Il suffit d'un titre. »</b> Et pour l'illustrer, une observation qu'on peut vérifier autour de soi : demandez à quelqu'un de citer des titres d'une très grande voix de la soul — <b>« 99 % des gens peuvent t'en citer deux, pas plus. Pourtant il y en a eu bien plus. »</b></p>
+      <p>Même chose pour des artistes majeurs mais moins exposés : <b>beaucoup de gens ne les connaissent pas, et ceux qui les connaissent ont un ou deux titres en tête.</b></p>
+    </div>
+
+    <h3>Le raisonnement, en clair</h3>
+    <div class="box b-info">
+      <p><b>« Pour un artiste, la promo, la percée — c'est très simple, c'est des maths. Tu as juste à faire plein de titres. »</b></p>
+      <p>Mécanique : dans le lot, <b>un titre va s'élever tellement au-dessus des autres que vous n'aurez plus qu'à le désigner.</b> Et ensuite, <b>une écoute en déclenche mille, qui en déclenchent dix mille, puis cent mille.</b></p>
+      <p>Le titre qui met tout le monde d'accord n'a pas besoin de l'adhésion au genre : <b>« moi, je n'écoute pas de métal. Il y a deux ou trois titres qui ont atteint mes oreilles et je me suis dit : ils sont lourds, les gars. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le titre que personne ne peut ignorer</h4>
+      <p>L'exemple donné est une chanson folk des années 1980, voix et guitare : <b>« ce son-là, peu importe où il est mis, il croise les oreilles de n'importe qui — c'est obligé. La personne le prend, elle l'écoute en boucle, elle le fait écouter. C'était mécanique. Il aurait pété de toute façon. »</b></p>
+      <p>D'où la conviction : <b>« quasiment tous les sons qui ont cette ampleur finissent toujours par percer à un moment ou un autre. Des fois ça met quelques années, mais ça marche. »</b></p>
+    </div>
+
+    <h3>Combien de ces titres dans une carrière</h3>
+    <div class="box b-info">
+      <p><b>« Des sons magiques comme ça, tu n'en as pas beaucoup dans ta carrière. Ce n'est pas grave — tu n'as pas besoin d'en avoir beaucoup. »</b></p>
+      <div class="tl">
+        <div class="tli"><b>Un seul titre peut faire vivre vingt ou trente ans.</b> L'exemple d'un artiste dancehall dont deux titres ont ouvert toutes les portes — et qui n'a jamais refait d'aussi sensationnel.</div>
+        <div class="tli"><b>Quinze ans sur un seul son.</b> Un titre qu'il a lui-même produit, fait en une heure en studio puis retapé en une soirée, <b>« envoyé à l'arrache, mixé à l'arrache »</b> — et qui fait tourner l'artiste depuis quinze ans. « On a envoyé des messages à des gens et ça a pris tout seul. »</div>
+        <div class="tli"><b>Un artiste aujourd'hui installé</b> qui, avant son titre déclencheur, avait fait le tour de tous les labels sans que personne ne veuille le signer — <b>même avec une collaboration prestigieuse en poche.</b></div>
+      </div>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le raz-de-marée</h4>
+      <p>Le dernier exemple est une ballade piano-voix d'un artiste soul déjà installé mais peu connu du grand public en France. <b>« Quand il est sorti, il a mis tout le monde d'accord. Il n'y avait même pas de débat. »</b> Repris en Jamaïque, remixé aux États-Unis, en France, en Allemagne — <b>« vraiment, ça a été un raz-de-marée. »</b></p>
+      <p>Conclusion : <b>« plus tu vas faire de sons, plus tu vas te rapprocher de ce son-là, avec la magie qu'il y a dedans. Pour moi, c'est ça ton challenge. »</b></p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s7" data-c="g">
+  <div class="chead">
+    <span class="num">7</span>
+    <h2>Sortir brut : la leçon jamaïcaine</h2>
+    <p class="tc">64:27 — 69:00</p>
+  </div>
+  <div class="cbody">
+    <p>La contre-culture du perfectionnisme, avec un cas vécu à l'appui.</p>
+
+    <div class="box b-info">
+      <h4>Le titre sorti non mixé</h4>
+      <p>Un morceau reggae produit pour une chanteuse, <b>ni mixé ni masterisé.</b> « Elle a hurlé de nerfs quand je l'ai sorti. » Elle voulait ajouter des harmonies, faire intervenir une chorale.</p>
+      <p>Résultat : <b>ce titre est devenu l'un de ses plus gros succès.</b> « Mais il est lourd, le son — pourquoi tu veux te prendre la tête ? »</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le critère, sans détour</h4>
+      <p><b>« Quand un son a un truc, il a un truc. Et quand un son est rincé, il est rincé. »</b> Et ce n'est pas méchant : personne ne peut faire des titres qui mettent tout le monde d'accord à chaque fois.</p>
+      <p>L'analogie : <b>« si ta veste n'est pas belle, tu peux mettre la paire de chaussures que tu veux — elle n'est pas belle. »</b> Le travail d'habillage embellit un peu, mais il ne crée pas l'évidence.</p>
+      <p>Sa méthode depuis toujours : <b>« ça claque, tu le sors ; ça ne claque pas, tu le mets sur un album. Et tu en refais un autre demain. »</b></p>
+    </div>
+
+    <h3>D'où lui vient cette culture</h3>
+    <div class="box b-info">
+      <p>De ce qu'il a vu en studio en Jamaïque, et qui l'a choqué au début. Des artistes qui enregistrent des prises très imparfaites, un ingénieur qui valide, et à la question « qu'est-ce qu'on fait maintenant ? » répond : <b>« on ne fait rien, on va le sortir, et demain il en fera un autre — et j'espère que ce sera mieux. »</b></p>
+      <p>Le modèle complet : <b>un album en une semaine, personne n'en veut, on repart, on continue. Ça ne s'arrête jamais.</b> Puis un jour un titre sort, les choses s'emballent, et <b>ils capitalisent sur tout ce qu'ils ont fait avant.</b></p>
+      <p>D'où le choc culturel quand un producteur français travaille avec eux : « il m'a envoyé des trucs, il n'est pas dans les temps, il chante faux. » <b>Non : il travaille comme ça tous les jours, et de temps en temps une pépite sort.</b></p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Le miroir français</h4>
+      <p>« En France, on se prend la tête. Il faut que l'arrangement soit parfait, on va faire venir de vrais violons, passer ça dans un compresseur à lampe bien particulier pour que ça sonne. »</p>
+      <p>Pendant ce temps : <b>« les mecs ont de vieilles enceintes rincées, une table de mixage des années 80, un micro que tu peux acheter pour 50 balles — et ils font le tour du monde avec. »</b></p>
+      <p>Avec la nuance : <b>« je ne dis pas qu'il faut être trop à l'arrache non plus. »</b> Le point est : quand une chose est déjà bonne, on la sort.</p>
+    </div>
+
+    <div class="pull">« Il ne faut jamais forcer la musique. Elle vient comme elle vient, tu la prends comme elle vient. »</div>
+  </div>
+</section>
+<section class="chap" id="s8" data-c="a">
+  <div class="chead">
+    <span class="num">8</span>
+    <h2>Découverte 1 : comment atteindre un maire</h2>
+    <p class="tc">69:00 — 72:40</p>
+  </div>
+  <div class="cbody">
+    <p>Cette partie vient d'un rendez-vous tenu le matin même avec un maire d'une commune de moins de 15 000 habitants. Elle est présentée comme une découverte, vérifiée ensuite — et c'est probablement le levier le plus directement exploitable de toute la session.</p>
+
+    <div class="box b-key">
+      <h4>Ce que le maire a expliqué</h4>
+      <div class="tl">
+        <div class="tli"><b>Le maire a souvent une part de décision dans la programmation culturelle de sa ville</b> — mais, dans beaucoup de cas, <b>ça n'arrive jamais à ses oreilles.</b></div>
+        <div class="tli"><b>Sur les lieux à programmation régulière</b>, on vient lui dire : « la programmation, on est partis sur ça, qu'est-ce que vous en pensez ? » Il écoute brièvement et valide. <b>« Mais il entend rarement ce qui était là avant »</b> — c'est-à-dire tout ce que ses équipes ont écarté.</div>
+        <div class="tli"><b>Dans les petites communes</b> qui organisent un ou deux événements par an, <b>le maire s'implique presque toujours</b> — mais il choisit dans une liste déjà filtrée.</div>
+      </div>
+    </div>
+
+    <div class="box b-info">
+      <h4>Son propre aveu</h4>
+      <p><b>« Souvent, moi, je fais des choix par défaut. On me dit : il y a ça, on peut en éliminer un ou deux, mais c'est tout. Des fois il y a des trucs que je sais qui ne plairont pas forcément à mes administrés. Mais c'est le travail de mon équipe. <b>Comme je n'ai pas de contre-proposition, je suis un peu leur choix.</b> »</b></p>
+      <p>Et quand on lui fait remarquer qu'en répondant aux sollicitations il aurait beaucoup plus de choix, la réponse est : <b>« oui, mais les gens ne savent pas contacter des maires. »</b></p>
+    </div>
+
+    <h3>La procédure, inscrite dans la loi</h3>
+    <div class="box b-key">
+      <div class="tl">
+        <div class="tli"><b>Un courrier adressé au maire doit être noté dans un registre officiel.</b></div>
+        <div class="tli"><b>Il est toujours transmis</b> — soit directement au maire, soit, quand le secrétariat l'ouvre, au service concerné. « Mais c'est toujours transmis. »</div>
+        <div class="tli"><b>Ils ne sont pas obligés de répondre, mais la plupart du temps ils s'obligent à répondre.</b></div>
+      </div>
+      <p>Conséquence directe : <b>« la prospection par courrier permet d'atteindre à coup sûr la cible. »</b> Contrairement à un mail, qui peut ne jamais être lu, ou à un appel, qui ne laisse aucune trace.</p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Le problème qui reste</h4>
+      <p>Si vous prospectez pour un artiste, <b>c'est le service culturel qui récupérera le courrier</b> — c'est-à-dire exactement l'étage qui filtre.</p>
+      <p>La solution donnée par le maire lui-même : <b>la mention « personnel et confidentiel » sur l'enveloppe.</b> Alors <b>il a l'obligation de le transmettre au maire, et comme c'est noté au registre officiel, le maire devra l'ouvrir — puisqu'il est seul à pouvoir le décacheter.</b> Il découvre donc la proposition.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s9" data-c="r">
+  <div class="chead">
+    <span class="num">9</span>
+    <h2>La technique des deux courriers</h2>
+    <p class="tc">72:40 — 76:50</p>
+  </div>
+  <div class="cbody">
+    <p>C'est la tactique précise que le maire décrit comme celle d'« une personne qui voudrait prospecter de manière maligne ».</p>
+
+    <div class="box b-key">
+      <h4>Le montage</h4>
+      <div class="tl">
+        <div class="tli"><b>Courrier 1 — au service culturel.</b> La candidature classique, par la voie normale.</div>
+        <div class="tli"><b>Courrier 2 — au maire, en « personnel et confidentiel ».</b> Il explique <b>qu'une copie a été envoyée au service culturel</b>, et qu'on souhaite s'adresser très personnellement à lui pour avoir son avis sur le projet et un éventuel retour sur la possibilité d'être programmé.</div>
+      </div>
+      <p>Les deux arrivent, les deux sont tracés, et l'un des deux atterrit fermé sur le bureau du décideur.</p>
+    </div>
+
+    <h3>La règle qui fait la différence : être précis</h3>
+    <div class="box b-info">
+      <p><b>« Plus les demandes sont précises, plus on est enclin à y répondre. »</b></p>
+      <div class="tl">
+        <div class="tli"><b>Ce qui ne marche pas :</b> « si vous avez un événement, il va falloir penser à moi. » On n'y pensera pas.</div>
+        <div class="tli"><b>Ce qui marche :</b> « dans votre commune, il n'y a qu'une seule salle, elle s'appelle X. Je souhaiterais être programmé à X, et j'aimerais que vous me répondiez sur ma candidature. » <b>Nommez la salle, nommez l'événement, demandez une réponse.</b></div>
+      </div>
+    </div>
+
+    <div class="box b-key">
+      <h4>Ce qui se passe ensuite</h4>
+      <p>Le maire transmet lui-même au responsable du service culturel, en disant : <b>« j'ai écouté, ce n'est vraiment pas mal. Vous devriez vous y intéresser. »</b></p>
+      <p>Et l'effet hiérarchique, qu'il chiffre : <b>« dans 90 % des cas, quand tu as ton patron qui te dit d'écouter un truc et de t'y intéresser, tu t'y intéresses. »</b> Comme on ne sait pas si c'est une recommandation personnelle, <b>on recontacte l'artiste.</b></p>
+      <p>Son témoignage : <b>« en tout cas dans ma commune, quand je m'amuse à faire ça, les artistes sont recontactés. Et de temps en temps, j'ai le plaisir de les voir programmés. »</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Quel support envoyer</h4>
+      <p><b>« Je pense qu'il faut envoyer tout format aujourd'hui : CD, clé USB, lien d'écoute. »</b> Et pour le lien dans un courrier papier : <b>un QR code</b> — « attention, c'est moderne, le maire. »</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Quelle taille de commune viser</h4>
+      <p>Pas besoin d'une grande ville. Le maire qui a livré la méthode dirige une commune de <b>moins de 15 000 habitants</b> — « ce n'est pas énorme, mais c'est suffisant ». Et la commune où vit Tarik en compte <b>8 000</b>, « et déjà, ça bouge bien ».</p>
+      <p>L'avantage des petites communes : <b>plus de chances que le maire lise et prenne le temps.</b></p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s10" data-c="g">
+  <div class="chead">
+    <span class="num">10</span>
+    <h2>La page unique et la prospection à froid</h2>
+    <p class="tc">76:50 — 80:20</p>
+  </div>
+  <div class="cbody">
+    <p>Un cas réel donné en comparaison : un artiste sur le même créneau qui a <b>booké six ou sept dates en quelques jours</b> dans des villes du sud.</p>
+
+    <div class="box b-key">
+      <h4>Ce qu'il a fait de son site : rien</h4>
+      <p>Il a <b>supprimé son site</b> et gardé le nom de domaine pour une page unique. Ce qu'elle contient :</p>
+      <div class="tl">
+        <div class="tli"><b>Des chiffres</b> — la preuve en une ligne.</div>
+        <div class="tli"><b>Des photos et quelques clips</b>, pas tous : trois, quatre, cinq.</div>
+        <div class="tli"><b>Une galerie photo</b>, qui plaît beaucoup.</div>
+        <div class="tli"><b>Le prix affiché</b> pour la date, avec <b>une demande de devis.</b></div>
+        <div class="tli"><b>« Le public en parle »</b> — une courte vidéo et des commentaires. <b>« Ça, ça convertit de ouf. »</b></div>
+      </div>
+      <p>C'est cette page unique qu'il envoie <b>en prospection froide</b>, sans rien d'autre.</p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>La règle à ne pas oublier</h4>
+      <p>L'artiste voulait l'améliorer — modifier le fond, rajouter des éléments. La réponse : <b>« mec, tu as un truc qui convertit. Tu fais ce que tu veux, mais si ça marche, ne change rien. »</b></p>
+      <p>C'est le même réflexe que sur un titre validé par tout le monde : <b>ne pas retoucher ce qui fonctionne.</b></p>
+    </div>
+
+    <h3>Le volume côté email</h3>
+    <div class="box b-info">
+      <p>De son côté, Tarik fait tourner une prospection à froid automatisée : <b>entre 100 et 200 contacts démarchés chaque semaine.</b> « Puis il y a tout ce qui rentre. Des fois c'est bancal, des fois c'est crédible. <b>Lui, il n'a plus qu'à répondre et à envoyer ses devis.</b> »</p>
+    </div>
+
+    <h3>Et côté LinkedIn</h3>
+    <div class="box b-key">
+      <p>Le même dispositif, en messages privés automatisés, sur tout ce qui relève de l'organisation d'événements et des comités des fêtes.</p>
+      <div class="tl">
+        <div class="tli"><b>Pas besoin de Premium.</b> « On avait pris Sales Navigator une année, mais on ne voit pas la différence — à part sur le volume. »</div>
+        <div class="tli"><b>Le rythme tenu : environ 70 messages par semaine</b>, « et ça tourne ».</div>
+        <div class="tli"><b>Les outils cités : PhantomBuster et Waalaxy.</b> « Les deux fonctionnent plutôt bien. »</div>
+        <div class="tli"><b>La mécanique :</b> on exporte sa base de contacts LinkedIn, on la réimporte dans l'outil, puis on filtre — « tous ceux qui s'identifient comme dirigeants d'un lieu culturel ou organisateurs » — et on envoie un message privé.</div>
+        <div class="tli"><b>Pourquoi ça arrive à destination :</b> comme ce sont des relations directes, <b>le message tombe dans la boîte de messagerie.</b></div>
+        <div class="tli"><b>L'ordre d'attaque :</b> d'abord le niveau 1 (les relations directes), puis le niveau 2, puis le niveau 3 — « j'espère qu'on n'aura pas à aller jusque-là ».</div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="chap" id="s11" data-c="b">
+  <div class="chead">
+    <span class="num">11</span>
+    <h2>Le hack LinkedIn, sans créer de contenu</h2>
+    <p class="tc">81:55 — 91:30</p>
+  </div>
+  <div class="cbody">
+    <p>Démonstration faite en direct à l'écran. C'est la méthode que Tarik dit avoir mis des années à comprendre, et celle qui marche le mieux pour lui.</p>
+
+    <div class="box b-key">
+      <h4>Le principe</h4>
+      <p><b>« Tu n'as même pas besoin de créer du contenu. Vraiment. »</b></p>
+      <p>La seule exigence : <b>la discipline. « Il faut se mettre 30 minutes par jour. »</b></p>
+      <p>Et la mécanique, en une phrase : <b>on commente les publications des autres. « Lui, il te voit — mais tout son réseau est susceptible de te voir aussi. Plus c'est pertinent, plus tu es visible. »</b> Certains de ses commentaires font <b>6 000 vues</b>.</p>
+    </div>
+
+    <h3>La séquence, telle qu'il la joue</h3>
+    <div class="tl">
+      <div class="tli"><b>Prendre une publication de son fil</b>, idéalement déjà bien likée.</div>
+      <div class="tli"><b>Faire proposer un commentaire par une IA</b>, avec une consigne précise : « suggère-moi un commentaire pertinent, sans aucun intérêt ni objectif de conversion derrière — juste pour interagir avec ce post. »</div>
+      <div class="tli"><b>Toujours rajouter de l'humain.</b> Il ne publie jamais la suggestion telle quelle : il ajoute une phrase de son expérience, une nuance, un mot plus incarné.</div>
+      <div class="tli"><b>Liker, commenter, notifier l'auteur.</b> On le mentionne pour qu'il voie passer le commentaire.</div>
+    </div>
+
+    <div class="box b-info">
+      <h4>Pourquoi le timing compte</h4>
+      <p><b>« Étant donné qu'il a déjà trois ou quatre commentaires, il y a un peu de monde qui va se mettre à le voir. Je suis le plus récent, donc je vais être le plus visible. »</b></p>
+      <p>Trop tôt, il n'y a personne ; trop tard, on est noyé. Le bon moment est celui où la publication commence à vivre.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Le raccourci : repérer les gros commentateurs</h4>
+      <p>« Avec le temps, j'ai compris qu'il fallait traquer des gens qui faisaient beaucoup de LinkedIn. Maintenant, <b>je ne me prends pas la tête : je regarde leurs commentaires et je passe derrière.</b> »</p>
+      <p>Ils font le travail de curation à votre place : ils trouvent les publications qui vivent, vous arrivez dans leur sillage.</p>
+    </div>
+
+    <h3>Cibler les bons profils</h3>
+    <div class="box b-key">
+      <p>Pour un artiste, les cibles sont les programmateurs, coordinateurs de festivals, chargés de projets culture et événements, organisateurs.</p>
+      <div class="tl">
+        <div class="tli"><b>Au début, c'est laborieux.</b> « Tu vas un peu galérer à en trouver, puis à force de chercher, LinkedIn va t'en suggérer tout seul. » Mots-clés utiles : <i>organisateur</i>, <i>festival</i>, <i>programmateur</i>, <i>service culture</i>.</div>
+        <div class="tli"><b>Cibler des festivals en particulier</b>, pas la catégorie en général.</div>
+      </div>
+    </div>
+
+    <div class="box b-danger">
+      <h4>L'erreur à ne pas commettre</h4>
+      <p><b>« Tu ne vas pas commenter ses posts, c'est trop grillé. »</b> Commenter directement sous la publication de sa cible se voit immédiatement comme une approche commerciale.</p>
+      <p>À la place : <b>aller dans l'onglet « Commentaires » de son profil</b> — c'est-à-dire voir ce que cette personne a commenté chez les autres — <b>et commenter ces publications-là.</b> On apparaît dans son environnement sans la solliciter.</p>
+      <p>Et on choisit une publication <b>qui a eu un peu d'interaction</b> : sinon, « ça veut dire que le sujet n'intéresse pas grand monde ».</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>La qualité du commentaire : la seule chose qui compte vraiment</h4>
+      <p><b>« Il faut une stratégie de contenu, c'est évident. Mais je pense que ce qui est le plus important, c'est la manière dont tu interagis. »</b></p>
+      <p>Et sa vraie pratique, hors démonstration : <b>« quand je commente des gens, je le fais de manière très chirurgicale. J'essaie de ne pas les froisser, tout en apportant de la valeur, tout en me positionnant comme un expert. »</b></p>
+      <p>Le double effet à produire :</p>
+      <div class="tl">
+        <div class="tli"><b>Chez l'auteur :</b> « merci, c'est cool de l'avoir dit comme ça, je ne l'avais pas vu comme ça. »</div>
+        <div class="tli"><b>Chez les lecteurs :</b> « bonne vision. »</div>
+      </div>
+      <p>Jamais un commentaire pour commenter : <b>on prend le sujet au fond, on apporte un angle, et on conseille l'auteur tout en conseillant son audience.</b></p>
+    </div>
+
+    <div class="pull">« Tous ces petits points de visibilité te font apparaître en tête du fil d'actualité des gens qui sont intéressés par le sujet. »</div>
+
+    <div class="box b-info">
+      <h4>Un détail utile</h4>
+      <p>L'option « voir qui a consulté votre profil » est payante. Son usage : <b>ne pas l'activer en continu, mais l'activer à un moment précis où elle sert</b> — après une campagne de commentaires, par exemple.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Et les tremplins nationaux ?</h4>
+      <p>Mentionnés en passant, mais le raisonnement est important : <b>le jury d'un grand tremplin est composé de gens qui gèrent aussi d'autres festivals et réseaux.</b> « Si demain l'un d'eux accroche sur ce que tu fais, juste parce qu'il t'a entendu, <b>il est capable de te caler sur quinze dates à lui tout seul.</b> »</p>
+      <p>D'où : <b>« c'est toujours bien d'être présent, même s'il ne se passe pas grand-chose. Ça donne de la visibilité, et tu ne sais jamais où ça va aller. »</b></p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s12" data-c="a">
+  <div class="chead">
+    <span class="num">12</span>
+    <h2>Du commentaire à l'appel de découverte</h2>
+    <p class="tc">91:30 — 95:00</p>
+  </div>
+  <div class="cbody">
+    <p>Le commentaire n'est pas un but, c'est une porte. Voici comment elle s'ouvre, avec un cas vécu.</p>
+
+    <div class="box b-key">
+      <h4>Les deux signaux à exploiter immédiatement</h4>
+      <div class="tl">
+        <div class="tli"><b>Quelqu'un vous ajoute</b> après avoir vu un commentaire → vous pouvez lui écrire tout de suite.</div>
+        <div class="tli"><b>Quelqu'un réagit à l'un de vos commentaires</b> → vous pouvez lui écrire tout de suite aussi.</div>
+      </div>
+      <p>« Tu crées du LinkedIn comme ça. »</p>
+    </div>
+
+    <h3>La technique avancée : se brancher sur une douleur connue</h3>
+    <div class="box b-info">
+      <p>Le cas raconté : un organisateur travaillant avec plusieurs mairies, qu'il voulait approcher. Il savait, par une autre source, <b>quel était son problème réel</b> — les équipes municipales ne sont pas formées pour monter le matériel scénique, et le lui abîment.</p>
+      <p>Alors, en commentaire public, <b>il a joué celui qui se plaint</b> : <i>« c'est génial ce que tu proposes, mais le problème, c'est que dans la plupart des mairies, les gens ne sont pas formés pour les monter. Résultat, tu as une scène dangereuse, que tu rends en plus défectueuse, et ce n'est bon pour personne. »</i></p>
+      <p>Réaction : <b>« il m'a applaudi. Il était là : c'est exactement ce que je me tue à dire. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le passage en privé, mot pour mot</h4>
+      <p><i>« J'ai trouvé ta réponse très pertinente. Tu fais quoi exactement ? Ça peut m'intéresser. Tiens, on s'appelle. »</i></p>
+      <p>Puis, à l'ouverture de l'appel : <b>« franchement, je suis honoré qu'on puisse s'appeler. J'ai cru voir ce que tu faisais. Je ne sais pas encore exactement si ça peut matcher avec ce que je fais, mais peut-être qu'il y a des synergies à mettre en place. Je suis là pour qu'on se découvre. »</b></p>
+      <p>Et la règle du premier tour de parole : <b>« vas-y, je t'en prie, tu commences. »</b> On laisse l'autre parler de lui en premier.</p>
+    </div>
+
+    <h3>Puis des questions, jusqu'à comprendre</h3>
+    <div class="box b-info">
+      <p>Parfois ça se fait tout seul — l'autre dit « justement, ça m'intéresse ». Sinon, on provoque : <b>« toi, quand tu vends des scènes, tu vends que des scènes ou tu montes aussi les shows ? — Non. — Mais du coup, qui les fait ? »</b></p>
+      <p><b>« Tu poses plein de questions jusqu'à ce qu'à un moment donné, tu comprennes. »</b></p>
+      <p>Et la conclusion de ce cas précis est honnête : ses clients étaient les mairies, il n'était pas en lien direct avec les décideurs de programmation — <b>donc ce n'était pas un bon point d'entrée.</b> « Mais je ne pouvais pas le savoir tant que je n'avais pas été au bout. »</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Ce qu'il faut en retenir</h4>
+      <p><b>« LinkedIn, c'est vachement intéressant, mais comme tout, ça demande du temps. Petit à petit, tu vas gagner du terrain. »</b></p>
+      <p>Et la façon de rendre ça soutenable : <b>30 minutes formatées, sans chercher à comprendre au-delà.</b> « Je regarde, j'essaie de répondre de manière pertinente, et c'est tout. »</p>
+    </div>
+  </div>
+</section>
+<section class="chap" id="s13" data-c="r">
+  <div class="chead">
+    <span class="num">13</span>
+    <h2>Négocier une date quand il n'y a pas de billetterie</h2>
+    <p class="tc">96:00 — 102:30</p>
+  </div>
+  <div class="cbody">
+    <p>Cas concret travaillé en séance : deux lieux de saison estivale — le type d'événement qui propose des concerts tous les soirs avec restauration, sans billetterie — ont pris contact, et trouvent les tarifs trop élevés.</p>
+
+    <div class="box b-info">
+      <h4>Les données du problème</h4>
+      <div class="tl">
+        <div class="tli"><b>La grille proposée :</b> 800 € en solo, 1 200 € en duo au premier lieu ; 1 400 € en duo au second.</div>
+        <div class="tli"><b>Le premier n'a pas répondu.</b> Le second a répondu <i>« on est vraiment hors budget »</i>, en indiquant qu'il était <b>« plutôt sur 800 € pour la formule duo »</b>.</div>
+        <div class="tli"><b>Le lieu reçoit entre 800 et 4 000 personnes chaque soir</b>, sur un très beau site.</div>
+        <div class="tli"><b>Et il faut ajouter 10 %</b>, parce que le lieu ne passe pas par un bureau de production — ce qui remonte mécaniquement le tarif annoncé.</div>
+      </div>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Le diagnostic : une négociation structurellement difficile</h4>
+      <p><b>« C'est dur à négocier parce qu'il n'y a pas d'intérêt économique derrière pour lui. »</b></p>
+      <p>Et c'est tout le contraste : <b>« quand tu as une jauge avec une billetterie, ça peut se discuter. Il y a plein de leviers pour faire céder l'acheteur. »</b> Sans billetterie, le concert est un coût, pas un investissement — il n'y a pas de recette à partager.</p>
+    </div>
+
+    <h3>Les deux bonnes nouvelles</h3>
+    <div class="box b-key">
+      <div class="tl">
+        <div class="tli"><b>Une contre-proposition est un signal d'intérêt.</b> « Je pense que s'il t'a fait une proposition, déjà, c'est qu'il est intéressé. »</div>
+        <div class="tli"><b>Un acheteur qui négocie fait son travail.</b> « Tu ne peux pas lui en vouloir d'essayer d'amener les prix vers le bas. »</div>
+      </div>
+      <p>Et le réflexe à garder, relevé en séance comme juste : <b>remercier d'une réponse, même négative.</b> « Beaucoup de gens, quand les tarifs ne correspondent pas, ne répondent pas. » Celui qui répond mérite qu'on le lui dise — et ça entretient la relation pour la saison suivante.</p>
+    </div>
+
+    <h3>La sortie : couper la poire en deux, explicitement</h3>
+    <div class="box b-key">
+      <p>Le pronostic posé : <b>« à mon avis, il cherche à ce que tu coupes la part en deux. Ça va finir à 1 000. »</b></p>
+      <p>Et la formulation à employer, telle quelle :</p>
+      <p><b>« Écoute, on s'aime bien, on bosse en bonne intelligence. Tu pensais à 800, je pensais à 1 200. On ne va pas chipoter cent sept ans : on part sur 1 000, chacun fait un effort équivalent. »</b></p>
+      <p>« Chacun fait un effort équivalent » est la clé : <b>ce n'est pas une baisse, c'est une symétrie.</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Les deux portes de repli</h4>
+      <div class="tl">
+        <div class="tli"><b>La formule solo.</b> Elle fonctionne — un gros lieu de ce type l'a déjà prise en solo et ça s'est bien passé. Avec une limite assumée : <b>« je n'ai pas le pouvoir de faire danser les gens comme quand on est à deux. »</b> Mais « ça peut aussi faire le job ».</div>
+        <div class="tli"><b>Capitaliser sur celui qui ne répond pas.</b> Quand les deux lieux sont proches : <b>« tu pourras motiver l'autre pour l'année prochaine avec les images de ton passage. »</b> La date jouée devient l'argument de la suivante.</div>
+      </div>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Et la charge commerciale, dans tout ça</h4>
+      <p>L'objection classique des petites salles — <b>« il faut amener votre public »</b> — est légitimement mal vécue : « moi, je vends un spectacle, je ne suis pas commerciale. »</p>
+      <p>La réponse reconnaît la charge : <b>« c'est vrai, c'est une charge supplémentaire en tant qu'artiste, alors que tu gères déjà tous tes trucs. Mais ça peut t'aider à vendre plus de dates. »</b> La communication fait partie du jeu, et c'est elle qui alimente la méthode suivante.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s14" data-c="b">
+  <div class="chead">
+    <span class="num">14</span>
+    <h2>L'inversion du risque</h2>
+    <p class="tc">102:30 — 104:40</p>
+  </div>
+  <div class="cbody">
+    <p>C'est la méthode à utiliser dès qu'il y a une jauge et une billetterie — autrement dit dans la grande majorité des salles, clubs et événements municipaux.</p>
+
+    <div class="box b-key">
+      <h4>Le principe</h4>
+      <p><b>« Je vendais à un prix fixe sécurisé, et un montant qui se débloquait si on remplissait la jauge, le seuil de rentabilité. »</b> Et ça marchait aussi bien avec les mairies qu'avec les clubs.</p>
+    </div>
+
+    <h3>Le script complet</h3>
+    <div class="tl">
+      <div class="tli">Vous annoncez 2 000. On vous dit : c'est trop cher.</div>
+      <div class="tli"><b>« OK, si on retirait le prix de l'équation — c'est gratuit. Vous prendriez la date ? »</b> — « Oui, gratuit, je la prends tout de suite. »</div>
+      <div class="tli"><b>« OK, et si c'est 500, pareil, vous la prendriez tout de suite ? »</b> — « Oui, 500, c'est bon. »</div>
+      <div class="tli"><b>« OK, 1 000 ? »</b> — « 1 000, c'est bon. Plus, par contre, ce n'est pas bon. »</div>
+      <div class="tli"><b>Vous venez de trouver le plafond. Et c'est là que la proposition arrive.</b></div>
+    </div>
+
+    <div class="box b-key">
+      <h4>La proposition, mot pour mot</h4>
+      <p><b>« Disons que je vous propose un contrat à 1 000 € fixe garanti. Mais si on dépasse la jauge que vous considérez être celle à atteindre pour être rentable, à ce moment-là on débloque 1 000 € supplémentaires. »</b></p>
+      <p>Puis on l'explique de son point de vue, et c'est cette partie qui fait signer :</p>
+      <p><b>« Comme ça, vous ne prenez pas de risque. Vous ne voulez pas dépenser plus de 1 000 parce que vous savez qu'un certain nombre de places, vous allez les faire sans difficulté, et que ce sera rentable pour vous. Maintenant, je vous propose que si je communique un peu de mon côté et que ça draine plus de monde, ou si vous communiquez et que le public est plus réactif que prévu — si au lieu de 100 on fait 150, alors on débloque les 1 000 € supplémentaires. Et comme ça, il n'y a pas de risque pour vous, il n'y a pas de risque pour moi. »</b></p>
+      <p>Résultat : <b>« en général, les mecs signent. »</b></p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>La vérification à faire avant</h4>
+      <p><b>« Après, il faut aller vérifier les jauges. »</b> Le seuil doit être atteignable, et le fixe garanti doit couvrir votre coût réel — sinon ce n'est plus une inversion du risque, c'est un pari.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s15" data-c="g">
+  <div class="chead">
+    <span class="num">15</span>
+    <h2>Le chapeau avec minimum</h2>
+    <p class="tc">104:40 — 108:50</p>
+  </div>
+  <div class="cbody">
+    <p>Deuxième stratégie, testée récemment et jugée très efficace — <b>« je regrette de ne pas l'avoir découverte avant »</b>.</p>
+
+    <div class="box b-danger">
+      <h4>L'erreur de cible</h4>
+      <p>Le cas de départ : un duo qui n'arrive pas à vendre de dates et chante de temps en temps gratuitement dans des restaurants, au chapeau. Ça ne paie pas.</p>
+      <p>Diagnostic : <b>« l'idée est bonne, par contre. Ce n'est pas auprès des gens que vous devez vendre ce concept-là, c'est auprès des patrons de restaurants. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le montage</h4>
+      <div class="tl">
+        <div class="tli"><b>Choisir un lieu déjà plein</b> le vendredi ou le samedi — 100, 120, 150 couverts.</div>
+        <div class="tli"><b>Ne rien annoncer vous-même.</b> « Vous ne dites pas aux gens qu'il y a un chapeau. »</div>
+        <div class="tli"><b>Demander au patron d'annoncer le concert à ses habitués</b>, en expliquant que c'est au chapeau — <b>et qu'il y a un montant minimum par personne.</b></div>
+      </div>
+      <p>Dans le cas testé, c'était <b>10 € minimum par personne</b>, et le restaurant a validé.</p>
+    </div>
+
+    <h3>Pourquoi ça passe psychologiquement</h3>
+    <div class="box b-info">
+      <p>Objection évidente : <i>« en gros, c'est le public qui paye le concert. »</i> Réponse : <b>« oui, mais la manière dont c'est présenté n'est pas pareille. »</b></p>
+      <p>Le script du patron, à l'entrée : <b>« oui, il y a de la place, mais ce soir c'est soirée jazz. Et comme les artistes ne sont pas payés, on les rémunère au chapeau et, par respect pour leur travail, on demande 10 € par personne minimum. Si vous voulez mettre plus, vous avez le droit, mais c'est le minimum. Si vous êtes OK, il y a une table ici. »</b></p>
+      <p>Et la comparaison qui explique tout : <b>« psychologiquement, c'est beaucoup plus accepté que de dire aux gens : c'est 10 € la place par personne. Parce que 10 € la place — je viens déjà dépenser pour manger chez toi. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le résultat, et le point le plus important</h4>
+      <p><b>100 personnes à 10 €, ça fait 1 000 à 1 200 € pour la soirée</b> — et le lieu n'a rien déboursé.</p>
+      <p>Surtout : <b>« c'est une histoire que tu donnes à l'employeur. Lui, ensuite, il le fait. C'est sa relation à lui avec ses clients. Ce n'est pas toi qui as un impact. »</b></p>
+      <p>Vous n'êtes jamais celui qui demande de l'argent au public. <b>Vous espérez juste qu'il remplisse sa salle, et qu'il fasse deux services.</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Trouver le bon montant</h4>
+      <p>10 € parce que c'était un restaurant plutôt chic, et du jazz. <b>Mais le montant s'adapte au lieu</b> : « un patron ou un serveur à l'entrée : <i>oui, on a bien une table de quatre, mais ce soir on a des artistes, il y a juste 2 € de supplément par personne, c'est OK pour vous ?</i> Les gens veulent manger, ils sont devant la porte : oui, c'est bon. »</p>
+      <p><b>« Et en fait, tu trouves le montant seuil. Parfois c'est deux, parfois quatre, parfois cinq. »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Et si ce n'est pas votre créneau</h4>
+      <p>C'est une objection légitime — tout le monde ne veut pas jouer dans des restaurants. La réponse : <b>« vois si tu peux l'adapter, ce sont des idées. Tout peut s'adapter. »</b></p>
+      <p>Et l'enseignement de fond, qui dépasse le cas : <b>« quelque chose de vieux comme le monde, qui semblait ringard et réservé aux artistes de rue, si tu le conditionnes un peu dans le bon sens, ça fonctionne très bien. »</b></p>
+    </div>
+  </div>
+</section>
+<section class="chap" id="s16" data-c="a">
+  <div class="chead">
+    <span class="num">16</span>
+    <h2>Découverte 2 : les vidéos hors normes de YouTube</h2>
+    <p class="tc">108:50 — 115:30</p>
+  </div>
+  <div class="cbody">
+    <p>Deuxième découverte de la session, montrée en direct dans YouTube Studio. Elle est gratuite, elle est déjà dans votre compte, et presque personne ne l'utilise.</p>
+
+    <div class="box b-key">
+      <h4>Où la trouver</h4>
+      <div class="tl">
+        <div class="tli">Dans <b>YouTube Studio</b>.</div>
+        <div class="tli">L'onglet qui s'appelait <b>Statistiques</b> s'appelle maintenant <b>Insights</b>.</div>
+        <div class="tli">Dedans, la section <b>Recherche</b>.</div>
+        <div class="tli">Et la fonction : <b>« vidéos hors normes dans mon créneau »</b>.</div>
+      </div>
+    </div>
+
+    <div class="box b-info">
+      <h4>Ce qu'elle montre</h4>
+      <p><b>« YouTube va te montrer toutes les vidéos qui ont surperformé dans un créneau similaire au tien. »</b></p>
+      <p>Avec un multiplicateur affiché pour chacune. Dans la démonstration : <b>une vidéo à ×47 par rapport à la moyenne des vues de sa chaîne</b>, une autre à ×28, une autre à ×25.</p>
+      <p>Et le mode de lecture : <b>le multiplicateur compare la vidéo à la moyenne de vues de la chaîne qui l'a publiée</b> — c'est donc une surperformance relative, pas un volume absolu.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Pourquoi c'est si puissant</h4>
+      <p><b>« En gros, YouTube est en train de te dire : si tu publies un truc comme ça, tu peux potentiellement faire 47 fois plus de vues. Je ne sais pas si les gens mesurent l'impact que ça peut avoir. »</b></p>
+      <p>Ce qu'il faut regarder n'est pas un seul paramètre : <b>« c'est un ensemble »</b> — la miniature, le type de contenu, l'angle, le format.</p>
+      <p>Et le bouton à connaître : <b>quand on repère une vidéo pertinente, on peut demander plus de contenu similaire</b> — et la liste se remplit d'idées.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>L'autre section utile</h4>
+      <p><b>« Les vidéos récentes dans ton créneau »</b> : moins spectaculaire, mais elle permet de <b>saisir les tendances de ce que font les autres</b> et, de fait, <b>d'analyser la concurrence.</b></p>
+      <p>Les mots-clés, en revanche, donnent des résultats inégaux — trop larges, ils ratissent le monde entier. <b>Le vrai gisement est dans les vidéos hors normes.</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Ce que ça dit de l'époque</h4>
+      <p><b>« J'ai l'impression que les réseaux sociaux sont en train de donner plus de chance à tout le monde. »</b> Chacun cherche à attirer davantage de créateurs en leur montrant que ce n'est pas si compliqué — <b>« il n'y a même plus besoin d'avoir un plan, il y a juste à appliquer ce qui marche. »</b></p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s17" data-c="r">
+  <div class="chead">
+    <span class="num">17</span>
+    <h2>Modéliser, et les micro-victoires</h2>
+    <p class="tc">115:30 — 120:00</p>
+  </div>
+  <div class="cbody">
+    <p>La session se referme sur la méthode qui relie tout le reste.</p>
+
+    <div class="box b-key">
+      <h4>Modéliser</h4>
+      <p>Le déclencheur : une artiste repérée qui repart de zéro après une signature en maison de disques — <b>storytelling assumé, publication très régulière, un planning de travail affiché, un sujet travaillé.</b> « Franchement, c'est ultra-inspirant. Elle est carrée. »</p>
+      <p>Réponse en un mot : <b>« modélise. »</b> Et le constat qui enlève toute culpabilité : <b>« c'est probablement qu'elle a modélisé quelqu'un qu'elle a vu. Juste, elle l'a fait à sa sauce. »</b></p>
+      <p>C'est comme en musique : <b>« d'abord tu écoutes des trucs, après tu veux faire comme. Puis finalement tu chantes à ta manière. Puis tu t'en détournes un peu, tu en rencontres une autre, et tu fais un peu comme. Et en puisant plein d'inspiration comme ça, tu arrives à créer ta propre dynamique. »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Arbitrer un créneau de programmation</h4>
+      <p>Un cas pratique traité en fin de session : une tête d'affiche annulée, et deux créneaux de remplacement proposés — un dimanche soir en première partie, ou un vendredi.</p>
+      <p>Les critères donnés :</p>
+      <div class="tl">
+        <div class="tli"><b>Sur l'affluence :</b> « je pense que les gens viendront tous les soirs. » Le créneau n'est pas le problème.</div>
+        <div class="tli"><b>Sur l'adéquation du public :</b> une tête d'affiche très grand public n'attire pas forcément un public sensible à un projet soul exigeant. C'est une vraie question à se poser.</div>
+        <div class="tli"><b>Mais le verdict est clair :</b> « dans tous les cas, ça va drainer du monde. <b>Franchement, dans les deux cas, c'est cool à faire.</b> »</div>
+      </div>
+      <p>Autrement dit : <b>on ne refuse pas une date parce que l'affiche n'est pas idéale.</b> On la prend, on joue, et on récupère les images.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le dernier conseil, et le plus simple</h4>
+      <p><b>« Je te parie que à partir du moment où tu vas te mettre à sortir des sons sans réfléchir, tu vas exploser. Parce qu'en vrai, tout le reste, tu l'as déjà. »</b></p>
+    </div>
+
+    <div class="pull">« L'avantage de sortir plein de choses, c'est que ça va te rapprocher de micro-victoires. Et la micro-victoire, quand tu vas l'avoir, tu vas y devenir accro. »</div>
+
+    <div class="box b-tip">
+      <h4>Le mécanisme des micro-victoires</h4>
+      <p>« Il y en aura une autre après, une autre après, une autre. Et en fait, <b>ça te poussera à avancer encore plus vite.</b> »</p>
+      <p>C'est le bouclage avec la première heure : on ne commence pas par trouver la motivation, puis par agir. <b>On agit sur une chose minuscule, on en tire une satisfaction réelle, et la motivation vient de là.</b> La formule retenue en séance : <b>« passe à l'action, et la répétition. »</b></p>
+    </div>
+  </div>
+</section>
+<div class="faq">
+  <div class="bar"></div>
+  <div class="faqhead">
+    <h2>Questions / Réponses</h2>
+    <p>Les 133 points traités pendant la session, regroupés par thème.</p>
+  </div>
+  <div class="faqbody">
+
+    <div class="faqcat">Trouver son pourquoi</div>
+    <div class="qa"><div class="q"><span>Q1.</span>Dix ans de pratique et les mêmes blocages : d'où ça vient ?</div><div class="a"><p>Pas de la discipline. <em class="q">« Je ne peux pas savoir où je vais parce que je n'ai pas de but. »</em> <strong>On ne peut pas se discipliner vers une destination qu'on n'a pas définie.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q2.</span>Quelle méthode pour trouver ce but ?</div><div class="a"><p>La cascade de pourquoi, inspirée du livre <em>Why</em> de Simon Sinek. <strong>Se demander pourquoi, puis se redemander pourquoi à chaque réponse, sans jamais s'arrêter</strong> — « jusqu'à être certain de ce que tu trouves ».</p></div></div>
+    <div class="qa"><div class="q"><span>Q3.</span>Quelle est la condition pour que ça marche ?</div><div class="a"><p>L'honnêteté. <em class="q">« À force de te poser ces questions-là, si tu es honnête avec toi-même, tu vas arriver à quelque chose de très profond. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q4.</span>Un exemple de ce qu'on trouve au bout ?</div><div class="a"><p>Son propre pourquoi, qui n'a rien à voir avec la musique : <em class="q">« je ne peux pas être heureux si les gens autour de moi ne sont pas heureux. Même si j'ai tout ce que je veux, si je l'ai seul, ça ne me va pas. »</em> Formulé autrement : <strong>« quand je suis entouré de gens heureux par mes efforts, alors le jeu en vaut la peine. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q5.</span>Qu'est-ce qui a été éliminé en chemin ?</div><div class="a"><p>Le confort — <em class="q">« une fois que tu atteins le confort, tu te rends compte que ce n'est pas ça »</em> — et la liberté : <strong>« j'ai beaucoup voyagé, ce n'était pas ça »</strong>, y compris dans des paysages magnifiques où il ne se sentait pas bien.</p></div></div>
+    <div class="qa"><div class="q"><span>Q6.</span>Et si rien ne manque dans sa vie ?</div><div class="a"><p>Alors le travail à faire est intérieur, pas extérieur. <strong>C'est une information, pas un échec.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q7.</span>Faut-il d'abord régler ses blocages avant d'agir ?</div><div class="a"><p>Non, et c'est le contre-pied le plus utile de la session. <strong>« Dans 99 % des cas de gens que je croise, la solution, c'est de ne rien faire pour régler le problème, mais juste d'avancer. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q8.</span>Que veut dire « avancer », précisément ?</div><div class="a"><p><strong>Des choses simples, tangibles, mesurables.</strong> Et compter ce qu'on fait déjà : <em class="q">« là, tu es là, c'est une action. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q9.</span>Quelle est la définition du succès donnée ici ?</div><div class="a"><p><strong>« Suivre un idéal qui en vaut la peine. Ce n'est même pas de l'accomplir, c'est juste de le suivre. »</strong> Si le chemin vaut le coup pour vous, c'est suffisant.</p></div></div>
+    <div class="qa"><div class="q"><span>Q10.</span>Que faire si la musique compte sans qu'on sache pourquoi ?</div><div class="a"><p>C'est le signe qu'<strong>on n'a pas encore identifié le rôle précis de la musique dans sa vie</strong> — pas qu'elle n'en a pas. L'exemple donné : un artiste bloqué qui croyait que son but était de percer, et dont le vrai besoin était ailleurs ; il a tout vendu, est parti, et fait toujours de la musique — sans ambition dedans, et heureux.</p></div></div>
+
+    <div class="faqcat">Trouver son système</div>
+    <div class="qa"><div class="q"><span>Q11.</span>Comment se construit concrètement un blocage ?</div><div class="a"><p>En trois temps, observés sur un cas réel : <strong>une insatisfaction esthétique</strong> (« le mail n'est pas beau »), <strong>puis une excuse technique</strong> (« il faut une vidéo, je ne sais pas faire »), <strong>puis une fuite dans l'analyse</strong> (« il faut regarder les statistiques » — et là, le flou).</p></div></div>
+    <div class="qa"><div class="q"><span>Q12.</span>Quelle est la première hypothèse ?</div><div class="a"><p>Que tout a été fait à l'instinct. <em class="q">« Est-ce que ce dont tu as besoin, ce n'est pas juste de mettre un plan et une vision dans tout ce que tu fais ? »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q13.</span>Et quand le plan existe déjà et ne sert à rien ?</div><div class="a"><p>C'est le cas ici : trois axes, bien rodé, carré — <strong>ouvert trois fois.</strong> Donc <strong>le problème n'est ni l'outil ni la qualité du plan, mais son adéquation avec la personne.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q14.</span>Quel est le principe de fond ?</div><div class="a"><p><strong>« Chaque système a un mode de fonctionnement. Et nous, les humains, on est des systèmes. »</strong> Certains fonctionnent avec des consignes simples — « ce que j'appelle les bienheureux ». D'autres ont <strong>un système incompatible avec tous les modes qu'on leur a proposés</strong> — ce n'est pas un défaut, c'est une combinaison non trouvée.</p></div></div>
+    <div class="qa"><div class="q"><span>Q15.</span>Quelle image résume ça ?</div><div class="a"><p>Le coffre : <strong>« des fois 0000, ça passe ; des fois c'est 1234 ; et des fois il faut chercher, et c'est plus long. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q16.</span>Quel est le risque principal ?</div><div class="a"><p>S'auto-complexifier. <strong>« Peut-être que tu as juste un système un peu plus complexe — ou que tu le complexifies en permanence. »</strong> Changer de méthode chaque semaine déstabilise.</p></div></div>
+    <div class="qa"><div class="q"><span>Q17.</span>Un exemple de combinaison trouvée ?</div><div class="a"><p>Une liste posée sur la table la veille au soir : rien à dire le matin, tout fait 45 minutes plus tard. Et l'amélioration découverte ensuite : <strong>ajouter un timing à chaque ligne.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q18.</span>Pourquoi des gens connaissent la solution sans l'appliquer ?</div><div class="a"><p>Parce que la solution n'entre pas dans leur système. <strong>« Elle a les codes, la combinaison — mais pour elle, ce n'est pas concevable de faire ça. Donc elle ne le fait pas. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q19.</span>Un système marche-t-il partout ?</div><div class="a"><p>Non. <strong>« Il y a des gens très disciplinés pour faire leurs devoirs, mais pas pour aller courir. Le même schéma ne marchera pas dans une autre sphère de vie. »</strong> Et il ne faut pas se fustiger pour ça.</p></div></div>
+    <div class="qa"><div class="q"><span>Q20.</span>Quelle est la contre-proposition concrète ?</div><div class="a"><p>L'inverse du plan complexe : <strong>« je fais un truc, c'est tout le temps le même, je le fais tous les jours, et je vois ce qui se passe. »</strong> Et si tenir trois jours est impossible : <strong>« accepte de faire un truc différent tous les jours. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q21.</span>Faut-il accepter le désordre ?</div><div class="a"><p>Oui, c'est même la condition pour tester. <strong>« À partir du moment où tu acceptes que ça peut être le chaos partout tout le temps, tu testes des choses, mais sans pression. »</strong></p></div></div>
+
+    <div class="faqcat">Les phases creuses</div>
+    <div class="qa"><div class="q"><span>Q22.</span>Est-ce anormal de remettre au lendemain ?</div><div class="a"><p>Non. <strong>« Ce que tu décris, c'est juste la vie de tout le monde. »</strong> Et pour le prouver, il décrit sa propre journée : réveil subi, levé pour les autres, puis l'enchaînement.</p></div></div>
+    <div class="qa"><div class="q"><span>Q23.</span>Quel est le mécanisme qui débloque une journée ?</div><div class="a"><p><strong>L'action crée l'énergie et le mouvement</strong>, pas l'inverse. La douche parce qu'on est debout, le lit parce qu'on passe devant — <em class="q">« et ça y est, c'est parti. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q24.</span>Est-ce que ça disparaît avec l'expérience ?</div><div class="a"><p>Non. <strong>« Jusqu'à cinq secondes avant de monter sur scène, je n'ai pas envie d'y aller. Des fois, je cherche même des excuses. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q25.</span>À quoi ressemblaient ses journées avant ?</div><div class="a"><p>Lever vers 15 h, clients annulés par flemme jusqu'à ce qu'ils renoncent, énervement sans inspiration, un documentaire remis en boucle pour déclencher quelque chose. <strong>« J'ai des milliers de sessions que je n'ai jamais terminées »</strong> — avec de vraies pépites dedans.</p></div></div>
+    <div class="qa"><div class="q"><span>Q26.</span>Qu'est-ce que « être frappé par la grâce » ?</div><div class="a"><p>Le jour où l'on s'installe, on a une idée, et <strong>trente minutes plus tard le morceau est fini sans qu'on comprenne comment.</strong> Ça arrive sans prévenir — et ça n'arrive que si l'on est là.</p></div></div>
+    <div class="qa"><div class="q"><span>Q27.</span>Qu'est-ce qui l'a vraiment structuré ?</div><div class="a"><p>Deux choses. <strong>Un constat chiffré</strong> — « trois prods bien sur cent, donc il faut arrêter de les vendre et les louer » — et <strong>une responsabilité envers quelqu'un d'autre</strong> : « il fallait que j'appelle soixante-dix personnes, je n'ai jamais eu aucun mal à le faire, parce que j'étais investi d'une mission. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q28.</span>Comment utiliser ça pour soi ?</div><div class="a"><p><strong>La contrainte externe fait ce que la discipline interne ne fait pas</strong> : une échéance donnée à un partenaire, une date annoncée publiquement, une commande acceptée.</p></div></div>
+    <div class="qa"><div class="q"><span>Q29.</span>Est-ce que ça arrive aussi à ceux qui enseignent ?</div><div class="a"><p>Oui. Trois ans sans produire de formation, puis l'envie de s'y remettre et l'impossibilité de démarrer : <em class="q">« laisse tomber, c'est rincé, le marché est saturé. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q30.</span>Qu'est-ce qui l'a débloqué ?</div><div class="a"><p>Pas une technique : <strong>sa femme lui donnait raison.</strong> « Et moi, quand elle me disait "laisse tomber", je me disais : mais non, tu ne devrais pas me dire ça. <strong>En fait, elle faisait de la psychologie inversée.</strong> »</p></div></div>
+    <div class="qa"><div class="q"><span>Q31.</span>Quelle posture a-t-il prise entre-temps ?</div><div class="a"><p><strong>« J'acceptais juste que j'étais mauvais à ce moment-là. »</strong> Puis, des mois plus tard, le déclic revient de lui-même.</p></div></div>
+    <div class="qa"><div class="q"><span>Q32.</span>Quelle est la seule différence avec quelqu'un qui en souffre ?</div><div class="a"><p><strong>« C'est que ça ne me gêne pas. »</strong> Le plan parfait rédigé puis abandonné des mois ne lui pose pas de problème.</p></div></div>
+    <div class="qa"><div class="q"><span>Q33.</span>Quel est le mécanisme qui rend ça tenable ?</div><div class="a"><p><strong>Avoir toujours un domaine où l'on progresse.</strong> La phase art martial — « tant que je progresse, je veux ma ceinture noire, alors je ne loupe aucun entraînement » — puis la phase IA : <strong>« je n'en fais rien, mais je progresse de ouf, je prends cinq ans d'avance. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q34.</span>Mais si ça ne sert à rien aujourd'hui ?</div><div class="a"><p><strong>« Ça travaille sur plein d'étages. »</strong> L'IA servira ; l'art martial sert déjà sans qu'on le voie. Ce qui compte, c'est que la sensation de progresser ne s'arrête jamais complètement.</p></div></div>
+    <div class="qa"><div class="q"><span>Q35.</span>Comment résumer le mindset entrepreneurial ?</div><div class="a"><p><strong>« Moi, ça ne me gêne pas d'avancer dans le chaos. J'ai toujours fait ça. »</strong> Avec l'illustration : <em class="q">« quand je squattais chez des gens et que je n'avais même pas de quoi m'acheter un steak, dans ma tête, j'étais déjà un producteur à succès. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q36.</span>Comment relativiser une période stérile ?</div><div class="a"><p>Par la projection à dix ans. L'exemple d'une chanteuse de gospel qui se fustigeait de ne pas savoir plaquer quatre accords ; douze ans plus tard elle joue du piano, de la guitare, et chante mieux. <strong>« Une ceinture blanche, c'est une ceinture noire de dans dix ans. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q37.</span>Et si ça ne tient pas ?</div><div class="a"><p><strong>« Si ça ne tient pas, c'est que ce n'était pas fait pour toi. »</strong> C'est aussi une réponse valable.</p></div></div>
+
+    <div class="faqcat">Relâcher</div>
+    <div class="qa"><div class="q"><span>Q38.</span>Pourquoi le repos est-il un sujet technique ?</div><div class="a"><p>Parce que <strong>le corps est aussi tenu par un système nerveux, qui a besoin d'être complètement relâché pour mieux fonctionner.</strong> Son usage : deux jours par mois où il ne fait rien, annoncés comme une indisponibilité.</p></div></div>
+    <div class="qa"><div class="q"><span>Q39.</span>Quel est l'exercice ?</div><div class="a"><p><strong>« Tu jettes ton téléphone loin de toi, tu t'allonges par terre cinq minutes. Rien que ça. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q40.</span>Est-ce de la méditation ?</div><div class="a"><p>Non, et la distinction compte : <strong>« c'est réfléchi, de méditer. Juste, allonge-toi et ne fais rien. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q41.</span>Pourquoi cinq minutes suffisent ?</div><div class="a"><p><strong>« Ton système nerveux, cinq minutes, ça lui suffit pour complètement se relâcher. »</strong> Le problème n'est pas la durée, c'est que ça n'arrive jamais : <em class="q">« quand tu as fini une tâche, tu prends ton téléphone, ta voiture, tu parles, tu cuisines — tu es tout le temps dans une action. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q42.</span>Que faire des pensées qui arrivent ?</div><div class="a"><p>Les laisser passer. <strong>« Tu prends juste conscience : tiens, je suis en train de penser à ça. OK, je n'ai pas envie d'y penser. Puis tu penses à autre chose. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q43.</span>Une technique qui marche vite ?</div><div class="a"><p><strong>Compter en visualisant les chiffres.</strong> « Ça détend de ouf. » C'est la technique qu'il utilise pour endormir ses enfants, avec une histoire improvisée et des marches à compter.</p></div></div>
+    <div class="qa"><div class="q"><span>Q44.</span>D'autres variantes ?</div><div class="a"><p><strong>Un lieu où l'on ne peut rien faire</strong> (le jacuzzi, par exemple) et <strong>le scan corporel</strong> — dix minutes guidées qui « rechargent le capital énergie de la journée ».</p></div></div>
+
+    <div class="faqcat">Faire des sons</div>
+    <div class="qa"><div class="q"><span>Q45.</span>Quel est le conseil central de la session ?</div><div class="a"><p><strong>« Tu n'as même pas besoin de finir tes titres. Tu as juste besoin de faire des titres. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q46.</span>Que faire d'un morceau dépouillé déjà bon ?</div><div class="a"><p><strong>« Moi, je l'aurais laissé comme ça, et j'en aurais fait un deuxième. »</strong> L'idée et la performance comptent ; l'esthétique vient après.</p></div></div>
+    <div class="qa"><div class="q"><span>Q47.</span>Pourquoi la finition n'est-elle pas le levier ?</div><div class="a"><p><strong>« Quand tu as l'idée, tu as l'idée. Le reste, après, c'est de l'habillage. »</strong> Et la plupart des grands titres de ce type d'univers n'ont presque rien dans la production : un orgue et une voix, un piano et une voix, parfois juste une voix.</p></div></div>
+    <div class="qa"><div class="q"><span>Q48.</span>Et si on veut quand même sortir quelque chose ?</div><div class="a"><p><strong>« Enregistre proprement, mixe, et sors-le en l'état. »</strong> Pas d'arrangements supplémentaires. « Pourquoi tu veux te prendre la tête à faire plus ? »</p></div></div>
+    <div class="qa"><div class="q"><span>Q49.</span>Quel est le prérequis ?</div><div class="a"><p><strong>Avoir une mécanique de production</strong> — être capable d'enchaîner, pas de sortir une pièce unique tous les deux ans.</p></div></div>
+    <div class="qa"><div class="q"><span>Q50.</span>Et pour le live ?</div><div class="a"><p><strong>C'est un autre sujet.</strong> Là, il faudra travailler l'habillage et la pénétration.</p></div></div>
+    <div class="qa"><div class="q"><span>Q51.</span>Comment éviter qu'une collaboration s'étire ?</div><div class="a"><p>En imposant une échéance : <strong>« les gars, il faut que vous me donniez une échéance, parce que sinon ça peut durer. »</strong> Sans contrainte, un projet collaboratif dérive par construction.</p></div></div>
+    <div class="qa"><div class="q"><span>Q52.</span>Pourquoi la cadence compte côté auditeur ?</div><div class="a"><p><strong>« Je ne peux pas écouter quinze fois la même piste. Par contre, si tu m'en donnes une deuxième rapidement derrière, je vais l'écouter aussi. »</strong> Et l'inverse coûte cher : « je suis dégoûté quand des artistes que je kiffe ne sortent plus rien. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q53.</span>A-t-on le droit de décevoir ?</div><div class="a"><p>Oui. <strong>« Des fois il sort des trucs et tu es déçu aussi. Et c'est OK. Parce qu'un jour, il peut sortir un truc et boum. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q54.</span>Comment savoir si un titre est fini ?</div><div class="a"><p>Par le retour d'écoute, pas par l'introspection. <strong>« Si tout le monde te dit : ça claque — pourquoi tu veux changer un truc qui marche ? »</strong> Et s'il y a un « il manque quelque chose », là on retravaille.</p></div></div>
+
+    <div class="faqcat">Pourquoi un seul titre change tout</div>
+    <div class="qa"><div class="q"><span>Q55.</span>Pourquoi « il suffit d'un titre » ?</div><div class="a"><p>Parce qu'on retient très peu de titres par artiste. Même pour de très grandes voix, <strong>« 99 % des gens peuvent t'en citer deux, pas plus — pourtant il y en a eu bien plus. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q56.</span>En quoi la percée est-elle « des maths » ?</div><div class="a"><p>Parce que dans le lot, <strong>un titre finit par s'élever tellement au-dessus des autres qu'il suffit de le désigner.</strong> Et ensuite : <strong>une écoute en déclenche mille, qui en déclenchent dix mille, puis cent mille.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q57.</span>Faut-il aimer le genre pour être touché ?</div><div class="a"><p>Non. <em class="q">« Moi, je n'écoute pas de métal. Il y a deux ou trois titres qui ont atteint mes oreilles et je me suis dit : ils sont lourds, les gars. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q58.</span>À quoi reconnaît-on ce titre ?</div><div class="a"><p>À son caractère inévitable. L'exemple d'une chanson folk voix-guitare : <strong>« peu importe où il est mis, il croise les oreilles de n'importe qui — c'est obligé. La personne le prend, l'écoute en boucle, le fait écouter. C'était mécanique. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q59.</span>Ces titres finissent-ils toujours par sortir ?</div><div class="a"><p><strong>« Quasiment tous les sons qui ont cette ampleur finissent toujours par percer. Des fois ça met quelques années, mais ça marche. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q60.</span>Combien en a-t-on dans une carrière ?</div><div class="a"><p>Peu, et ce n'est pas grave. <strong>« Tu n'as pas besoin d'en avoir beaucoup. »</strong> Un seul peut faire vivre vingt ou trente ans.</p></div></div>
+    <div class="qa"><div class="q"><span>Q61.</span>Un exemple vécu ?</div><div class="a"><p>Un titre qu'il a produit, fait en une heure en studio puis retapé en une soirée, <strong>« envoyé à l'arrache, mixé à l'arrache »</strong> — et qui fait tourner l'artiste depuis quinze ans. « On a envoyé des messages à des gens et ça a pris tout seul. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q62.</span>Et avant le titre déclencheur ?</div><div class="a"><p>Souvent, rien. Un artiste aujourd'hui installé avait fait le tour de tous les labels sans que personne ne veuille le signer — <strong>même avec une collaboration prestigieuse en poche.</strong> Puis un titre est sorti.</p></div></div>
+    <div class="qa"><div class="q"><span>Q63.</span>À quoi ressemble un vrai raz-de-marée ?</div><div class="a"><p>Une ballade piano-voix d'un artiste installé mais peu connu du grand public en France. <strong>« Quand il est sorti, il a mis tout le monde d'accord. Il n'y avait même pas de débat. »</strong> Reprise en Jamaïque, remixée aux États-Unis, en France, en Allemagne.</p></div></div>
+
+    <div class="faqcat">Sortir brut</div>
+    <div class="qa"><div class="q"><span>Q64.</span>Un titre non mixé peut-il marcher ?</div><div class="a"><p>Oui. Un morceau reggae sorti ni mixé ni masterisé, contre l'avis de la chanteuse qui voulait ajouter des harmonies, <strong>est devenu l'un de ses plus gros succès.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q65.</span>Quel est le critère, alors ?</div><div class="a"><p><strong>« Quand un son a un truc, il a un truc. Et quand un son est rincé, il est rincé. »</strong> Et l'analogie : « si ta veste n'est pas belle, tu peux mettre la paire de chaussures que tu veux. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q66.</span>Quelle est sa méthode de tri ?</div><div class="a"><p><strong>« Ça claque, tu le sors ; ça ne claque pas, tu le mets sur un album. Et tu en refais un autre demain. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q67.</span>D'où vient cette culture ?</div><div class="a"><p>De ce qu'il a vu en studio en Jamaïque : des prises très imparfaites validées, et à la question « qu'est-ce qu'on fait maintenant ? » la réponse <strong>« on ne fait rien, on va le sortir, et demain il en fera un autre — et j'espère que ce sera mieux. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q68.</span>Quel est le modèle complet ?</div><div class="a"><p><strong>Un album en une semaine, personne n'en veut, on repart, on continue.</strong> Puis un jour un titre sort, et <strong>ils capitalisent sur tout ce qu'ils ont fait avant.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q69.</span>Pourquoi les producteurs français sont-ils choqués ?</div><div class="a"><p>Parce qu'ils lisent ça comme du mépris — « il n'est pas dans les temps, il chante faux ». <strong>Non : il travaille comme ça tous les jours, et de temps en temps une pépite sort.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q70.</span>Et le perfectionnisme français ?</div><div class="a"><p>« Il faut que l'arrangement soit parfait, de vrais violons, un compresseur à lampe particulier. » Pendant ce temps : <strong>« les mecs ont de vieilles enceintes rincées, une table des années 80, un micro à 50 balles — et ils font le tour du monde avec. »</strong> Avec la nuance : « je ne dis pas qu'il faut être trop à l'arrache non plus. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q71.</span>La formule à retenir ?</div><div class="a"><p><strong>« Il ne faut jamais forcer la musique. Elle vient comme elle vient, tu la prends comme elle vient. »</strong></p></div></div>
+
+    <div class="faqcat">Atteindre un maire</div>
+    <div class="qa"><div class="q"><span>Q72.</span>Le maire décide-t-il de la programmation culturelle ?</div><div class="a"><p>Souvent en partie — <strong>mais dans beaucoup de cas, ça n'arrive jamais à ses oreilles.</strong> Sur les lieux à programmation régulière, on lui présente la liste finale, et <strong>« il entend rarement ce qui était là avant »</strong> : tout ce que ses équipes ont écarté.</p></div></div>
+    <div class="qa"><div class="q"><span>Q73.</span>Et dans les petites communes ?</div><div class="a"><p><strong>Le maire s'implique presque toujours</strong> dans l'événement annuel — mais il choisit dans une liste déjà filtrée.</p></div></div>
+    <div class="qa"><div class="q"><span>Q74.</span>Que dit-il de ses propres choix ?</div><div class="a"><p><strong>« Souvent, moi, je fais des choix par défaut. Comme je n'ai pas de contre-proposition, je suis un peu leur choix. »</strong> Y compris sur des propositions dont il sait qu'elles ne plairont pas à ses administrés.</p></div></div>
+    <div class="qa"><div class="q"><span>Q75.</span>Pourquoi ne reçoit-il pas plus de propositions ?</div><div class="a"><p><strong>« Les gens ne savent pas contacter des maires. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q76.</span>Quelle est la procédure ?</div><div class="a"><p>Un courrier adressé au maire <strong>doit être noté dans un registre officiel</strong>, et <strong>il est toujours transmis</strong> — au maire, ou au service concerné. Ils ne sont pas obligés de répondre, mais <strong>la plupart du temps ils s'obligent à répondre.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q77.</span>Quel est l'avantage sur le mail ou l'appel ?</div><div class="a"><p><strong>« La prospection par courrier permet d'atteindre à coup sûr la cible. »</strong> Un mail peut ne jamais être lu, un appel ne laisse aucune trace.</p></div></div>
+    <div class="qa"><div class="q"><span>Q78.</span>Quel problème reste-t-il ?</div><div class="a"><p>Une candidature d'artiste atterrit au <strong>service culturel</strong> — c'est-à-dire exactement l'étage qui filtre.</p></div></div>
+    <div class="qa"><div class="q"><span>Q79.</span>Comment le contourner ?</div><div class="a"><p>Avec la mention <strong>« personnel et confidentiel »</strong> sur l'enveloppe. Le secrétariat <strong>a l'obligation de la transmettre au maire</strong>, et comme c'est au registre officiel, <strong>le maire devra l'ouvrir — puisqu'il est seul à pouvoir la décacheter.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q80.</span>Quelle est la technique complète ?</div><div class="a"><p><strong>Deux courriers.</strong> Un au service culturel, par la voie normale. Un au maire en « personnel et confidentiel », <strong>qui explique qu'une copie a été envoyée au service culturel</strong> et qu'on souhaite s'adresser personnellement à lui pour avoir son avis et un retour sur une éventuelle programmation.</p></div></div>
+    <div class="qa"><div class="q"><span>Q81.</span>Qu'est-ce qui déclenche une réponse ?</div><div class="a"><p>La précision. <strong>« Plus les demandes sont précises, plus on est enclin à y répondre. »</strong> « Pensez à moi » ne marche pas ; <strong>nommer la salle, nommer l'événement et demander une réponse sur sa candidature</strong>, oui.</p></div></div>
+    <div class="qa"><div class="q"><span>Q82.</span>Que se passe-t-il ensuite ?</div><div class="a"><p>Le maire transmet lui-même au service en disant <strong>« j'ai écouté, ce n'est vraiment pas mal, vous devriez vous y intéresser »</strong>. Et <strong>« dans 90 % des cas, quand ton patron te dit d'écouter un truc, tu t'y intéresses »</strong> — donc <strong>on recontacte l'artiste.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q83.</span>Quel support envoyer ?</div><div class="a"><p><strong>Tous :</strong> CD, clé USB, lien d'écoute. Et pour un courrier papier, <strong>un QR code</strong> — « attention, c'est moderne, le maire. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q84.</span>Quelle taille de commune viser ?</div><div class="a"><p>Pas besoin d'une grande ville : le maire qui a livré la méthode dirige une commune de <strong>moins de 15 000 habitants</strong>, et une commune de <strong>8 000 habitants</strong> « bouge déjà bien ». L'avantage du petit : <strong>plus de chances que le maire lise.</strong></p></div></div>
+
+    <div class="faqcat">Prospecter</div>
+    <div class="qa"><div class="q"><span>Q85.</span>Que contient une page unique qui convertit ?</div><div class="a"><p><strong>Des chiffres, des photos, trois à cinq clips, une galerie, le prix affiché avec une demande de devis, et une rubrique « le public en parle »</strong> avec une courte vidéo et des commentaires. <strong>« Ça, ça convertit de ouf. »</strong> L'artiste cité a supprimé son site pour ne garder que ça.</p></div></div>
+    <div class="qa"><div class="q"><span>Q86.</span>Et si on veut l'améliorer ?</div><div class="a"><p><strong>« Tu as un truc qui convertit. Tu fais ce que tu veux, mais si ça marche, ne change rien. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q87.</span>Quel volume de prospection à froid ?</div><div class="a"><p><strong>Entre 100 et 200 contacts démarchés chaque semaine</strong>, en automatique. « Lui, il n'a plus qu'à répondre et à envoyer ses devis. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q88.</span>Faut-il LinkedIn Premium ?</div><div class="a"><p>Non. <strong>« On avait pris Sales Navigator une année, mais on ne voit pas la différence — à part sur le volume. »</strong> Le rythme tenu est d'environ <strong>70 messages par semaine</strong>, avec <strong>PhantomBuster ou Waalaxy.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q89.</span>Comment fonctionne l'automatisation ?</div><div class="a"><p>On <strong>exporte sa base de contacts LinkedIn, on la réimporte dans l'outil, on filtre</strong> (dirigeants de lieux culturels, organisateurs), et on envoie un message privé. Comme ce sont des relations directes, <strong>le message tombe dans la boîte de messagerie.</strong> On attaque le niveau 1, puis 2, puis 3.</p></div></div>
+
+    <div class="faqcat">Le hack LinkedIn</div>
+    <div class="qa"><div class="q"><span>Q90.</span>Faut-il créer du contenu ?</div><div class="a"><p><strong>« Tu n'as même pas besoin de créer du contenu. Vraiment. »</strong> Il faut seulement de la discipline : <strong>30 minutes par jour.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q91.</span>Comment ça marche ?</div><div class="a"><p>On commente les publications des autres. <strong>« Lui, il te voit — mais tout son réseau est susceptible de te voir aussi. Plus c'est pertinent, plus tu es visible. »</strong> Certains de ses commentaires font <strong>6 000 vues.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q92.</span>Quelle est la séquence exacte ?</div><div class="a"><p>Prendre une publication bien likée de son fil, <strong>faire proposer un commentaire par une IA</strong> (« un commentaire pertinent, sans objectif de conversion, juste pour interagir »), <strong>toujours rajouter de l'humain</strong>, puis liker, commenter et notifier l'auteur.</p></div></div>
+    <div class="qa"><div class="q"><span>Q93.</span>Pourquoi le timing compte-t-il ?</div><div class="a"><p><strong>« Étant donné qu'il a déjà trois ou quatre commentaires, il y a un peu de monde qui va se mettre à le voir. Je suis le plus récent, donc je vais être le plus visible. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q94.</span>Quel est le raccourci ?</div><div class="a"><p><strong>Repérer les gros commentateurs et passer derrière eux.</strong> « Je regarde leurs commentaires et je passe derrière. » Ils font le travail de curation à votre place.</p></div></div>
+    <div class="qa"><div class="q"><span>Q95.</span>Comment aborder une cible précise ?</div><div class="a"><p>Surtout pas sous ses propres publications : <strong>« tu ne vas pas commenter ses posts, c'est trop grillé. »</strong> À la place : <strong>aller dans l'onglet « Commentaires » de son profil et commenter les publications qu'elle a commentées.</strong> On apparaît dans son environnement sans la solliciter.</p></div></div>
+    <div class="qa"><div class="q"><span>Q96.</span>Comment choisir la publication ?</div><div class="a"><p>Elle doit avoir eu <strong>un peu d'interaction</strong> — sinon « ça veut dire que le sujet n'intéresse pas grand monde ».</p></div></div>
+    <div class="qa"><div class="q"><span>Q97.</span>Qu'est-ce qu'un bon commentaire ?</div><div class="a"><p>Un commentaire chirurgical : <strong>« j'essaie de ne pas les froisser, tout en apportant de la valeur, tout en me positionnant comme un expert. »</strong> Avec un double effet : l'auteur pense « je ne l'avais pas vu comme ça », les lecteurs pensent « bonne vision ». <strong>Jamais un commentaire pour commenter.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q98.</span>Comment passer du commentaire au contact ?</div><div class="a"><p>Deux signaux à exploiter immédiatement : <strong>quelqu'un vous ajoute après un commentaire</strong>, ou <strong>quelqu'un réagit à un de vos commentaires</strong> — dans les deux cas, vous pouvez écrire tout de suite.</p></div></div>
+    <div class="qa"><div class="q"><span>Q99.</span>Un exemple d'approche avancée ?</div><div class="a"><p>Se brancher sur une douleur qu'on connaît déjà. Sur un organisateur dont il savait le problème réel, il a <strong>joué celui qui se plaint</strong>, publiquement et précisément. Réaction : <strong>« il m'a applaudi : c'est exactement ce que je me tue à dire. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q100.</span>Et le passage en privé ?</div><div class="a"><p><em class="q">« J'ai trouvé ta réponse très pertinente. Tu fais quoi exactement ? Ça peut m'intéresser. Tiens, on s'appelle. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q101.</span>Comment ouvrir l'appel ?</div><div class="a"><p><strong>« Je suis honoré qu'on puisse s'appeler. Je ne sais pas encore si ça peut matcher avec ce que je fais, mais peut-être qu'il y a des synergies. Je suis là pour qu'on se découvre. »</strong> Puis : <strong>« vas-y, je t'en prie, tu commences. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q102.</span>Et ensuite ?</div><div class="a"><p><strong>« Tu poses plein de questions jusqu'à ce qu'à un moment donné, tu comprennes. »</strong> Dans le cas raconté, la conclusion fut que ce n'était pas un bon point d'entrée — <strong>« mais je ne pouvais pas le savoir tant que je n'avais pas été au bout. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q103.</span>Pourquoi candidater aux tremplins nationaux ?</div><div class="a"><p>Parce que <strong>le jury est composé de gens qui gèrent aussi d'autres festivals et réseaux</strong> : « si l'un d'eux accroche sur ce que tu fais, <strong>il est capable de te caler sur quinze dates à lui tout seul.</strong> »</p></div></div>
+
+    <div class="faqcat">Vendre une date</div>
+    <div class="qa"><div class="q"><span>Q104.</span>Pourquoi est-il difficile de négocier sans billetterie ?</div><div class="a"><p><strong>« C'est dur à négocier parce qu'il n'y a pas d'intérêt économique derrière pour lui. »</strong> Le concert est un coût, pas un investissement : il n'y a pas de recette à partager. <strong>« Quand tu as une jauge avec une billetterie, ça peut se discuter. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q105.</span>Une contre-proposition basse est-elle mauvais signe ?</div><div class="a"><p>Non. <strong>« S'il t'a fait une proposition, déjà, c'est qu'il est intéressé. »</strong> Et <strong>« tu ne peux pas lui en vouloir d'essayer d'amener les prix vers le bas »</strong> — c'est son travail.</p></div></div>
+    <div class="qa"><div class="q"><span>Q106.</span>Que faire d'un acheteur qui répond négativement ?</div><div class="a"><p>Le remercier. <strong>Beaucoup ne répondent pas du tout quand les tarifs ne correspondent pas</strong> — celui qui répond entretient une relation exploitable la saison suivante.</p></div></div>
+    <div class="qa"><div class="q"><span>Q107.</span>Comment conclure l'écart de prix ?</div><div class="a"><p>Explicitement, en deux. <strong>« On s'aime bien, on bosse en bonne intelligence. Tu pensais à 800, je pensais à 1 200. On ne va pas chipoter cent sept ans : on part sur 1 000, chacun fait un effort équivalent. »</strong> « Chacun fait un effort équivalent » est la clé : ce n'est pas une baisse, c'est une symétrie.</p></div></div>
+    <div class="qa"><div class="q"><span>Q108.</span>Quelles portes de repli ?</div><div class="a"><p><strong>La formule solo</strong> — qui fonctionne, avec une limite assumée sur la capacité à faire danser — et <strong>capitaliser sur le lieu voisin</strong> : « tu pourras motiver l'autre pour l'année prochaine avec les images de ton passage. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q109.</span>Et l'objection « amenez votre public » ?</div><div class="a"><p>Elle est pénible mais exploitable. <strong>« C'est vrai, c'est une charge supplémentaire en tant qu'artiste. Mais ça peut t'aider à vendre plus de dates. »</strong></p></div></div>
+
+    <div class="faqcat">L'inversion du risque et le chapeau</div>
+    <div class="qa"><div class="q"><span>Q110.</span>En quoi consiste l'inversion du risque ?</div><div class="a"><p><strong>Un prix fixe sécurisé, et un montant qui se débloque si la jauge de rentabilité est dépassée.</strong> « Je vendais comme ça aux mairies, et dans les clubs aussi, ça marchait bien. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q111.</span>Quel est le script ?</div><div class="a"><p>On retire d'abord le prix de l'équation : <strong>« si c'était gratuit, vous prendriez la date ? »</strong> Puis on remonte : 500, 1 000 — <strong>jusqu'à trouver le plafond.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q112.</span>Et la proposition finale ?</div><div class="a"><p><strong>« Un contrat à 1 000 € fixe garanti. Mais si on dépasse la jauge que vous considérez être celle à atteindre pour être rentable, on débloque 1 000 € supplémentaires. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q113.</span>Quelle formulation fait signer ?</div><div class="a"><p>Celle qui décrit la situation de son point de vue : <strong>« comme ça, vous ne prenez pas de risque… si au lieu de 100 on fait 150, alors on débloque les 1 000 € supplémentaires. Il n'y a pas de risque pour vous, il n'y a pas de risque pour moi. »</strong> Résultat : <strong>« en général, les mecs signent. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q114.</span>Quelle vérification faire avant ?</div><div class="a"><p><strong>Aller vérifier les jauges</strong> — le seuil doit être atteignable, et le fixe garanti doit couvrir le coût réel.</p></div></div>
+    <div class="qa"><div class="q"><span>Q115.</span>Quelle est la deuxième stratégie ?</div><div class="a"><p>Le chapeau avec minimum. Et la première correction à faire : <strong>« ce n'est pas auprès des gens que vous devez vendre ce concept-là, c'est auprès des patrons de restaurants. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q116.</span>Comment monter l'opération ?</div><div class="a"><p><strong>Choisir un lieu déjà plein</strong> le vendredi ou le samedi, <strong>ne rien annoncer soi-même</strong>, et <strong>demander au patron d'annoncer le concert à ses habitués en précisant qu'il y a un montant minimum par personne.</strong> Dans le cas testé : 10 €, validé par le restaurant.</p></div></div>
+    <div class="qa"><div class="q"><span>Q117.</span>N'est-ce pas le public qui paye ?</div><div class="a"><p>Si, mais <strong>« la manière dont c'est présenté n'est pas pareille »</strong>. Le script du patron : <em class="q">« ce soir c'est soirée jazz ; comme les artistes ne sont pas payés, on les rémunère au chapeau et, par respect pour leur travail, on demande 10 € par personne minimum. »</em> <strong>« Psychologiquement, c'est beaucoup plus accepté que de dire : c'est 10 € la place. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q118.</span>Pourquoi n'est-ce pas votre problème ?</div><div class="a"><p><strong>« C'est une histoire que tu donnes à l'employeur. Lui, ensuite, il le fait. C'est sa relation à lui avec ses clients. Ce n'est pas toi qui as un impact. »</strong> Vous espérez juste qu'il remplisse sa salle et fasse deux services.</p></div></div>
+    <div class="qa"><div class="q"><span>Q119.</span>Combien ça rapporte ?</div><div class="a"><p><strong>100 personnes à 10 €, soit 1 000 à 1 200 € la soirée</strong> — et le lieu n'a rien déboursé.</p></div></div>
+    <div class="qa"><div class="q"><span>Q120.</span>Comment fixer le montant ?</div><div class="a"><p>Selon le lieu. 10 € pour un restaurant chic et du jazz ; ailleurs <strong>« il y a juste 2 € de supplément par personne, c'est OK pour vous ? »</strong> — les gens sont devant la porte, ils veulent manger. <strong>« Et en fait, tu trouves le montant seuil. Parfois c'est deux, parfois quatre, parfois cinq. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q121.</span>Et si ce n'est pas son créneau ?</div><div class="a"><p><strong>« Vois si tu peux l'adapter, ce sont des idées. Tout peut s'adapter. »</strong> Et l'enseignement de fond : <strong>« quelque chose de vieux comme le monde, qui semblait ringard, si tu le conditionnes un peu dans le bon sens, ça fonctionne très bien. »</strong></p></div></div>
+
+    <div class="faqcat">YouTube et la modélisation</div>
+    <div class="qa"><div class="q"><span>Q122.</span>Où trouver les « vidéos hors normes » ?</div><div class="a"><p>Dans <strong>YouTube Studio → Insights</strong> (l'ancien onglet Statistiques) <strong>→ Recherche → « vidéos hors normes dans mon créneau »</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q123.</span>Que montre cette fonction ?</div><div class="a"><p><strong>Toutes les vidéos qui ont surperformé dans un créneau similaire au vôtre</strong>, avec un multiplicateur : ×47, ×28, ×25 dans la démonstration.</p></div></div>
+    <div class="qa"><div class="q"><span>Q124.</span>Comment lire le multiplicateur ?</div><div class="a"><p>Il compare la vidéo <strong>à la moyenne de vues de la chaîne qui l'a publiée</strong> — c'est une surperformance relative, pas un volume absolu.</p></div></div>
+    <div class="qa"><div class="q"><span>Q125.</span>Pourquoi est-ce si puissant ?</div><div class="a"><p><strong>« YouTube est en train de te dire : si tu publies un truc comme ça, tu peux potentiellement faire 47 fois plus de vues. »</strong> Et ce qu'il faut regarder est un ensemble — miniature, type de contenu, angle, format.</p></div></div>
+    <div class="qa"><div class="q"><span>Q126.</span>Comment en tirer des idées ?</div><div class="a"><p>En demandant <strong>plus de contenu similaire</strong> sur une vidéo repérée : la liste se remplit d'idées.</p></div></div>
+    <div class="qa"><div class="q"><span>Q127.</span>Quelle autre section est utile ?</div><div class="a"><p><strong>« Les vidéos récentes dans ton créneau »</strong> : elle permet de saisir les tendances et <strong>d'analyser la concurrence.</strong> Les mots-clés, eux, donnent des résultats trop larges.</p></div></div>
+    <div class="qa"><div class="q"><span>Q128.</span>Que dit tout ça de l'époque ?</div><div class="a"><p><strong>« J'ai l'impression que les réseaux sociaux sont en train de donner plus de chance à tout le monde… il n'y a même plus besoin d'avoir un plan, il y a juste à appliquer ce qui marche. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q129.</span>Qu'est-ce que « modéliser » ?</div><div class="a"><p>Reprendre ce qui fonctionne chez quelqu'un de régulier et le refaire à sa sauce. <strong>« C'est probablement qu'elle a modélisé quelqu'un qu'elle a vu. Juste, elle l'a fait à sa sauce. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q130.</span>Est-ce différent de copier ?</div><div class="a"><p>Oui, et c'est exactement le chemin musical : <strong>« d'abord tu écoutes, après tu veux faire comme. Puis tu chantes à ta manière, tu t'en détournes, tu en rencontres une autre. Et en puisant plein d'inspiration comme ça, tu arrives à créer ta propre dynamique. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q131.</span>Faut-il refuser un créneau peu idéal ?</div><div class="a"><p>Non. Sur une tête d'affiche annulée et deux créneaux de remplacement : <strong>« dans tous les cas, ça va drainer du monde. Franchement, dans les deux cas, c'est cool à faire. »</strong> On prend, on joue, on récupère les images.</p></div></div>
+    <div class="qa"><div class="q"><span>Q132.</span>Quel est le dernier conseil ?</div><div class="a"><p><strong>« À partir du moment où tu vas te mettre à sortir des sons sans réfléchir, tu vas exploser. Parce qu'en vrai, tout le reste, tu l'as déjà. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q133.</span>Qu'est-ce qu'une micro-victoire ?</div><div class="a"><p>Le résultat concret d'une petite action accomplie. <strong>« La micro-victoire, quand tu vas l'avoir, tu vas y devenir accro. Il y en aura une autre après, une autre après — et ça te poussera à avancer encore plus vite. »</strong> C'est le bouclage de la session : <strong>on n'attend pas la motivation pour agir, on agit et la motivation vient de là.</strong></p></div></div>
+
+  </div>
+</div>
+<div class="plan">
+  <h2>Plan d'action</h2>
+  <p>Cochez au fur et à mesure. Les quatre phases suivent la logique de la session : se mettre en mouvement, produire, atteindre les décideurs, puis vendre.</p>
+
+  <div class="phase">Phase 1 — Se remettre en mouvement</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Pourquoi</b>Faire la cascade de « pourquoi » par écrit, en descendant jusqu'à une réponse qui n'a plus besoin d'explication</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Rôle</b>Écrire en une phrase le rôle précis que la musique joue dans sa vie — pas ce qu'on voudrait qu'elle devienne</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Système</b>Arrêter les plans à trois axes et tester l'inverse : une seule action, toujours la même, tous les jours pendant une semaine</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Repli</b>Si tenir une semaine est impossible, assumer l'autre mode : une action différente chaque jour, sans pression</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Timings</b>Ajouter une durée à chaque ligne de sa liste quotidienne et observer ce que ça change</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Domaine de progrès</b>S'assurer d'avoir en permanence un domaine où l'on progresse, même sans rendement immédiat</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Notes</b>Noter ce qu'on ressent pendant les périodes fluides, pour pouvoir s'y replonger dans les périodes creuses</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Relâchement</b>Instaurer la règle des cinq minutes : téléphone loin, allongé, rien à faire — pas de méditation, rien</span></li>
+  </ul>
+
+  <div class="phase">Phase 2 — Produire, et arrêter de finir</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Cadence</b>Se fixer un objectif en nombre de titres commencés, pas en nombre de titres finis</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Sortie brute</b>Prendre le titre déjà bon, l'enregistrer proprement, le mixer, et le sortir en l'état — sans arrangements ajoutés</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Test</b>Faire écouter avant de retoucher : si tout le monde valide, ne rien changer ; si quelqu'un dit « il manque un truc », alors retravailler</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Échéances</b>Imposer une date limite à chaque collaboration en cours, et en accepter une en retour</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Archive</b>Rouvrir les sessions inachevées et en extraire celles qui ont une idée exploitable</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Mécanique</b>Mettre en place une routine de production reproductible, pour pouvoir enchaîner et pas seulement produire une pièce unique</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Live</b>Traiter l'habillage et les arrangements comme un chantier séparé, réservé à la scène</span></li>
+  </ul>
+
+  <div class="phase">Phase 3 — Atteindre les décideurs</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Liste</b>Constituer une liste de communes cibles — y compris des petites, à partir de 8 000 habitants</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Courrier 1</b>Rédiger la candidature destinée au service culturel</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Courrier 2</b>Rédiger la version destinée au maire, à envoyer en « personnel et confidentiel », en précisant qu'une copie est partie au service culturel</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Précision</b>Nommer la salle, nommer l'événement visé, et demander explicitement une réponse sur sa candidature</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Support</b>Joindre un QR code vers l'écoute, et prévoir CD ou clé USB selon la commune</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Page unique</b>Construire la page qui convertit : chiffres, photos, trois à cinq clips, galerie, prix affiché, demande de devis, « le public en parle » en vidéo</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Ne pas retoucher</b>Si cette page convertit, ne plus y toucher</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>LinkedIn — base</b>Exporter sa base de contacts, filtrer les dirigeants de lieux culturels et les organisateurs, attaquer le niveau 1</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>LinkedIn — volume</b>Viser environ 70 messages privés par semaine, sans prendre Premium</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>LinkedIn — rituel</b>Bloquer 30 minutes par jour de commentaires, et s'y tenir</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>LinkedIn — ciblage</b>Pour chaque cible, passer par l'onglet « Commentaires » de son profil, jamais par ses propres publications</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>LinkedIn — relance</b>Écrire immédiatement à toute personne qui vous ajoute ou réagit à un commentaire</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Tremplins</b>Candidater aux tremplins nationaux, pour le jury plus que pour le prix</span></li>
+  </ul>
+
+  <div class="phase">Phase 4 — Vendre les dates</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Grille</b>Vérifier son coût réel par formule, et s'assurer que le fixe garanti le couvre</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Billetterie</b>Avant toute négociation, savoir s'il y a une billetterie — c'est elle qui décide des leviers disponibles</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Symétrie</b>Préparer la formule de clôture : « tu pensais X, je pensais Y, on part sur Z, chacun fait un effort équivalent »</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Script paliers</b>S'entraîner à la séquence gratuit → 500 → 1 000 pour trouver le plafond de l'acheteur</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Contrat</b>Faire rédiger le contrat d'inversion du risque : fixe garanti plus montant conditionné au dépassement d'une jauge chiffrée</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Jauges</b>Vérifier la jauge réelle et le seuil de rentabilité annoncé avant de signer</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Chapeau</b>Identifier deux ou trois lieux déjà pleins le week-end et proposer la formule chapeau avec minimum au patron, pas au public</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Seuil</b>Tester le montant minimum par personne selon le lieu : 2 €, 5 €, 10 €</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Images</b>Filmer chaque date jouée, pour vendre la suivante au lieu voisin</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>YouTube</b>Ouvrir Insights → Recherche → « vidéos hors normes dans mon créneau » et en tirer trois idées de contenu</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Modélisation</b>Choisir une personne régulière à modéliser, et refaire son schéma à sa sauce</span></li>
+  </ul>
+</div>
+
+<div class="quiz">
+  <h2>Quiz — 8 questions</h2>
+  <p>Pour vérifier que les mécanismes de la session sont bien assimilés.</p>
+
+  <div class="qz" data-g="1">
+    <p class="qt">1. Pourquoi travailler sa volonté avant d'avoir un but ne marche pas ?</p>
+    <div class="opt">Parce que la volonté ne se travaille pas</div>
+    <div class="opt">Parce qu'on ne peut pas se discipliner vers une destination qu'on n'a pas définie</div>
+    <div class="opt">Parce que la motivation précède toujours l'action</div>
+    <div class="fb">« Au départ, je lutte contre la procrastination. Après, je me dis qu'il faut travailler le mental. Et au final, je ne peux pas savoir où je vais parce que je n'ai pas de but. » D'où la cascade de « pourquoi » : on se demande pourquoi, puis on se redemande pourquoi à chaque réponse, sans s'arrêter.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <p class="qt">2. Quand un plan parfait reste inutilisé, où est le problème ?</p>
+    <div class="opt">Dans l'outil choisi pour le construire</div>
+    <div class="opt">Dans le manque de discipline de la personne</div>
+    <div class="opt">Dans l'adéquation entre le plan et le système de la personne</div>
+    <div class="fb">« Chaque système a un mode de fonctionnement, et nous, les humains, on est des systèmes. » Certains ont besoin de consignes simples ; d'autres ont un système incompatible avec tous les modes proposés. C'est l'image du coffre : « des fois 0000, ça passe ; des fois il faut chercher. »</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <p class="qt">3. Quelle est la contre-proposition au plan complexe ?</p>
+    <div class="opt">Une seule action, toujours la même, tous les jours — et observer</div>
+    <div class="opt">Un plan plus détaillé, avec des sous-objectifs hebdomadaires</div>
+    <div class="opt">Un coach qui impose un cadre extérieur</div>
+    <div class="fb">« Moi, je serais toi, je me dirais : je fais un truc, c'est tout le temps le même, je le fais tous les jours, et je vois ce qui se passe. » Et si tenir trois jours est impossible : « cool, accepte de faire un truc différent tous les jours. » On construit avec son fonctionnement, pas contre lui.</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <p class="qt">4. Quelle est la stratégie centrale proposée à l'artiste ?</p>
+    <div class="opt">Finaliser et arranger soigneusement chaque titre avant de sortir</div>
+    <div class="opt">Faire des titres — sans forcément les finir</div>
+    <div class="opt">Attendre d'avoir un EP complet et cohérent</div>
+    <div class="fb">« Tu n'as même pas besoin de finir tes titres. Tu as juste besoin de faire des titres. » Parce que la percée est mécanique : dans le lot, un titre s'élève tellement au-dessus des autres qu'il suffit de le désigner — et une écoute en déclenche mille.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <p class="qt">5. Qu'est-ce qui rend un courrier à une mairie plus efficace qu'un mail ?</p>
+    <div class="opt">Il est lu plus attentivement parce qu'il est sur papier</div>
+    <div class="opt">Il permet de joindre un CD ou une clé USB</div>
+    <div class="opt">Il est noté dans un registre officiel et toujours transmis</div>
+    <div class="fb">« La prospection par courrier permet d'atteindre à coup sûr la cible. » Un mail peut ne jamais être lu, un appel ne laisse aucune trace. Et ils ne sont pas obligés de répondre, mais la plupart du temps ils s'obligent à répondre.</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <p class="qt">6. En quoi consiste la technique des deux courriers ?</p>
+    <div class="opt">Un au service culturel, un au maire en « personnel et confidentiel » mentionnant la copie</div>
+    <div class="opt">Un premier courrier de présentation, un second de relance deux semaines après</div>
+    <div class="opt">Un courrier au maire et un courrier au président de la communauté de communes</div>
+    <div class="fb">Avec la mention « personnel et confidentiel », le secrétariat a l'obligation de transmettre au maire, et comme c'est au registre officiel, lui seul peut le décacheter. Il transmet ensuite au service avec « vous devriez vous y intéresser » — et « dans 90 % des cas, quand ton patron te dit d'écouter un truc, tu t'y intéresses ».</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <p class="qt">7. Comment approche-t-on un programmateur sur LinkedIn ?</p>
+    <div class="opt">En commentant régulièrement ses publications pour se faire remarquer</div>
+    <div class="opt">En commentant les publications qu'il a lui-même commentées</div>
+    <div class="opt">En publiant du contenu qui le mentionne directement</div>
+    <div class="fb">« Tu ne vas pas commenter ses posts, c'est trop grillé. » On passe par l'onglet « Commentaires » de son profil et on commente les publications qu'il a commentées — en choisissant celles qui ont eu de l'interaction. On apparaît dans son environnement sans le solliciter.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <p class="qt">8. À qui vend-on la formule du chapeau avec minimum ?</p>
+    <div class="opt">Au public, en l'annonçant avant le concert</div>
+    <div class="opt">À l'organisateur du festival le plus proche</div>
+    <div class="opt">Au patron du lieu, qui l'annonce lui-même à ses clients</div>
+    <div class="fb">« Ce n'est pas auprès des gens que vous devez vendre ce concept-là, c'est auprès des patrons de restaurants. » C'est lui qui annonce le minimum par personne, et « c'est sa relation à lui avec ses clients ». Résultat : 100 personnes à 10 €, soit 1 000 à 1 200 € la soirée — et le lieu n'a rien déboursé.</div>
+  </div>
+
+  <div class="score" id="score"></div>
+</div>
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="wrap">
+    <p><b>Producteur à Succès</b> — Session individuelle du 17 novembre 2026</p>
+    <p>128 chapitres · 17 sections · 133 questions-réponses · plan d'action en 4 phases</p>
+  </div>
+</footer>
+<script>
+var CH = [[0, "Ouverture de la session"], [82, "Dix ans de musique, les mêmes problématiques"], [138, "Procrastination, ou absence de but ?"], [185, "Le livre à lire : Simon Sinek"], [228, "La méthode du pourquoi, sans s'arrêter"], [283, "Descendre jusqu'au fond : son propre pourquoi"], [327, "Ni le confort ni la liberté : la vraie réponse"], [371, "Qu'est-ce qui manque dans ta vie ?"], [421, "Un travail intérieur : ne rien régler, avancer"], [496, "Performante pour les autres, pas pour soi"], [545, "Commencer sans finir : le mécanisme"], [599, "Un cas concret : la base de données"], [683, "À l'instinct, sans plan : mettre une vision"], [740, "Un plan parfait, ouvert trois fois"], [799, "Chaque système a son mode"], [844, "Le bon alignement : l'image du coffre"], [916, "La liste de la veille, avec des timings"], [962, "Un système ne marche pas partout"], [1002, "Essayer l'inverse : une chose, chaque jour"], [1051, "Le cercle vicieux de la culpabilité"], [1152, "Un point de friction à identifier"], [1205, "Tant que ce n'est pas débloqué"], [1264, "Deuxième axe : l'exigence envers soi-même"], [1337, "Toutes les réponses sont déjà en toi"], [1374, "Ce qui ne se dit pas, mais se comprend"], [1423, "L'histoire du bassiste : vends tout et pars"], [1465, "Ce qu'il avait confondu avec son but"], [1508, "La définition du succès : suivre un idéal"], [1547, "Quel rôle exact pour la musique ?"], [1606, "L'histoire de la cousine : se tromper de besoin"], [1663, "Un équilibre hors norme qui fonctionne"], [1723, "On choisit qui est l'autre"], [1766, "La part inconsciente, un travail quotidien"], [1824, "Épurer au fur et à mesure"], [1897, "Les périodes fluides : noter ce qu'on ressent"], [1939, "Qu'est-ce qui rendrait satisfait ? La réponse"], [1984, "Scinder en petites tâches pour amorcer"], [2036, "Le premier pas crée l'envie"], [2090, "C'est la vie de tout le monde"], [2144, "L'action crée l'énergie, même avant la scène"], [2188, "Comment c'était avant d'avoir une famille"], [2231, "Annuler les clients par flemme"], [2293, "Le documentaire qui déclenchait l'inspi"], [2355, "Des milliers de sessions, et la grâce"], [2404, "Puis il a fallu les vendre"], [2446, "Trois bonnes prods sur trois cents : le leasing"], [2506, "Accepter que ça fasse partie du process"], [2552, "Son propre blocage, et la psychologie inversée"], [2595, "Accepter d'être mauvais, puis le déclic revient"], [2643, "Les phases : arts martiaux, puis IA"], [2712, "Mindset entrepreneurial : avancer dans le chaos"], [2784, "Avancer en se sentant en paix"], [2863, "Se fustiger pendant qu'on progresse"], [2936, "Les deux jours de rien, et le système nerveux"], [2975, "Cinq minutes allongé par terre"], [3008, "Cinq minutes suffisent au système nerveux"], [3048, "Penser n'est pas une action"], [3128, "Le scan corporel et le capital énergie"], [3172, "Le morceau envoyé : l'idée avant l'esthétique"], [3227, "Il suffit d'un seul titre"], [3263, "Le titre qui met tout le monde d'accord"], [3316, "Pas besoin de finir les titres"], [3367, "La percée, c'est des maths : l'effet de cascade"], [3411, "Un titre que personne ne peut ignorer"], [3469, "Un titre peut faire vivre quinze ou vingt ans"], [3534, "L'exemple de All of Me"], [3592, "Le raz-de-marée, et le challenge : faire des sons"], [3647, "Pas besoin d'arranger"], [3689, "Sortir tel quel : les hits du genre n'ont rien"], [3741, "Avancement sur la collaboration"], [3816, "Pourquoi il faut enchaîner les sorties"], [3867, "Ne pas se freiner sur la finition"], [3911, "Le titre reggae non mixé, et son plus gros succès"], [3979, "Sa méthode depuis le début"], [4021, "La force jamaïcaine : sortir et recommencer"], [4069, "Perfectionnisme français contre vieux matériel"], [4122, "Ne jamais forcer la musique"], [4197, "Il n'entend jamais ce qui a été filtré"], [4232, "Un choix dans une liste déjà filtrée"], [4292, "Une procédure inscrite dans la loi"], [4363, "« Personnel et confidentiel » : lui seul l'ouvre"], [4459, "Presque toujours, l'artiste est recontacté"], [4570, "Quelle taille de commune viser"], [4616, "Un autre cas : six ou sept dates en quelques jours"], [4667, "Si ça convertit, ne rien changer"], [4743, "Cent à deux cents contacts chaque semaine"], [4793, "Soixante-dix messages par semaine, sans Premium"], [4872, "Les deux outils d'automatisation"], [4915, "Le hack LinkedIn, expliqué"], [4957, "Prendre un post et commenter"], [5000, "Toujours rajouter de l'humain"], [5043, "Repérer les gros commentateurs"], [5105, "Notifier l'auteur du post"], [5152, "Pourquoi le dernier commentaire gagne"], [5219, "Le jury et ses autres casquettes"], [5261, "Comment trouver les bons profils"], [5327, "Ne pas commenter ses propres posts"], [5395, "Choisir un post qui a de l'interaction"], [5439, "L'interaction compte plus que le contenu"], [5492, "Écrire à ceux qui réagissent"], [5543, "Se faire passer pour celui qui se plaint"], [5599, "Laisser l'autre commencer"], [5641, "Conclusion : mauvais point d'entrée"], [5708, "Voir qui a consulté son profil"], [5756, "Un retour récent sur LinkedIn"], [5814, "Les tarifs annoncés"], [5860, "La limite posée"], [5916, "La fréquentation du lieu"], [5966, "Son pronostic sur l'issue"], [6023, "Trouver le point d'équilibre"], [6102, "Utiliser les images pour l'autre lieu"], [6152, "Retirer le prix de l'équation"], [6194, "Comment le présenter à l'acheteur"], [6240, "L'objection du public à amener"], [6284, "L'objection du paiement en espèces"], [6334, "Le montant minimum par personne"], [6391, "Pourquoi c'est psychologiquement accepté"], [6435, "C'est sa relation avec ses clients"], [6477, "Le seuil varie selon le lieu"], [6537, "Dans YouTube Studio"], [6586, "Fois quarante-sept par rapport à la moyenne"], [6638, "Plus besoin de plan : appliquer ce qui marche"], [6722, "Le dimanche soir fonctionne-t-il ?"], [6764, "Dans tous les cas, ça drainera du monde"], [6807, "Demander plus de contenu similaire"], [6890, "Les vidéos récentes du créneau"], [7070, "Modéliser ce qui fonctionne"], [7133, "Sortir des sons sans réfléchir"]];
+
+var frame = document.getElementById('vimeoPlayer');
+
+function fmt(s){ var m = Math.floor(s/60), x = s%60; return m + ':' + (x<10?'0':'') + x; }
+
+function seek(sec){
+  if (!frame || !frame.contentWindow) return;
+  try {
+    frame.contentWindow.postMessage(JSON.stringify({method:'setCurrentTime', value: sec}), '*');
+    frame.contentWindow.postMessage(JSON.stringify({method:'play'}), '*');
+  } catch(e){}
+  var top = frame.getBoundingClientRect().top + window.pageYOffset - 20;
+  window.scrollTo({top: top < 0 ? 0 : top, behavior:'smooth'});
+}
+
+(function(){
+  var host = document.getElementById('chlist');
+  if (!host) return;
+  CH.forEach(function(c){
+    var b = document.createElement('button');
+    var t = document.createElement('b'); t.textContent = fmt(c[0]);
+    var s = document.createElement('span'); s.textContent = c[1];
+    b.appendChild(t); b.appendChild(s);
+    b.addEventListener('click', function(){ seek(c[0]); });
+    host.appendChild(b);
+  });
+})();
+
+(function(){
+  document.querySelectorAll('.tc').forEach(function(el){
+    var parts = el.textContent.split(/(\d+:\d{2})/);
+    if (parts.length < 2) return;
+    el.textContent = '';
+    parts.forEach(function(p){
+      if (/^\d+:\d{2}$/.test(p)) {
+        var mm = p.split(':');
+        var sec = parseInt(mm[0],10)*60 + parseInt(mm[1],10);
+        var btn = document.createElement('button');
+        btn.className = 'seek'; btn.textContent = p;
+        btn.addEventListener('click', function(){ seek(sec); });
+        el.appendChild(btn);
+      } else {
+        el.appendChild(document.createTextNode(p));
+      }
+    });
+  });
+})();
+
+window.addEventListener('scroll', function(){
+  var h = document.documentElement;
+  var max = h.scrollHeight - h.clientHeight;
+  var p = max > 0 ? (h.scrollTop / max) * 100 : 0;
+  document.getElementById('progress').style.width = p + '%';
+});
+
+document.querySelectorAll('.chk li').forEach(function(li){
+  li.addEventListener('click', function(){ li.classList.toggle('done'); });
+});
+
+(function(){
+  var total = document.querySelectorAll('.qz').length, answered = 0, good = 0;
+  document.querySelectorAll('.qz').forEach(function(qz){
+    var g = parseInt(qz.getAttribute('data-g'), 10);
+    var opts = qz.querySelectorAll('.opt');
+    var fb = qz.querySelector('.fb');
+    opts.forEach(function(opt, i){
+      opt.addEventListener('click', function(){
+        if (qz.classList.contains('answered')) return;
+        qz.classList.add('answered');
+        answered++;
+        if (i === g) { opt.classList.add('good'); good++; }
+        else { opt.classList.add('bad'); opts[g].classList.add('good'); }
+        fb.classList.add('show');
+        if (answered === total) {
+          var sc = document.getElementById('score');
+          sc.textContent = 'Score : ' + good + ' / ' + total + (good === total ? ' — parfait.' : ' — relisez les chapitres concernés.');
+          sc.classList.add('show');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session de mentorat — 19 novembre 2026 : prospecter les programmateurs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED; --primary-dark:#4C1D95; --primary-light:#EDE9FE;
+  --accent:#F59E0B; --accent-light:#FEF3C7;
+  --success:#10B981; --success-light:#D1FAE5;
+  --danger:#EF4444; --danger-light:#FEE2E2;
+  --info:#3B82F6; --info-light:#DBEAFE;
+  --ink:#1A1523; --muted:#5B5670; --line:#E7E4EF; --bg:#FAF9FC; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+.progress-wrap{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(108,58,237,.12);z-index:999}
+#progress{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+.wrap{max-width:940px;margin:0 auto;padding-inline:20px}
+
+.hero{background:linear-gradient(140deg,#3B1D80 0%,#6C3AED 55%,#8B5CF6 100%);color:#fff;padding-block:60px 52px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{content:"";position:absolute;left:-60px;bottom:-120px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.05)}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:700;margin-bottom:14px;position:relative;z-index:2}
+.hero .sub{font-size:17px;opacity:.92;max-width:690px;position:relative;z-index:2}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;position:relative;z-index:2}
+.meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:7px 14px;border-radius:10px;font-size:13.5px;font-weight:500}
+
+/* LECTEUR */
+.player-wrap{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:-32px;position:relative;z-index:6;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.vid{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.chx{margin-top:16px;border:1px solid var(--line);border-radius:12px;background:#FBFAFE}
+.chx summary{cursor:pointer;padding:12px 16px;font-weight:650;font-size:14.5px;color:var(--primary-dark);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chx summary::-webkit-details-marker{display:none}
+.chx summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+.chx[open] summary::before{content:"▾ "}
+.chx summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+.chlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:2px;max-height:330px;overflow-y:auto;padding:0 10px 12px}
+.chlist button{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;background:transparent;border:0;border-radius:9px;padding:8px 10px;font-family:inherit;font-size:14.5px;color:var(--ink);cursor:pointer;line-height:1.45;transition:background .12s}
+.chlist button:hover{background:var(--primary-light);color:var(--primary-dark)}
+.chlist b{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;min-width:54px}
+button.seek{background:var(--primary-light);border:1px solid #DDD3FA;color:var(--primary-dark);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;cursor:pointer;font-variant-numeric:tabular-nums;transition:all .12s}
+button.seek:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.player-wrap + .toc{margin-top:26px}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:-32px;position:relative;z-index:5;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.toc h2{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:16px;color:var(--primary-dark)}
+.toc ol{list-style:none;counter-reset:toc;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.toc li{counter-increment:toc}
+.toc a{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink);padding:9px 10px;border-radius:10px;font-size:14.5px;transition:background .15s}
+.toc a:hover{background:var(--primary-light);color:var(--primary-dark)}
+.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);font-size:13px;flex-shrink:0;padding-top:1px}
+
+section.chap{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+section.chap>.bar{height:5px;background:var(--primary)}
+.chap[data-c="a"]>.bar{background:var(--accent)} .chap[data-c="g"]>.bar{background:var(--success)}
+.chap[data-c="b"]>.bar{background:var(--info)} .chap[data-c="r"]>.bar{background:var(--danger)}
+.chead{padding:26px 28px 0;display:flex;gap:14px;align-items:center}
+.cnum{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--primary-light);color:var(--primary-dark);display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px}
+.chap[data-c="a"] .cnum{background:var(--accent-light);color:#92400E}
+.chap[data-c="g"] .cnum{background:var(--success-light);color:#065F46}
+.chap[data-c="b"] .cnum{background:var(--info-light);color:#1E40AF}
+.chap[data-c="r"] .cnum{background:var(--danger-light);color:#991B1B}
+.chead h2{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.25;font-weight:700}
+.tc{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-top:3px}
+.cbody{padding:18px 28px 28px}
+.cbody p{margin-bottom:14px}
+.cbody h3{font-family:'Space Grotesk',sans-serif;font-size:16.5px;margin:22px 0 10px;color:var(--primary-dark)}
+.cbody ul,.cbody ol{margin:0 0 14px 20px}
+.cbody li{margin-bottom:7px}
+strong{font-weight:650;color:#2D2540}
+em.q{font-style:italic;color:#413655}
+
+.box{border-radius:12px;padding:16px 18px;margin:18px 0;border-left:4px solid;font-size:15px}
+.box .bt{display:block;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.box p:last-child{margin-bottom:0}
+.b-key{background:var(--primary-light);border-color:var(--primary)} .b-key .bt{color:var(--primary-dark)}
+.b-warn{background:var(--accent-light);border-color:var(--accent)} .b-warn .bt{color:#92400E}
+.b-tip{background:var(--success-light);border-color:var(--success)} .b-tip .bt{color:#065F46}
+.b-info{background:var(--info-light);border-color:var(--info)} .b-info .bt{color:#1E40AF}
+.b-danger{background:var(--danger-light);border-color:var(--danger)} .b-danger .bt{color:#991B1B}
+
+.tbl{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:12px 14px;font-weight:600;font-size:13.5px}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#FBFAFE}
+
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.pc>div{border-radius:12px;padding:16px 18px;font-size:14.5px}
+.pc .ok{background:var(--success-light);border:1px solid #A7F3D0}
+.pc .ko{background:var(--danger-light);border:1px solid #FECACA}
+.pc h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.pc .ok h4{color:#065F46} .pc .ko h4{color:#991B1B}
+.pc ul{margin:0 0 0 18px} .pc li{margin-bottom:5px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
+.card{background:#FBFAFE;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h4{font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:6px;color:var(--primary-dark)}
+.card p{font-size:14px;color:var(--muted);margin:0}
+.stat h4{font-size:22px;font-family:'Space Grotesk',sans-serif}
+
+.tl{list-style:none;margin:18px 0;padding-left:26px;border-left:2px dashed var(--line)}
+.tl li{position:relative;margin-bottom:16px;font-size:15px}
+.tl li::before{content:"";position:absolute;left:-33px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light)}
+.tl b{display:block;font-family:'Space Grotesk',sans-serif;color:var(--primary-dark)}
+
+details{border:1px solid var(--line);border-radius:12px;margin:14px 0;background:#FBFAFE}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:15px;color:var(--primary-dark);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+details[open] summary::before{content:"▾ "}
+details .dc{padding:0 18px 16px;font-size:14.5px}
+
+.pull{margin:22px 0;padding:20px 24px;border-radius:14px;background:linear-gradient(120deg,#2D1B69,#4C1D95);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:19px;line-height:1.45;font-weight:600}
+.pull span{display:block;margin-top:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;opacity:.7;letter-spacing:.03em}
+
+.faq{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+.faq>.bar{height:5px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.faqhead{padding:26px 28px 0}
+.faqhead h2{font-family:'Space Grotesk',sans-serif;font-size:26px;color:var(--primary-dark)}
+.faqhead p{color:var(--muted);font-size:15px;margin-top:4px}
+.faqbody{padding:18px 28px 28px}
+.faqcat{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.faqcat:first-child{margin-top:6px}
+.qa{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:#FDFCFF}
+.qa .q{background:linear-gradient(90deg,var(--primary-light),#F6F3FF);padding:13px 18px;font-weight:650;color:var(--primary-dark);font-size:15.5px;display:flex;gap:10px}
+.qa .q span{flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.qa .a{padding:15px 18px;font-size:15px}
+.qa .a p{margin-bottom:10px} .qa .a p:last-child{margin-bottom:0}
+
+.plan{background:linear-gradient(140deg,#0F172A,#1E1B4B);color:#fff;border-radius:18px;padding:30px 28px;margin-top:26px}
+.plan h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:8px}
+.plan>p{opacity:.8;margin-bottom:20px;font-size:15px}
+.phase{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin:22px 0 10px}
+.phase:first-of-type{margin-top:0}
+.chk{list-style:none;margin:0;padding:0}
+.chk li{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;margin-bottom:9px;font-size:15px;cursor:pointer;transition:background .15s}
+.chk li:hover{background:rgba(255,255,255,.09)}
+.chk .bx{flex-shrink:0;width:20px;height:20px;border:2px solid rgba(255,255,255,.4);border-radius:6px;margin-top:3px;display:grid;place-items:center;font-size:13px;font-weight:700;color:transparent}
+.chk li.done .bx{background:var(--success);border-color:var(--success);color:#fff}
+.chk li.done .tx{opacity:.5;text-decoration:line-through}
+.chk .tx b{display:block;font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.04em;text-transform:uppercase;opacity:.65;margin-bottom:2px}
+
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px;margin-top:26px}
+.quiz h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:6px;color:var(--primary-dark)}
+.quiz>p{color:var(--muted);margin-bottom:22px;font-size:15px}
+.qz{margin-bottom:24px;padding-bottom:22px;border-bottom:1px dashed var(--line)}
+.qz:last-of-type{border-bottom:none}
+.qz .qt{font-weight:650;margin-bottom:12px;font-size:15.5px}
+.opt{display:block;width:100%;text-align:left;background:#FBFAFE;border:1.5px solid var(--line);border-radius:10px;padding:11px 15px;margin-bottom:8px;cursor:pointer;font-family:inherit;font-size:14.5px;color:var(--ink);transition:all .15s}
+.opt:hover{border-color:var(--primary);background:var(--primary-light)}
+.opt.good{background:var(--success-light);border-color:var(--success);font-weight:600}
+.opt.bad{background:var(--danger-light);border-color:var(--danger)}
+.fb{display:none;margin-top:10px;padding:12px 15px;border-radius:10px;font-size:14.5px;background:var(--info-light);border-left:4px solid var(--info)}
+.fb.show{display:block}
+.score{margin-top:20px;padding:16px;border-radius:12px;background:var(--primary-light);text-align:center;font-weight:650;color:var(--primary-dark);display:none}
+.score.show{display:block}
+
+footer{text-align:center;padding-block:40px 50px;color:var(--muted);font-size:14px}
+footer b{color:var(--primary-dark);font-family:'Space Grotesk',sans-serif}
+
+@media(max-width:640px){
+  .pc{grid-template-columns:1fr}
+  .chead,.faqhead{padding:22px 18px 0} .cbody,.faqbody{padding:16px 18px 22px}
+  .toc{padding:22px 18px} .plan,.quiz{padding:24px 18px}
+  .hero h1{font-size:27px} .pull{font-size:17px;padding:18px}
+  .player-wrap{padding:14px} .chlist{grid-template-columns:1fr;max-height:280px}
+}
+@media print{
+  .progress-wrap{display:none} body{background:#fff}
+  section.chap,.toc,.quiz,.faq{box-shadow:none;break-inside:avoid}
+  .opt{display:none}
+  .vid{display:none} .player-wrap{box-shadow:none;margin-top:20px}
+  .chlist{max-height:none;overflow:visible} .chlist button{padding:3px 0}
+  button.seek{background:none;border:0;padding:0;color:var(--primary-dark)}
+}
+</style>
+</head>
+<body>
+<div class="progress-wrap"><div id="progress"></div></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">Session de mentorat · 19 novembre 2026</div>
+    <h1>Atteindre un programmateur<br>sans jamais lui vendre une date</h1>
+    <p class="sub">Une heure trente de mentorat consacrée à un seul problème : comment entrer en contact avec des programmateurs quand on ne connaît personne. La réponse tient en deux temps. D'abord l'email de prospection à froid, décortiqué étape par étape — l'objet avant le corps, le corps avant l'EPK, et un principe qui renverse tout : un mail à froid n'est pas fait pour vendre. Ensuite une méthode qui court-circuite entièrement la prospection : se présenter avec un prétexte qui n'a rien à voir avec le booking — un livre, un podcast, un dîner — et laisser la relation faire le travail. Avec, en prime, le cadre d'une formation financée, la démarche réelle du crédit d'impôt phonographique, une revue d'EPK en direct, et un rappel sur le pouvoir de nuisance d'un associé minoritaire.</p>
+    <div class="meta">
+      <span>⏱ 1 h 34</span>
+      <span>🎙 Tarik Hamiche</span>
+      <span>👥 Session de mentorat</span>
+      <span>📌 195 chapitres</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="player-wrap">
+  <div class="vid">
+    <iframe id="vimeoPlayer"
+      src="https://player.vimeo.com/video/1248596518?h=61b95b3feb"
+      title="Session de mentorat du 19 novembre 2026"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  <details class="chx" id="chx">
+    <summary><span>Les 195 chapitres de la session</span><em>Cliquez un chapitre pour y aller</em></summary>
+    <div class="chlist" id="chlist"></div>
+  </details>
+</div>
+
+<nav class="toc">
+  <h2>Au programme</h2>
+  <ol>
+    <li><a href="#s1">Comment lire ce support</a></li>
+    <li><a href="#s2">Le cadre d'une formation financée</a></li>
+    <li><a href="#s3">Le crédit d'impôt phonographique : la démarche réelle</a></li>
+    <li><a href="#s4">Prospecter les programmateurs : l'ordre des étapes</a></li>
+    <li><a href="#s5">Pourquoi l'IA échoue sur cet exercice précis</a></li>
+    <li><a href="#s6">Connaître sa cible avant d'écrire une ligne</a></li>
+    <li><a href="#s7">Fabriquer un objet qui fait ouvrir</a></li>
+    <li><a href="#s8">L'accroche qui parle de lui, pas de vous</a></li>
+    <li><a href="#s9">Les objets les plus performants du web, et leur limite</a></li>
+    <li><a href="#s10">Ouvertures, clics et gestion de la base</a></li>
+    <li><a href="#s11">La méthode du prétexte : livre, podcast, dîner</a></li>
+    <li><a href="#s12">Le protocole podcast, de l'invitation au restaurant</a></li>
+    <li><a href="#s13">Ce qu'est vraiment un réseau</a></li>
+    <li><a href="#s14">Revue d'EPK : les corrections apportées</a></li>
+    <li><a href="#s15">Associés : le pouvoir de nuisance d'un minoritaire</a></li>
+  </ol>
+</nav>
+
+<section class="chap" id="s1" data-c="a">
+  <div class="chead">
+    <span class="num">1</span>
+    <h2>Comment lire ce support</h2>
+    <p class="tc">0:00 — 11:29</p>
+  </div>
+  <div class="cbody">
+    <p>Cette session est un mentorat privé, pas un cours. Elle avance par questions, revient en arrière, s'interrompt, et se termine sur un constat lucide de son animateur : <b>« on n'a pas énormément avancé, mais on a avancé quand même. Il en faut bien, des sessions un peu vides aussi. »</b></p>
+    <p>Ce qui en sort, en revanche, est très concret. Ce support retient <b>la méthode et le raisonnement</b>, dans une version utilisable par n'importe quel artiste ou producteur.</p>
+
+    <div class="box b-info">
+      <h4>Ce que ce support ne contient pas</h4>
+      <p>Les personnes présentes ne sont pas nommées, et <b>aucun nom de groupe, de partenaire, de ville ou de prestataire cité en séance n'est repris ici.</b> Les éléments personnels — plannings, situation familiale, santé, répartition du capital de leur société — restent dans le replay privé, à qui ils appartiennent.</p>
+      <p>Les passages fiscaux, sociaux et contractuels sont des <b>retours d'expérience, pas des avis juridiques.</b> Un dispositif se vérifie toujours auprès de l'organisme qui l'instruit.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>La structure de la session, en trois blocs</h4>
+      <div class="tl">
+        <div class="tli"><b>Le point d'avancement</b> — où en est le projet musical, ce qui a été fait depuis la dernière session, et deux dossiers administratifs en cours.</div>
+        <div class="tli"><b>Le gros morceau : le booking.</b> Comment construire l'email qui atteint un programmateur, puis comment s'en passer complètement.</div>
+        <div class="tli"><b>La revue de livrable</b> — un EPK passé au crible, écran partagé, correction par correction.</div>
+      </div>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Deux manières de s'en servir</h4>
+      <p><b>Si vous cherchez une méthode à appliquer :</b> allez directement aux sections 4 à 12. Elles forment une séquence complète, de l'objet d'email au déjeuner qui scelle la relation.</p>
+      <p><b>Si vous préparez un dossier :</b> les sections 2 et 3 traitent du cadre d'une formation financée et de la démarche réelle du crédit d'impôt phonographique — deux sujets où l'écart entre la théorie et le guichet est considérable.</p>
+    </div>
+
+    <div class="pull">« On n'a pas énormément avancé, mais on a avancé quand même. Il en faut bien, des sessions un peu vides aussi. »</div>
+  </div>
+</section>
+
+<section class="chap" id="s2" data-c="g">
+  <div class="chead">
+    <span class="num">2</span>
+    <h2>Le cadre d'une formation financée</h2>
+    <p class="tc">3:06 — 6:25</p>
+  </div>
+  <div class="cbody">
+    <p>Question posée en ouverture : <i>« qu'est-ce qui va se passer pour la suite ? Pour que je remplisse toutes les conditions. »</i> La réponse décrit le formalisme réel d'une formation prise en charge — et il est plus strict que ce que beaucoup imaginent.</p>
+
+    <div class="box b-key">
+      <h4>Les trois obligations, et comment elles se vérifient</h4>
+      <table class="tbl">
+        <tr><th>Obligation</th><th>Ce qui fait foi</th></tr>
+        <tr><td><b>Un volume d'heures à suivre</b> sur une période bornée (date de début, date de fin)</td><td><b>Le temps de connexion aux vidéos</b>, module par module</td></tr>
+        <tr><td><b>Les QCM d'autoévaluation</b></td><td>Leur complétion dans la plateforme</td></tr>
+        <tr><td><b>Un nombre de sessions en visio</b> à suivre</td><td><b>Des feuilles de présence contresignées</b>, et les logs de connexion de l'outil de visio</td></tr>
+      </table>
+      <p>Sur l'exemple de la session : <b>50 heures de contenu à suivre dans la fenêtre</b>, soit une dizaine d'heures par semaine, <b>et 7 visios sur les 14 proposées.</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Le « hack » assumé des vidéos longues</h4>
+      <p>Pour quelqu'un qui a déjà suivi une partie du programme et qui manque de temps : <b>« si tu n'as pas trop le temps, laisse tourner des vidéos, sans souci. »</b></p>
+      <p>Et le conseil qui va avec : <b>« les modules un et deux, ce sont des vidéos assez longues. N'hésite pas à les laisser tourner. Ça peut te faire accumuler du temps de vidéo pour être tranquille et prendre un peu d'avance. »</b></p>
+      <p>Avec une précision rassurante : <b>l'accès reste ouvert après la période</b>, donc on peut revenir sur le contenu plus tard pour le travailler vraiment. <i>« Étant donné que tu conserves un accès, ce n'est pas un souci, tu pourras revenir dessus plus tard. »</i></p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>La limite : il faut que la progression reste plausible</h4>
+      <p>Le temps revu n'est pas recompté deux fois, et surtout le parcours doit tenir debout :</p>
+      <p><b>« Idéalement, il faut que tu suives un ordre logique. C'est-à-dire que si sur un module il y a deux heures de vidéo, il ne faut pas qu'on voie 13 minutes de temps de connexion. »</b></p>
+      <p>Il y a une tolérance, mais elle est argumentée : <b>« on n'est pas à quelques minutes près, parce que tu peux prétexter que tu les regardes en fois deux. »</b></p>
+      <p><b>Le principe transférable :</b> un dossier de formation financée se contrôle sur la cohérence entre le volume déclaré et les traces laissées. Le reste — l'ordre des modules, la vitesse de lecture — relève de l'organisation de l'apprenant ; <b>le volume suivi, lui, doit être réel.</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Les visios, elles, ne sont pas enfermées dans la fenêtre</h4>
+      <p><b>« Celles-là, on n'est pas obligés de les faire dans le laps de temps. Elles peuvent être faites après, ce n'est pas un souci. »</b></p>
+      <p>Avec la mécanique de validation : <b>« à partir du moment où ta feuille de présence est signée, c'est validé. »</b></p>
+      <p>Et l'intérêt pratique pour les deux parties : cela permet de <b>poursuivre l'accompagnement dans un cadre financé</b> plutôt que de l'arrêter à la fin de la période administrative.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Et la question qui compte vraiment pour un accompagné</h4>
+      <p><i>« Tu sais à peu près combien de temps on peut poursuivre le mentorat ? »</i></p>
+      <p>La réponse : <b>« on repart sur un bon gros trimestre, et puis on voit. Si on pousse un peu, on pousse un peu. On va essayer de ne pas vous lâcher en plein vol. »</b></p>
+      <p>C'est une phrase d'intention, mais elle dit quelque chose de la bonne façon de cadrer un accompagnement : <b>une période de référence annoncée, et un principe de continuité tant que le projet avance.</b></p>
+    </div>
+  </div>
+</section>
+<section class="chap" id="s3" data-c="b">
+  <div class="chead">
+    <span class="num">3</span>
+    <h2>Le crédit d'impôt phonographique : la démarche réelle</h2>
+    <p class="tc">11:29 — 14:56 · 87:41 — 90:45</p>
+  </div>
+  <div class="cbody">
+    <p>Le dossier est repris deux fois dans la session : une fois au début, écran partagé, avec les échanges de mails reçus de l'organisme ; une fois à la fin, pour caler le dépôt. Le contenu vaut d'être lu dans l'ordre, parce qu'il montre <b>l'écart entre ce qu'on croit devoir faire et ce qu'on doit réellement fournir.</b></p>
+
+    <div class="box b-warn">
+      <h4>Le point de blocage de départ</h4>
+      <p>Leur extrait d'immatriculation (Kbis) <b>n'affiche pas la mention « production et édition phonographique »</b> — l'activité existe, mais elle est secondaire et n'apparaît pas au registre.</p>
+      <p>La crainte était donc de devoir modifier le Kbis avant de pouvoir déposer. <b>C'était une fausse piste.</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Les trois réponses reçues, dans l'ordre</h4>
+      <div class="tl">
+        <div class="tli"><b>Première réponse :</b> <i>« Il n'est pas nécessaire de modifier votre extrait. En effet, l'activité de production phonographique peut être secondaire. Cela n'a aucune incidence sur l'éligibilité de votre demande. Vous devrez nous transmettre votre extrait lors du dépôt de votre première demande d'agrément provisoire. »</i></div>
+        <div class="tli"><b>Deuxième échange :</b> après avoir expliqué que l'activité secondaire n'apparaît pas au registre et avoir joint l'extrait → <i>« Pouvez-vous me transmettre les statuts mentionnant les activités de production et d'édition phonographique ? »</i></div>
+        <div class="tli"><b>Troisième réponse, le feu vert :</b> <i>« Nous confirmons réception de votre document. Vous pouvez déposer votre demande d'agrément depuis votre espace pro. Nous vous prions de nous transmettre une copie du contrat qui vous lie au projet phonographique lors du dépôt, afin de justifier définitivement votre rôle de producteur. »</i></div>
+      </div>
+      <p>Conclusion tirée en séance : <b>« je pense qu'on n'aura pas besoin de modifier notre extrait pour ce crédit d'impôt phonographique. »</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Ce qu'il faut retenir de cet échange</h4>
+      <p><b>1. L'activité peut être secondaire.</b> Le crédit d'impôt ne suppose pas que la production phonographique soit l'activité principale déclarée.</p>
+      <p><b>2. Ce sont les statuts qui font la preuve, pas le registre.</b> Si l'objet social mentionne la production et l'édition phonographique, le document à fournir est le statut — ce qui évite une modification d'immatriculation inutile et payante.</p>
+      <p><b>3. La pièce décisive est le contrat.</b> C'est lui qui justifie <b>votre rôle de producteur</b> sur le projet concerné. Sans contrat, l'agrément n'est pas justifiable, quelle que soit la forme de votre société.</p>
+      <p><b>Le réflexe à prendre avant toute démarche administrative : écrire à l'organisme et décrire la situation réelle.</b> Ici, trois mails ont évité une modification de registre.</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Le préalable à vérifier : l'affiliation</h4>
+      <p>Le dépôt se fait depuis un espace professionnel, ce qui suppose d'être <b>affilié à l'organisme qui instruit</b> — la même affiliation que pour le crédit d'impôt spectacle.</p>
+      <p>Et c'est le seul vrai point bloquant : <b>« si jamais vous n'êtes pas affiliés, ça peut être pénible. Mais si vous avez déjà fait une démarche dessus, c'est bon. »</b></p>
+    </div>
+
+    <div class="box b-danger">
+      <h4>Le conseil de calendrier, et c'est le plus important</h4>
+      <p><b>« Le plus tôt est le mieux, avant d'engager des dépenses. »</b></p>
+      <p>C'est la règle de fond de ces dispositifs : <b>l'agrément provisoire se demande en amont du projet.</b> Des dépenses engagées avant la demande risquent de ne pas être retenues dans l'assiette.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Les deux niveaux d'agrément, et ce qu'ils demandent</h4>
+      <table class="tbl">
+        <tr><th></th><th>Agrément provisoire</th><th>Agrément définitif</th></tr>
+        <tr><td><b>Quand</b></td><td><b>Avant d'engager les dépenses</b></td><td>Après la réalisation du projet</td></tr>
+        <tr><td><b>Ce qu'on prépare</b></td><td><b>Presque rien</b> — le titre du projet, et <b>une idée des dépenses prévisionnelles</b> à engager</td><td>Beaucoup plus : extrait d'immatriculation <b>de moins de trois mois</b>, copie des statuts, <b>pièce d'identité numérisée du dirigeant</b>, et les justificatifs du projet</td></tr>
+      </table>
+      <p>Sa formule rassurante sur le premier niveau : <b>« franchement, ne te prends pas la tête, il n'y a rien à préparer. On va se débrouiller avec ce qu'il y a. »</b></p>
+      <p>Et le point d'attention sur le second : <b>le délai de trois mois sur l'extrait d'immatriculation.</b> Un document trop ancien fait repartir la demande d'un cran.</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Un dispositif voisin, écarté pour ce projet</h4>
+      <p>La question se pose en séance : <i>« il n'y a pas des clauses comme quoi il faut embaucher tant de musiciens ? »</i></p>
+      <p>Réponse : cette condition relève <b>d'un autre dispositif, un fonds d'aide dédié</b>, et non du crédit d'impôt.</p>
+      <p>Et la nuance qui compte : <b>« ce n'est pas que vous n'auriez pas le droit, c'est que ce n'est pas intéressant. C'est intéressant à partir d'un certain nombre — je dirais à partir de six, ça vaut vraiment le coup. »</b></p>
+      <p><b>Un dispositif n'est pas seulement une question d'éligibilité : c'est une question de seuil de rentabilité.</b> En dessous d'un certain nombre de musiciens rémunérés, le coût du montage dépasse l'aide obtenue.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Et une proposition qui dit tout de la méthode</h4>
+      <p><b>« Si jamais tu veux le faire ce soir, je te guide. »</b> Puis, la fatigue aidant, le rendez-vous est reporté à un créneau précis dans la semaine, avec le dossier annoncé à l'avance.</p>
+      <p><b>Faire le dépôt accompagné, en direct, plutôt que de l'expliquer</b> — c'est la différence entre un conseil et un déblocage.</p>
+    </div>
+  </div>
+</section>
+<section class="chap" id="s4" data-c="r">
+  <div class="chead">
+    <span class="num">4</span>
+    <h2>Prospecter les programmateurs : l'ordre des étapes</h2>
+    <p class="tc">14:56 — 19:24</p>
+  </div>
+  <div class="cbody">
+    <p>C'est le sujet principal de la session, et il commence par une question d'organisation : <i>« on devait mettre en place le système pour que ce soit envoyé automatiquement. Il faut qu'on rédige un mail le plus efficace possible. »</i></p>
+
+    <div class="box b-danger">
+      <h4>La mise au point qui conditionne tout le reste</h4>
+      <p><b>« Automatiser la prospection, ce n'est pas difficile. Ce n'est pas difficile que chaque semaine ou chaque jour, une IA sorte 10, 20, 30 contacts qualifiés intéressants et qu'automatiquement il y ait une prise de contact qui se fasse. »</b></p>
+      <p><b>« Le problème, c'est que si l'email d'accroche n'est pas bon, tu peux faire autant de mails d'entrée que tu veux, ça ne passera pas. »</b></p>
+      <p><b>L'automatisation n'est pas le goulot d'étranglement. Le message l'est.</b> C'est pour cette raison que toute la session porte sur une seule page de texte, et pas sur l'outillage.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>L'ordre logique, dans ses mots</h4>
+      <p><b>« Il faut vraiment se prendre la tête sur l'objet d'abord, pour susciter l'ouverture ; le mail ensuite, pour susciter un taux de clics ; et une fois le clic, l'EPK, pour susciter une envie de prise de contact. C'est vraiment ça l'ordre logique. »</b></p>
+      <div class="tl">
+        <div class="tli"><b>1. L'objet</b> → faire ouvrir. C'est sa seule fonction.</div>
+        <div class="tli"><b>2. Le corps du mail</b> → faire cliquer. Pas convaincre : faire cliquer.</div>
+        <div class="tli"><b>3. L'EPK</b> → donner envie de prendre contact.</div>
+      </div>
+      <p>Chaque étage a un seul objectif, et <b>aucun des trois n'a pour objectif de vendre une date.</b> C'est ce qui rend la séquence tenable : on ne demande jamais au destinataire plus que le geste suivant.</p>
+      <p>Et le point d'étape de la session est posé clairement : <b>« là, on en est à l'étape de trouver l'idée du mail, rédiger l'objet, rédiger le mail. »</b></p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Combien de versions tester ? La réponse dépend de la température de la base</h4>
+      <p>La question posée : <i>« est-ce qu'on va se mettre d'accord tous les trois sur un seul mail en l'optimisant, ou est-ce qu'on va essayer plusieurs trucs différents avec plusieurs objets ? »</i></p>
+      <p>La réponse est un plafond : <b>« au départ, il ne faudra pas en avoir trop. L'idée, c'est de partir sur deux et de faire un test comparatif. »</b></p>
+      <table class="tbl">
+        <tr><th>Base</th><th>Nombre de versions</th><th>Pourquoi</th></tr>
+        <tr><td><b>Une base qui vous connaît</b> (200 contacts déjà en relation)</td><td><b>Autant qu'on veut</b></td><td><i>« On peut faire des tests et voir lequel suscite le plus de réactions. »</i> Les erreurs ne coûtent rien.</td></tr>
+        <tr><td><b>Une base froide</b></td><td><b>Deux, pas plus</b></td><td><i>« Comme tu tapes à froid, tu es un peu obligé de limiter. »</i></td></tr>
+      </table>
+      <p>La raison technique est développée plus loin dans la session : <b>sur une base froide, chaque envoi raté abîme la réputation de votre domaine d'envoi.</b> Vous n'avez donc pas droit à beaucoup d'essais — d'où l'exigence sur le texte.</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>La fausse route du départ, et sa correction</h4>
+      <p>Le travail présenté en séance avait été construit avec une IA, à partir d'un exemple produit lors d'une session précédente. Le retour reçu avait été clair : <b>« ça parlait trop de nous. Il fallait que ça parle de la cible, et pas de nous. »</b></p>
+      <p>C'est la correction qui traverse toute la session, et elle est plus exigeante qu'elle n'en a l'air : <b>parler de la cible ne veut pas dire la flatter, cela veut dire décrire son problème mieux qu'elle ne le formulerait elle-même.</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>La piste de départ, et ce qu'elle visait</h4>
+      <p>L'objet construit ensemble à la session précédente jouait sur <b>la bouteille à la mer</b> : un message qui assume d'être un envoi désespéré, ce qui désarme la méfiance.</p>
+      <p>À partir de là, le travail de recherche avait été fait sur les profils professionnels publics : <b>« j'ai cherché les anomalies sur leur activité, les trucs qui marchaient bien, et comment on pouvait mettre ça dans des mails. »</b></p>
+      <p><b>Chercher les anomalies</b> — ce qui sort de l'ordinaire dans l'activité d'une cible — est la bonne matière première d'un objet d'email. C'est elle qui permet d'écrire quelque chose que personne d'autre ne lui écrira.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s5" data-c="a">
+  <div class="chead">
+    <span class="num">5</span>
+    <h2>Pourquoi l'IA échoue sur cet exercice précis</h2>
+    <p class="tc">21:15 — 21:45 · 33:51 — 35:34</p>
+  </div>
+  <div class="cbody">
+    <p>Le point revient deux fois, et il est tranché. Sur le texte proposé : <b>« ce que tu m'as envoyé, ça fait très inspiré de l'IA — et malheureusement, l'IA n'est pas bonne pour cet exercice. »</b></p>
+
+    <div class="box b-key">
+      <h4>L'explication technique, et elle est juste</h4>
+      <p>La demande faite à l'outil était pourtant sensée : <i>« j'avais demandé de me lister les contraintes que partagent un peu tous les programmateurs, histoire de les accrocher dans le corps de mail en parlant d'eux. »</i></p>
+      <p>Et la réponse : <b>« mais attention, les IA ne sont pas douées pour ça. Là, c'est juste une liste. Même la liste des contraintes, elle va les présupposer à partir des données qu'elle a. Mais en réalité, il n'y a pas assez de données sur le mindset des programmateurs. »</b></p>
+      <p>La vérification est facile à faire soi-même : <b>« rien que des interviews de programmateurs d'événements, il y en a très peu. Donc elle a très peu de données, et le peu qu'elle a est surtout anglophone. »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Ce que ça dit, plus largement</h4>
+      <p>Le raisonnement vaut au-delà des programmateurs : <b>un modèle est bon là où le web est bavard, et faible là où il est muet.</b></p>
+      <p>Les métiers de l'ombre — programmateur, régisseur, attaché de presse, label manager — <b>ne publient presque pas.</b> Leurs contraintes réelles ne se trouvent donc pas en ligne, et aucune liste générée ne les restituera. Elles s'obtiennent en parlant aux gens, ce qui est exactement l'objet de la seconde moitié de la session.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Alors comment travailler ?</h4>
+      <p><b>« Il faut vraiment travailler en mode bon sens, et essayer d'aller taper dans l'humain. »</b></p>
+      <p>Et sur la rédaction finale, la consigne est explicite : <b>« là, moi, je rédige moi-même. Je ne fais pas appel à l'IA. »</b> Avec la précision donnée à la personne qui s'y attelle : <i>« tu le rédiges toi, en étant vraiment dans les bases du programmateur. »</i></p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Et un exemple où l'outil sert quand même</h4>
+      <p>Il n'y a pas de rejet de principe. Plus loin dans la session, l'outil est utilisé pour <b>aller chercher sur un forum de copywriters les objets d'email les plus performants jamais mesurés</b> — et là, ça marche, parce que la donnée existe et qu'elle est publique.</p>
+      <p><b>La règle qui se dégage : l'IA est bonne pour aller chercher ce qui est documenté, mauvaise pour inventer ce qui ne l'est pas.</b> Sur la psychologie d'un métier peu interviewé, elle produit du plausible, pas du vrai.</p>
+      <p>Au passage, une note sur les limites rencontrées en séance : certaines ressources de copywriting <b>sont protégées par le droit d'auteur</b> et l'outil refuse de les recopier. Seules les structures générales ont pu être reprises — et elles ont été jugées décevantes.</p>
+    </div>
+  </div>
+</section>
+<section class="chap" id="s6" data-c="g">
+  <div class="chead">
+    <span class="num">6</span>
+    <h2>Connaître sa cible avant d'écrire une ligne</h2>
+    <p class="tc">19:24 — 23:52</p>
+  </div>
+  <div class="cbody">
+    <p>Avant de proposer des formulations, il fait l'inverse de ce qu'on attend : <b>il pose des questions.</b> C'est le passage le plus instructif de la session sur la méthode de travail.</p>
+
+    <div class="box b-key">
+      <h4>Les quatre questions qu'il pose</h4>
+      <div class="tl">
+        <div class="tli"><b>« C'est quand la dernière fois que vous avez discuté avec un programmateur ? »</b> — Réponse : l'année dernière.</div>
+        <div class="tli"><b>« De quoi vous avez parlé ? »</b> — D'une date à jouer dans un festival.</div>
+        <div class="tli"><b>« C'est lui qui est venu à vous, ou c'est vous qui êtes allé à lui ? »</b> — Eux, <b>sur plusieurs années</b> : <i>« pendant des années, je l'ai démarché plusieurs fois. »</i></div>
+        <div class="tli"><b>« Qu'est-ce qui a fait qu'il a accepté ? »</b> — C'est la question clé, et la réponse est double.</div>
+      </div>
+    </div>
+
+    <div class="box b-info">
+      <h4>Ce qui avait déclenché le oui</h4>
+      <p><b>1. L'insistance</b>, assumée : <i>« je pense que j'étais un peu insistant, en disant que c'était un peu le moment là ou jamais pour nous. »</i></p>
+      <p><b>2. L'actualité du moment</b> : la sortie d'un deuxième album servait de motif. <i>« Donc l'actualité du moment l'a déclenché. »</i></p>
+      <p><b>3. Et un troisième facteur, apparu après</b> : une seconde programmation a suivi, parce que <i>« elle a vu que ça tenait la route, le projet. »</i></p>
+      <p>Avec un détail qui vaut une leçon : invitée à un concert de sortie d'album, la personne n'avait pas pu venir — <b>et le contact a quand même été entretenu.</b> <i>« J'ai quand même gardé contact. »</i></p>
+      <p><b>Un rendez-vous manqué n'est pas un refus.</b> C'est l'entretien de la relation, pas l'événement, qui produit la deuxième date.</p>
+    </div>
+
+    <div class="box b-danger">
+      <h4>Le diagnostic, posé sans détour</h4>
+      <p><b>« Votre problème aujourd'hui, c'est que vous n'avez pas eu assez de contacts avec des programmateurs. »</b></p>
+      <p>Et la conséquence sur l'écriture : <b>« moi, je sais me vendre, parce que je me connais et que je connais ma cible. Plus vous allez savoir à qui vous vous adressez, plus vous vous connaîtrez aussi, et plus ce sera facile pour vous. »</b></p>
+      <p><b>On n'écrit pas bien à quelqu'un qu'on n'a jamais écouté.</b> Le manque n'est pas un manque de technique de copywriting, c'est un manque de matière.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Le remède, concret</h4>
+      <p><b>« Il faudrait limite que vous puissiez faire un apéro avec deux, trois programmateurs pour comprendre quels sont leurs problèmes, leurs contraintes, leur caractère, comment ils sont arrivés à ce poste. »</b></p>
+      <p>Et la règle qui en découle, répétée plusieurs fois dans la session : <b>« plus vous serez capable de rentrer dans la tête d'un programmateur, plus ce sera facile. »</b></p>
+      <p>Avec un cadrage de priorité honnête : <b>« ça, vous le ferez à vos heures, ce n'est pas pour maintenant. Là, on va quand même avancer. »</b> — la connaissance de la cible est un chantier de fond, pas un préalable bloquant.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Un cas réel analysé en séance : le réseau de salles</h4>
+      <p>Un contact existant est passé au crible, et son fonctionnement mérite d'être connu.</p>
+      <div class="tl">
+        <div class="tli"><b>Ce sont des gens qui exploitent une salle et appartiennent à un réseau de salles.</b></div>
+        <div class="tli"><b>Ils cherchent à mettre en avant des groupes locaux</b> — mais <b>pas pour leur propre salle</b> : <i>« pas les proposer à leur salle à eux, mais les proposer aux autres salles. »</i></div>
+        <div class="tli"><b>Parce qu'ils fonctionnent par échange d'artistes.</b> <i>« Quand ils arrivent à placer un artiste, ça leur permet d'avoir un autre artiste en retour. »</i></div>
+        <div class="tli">Autrement dit : <b>ils prospectent pour vous</b>, parce que ça les sert.</div>
+      </div>
+      <p>Sa reformulation : <b>« ils se recommandent mutuellement des artistes. »</b></p>
+      <p><b>C'est le mécanisme le plus sous-exploité du booking local.</b> Une salle n'est pas seulement un lieu à convaincre : c'est potentiellement un apporteur qui a intérêt à vous placer ailleurs.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Et la demande à formuler auprès d'eux</h4>
+      <p><b>« Ce serait intéressant d'avoir un échange avec eux pour essayer de comprendre ce qui se passe dans leur tête, et de leur demander de vous parler d'autres programmateurs qu'ils connaissent, avec qui ils sont en contact. »</b></p>
+      <p>Deux demandes en une : <b>comprendre leur métier</b>, et <b>obtenir des noms.</b> La première rend la seconde acceptable.</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Et une question de ciblage qui mérite d'être posée tôt</h4>
+      <p><i>« Vous visez quelle ville, par exemple, pour tourner ? »</i> La réponse hésite entre de grandes villes éloignées et des villes proches où le groupe ne joue pourtant pas.</p>
+      <p>Le constat en séance : <b>viser loin avant d'avoir couvert le proche est un choix mental, pas stratégique.</b> Les villes à portée de route, où personne ne vous a encore vu, sont le premier gisement.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s7" data-c="b">
+  <div class="chead">
+    <span class="num">7</span>
+    <h2>Fabriquer un objet qui fait ouvrir</h2>
+    <p class="tc">23:52 — 28:42 · 32:13 — 33:51</p>
+  </div>
+  <div class="cbody">
+    <p>Le cœur pratique de la session : une série d'objets d'email proposés en direct, avec à chaque fois le levier psychologique visé et la limite de l'objet. <b>Un seul critère : faire ouvrir.</b></p>
+
+    <div class="box b-key">
+      <h4>Levier 1 — la question locale qui titille</h4>
+      <p>L'exemple construit en direct, à adapter à votre ville : <b>« Pourquoi les gens de [ville] se déplacent pour nous ? »</b></p>
+      <p>Ce qui se passe chez le destinataire : <b>« quand tu vises un programmateur de cette ville qui reçoit ça, il y a un truc qui le titille. Il ne vous connaît pas, il ne sait pas ce qui se passe, mais rien que par curiosité il va ouvrir votre email. »</b></p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Et sa limite, énoncée tout de suite</h4>
+      <p><b>« Le problème de ces objets, c'est que ce sont des objets un peu trop attirants. C'est-à-dire que c'est tellement attirant que, quand tu arrives, tu es souvent déçu par l'email. »</b></p>
+      <p><b>Un objet trop fort crée une dette que le corps du mail doit payer.</b> C'est la contrainte à garder en tête pour tout ce qui suit : plus l'objet promet, plus le corps doit tenir.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Levier 2 — la curiosité sur une pratique rare</h4>
+      <p><b>« Ce que les artistes locaux font rarement (mais nous, si) »</b></p>
+      <p>La réaction visée, décrite mot pour mot : <b>« OK, ce que les artistes locaux font rarement, mais eux, si. Mais qu'est-ce qu'ils font ? C'est ça la réaction recherchée : qu'est-ce qu'ils font, pourquoi, comment, et comment ça se fait que je ne connaisse pas ? Et donc je clique. »</b></p>
+      <p>Et la consigne de travail qui va avec : <b>« mettez-vous à la place de quelqu'un qui n'a jamais entendu parler de vous, qui est programmateur, et qui tombe sur ça. »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Levier 3 — la contradiction</h4>
+      <p>Plusieurs objets sont passés en revue, et ceux qui tiennent sont ceux qui se contredisent eux-mêmes :</p>
+      <div class="tl">
+        <div class="tli"><b>« On déteste prospecter, donc on vous écrit. »</b> <i>« C'est un autre levier psychologique. Ça se tente. C'est un jeu de contradictions. »</i> Et son propre test : <i>« moi, c'est le genre d'email auquel je pourrais répondre. »</i></div>
+        <div class="tli"><b>« Personne ne nous attend, c'est pour ça qu'on vient. »</b></div>
+        <div class="tli"><b>« Qu'est-ce que vous programmeriez si vous n'aviez pas peur ? »</b> — <i>« ça fait un peu long, mais pourquoi pas. C'est pas mal. »</i> Celui-ci ne parle que du destinataire.</div>
+      </div>
+      <p>À l'inverse, deux objets sont écartés en séance parce qu'ils <b>s'éloignent trop du sujet musical</b> : la pertinence prime sur l'accroche.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Levier 4 — l'objet qui dit tout en une phrase</h4>
+      <p>Celui qu'il retient comme le plus fort : <b>« Voilà pourquoi on nous reprogramme souvent trois fois. »</b></p>
+      <p>Pourquoi ça marche, du point de vue du destinataire : <b>« tiens, il y a un groupe, on ne se connaît pas visiblement, il est souvent reprogrammé plusieurs fois. Il y a une raison, ça doit marcher, il y a quelque chose qui m'intéresse. »</b></p>
+      <p>Pour un programmateur, <b>« reprogrammé trois fois » est la seule preuve qui compte</b> : elle signifie qu'un confrère a pris le risque et l'a repris.</p>
+    </div>
+
+    <div class="box b-danger">
+      <h4>La question qui se pose aussitôt : et si ce n'est pas vrai ?</h4>
+      <p>Elle est posée franchement en séance — <i>« mais on peut faire ça même si ce n'est pas vrai ? »</i> — et la réponse est d'abord une vérification : <b>c'était vrai.</b> Le groupe avait bien été reprogrammé plusieurs fois sur un même événement. <i>« Donc ce n'est même pas mentir. »</i></p>
+      <p>Et la règle générale qui suit : <b>« l'objectif d'un objet, c'est de déclencher l'ouverture de l'email, c'est tout. »</b></p>
+      <p><b>La ligne à tenir, et elle n'est pas dans la session :</b> un objet peut être allusif, intrigant, incomplet — <b>il ne doit pas affirmer un fait faux.</b> Une affirmation vérifiable et fausse se retourne au premier échange, et dans un milieu où les programmateurs se parlent entre eux, elle coûte la relation plus qu'elle ne gagne une ouverture. La bonne pratique est celle appliquée ici : <b>chercher ce qui est vrai dans votre parcours, et l'écrire de la manière la plus intrigante possible.</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Levier 5 — l'objet bâti sur une information précise</h4>
+      <p>Celui qu'il utilisait beaucoup : <b>« L'erreur qui vide les salles le mardi. »</b></p>
+      <p>Mais il explique d'où venait sa force : <b>« je le faisais parce que je savais que je travaillais souvent avec des clubs qui ouvraient les mercredis ou les jeudis pour les soirées étudiantes, et qui ne marchaient pas du tout. Parce que les étudiants ne vont plus en boîte aujourd'hui. »</b></p>
+      <p>Et la nuance décisive : <b>« là, tu n'es plus tout à fait dans un truc de démarchage à froid : c'est que tu as déjà des infos assez précises. »</b></p>
+      <p><b>Le repérage préalable transforme un objet générique en objet chirurgical.</b> Repérer qu'une salle programme des jours inhabituels, ou qu'un festival a un créneau non pourvu, suffit à écrire quelque chose que personne d'autre n'écrira.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Levier 6 — cibler un événement nommé</h4>
+      <p><b>« Vous cherchez encore un artiste pour [nom de l'événement] ? »</b></p>
+      <p>Son verdict : <b>« juste ça, ça peut aussi passer, parce que c'est très direct. Ça se tente. Après, l'email va être plus difficile à enchaîner, mais ça peut se tenter. »</b></p>
+      <p>Et une variante du même esprit, jugée efficace : <b>« Vous cherchez une première partie locale ? »</b> — <i>« ça, c'est efficace. Je ne te garantis pas qu'on te réponde, mais c'est efficace. »</i></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Levier 7 — désamorcer l'absence de notoriété</h4>
+      <p>Enfin, l'objet le plus simple de tous, et peut-être le plus utilisable : <b>« Programmer local sans risquer une salle vide. »</b></p>
+      <p>Il nomme la peur du destinataire au lieu de vanter l'artiste. <b>« Étape numéro un, il faut qu'ils ouvrent l'email, c'est le plus important. »</b></p>
+    </div>
+
+    <div class="pull">« L'objectif d'un objet, c'est de déclencher l'ouverture de l'email, c'est tout. »</div>
+  </div>
+</section>
+<section class="chap" id="s8" data-c="r">
+  <div class="chead">
+    <span class="num">8</span>
+    <h2>L'accroche qui parle de lui, pas de vous</h2>
+    <p class="tc">28:42 — 32:13 · 51:40 — 54:15</p>
+  </div>
+  <div class="cbody">
+    <p>C'est le passage le plus précieux de la session : il dicte un corps d'email complet, en direct, et explique pour chaque phrase ce qu'elle produit chez le lecteur. <b>Le principe : dès l'ouverture, on bascule sur la cible.</b></p>
+
+    <div class="box b-danger">
+      <h4>L'erreur à ne pas faire</h4>
+      <p><b>« Si tu as un objet comme ça qui parle de nous, il faut tout de suite parler de la cible. »</b></p>
+      <p>Et sur le texte proposé : <b>« l'erreur, ce serait de parler de toi directement. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>L'accroche dictée en séance, mot pour mot</h4>
+      <p><b>« Le vrai risque, il est à chaque fois pour le programmateur. Je sais que vous êtes démarché par des centaines d'artistes, mais il ne réalise pas à quel point c'est risqué pour vous de les programmer sur scène. Vous pourriez avoir une salle vide, vous pourriez perdre de l'argent, vous pourriez avoir un risque réputationnel — et vous courez aussi le risque que les artistes se comportent mal avec vous, avec votre équipe, et parfois même avec le public. Donc, programmer des artistes que vous connaissez, ou amenés par des gens que vous connaissez, c'est juste normal. »</b></p>
+      <p>Remarquez ce que fait la dernière phrase : <b>elle légitime le comportement qui vous bloque.</b> Au lieu de reprocher au programmateur de ne travailler qu'avec ses habitudes, elle lui dit qu'il a raison de le faire.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Ce que ça produit, décrit de l'intérieur</h4>
+      <p><b>« Tu vois, tu fais un mail comme ça, tu es en train de parler à la personne de lui-même. L'objectif recherché, c'est : enfin quelqu'un qui ne me prend pas pour une vache à lait et qui a compris mon métier. »</b></p>
+      <p>Et le mécanisme complet, tel qu'il le raconte du point de vue du destinataire : <b>« l'objet, j'ai ouvert, je lis. J'ai quelqu'un qui a enfin compris mon métier. Merci, ça fait du bien. Il me dit que je suis quelqu'un de normal, il y a une forme d'empathie. Et en même temps, ce quelqu'un qui m'a compris, que je commence à bien aimer parce qu'il me comprend, il est en train de me dire qu'à chaque fois que quelqu'un lui fait confiance malgré ça, il le reprogramme plusieurs fois. Il y a un truc. Moi, je veux savoir ce que c'est, ce truc. Quand je clique, je le découvre. »</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>La bascule vers la preuve, et le lien</h4>
+      <p>La suite du mail, dictée : <b>« Nous, on a compris votre métier. Mais sachez qu'à chaque fois qu'un programmateur nous a fait confiance, il nous a reprogrammés plusieurs fois. Pourquoi ? Ça, vous le découvrirez en regardant notre EPK. Cliquez ici pour le voir. »</b></p>
+      <p><b>« Là, tu attises encore sa curiosité »</b> — le mail ne répond pas à la question qu'il pose. C'est l'EPK qui répond, et c'est exactement pour cela qu'on clique.</p>
+      <p><b>La structure complète tient en quatre mouvements :</b> 1) son risque, nommé ; 2) son réflexe, légitimé ; 3) une preuve qui contredit le réflexe ; 4) une question laissée ouverte, avec le lien.</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>La vérification auprès des intéressés</h4>
+      <p>Il ne passe pas à la suite sans demander : <b>« est-ce que ça, ça fait sens pour vous, ou pas du tout ? »</b></p>
+      <p>Réponse : <b>« le côté empathie, ça fait sens »</b>, et une réserve initiale levée en séance — l'idée d'affirmer avoir été reprogrammé trois fois semblait exagérée, jusqu'à vérification : <i>« mais en fait, si, c'est arrivé. »</i></p>
+      <p>Et la validation finale : <b>« il n'y a rien qui fait non-sens pour nous ou qui ne correspond pas à nos valeurs. »</b></p>
+      <p><b>Une accroche doit passer ce test-là avant d'être envoyée.</b> Un texte efficace que vous n'assumez pas sera démenti par votre voix au premier appel.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>La variante la plus simple, et sa force</h4>
+      <p>Plus tard dans la session, il propose un objet qu'il dit pouvoir envoyer à des milliers de salles : <b>« On fait comment pour travailler avec vous ? »</b></p>
+      <p>Et le corps qui va avec, dicté en entier : <b>« Vous l'aurez compris, je suis artiste, mais je n'ai pas envie de vous faire un énième mail de prospection en vous disant qu'on est la huitième merveille du monde — parce que ce n'est pas le cas, et que de toute façon vous en voyez passer des centaines comme ça. Donc je suis très direct : comment on fait pour travailler avec vous ? Nous, on est un duo [style], on est de [région]. Toutes les scènes où on passe, on déchire tout. Vous pourrez le voir en cliquant sur notre EPK ici. »</b></p>
+      <p>Pourquoi il l'aime : <b>« personnellement, c'est le genre de mail que je serais capable d'envoyer à des milliers de salles sans problème. Parce qu'en vrai, je n'aime pas tourner autour du pot. Dis-moi juste comment on fait. »</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Et les réponses que ça rapporte — même les négatives</h4>
+      <p>Il anticipe le type de réponse : <b>« je ne fais pas les artistes indépendants », « il faut que vous ayez un tourneur ».</b></p>
+      <p>Et là intervient la question la plus rentable de toute la session : <b>« OK, avec qui vous avez l'habitude de travailler ? Qui sont les tourneurs qui vous vendent le plus facilement des dates ? »</b></p>
+      <p>Puis, une fois les noms obtenus : <b>« est-ce que quelque chose s'oppose à ce que vous me mettiez en contact avec eux ? »</b></p>
+      <p><b>Un refus bien exploité vaut mieux qu'un silence.</b> Le programmateur qui dit non vous dit en même temps par quelle porte on entre chez lui — et il peut vous l'ouvrir.</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Et si ça ne répond pas du tout</h4>
+      <p><b>« S'ils ne te répondent pas, tu sais que l'accroche n'est pas forcément la bonne, et tu changes d'accroche. »</b></p>
+      <p>Le silence n'est pas une information sur votre valeur : <b>c'est une information sur votre accroche.</b></p>
+    </div>
+
+    <div class="pull">« Tu es en train de parler à la personne de lui-même. L'objectif : enfin quelqu'un qui ne me prend pas pour une vache à lait et qui a compris mon métier. »</div>
+  </div>
+</section>
+
+<section class="chap" id="s9" data-c="a">
+  <div class="chead">
+    <span class="num">9</span>
+    <h2>Les objets les plus performants du web, et leur limite</h2>
+    <p class="tc">35:43 — 46:14</p>
+  </div>
+  <div class="cbody">
+    <p>Faute d'idée nouvelle, il va chercher la donnée là où elle existe : <b>un forum de copywriters qu'il connaît, et les objets d'email qui ont les meilleurs taux d'ouverture mesurés.</b> Puis il les teste un par un contre le cas réel. Le résultat est instructif : <b>la plupart ne sont pas transposables.</b></p>
+
+    <div class="box b-key">
+      <h4>Les objets qui sortent du forum</h4>
+      <table class="tbl">
+        <tr><th>Objet</th><th>Performance</th><th>Transposable au booking ?</th></tr>
+        <tr><td><b>« Bye »</b></td><td>Irrésistible — <i>« tout le monde ouvre »</i></td><td><b>Oui, mais impossible à enchaîner.</b> L'objet n'annonce rien de ce qui suit</td></tr>
+        <tr><td><b>« J'avais raison, et ce n'est pas bon pour vous »</b></td><td><b>69 % de taux d'ouverture</b></td><td><b>Difficile</b> — <i>« ça, c'est difficile »</i> : il suppose un historique avec le destinataire</td></tr>
+        <tr><td><b>« Bravo [Prénom] »</b> ou <b>« Bien joué [Prénom] »</b>, avec un emoji de félicitation</td><td><i>« En général, ça explose les taux d'ouverture »</i></td><td><b>Oui — et il l'a pratiqué</b> (voir ci-dessous)</td></tr>
+        <tr><td><b>« Au cas où vous l'auriez raté… »</b></td><td>Stimule fortement l'ouverture</td><td><b>Oui, avec une réserve</b> : le risque de paraître prétentieux</td></tr>
+      </table>
+      <p>Et sa remarque sur la source : <b>« le forum, c'est vraiment global »</b> — ces chiffres viennent de tous les secteurs, pas de la musique. D'où l'exercice d'adaptation.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le « Bravo + prénom » : sa pratique réelle, en détail</h4>
+      <p>C'est l'exemple le plus utile de la section, parce qu'il l'a fait et qu'il en donne les chiffres.</p>
+      <p>La cible : <b>les programmateurs des très gros festivals</b>, dont il avait récupéré l'email. L'objet : <b>« Bravo pour la saison, [Prénom]. »</b></p>
+      <p>Le corps, mot pour mot : <b>« Bravo pour la saison, la programmation était exceptionnelle. Je pense que tu vas prendre le temps de te reposer, mais j'imagine que d'ici deux ou trois mois tu seras déjà reparti sur la production de la prochaine édition. Et à ce moment-là, j'aurai des choses à te proposer. »</b></p>
+      <p>Le résultat : <b>« c'était juste un mail d'introduction, et à chaque fois je prenais 100 % de taux d'ouverture. »</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Pourquoi ça marchait — et ce n'est pas ce qu'on croit</h4>
+      <p><b>« Parce que pour eux, ce n'était pas un mail de prospection, c'était un mail de félicitations. Ils en étaient tout contents. »</b></p>
+      <p>Et le vrai objectif, qui est technique : <b>« d'ailleurs, l'objet de l'email, ce n'était pas de prospecter : c'était de s'assurer que les mails ne tombent pas dans les spams, et qu'ils me répondent. »</b></p>
+      <p>Ce qui se passait ensuite : <b>« effectivement, ils répondent toujours un petit <i>merci, c'est gentil</i>, et ils passent à autre chose. Et ça permet d'être visible la prochaine fois. »</b></p>
+      <p><b>C'est la manœuvre la plus sous-estimée de la section : un premier mail dont le seul but est d'obtenir une réponse, n'importe laquelle.</b> Une réponse change le statut de votre adresse dans la boîte du destinataire et dans son filtre — le mail suivant, celui qui demandera quelque chose, arrivera en boîte de réception.</p>
+      <p>Sa limite, assumée : <b>« le problème, c'est qu'on ne peut pas le faire en masse, celui-là. »</b> Il exige un prénom, une saison réellement observée, et une phrase juste.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le « Au cas où vous l'auriez raté », adapté au cas réel</h4>
+      <p>La première version proposée est écartée pour excès : <i>« au cas où vous l'auriez raté, le meilleur groupe local de la région »</i> — <b>« effectivement, ça va stimuler du taux d'ouverture. Mais c'est prétentieux aussi. »</b> Et la réaction des intéressés le confirme : <i>« est-ce que ça, ça nous correspond ? »</i></p>
+      <p>La version retenue déplace l'affirmation sur un chiffre vérifiable : <b>« Au cas où vous l'auriez raté : on a cumulé des dizaines de millions de vues sur Internet. »</b></p>
+      <p>Et le corps qui enchaîne, dicté : <b>« Et pourtant, on est un groupe local. On vit à [ville]. Ça fait quelques années qu'on tourne déjà dans la région, et on n'a pas eu la chance de participer à votre événement [nom]. Il n'est jamais trop tard. Cliquez ici pour découvrir notre univers. »</b></p>
+      <p><b>Un chiffre remplace une auto-évaluation.</b> « Le meilleur groupe local » est une opinion ; « des dizaines de millions de vues » est un fait qui produit le même effet sans le même risque.</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>La réaction visée chez le programmateur</h4>
+      <p><b>« Quelqu'un qui voit ça, qui programme dans votre secteur, il se dit : attends, il y a un groupe ici qui a fait tant de millions de vues, et je ne connais pas ? Il faut que j'aille voir qui c'est. »</b></p>
+      <p>Et le retournement qui suit, pour désamorcer le doute : <b>« Si vous ne nous connaissez pas, c'est normal : on est assez discrets dans le coin. Pourtant, ça ne nous a pas empêchés de tourner là, là et là. »</b></p>
+      <p>Puis la sortie vers le clic : <b>« Notre vraie valeur est sur scène, et le mieux pour ça, c'est peut-être de regarder un extrait de live. Cliquez ici pour en savoir plus. »</b></p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>La contrainte qui revient : ça ne se généralise pas</h4>
+      <p>La remarque est faite en séance et elle est juste : <b>un objet qui nomme la ville ou l'événement ne peut pas être envoyé en masse tel quel.</b></p>
+      <p>Sa réponse : <b>« dans ma structure, tu ne peux pas le généraliser, mais tu peux faire un autre email »</b> — on garde la structure et on remplace le fragment variable.</p>
+      <p><b>En pratique : un modèle avec deux ou trois champs à remplir par destinataire</b> (ville, nom de l'événement, nom du programmateur) reste automatisable, et c'est ce qui sépare un envoi générique d'un envoi qui semble écrit à la main.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Et le principe qui résume toute la section</h4>
+      <p><b>« Encore une fois, un mail de prospection à froid n'est pas fait pour vendre. Il n'est pas fait pour dire : regardez, on a ça à vendre, si ça vous intéresse rappelez-nous. Il est juste fait pour dire : regardez, on est là, vous ne l'aviez juste pas vu, et vous pouvez en savoir plus en cliquant là-dessus. »</b></p>
+    </div>
+
+    <div class="pull">« Un mail de prospection à froid n'est pas fait pour vendre. Il est juste fait pour dire : on est là, vous ne l'aviez pas vu. »</div>
+  </div>
+</section>
+<section class="chap" id="s10" data-c="g">
+  <div class="chead">
+    <span class="num">10</span>
+    <h2>Ouvertures, clics et gestion de la base</h2>
+    <p class="tc">46:14 — 51:40</p>
+  </div>
+  <div class="cbody">
+    <p>La partie technique, et elle change la façon de lire ses propres résultats. <b>Le taux d'ouverture n'est pas la métrique qui compte.</b></p>
+
+    <div class="box b-danger">
+      <h4>Pourquoi le clic prime sur l'ouverture</h4>
+      <p>La raison n'est pas marketing, elle est technique : <b>« c'est très important, le taux de clic, parce que comme on va prospecter à froid, votre autorépondeur va être très méfiant de vous. »</b></p>
+      <p>L'illustration chiffrée, sur un petit envoi :</p>
+      <table class="tbl">
+        <tr><th>Sur 25 emails envoyés</th><th>Lecture</th></tr>
+        <tr><td><b>4 ouverts, 0 clic</b></td><td><b>« Ce n'est pas bon. »</b></td></tr>
+        <tr><td><b>4 ouverts, 4 clics</b></td><td><b>« C'est très bon. »</b></td></tr>
+      </table>
+      <p>Et la règle qui en découle : <b>« il vaut mieux se tromper sur le taux d'ouverture mais avoir un bon taux de clic, plutôt que de se tromper sur le taux de clic. »</b></p>
+      <p><b>Autrement dit : mieux vaut peu d'ouvertures très engagées que beaucoup d'ouvertures déçues.</b> Un objet trop racoleur produit exactement l'inverse — ce qui boucle avec la limite énoncée en section 7.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>La question posée en séance : peut-on renvoyer plusieurs tests au même contact ?</h4>
+      <p>La réponse est nuancée, et elle dépend de ce qui s'est passé au premier envoi.</p>
+      <p><b>« Si ça ne passe pas au premier tour, ni au deuxième, tu risques de te retrouver encore indésirable. Il faut supprimer l'email de la base et ne pas trop le pousser. »</b></p>
+      <p><b>Deux échecs sur la même adresse : on la retire.</b> Insister au-delà n'abîme pas seulement cette adresse, mais la réputation du domaine qui envoie.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>La lecture d'une campagne, sur 100 adresses</h4>
+      <p>L'exemple est développé en entier, et il vaut comme grille de lecture.</p>
+      <table class="tbl">
+        <tr><th>Segment</th><th>Ce qu'on en fait</th></tr>
+        <tr><td><b>17 ont ouvert</b></td><td><b>« C'est cool, la base est active. »</b> C'est la première information : les adresses sont valides et les messages arrivent</td></tr>
+        <tr><td><b>10 ont cliqué</b></td><td><b>Ceux-là, on les relance</b> — <i>« ils ont ouvert le premier email, donc on peut arriver avec une deuxième approche, une troisième, jusqu'à les faire cliquer »</i></td></tr>
+        <tr><td><b>83 n'ont pas ouvert</b></td><td><b>« Le problème, c'est les 83. »</b> Pas de réputation établie sur leur boîte, donc pas de renvoi immédiat</td></tr>
+      </table>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Relancer les ouvreurs : changer d'angle, pas de cible</h4>
+      <p>La relance ne consiste pas à répéter le message mais à l'attaquer autrement : <b>« c'est juste qu'on n'a pas utilisé le bon levier. On a peut-être joué sur le côté groupe local ; maintenant, on va jouer sur le côté groupe sensationnel. On change d'angle marketing et on continue. »</b></p>
+      <p><b>Un contact qui a ouvert sans cliquer n'a pas dit non : il a dit que cet angle-là ne le concernait pas.</b></p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Les non-ouvreurs : le délai est la seule réponse</h4>
+      <p><b>« Si on renvoie immédiatement quelque chose, ce n'est pas bon. On va laisser un laps de temps — d'ailleurs, ça leur laissera le temps d'ouvrir l'email éventuellement. Peut-être dix jours. »</b></p>
+      <p>Et sur la deuxième tentative : <b>« dans dix jours, quand tu relances avec un deuxième email, là il faut idéalement ne pas se planter. Il faut que ça accroche. Et si ça accroche, ça les fait revenir. Si ça n'accroche pas, ça commence à être difficile. »</b></p>
+      <p>Avec une formule qui dit la réalité du canal : <b>« les campagnes mail sont faites pour relancer les gens jusqu'à ce qu'ils vous répondent ou qu'ils vous écartent. »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Où se lisent ces chiffres</h4>
+      <p>La question est posée simplement — <i>« où on regarde le taux d'ouverture, le taux de clic ? »</i> — et la réponse est : <b>dans l'autorépondeur</b>, c'est-à-dire la plateforme d'envoi, pas dans votre messagerie.</p>
+      <p>Les intéressés n'en ont pas : <b>« j'avais regardé, mais je n'avais pas mis en place au départ. Je ne voyais pas trop l'intérêt pour nous, et ça me semblait un peu complexe à mettre en place. »</b></p>
+      <p>Et la réponse de calendrier : <b>« c'est un outil que vous allez greffer plus tard. »</b></p>
+      <p><b>L'ordre est le bon :</b> on écrit d'abord le message, on installe l'outil de mesure ensuite — mais sans outil, aucune des règles ci-dessus n'est applicable, parce qu'on ne voit ni les ouvertures ni les clics.</p>
+    </div>
+
+    <div class="pull">« Il vaut mieux se tromper sur le taux d'ouverture mais avoir un bon taux de clic, plutôt que l'inverse. »</div>
+  </div>
+</section>
+
+<section class="chap" id="s11" data-c="b">
+  <div class="chead">
+    <span class="num">11</span>
+    <h2>La méthode du prétexte : livre, podcast, dîner</h2>
+    <p class="tc">54:15 — 56:02 · 62:54 — 64:50</p>
+  </div>
+  <div class="cbody">
+    <p>C'est le virage de la session. Après une heure sur l'email, il annonce autre chose — et le présente comme nettement supérieur.</p>
+
+    <div class="box b-warn">
+      <h4>Il commence par dire que personne ne le fait</h4>
+      <p><b>« Je crois que je l'ai dit à tous les artistes que je mentore. Il n'y en a pas un qui veut le faire. Mais si vous voulez vendre 200 dates l'année prochaine, c'est exactement ce qu'il faut faire. »</b></p>
+      <p>Avec une exception notable : <b>« si, il y a quelqu'un en formation qui l'a fait, et il s'est fait des contacts en or. Donc c'est bien, ça marche. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Prétexte 1 — le livre ou l'étude</h4>
+      <p>Le principe : <b>« vous jouez les étudiants, c'est tout. »</b></p>
+      <p>Le script, mot pour mot : <b>« On est en train d'écrire un livre sur la programmation musicale en France. Est-ce que vous auriez 20 minutes à m'accorder au téléphone pour échanger sur le sujet ? Je suis vraiment impressionné par votre parcours et par tout ce que vous faites au quotidien. J'aurais des questions à vous poser. »</b></p>
+      <p>Le rendement attendu : <b>« dans la masse, tu en as 20, 30 [qui acceptent]. Tu leur fais passer un bon moment. Ça y est, le contact est acquis. »</b></p>
+      <p>Et la question qui vient toujours — <i>« il faut écrire un bouquin ? »</i> — reçoit : <b>« pas forcément. »</b> Une thèse, une étude, une série d'entretiens : le format importe peu.</p>
+      <p><b>Une réserve qui n'est pas dans la session, et qui compte :</b> le prétexte doit correspondre à un projet qui existe réellement, même modeste — une série d'entretiens publiés, un podcast, un dossier. Ce milieu est petit, les programmateurs se parlent, et un prétexte inventé se découvre. <b>Le plus simple est donc de faire vraiment ce qu'on annonce</b> : c'est précisément ce que propose le prétexte suivant.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Prétexte 2 — le podcast, « le must du must »</h4>
+      <p><b>« Et le must, du must, c'est un podcast. Ça, c'est incroyable. C'est vraiment le must. Maintenant, dès que je veux réseauter avec quelqu'un, je fais un podcast avec. »</b></p>
+      <p>Ce qu'il est en train de faire au moment de la session, pour illustrer : <b>il a contacté les cinq à sept plus gros créateurs de contenu de sa niche</b> avec un message simple — <i>« j'aimerais bien faire un podcast. J'adore ce que tu fais. Tu es arrivé après moi, mais tu le fais tellement mieux que moi que ça m'intéresse. »</i></p>
+      <p>Et la suite logique : <b>« l'idée, c'est qu'après, tu peux créer des partenariats. »</b> L'exemple donné : proposer à un binôme étranger de financer leur déplacement pour enregistrer ensemble, puis monter un séminaire commun avec de la communication des deux côtés.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Pourquoi le podcast est supérieur à tout le reste</h4>
+      <p><b>« L'avantage du podcast, c'est qu'il bloque un moment privilégié. Quand tu dis à quelqu'un : rendez-vous dans ce studio, on passe une heure ensemble sous forme d'interview — après, on a déjà une heure ensemble, c'est terminé. Le gars ne peut plus rien te refuser. »</b></p>
+      <p><b>Ce n'est pas la notoriété du podcast qui opère, c'est l'heure passée ensemble.</b> Un email ne crée pas de lien ; une heure d'écoute attentive en crée un, immédiatement.</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>La variante qu'il pratiquait : inviter sur un tournage</h4>
+      <p>Avec les programmateurs radio, il utilisait un autre support : <b>« je les invitais sur les tournages de clips quand c'était à Paris. Je leur dis : on tourne un clip à tel endroit, viens, tu verras comment ça se passe, ça va être super. »</b></p>
+      <p>Et le choix du lieu n'était pas anodin : un grand site de tournage <b>avec un beau restaurant à l'intérieur, des décors de cinéma visibles, et une sécurité qui donne une impression de privilège.</b></p>
+      <p>Le détail qui fait l'effet : <b>« quand ils arrivent et qu'un agent prend le nom — <i>monsieur, venez, je vous accompagne personnellement, je vous amène sur le plateau de tournage, j'ai été prévenu</i> — le gars est aux anges. Il passe une heure avec nous, il vient manger, ça y est, c'est plié. Après, tu peux lui demander ce que tu veux. »</b></p>
+      <p><b>Le mécanisme est le même que le podcast : offrir une expérience que la personne ne peut pas s'offrir seule</b>, et laisser la réciprocité faire le reste.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Prétexte 3 — l'invitation à dîner</h4>
+      <p>Celui qu'il testait souvent : <b>« je n'ai pas vendu beaucoup de dates avec, mais je me suis fait connaître avec. »</b></p>
+      <p>L'objet : <b>« Vous êtes dispo pour un dîner ? »</b> — <i>« quand ils ne connaissent pas la personne, ils sont curieux : c'est qui qui m'invite à dîner ? Donc les gens ouvrent l'email. »</i></p>
+      <p>Le corps, mot pour mot : <b>« Oui, arrêtez de vous poser la question : non, on ne se connaît pas. J'ai récupéré votre email à tel endroit. Et je serais honoré que vous acceptiez une invitation à dîner. J'ai énormément de questions à vous poser sur votre métier, sur ce que vous faites. J'aspire à le devenir moi-même, et je pense que le meilleur moyen d'apprendre, c'est d'inviter à dîner quelqu'un qui a déjà fait ce que vous voulez faire. »</b></p>
+      <p>Le résultat : <b>« j'ai plein de gens qui ont accepté. »</b> Et le coût, sans détour : <b>« à Paris, oui, ça coûte cher. En province, ça va mieux. Mais c'était à chaque fois des échanges intéressants. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Ce que ce dîner a produit, concrètement</h4>
+      <p>Il raconte avoir rencontré ainsi <b>le dirigeant d'un gros organisateur de concerts</b> — <b>le nom n'est pas repris ici.</b></p>
+      <p>La question posée lors de la rencontre : <i>« qu'est-ce qui t'a motivé à accepter ? »</i> La réponse : <b>« je ne sais pas, c'est l'audace dont tu as fait preuve. J'ai trouvé ça cool. Je suis venu. Je ne sais pas qui tu es, mais je me suis dit : allez, pourquoi pas ? »</b></p>
+      <p>Et la suite : <b>« on s'est bien entendus. Après, il m'a mis sur des plans. Il a même engagé quelqu'un qui vendait des dates pour nous »</b> — une personne entrée à l'époque comme petite main, et qui occupe aujourd'hui un poste clé dans cette société.</p>
+      <p><b>« Donc tu vois, ça crée des connexions. »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Le principe commun aux trois prétextes</h4>
+      <p><b>« Trouver une raison valable de déclencher des rencontres avec des interviews, avec des décideurs intéressants pour vous, c'est le meilleur moyen de créer une relation de confiance avec eux. Mais de très loin. »</b></p>
+      <p>Pourquoi : <b>« déjà, ça va flatter leur ego, ils ne vont pas être sur la défensive du tout. En général, ça casse toutes les défenses. On ne vous voit pas comme un artiste qui essaye de booker une date — du coup, il n'y a plus de défense là-dessus. »</b></p>
+      <p>Et le mot qui résume tout : <b>« ce n'est pas le podcast qui vous intéresse, c'est le prétexte. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le parallèle qui éclaire la logique : les featurings</h4>
+      <p>Il raconte une discussion avec un artiste qui n'arrivait pas à obtenir de collaborations. <b>« C'est dingue, parce que je me rends compte que maintenant c'est tellement facile pour moi de contacter des artistes — mais avant, j'avais les mêmes problèmes que toi. »</b></p>
+      <p>Pourquoi c'était difficile avant : <b>« parce que je les démarchais comme beaucoup les démarchaient : j'aimerais te proposer une collaboration. Sauf que lui, il a 10 millions d'abonnés, toi tu n'en as pas. »</b></p>
+      <p>Pourquoi c'est facile maintenant : <b>« quand je les démarche, je passe par les producteurs ou les managers, et ils me connaissent. C'est beaucoup plus facile parce qu'ils ne se méfient pas de moi. Ils se disent : lui, il est sorti du game, il n'a rien à nous demander. C'est plutôt nous qui lui demandons des conseils. »</b></p>
+      <p>Et la conclusion, qui est la thèse de toute la section : <b>« pourquoi on ne se méfie pas ? Parce que je ne suis pas positionné comme tous les autres. Quand tu as cette démarche de podcast, c'est la même chose. »</b></p>
+      <p>Le contraste est explicite : <b>« eux, ils sont démarchés par des centaines d'artistes, de tourneurs, de managers. Quand tu te places sur un rang à côté — je ne suis pas là pour le booking, je suis là pour toi, ton parcours et ton partage de connaissances — c'est beaucoup plus facile. »</b></p>
+    </div>
+
+    <div class="pull">« Ce n'est pas le podcast qui vous intéresse, c'est le prétexte. »</div>
+  </div>
+</section>
+<section class="chap" id="s12" data-c="r">
+  <div class="chead">
+    <span class="num">12</span>
+    <h2>Le protocole podcast, de l'invitation au restaurant</h2>
+    <p class="tc">58:31 — 62:54 · 66:32 — 72:26</p>
+  </div>
+  <div class="cbody">
+    <p>Il ne se contente pas de recommander la méthode : il en donne le déroulé complet, du choix de l'invité jusqu'au moment où la demande se formule. <b>C'est un protocole, pas une idée.</b></p>
+
+    <div class="box b-key">
+      <h4>Étape 1 — qui inviter</h4>
+      <p><b>« Il faut prendre des gens qui pèsent un peu. Il ne faut pas prendre le petit comité des fêtes de la commune d'en bas de chez vous. Il faut prendre quelqu'un qui a la main sur trois, quatre grosses salles, ou un gros festival, ou une scène de musiques actuelles. »</b></p>
+      <p><b>Le niveau de l'invité détermine la valeur du carnet d'adresses auquel il donne accès.</b> Un prétexte coûte le même effort quel que soit l'interlocuteur : autant viser haut.</p>
+      <p>Et un préalable d'intendance : <b>donner un nom et un concept au podcast.</b> <i>« Vous lui donnez un nom original. Tu crées un concept, et après tu ne fais pas attention à ça, et tu avances. »</i></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Étape 2 — le script de l'invitation, en entier</h4>
+      <p><b>« On est dans ce podcast-là, on va être sur les deux premiers épisodes, et on a pensé à vous pour l'un des deux. Notre démarche, c'est qu'on a envie d'apprendre auprès de gens remarquables dans le métier. Vous en faites partie et on serait honorés que vous acceptiez notre invitation. Il n'y a pas de piège. L'idée, c'est que pendant une heure, on retrace votre parcours, ce qui vous a amené là où vous êtes, vous mettez en avant votre quotidien, vos valeurs, les étapes de votre parcours. Et l'idée, c'est que nous, on va en apprendre, mais on va aussi le partager : toutes les personnes qui seront amenées à écouter ce podcast vont également en apprendre davantage de vous. »</b></p>
+      <p>Trois choses à relever dans ce script : <b>la rareté</b> (« les deux premiers épisodes »), <b>la levée d'objection explicite</b> (« il n'y a pas de piège »), et <b>le bénéfice pour l'invité</b> (sa transmission, pas votre audience).</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Le rendement annoncé</h4>
+      <p><b>« Je vous garantis, je vous mets ma main à couper, que sur 25 ou 30 personnes démarchées, il y en a au moins deux qui vont répondre positivement, là, maintenant, tout de suite. »</b></p>
+      <p>Et la parade à l'objection la plus courante : <b>« ceux qui ont peur d'être filmés, tu peux leur dire : si vous voulez, on fait un truc qu'en audio, il n'y a aucun souci. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Étape 3 — l'heure du rendez-vous, et ce qu'elle prépare</h4>
+      <p>C'est le détail le plus malin du protocole : <b>« idéalement, faites ça autour de 10 h, 10 h 30, parce que derrière vous ne lui laissez pas le choix : on a réservé un restaurant, ils nous attendent pour midi, à moins que tu aies quelque chose. »</b></p>
+      <p>Avec la précaution : <b>« s'il faut, vous le prévenez en amont pour être sûrs de l'avoir. »</b></p>
+      <p>Puis : <b>« dès que c'est terminé, vous l'amenez manger. Et là, vous travaillez le réseau. »</b></p>
+      <p><b>L'interview n'est pas le moment utile : c'est le déjeuner qui suit.</b> L'heure du rendez-vous n'est donc pas une question de confort, c'est le dispositif qui rend le déjeuner naturel.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Étape 4 — l'inversion, et c'est là que tout se joue</h4>
+      <p><b>« Naturellement, pendant une heure, vous allez le questionner. Vous n'aurez plus grand-chose à lui demander. Lui, par contre, il aura des questions : <i>et vous, du coup, comment ça vous est venu, ce projet ? Qu'est-ce que vous faites ?</i> Et là, vous vous vendez juste tranquillement. »</b></p>
+      <p>Le texte de cette présentation, dicté : <b>« On est artistes, voilà ce qu'on fait, voilà ce qu'on a fait. Tu pourras l'écouter à tes heures. Et en ce moment, l'objectif qu'on a, c'est de commencer à tourner un peu plus qu'avant. C'est aussi la raison pour laquelle on t'a fait venir : on avait besoin de comprendre le métier de programmateur qui est le tien. »</b></p>
+      <p>Et la demande, posée en dernier, sans forcer : <b>« si tu as des tuyaux, si tu as même un réseau vers lequel tu peux nous recommander, ou des événements sur lesquels la production que tu construis n'est pas encore terminée — nous, on est ouverts à toute possibilité. »</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Pourquoi ça aboutit</h4>
+      <p><b>« Et là, tu verras, ça va se faire tout seul. Le gars se sentira redevable parce qu'il viendra de passer un bon moment. Il aura envie de vous rendre ça. Et s'il a un plan, il va vous mettre dessus. S'il n'en a pas, il va vous donner une connexion qui mène à un plan. »</b></p>
+      <p>La condition, posée immédiatement après : <b>« il faut avoir été bon dans la partie interview. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Étape 5 — comment être bon en interview sans être journaliste</h4>
+      <p>L'inquiétude est exprimée en séance : <i>« on ne l'a pas, la casquette de journaliste. »</i> La réponse est rassurante et précise.</p>
+      <p><b>« Ce n'est même pas être journaliste. Ça s'improvise. C'est juste humainement. C'est comme si demain tu recevais quelqu'un chez toi et qu'il vient accompagné : tu ne vas pas rester à côté sans lui parler. Tu vas dire : comment tu t'appelles ? Qu'est-ce que tu fais dans la vie ? Tu viens d'où ? Tu vas essayer de trouver des points d'accroche. C'est ce qu'on fait tous naturellement dans la vie. Là, c'est la même chose. »</b></p>
+      <p>La seule préparation nécessaire : <b>« tu vas un petit peu le préparer pour connaître les grandes étapes de son parcours, pour qu'il n'en oublie pas une qui est importante pour toi, et pour vraiment aller en profondeur dans ce qui t'intéresse. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>La technique de relance qui fait tout le travail</h4>
+      <p>C'est le passage à retenir si l'on ne retient qu'une chose de cette section.</p>
+      <p><b>« Si le gars te dit : <i>c'est là que j'ai décidé de devenir programmateur, je me suis fait embaucher là-bas</i> — stop. Tu t'es fait embaucher comment ? Ça s'est passé comment ? Tu as envoyé un CV, tu as appelé, tu t'es présenté ? Raconte-nous. »</b></p>
+      <p>Et pourquoi cette question précisément : <b>« parce que ça veut dire que là, lui aussi, il a prospecté. Donc il sait ce que ça veut dire. Il sait que c'est dur. »</b></p>
+      <p><b>« Tu l'amènes là où tu veux l'amener, tu lui fais une préparation mentale quelque part. »</b> Une fois qu'il a raconté sa propre prospection, il est disposé à aider la vôtre.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Puis les questions ciblées, en fin d'entretien</h4>
+      <p><b>« OK, donc maintenant tu es à ce poste-là. Moi, je suis artiste, je veux passer dans ton festival : comment je fais pour te démarcher ? — Tu m'envoies un mail. — OK, mais je n'ai pas ton email. Comment je le trouve ? Comment je suis sûr que c'est ton email ? »</b></p>
+      <p>Et la valeur de ces réponses : <b>« tu le laisses te répondre, il va te donner toutes les clés. Et dis-toi que les clés qu'il te donne, elles sont valables pour plein d'autres gars comme lui. »</b></p>
+      <p><b>Une heure avec un programmateur ne vous donne pas un contact : elle vous donne le mode d'emploi de tous les programmateurs de son niveau.</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>La règle de parole</h4>
+      <p><b>« En plus, dans ce genre de truc, toi tu parles à peine 30 % du temps. Le reste, c'est l'invité. Il faut le lui dire : l'idée, c'est que je te pose des questions, tu peux prendre le temps de développer tes réponses. Vas-y, on est là pour toi, pour t'écouter. »</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Et la question pratique : faut-il publier ?</h4>
+      <p>Oui, mais sans y mettre d'énergie : <b>« après, il faut le publier, le truc. Tu n'es pas obligé de communiquer à fond dessus. Tu peux avoir trois vues. Même rien qu'en audio, sur les plateformes de podcast : tu le laisses tourner là-dessus, tu ne te prends pas la tête, tu ne fais pas de communication, rien du tout. Tu le laisses juste exister. »</b></p>
+      <p><b>Trois vues suffisent, parce que l'audience n'était jamais l'objectif.</b> Ce qui compte, c'est que l'épisode existe : il rend le prétexte vrai et il honore l'invité.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le cas qu'il donne en preuve</h4>
+      <p>Il raconte avoir mis <b>deux ans à obtenir un rendez-vous avec un décideur majeur du streaming</b> — un responsable des équipes de curateurs de playlists chez une grande plateforme, aujourd'hui en poste équivalent chez une autre. <b>Le nom n'est pas repris ici.</b></p>
+      <div class="tl">
+        <div class="tli"><b>Deux ans de tentatives, sans succès.</b> <i>« Ça fait deux ans que j'essaye de le joindre, impossible. Je n'arrive pas. »</i></div>
+        <div class="tli"><b>Puis l'idée :</b> <i>« et puis un matin, je me dis : je vais lui proposer un podcast. »</i> Un mail, un rappel, et la proposition faite de vive voix — avec, en plus, l'annonce d'une masterclass où le public pourrait lui poser des questions sur son métier.</div>
+        <div class="tli"><b>Il a accepté.</b> Le studio a été loué sur place, pour un coût modeste.</div>
+        <div class="tli"><b>Prévu 40 minutes, il est resté une heure vingt.</b> Et son mot en partant : <i>« c'était génial. Je me sens vivant d'avoir partagé tout ça. »</i></div>
+      </div>
+      <p>Ce que l'entretien a rapporté en information : <b>« il m'a bien expliqué comment tout fonctionnait de l'autre côté : quels sont les points d'alerte auxquels ils sont sensibles, comment ils sont influencés par les maisons de disques, comment les maisons de disques font en sorte de manipuler les chiffres pour leur forcer la main. »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Et la conclusion qu'il en tire sur les playlists</h4>
+      <p>La question posée : est-ce donc impossible pour de petits artistes ? <b>« Ce n'est pas que c'est impossible, c'est que le jeu est pipé. »</b></p>
+      <p>Mais avec une nuance qui change la lecture : <b>« il est pipé dans les deux sens. C'est-à-dire qu'un matin, sans rien comprendre, tu peux faire 12 millions de streams. »</b></p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Un épilogue instructif sur la relation inversée</h4>
+      <p>Quelques mois plus tard, la relation était devenue si confortable que l'invité a tenté de renégocier un tarif déjà convenu, en voyant la communication fonctionner : <i>« je vais peut-être te demander une rallonge, parce que j'ai l'impression que ça draine du monde. »</i></p>
+      <p>Sa réponse : <b>« non, ça ne marche pas comme ça ici. On ne demande pas un supplément parce qu'un projet commence à bien marcher. Soit tu honores ta parole, soit on s'arrête là. »</b> Et l'accord a été tenu.</p>
+      <p><b>La familiarité obtenue par cette méthode se retourne parfois.</b> Elle ne dispense pas de tenir une ligne sur les engagements pris — et c'est précisément parce que la relation est bonne qu'on peut le dire aussi directement.</p>
+    </div>
+
+    <div class="pull">« Le gars se sentira redevable parce qu'il viendra de passer un bon moment. S'il a un plan, il va vous mettre dessus. »</div>
+  </div>
+</section>
+
+<section class="chap" id="s13" data-c="a">
+  <div class="chead">
+    <span class="num">13</span>
+    <h2>Ce qu'est vraiment un réseau</h2>
+    <p class="tc">64:50 — 66:32</p>
+  </div>
+  <div class="cbody">
+    <p>Un compliment en séance — <i>« tu as un sacré réseau quand même »</i> — déclenche la mise au point la plus honnête de la session.</p>
+
+    <div class="box b-danger">
+      <h4>Sa réponse</h4>
+      <p><b>« Non, il n'est pas si sacré que ça. Tu sais, le réseau, il est facile à avoir quand tu as un truc qui est bankable. Quand tu n'es pas bankable, tu as moins de réseau. C'est ça, le truc. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Les trois phases qu'il a vécues</h4>
+      <div class="tl">
+        <div class="tli"><b>Phase 1 — le succès.</b> Avec plusieurs projets qui marchaient en même temps : <i>« tout le monde m'appelait toute la journée. Tout le monde. Ça ne s'arrêtait jamais. »</i></div>
+        <div class="tli"><b>Phase 2 — le vide.</b> <i>« Ensuite, pendant deux, trois ans, il y a eu un petit vide. C'était compliqué. Tu appelais les gens, ils n'avaient pas le temps, ils avaient autre chose à faire. »</i></div>
+        <div class="tli"><b>Phase 3 — le retour.</b> Après un nouveau projet qui a explosé : <i>« tout le monde est revenu d'un coup. Tarik, ça fait longtemps. Qu'est-ce que tu deviens ? Quoi de neuf ? »</i></div>
+      </div>
+      <p>Sa conclusion : <b>« c'est ça, le réseau. »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>La distinction qu'il fait</h4>
+      <p><b>« Et dedans, il y a les amis. Il y a les amis du business. Mais ça, il n'y en a pas beaucoup. »</b></p>
+      <p>Et ce qu'il revendique à la place : <b>« non, je n'ai pas un gros réseau. Mais je sais comment bouger les gens, par contre. »</b></p>
+      <p><b>C'est la nuance utile : ce qui se construit durablement n'est pas un carnet d'adresses, c'est une méthode pour en créer un à chaque fois qu'on en a besoin.</b> Le carnet suit la réussite et reflue avec elle ; la méthode reste.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Et l'engagement qu'il prend en fin de section</h4>
+      <p><b>« Là, je vous le dis vraiment en toute amitié et en toute sincérité : trouver une raison valable de déclencher des rencontres avec des décideurs intéressants pour vous, c'est le meilleur moyen de créer une relation de confiance avec eux. Mais de très loin. »</b></p>
+      <p>Avec un argument qui vaut pour tout le monde : <b>« et comme en plus vous êtes agréables, je pense qu'une heure passée avec vous, ils vont tellement apprécier qu'ils voudront recommencer. »</b></p>
+    </div>
+
+    <div class="pull">« Le réseau est facile à avoir quand tu as un truc bankable. Quand tu n'es pas bankable, tu as moins de réseau. »</div>
+  </div>
+</section>
+<section class="chap" id="s14" data-c="g">
+  <div class="chead">
+    <span class="num">14</span>
+    <h2>Revue d'EPK : les corrections apportées</h2>
+    <p class="tc">75:23 — 87:24</p>
+  </div>
+  <div class="cbody">
+    <p>Dernier quart d'heure de travail : l'EPK est partagé à l'écran et passé au crible. Les remarques sont courtes et opérationnelles — <b>c'est la liste la plus directement réutilisable de la session.</b></p>
+
+    <div class="box b-key">
+      <h4>Ce qui fonctionne déjà, et pourquoi</h4>
+      <div class="tl">
+        <div class="tli"><b>Une vidéo en ouverture avec des phrases qui apparaissent</b>, construites comme une bande-annonce de film. <i>« D'une bande-annonce de film. Oui, complètement. »</i> Le principe : du mouvement et des mots avant toute information.</div>
+        <div class="tli"><b>Les logos des médias qui ont parlé du projet.</b></div>
+        <div class="tli"><b>Des commentaires réels de spectateurs</b>, qui ne parlent que du concert : <i>« vraiment, ça ne parle que du concert »</i> — c'est exactement ce qu'un programmateur veut lire.</div>
+        <div class="tli"><b>La mise en page.</b> Le verdict est net : <i>« dans les mises en page, ça défonce. Les images sont magnifiques. Il est vraiment agréable à regarder. »</i></div>
+      </div>
+      <p>Et le point d'honnêteté sur la méthode de fabrication : une bonne partie du travail de collecte a été faite par une IA à laquelle <b>la main sur le navigateur</b> avait été donnée, après qu'elle ait d'abord proposé d'expliquer la démarche plutôt que de l'exécuter. <i>« Il a fallu que je le pousse. »</i></p>
+    </div>
+
+    <div class="box b-danger">
+      <h4>Le point de vigilance le plus important : vérifier les citations</h4>
+      <p>Une citation remonte avec une source que personne n'avait vue passer. La question est posée immédiatement : <b>« ce sont des vrais gens qui ont dit des choses sur nous ? »</b> — puis le doute : <b>« ou alors l'IA a inventé. »</b></p>
+      <p>La vérification se fait en séance : <b>l'outil cite ses sources, et elles sont consultables.</b> <i>« Ah oui, là, il cite les sources de tout. »</i></p>
+      <p>Et la règle posée pour la publication : <b>« le fait qu'on mette ça, il faut quand même qu'on le cite »</b> — la source est nommée dans l'EPK, pas seulement vérifiée.</p>
+      <p><b>C'est la précaution à retenir de toute cette séquence : aucune citation, aucun chiffre et aucun logo ne vont dans un EPK sans que la source ait été ouverte et lue.</b> Un dossier de presse est un document que des professionnels vérifient — une citation inventée est découverte, et elle emporte la crédibilité de tout le reste.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Les corrections demandées, une par une</h4>
+      <table class="tbl">
+        <tr><th>Problème</th><th>Correction</th></tr>
+        <tr><td>Un bloc de texte biographique trop compact</td><td><b>Insérer un titre en citation au milieu</b>, pour casser le bloc — <i>« ce n'est pas que c'est trop long, c'est peut-être ta mise en page »</i></td></tr>
+        <tr><td>Des citations datées de plusieurs années</td><td><b>Retirer les dates et le nom du réseau</b> quand elles sont anciennes, <i>« pour que ce soit toujours plus ou moins d'actualité »</i></td></tr>
+        <tr><td>Une chronologie qui s'arrête à l'année précédente</td><td><b>Actualiser la fin de la biographie</b></td></tr>
+        <tr><td>Une accroche jugée trop solennelle après le reste de la page</td><td><b>Trouver quelque chose de plus vivant</b> — <i>« ça fait un peu pompeux comme accroche après ce qu'on a vu »</i></td></tr>
+        <tr><td>Un compteur de vues affiché en statique</td><td><b>L'animer</b> : le faire défiler de zéro jusqu'au chiffre réel. <i>« Ça crée une petite dynamique sympathique »</i></td></tr>
+        <tr><td>Une page longue sans repères</td><td><b>Ajouter un menu de navigation</b> sous les logos de réseaux sociaux : Biographie, Clips, Contact</td></tr>
+      </table>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Pourquoi le menu change tout</h4>
+      <p>La justification est précise : <b>« il y a des gens qui vont revenir dessus plusieurs fois, et pour être certains d'aller à l'endroit où ils veulent, ils auront besoin de ce petit raccourci. »</b></p>
+      <p><b>Un EPK n'est pas lu une fois de haut en bas : il est réouvert.</b> Un programmateur qui revient cherche une chose précise — une vidéo, une date, le contact. S'il doit scroller, il abandonne.</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Les points laissés à leur appréciation</h4>
+      <p><b>Le pied de page du site, repris dans l'EPK</b> : <i>« il n'est pas gênant, en tout cas. »</i> À garder ou retirer, sans conséquence.</p>
+      <p><b>La longueur générale</b> : la question est posée — <i>« est-ce que c'est suffisant, ou est-ce qu'il y en a trop ? »</i> — et la réponse est <i>« c'est largement suffisant »</i>.</p>
+      <p><b>La sélection des commentaires</b> : certains sont peut-être à retirer, d'où la consigne de <b>relire la page à trois avant l'envoi</b>, et de décider ensemble ce qui reste en titre.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Et le rappel qui replace l'EPK dans la chaîne</h4>
+      <p><b>« Franchement, il faut absolument que les gens cliquent sur le lien, parce que votre EPK, il est magnifique. »</b></p>
+      <p>C'est la boucle de toute la session : <b>l'EPK est bon, donc tout l'enjeu est en amont — faire ouvrir, puis faire cliquer.</b> Un excellent dossier que personne n'ouvre ne sert à rien, et c'est pour cela qu'une heure a été passée sur un objet d'email.</p>
+      <p>Détail à ne pas oublier : <b>vérifier que le bouton de contact ouvre bien un message pré-adressé.</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Un mot sur le mérite</h4>
+      <p>Au compliment final, la réponse est : <i>« c'est l'IA qui est forte, moi j'ai des idées. »</i> Et la correction immédiate : <b>« non, beau boulot. Assume. »</b></p>
+      <p><b>Le point n'est pas anecdotique :</b> l'outil a exécuté, mais le choix de ce qu'on met, de ce qu'on retire, de ce qu'on vérifie et de ce qu'on met en avant — c'est-à-dire le travail éditorial — est entièrement humain. C'est lui qui fait la différence entre deux EPK construits avec le même outil.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>La répartition du travail pour la suite</h4>
+      <p>Le premier jet du mail est confié à la personne qui l'a travaillé, avec une relecture ensuite : <b>« fais un premier jet si tu veux. Après, je le retape et tu le corrigeras à ta sauce. »</b></p>
+      <p>Et la consigne finale, qui compte plus que le texte : <b>« il faut que vous vous l'appropriiez. » — « on va le faire nôtre. »</b></p>
+      <p><b>Un mail dicté par quelqu'un d'autre ne fonctionne que s'il est réécrit dans votre voix.</b> C'est pour cette raison que le replay sert de base de travail, et non de modèle à copier.</p>
+    </div>
+
+    <div class="pull">« Il faut absolument que les gens cliquent sur le lien, parce que votre EPK, il est magnifique. »</div>
+  </div>
+</section>
+
+<section class="chap" id="s15" data-c="b">
+  <div class="chead">
+    <span class="num">15</span>
+    <h2>Associés : le pouvoir de nuisance d'un minoritaire</h2>
+    <p class="tc">90:45 — 93:48</p>
+  </div>
+  <div class="cbody">
+    <p>La session se termine sur un échange léger — qui est président, qui détient le plus de parts — et débouche sur un avertissement sérieux, tiré de son propre vécu.</p>
+
+    <div class="box b-danger">
+      <h4>La phrase à retenir</h4>
+      <p><b>« J'ai découvert à mes dépens qu'un associé, même minoritaire, a un pouvoir de nuisance immense. »</b></p>
+      <p>Et le cas qu'il raconte, sur l'une de ses sociétés : <b>un associé détenant 15 % du capital.</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Ce que ce minoritaire a pu faire</h4>
+      <div class="tl">
+        <div class="tli"><b>Refuser de signer le procès-verbal d'assemblée générale.</b> À lui seul, ce blocage paralyse les formalités qui en dépendent.</div>
+        <div class="tli"><b>Lancer une procédure pour tenter de l'évincer</b>, pour faute de gestion.</div>
+        <div class="tli"><b>La procédure a été refusée</b> — <i>« le truc, c'est qu'il n'avait pas de preuves, donc ça a été refusé. »</i></div>
+        <div class="tli"><b>Puis exiger le rachat de ses parts</b>, dans des conditions qu'il décrit comme très défavorables.</div>
+      </div>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Ce qui l'a protégé, et c'est transposable</h4>
+      <p><b>« Et moi, pour asseoir le truc, j'ai amené toute la documentation de ma gestion. Donc il n'y a rien qui dépasse, et je le sais très bien. Ça a un peu cassé cette dynamique. »</b></p>
+      <p><b>La leçon opérationnelle : une gestion documentée est la meilleure défense contre une accusation de faute de gestion.</b> Procès-verbaux à jour, décisions écrites, justificatifs classés, comptes tenus. Ce travail paraît inutile jusqu'au jour où il devient la seule chose qui compte.</p>
+    </div>
+
+    <div class="box b-danger">
+      <h4>Et la conclusion, qui est un conseil de structuration</h4>
+      <p><b>« En fait, si tu n'as pas de pacte d'associés, même quelqu'un qui a jusqu'à 10 % peut vraiment être lourd. »</b></p>
+      <p>Ce que le pacte permet d'organiser à l'avance, et que les statuts ne couvrent pas toujours : <b>les modalités de sortie et de valorisation des parts, les clauses d'agrément sur les cessions, les obligations de vote sur les décisions courantes, et les mécanismes de sortie forcée ou conjointe en cas de désaccord durable.</b></p>
+      <p><b>À faire quand tout va bien, parce qu'il devient impossible à négocier le jour où ça va mal.</b> C'est la seule véritable prévention de la situation décrite ci-dessus — et elle coûte infiniment moins cher qu'une procédure.</p>
+      <p><em>Ces éléments sont un retour d'expérience, pas un avis juridique : un pacte d'associés se rédige avec un professionnel du droit.</em></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Et une remarque pour les projets en couple ou entre proches</h4>
+      <p>La répartition du capital et la présidence ne coïncident pas nécessairement — c'est le cas des personnes présentes, et c'est parfaitement normal. <b>Mais cela mérite d'être conscient et formalisé</b>, parce que président et détenteur majoritaire n'ont pas les mêmes pouvoirs, et que la révocation d'un dirigeant relève de l'assemblée.</p>
+      <p>L'échange est traité sur le ton de la plaisanterie en séance ; <b>le point de fond, lui, est réel</b> : dans toute société à plusieurs, y compris familiale, il faut savoir qui décide quoi, et l'avoir écrit.</p>
+    </div>
+
+    <div class="pull">« Si tu n'as pas de pacte d'associés, même quelqu'un qui a 10 % peut vraiment être lourd. »</div>
+  </div>
+</section>
+<div class="faq">
+  <div class="bar"></div>
+  <div class="faqhead">
+    <h2>Questions / Réponses</h2>
+    <p>Les 143 points traités pendant la session, regroupés par thème.</p>
+  </div>
+  <div class="faqbody">
+
+    <div class="faqcat">Le cadre d'une formation financée</div>
+    <div class="qa"><div class="q"><span>Q1.</span>Quelles sont les obligations d'une formation prise en charge ?</div><div class="a"><p>Trois : <strong>un volume d'heures à suivre dans une période bornée, les QCM d'autoévaluation, et un nombre de sessions en visio.</strong> Sur l'exemple de la session : 50 heures, et 7 visios sur les 14 proposées.</p></div></div>
+    <div class="qa"><div class="q"><span>Q2.</span>Qu'est-ce qui fait foi pour les heures ?</div><div class="a"><p><strong>Le temps de connexion aux vidéos</strong>, module par module, tel que la plateforme l'enregistre.</p></div></div>
+    <div class="qa"><div class="q"><span>Q3.</span>Et pour les visios ?</div><div class="a"><p><strong>Des feuilles de présence contresignées</strong>, et <strong>les logs de connexion de l'outil de visio</strong>, qui font foi également.</p></div></div>
+    <div class="qa"><div class="q"><span>Q4.</span>Que faire quand on manque de temps ?</div><div class="a"><p>Le conseil donné : <strong>laisser tourner les vidéos longues des premiers modules</strong> pour accumuler du temps et prendre de l'avance — <em class="q">« ça peut te faire accumuler du temps de vidéo pour être tranquille »</em>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q5.</span>Le temps compte-t-il si on revoit la même vidéo ?</div><div class="a"><p>Non. Et surtout, <strong>la progression doit rester plausible</strong> : <em class="q">« si sur un module il y a deux heures de vidéo, il ne faut pas qu'on voie 13 minutes de temps de connexion. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q6.</span>Y a-t-il une tolérance sur la vitesse ?</div><div class="a"><p>Oui, et elle est argumentée : <strong>« on n'est pas à quelques minutes près, parce que tu peux prétexter que tu les regardes en fois deux. »</strong> Le volume suivi, lui, doit être réel.</p></div></div>
+    <div class="qa"><div class="q"><span>Q7.</span>Les visios doivent-elles tenir dans la période ?</div><div class="a"><p>Non : <strong>« elles peuvent être faites après, ce n'est pas un souci »</strong> — ce qui permet de prolonger l'accompagnement au-delà de la fenêtre administrative.</p></div></div>
+    <div class="qa"><div class="q"><span>Q8.</span>Garde-t-on l'accès au contenu après ?</div><div class="a"><p>Oui : <strong>« étant donné que tu conserves un accès, tu pourras revenir dessus plus tard »</strong> — ce qui justifie de survoler pendant la période et d'approfondir ensuite.</p></div></div>
+    <div class="qa"><div class="q"><span>Q9.</span>Et après la période, combien de temps dure l'accompagnement ?</div><div class="a"><p>La réponse donnée : <strong>« on repart sur un bon gros trimestre, et puis on voit. On va essayer de ne pas vous lâcher en plein vol. »</strong></p></div></div>
+
+    <div class="faqcat">Le crédit d'impôt phonographique</div>
+    <div class="qa"><div class="q"><span>Q10.</span>Faut-il que la production phonographique soit l'activité principale ?</div><div class="a"><p>Non. La réponse reçue de l'organisme est explicite : <strong>« l'activité de production phonographique peut être secondaire. Cela n'a aucune incidence sur l'éligibilité de votre demande. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q11.</span>Faut-il modifier son extrait d'immatriculation si la mention n'y figure pas ?</div><div class="a"><p>Non, et c'était le point de blocage initial. <strong>Ce sont les statuts qui font la preuve</strong> : il suffit de transmettre les statuts mentionnant les activités de production et d'édition phonographique.</p></div></div>
+    <div class="qa"><div class="q"><span>Q12.</span>Quelle est la pièce décisive du dossier ?</div><div class="a"><p><strong>Une copie du contrat qui vous lie au projet phonographique</strong>, demandée au dépôt <em>« afin de justifier définitivement votre rôle de producteur »</em>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q13.</span>Quel est le préalable à vérifier ?</div><div class="a"><p><strong>L'affiliation à l'organisme qui instruit</strong>, la même que pour le crédit d'impôt spectacle. <em class="q">« Si jamais vous n'êtes pas affiliés, ça peut être pénible. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q14.</span>Quand faut-il déposer ?</div><div class="a"><p><strong>« Le plus tôt est le mieux, avant d'engager des dépenses. »</strong> L'agrément provisoire se demande en amont du projet.</p></div></div>
+    <div class="qa"><div class="q"><span>Q15.</span>Que faut-il préparer pour l'agrément provisoire ?</div><div class="a"><p><strong>Presque rien</strong> : le titre du projet et <strong>une idée des dépenses prévisionnelles</strong>. <em class="q">« Franchement, ne te prends pas la tête, il n'y a rien à préparer. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q16.</span>Et pour l'agrément définitif ?</div><div class="a"><p>Beaucoup plus : <strong>extrait d'immatriculation de moins de trois mois, copie des statuts, pièce d'identité numérisée du dirigeant</strong>, et les justificatifs du projet.</p></div></div>
+    <div class="qa"><div class="q"><span>Q17.</span>Y a-t-il une obligation d'embaucher des musiciens ?</div><div class="a"><p>Pas pour ce crédit d'impôt : cette condition relève <strong>d'un autre dispositif</strong>, un fonds d'aide dédié.</p></div></div>
+    <div class="qa"><div class="q"><span>Q18.</span>Ce fonds vaut-il le coup ?</div><div class="a"><p><strong>« Ce n'est pas que vous n'auriez pas le droit, c'est que ce n'est pas intéressant. C'est intéressant à partir d'un certain nombre — je dirais à partir de six, ça vaut vraiment le coup. »</strong></p></div></div>
+
+    <div class="faqcat">Prospecter : l'ordre des étapes</div>
+    <div class="qa"><div class="q"><span>Q19.</span>Automatiser la prospection, est-ce le vrai sujet ?</div><div class="a"><p>Non : <strong>« automatiser la prospection, ce n'est pas difficile. Le problème, c'est que si l'email d'accroche n'est pas bon, tu peux faire autant de mails que tu veux, ça ne passera pas. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q20.</span>Quel est l'ordre logique ?</div><div class="a"><p><strong>L'objet pour susciter l'ouverture, le mail pour susciter le clic, l'EPK pour susciter la prise de contact.</strong> Chaque étage a un seul objectif.</p></div></div>
+    <div class="qa"><div class="q"><span>Q21.</span>Combien de versions tester ?</div><div class="a"><p><strong>Deux au maximum en prospection froide</strong>, et un test comparatif. <em class="q">« Au départ, il ne faudra pas en avoir trop. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q22.</span>Pourquoi cette limite ?</div><div class="a"><p>Parce qu'<strong>une base froide ne pardonne pas les essais ratés</strong> : chaque envoi sans engagement abîme la réputation du domaine d'envoi. Sur une base qui vous connaît, on peut tester librement.</p></div></div>
+    <div class="qa"><div class="q"><span>Q23.</span>Quelle était l'erreur du premier jet ?</div><div class="a"><p><strong>« Ça parlait trop de nous. Il fallait que ça parle de la cible, et pas de nous. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q24.</span>Où trouver la matière d'un bon objet ?</div><div class="a"><p>Dans <strong>les anomalies de l'activité de la cible</strong> : ce qui sort de l'ordinaire chez elle, et qui permet d'écrire ce que personne d'autre ne lui écrira.</p></div></div>
+
+    <div class="faqcat">Pourquoi l'IA échoue ici</div>
+    <div class="qa"><div class="q"><span>Q25.</span>L'IA peut-elle lister les contraintes d'un programmateur ?</div><div class="a"><p>Mal : <strong>« elle va les présupposer à partir des données qu'elle a. Mais en réalité, il n'y a pas assez de données sur le mindset des programmateurs. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q26.</span>Comment le vérifier soi-même ?</div><div class="a"><p>En cherchant des interviews : <strong>« rien que des interviews de programmateurs d'événements, il y en a très peu — et le peu qu'il y a est surtout anglophone. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q27.</span>Alors comment écrire ?</div><div class="a"><p><strong>« Il faut vraiment travailler en mode bon sens, et essayer d'aller taper dans l'humain. »</strong> Et pour la rédaction finale : <em class="q">« je rédige moi-même. Je ne fais pas appel à l'IA. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q28.</span>L'outil ne sert donc à rien ?</div><div class="a"><p>Si — mais pour aller chercher ce qui est documenté. Il a servi, en séance, à <strong>remonter d'un forum de copywriters les objets d'email les plus performants mesurés.</strong> La règle : <strong>bonne pour retrouver, mauvaise pour inventer ce qui n'existe pas en ligne.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q29.</span>Et sur les ressources protégées ?</div><div class="a"><p>Certaines références de copywriting <strong>sont couvertes par le droit d'auteur</strong> et ne peuvent pas être recopiées. Seules les structures générales ont pu être obtenues — et elles ont été jugées décevantes.</p></div></div>
+
+    <div class="faqcat">Connaître sa cible</div>
+    <div class="qa"><div class="q"><span>Q30.</span>Quelles questions pose-t-il avant de proposer un texte ?</div><div class="a"><p>Quatre : <strong>quand avez-vous parlé à un programmateur pour la dernière fois, de quoi, qui est allé vers qui, et qu'est-ce qui a fait qu'il a accepté ?</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q31.</span>Qu'est-ce qui avait déclenché le oui, dans leur cas ?</div><div class="a"><p><strong>L'insistance sur plusieurs années, et l'actualité du moment</strong> — la sortie d'un album servait de motif. Puis une seconde programmation, parce que <em class="q">« elle a vu que ça tenait la route, le projet »</em>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q32.</span>Un rendez-vous manqué annule-t-il la relation ?</div><div class="a"><p>Non. La personne invitée n'avait pas pu venir, <strong>et le contact a été entretenu quand même</strong> — c'est ce qui a produit la suite.</p></div></div>
+    <div class="qa"><div class="q"><span>Q33.</span>Quel est le diagnostic posé sur leur situation ?</div><div class="a"><p><strong>« Votre problème aujourd'hui, c'est que vous n'avez pas eu assez de contacts avec des programmateurs. »</strong> Le manque est de matière, pas de technique.</p></div></div>
+    <div class="qa"><div class="q"><span>Q34.</span>Quel est le remède ?</div><div class="a"><p><strong>Un apéro avec deux ou trois programmateurs</strong>, pour comprendre leurs problèmes, leurs contraintes, leur caractère et leur parcours.</p></div></div>
+    <div class="qa"><div class="q"><span>Q35.</span>Comment fonctionne un réseau de salles ?</div><div class="a"><p>Par <strong>échange d'artistes</strong> : il place vos projets dans les autres salles du réseau, ce qui lui ramène un artiste en retour. <strong>« Ils se recommandent mutuellement des artistes. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q36.</span>Que leur demander ?</div><div class="a"><p>Deux choses : <strong>comprendre leur métier, et obtenir les noms d'autres programmateurs qu'ils connaissent.</strong> La première rend la seconde acceptable.</p></div></div>
+    <div class="qa"><div class="q"><span>Q37.</span>Faut-il viser les grandes villes ?</div><div class="a"><p>Pas en premier. <strong>Les villes à portée de route où personne ne vous a encore vu sont le premier gisement</strong> — viser loin avant d'avoir couvert le proche est un choix mental, pas stratégique.</p></div></div>
+
+    <div class="faqcat">Fabriquer un objet qui fait ouvrir</div>
+    <div class="qa"><div class="q"><span>Q38.</span>Quel est le seul rôle de l'objet ?</div><div class="a"><p><strong>« L'objectif d'un objet, c'est de déclencher l'ouverture de l'email, c'est tout. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q39.</span>Un exemple de question locale ?</div><div class="a"><p><strong>« Pourquoi les gens de [ville] se déplacent pour nous ? »</strong> — <em class="q">« il y a un truc qui le titille. Rien que par curiosité, il va ouvrir votre email. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q40.</span>Quelle est la limite des objets très accrocheurs ?</div><div class="a"><p><strong>« C'est tellement attirant que quand tu arrives, tu es souvent déçu par l'email. »</strong> Un objet trop fort crée une dette que le corps doit payer.</p></div></div>
+    <div class="qa"><div class="q"><span>Q41.</span>Un objet qui joue la curiosité ?</div><div class="a"><p><strong>« Ce que les artistes locaux font rarement (mais nous, si). »</strong> La réaction visée : <em class="q">« mais qu'est-ce qu'ils font ? Et comment ça se fait que je ne connaisse pas ? Et donc je clique. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q42.</span>Et le levier de la contradiction ?</div><div class="a"><p><strong>« On déteste prospecter, donc on vous écrit »</strong>, ou <strong>« Personne ne nous attend, c'est pour ça qu'on vient. »</strong> Son propre test : <em class="q">« c'est le genre d'email auquel je pourrais répondre. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q43.</span>Quel est l'objet qu'il retient comme le plus fort ?</div><div class="a"><p><strong>« Voilà pourquoi on nous reprogramme souvent trois fois. »</strong> Pour un programmateur, c'est la seule preuve qui compte : un confrère a pris le risque et l'a repris.</p></div></div>
+    <div class="qa"><div class="q"><span>Q44.</span>Peut-on l'écrire si ce n'est pas vrai ?</div><div class="a"><p>La question est posée en séance, et la vérification montre que <strong>c'était vrai</strong> — le groupe avait bien été reprogrammé. <strong>Un objet peut être allusif ou incomplet ; il ne doit pas affirmer un fait faux</strong>, car une affirmation vérifiable se retourne au premier échange dans un milieu où les programmateurs se parlent.</p></div></div>
+    <div class="qa"><div class="q"><span>Q45.</span>Qu'est-ce qu'un objet bâti sur une info précise ?</div><div class="a"><p><strong>« L'erreur qui vide les salles le mardi »</strong> — construit parce qu'il savait que des clubs ouvraient certains soirs pour des soirées étudiantes qui ne fonctionnaient plus. <em class="q">« Là, tu n'es plus tout à fait dans du démarchage à froid. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q46.</span>Peut-on cibler un événement par son nom ?</div><div class="a"><p>Oui : <strong>« Vous cherchez encore un artiste pour [événement] ? »</strong> — <em class="q">« juste ça, ça peut passer, parce que c'est très direct. »</em> Et la variante <strong>« Vous cherchez une première partie locale ? »</strong>, jugée efficace.</p></div></div>
+    <div class="qa"><div class="q"><span>Q47.</span>Un objet qui désamorce l'absence de notoriété ?</div><div class="a"><p><strong>« Programmer local sans risquer une salle vide. »</strong> Il nomme la peur du destinataire plutôt que de vanter l'artiste.</p></div></div>
+
+    <div class="faqcat">L'accroche qui parle de lui</div>
+    <div class="qa"><div class="q"><span>Q48.</span>Que faire dès l'ouverture du mail ?</div><div class="a"><p><strong>Basculer immédiatement sur la cible.</strong> <em class="q">« L'erreur, ce serait de parler de toi directement. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q49.</span>Quelle est l'accroche dictée en séance ?</div><div class="a"><p><strong>« Le vrai risque, il est à chaque fois pour le programmateur. »</strong> Suivi de l'énumération de ses risques : salle vide, argent perdu, réputation, et des artistes qui se comportent mal.</p></div></div>
+    <div class="qa"><div class="q"><span>Q50.</span>Quelle est la phrase la plus habile de cette accroche ?</div><div class="a"><p><strong>« Programmer des artistes que vous connaissez, ou amenés par des gens que vous connaissez, c'est juste normal. »</strong> Elle légitime le comportement qui vous bloque, au lieu de le reprocher.</p></div></div>
+    <div class="qa"><div class="q"><span>Q51.</span>Quelle réaction cherche-t-on ?</div><div class="a"><p><strong>« Enfin quelqu'un qui ne me prend pas pour une vache à lait et qui a compris mon métier. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q52.</span>Comment enchaîner vers le clic ?</div><div class="a"><p>Avec une preuve et une question laissée ouverte : <strong>« à chaque fois qu'un programmateur nous a fait confiance, il nous a reprogrammés plusieurs fois. Pourquoi ? Vous le découvrirez en regardant notre EPK. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q53.</span>Quelle est la structure complète ?</div><div class="a"><p><strong>Son risque nommé → son réflexe légitimé → une preuve qui contredit le réflexe → une question ouverte avec le lien.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q54.</span>Faut-il valider le texte avec son groupe ?</div><div class="a"><p>Oui, et il le fait : <strong>« est-ce que ça fait sens pour vous, ou pas du tout ? »</strong> Un texte efficace que vous n'assumez pas sera démenti par votre voix au premier appel.</p></div></div>
+    <div class="qa"><div class="q"><span>Q55.</span>Y a-t-il une version plus simple ?</div><div class="a"><p>Oui : <strong>« On fait comment pour travailler avec vous ? »</strong> — <em class="q">« c'est le genre de mail que je serais capable d'envoyer à des milliers de salles. Je n'aime pas tourner autour du pot. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q56.</span>Que dit le corps de ce mail ?</div><div class="a"><p>Il assume de ne pas se survendre : <strong>« je n'ai pas envie de vous faire un énième mail de prospection en vous disant qu'on est la huitième merveille du monde, parce que ce n'est pas le cas. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q57.</span>Que faire d'un refus ?</div><div class="a"><p>À exploiter : <strong>« avec qui vous avez l'habitude de travailler ? Qui sont les tourneurs qui vous vendent le plus facilement des dates ? »</strong> puis <strong>« est-ce que quelque chose s'oppose à ce que vous me mettiez en contact avec eux ? »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q58.</span>Et un silence ?</div><div class="a"><p><strong>« Tu sais que l'accroche n'est pas forcément la bonne, et tu changes d'accroche. »</strong> Le silence informe sur votre accroche, pas sur votre valeur.</p></div></div>
+
+    <div class="faqcat">Les objets les plus performants du web</div>
+    <div class="qa"><div class="q"><span>Q59.</span>D'où viennent ces objets ?</div><div class="a"><p>D'un <strong>forum de copywriters</strong>, où sont recensés les objets d'email aux meilleurs taux d'ouverture mesurés. <em class="q">« Là, c'est vraiment global »</em> — tous secteurs confondus.</p></div></div>
+    <div class="qa"><div class="q"><span>Q60.</span>Quel est le plus performant ?</div><div class="a"><p><strong>« Bye »</strong> — <em class="q">« c'est vrai que c'est irrésistible. Tout le monde ouvre. »</em> Mais impossible à enchaîner, puisqu'il n'annonce rien.</p></div></div>
+    <div class="qa"><div class="q"><span>Q61.</span>Et celui à 69 % d'ouverture ?</div><div class="a"><p><strong>« J'avais raison et ce n'est pas bon pour vous. »</strong> Difficile à transposer : il suppose un historique avec le destinataire.</p></div></div>
+    <div class="qa"><div class="q"><span>Q62.</span>Lequel a-t-il réellement pratiqué ?</div><div class="a"><p><strong>« Bravo [Prénom] »</strong>, sur les programmateurs de gros festivals, sous la forme : <strong>« Bravo pour la saison, [Prénom]. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q63.</span>Que disait le corps du mail ?</div><div class="a"><p><strong>« La programmation était exceptionnelle. Je pense que tu vas prendre le temps de te reposer, mais d'ici deux ou trois mois tu seras déjà reparti sur la prochaine édition. Et à ce moment-là, j'aurai des choses à te proposer. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q64.</span>Quel résultat ?</div><div class="a"><p><strong>« À chaque fois, je prenais 100 % de taux d'ouverture. »</strong> Parce que <em class="q">« pour eux, ce n'était pas un mail de prospection, c'était un mail de félicitations »</em>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q65.</span>Quel était le vrai objectif de ce mail ?</div><div class="a"><p>Technique : <strong>« s'assurer que les mails ne tombent pas dans les spams, et qu'ils me répondent. »</strong> Une réponse, même un simple merci, change le statut de votre adresse pour l'envoi suivant.</p></div></div>
+    <div class="qa"><div class="q"><span>Q66.</span>Quelle est sa limite ?</div><div class="a"><p><strong>« On ne peut pas le faire en masse, celui-là. »</strong> Il exige un prénom, une saison réellement observée et une phrase juste.</p></div></div>
+    <div class="qa"><div class="q"><span>Q67.</span>Et le « Au cas où vous l'auriez raté » ?</div><div class="a"><p>La version vantarde est écartée — <strong>« c'est prétentieux aussi »</strong>. La version retenue déplace l'affirmation sur un chiffre : <strong>« on a cumulé des dizaines de millions de vues sur Internet. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q68.</span>Pourquoi un chiffre plutôt qu'un superlatif ?</div><div class="a"><p>Parce que <strong>« le meilleur groupe local » est une opinion, un chiffre est un fait</strong> — même effet, sans le risque.</p></div></div>
+    <div class="qa"><div class="q"><span>Q69.</span>Comment enchaîner après ce chiffre ?</div><div class="a"><p><strong>« Et pourtant, on est un groupe local. Ça fait quelques années qu'on tourne dans la région, et on n'a pas eu la chance de participer à votre événement. Il n'est jamais trop tard. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q70.</span>Comment désamorcer le fait qu'il ne vous connaisse pas ?</div><div class="a"><p><strong>« Si vous ne nous connaissez pas, c'est normal : on est assez discrets dans le coin. Pourtant, ça ne nous a pas empêchés de tourner là, là et là. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q71.</span>Et la sortie vers le clic ?</div><div class="a"><p><strong>« Notre vraie valeur est sur scène, et le mieux pour ça, c'est de regarder un extrait de live. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q72.</span>Ces objets personnalisés sont-ils automatisables ?</div><div class="a"><p>Oui, avec un modèle à champs variables — <strong>ville, nom de l'événement, prénom du programmateur.</strong> <em class="q">« Dans ma structure, tu ne peux pas le généraliser, mais tu peux faire un autre email. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q73.</span>Quel est le principe qui résume tout ?</div><div class="a"><p><strong>« Un mail de prospection à froid n'est pas fait pour vendre. Il est juste fait pour dire : regardez, on est là, vous ne l'aviez pas vu, et vous pouvez en savoir plus en cliquant. »</strong></p></div></div>
+
+    <div class="faqcat">Ouvertures, clics et gestion de la base</div>
+    <div class="qa"><div class="q"><span>Q74.</span>Quelle métrique compte le plus ?</div><div class="a"><p><strong>Le taux de clic</strong>, parce qu'<em class="q">« en prospection froide, votre autorépondeur va être très méfiant de vous »</em>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q75.</span>Comment lire un petit envoi ?</div><div class="a"><p>Sur 25 emails : <strong>4 ouverts et 0 clic, « ce n'est pas bon » ; 4 ouverts et 4 clics, « c'est très bon ».</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q76.</span>Quelle erreur vaut-il mieux faire ?</div><div class="a"><p><strong>« Il vaut mieux se tromper sur le taux d'ouverture mais avoir un bon taux de clic, plutôt que l'inverse. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q77.</span>Peut-on envoyer plusieurs tests à la même adresse ?</div><div class="a"><p>Deux au maximum : <strong>« si ça ne passe pas au premier tour ni au deuxième, tu risques de te retrouver indésirable. Il faut supprimer l'email de la base. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q78.</span>Comment lire une campagne sur 100 adresses ?</div><div class="a"><p><strong>17 ouvertures = la base est active. 10 clics = ceux-là, on les relance. 83 non-ouvertures = le vrai problème.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q79.</span>Comment relance-t-on un contact qui a ouvert sans cliquer ?</div><div class="a"><p>En changeant d'angle, pas de message : <strong>« on a peut-être joué sur le côté groupe local ; maintenant, on va jouer sur le côté groupe sensationnel. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q80.</span>Et les non-ouvreurs ?</div><div class="a"><p>On attend : <strong>« on va laisser un laps de temps — peut-être dix jours »</strong>, ce qui leur laisse aussi le temps d'ouvrir.</p></div></div>
+    <div class="qa"><div class="q"><span>Q81.</span>Quel est l'enjeu de la deuxième tentative ?</div><div class="a"><p><strong>« Là, il faut idéalement ne pas se planter. Si ça accroche, ça les fait revenir. Si ça n'accroche pas, ça commence à être difficile. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q82.</span>Où se lisent les taux ?</div><div class="a"><p><strong>Dans l'autorépondeur</strong>, c'est-à-dire la plateforme d'envoi — pas dans votre messagerie. <em class="q">« C'est un outil que vous allez greffer plus tard. »</em></p></div></div>
+
+    <div class="faqcat">La méthode du prétexte</div>
+    <div class="qa"><div class="q"><span>Q83.</span>Pourquoi personne ne l'applique ?</div><div class="a"><p><strong>« Je crois que je l'ai dit à tous les artistes que je mentore. Il n'y en a pas un qui veut le faire. »</strong> Avec une exception : quelqu'un l'a fait et <em class="q">« s'est fait des contacts en or »</em>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q84.</span>Quel est le premier prétexte ?</div><div class="a"><p><strong>Le livre ou l'étude</strong> : <em class="q">« vous jouez les étudiants, c'est tout. »</em> Un livre sur la programmation musicale, et 20 minutes au téléphone.</p></div></div>
+    <div class="qa"><div class="q"><span>Q85.</span>Faut-il vraiment écrire le livre ?</div><div class="a"><p><strong>« Pas forcément »</strong> — une thèse, une étude, une série d'entretiens. <strong>Mais le projet doit exister réellement</strong>, même modestement : ce milieu est petit et un prétexte inventé se découvre.</p></div></div>
+    <div class="qa"><div class="q"><span>Q86.</span>Quel est le meilleur prétexte ?</div><div class="a"><p><strong>Le podcast.</strong> <em class="q">« Le must, du must. Ça, c'est incroyable. Maintenant, dès que je veux réseauter avec quelqu'un, je fais un podcast avec. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q87.</span>Pourquoi le podcast fonctionne-t-il ?</div><div class="a"><p><strong>« Il bloque un moment privilégié. Après, on a déjà une heure ensemble, c'est terminé, le gars ne peut plus rien te refuser. »</strong> Ce n'est pas l'audience qui opère, c'est l'heure passée ensemble.</p></div></div>
+    <div class="qa"><div class="q"><span>Q88.</span>Quelle variante pratiquait-il ?</div><div class="a"><p><strong>Inviter sur un tournage de clip</strong> : un lieu impressionnant, un accueil personnalisé, un déjeuner. <em class="q">« Il passe une heure avec nous, il vient manger, ça y est, c'est plié. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q89.</span>Et le troisième prétexte ?</div><div class="a"><p><strong>L'invitation à dîner.</strong> Objet : <em class="q">« Vous êtes dispo pour un dîner ? »</em> — <em class="q">« quand ils ne connaissent pas la personne, ils sont curieux. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q90.</span>Que dit ce mail ?</div><div class="a"><p><strong>« Non, on ne se connaît pas. J'ai récupéré votre email à tel endroit. Je serais honoré que vous acceptiez une invitation à dîner. Le meilleur moyen d'apprendre, c'est d'inviter à dîner quelqu'un qui a déjà fait ce que vous voulez faire. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q91.</span>Ça coûte cher ?</div><div class="a"><p><strong>« À Paris, oui. En province, ça va mieux. Mais c'était à chaque fois des échanges intéressants. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q92.</span>Qu'est-ce que ça a produit ?</div><div class="a"><p>La rencontre du <strong>dirigeant d'un gros organisateur de concerts</strong>, qui a ensuite mis le projet sur des plans et <strong>engagé quelqu'un pour leur vendre des dates.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q93.</span>Pourquoi avait-il accepté ce dîner ?</div><div class="a"><p><strong>« C'est l'audace dont tu as fait preuve. J'ai trouvé ça cool. Je ne sais pas qui tu es, mais je me suis dit : allez, pourquoi pas ? »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q94.</span>Quel est le principe commun aux trois prétextes ?</div><div class="a"><p><strong>« Ça va flatter leur ego, ils ne vont pas être sur la défensive. Ça casse toutes les défenses. On ne vous voit pas comme un artiste qui essaye de booker une date. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q95.</span>Quel parallèle l'éclaire ?</div><div class="a"><p>Les featurings. Avant : <em class="q">« je les démarchais comme beaucoup les démarchaient. »</em> Maintenant : il passe par les producteurs et managers, <strong>« ils ne se méfient pas, parce que je ne suis pas positionné comme tous les autres. »</strong></p></div></div>
+
+    <div class="faqcat">Le protocole podcast</div>
+    <div class="qa"><div class="q"><span>Q96.</span>Qui faut-il inviter ?</div><div class="a"><p><strong>Des gens qui pèsent</strong> : quelqu'un qui a la main sur plusieurs grosses salles, un gros festival ou une scène de musiques actuelles. <em class="q">« Pas le petit comité des fêtes de la commune d'en bas de chez vous. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q97.</span>Que faut-il préparer avant ?</div><div class="a"><p><strong>Un nom et un concept de podcast</strong> — <em class="q">« après, tu ne fais pas attention à ça et tu avances. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q98.</span>Quels sont les trois ressorts du script d'invitation ?</div><div class="a"><p><strong>La rareté</strong> (« les deux premiers épisodes »), <strong>la levée d'objection</strong> (« il n'y a pas de piège ») et <strong>le bénéfice pour l'invité</strong> (sa transmission, pas votre audience).</p></div></div>
+    <div class="qa"><div class="q"><span>Q99.</span>Quel rendement attendre ?</div><div class="a"><p><strong>« Sur 25 ou 30 personnes démarchées, il y en a au moins deux qui vont répondre positivement. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q100.</span>Et ceux qui refusent d'être filmés ?</div><div class="a"><p><strong>« Si vous voulez, on fait un truc qu'en audio, il n'y a aucun souci. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q101.</span>À quelle heure fixer le rendez-vous ?</div><div class="a"><p><strong>Vers 10 h ou 10 h 30</strong>, pour enchaîner sur un déjeuner : <em class="q">« derrière, vous ne lui laissez pas le choix : on a réservé un restaurant, ils nous attendent pour midi. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q102.</span>Quel est le vrai moment utile ?</div><div class="a"><p><strong>Le déjeuner, pas l'interview.</strong> <em class="q">« Dès que c'est terminé, vous l'amenez manger. Et là, vous travaillez le réseau. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q103.</span>Comment se vend-on, alors ?</div><div class="a"><p>On ne se vend pas : <strong>c'est lui qui pose les questions.</strong> <em class="q">« Lui, par contre, il aura des questions : et vous, comment ça vous est venu ce projet ? Et là, vous vous vendez juste tranquillement. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q104.</span>Quand formule-t-on la demande ?</div><div class="a"><p><strong>En dernier, sans forcer</strong> : <em class="q">« si tu as des tuyaux, si tu as même un réseau vers lequel tu peux nous recommander, ou des événements sur lesquels la production n'est pas encore terminée. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q105.</span>Pourquoi ça aboutit ?</div><div class="a"><p><strong>« Le gars se sentira redevable parce qu'il viendra de passer un bon moment. S'il a un plan, il va vous mettre dessus. S'il n'en a pas, il va vous donner une connexion qui mène à un plan. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q106.</span>Faut-il être journaliste ?</div><div class="a"><p>Non : <strong>« ça s'improvise. C'est juste humainement. C'est comme si demain tu recevais quelqu'un chez toi : tu vas essayer de trouver des points d'accroche. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q107.</span>Quelle est la seule préparation nécessaire ?</div><div class="a"><p><strong>Connaître les grandes étapes de son parcours</strong>, pour qu'il n'en oublie pas une importante et pour pouvoir approfondir ce qui vous intéresse.</p></div></div>
+    <div class="qa"><div class="q"><span>Q108.</span>Quelle est la technique de relance décisive ?</div><div class="a"><p>S'arrêter sur son propre recrutement : <strong>« tu t'es fait embauché comment ? Tu as envoyé un CV, tu as appelé, tu t'es présenté ? Raconte-nous. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q109.</span>Pourquoi cette question précisément ?</div><div class="a"><p><strong>« Parce que ça veut dire que lui aussi, il a prospecté. Donc il sait ce que ça veut dire. Il sait que c'est dur. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q110.</span>Quelles questions poser en fin d'entretien ?</div><div class="a"><p><strong>« Je suis artiste, je veux passer dans ton festival : comment je fais pour te démarcher ? Comment je trouve ton email ? Comment je suis sûr que c'est le bon ? »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q111.</span>Quelle est la valeur de ces réponses ?</div><div class="a"><p><strong>« Les clés qu'il te donne, elles sont valables pour plein d'autres gars comme lui. »</strong> Une heure vous donne le mode d'emploi de tout un niveau de programmateurs.</p></div></div>
+    <div class="qa"><div class="q"><span>Q112.</span>Combien faut-il parler ?</div><div class="a"><p><strong>« Toi, tu parles à peine 30 % du temps. Le reste, c'est l'invité »</strong> — et il faut le lui dire explicitement.</p></div></div>
+    <div class="qa"><div class="q"><span>Q113.</span>Faut-il publier l'épisode ?</div><div class="a"><p>Oui, sans effort de communication : <strong>« tu peux avoir trois vues. Tu le laisses juste exister. »</strong> L'audience n'a jamais été l'objectif — mais l'épisode rend le prétexte vrai.</p></div></div>
+    <div class="qa"><div class="q"><span>Q114.</span>Quel cas donne-t-il en preuve ?</div><div class="a"><p><strong>Deux ans de tentatives infructueuses</strong> pour joindre un décideur majeur du streaming, débloquées par <strong>une proposition de podcast.</strong> Prévu 40 minutes, il est resté <strong>une heure vingt.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q115.</span>Qu'a dit l'invité en partant ?</div><div class="a"><p><strong>« C'était génial. Je me sens vivant d'avoir partagé tout ça. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q116.</span>Qu'a-t-il appris dans cet entretien ?</div><div class="a"><p><strong>Comment tout fonctionne de l'autre côté</strong> : les points d'alerte des équipes de curation, et <strong>comment les maisons de disques influencent les chiffres pour forcer la main.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q117.</span>Les playlists sont-elles hors d'atteinte pour un petit artiste ?</div><div class="a"><p><strong>« Ce n'est pas que c'est impossible, c'est que le jeu est pipé. »</strong> Avec une nuance : <em class="q">« il est pipé dans les deux sens — un matin, sans rien comprendre, tu peux faire 12 millions de streams. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q118.</span>Y a-t-il un revers à cette familiarité ?</div><div class="a"><p>Oui : quelques mois plus tard, l'invité a tenté de renégocier un tarif déjà convenu. La réponse : <strong>« soit tu honores ta parole, soit on s'arrête là. »</strong> Et l'accord a été tenu.</p></div></div>
+
+    <div class="faqcat">Le réseau</div>
+    <div class="qa"><div class="q"><span>Q119.</span>Comment se construit un réseau ?</div><div class="a"><p><strong>« Le réseau, il est facile à avoir quand tu as un truc qui est bankable. Quand tu n'es pas bankable, tu as moins de réseau. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q120.</span>Quelles phases a-t-il vécues ?</div><div class="a"><p>Trois : <strong>le succès</strong> (« tout le monde m'appelait toute la journée »), <strong>deux ou trois ans de vide</strong> (« ils n'avaient pas le temps »), puis <strong>le retour en masse</strong> après un nouveau projet qui a explosé.</p></div></div>
+    <div class="qa"><div class="q"><span>Q121.</span>Que reste-t-il, alors ?</div><div class="a"><p><strong>« Je n'ai pas un gros réseau. Mais je sais comment bouger les gens, par contre. »</strong> Ce qui se construit durablement, c'est la méthode, pas le carnet.</p></div></div>
+    <div class="qa"><div class="q"><span>Q122.</span>Et les amis dans tout ça ?</div><div class="a"><p><strong>« Et dedans, il y a les amis. Il y a les amis du business. Mais ça, il n'y en a pas beaucoup. »</strong></p></div></div>
+
+    <div class="faqcat">Revue d'EPK</div>
+    <div class="qa"><div class="q"><span>Q123.</span>Comment ouvrir un EPK ?</div><div class="a"><p>Par <strong>une vidéo avec des phrases qui apparaissent</strong>, construite <strong>comme une bande-annonce de film</strong> : du mouvement et des mots avant toute information.</p></div></div>
+    <div class="qa"><div class="q"><span>Q124.</span>Quels témoignages mettre ?</div><div class="a"><p>Ceux qui <strong>ne parlent que du concert</strong> — c'est ce qu'un programmateur veut lire. <em class="q">« Vraiment, ça ne parle que du concert. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q125.</span>Faut-il vérifier les citations trouvées par une IA ?</div><div class="a"><p><strong>Impérativement.</strong> La question est posée en séance — <em class="q">« ou alors l'IA a inventé »</em> — et la vérification se fait sur les sources, qui doivent être consultables. <strong>Aucune citation ne va dans un EPK sans que sa source ait été ouverte et lue.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q126.</span>Faut-il citer la source dans l'EPK ?</div><div class="a"><p>Oui : <strong>« le fait qu'on mette ça, il faut quand même qu'on le cite. »</strong> La source est nommée, pas seulement vérifiée.</p></div></div>
+    <div class="qa"><div class="q"><span>Q127.</span>Comment traiter un bloc de biographie trop compact ?</div><div class="a"><p><strong>Insérer un titre en citation au milieu</strong> pour casser le bloc. <em class="q">« Ce n'est pas que c'est trop long, c'est peut-être ta mise en page. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q128.</span>Que faire des citations anciennes ?</div><div class="a"><p><strong>Retirer les dates et le nom du réseau</strong> quand elles remontent à plusieurs années, <em class="q">« pour que ce soit toujours plus ou moins d'actualité »</em>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q129.</span>Quoi d'autre à actualiser ?</div><div class="a"><p><strong>La fin de la chronologie</strong>, si elle s'arrête à une année passée — et <strong>l'accroche</strong>, si elle paraît trop solennelle par rapport au reste de la page.</p></div></div>
+    <div class="qa"><div class="q"><span>Q130.</span>Comment présenter un compteur de vues ?</div><div class="a"><p><strong>Animé</strong> : le faire défiler de zéro jusqu'au chiffre réel. <em class="q">« Ça crée une petite dynamique sympathique. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q131.</span>Pourquoi ajouter un menu de navigation ?</div><div class="a"><p>Parce qu'<strong>un EPK est réouvert, pas lu une fois</strong> : <em class="q">« il y a des gens qui vont revenir dessus plusieurs fois, et pour être certains d'aller à l'endroit où ils veulent, ils auront besoin de ce petit raccourci. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q132.</span>Un EPK trop long, ça existe ?</div><div class="a"><p>La question est posée, et la réponse est que celui-ci est <strong>« largement suffisant »</strong>. Le doute portait sur la sélection des témoignages, d'où la consigne de <strong>relire la page à trois avant l'envoi.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q133.</span>Quel détail technique vérifier ?</div><div class="a"><p>Que <strong>le bouton de contact ouvre bien un message pré-adressé.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q134.</span>Quel est le vrai enjeu d'un bon EPK ?</div><div class="a"><p><strong>Qu'on clique dessus.</strong> <em class="q">« Il faut absolument que les gens cliquent sur le lien, parce que votre EPK, il est magnifique. »</em> Un excellent dossier que personne n'ouvre ne sert à rien.</p></div></div>
+    <div class="qa"><div class="q"><span>Q135.</span>À qui revient le mérite quand une IA a fait le travail ?</div><div class="a"><p>À celui qui a décidé. <strong>« Non, beau boulot. Assume. »</strong> L'outil exécute ; le choix de ce qu'on met, retire, vérifie et met en avant est entièrement humain.</p></div></div>
+    <div class="qa"><div class="q"><span>Q136.</span>Qui rédige le mail, finalement ?</div><div class="a"><p>Un premier jet par la personne qui l'a travaillé, une reprise ensuite — <strong>et surtout : « il faut que vous vous l'appropriiez. »</strong> Un mail dicté ne fonctionne que réécrit dans votre voix.</p></div></div>
+
+    <div class="faqcat">Associés et structure</div>
+    <div class="qa"><div class="q"><span>Q137.</span>Un associé minoritaire est-il sans pouvoir ?</div><div class="a"><p>Au contraire : <strong>« un associé, même minoritaire, a un pouvoir de nuisance immense. »</strong> Le cas raconté concerne un associé à 15 %.</p></div></div>
+    <div class="qa"><div class="q"><span>Q138.</span>Qu'a-t-il pu faire ?</div><div class="a"><p><strong>Refuser de signer le procès-verbal d'assemblée générale</strong>, puis <strong>lancer une procédure pour faute de gestion</strong> afin de tenter d'évincer le dirigeant.</p></div></div>
+    <div class="qa"><div class="q"><span>Q139.</span>Comment cela s'est-il terminé ?</div><div class="a"><p><strong>La procédure a été refusée, faute de preuves</strong> — puis l'associé a exigé le rachat de ses parts, dans des conditions décrites comme défavorables.</p></div></div>
+    <div class="qa"><div class="q"><span>Q140.</span>Qu'est-ce qui l'a protégé ?</div><div class="a"><p><strong>« J'ai amené toute la documentation de ma gestion. Donc il n'y a rien qui dépasse. »</strong> Procès-verbaux à jour, décisions écrites, justificatifs classés.</p></div></div>
+    <div class="qa"><div class="q"><span>Q141.</span>Quelle est la prévention ?</div><div class="a"><p><strong>Un pacte d'associés.</strong> <em class="q">« Si tu n'as pas de pacte d'associés, même quelqu'un qui a jusqu'à 10 % peut vraiment être lourd. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q142.</span>Que prévoit un pacte ?</div><div class="a"><p><strong>Les modalités de sortie et de valorisation des parts, les clauses d'agrément sur les cessions, les obligations de vote, et les mécanismes de sortie forcée ou conjointe.</strong> À faire quand tout va bien, avec un professionnel du droit.</p></div></div>
+    <div class="qa"><div class="q"><span>Q143.</span>Président et majoritaire, est-ce la même chose ?</div><div class="a"><p>Non, et cela mérite d'être formalisé : <strong>les pouvoirs ne sont pas les mêmes, et la révocation d'un dirigeant relève de l'assemblée.</strong> Vrai aussi — surtout — dans une société familiale.</p></div></div>
+
+  </div>
+</div>
+<div class="plan">
+  <h2>Plan d'action</h2>
+  <p>Cochez au fur et à mesure. Les quatre phases suivent la logique de la session : comprendre la cible, écrire le message, gérer les envois, puis court-circuiter la prospection par la relation.</p>
+
+  <div class="phase">Phase 1 — Comprendre la cible avant d'écrire</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Historique</b>Lister les programmateurs avec qui vous avez déjà échangé, et noter pour chacun ce qui avait déclenché le oui</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Relances dormantes</b>Reprendre contact avec ceux qui vous avaient programmé : un rendez-vous manqué n'est pas un refus</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Deux ou trois conversations</b>Provoquer un apéro ou un appel avec deux ou trois programmateurs, sans rien vendre, pour comprendre leurs contraintes et leur parcours</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Réseaux de salles</b>Identifier les salles de votre région qui appartiennent à un réseau et pratiquent l'échange d'artistes — elles peuvent prospecter pour vous</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Demande de noms</b>À chaque échange, demander quels autres programmateurs ils connaissent et avec qui ils sont en contact</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Ciblage géographique</b>Lister d'abord les villes à portée de route où vous n'avez jamais joué, avant de viser les grandes métropoles</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Anomalies</b>Pour chaque cible, repérer une anomalie exploitable : un jour de programmation inhabituel, un créneau non pourvu, une tendance de saison</span></li>
+  </ul>
+
+  <div class="phase">Phase 2 — Écrire le message</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Ordre respecté</b>Travailler dans l'ordre : l'objet d'abord, le corps ensuite, l'EPK en dernier — un objectif par étage, et aucun n'est de vendre</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Rédaction humaine</b>Écrire soi-même, sans faire rédiger par une IA : les données publiques sur le métier de programmateur sont trop rares pour qu'un modèle soit juste</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Deux objets</b>Préparer exactement deux objets à tester, pas plus, puisque la base est froide</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Test de véracité</b>Vérifier que chaque affirmation de l'objet est vraie et vérifiable — allusif, oui ; faux, jamais</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Accroche sur son risque</b>Ouvrir le corps du mail sur le risque du programmateur — salle vide, argent perdu, réputation — et légitimer son réflexe de ne travailler qu'avec ses habitudes</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Preuve</b>Placer une preuve qui contredit ce réflexe : une reprogrammation, un chiffre réel, un passage dans une salle comparable</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Question ouverte</b>Terminer sur une question laissée sans réponse, et le lien vers l'EPK</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Variante directe</b>Préparer aussi la version courte : « On fait comment pour travailler avec vous ? », qui s'envoie en volume</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Champs variables</b>Construire le modèle avec deux ou trois champs à personnaliser : ville, nom de l'événement, prénom du destinataire</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Validation interne</b>Faire relire le texte par tous les membres du projet : ce qu'on n'assume pas sera démenti par la voix au premier appel</span></li>
+  </ul>
+
+  <div class="phase">Phase 3 — Envoyer, mesurer, relancer</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Autorépondeur</b>Installer une plateforme d'envoi qui mesure ouvertures et clics — sans elle, aucune des règles de gestion n'est applicable</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Mail d'amorce</b>Sur les cibles les plus importantes, envoyer d'abord un message qui ne demande rien — des félicitations sur leur saison, avec leur prénom — pour obtenir une réponse et sortir des spams</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Lecture des résultats</b>Juger la campagne sur le taux de clic, pas sur le taux d'ouverture</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Segmentation</b>Séparer trois listes : ceux qui ont cliqué, ceux qui ont ouvert sans cliquer, ceux qui n'ont pas ouvert</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Relance des ouvreurs</b>Les relancer avec un angle différent, pas avec le même message reformulé</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Délai</b>Attendre une dizaine de jours avant de relancer ceux qui n'ont pas ouvert</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Règle d'arrêt</b>Après deux échecs sur une adresse, la retirer de la base plutôt que d'insister</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Exploitation des refus</b>Sur chaque réponse négative, demander avec quels tourneurs ils travaillent, puis demander à être mis en relation</span></li>
+  </ul>
+
+  <div class="phase">Phase 4 — Court-circuiter la prospection</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Choisir un prétexte</b>Décider lequel des trois vous ressemble : une série d'entretiens, un podcast, ou des invitations à déjeuner</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Le rendre vrai</b>Faire réellement exister le projet annoncé, même modestement — un podcast à trois vues suffit, un prétexte inventé se découvre</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Nommer</b>Donner un nom et un concept au format, puis ne plus y penser</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Liste d'invités</b>Constituer une liste de 25 à 30 décideurs qui pèsent : plusieurs grosses salles, un gros festival, une scène de musiques actuelles</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Invitation</b>Écrire le message avec ses trois ressorts : la rareté des premiers épisodes, « il n'y a pas de piège », et le bénéfice pour l'invité</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Option audio</b>Proposer d'emblée une version sans caméra à ceux que la vidéo freine</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Créneau</b>Fixer le rendez-vous vers 10 h ou 10 h 30, et réserver le restaurant à l'avance</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Préparation</b>Préparer les grandes étapes de son parcours pour pouvoir approfondir, sans écrire un questionnaire</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Relance clé</b>Prévoir la question « tu t'es fait embaucher comment ? » : elle le replace dans sa propre expérience de prospection</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Questions de fin</b>Demander explicitement comment on le démarche, comment on trouve son email, et comment on est sûr que c'est le bon</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Parole</b>Ne pas dépasser 30 % du temps de parole, et le dire à l'invité en début d'enregistrement</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>La demande</b>Au déjeuner, parler de son projet seulement quand il pose la question — et formuler la demande de recommandation en dernier</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Publication</b>Publier l'épisode sans effort de communication, et passer au suivant</span></li>
+  </ul>
+
+  <div class="phase">Bonus — Les deux dossiers administratifs</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Formation financée</b>Vérifier les trois obligations : volume d'heures dans la période, QCM d'autoévaluation, nombre de visios avec feuilles de présence signées</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Progression</b>Suivre les modules dans un ordre cohérent, pour que le temps de connexion corresponde au volume des vidéos</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Crédit d'impôt</b>Vérifier son affiliation à l'organisme instructeur avant toute démarche</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Pièces</b>Préparer les statuts mentionnant la production et l'édition phonographique, plutôt que de modifier son immatriculation</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Contrat</b>Rassembler le contrat qui vous lie au projet : c'est lui qui justifie le rôle de producteur</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Calendrier</b>Déposer la demande d'agrément provisoire avant d'engager les dépenses</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Agrément définitif</b>Prévoir un extrait d'immatriculation de moins de trois mois, les statuts et la pièce d'identité du dirigeant</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Pacte d'associés</b>Si la société a plusieurs associés, faire rédiger un pacte maintenant, pendant que tout va bien</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Documentation</b>Tenir à jour procès-verbaux, décisions écrites et justificatifs : c'est la seule défense contre une accusation de faute de gestion</span></li>
+  </ul>
+</div>
+
+<div class="quiz">
+  <h2>Quiz — 8 questions</h2>
+  <p>Pour vérifier que les mécanismes de la session sont bien assimilés.</p>
+
+  <div class="qz" data-g="2">
+    <p class="qt">1. Quel est l'ordre de travail à respecter ?</p>
+    <div class="opt">L'EPK d'abord, puisque c'est lui qui convainc, puis le mail, puis l'objet</div>
+    <div class="opt">Peu importe l'ordre, tant que les trois éléments sont de bonne qualité</div>
+    <div class="opt">L'objet pour faire ouvrir, le mail pour faire cliquer, l'EPK pour donner envie de prendre contact</div>
+    <div class="fb">« C'est vraiment ça l'ordre logique. » Chaque étage a un seul objectif, et aucun des trois n'a pour objectif de vendre une date — c'est ce qui rend la séquence tenable, puisqu'on ne demande jamais au destinataire plus que le geste suivant. Et c'est aussi pourquoi un excellent EPK ne sert à rien si l'objet ne fait pas ouvrir.</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <p class="qt">2. Pourquoi limiter les tests à deux versions en prospection froide ?</p>
+    <div class="opt">Parce qu'au-delà, les résultats deviennent statistiquement illisibles</div>
+    <div class="opt">Parce que chaque envoi sans engagement abîme la réputation du domaine d'envoi</div>
+    <div class="opt">Parce que les programmateurs reconnaissent les emails qui viennent d'un même expéditeur</div>
+    <div class="fb">« Si tu me dis : j'ai une base de 200 contacts que je connais, qui me connaissent, on peut faire des tests. Mais là, comme tu tapes à froid, tu es un peu obligé de limiter. » L'autorépondeur devient méfiant, et après deux échecs sur une adresse il faut la retirer de la base plutôt que d'insister. C'est pour cette raison que le texte doit être bon avant l'envoi, pas après.</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <p class="qt">3. Pourquoi l'IA est-elle mauvaise pour écrire ce mail précis ?</p>
+    <div class="opt">Parce qu'il existe très peu de données publiques sur le métier et le mindset des programmateurs</div>
+    <div class="opt">Parce qu'elle refuse de rédiger des messages commerciaux non sollicités</div>
+    <div class="opt">Parce qu'elle écrit dans un style trop familier pour ce type d'interlocuteur</div>
+    <div class="fb">« Même la liste des contraintes, elle va les présupposer à partir des données qu'elle a. Mais en réalité, il n'y a pas assez de données sur le mindset des programmateurs. » La vérification est facile : les interviews de programmateurs d'événements sont rares, et surtout anglophones. En revanche, l'outil a parfaitement fonctionné pour aller chercher sur un forum de copywriters les objets d'email les mieux mesurés : bon pour retrouver ce qui est documenté, mauvais pour inventer ce qui ne l'est pas.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <p class="qt">4. Quelle phrase rend l'accroche efficace auprès d'un programmateur ?</p>
+    <div class="opt">Lui rappeler qu'il passe à côté d'un projet que ses confrères ont déjà repéré</div>
+    <div class="opt">Lui annoncer des chiffres de streams et de réseaux sociaux dès la première ligne</div>
+    <div class="opt">Lui dire que programmer des artistes qu'il connaît déjà, c'est juste normal</div>
+    <div class="fb">C'est le mouvement le plus habile de l'accroche dictée en séance : on nomme ses risques — salle vide, argent perdu, réputation, artistes qui se comportent mal — puis on légitime le réflexe qui vous bloque, au lieu de le lui reprocher. La réaction visée : « enfin quelqu'un qui ne me prend pas pour une vache à lait et qui a compris mon métier. » Les chiffres viennent après, comme preuve, jamais en ouverture.</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <p class="qt">5. Quelle métrique faut-il regarder en priorité ?</p>
+    <div class="opt">Le taux d'ouverture, puisque c'est la première barrière à franchir</div>
+    <div class="opt">Le taux de clic, parce que c'est lui qui rassure l'autorépondeur et qualifie l'intérêt</div>
+    <div class="opt">Le taux de réponse, seul indicateur d'un intérêt réel pour le projet</div>
+    <div class="fb">« Il vaut mieux se tromper sur le taux d'ouverture mais avoir un bon taux de clic, plutôt que de se tromper sur le taux de clic. » Sur 25 envois : 4 ouverts sans clic, ce n'est pas bon ; 4 ouverts et 4 clics, c'est très bon. C'est aussi ce qui condamne les objets trop racoleurs — ils font ouvrir, puis décevoir, et le clic ne vient pas.</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <p class="qt">6. À quoi sert un mail de félicitations à un programmateur de festival ?</p>
+    <div class="opt">À obtenir une réponse, ce qui installe votre adresse en boîte de réception pour la suite</div>
+    <div class="opt">À obtenir une date, puisque la flatterie désarme la négociation</div>
+    <div class="opt">À tester si l'adresse email récupérée est encore valide</div>
+    <div class="fb">« L'objet de l'email, ce n'était pas de prospecter : c'était de s'assurer que les mails ne tombent pas dans les spams, et qu'ils me répondent. » Ils répondent un simple « merci, c'est gentil » et passent à autre chose — mais la relation technique est établie, et le mail suivant arrivera. 100 % de taux d'ouverture à chaque fois, avec une limite assumée : ça ne s'envoie pas en masse.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <p class="qt">7. Pourquoi le podcast fonctionne-t-il mieux que l'email ?</p>
+    <div class="opt">Parce qu'il donne de la visibilité au projet artistique auprès d'une nouvelle audience</div>
+    <div class="opt">Parce qu'il prouve le sérieux du projet et sert de support dans l'EPK</div>
+    <div class="opt">Parce qu'il bloque une heure de relation, et qu'on ne vous voit plus comme un artiste qui cherche une date</div>
+    <div class="fb">« L'avantage du podcast, c'est qu'il bloque un moment privilégié. Après, on a déjà une heure ensemble, c'est terminé, le gars ne peut plus rien te refuser. » L'audience n'a jamais été l'objectif : « tu peux avoir trois vues, tu le laisses juste exister. » Ce n'est pas le podcast qui vous intéresse, c'est le prétexte — et le vrai moment utile est le déjeuner qui suit, d'où le rendez-vous fixé vers 10 h 30.</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <p class="qt">8. Que protège une gestion documentée dans une société à plusieurs ?</p>
+    <div class="opt">Elle garantit que le dirigeant ne peut pas être révoqué par l'assemblée</div>
+    <div class="opt">Elle permet de répondre à une accusation de faute de gestion lancée par un associé</div>
+    <div class="opt">Elle dispense de rédiger un pacte d'associés lorsque le dirigeant est majoritaire</div>
+    <div class="fb">« Pour asseoir le truc, j'ai amené toute la documentation de ma gestion. Donc il n'y a rien qui dépasse, et je le sais très bien. Ça a un peu cassé cette dynamique. » Dans le cas raconté, un associé à 15 % avait refusé de signer un procès-verbal d'assemblée puis lancé une procédure pour l'évincer : elle a été refusée faute de preuves. La vraie prévention reste le pacte d'associés — « si tu n'as pas de pacte, même quelqu'un qui a 10 % peut vraiment être lourd » — à faire quand tout va bien, avec un professionnel du droit.</div>
+  </div>
+  <div class="score" id="score"></div>
+</div>
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="wrap">
+    <p><b>Producteur à Succès</b> — Session de mentorat du 19 novembre 2026</p>
+    <p>195 chapitres · 15 sections · 143 questions-réponses · plan d'action en 5 phases</p>
+    <p>Les personnes présentes ne sont pas nommées, et aucun nom de groupe, de partenaire, de ville ou de prestataire cité en séance n'est repris. Les éléments personnels restent dans le replay privé. Les passages fiscaux, sociaux et contractuels sont des retours d'expérience, pas des avis juridiques.</p>
+  </div>
+</footer>
+<script>
+var CH = [[0, "Retour de visio avec le studio"], [23, "Pourquoi ils proposent la distribution"], [60, "L'accompagnement complet, le must mais cher"], [72, "Demander des devis avant de décider"], [121, "Caler le rythme des sessions"], [186, "La formation validée : et maintenant ?"], [217, "Cinquante heures : le hack des vidéos longues"], [252, "Les QCM d'autoévaluation comptent"], [305, "Les sessions Zoom à faire en plus"], [313, "Feuilles de présence et logs de connexion"], [349, "Poursuivre le mentorat dans ce cadre"], [369, "Ne pas vous lâcher en plein vol"], [385, "Le gros coup de chaud de la semaine"], [471, "Avoir de quoi réagir sur soi"], [550, "Le dispositif d'urgence à garder sur soi"], [592, "Où en est le morceau : deux mélodies"], [619, "Un titre au stade du mixage"], [637, "L'objectif : enregistrer en décembre"], [665, "EPK et emails : le travail fait depuis"], [689, "Le crédit d'impôt phonographique, où ça en est"], [724, "Le Kbis sans la mention phonographique"], [740, "L'activité peut très bien être secondaire"], [771, "Les statuts, finalement, suffisent"], [784, "Feu vert, contre une copie du contrat"], [807, "L'adhésion, un préalable à vérifier"], [829, "Déposer avant d'engager les dépenses"], [853, "Intéressant à partir de six musiciens"], [896, "La session s'oriente sur le booking"], [912, "Le système d'envoi automatique"], [922, "Un seul mail, ou plusieurs tests ?"], [940, "Deux versions au maximum, pas plus"], [947, "Pourquoi le froid limite les tests"], [968, "La fausse route du départ"], [982, "L'objet trouvé à la session précédente"], [1033, "Chercher les anomalies qui marchent"], [1059, "Parler de la cible, et pas de soi"], [1090, "Automatiser n'est pas le problème"], [1113, "L'ordre logique : objet, mail, EPK"], [1164, "Question : la dernière vraie discussion"], [1192, "Des années de démarchage avant le oui"], [1206, "L'insistance, et le moment ou jamais"], [1249, "Garder le contact malgré le rendez-vous manqué"], [1275, "L'IA n'est pas bonne pour cet exercice"], [1305, "Il faut que ça résonne chez vous"], [1322, "Un apéro avec deux ou trois d'entre eux"], [1355, "Un réseau de salles qui cherche du local"], [1371, "L'échange d'artistes entre salles"], [1405, "Ils se recommandent mutuellement"], [1426, "Rentrer dans la tête d'un programmateur"], [1432, "Quelle ville viser pour tourner"], [1479, "Un objet qui pose une question locale"], [1504, "La limite des objets trop attirants"], [1514, "Un deuxième levier : la curiosité"], [1548, "La réaction recherchée, mot pour mot"], [1581, "Passer en revue les objets trouvés"], [1629, "Le levier de la contradiction"], [1666, "L'objet qui dit tout en une phrase"], [1696, "Et si ce n'était pas vrai ?"], [1713, "Le seul rôle de l'objet"], [1722, "Basculer immédiatement sur la cible"], [1770, "L'accroche : le vrai risque est pour lui"], [1783, "Salle vide, argent perdu, réputation"], [1823, "Puis la preuve, et le lien à cliquer"], [1846, "Attiser la curiosité jusqu'au clic"], [1883, "Vérifier que ça leur ressemble"], [1905, "Rien qui heurte leurs valeurs"], [1933, "Repérer les jours de programmation anormaux"], [1976, "Cibler un événement nommé"], [1990, "Un objet très direct, qui se tente"], [2031, "La liste des contraintes demandée à l'IA"], [2081, "Pourquoi cette liste ne vaut rien"], [2092, "Trop peu de données sur ce métier"], [2134, "Programmer local sans salle vide"], [2143, "Étape une : faire ouvrir l'email"], [2184, "Les cent accroches d'un grand copywriter"], [2225, "Les meilleures publicités en sont issues"], [2280, "Efficace, mais sans garantie de réponse"], [2452, "Aller chercher sur un forum de copywriters"], [2473, "Le mot qui fait ouvrir à tous les coups"], [2484, "Un objet à soixante-neuf pour cent"], [2519, "Celui qui marche mais ne s'automatise pas"], [2533, "Féliciter, avec le prénom"], [2557, "Le texte exact du mail envoyé"], [2573, "Cent pour cent d'ouverture, chaque fois"], [2585, "Le vrai objectif : sortir des spams"], [2630, "Au cas où vous l'auriez raté"], [2645, "La limite : le risque de prétention"], [2660, "Jouer sur un chiffre de réseaux sociaux"], [2692, "Il n'est jamais trop tard"], [2709, "Ce qui ne se généralise pas"], [2748, "La réaction visée chez le programmateur"], [2774, "La vraie valeur est sur scène"], [2786, "Un mail à froid ne vend pas"], [2799, "Le clic compte plus que l'ouverture"], [2807, "Vingt-cinq envois, et ce qu'on en lit"], [2819, "Mieux vaut rater l'ouverture que le clic"], [2871, "Renvoyer plusieurs tests au même contact ?"], [2896, "Après deux échecs, on retire l'adresse"], [2912, "Cent adresses : la lecture des résultats"], [2925, "Relancer les ouvreurs avec un autre angle"], [2945, "Le problème des non-ouvreurs"], [2966, "Dix jours avant la relance"], [2998, "Où se lisent ces taux"], [3020, "Pas encore d'autorépondeur"], [3066, "Revenir au premier, le meilleur"], [3100, "Rédiger soi-même, sans IA"], [3126, "On fait comment pour travailler avec vous"], [3155, "Assumer de ne pas être la merveille du monde"], [3190, "Le mail qu'il enverrait à des milliers de salles"], [3220, "La question qui ouvre le carnet d'adresses"], [3237, "Pas de réponse : changer d'accroche"], [3255, "Jouer les étudiants : la méthode boudée"], [3279, "Le prétexte du livre"], [3287, "Le script de l'appel, mot pour mot"], [3319, "Faut-il vraiment écrire le livre ?"], [3341, "Créer le lien d'abord"], [3362, "Le must : le podcast"], [3376, "Ce qu'il prépare en ce moment"], [3397, "Du podcast au partenariat"], [3436, "Le podcast bloque une heure privilégiée"], [3459, "La variante : inviter sur un tournage"], [3474, "Choisir un lieu qui impressionne"], [3495, "Une heure, un repas, et c'est plié"], [3511, "Proposition : et un podcast ?"], [3534, "Ils adorent partager leur parcours"], [3547, "Deux ans à essayer de joindre un décideur"], [3566, "L'idée qui a débloqué la situation"], [3607, "Quarante minutes prévues, une heure vingt"], [3621, "La relation inversée, quelques mois après"], [3638, "Sa réponse sur la parole donnée"], [3653, "La méthode, quel que soit le prétexte"], [3661, "On ne vous voit plus comme un demandeur"], [3697, "Ce qu'il a appris de l'autre côté"], [3727, "Le jeu est pipé, dans les deux sens"], [3774, "La troisième méthode : l'invitation à dîner"], [3791, "Le texte du mail, en entier"], [3821, "Ce que ça coûte réellement"], [3838, "Un gros organisateur rencontré ainsi"], [3848, "L'audace, et rien d'autre"], [3858, "Les plans qui ont suivi"], [3896, "Le réseau suit ce qui est bankable"], [3917, "La période où tout le monde appelait"], [3944, "Et tout le monde revient d'un coup"], [3975, "Trouver une raison valable de rencontrer"], [4012, "Le plan concret : nommer le podcast"], [4045, "Le script de l'invitation"], [4079, "Deux réponses positives sur trente"], [4097, "Ce n'est pas le podcast, c'est le prétexte"], [4110, "Dix heures, puis le restaurant réservé"], [4137, "Et là, vous vous vendez tranquillement"], [4165, "La demande, posée tout à la fin"], [4194, "À condition d'avoir été bon"], [4203, "Non : ça s'improvise humainement"], [4229, "Préparer les grandes étapes du parcours"], [4249, "La question à ne pas laisser passer"], [4285, "Il vous donne toutes les clés"], [4299, "Trente pour cent de parole, pas plus"], [4326, "Faut-il vraiment le publier ?"], [4346, "Le laisser exister, sans communication"], [4384, "Le parallèle des featurings"], [4413, "Passer par les producteurs et managers"], [4433, "Le positionnement fait tout"], [4523, "Revue de l'EPK en direct"], [4554, "Des phrases qui apparaissent en ouverture"], [4571, "Le principe de la bande-annonce"], [4597, "La partie à retravailler"], [4623, "Casser le bloc avec une citation"], [4688, "D'où viennent les citations"], [4704, "Lui donner la main sur le navigateur"], [4733, "De vrais commentaires, oubliés depuis"], [4743, "Retirer les dates trop anciennes"], [4769, "Garder ou retirer le pied de page"], [4781, "Est-ce suffisant, ou trop ?"], [4806, "Animer le compteur de vues"], [4829, "Tout l'enjeu est le clic"], [4858, "Ajouter un menu de navigation"], [4883, "Pourquoi un menu change tout"], [4924, "Vérifier que les citations sont réelles"], [5007, "Les sources citées, vérifiables"], [5040, "Une accroche un peu pompeuse"], [5112, "La bio, validée"], [5143, "La mise en page, le vrai point fort"], [5180, "À qui revient le mérite"], [5220, "Qui rédige le premier jet"], [5261, "Reporter la demande de crédit d'impôt"], [5346, "Ce qu'il faut préparer"], [5366, "L'agrément provisoire : un prévisionnel"], [5382, "L'affiliation, le seul vrai préalable"], [5404, "L'agrément définitif, plus exigeant"], [5422, "Qui signe, et à quel titre"], [5458, "Le pouvoir de nuisance d'un minoritaire"], [5476, "Son propre cas : le PV refusé"], [5492, "Sans preuves, la procédure échoue"], [5510, "Sans pacte d'associés, tout est possible"], [5628, "Clôture : une petite session, mais utile"]];
+
+var frame = document.getElementById('vimeoPlayer');
+
+function fmt(s){ var m = Math.floor(s/60), x = s%60; return m + ':' + (x<10?'0':'') + x; }
+
+function seek(sec){
+  if (!frame || !frame.contentWindow) return;
+  try {
+    frame.contentWindow.postMessage(JSON.stringify({method:'setCurrentTime', value: sec}), '*');
+    frame.contentWindow.postMessage(JSON.stringify({method:'play'}), '*');
+  } catch(e){}
+  var top = frame.getBoundingClientRect().top + window.pageYOffset - 20;
+  window.scrollTo({top: top < 0 ? 0 : top, behavior:'smooth'});
+}
+
+(function(){
+  var host = document.getElementById('chlist');
+  if (!host) return;
+  CH.forEach(function(c){
+    var b = document.createElement('button');
+    var t = document.createElement('b'); t.textContent = fmt(c[0]);
+    var s = document.createElement('span'); s.textContent = c[1];
+    b.appendChild(t); b.appendChild(s);
+    b.addEventListener('click', function(){ seek(c[0]); });
+    host.appendChild(b);
+  });
+})();
+
+(function(){
+  document.querySelectorAll('.tc').forEach(function(el){
+    var parts = el.textContent.split(/(\d+:\d{2})/);
+    if (parts.length < 2) return;
+    el.textContent = '';
+    parts.forEach(function(p){
+      if (/^\d+:\d{2}$/.test(p)) {
+        var mm = p.split(':');
+        var sec = parseInt(mm[0],10)*60 + parseInt(mm[1],10);
+        var btn = document.createElement('button');
+        btn.className = 'seek'; btn.textContent = p;
+        btn.addEventListener('click', function(){ seek(sec); });
+        el.appendChild(btn);
+      } else {
+        el.appendChild(document.createTextNode(p));
+      }
+    });
+  });
+})();
+
+window.addEventListener('scroll', function(){
+  var h = document.documentElement;
+  var max = h.scrollHeight - h.clientHeight;
+  var p = max > 0 ? (h.scrollTop / max) * 100 : 0;
+  document.getElementById('progress').style.width = p + '%';
+});
+
+document.querySelectorAll('.chk li').forEach(function(li){
+  li.addEventListener('click', function(){ li.classList.toggle('done'); });
+});
+
+(function(){
+  var total = document.querySelectorAll('.qz').length, answered = 0, good = 0;
+  document.querySelectorAll('.qz').forEach(function(qz){
+    var g = parseInt(qz.getAttribute('data-g'), 10);
+    var opts = qz.querySelectorAll('.opt');
+    var fb = qz.querySelector('.fb');
+    opts.forEach(function(opt, i){
+      opt.addEventListener('click', function(){
+        if (qz.classList.contains('answered')) return;
+        qz.classList.add('answered');
+        answered++;
+        if (i === g) { opt.classList.add('good'); good++; }
+        else { opt.classList.add('bad'); opts[g].classList.add('good'); }
+        fb.classList.add('show');
+        if (answered === total) {
+          var sc = document.getElementById('score');
+          sc.textContent = 'Score : ' + good + ' / ' + total + (good === total ? ' — parfait.' : ' — relisez les chapitres concernés.');
+          sc.classList.add('show');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

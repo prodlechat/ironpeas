@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entretien individuel — 23 novembre 2026 : lancer une chaîne de reprises au piano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED; --primary-dark:#4C1D95; --primary-light:#EDE9FE;
+  --accent:#F59E0B; --accent-light:#FEF3C7;
+  --success:#10B981; --success-light:#D1FAE5;
+  --danger:#EF4444; --danger-light:#FEE2E2;
+  --info:#3B82F6; --info-light:#DBEAFE;
+  --ink:#1A1523; --muted:#5B5670; --line:#E7E4EF; --bg:#FAF9FC; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+.progress-wrap{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(108,58,237,.12);z-index:999}
+#progress{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+.wrap{max-width:940px;margin:0 auto;padding-inline:20px}
+
+.hero{background:linear-gradient(140deg,#3B1D80 0%,#6C3AED 55%,#8B5CF6 100%);color:#fff;padding-block:60px 52px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{content:"";position:absolute;left:-60px;bottom:-120px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.05)}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:700;margin-bottom:14px;position:relative;z-index:2}
+.hero .sub{font-size:17px;opacity:.92;max-width:690px;position:relative;z-index:2}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;position:relative;z-index:2}
+.meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:7px 14px;border-radius:10px;font-size:13.5px;font-weight:500}
+
+/* LECTEUR */
+.player-wrap{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:-32px;position:relative;z-index:6;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.vid{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.chx{margin-top:16px;border:1px solid var(--line);border-radius:12px;background:#FBFAFE}
+.chx summary{cursor:pointer;padding:12px 16px;font-weight:650;font-size:14.5px;color:var(--primary-dark);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chx summary::-webkit-details-marker{display:none}
+.chx summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+.chx[open] summary::before{content:"▾ "}
+.chx summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+.chlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:2px;max-height:330px;overflow-y:auto;padding:0 10px 12px}
+.chlist button{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;background:transparent;border:0;border-radius:9px;padding:8px 10px;font-family:inherit;font-size:14.5px;color:var(--ink);cursor:pointer;line-height:1.45;transition:background .12s}
+.chlist button:hover{background:var(--primary-light);color:var(--primary-dark)}
+.chlist b{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;min-width:54px}
+button.seek{background:var(--primary-light);border:1px solid #DDD3FA;color:var(--primary-dark);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;cursor:pointer;font-variant-numeric:tabular-nums;transition:all .12s}
+button.seek:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.player-wrap + .toc{margin-top:26px}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:-32px;position:relative;z-index:5;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.toc h2{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:16px;color:var(--primary-dark)}
+.toc ol{list-style:none;counter-reset:toc;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.toc li{counter-increment:toc}
+.toc a{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink);padding:9px 10px;border-radius:10px;font-size:14.5px;transition:background .15s}
+.toc a:hover{background:var(--primary-light);color:var(--primary-dark)}
+.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);font-size:13px;flex-shrink:0;padding-top:1px}
+
+section.chap{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+section.chap>.bar{height:5px;background:var(--primary)}
+.chap[data-c="a"]>.bar{background:var(--accent)} .chap[data-c="g"]>.bar{background:var(--success)}
+.chap[data-c="b"]>.bar{background:var(--info)} .chap[data-c="r"]>.bar{background:var(--danger)}
+.chead{padding:26px 28px 0;display:flex;gap:14px;align-items:center}
+.cnum{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--primary-light);color:var(--primary-dark);display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px}
+.chap[data-c="a"] .cnum{background:var(--accent-light);color:#92400E}
+.chap[data-c="g"] .cnum{background:var(--success-light);color:#065F46}
+.chap[data-c="b"] .cnum{background:var(--info-light);color:#1E40AF}
+.chap[data-c="r"] .cnum{background:var(--danger-light);color:#991B1B}
+.chead h2{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.25;font-weight:700}
+.tc{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-top:3px}
+.cbody{padding:18px 28px 28px}
+.cbody p{margin-bottom:14px}
+.cbody h3{font-family:'Space Grotesk',sans-serif;font-size:16.5px;margin:22px 0 10px;color:var(--primary-dark)}
+.cbody ul,.cbody ol{margin:0 0 14px 20px}
+.cbody li{margin-bottom:7px}
+strong{font-weight:650;color:#2D2540}
+em.q{font-style:italic;color:#413655}
+
+.box{border-radius:12px;padding:16px 18px;margin:18px 0;border-left:4px solid;font-size:15px}
+.box .bt{display:block;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.box p:last-child{margin-bottom:0}
+.b-key{background:var(--primary-light);border-color:var(--primary)} .b-key .bt{color:var(--primary-dark)}
+.b-warn{background:var(--accent-light);border-color:var(--accent)} .b-warn .bt{color:#92400E}
+.b-tip{background:var(--success-light);border-color:var(--success)} .b-tip .bt{color:#065F46}
+.b-info{background:var(--info-light);border-color:var(--info)} .b-info .bt{color:#1E40AF}
+.b-danger{background:var(--danger-light);border-color:var(--danger)} .b-danger .bt{color:#991B1B}
+
+.tbl{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:12px 14px;font-weight:600;font-size:13.5px}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#FBFAFE}
+
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.pc>div{border-radius:12px;padding:16px 18px;font-size:14.5px}
+.pc .ok{background:var(--success-light);border:1px solid #A7F3D0}
+.pc .ko{background:var(--danger-light);border:1px solid #FECACA}
+.pc h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.pc .ok h4{color:#065F46} .pc .ko h4{color:#991B1B}
+.pc ul{margin:0 0 0 18px} .pc li{margin-bottom:5px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
+.card{background:#FBFAFE;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h4{font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:6px;color:var(--primary-dark)}
+.card p{font-size:14px;color:var(--muted);margin:0}
+.stat h4{font-size:22px;font-family:'Space Grotesk',sans-serif}
+
+.tl{list-style:none;margin:18px 0;padding-left:26px;border-left:2px dashed var(--line)}
+.tl li{position:relative;margin-bottom:16px;font-size:15px}
+.tl li::before{content:"";position:absolute;left:-33px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light)}
+.tl b{display:block;font-family:'Space Grotesk',sans-serif;color:var(--primary-dark)}
+
+details{border:1px solid var(--line);border-radius:12px;margin:14px 0;background:#FBFAFE}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:15px;color:var(--primary-dark);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+details[open] summary::before{content:"▾ "}
+details .dc{padding:0 18px 16px;font-size:14.5px}
+
+.pull{margin:22px 0;padding:20px 24px;border-radius:14px;background:linear-gradient(120deg,#2D1B69,#4C1D95);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:19px;line-height:1.45;font-weight:600}
+.pull span{display:block;margin-top:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;opacity:.7;letter-spacing:.03em}
+
+.faq{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+.faq>.bar{height:5px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.faqhead{padding:26px 28px 0}
+.faqhead h2{font-family:'Space Grotesk',sans-serif;font-size:26px;color:var(--primary-dark)}
+.faqhead p{color:var(--muted);font-size:15px;margin-top:4px}
+.faqbody{padding:18px 28px 28px}
+.faqcat{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.faqcat:first-child{margin-top:6px}
+.qa{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:#FDFCFF}
+.qa .q{background:linear-gradient(90deg,var(--primary-light),#F6F3FF);padding:13px 18px;font-weight:650;color:var(--primary-dark);font-size:15.5px;display:flex;gap:10px}
+.qa .q span{flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.qa .a{padding:15px 18px;font-size:15px}
+.qa .a p{margin-bottom:10px} .qa .a p:last-child{margin-bottom:0}
+
+.plan{background:linear-gradient(140deg,#0F172A,#1E1B4B);color:#fff;border-radius:18px;padding:30px 28px;margin-top:26px}
+.plan h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:8px}
+.plan>p{opacity:.8;margin-bottom:20px;font-size:15px}
+.phase{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin:22px 0 10px}
+.phase:first-of-type{margin-top:0}
+.chk{list-style:none;margin:0;padding:0}
+.chk li{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;margin-bottom:9px;font-size:15px;cursor:pointer;transition:background .15s}
+.chk li:hover{background:rgba(255,255,255,.09)}
+.chk .bx{flex-shrink:0;width:20px;height:20px;border:2px solid rgba(255,255,255,.4);border-radius:6px;margin-top:3px;display:grid;place-items:center;font-size:13px;font-weight:700;color:transparent}
+.chk li.done .bx{background:var(--success);border-color:var(--success);color:#fff}
+.chk li.done .tx{opacity:.5;text-decoration:line-through}
+.chk .tx b{display:block;font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.04em;text-transform:uppercase;opacity:.65;margin-bottom:2px}
+
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px;margin-top:26px}
+.quiz h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:6px;color:var(--primary-dark)}
+.quiz>p{color:var(--muted);margin-bottom:22px;font-size:15px}
+.qz{margin-bottom:24px;padding-bottom:22px;border-bottom:1px dashed var(--line)}
+.qz:last-of-type{border-bottom:none}
+.qz .qt{font-weight:650;margin-bottom:12px;font-size:15.5px}
+.opt{display:block;width:100%;text-align:left;background:#FBFAFE;border:1.5px solid var(--line);border-radius:10px;padding:11px 15px;margin-bottom:8px;cursor:pointer;font-family:inherit;font-size:14.5px;color:var(--ink);transition:all .15s}
+.opt:hover{border-color:var(--primary);background:var(--primary-light)}
+.opt.good{background:var(--success-light);border-color:var(--success);font-weight:600}
+.opt.bad{background:var(--danger-light);border-color:var(--danger)}
+.fb{display:none;margin-top:10px;padding:12px 15px;border-radius:10px;font-size:14.5px;background:var(--info-light);border-left:4px solid var(--info)}
+.fb.show{display:block}
+.score{margin-top:20px;padding:16px;border-radius:12px;background:var(--primary-light);text-align:center;font-weight:650;color:var(--primary-dark);display:none}
+.score.show{display:block}
+
+footer{text-align:center;padding-block:40px 50px;color:var(--muted);font-size:14px}
+footer b{color:var(--primary-dark);font-family:'Space Grotesk',sans-serif}
+
+@media(max-width:640px){
+  .pc{grid-template-columns:1fr}
+  .chead,.faqhead{padding:22px 18px 0} .cbody,.faqbody{padding:16px 18px 22px}
+  .toc{padding:22px 18px} .plan,.quiz{padding:24px 18px}
+  .hero h1{font-size:27px} .pull{font-size:17px;padding:18px}
+  .player-wrap{padding:14px} .chlist{grid-template-columns:1fr;max-height:280px}
+}
+@media print{
+  .progress-wrap{display:none} body{background:#fff}
+  section.chap,.toc,.quiz,.faq{box-shadow:none;break-inside:avoid}
+  .opt{display:none}
+  .vid{display:none} .player-wrap{box-shadow:none;margin-top:20px}
+  .chlist{max-height:none;overflow:visible} .chlist button{padding:3px 0}
+  button.seek{background:none;border:0;padding:0;color:var(--primary-dark)}
+}
+</style>
+</head>
+<body>
+<div class="progress-wrap"><div id="progress"></div></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">Entretien individuel · 23 novembre 2026</div>
+    <h1>Partir de zéro,<br>et construire un catalogue qui travaille pour vous</h1>
+    <p class="sub">Deux heures d'entretien individuel avec une musicienne qui démarre tout : aucun titre sorti, aucun répertoire, aucune audience. Le projet — des reprises au piano, calmes, pour écouter le soir — sert de fil à une méthode complète. D'abord la mécanique des reprises : ce qu'on a le droit de faire sans demander aucune autorisation, et la limite exacte à ne pas franchir. Ensuite le moteur : produire en masse, référencer chaque vidéo correctement, et accepter de travailler un an à vide. Puis la multiplication : les mêmes morceaux, référencés dans les langues que personne ne cible. Et enfin tout ce qui transforme un catalogue en revenus — monétisation, streaming, partitions, fichiers MIDI, tutoriels — avec le détail technique qui fait la différence sur la qualité du son.</p>
+    <div class="meta">
+      <span>⏱ 2 h 01</span>
+      <span>🎙 Tarik Hamiche</span>
+      <span>👤 Entretien individuel</span>
+      <span>📌 186 chapitres</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="player-wrap">
+  <div class="vid">
+    <iframe id="vimeoPlayer"
+      src="https://player.vimeo.com/video/1249356677?h=1039c5b929"
+      title="Entretien individuel du 23 novembre 2026"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  <details class="chx" id="chx">
+    <summary><span>Les 186 chapitres de la session</span><em>Cliquez un chapitre pour y aller</em></summary>
+    <div class="chlist" id="chlist"></div>
+  </details>
+</div>
+
+<nav class="toc">
+  <h2>Au programme</h2>
+  <ol>
+    <li><a href="#s1">Comment lire ce support</a></li>
+    <li><a href="#s2">Le cadre de la formation et de l'examen</a></li>
+    <li><a href="#s3">Le projet, et pourquoi il tient debout</a></li>
+    <li><a href="#s4">Les reprises : ce que vous avez le droit de faire</a></li>
+    <li><a href="#s5">Le fichier MIDI, et ce qu'il vaut</a></li>
+    <li><a href="#s6">Six sources de revenus sur un même catalogue</a></li>
+    <li><a href="#s7">Le point de départ : saturer sa niche</a></li>
+    <li><a href="#s8">Le référencement d'une vidéo, point par point</a></li>
+    <li><a href="#s9">Le rythme : douze vidéos, puis on densifie</a></li>
+    <li><a href="#s10">Accepter de travailler un an à vide</a></li>
+    <li><a href="#s11">Gagner du temps : chronométrer, recycler, batcher</a></li>
+    <li><a href="#s12">La stratégie par langue, et la fenêtre de tir</a></li>
+    <li><a href="#s13">Monétisation : les paliers à franchir</a></li>
+    <li><a href="#s14">Distribution et profils d'artiste</a></li>
+    <li><a href="#s15">Protéger son nom de scène</a></li>
+    <li><a href="#s16">Le matériel : l'image, et surtout le son</a></li>
+  </ol>
+</nav>
+
+<section class="chap" id="s1" data-c="a">
+  <div class="chead">
+    <span class="num">1</span>
+    <h2>Comment lire ce support</h2>
+    <p class="tc">0:00 — 2:19</p>
+  </div>
+  <div class="cbody">
+    <p>Cette session est un entretien individuel, et son cadre est posé en ouverture : <b>« l'objectif est qu'on discute de toi, de ton projet, des questions que tu peux avoir et des prochaines étapes. C'est vraiment un temps qui est prévu pour toi. »</b></p>
+    <p>Et la méthode est annoncée dans la même phrase : <b>« il n'y a pas de plan particulier, tout se fait autour de toi et de ce que tu pourras évoquer avec moi. »</b> Ce qui suit n'est donc pas un cours mais une séquence de réponses — et c'est précisément ce qui la rend utile, parce que les questions posées sont celles que tout débutant se pose.</p>
+
+    <div class="box b-info">
+      <h4>Ce que ce support ne contient pas</h4>
+      <p>La personne accompagnée n'est pas nommée, et <b>ni son prénom, ni son nom de scène, ni son métier, ni son lieu de vie, ni le nom de la chaîne prise comme modèle ne sont repris ici.</b></p>
+      <p>Le long passage personnel du milieu de séance — parcours intime, isolement, lien avec un accompagnant — <b>reste dans le replay privé, à qui il appartient.</b></p>
+      <p>Les passages juridiques sont des <b>retours d'expérience, pas des avis juridiques</b> : un cas particulier se vérifie auprès de la société de gestion concernée ou d'un professionnel du droit.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Une bonne pratique, dès la première minute</h4>
+      <p>Avant d'enregistrer, le consentement est demandé : <i>« je voulais savoir si tu m'autorisais à enregistrer la séance ? »</i> — et la réponse précise ce qui sera fait du fichier : <b>« je l'enregistre, je vais la chapitrer et t'envoyer un petit résumé de tout ce qui se sera dit aujourd'hui. Et dès que tu m'accuses réception, moi, de mon côté, je le supprime. Donc c'est à toi, c'est cadeau. »</b></p>
+      <p><b>Demander l'autorisation, dire ce qu'on en fera, et supprimer après remise.</b> C'est applicable à n'importe quel rendez-vous que vous enregistrez — et c'est ce qui transforme un enregistrement en service rendu plutôt qu'en collecte.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Comment s'en servir selon votre situation</h4>
+      <p><b>Si vous démarrez sans rien :</b> les sections 7 à 11 forment la séquence opérationnelle complète, de la première vidéo au rythme de publication tenable.</p>
+      <p><b>Si vous faites des reprises :</b> les sections 4 et 5 règlent la question des droits et expliquent un format que presque personne n'exploite.</p>
+      <p><b>Si vous cherchez à monétiser un catalogue existant :</b> les sections 6, 12, 13 et 14 décrivent les sources de revenus, la stratégie par langue et le circuit de distribution.</p>
+    </div>
+
+    <div class="pull">« Il n'y a pas de plan particulier, tout se fait autour de toi et de ce que tu pourras évoquer avec moi. »</div>
+  </div>
+</section>
+
+<section class="chap" id="s2" data-c="g">
+  <div class="chead">
+    <span class="num">2</span>
+    <h2>Le cadre de la formation et de l'examen</h2>
+    <p class="tc">1:44 — 10:23 · 84:43 — 86:20</p>
+  </div>
+  <div class="cbody">
+    <p>Les premières questions portent sur le cadre d'une formation financée. Les réponses sont utiles bien au-delà de ce cas précis, parce qu'elles séparent clairement <b>ce qui est obligatoire de ce qui est recommandé.</b></p>
+
+    <div class="box b-key">
+      <h4>Les exercices sont-ils obligatoires ?</h4>
+      <p>La question est posée franchement par quelqu'un qui n'a pas encore de répertoire : <i>« je n'ai pas forcément de matière première pour l'instant, je suis vraiment au balbutiement du projet. »</i></p>
+      <p>La réponse : <b>« non, ce n'est pas du tout obligatoire. Ce qui est obligatoire, c'est le suivi du contenu et les QCM d'autoévaluation de fin de module. »</b></p>
+      <p>Et à quoi servent les exercices, alors : <b>« ils sont vraiment plus donnés pour toi, pour te permettre d'implémenter ce que tu as vu dans le module et pour te situer. »</b></p>
+      <p>Avec la souplesse qui va avec : <b>« si ce n'est pas prioritaire sur le moment, ce n'est pas un souci. De toute façon, tu conserves un accès à la plateforme, donc tu pourras revenir tranquillement dessus plus tard. »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>L'examen devant jury : comment il est préparé</h4>
+      <p>Le mot « examen » inquiète. La réponse démonte l'inquiétude en quatre points.</p>
+      <div class="tl">
+        <div class="tli"><b>1. Le taux de réussite.</b> <i>« 100 % de mes stagiaires pour l'instant l'ont, donc il n'y a pas de raison que tu sois la première à échouer. »</i></div>
+        <div class="tli"><b>2. Les deux documents sont préparés pour vous.</b> Un lien de questions sur votre projet, et à partir de vos réponses : <b>le livrable écrit à remettre à l'inscription, et les slides de présentation pour l'oral.</b></div>
+        <div class="tli"><b>3. Ils sont construits depuis la grille d'évaluation.</b> <i>« Rien qu'en les faisant dans la forme dont je l'ai fait, ça te garantit quasiment la moyenne. »</i></div>
+        <div class="tli"><b>4. Les questions du jury sont connues d'avance.</b> <i>« Je les ai d'avance et je vais t'y préparer. On prendra un petit temps, peut-être 20, 30 minutes. »</i></div>
+      </div>
+      <p>Les documents sont fournis <b>en format modifiable</b>, avec des passages que vous seul pouvez compléter — <i>« pourquoi est-ce qu'il s'est fixé cet objectif-là maintenant ? Qu'est-ce qui lui a manqué après son précédent projet ? »</i></p>
+      <p>Et le travail attendu de votre côté est d'une heure environ : <b>relire, vérifier la cohérence avec votre projet réel, et vous l'approprier.</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Ce que cet oral évalue réellement — et c'est le point le plus utile</h4>
+      <p><b>« La certification en soi, elle n'évalue pas spécialement ton niveau de compétence dans le domaine. »</b></p>
+      <p>Alors pourquoi existe-t-il ? <b>Pour prévenir la fraude.</b> Le raisonnement est détaillé : l'inscription passe désormais par l'identité numérique, et <b>si la personne présente à l'oral n'est pas celle inscrite, l'écart se voit immédiatement.</b> <i>« Le nom inscrit n'est pas le même que la personne que j'ai en face de moi. »</i></p>
+      <p>Conséquence pratique : <b>« ils ne sont pas là pour évaluer la capacité que tu as à présenter ton projet à l'oral. Ils ont une grille d'évaluation avec certains éléments qu'ils veulent entendre. »</b></p>
+      <p>Et la description de ce qui se passe vraiment : <b>« ils sont juste là pour mettre des croix dans des cases : on a parlé de structure, validé. On a vu deux structures différentes, validé. On a parlé de stratégie promo, validé. »</b></p>
+      <p>Avec une précision rassurante : <b>« ils ne sont pas là pour te dire que tes choix sont bons ou mauvais. »</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Et sur la mémorisation</h4>
+      <p>L'inquiétude exprimée est celle de beaucoup d'apprenants : le contenu est dense, et tout retenir paraît impossible.</p>
+      <p>La réponse recadre l'objectif : <b>« ce n'est pas le but. Le but, c'est de découvrir un champ des possibles et ensuite de les appliquer progressivement à ton projet. »</b></p>
+      <p>Et le détail logistique qui change tout : <b>« l'examen se fait à distance. Donc tu peux très bien avoir des notes sur ton ordinateur. Moi, c'est ce que je conseille à tout le monde : lisez vos slides, ce n'est pas un souci. »</b></p>
+      <p>La justification est intéressante : <b>« ils savent très bien que vous êtes des artistes, vous n'êtes pas des orateurs. Ce n'est pas votre métier. »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Le seul cas où ça échoue vraiment</h4>
+      <p>L'image est parlante : <b>« si demain je devais passer une certification sur la plomberie, je suis largué. À part dire tuyau et robinet, je n'ai aucun mot de vocabulaire. Là, grillé — tu peux avoir le meilleur dossier du monde. »</b></p>
+      <p>Autrement dit : <b>l'oral échoue si la personne n'a pas suivi la formation ou n'est pas du domaine.</b> Pas si elle s'exprime mal.</p>
+      <p>Et une donnée qui explique la bienveillance du jury : <b>« il a intérêt, pour que sa certification soit renouvelée, à avoir un taux de réussite supérieur à 80 %. »</b> <i>« Le certificateur n'a aucun intérêt à te piéger. C'est même l'inverse. »</i></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Les délais, repris en fin de séance</h4>
+      <table class="tbl">
+        <tr><th>Question</th><th>Réponse</th></tr>
+        <tr><td>Peut-on décaler la fin de la formation de quelques jours ?</td><td>Possible, mais <b>« si tu peux terminer à la date prévue, c'est mieux »</b></td></tr>
+        <tr><td>Quand passer l'examen ?</td><td><b>Jusqu'à six mois après la fin de la formation</b></td></tr>
+        <tr><td>Quelles dates ?</td><td><b>Trois jours proposés chaque mois</b> par le certificateur — les sessions proches se remplissent vite</td></tr>
+        <tr><td>Comment réserver ?</td><td><b>Un lien de réservation</b>, puis la convocation avec tous les éléments pratiques</td></tr>
+      </table>
+      <p><b>Le point à retenir : la fin de la formation et l'examen sont deux échéances distinctes.</b> Rien n'oblige à les enchaîner, ce qui laisse le temps de préparer le dossier sérieusement.</p>
+    </div>
+  </div>
+</section>
+<section class="chap" id="s3" data-c="b">
+  <div class="chead">
+    <span class="num">3</span>
+    <h2>Le projet, et pourquoi il tient debout</h2>
+    <p class="tc">10:23 — 22:16</p>
+  </div>
+  <div class="cbody">
+    <p>Le projet est présenté par étapes, et il est d'une clarté rare pour quelqu'un qui démarre : <b>des reprises au piano, calmes, dans l'esprit des musiques qu'on écoute le soir pour se détendre</b> ; puis un second registre à l'accordéon, <i>« une atmosphère complètement différente »</i> ; puis des compositions personnelles ; et bien plus tard, la voix.</p>
+    <p>Le constat de départ qui a fait naître l'idée mérite d'être relevé : dans ce créneau, <b>l'offre est presque exclusivement masculine.</b> <i>« Il n'y avait aucune femme qui avait cet élan de proposer des musiques douces, calmes, posées pour se détendre le soir. »</i></p>
+
+    <div class="box b-key">
+      <h4>Son verdict, immédiat</h4>
+      <p><b>« Franchement, beau projet. Et j'ai même envie de te dire, il y a des perspectives incroyables dans ce que tu veux faire. »</b></p>
+      <p>Avec un conseil de cadrage : <b>rester sur l'instrumental pour l'instant</b>, et laisser la voix pour plus tard.</p>
+      <p>Et une validation par son propre usage, qui vaut mieux qu'une étude de marché : <b>« dans les phases où j'écris des livres, je ne mets que ça. Je suis capable de faire tourner pendant une heure, même plus, en boucle, des musiques de piano qui finalement n'évoluent même pas, parce que ça m'apaise. »</b></p>
+      <p><b>« Donc il y a un marché pour ça, c'est évident. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Mais voici ce que personne ne pousse à son maximum</h4>
+      <p>C'est l'idée centrale de toute la session, et elle arrive très tôt.</p>
+      <p>La chaîne prise comme modèle compte <b>deux millions d'abonnés</b> — <i>« c'est une réussite incroyable »</i>. Son avantage : elle se référence <b>sur des mots-clés en anglais</b>, ce qui lui ouvre un large public.</p>
+      <p>Et la faille : <b>« rien ne t'empêche de sortir la même vidéo sur une chaîne équivalente, mais où tu écris en japonais, en chinois, en arabe, en espagnol. Aujourd'hui, tu pourrais créer 10 chaînes en même temps et partir dans 10 directions différentes avec 10 langues différentes. »</b></p>
+      <p>Les ordres de grandeur qui justifient le raisonnement : <b>« l'hindi, par exemple, tu as 1 milliard de personnes qui la parlent. Le mandarin, c'est 1 milliard de personnes aussi. »</b></p>
+      <p>Et ce qui rend l'opération possible pour un instrumentiste, et pour personne d'autre : <b>« comme il n'y a pas de barrière de langue, parce que c'est que de la musique et qu'elle est universelle et internationale, oui, ça peut partir tout seul. »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Le chiffre qui fixe l'échelle</h4>
+      <p><b>« Pour donner un ordre de mesure, 1 million de vues sur la plateforme vidéo, ça représente à peu près 1 500 euros minimum dans ta poche. »</b></p>
+      <p>Avec la mention de ce qui s'y ajoute : <i>« plus si tu as des gros annonceurs, plus le reste, le cumul des droits et tous les modèles d'affaires que tu pourrais mettre en place. »</i></p>
+      <p><b>C'est ce chiffre qui transforme la stratégie multilingue en calcul :</b> si chaque langue ouvre une audience, chaque audience ouvre un million de vues possible.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Et la notion qui structure tout : la modélisation</h4>
+      <p><b>« Dans la formation, je parle de modélisation. Tu as un très bon modèle, pour le coup. »</b></p>
+      <p>Pourquoi c'est un avantage décisif quand on démarre : <b>« en plus, lui, il a essuyé les plâtres. Il suffit vraiment que tu suives ce qu'il fait. »</b></p>
+      <p>Et comment il procède, lui : <b>« j'adore la modélisation, puisque ça rend les choses simples. C'est pour ça que j'en parle beaucoup. »</b></p>
+      <p><b>Modéliser n'est pas copier une œuvre : c'est copier une structure d'activité</b> — les formats, les prix, les canaux, l'enchaînement des offres — sur quelqu'un qui a déjà prouvé que ça marche.</p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Le seul vrai obstacle, nommé clairement</h4>
+      <p>Après avoir passé en revue tout ce que le modèle vend, le constat tombe : <b>« par contre, lui, il a la communauté. C'est ça le plus dur à construire. »</b></p>
+      <p>Et ce que ça implique de travail : <b>« c'est faire les vidéos, les promouvoir, les pousser, en refaire une autre, avoir des idées originales que d'autres n'ont pas. »</b></p>
+      <p><b>Le modèle vous donne la carte, pas l'audience.</b> C'est la seule partie qui ne se copie pas — et c'est tout l'objet des sections suivantes.</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Une remarque sur le temps de digestion</h4>
+      <p>L'aveu est honnête : <i>« il faut que les pièces du puzzle se remettent en place, parce que c'est une découverte pour moi. Il faut que je prenne le temps de digérer ça. »</i></p>
+      <p>Et la réponse remet les choses en proportion : <b>« de toute façon, la vision que tu as déjà, elle est bonne. C'est ce qui fait défaut à 95 % des gens. Déjà, tu vois dans quelle direction tu veux aller. Après, ça va venir. »</b></p>
+      <p><b>Savoir où l'on va est la partie la plus rare.</b> Le reste s'apprend.</p>
+    </div>
+
+    <div class="pull">« Comme il n'y a pas de barrière de langue, parce que c'est de la musique et qu'elle est universelle, ça peut partir tout seul. »</div>
+  </div>
+</section>
+
+<section class="chap" id="s4" data-c="r">
+  <div class="chead">
+    <span class="num">4</span>
+    <h2>Les reprises : ce que vous avez le droit de faire</h2>
+    <p class="tc">31:50 — 33:38 · 86:55 — 90:53</p>
+  </div>
+  <div class="cbody">
+    <p>La question revient trois fois dans la séance, signe qu'elle est le vrai point de blocage. La réponse est donnée en deux temps : d'abord le principe, puis le détail complet en fin de séance.</p>
+
+    <div class="box b-key">
+      <h4>Le principe, et il surprend</h4>
+      <p><i>« Est-ce qu'il faut une autorisation à demander ? »</i></p>
+      <p><b>« Aucune. Tu peux prendre le morceau, le mettre sur les plateformes, le commercialiser. Tu n'as absolument aucune autorisation à demander à personne. »</b></p>
+      <p>Les deux conditions, et elles sont simples : <b>garder le thème principal</b>, et <b>créditer les ayants droit d'origine au moment de la sortie.</b></p>
+      <p>L'exemple donné est volontairement extrême : <b>« tu peux reprendre un tube mondial si tu veux, tant que tu gardes le thème principal, que tu le ressors et que tu crédites les ayants droit — aucun problème. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Ce que « ne pas modifier l'œuvre » veut dire exactement</h4>
+      <p>C'est la partie la plus précise de la session, et elle est démontrée au piano pendant l'appel.</p>
+      <div class="tl">
+        <div class="tli"><b>Le thème doit rester intact.</b> On ne touche pas à la mélodie reconnaissable.</div>
+        <div class="tli"><b>Ce qu'on peut ajouter librement :</b> <i>« si tu veux rajouter des notes d'octave graves derrière en fond, tu as parfaitement le droit. Si tu veux rajouter des petites notes en aigu en réponse, tu as le droit de le faire. »</i></div>
+        <div class="tli"><b>Le tempo se modifie, dans une limite :</b> <i>« si le morceau a un tempo à 140, tu peux le passer à 160 sans problème — mais tu ne peux pas le passer à 50, parce que là on ne le reconnaîtra plus dans sa forme originale. »</i></div>
+      </div>
+      <p><b>Le critère unique : « à partir du moment où le morceau est reconnaissable et qu'il n'est pas défiguré, il n'y a pas de souci. »</b></p>
+      <p>Et la conséquence qu'il faut accepter : <b>« par contre, tu ne seras pas créditée. Il ne faut pas espérer récupérer des droits d'auteur là-dessus. C'est l'œuvre de quelqu'un d'autre. »</b></p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Et si vous modifiez l'œuvre : deux cas, deux niveaux d'autorisation</h4>
+      <p>L'exemple pris : un morceau de variété réarrangé en salsa. <b>« Là, tu changes la destination de l'œuvre. Elle est modifiée quelque part. »</b></p>
+      <table class="tbl">
+        <tr><th>Cas</th><th>Qui doit autoriser</th></tr>
+        <tr><td><b>Vous avez tout rejoué</b> — piano, voix, percussions, tout refait par vous</td><td><b>Les ayants droit d'origine</b> : auteurs, compositeurs, et éventuellement le ou les éditeurs</td></tr>
+        <tr><td><b>Vous avez réutilisé des éléments de l'enregistrement original</b> (une voix a cappella, par exemple)</td><td><b>Les ayants droit <em>plus</em> le producteur d'origine</b> — <i>« et donc ça fait beaucoup d'autorisations à demander »</i></td></tr>
+      </table>
+      <p>La méthode pour les identifier : <b>« tu vas sur le répertoire des œuvres de la société d'auteurs, tu tapes le nom, normalement ça te sort la liste des ayants droit. Il y a toujours un contact avec. »</b></p>
+      <p>Puis : <b>« tu contactes la personne, tu obtiens un accord ou un refus. Si tu as l'accord, tu peux le sortir. Si tu ne l'as pas, tu ne peux rien en faire. »</b></p>
+      <p>D'où la conclusion pratique : <b>« idéalement, il faut tout rejouer, c'est mieux. Et idéalement, il ne faut pas adapter l'œuvre, il faut vraiment la garder telle quelle. Ça, c'est le must. »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Le cas des adaptations légères — la règle d'abord</h4>
+      <p>Sur les arrangements qui s'éloignent un peu du thème sans le défigurer, il décrit ce qui se passe en pratique : <b>sortir le titre, et voir.</b> <i>« Si personne ne te dit rien, ça passe. »</i> Et en cas de contestation, une réponse de bonne foi : <i>« je m'excuse, pour moi c'était une reprise, ça fait un an que j'en sors toutes les semaines. On fait quoi, du coup ? »</i></p>
+      <p>Avec les deux issues possibles : <b>« soit ils te demandent de retirer le titre, soit ils acceptent de te donner l'autorisation. »</b> Et son observation : <i>« la plupart du temps, ils font des retraits quand c'est comme ça. »</i></p>
+      <p><b>La règle à garder au clair :</b> une adaptation suppose une autorisation préalable. Ce qui est décrit ici est un retour d'expérience sur la tolérance observée, <b>pas une dispense</b> : le risque réel est le retrait du titre, et avec lui la perte du travail investi et des écoutes accumulées. <b>La seule stratégie sans exposition — et celle qu'il recommande explicitement — est de rester sur des reprises fidèles</b>, ce qui, pour ce projet, ne coûte rien puisque c'est exactement le format visé.</p>
+    </div>
+
+    <div class="box b-danger">
+      <h4>Le piège du support physique</h4>
+      <p>Tout ce qui précède ne vaut que pour le digital. <b>« Si un jour tu fais une fabrication physique, par exemple tu presses un CD ou un vinyle, là tu n'as pas besoin d'autorisation, mais tu seras obligée de t'acquitter de droits de reproduction mécanique. »</b></p>
+      <p>Et l'ordre de grandeur : <b>« à peu près un euro par exemplaire fabriqué. Ça commence à faire cher. »</b></p>
+      <p>D'où le conseil : <b>« reste sur le digital, c'est plus cool. »</b> Sur un tirage de 300 exemplaires, ce sont 300 € de droits à avancer avant la première vente.</p>
+    </div>
+
+    <div class="pull">« Tu n'as absolument aucune autorisation à demander à personne — tant que tu gardes le thème et que tu crédites les ayants droit. »</div>
+  </div>
+</section>
+<section class="chap" id="s5" data-c="a">
+  <div class="chead">
+    <span class="num">5</span>
+    <h2>Le fichier MIDI, et ce qu'il vaut</h2>
+    <p class="tc">22:16 — 28:20</p>
+  </div>
+  <div class="cbody">
+    <p>Le modèle observé vend des fichiers MIDI, et la question vient naturellement : <i>« qu'est-ce que c'est, un fichier MIDI ? »</i> La réponse est démontrée à l'écran, dans un logiciel de production.</p>
+
+    <div class="box b-key">
+      <h4>Les deux formats, et leur différence</h4>
+      <table class="tbl">
+        <tr><th></th><th>Audio</th><th>MIDI</th></tr>
+        <tr><td><b>Ce que c'est</b></td><td>Le son joué, enregistré (MP3, WAV, FLAC, AIFF…)</td><td><b>La piste avec toutes les notes</b>, telles qu'elles ont été jouées</td></tr>
+        <tr><td><b>Ce qu'on peut modifier</b></td><td><b>Rien</b> — <i>« je ne peux pas changer la note facilement, je ne peux pas rejouer la mélodie »</i></td><td><b>Tout</b> — la tonalité, les notes, le tempo, la sonorité</td></tr>
+        <tr><td><b>Les pistes</b></td><td>Mélangées : la sonorité est imposée</td><td>Séparées : cordes, guitare, clavier, basse, chacune indépendante</td></tr>
+      </table>
+      <p>L'image qu'il en donne : <b>« c'est ça, la partition »</b> — mais une partition que la machine peut rejouer et transformer.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Pourquoi quelqu'un achèterait le vôtre</h4>
+      <p>L'argument est économique, et il est démontré sur son propre travail en cours : pour une reprise, <b>plutôt que de rejouer à l'oreille toutes les lignes instrumentales, il a acheté le fichier MIDI</b> — <i>« j'ai les cordes, j'ai l'ensemble, j'ai la guitare, j'ai le clavier, j'ai la basse. J'ai rejoué la structure rythmique et maintenant je n'ai plus qu'à apporter mes modifications et mes arrangements. »</i></p>
+      <p>Le calcul, en clair : <b>« soit je rejoue tout à l'oreille, ce qui va me prendre une journée peut-être, soit j'achète le fichier MIDI de quelqu'un qui l'a déjà fait avant moi. Ça va me coûter 20 balles, mais au moins j'ai déjà tout. »</b></p>
+      <p><b>Une journée de travail contre vingt euros. C'est tout le marché.</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>L'objection qu'elle soulève, et la réponse</h4>
+      <p>Sa remarque est légitime : <i>« mais ce n'est plus moi qui joue après. J'ai payé le fichier, je réajuste les boutons et j'ai juste à envoyer. »</i></p>
+      <p><b>La mise au point est nette : « attention, toi, ce que tu fais, il faut que tu joues. »</b></p>
+      <p>Et c'est justement là que naît la valeur : <b>« dans la manière dont tu vas jouer, tu vas forcément amener des arrangements personnels. Peut-être que tu vas reprendre un morceau plus lentement ou plus rapidement, que tu auras des petites notes variantes. Si tu crées un charme unique et que je veux absolument retrouver ça, plutôt que de rejouer à l'oreille tout ce que tu auras fait, je préfère acheter ton fichier MIDI. »</b></p>
+      <p><b>On n'achète pas le morceau : on achète votre interprétation.</b> C'est ce qui rend le format vendable alors que l'œuvre, elle, appartient à quelqu'un d'autre.</p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Qui achète, et combien ça rapporte vraiment</h4>
+      <p>Il évite soigneusement de survendre : <b>« ce n'est pas n'importe qui qui achète un fichier MIDI. Le commun des mortels ne sait même pas ce que c'est et n'a pas d'intérêt à l'acheter. »</b></p>
+      <p>La cible : <b>les compositeurs</b> — et donc une niche étroite, qui ne devient intéressante qu'à l'échelle mondiale. <i>« Mais pour des compositeurs, si tu vises le monde, ça peut très bien se vendre. »</i></p>
+      <p>Et l'ordre de grandeur, donné sans flatterie : <b>« il ne faut pas espérer faire fortune dessus. Si tu prends 200 balles par mois avec un fichier MIDI, c'est top. Mais mine de rien, ça fait ça en plus. »</b></p>
+      <p>D'où la règle de prix : <b>« c'est pour ça qu'il faut que tu restes sur des prix très bas. »</b> Le modèle observé se situe <b>entre 10 et 35 dollars</b> selon les produits.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le cas qui prouve le modèle : les tablatures de guitare</h4>
+      <p>L'exemple est celui d'un créateur qu'il connaît, aux États-Unis, et il est instructif parce qu'il repose exactement sur le même principe.</p>
+      <div class="tl">
+        <div class="tli"><b>Il arrange des morceaux qui ne sont pas écrits pour la guitare</b> — <i>« il arrange le morceau pour que la guitare, ce soit agréable à jouer »</i>.</div>
+        <div class="tli"><b>Il vend la tablature à dix euros, et offre la vidéo de tutoriel avec.</b> <i>« Comme ça, c'est un bon deal. »</i></div>
+        <div class="tli"><b>Sa cible : les autodidactes</b>, qui sont la majorité de ceux qui apprennent la guitare.</div>
+        <div class="tli"><b>Le volume : entre 1 000 et 2 000 ventes par mois</b>, selon qu'il sort des nouveautés ou non.</div>
+      </div>
+      <p>Et la transposition immédiate : <b>« tu reprends un morceau qui est au violon, tu l'adaptes au piano. Quelqu'un qui a envie d'apprendre à le jouer aussi, tu lui dis : la partition arrangée pour le piano, c'est 9,99. En revanche, en achetant la partition, tu as d'office accès à une vidéo avec un tuto pour t'apprendre à le rejouer. »</b></p>
+      <p>Le coût de production, lui, est faible : <b>« toi, ça te prend peut-être deux heures de faire ton tuto. La partition, tu peux la faire quasiment toute seule maintenant avec certains logiciels. »</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Vendre la partition ou vendre le tuto ?</h4>
+      <p>Les deux sens sont possibles : <b>« ou alors tu fais l'inverse : tu offres la partition et tu vends le tuto derrière. Tout dépend de ce qui va le mieux marcher. »</b></p>
+      <p>Mais un argument fait pencher la balance, et il réapparaît plus tard dans la session à propos des traductions : <b>« c'est mieux de vendre la partition et offrir le tuto, parce que tu ne peux pas râler sur quelqu'un qui t'a offert quelque chose. »</b></p>
+      <p><b>Ce qui est offert n'est pas critiqué.</b> C'est une règle de construction d'offre très utile : on vend ce qui est irréprochable, on offre ce qui est perfectible.</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Et l'effet de catalogue</h4>
+      <p><b>« Si derrière tu en vends 100, 500 ou 1 000, fais le calcul. Et si tu as 400 morceaux qui traînent, au bout d'un moment, ça fait un catalogue d'offres énorme. »</b></p>
+      <p>Avec une piste de distribution à laquelle on ne pense pas : <b>« peut-être que des profs de piano vont inclure un des titres que tu auras repris dans leur cours. Et s'ils ont 50 élèves, les 50 sont susceptibles de devenir clients. »</b></p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s6" data-c="g">
+  <div class="chead">
+    <span class="num">6</span>
+    <h2>Six sources de revenus sur un même catalogue</h2>
+    <p class="tc">20:38 — 21:51 · 29:50 — 30:25 · 57:02 — 57:19</p>
+  </div>
+  <div class="cbody">
+    <p>Le récapitulatif est fait deux fois dans la séance. Le point commun des six sources : <b>elles reposent toutes sur le même travail déjà produit.</b> Un morceau joué une fois alimente six lignes de revenus différentes.</p>
+
+    <div class="box b-key">
+      <h4>Les six sources, dans l'ordre où elles arrivent</h4>
+      <table class="tbl">
+        <tr><th>Source</th><th>Ce qu'il en dit</th></tr>
+        <tr><td><b>1. La monétisation vidéo</b></td><td><b>Environ 1 500 € par million de vues</b>, minimum, davantage avec de gros annonceurs</td></tr>
+        <tr><td><b>2. Le streaming</b></td><td>Les titres commercialisés sur les plateformes, <b>à condition de ne pas modifier la structure de l'œuvre</b></td></tr>
+        <tr><td><b>3. Les partitions</b></td><td>Un modèle à part entière : <i>« j'ai créé des partitions adaptées pour n'importe qui, même un parfait amateur »</i></td></tr>
+        <tr><td><b>4. Les fichiers MIDI</b></td><td>Pour les compositeurs. <i>« 200 balles par mois, c'est top »</i> — mais c'est du récurrent</td></tr>
+        <tr><td><b>5. Les tutoriels</b></td><td>Vendus, ou offerts avec la partition. <i>« À la limite, les tutos, tu les offres avec »</i></td></tr>
+        <tr><td><b>6. Un espace privé payant</b></td><td><i>« Tu pourrais vendre l'abonnement à un groupe privé où tu mets des choses spécifiques »</i></td></tr>
+      </table>
+      <p>Et une septième piste, les cours : <b>« ça pourrait très bien se vendre à des petits tarifs, parce que tu vises le monde et que tu as un énorme volume de trafic. Même à 10, 15 ou 20 euros, ce serait très rentable, parce que tu pourrais faire 1 000 ventes dans la journée, littéralement. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le calcul qui rend le volume viable</h4>
+      <p>C'est peut-être le raisonnement le plus important de la session pour quelqu'un qui démarre, parce qu'il retire toute pression sur chaque titre pris isolément.</p>
+      <p><b>« Dis-toi qu'en plus, tu les commercialises. Même s'ils ne marchent pas, tes titres te rapportent, je ne sais pas, 8 euros par an chacun. Si tu en as 100, ça fait 800. Si tu en as 1 000, ça fait 8 000. »</b></p>
+      <p><b>« Donc toi, tu peux clairement bâtir un modèle d'affaires viable sur le volume. Et ça ne te coûte rien de produire ça, en soi. »</b></p>
+      <p><b>La conséquence stratégique : aucun titre n'a besoin de réussir.</b> C'est le nombre qui produit le revenu, ce qui change entièrement le rapport à l'échec d'une sortie — et explique pourquoi toute la session porte ensuite sur la cadence de production.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Quand construire l'offre</h4>
+      <p>Pas tout de suite, et c'est explicite : <b>« au départ, quand tu as 40 abonnés, ne te prends pas la tête là-dessus. »</b></p>
+      <p>Le seuil : <b>« dès que tu commences à en avoir plusieurs milliers, ça vaut le coup de commencer à bâtir une offre, même si tu sais qu'elle ne vendra pas. »</b></p>
+      <p>Et le mécanisme de bascule : <b>un site qui réunit partitions, fichiers MIDI et tutoriels, et un lien en description de chaque vidéo.</b> <i>« Tous les gens qui ont envie d'aller plus loin sont invités en description à basculer sur le site. Puis ensuite, il se passe ce qui se passe. »</i></p>
+      <p><b>Avoir l'offre prête avant qu'elle ne soit demandée</b> — c'est ce qui permet de capter la première vague d'audience au lieu de la regarder passer.</p>
+    </div>
+
+    <div class="pull">« Même s'ils ne marchent pas, tes titres te rapportent 8 euros par an chacun. Si tu en as 1 000, ça fait 8 000. »</div>
+  </div>
+</section>
+<section class="chap" id="s7" data-c="r">
+  <div class="chead">
+    <span class="num">7</span>
+    <h2>Le point de départ : saturer sa niche</h2>
+    <p class="tc">33:38 — 36:23</p>
+  </div>
+  <div class="cbody">
+    <p>Elle propose elle-même le premier pas : <i>« déjà, ce serait de créer une communauté et de faire des reprises sur une plateforme vidéo. Je pense que c'est la base. »</i> La réponse valide, puis précise — et le niveau de détail est volontairement bas.</p>
+
+    <div class="box b-key">
+      <h4>Le dispositif de tournage, au plus simple</h4>
+      <p><b>« Si tu as un piano chez toi, tu le fais comme ça. Sinon, même sur un clavier, tu poses une caméra sur le côté, tu essayes d'avoir une ambiance assez sombre avec une lumière bien tamisée uniquement sur tes mains, et tu joues. Et tu t'enregistres comme ça. C'est tout. »</b></p>
+      <p><b>Caméra de côté, lumière sur les mains, rien d'autre.</b> Aucun décor, aucun montage, aucune mise en scène — et c'est exactement ce que fait la chaîne à deux millions d'abonnés prise comme modèle, dont il rappelle d'ailleurs qu'elle <b>a démarré avec des vidéos bien plus rudimentaires.</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le seul critère de choix des morceaux</h4>
+      <p><b>« Tu essayes de faire des vidéos sur des morceaux dont les mots clés sont très recherchés. Voilà, point. »</b></p>
+      <p>Pas le morceau qui vous plaît le plus : <b>le morceau que des gens cherchent.</b> C'est la différence entre produire pour soi et produire pour être trouvé.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Et l'objectif de volume, qui n'a pas de plafond</h4>
+      <p><b>« Et tu en fais une, deux, trois, quatre, cinq, 1 000, 5 000, 10 000, 100 000 s'il faut. »</b></p>
+      <p>Le nom donné à la stratégie, emprunté aux créateurs américains : <b>saturer sa niche.</b> <i>« Il faut vraiment saturer ta niche pour que toutes les personnes qui tapent ces mots clés-là te voient au moins une fois dans la journée. »</i></p>
+      <p>Et la formulation concrète de l'objectif : <b>« il faut que quand on tape un nom d'artiste et piano, on voit ta tête quelque part. »</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>La preuve, par son propre cas</h4>
+      <p><b>« Si tu testes un jour des mots clés dans l'industrie musicale, dans 90 % des cas tu vas voir ma tête quelque part. Tu tapes "créer un label", tu devrais voir ma tête. "Devenir éditeur musical", tu devrais voir ma tête. »</b></p>
+      <p><b>C'est à ça que ressemble une niche saturée</b> — et c'est le résultat de plus de mille cinq cents vidéos, pas d'un coup de chance.</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Pourquoi commencer par la vidéo, et pas par les réseaux sociaux</h4>
+      <p>L'argument est celui de la durée de vie du contenu : <b>« je te recommande fortement de démarrer par la plateforme vidéo, parce que les réseaux sociaux créent du contenu qui est limité dans le temps. On ne regarde pas ce que quelqu'un a fait sur un fil il y a deux mois. La plateforme vidéo, par contre, c'est l'inverse. »</b></p>
+      <p><b>Un contenu référencé continue de travailler des années après sa publication.</b> Un post, non. Pour un catalogue qui doit produire du revenu passif, le choix est tranché d'avance.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Et la nécessité d'un plan</h4>
+      <p><b>« Tu dois avoir un plan de création de contenu où tu crées des sons en masse. Point. Et tu n'as pas de limite. »</b></p>
+      <p>Avec un avertissement contre l'auto-limitation : <b>« il ne faut pas te dire : peut-être qu'une par semaine, c'est assez. Plus tu produis, mieux c'est. Si tu peux en mettre une par jour, mets-en une par jour. »</b></p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s8" data-c="b">
+  <div class="chead">
+    <span class="num">8</span>
+    <h2>Le référencement d'une vidéo, point par point</h2>
+    <p class="tc">36:23 — 38:13 · 71:12 — 72:41</p>
+  </div>
+  <div class="cbody">
+    <p>Le sujet est traité deux fois, et la définition donnée en fin de séance est la plus claire : <b>« le travail de référencement, c'est tout ce que tu mets en plus de ton contenu qui est lu par les algorithmes. »</b></p>
+
+    <div class="box b-key">
+      <h4>La liste complète des éléments à remplir</h4>
+      <table class="tbl">
+        <tr><th>Élément</th><th>Ce qu'il en dit</th></tr>
+        <tr><td><b>La miniature</b></td><td>Soignée — et <b>le texte qui apparaît dessus est désormais lu par l'algorithme</b></td></tr>
+        <tr><td><b>Le titre</b></td><td>Optimisé sur le mot-clé visé</td></tr>
+        <tr><td><b>La description</b></td><td><b>« Qui concentre énormément d'informations »</b> : des mots-clés spécifiques qui font remonter la vidéo</td></tr>
+        <tr><td><b>Les hashtags</b></td><td><b>Entre un et trois</b>, pas plus</td></tr>
+        <tr><td><b>La fin de la description</b></td><td><b>Le titre de la vidéo suivi de son lien</b> — <i>« ça la rend plus lisible par l'algorithme »</i></td></tr>
+        <tr><td><b>Les sous-titres</b></td><td>À programmer <b>même sur une vidéo sans parole</b></td></tr>
+        <tr><td><b>Les fiches et écrans de fin</b></td><td>Ils <b>optimisent le référencement, ou jouent contre vous</b> s'ils sont absents</td></tr>
+        <tr><td><b>Les tags</b></td><td><b>Les mots-clés sur lesquels vous voulez être référencé</b></td></tr>
+        <tr><td><b>La langue et la catégorie</b></td><td>À renseigner systématiquement</td></tr>
+      </table>
+      <p>Son résumé : <b>« il faut vraiment prendre le temps de bien tout détailler, bien tout compléter. »</b> Le chapitrage, en revanche, n'est pas indispensable sur une vidéo musicale.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Les sous-titres sur une vidéo de piano : pourquoi</h4>
+      <p>Deux raisons, et la première est souvent oubliée.</p>
+      <div class="tl">
+        <div class="tli"><b>L'accessibilité réelle.</b> <i>« Il y a beaucoup de gens qui sont malentendants, qui utilisent les sous-titres. C'est activé par défaut chez eux, ou ils ont des lecteurs d'écran. »</i></div>
+        <div class="tli"><b>Les algorithmes les lisent.</b> <i>« Si dans tes sous-titres il y a régulièrement le nom d'un artiste suivi de "au piano", l'algorithme va le voir. Donc il ne faut pas hésiter à le remettre. »</i></div>
+      </div>
+      <p><b>Sur une vidéo instrumentale, les sous-titres deviennent un emplacement de mots-clés supplémentaire</b> — un champ que presque personne ne remplit dans ce créneau.</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Ce que l'algorithme regarde en plus des mots-clés</h4>
+      <p>La partie qui ne se remplit pas dans un formulaire : <b>« c'est la qualité de la vidéo, le temps que les gens restent dessus. Est-ce qu'ils se barrent au bout de trois secondes ou est-ce qu'ils restent trois minutes trente jusqu'à la fin ? »</b></p>
+      <p>Et les signaux sociaux : <b>« est-ce que tu as beaucoup d'interactions, beaucoup de commentaires, beaucoup de likes, beaucoup de repartages ? Tout ça entre en compte. »</b></p>
+      <p><b>Pour de la musique de relaxation, la rétention est un atout structurel :</b> un auditeur qui met un morceau pour s'endormir ou pour travailler reste jusqu'au bout, et souvent le relance. C'est exactement le signal que l'algorithme récompense.</p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Un avertissement sur la miniature</h4>
+      <p><b>« Évidemment, si tu mets un truc qui n'a rien à voir avec ce que tu proposes, c'est compliqué. »</b></p>
+      <p>Le texte de la miniature étant lu par l'algorithme, <b>une miniature racoleuse n'est plus seulement un problème de confiance : c'est une incohérence que la machine détecte.</b></p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s9" data-c="a">
+  <div class="chead">
+    <span class="num">9</span>
+    <h2>Le rythme : douze vidéos, puis on densifie</h2>
+    <p class="tc">38:13 — 39:18 · 41:44 — 44:35</p>
+  </div>
+  <div class="cbody">
+    <p>C'est la méthode la plus directement applicable de la session, et elle résout un problème très concret : <b>comment publier régulièrement quand on ne peut produire qu'un morceau par mois.</b></p>
+
+    <div class="box b-key">
+      <h4>La mécanique de densification</h4>
+      <div class="tl">
+        <div class="tli"><b>Vous avez 12 vidéos prêtes ?</b> Vous en programmez <b>une par mois</b> — une année est couverte.</div>
+        <div class="tli"><b>Vous en refaites 12 ?</b> Au lieu d'étendre sur une deuxième année, <b>vous les intercalez</b> : ça fait <b>deux par mois.</b></div>
+        <div class="tli"><b>Vous en refaites encore 12 ?</b> <i>« Plus tu rajoutes, plus tu combles les trous. »</i> Vous passez à une par semaine.</div>
+        <div class="tli"><b>Et ainsi de suite</b>, jusqu'à une par jour si le rythme le permet.</div>
+      </div>
+      <p><b>L'intuition qu'il faut renverser : on ne programme pas plus loin, on programme plus serré.</b> La production ne change pas, c'est l'espacement qui se réduit — et la chaîne paraît de plus en plus active.</p>
+      <p>Le temps de publication, lui, est connu : <b>« uploader une vidéo, ça doit te prendre entre 30 et 45 minutes à chaque fois. »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>L'objection, et elle est honnête</h4>
+      <p><i>« Je manque un peu de temps. Pour déchiffrer ma partition, jouer, m'entraîner, pour que ce soit fluide, ça demande énormément de travail en amont, de répétition. Pour être honnête avec moi-même, j'arriverai à le faire un par mois — mais du coup, ça ne fait pas beaucoup. »</i></p>
+      <p>La réponse : <b>« au contraire, si tu le tiens sur la longueur. »</b></p>
+      <p>Et la validation explicite, demandée en fin de séance : <b>« est-ce qu'on est d'accord que mon objectif, une sortie par mois, c'est bien ? » — « Oui, complètement. C'est un objectif qui est atteignable et qui est cohérent. Un très bon point de départ. Ce n'est ni trop ambitieux ni pas assez. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Son propre démarrage, et il remet tout en perspective</h4>
+      <p>C'est le passage qui désarme l'auto-reproche, et il est donné sans fard.</p>
+      <div class="tl">
+        <div class="tli"><b>Une vidéo. Puis un an sans rien.</b> <i>« Quand j'ai créé ma chaîne, j'ai fait une vidéo. Après, pendant un an, je n'ai rien fait. »</i></div>
+        <div class="tli"><b>Une deuxième, puis une troisième huit mois plus tard.</b></div>
+        <div class="tli"><b>Deux ou trois ans avant la régularité.</b> <i>« J'ai dû mettre deux ou trois ans avant de commencer à en faire régulièrement. »</i></div>
+        <div class="tli"><b>Puis une par mois</b> — avec, à l'époque, une tournée permanente, des enfants qui venaient de naître, un label et dix-sept artistes à gérer.</div>
+        <div class="tli"><b>Puis quatre d'un coup</b>, programmées une par trimestre. <i>« Puis après je me suis dit : j'ai encore du temps, je vais en refaire. Ça fait une tous les deux mois. »</i></div>
+      </div>
+      <p><b>« Et petit à petit, j'ai réduit le temps. »</b> La densification n'est pas une théorie : c'est son propre parcours.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Et la promesse qui tient la motivation</h4>
+      <p><b>« Tu verras que plus tu vas en faire, plus ce sera facile d'en faire. Là, ce que tu dis est tout à fait normal : ça va te prendre du temps à préparer, à répéter, à enregistrer, à monter, à poster. C'est juste normal. »</b></p>
+      <p>Et le repère chiffré : <b>« les 50 premières seront les plus dures. Les 50 suivantes vont te paraître très faciles. »</b></p>
+      <p>Avec le point d'arrivée, à plus de mille cinq cents vidéos : <b>« je n'ai aucun problème à faire une vidéo sans montage. Tu me donnes un thème, allume la caméra, je vais t'en parler pendant 15, 20 minutes. »</b></p>
+      <p>Et la liberté laissée sur le rythme : <b>« si tu vois que c'est suffisant, que tu ne peux pas aller plus loin pour l'instant, tu laisses comme ça. Si par contre tu as la capacité de faire plus, tu doubles. »</b></p>
+    </div>
+
+    <div class="pull">« Les 50 premières seront les plus dures. Les 50 suivantes vont te paraître très faciles. »</div>
+  </div>
+</section>
+<section class="chap" id="s10" data-c="g">
+  <div class="chead">
+    <span class="num">10</span>
+    <h2>Accepter de travailler un an à vide</h2>
+    <p class="tc">39:18 — 41:44 · 44:35 — 47:04 · 110:40 — 112:18</p>
+  </div>
+  <div class="cbody">
+    <p>C'est le passage le plus important de la session sur le plan psychologique, et il est dit sans adoucissement.</p>
+
+    <div class="box b-danger">
+      <h4>Les premières vidéos ne feront rien, et c'est normal</h4>
+      <p><b>« Il faut que tu acceptes dès le départ que tes vidéos feront zéro vue, ou deux, ou trois, ou cinq, ou dix. C'est normal, c'est comme ça que fonctionne l'algorithme. Et progressivement, il va te mettre en avant. »</b></p>
+      <p>Et le délai annoncé : <b>« il faut que tu acceptes d'être patiente aussi. Ça va mettre entre un an et 18 mois pour vraiment générer du résultat. »</b></p>
+      <p>Puis seulement : <b>« une fois que tu en as, tu amplifies. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>L'avertissement final, et la consigne qui va avec</h4>
+      <p>En clôture de séance, le même point revient, formulé de la manière la plus franche possible :</p>
+      <p><b>« Tu as une fenêtre de temps incompressible sur laquelle il va vraiment falloir que tu t'accroches — et tu auras envie d'arrêter toutes les semaines. Et c'est normal. »</b></p>
+      <p>Et la consigne : <b>« appelle-moi quand c'est comme ça. Mais si tu tiens, oui, ça va décoller. »</b></p>
+      <p><b>Prévoir l'envie d'arrêter plutôt que la redouter.</b> Dire à l'avance qu'elle viendra chaque semaine la rend gérable : ce n'est plus un signal d'échec, c'est une étape annoncée.</p>
+      <p>Et la part qui échappe à tout le monde : <b>« c'est le temps que les algorithmes prennent et commencent à rouler ton contenu. C'est tout. Mais ça, on n'a pas d'idée du temps que ça peut prendre. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Les leviers pour ne pas attendre passivement</h4>
+      <p>Pendant cette période à vide, plusieurs choses peuvent accélérer la mise en route :</p>
+      <div class="tl">
+        <div class="tli"><b>La publicité en ligne.</b> <i>« Ça va amener de la visibilité. »</i></div>
+        <div class="tli"><b>Les autres réseaux sociaux</b>, pour drainer du trafic vers la chaîne.</div>
+        <div class="tli"><b>Les webzines spécialisés.</b> <i>« Il y en a qui existent, ils partagent des reprises, des covers. Peut-être que de temps en temps ils glisseront une adaptation piano. »</i></div>
+        <div class="tli"><b>La sortie digitale sur les plateformes de streaming.</b> Et l'argument décisif : <i>« il suffit qu'une seule plateforme les mette en avant, ça va rejaillir sur toutes les autres. »</i></div>
+      </div>
+      <p>Avec une opportunité datée : <b>certaines plateformes font actuellement beaucoup de playlists à thème pour les morceaux instrumentaux</b>, et donc beaucoup de mises en avant sur ce créneau précis.</p>
+      <p>Et le scénario qu'il décrit : <b>« tu peux te retrouver, au bout du 123e morceau, boum, tu as un pic de visibilité, il va péter un million de streams. »</b> Les gens remontent alors vers votre profil — <b>d'où l'importance que les biographies soient à jour partout.</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Mais l'ordre des priorités reste le même</h4>
+      <p><b>« Le cœur du réacteur, c'est produire tes vidéos, bien les référencer et les poster régulièrement. Et le reste, après, c'est de l'eau que tu amènes à ton moulin. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Son parcours personnel, qui donne de la crédibilité au conseil</h4>
+      <p>Pour appuyer que la difficulté du début n'est pas un signe d'inaptitude, il raconte ses propres débuts — et ils sont loin de l'image actuelle.</p>
+      <div class="tl">
+        <div class="tli"><b>Une timidité extrême au départ.</b> <i>« Moi, je suis un timide maladif. Pendant un temps, même serrer la main, je n'arrivais pas à le faire. Je ne pouvais pas regarder les gens dans les yeux. »</i></div>
+        <div class="tli"><b>Un travail, pas un don.</b> <i>« Je lutte contre moi-même, j'ai beaucoup progressé. »</i></div>
+        <div class="tli"><b>Du matériel de fortune.</b> Un vieil ordinateur portable <b>posé sur un grille-pain et des boîtes de jeux de société</b> pour être à la bonne hauteur. <i>« Il n'y avait pas de lumière, pas de micro. »</i></div>
+        <div class="tli"><b>Une qualité si mauvaise</b> qu'il avait <b>réduit la taille de l'image</b> pour que ça se voie moins.</div>
+        <div class="tli"><b>Et une première conférence très difficile</b>, qu'il raconte sans l'enjoliver — jambes tremblantes, bégaiements, impossibilité de bouger.</div>
+      </div>
+      <p>Ce qu'on lui dit aujourd'hui : <b>« tu es très à l'aise sur scène pour tes conférences, c'est incroyable ce que tu fais. »</b> Et sa réponse intérieure : <b>« ouais, c'est du travail. »</b></p>
+      <p><b>« Tu démarres, et petit à petit ça vient, et ça devient de plus en plus facile. »</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Et le parallèle qu'elle apporte elle-même</h4>
+      <p>Elle fait le rapprochement avec une expérience antérieure en marketing relationnel : <i>« au début, tu as une vision, tu fais à vide, et après tu vois les récompenses de tes efforts. »</i></p>
+      <p>Ce qui amène sa propre règle de conduite : <b>« depuis que j'ai commencé, c'est le fond de mon travail : je pars du principe que plus tu donnes, plus tu reçois. Donc donne, donne, donne. Si ça doit revenir, ça reviendra. Si ça ne revient pas, ça ne revient pas. Mais dans tous les cas, je trouve que ça fait avancer. »</b></p>
+    </div>
+
+    <div class="pull">« Tu auras envie d'arrêter toutes les semaines. Et c'est normal. Mais si tu tiens, ça va décoller. »</div>
+  </div>
+</section>
+
+<section class="chap" id="s11" data-c="b">
+  <div class="chead">
+    <span class="num">11</span>
+    <h2>Gagner du temps : chronométrer, recycler, batcher</h2>
+    <p class="tc">47:04 — 55:49</p>
+  </div>
+  <div class="cbody">
+    <p>Si le rythme est le problème, le temps par vidéo est le levier. Trois techniques sont détaillées, dans l'ordre où il les a lui-même adoptées.</p>
+
+    <div class="box b-key">
+      <h4>Technique 1 — se chronométrer</h4>
+      <p>C'est son propre regret : <b>« c'est un truc que je ne faisais pas, je regrette aujourd'hui. Si tu peux, essaie de te chronométrer, tu notes tes temps. »</b></p>
+      <p>Et la lecture qu'on en fait : <b>« la première m'a pris trois heures. La deuxième, deux heures vingt : le process est meilleur. La troisième, deux heures. J'ai déjà gagné une heure entre la première et la troisième. Qu'est-ce que je peux faire en amont pour réduire encore le temps ? »</b></p>
+      <p>Avec une limite honnête : <b>« sachant qu'il y a un temps incompressible. Par exemple, répéter, ça, malheureusement, tu ne peux rien y faire. »</b></p>
+      <p><b>Le chronomètre sépare ce qui s'optimise de ce qui ne s'optimise pas.</b> Sans mesure, on croit que tout prend trop de temps ; avec, on voit que seul le travail musical est irréductible.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Technique 2 — recycler les réglages</h4>
+      <p>La fonction est montrée à l'écran : au moment de l'import d'une vidéo, <b>« Réutiliser les détails d'une autre vidéo »</b>.</p>
+      <p>Pourquoi c'est idéal pour une série homogène : <b>« si toi, tu fais que des vidéos piano, c'est très facile. Tu vas avoir à peu près les playlists qui seront les mêmes, les tags seront les mêmes, la langue sera la même, la catégorie sera la même. »</b></p>
+      <p>Et le gain : <b>« peut-être que la description, tu la changeras de temps en temps, mais 80 %, ce sera la même chose. Tu fais "Réutiliser" et boum, ça complète tout. »</b></p>
+      <p>Même logique pour les visuels : <b>« tu peux très bien te créer un modèle de miniature et ensuite le décliner. »</b> Il montre ses propres miniatures, construites <b>avec un seul prompt réutilisé</b> : <i>« c'est un prompt qui est à chaque fois le même et qui réutilise les mêmes photos, et qui vient simplement modifier le thème. »</i></p>
+      <p>Le résultat : <b>« à chaque fois, ce qui bouge, ce sont certains éléments, mais les photos sont les mêmes, les réglages sont les mêmes. Ça, ça te fait gagner du temps. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Technique 3 — le batching, expliqué en entier</h4>
+      <p><b>« L'idée du batching, c'est qu'au lieu de faire une vidéo par une vidéo, on en fait 12 d'un coup. »</b></p>
+      <p>Le cycle complet, tel qu'il le décrit pour ce projet précis :</p>
+      <div class="tl">
+        <div class="tli"><b>On cherche 12 idées de morceaux à reprendre.</b></div>
+        <div class="tli"><b>On travaille les 12 morceaux.</b></div>
+        <div class="tli"><b>Quand on est prêt, on enregistre les 12 d'un coup.</b></div>
+        <div class="tli"><b>On monte les 12</b>, s'il y a du montage.</div>
+        <div class="tli"><b>On publie les 12.</b></div>
+      </div>
+      <p>Et l'effet sur chaque tâche : <b>« quand tu as 12 descriptions à faire, tu en fais une à fond, tu copies-colles et tu réadaptes. Tu fais une miniature où tu te prends bien la tête, ça claque — il y a juste à changer le titre de la chanson d'une miniature à l'autre. »</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Le calcul qui justifie tout</h4>
+      <p>Il le fait sur son propre cas : <b>« pour faire une vidéo, j'ai besoin de 30 à 45 minutes d'installation. Tu imagines si je n'en fais qu'une seule ? Alors que là, si je mets 30 à 45 minutes d'installation et que j'en fais 15, j'ai gagné 15 fois 30 à 45 minutes. »</b></p>
+      <p><b>Le coût fixe d'installation est le même pour une vidéo que pour quinze.</b> C'est toute la logique du batching, et elle s'applique au piano exactement comme à une caméra : une seule mise en place de l'éclairage, du cadre et du micro pour douze morceaux.</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Son organisation complète, en détail</h4>
+      <div class="tl">
+        <div class="tli"><b>Les idées s'accumulent en permanence.</b> <i>« Les thèmes, je ne les invente pas. Souvent je les prépare d'avance pendant des semaines. Là, on a une conversation : de notre conversation, ça va peut-être me donner une idée. Boum, je note. »</i></div>
+        <div class="tli"><b>Au moment de tourner, il reprend trois mois de notes</b> et en sort une liste. <i>« Souvent j'en prends même 30. J'en fais que 10, mais j'en ai 30. »</i></div>
+        <div class="tli"><b>Le matériel est installé la veille</b>, avant d'aller se coucher, <i>« comme ça ça ne me prend pas de temps »</i>.</div>
+        <div class="tli"><b>Les tenues sont prévues</b> — plusieurs hauts de couleurs différentes, posés à côté.</div>
+        <div class="tli"><b>Le jour J : la liste à l'écran, et on enchaîne à l'inspiration.</b> <i>« Ça, je ne sais pas trop de quoi je vais parler, pour l'instant je ne le fais pas. Ça, je le fais, et j'enchaîne. »</i></div>
+        <div class="tli"><b>Le montage réduit au minimum.</b> <i>« Je coupe le début, je coupe la fin. Boum, j'ai une vidéo. »</i></div>
+      </div>
+      <p>Le résultat : <b>« je n'ai jamais de problème de contenu, parce que je vais faire trois, quatre mois d'avance avec 15 vidéos. Finalement, pour une journée de travail, j'ai quatre mois de publication. »</b></p>
+      <p>Et la seule difficulté : <b>« au départ, c'est une dynamique à prendre. »</b></p>
+    </div>
+
+    <div class="box b-danger">
+      <h4>Mais la première étape n'est pas de batcher</h4>
+      <p>C'est le point à ne pas inverser, et il insiste : <b>« pour en revenir à toi, ta première étape, c'est d'en faire qu'une. C'est important pour valider le cycle en entier. Sinon, tu ne verras pas ce que tu peux améliorer. »</b></p>
+      <p>La séquence correcte :</p>
+      <div class="tl">
+        <div class="tli"><b>Une seule vidéo, publiée.</b> <i>« Ça y est, maintenant ça existe. Ce n'est plus juste dans ta tête, ce n'est pas une fable. »</i></div>
+        <div class="tli"><b>Puis une deuxième.</b> <i>« Tu as gagné deux abonnés, ce n'est pas grave, c'est toujours ça de pris. »</i></div>
+        <div class="tli"><b>Après trois ou quatre, le process est isolable</b> — et c'est là qu'on batche. <i>« Si je peux en faire quatre, c'est que je peux en faire huit. »</i></div>
+      </div>
+      <p><b>On n'industrialise pas un process qu'on n'a pas encore parcouru une fois.</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Et une fois lancé : surfer sur l'actualité</h4>
+      <p>L'avantage d'avoir un an de publications programmées : <b>on peut insérer un contenu d'actualité à tout moment.</b></p>
+      <p>Les deux sources d'opportunités qu'il donne :</p>
+      <div class="tl">
+        <div class="tli"><b>Une reprise qui cartonne ailleurs</b> — <i>« ça me donne une idée, je vais faire une vidéo. Et là, tu peux la rajouter. »</i></div>
+        <div class="tli"><b>Les dates anniversaires</b>, à demander à une IA. Un anniversaire de disparition d'un grand artiste produit <b>un pic de recherche sur tous les mots-clés liés</b> : <i>« si tu as fait trois, quatre de ses plus gros morceaux en piano, dès que ça démarre, tu sors tes titres. »</i></div>
+        <div class="tli"><b>Et les journées thématiques</b> — une journée internationale, une fête du calendrier : <i>« tu viens les greffer petit à petit dans ta programmation. »</i></div>
+      </div>
+      <p>Avec le bon rapport au risque : <b>« si ça marche, tant mieux, ça va être explosif. Si ça ne marche pas, tu t'en fiches. »</b></p>
+    </div>
+
+    <div class="pull">« Pour une journée de travail, j'ai quatre mois de publication. »</div>
+  </div>
+</section>
+<section class="chap" id="s12" data-c="r">
+  <div class="chead">
+    <span class="num">12</span>
+    <h2>La stratégie par langue, et la fenêtre de tir</h2>
+    <p class="tc">58:59 — 71:12</p>
+  </div>
+  <div class="cbody">
+    <p>C'est la partie la plus originale de la session. Elle est démontrée en direct, écran partagé, et elle repose sur une observation simple : <b>les mots-clés ne se traduisent pas, ils se remplacent.</b></p>
+
+    <div class="box b-key">
+      <h4>La démonstration, faite en direct</h4>
+      <p>Le point de départ est son propre comportement : <b>« quand je veux écouter de la musique pour écrire, je vais taper "musique piano pour écrire", ou "relaxant pour travailler". Et là je vais trouver ce qui correspond. Jusqu'ici, tout va bien. »</b></p>
+      <p>Puis le basculement : <b>« maintenant, tu te doutes bien qu'un type qui est basé en Inde, il ne va pas écrire ça. Lui, il va taper ça. »</b> — et il tape la requête équivalente dans une autre langue.</p>
+      <p>Ce que la recherche renvoie : <b>des résultats complètement différents.</b> Il ouvre la première vidéo : <i>« il est en train de parler dans une autre langue, je ne comprends absolument rien. Mais voilà, il s'est référencé là-dessus. Et lui, il a sorti ça il y a deux ans, il a fait 1,3 million de vues. »</i></p>
+      <p><b>« Eh bien toi, si tu te références sur ça, tu vas venir le concurrencer — et petit à petit, ça va faire exploser ta visibilité. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Pourquoi ça fonctionne, pays par pays</h4>
+      <p><b>« Il y a des gens en Israël qui vont taper ça dans leur langue. Il y a des gens en Égypte, en Arabie saoudite. Il y a des gens au Brésil qui vont taper ça en portugais. »</b></p>
+      <p>Et le raisonnement de fond, qui vaut pour tout instrumentiste : <b>personne ne cherche dans une langue qu'il ne maîtrise pas.</b> <i>« Moi, je n'irais jamais taper un mot clé en mandarin. Je ne sais même pas comment ça s'écrit. »</i></p>
+      <p>Conséquence : <b>chaque langue est un marché séparé, avec sa propre concurrence</b> — et certaines sont très peu travaillées.</p>
+      <p>L'honnêteté du raisonnement est à relever : <b>« ça ne veut pas dire qu'il n'y aura pas de concurrence dans ces langues-là. Ça veut juste dire que si tu commences à le faire le plus tôt possible, en même temps que tu le fais pour la France, tu vas le développer dans d'autres pays. »</b></p>
+      <p>Et l'arbitrage chiffré : <b>« je pense qu'en France, on a beaucoup de gens qui savent composer et qui ont déjà eu l'idée de faire ça, mais qui ne l'ont pas poussé. Peut-être qu'ailleurs, il y en a 10 fois moins. Si tu te positionnes et que tu es dans le top 10, tu vas aller chercher des millions de vues. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>La projection de revenus, et ce qu'elle démontre</h4>
+      <p>Il la donne explicitement comme une hypothèse favorable : <b>« je te le souhaite, dans le meilleur monde possible, dans trois ans tu peux avoir en moyenne 10 000 euros par an liés à ta monétisation vidéo, 5 000 liés à ton volume de streaming en France, mais peut-être 10 000 liés à ta monétisation dans un autre pays, peut-être 10 000 encore dans un autre. »</b></p>
+      <p>Et ce qu'il faut en retenir n'est pas le montant mais la structure : <b>« en fait, tu vas démultiplier tes sources de revenus. C'est comme si tu avais un produit et que tu le vendais dans d'autres pays. »</b></p>
+      <p><b>Le même travail, vendu plusieurs fois sur des marchés qui ne se font pas concurrence.</b> C'est exactement ce qu'un chanteur ne peut pas faire — <i>« un chanteur qui chante en français, il ne peut pas »</i> — et c'est le privilège structurel de l'instrumental.</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Et l'alternative : passer par l'anglais</h4>
+      <p><b>« C'est pour ça qu'idéalement, aujourd'hui, il faut chanter en anglais. C'est plus facile à exporter. »</b> Avec la nuance que certains titres francophones s'exportent très bien — il cite plusieurs cas, d'hier et d'aujourd'hui.</p>
+      <p>Mais l'anglais a un défaut : <b>« c'est la langue la plus facile à apprendre aujourd'hui, et donc c'est la plus concurrentielle. »</b></p>
+      <p>D'où la formule qui résume la stratégie : <b>« au lieu de se laisser porter par la concurrence, on va essayer d'aller chercher notre propre marché dans ce marché. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Comment on crée ces profils, concrètement</h4>
+      <p>La question est posée directement : <i>« comment on crée des profils ? »</i></p>
+      <p>Il montre le sien : <b>une seconde chaîne en anglais</b>, avec la même image de marque, où sa voix avait été traduite et synchronisée par un outil d'IA. <i>« Il y a 100 abonnés, j'ai mis que 10 vidéos dessus. Donc moi, je n'ai pas poussé le truc. »</i></p>
+      <p>Et pourquoi il s'est arrêté : <b>la plateforme a ouvert entre-temps une fonctionnalité multilingue.</b> <i>« Je n'ai pas besoin de reposter la vidéo plusieurs fois. »</i></p>
+      <p>Il en fait la démonstration : sur une de ses vidéos, <b>on peut choisir la piste audio</b>, et l'écouter dans une autre langue. <i>« Ça, ce n'est pas du tout ma voix, mais ça parle anglais et c'est totalement courant. »</i></p>
+      <p>Et l'extension annoncée : <b>douze langues prévues d'ici fin 2027.</b> Les suggestions de recherche affichent déjà des titres traduits pour des vidéos tournées dans une autre langue.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Mais pour un instrumentiste, le calcul reste différent — et c'est le point clé</h4>
+      <p><b>« Toi, tu peux très bien créer des comptes en espagnol, en anglais, en chinois, dans la langue que tu veux. Et à partir de ces comptes-là, tu republies la vidéo dans la langue du pays. »</b></p>
+      <p>Et le conseil de ciblage, qui est la vraie trouvaille de la session : <b>« idéalement, va cibler des langues dures d'accès. »</b></p>
+      <p>Le raisonnement : <b>« probablement, dans quelque temps, la plateforme va créer un référencement naturel optimal pour tes vidéos en anglais, en espagnol, en allemand, en portugais, qui sont les langues les plus parlées en volume. Par contre, le mandarin, le japonais, l'hindi, le russe, ce sont des langues tellement compliquées qu'à mon avis, même avec de l'IA, ils vont mettre au moins quatre, cinq ans avant de le faire. »</b></p>
+      <p><b>« Ce qui t'offre une fenêtre de tir intéressante. »</b></p>
+      <p><b>La logique est contre-intuitive et c'est ce qui la rend précieuse : viser les langues que la traduction automatique mettra le plus longtemps à couvrir.</b> Les langues faciles seront saturées par l'automatisation ; les difficiles resteront ouvertes à qui s'y positionne à la main dès maintenant.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Ce que la stratégie implique en pratique</h4>
+      <div class="tl">
+        <div class="tli"><b>Un compte par langue visée</b>, où l'on ne communique que dans cette langue.</div>
+        <div class="tli"><b>Un site multilingue</b>, avec des liens dédiés : <i>« le lien que tu mets sur la description amène directement sur la partie traduite. »</i></div>
+        <div class="tli"><b>Les produits, eux, passent sans adaptation.</b> <i>« Le fichier MIDI étant international, ça ne pose aucun problème. La partition étant internationale, ça ne pose aucun problème. »</i></div>
+        <div class="tli"><b>Seul le tutoriel demande un effort</b> — des sous-titres dans la langue. <i>« Tu le fais en français, mais tu mettras juste des sous-titres. »</i></div>
+      </div>
+      <p>Et c'est là que l'argument de l'offre revient : <b>mieux vaut vendre la partition et offrir le tutoriel</b>, <i>« parce que tu ne peux pas râler sur quelqu'un qui t'a offert quelque chose. Et donc ça désamorce tout de suite. »</i></p>
+      <p>Avec, enfin, les outils qui rendent le tout faisable seule : <b>« avec l'IA aujourd'hui, tu peux traduire n'importe quel titre dans n'importe quelle langue. Tes descriptions, tu peux les traduire aussi. Ta miniature, tu peux trouver la traduction et remplacer le texte. »</b></p>
+      <p>La consigne d'ensemble : <b>« tu devrais avoir une vision mondiale de ce que tu vas proposer. »</b></p>
+    </div>
+
+    <div class="pull">« Va cibler des langues dures d'accès. Ce qui t'offre une fenêtre de tir intéressante. »</div>
+  </div>
+</section>
+
+<section class="chap" id="s13" data-c="a">
+  <div class="chead">
+    <span class="num">13</span>
+    <h2>Monétisation : les paliers à franchir</h2>
+    <p class="tc">72:41 — 73:44</p>
+  </div>
+  <div class="cbody">
+    <p>Question posée sans détour : <i>« par rapport à la monétisation, comment ça fonctionne ? Est-ce que je dois faire quelque chose en particulier ? »</i></p>
+
+    <div class="box b-key">
+      <h4>Les trois critères, et leur difficulté réelle</h4>
+      <table class="tbl">
+        <tr><th>Critère</th><th>Ce qu'il en dit</th></tr>
+        <tr><td><b>1 000 abonnés</b></td><td><b>Le plus difficile.</b> <i>« En dessous de 1 000, tu ne peux pas monétiser. Donc au départ, tu bosses à vide. Mais c'est le jeu. »</i></td></tr>
+        <tr><td><b>Un volume d'heures de visionnage cumulées</b></td><td>De l'ordre de plusieurs milliers d'heures — <i>« si tu as 10 000 abonnés, en général tu passes le seuil assez facilement »</i></td></tr>
+        <tr><td><b>Un troisième critère</b></td><td><i>« Pareil, qui est facile à obtenir »</i> une fois les deux premiers atteints</td></tr>
+      </table>
+      <p>Et la démarche finale : <b>« il suffit juste d'en faire la demande depuis ta page. Il y a un bouton qui te permet d'intégrer le programme de monétisation. Si tu respectes les critères, tu vas pouvoir cliquer dessus, sinon le bouton est grisé. »</b></p>
+      <p>Son verdict : <b>« non, en soi, c'est assez simple. »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Le point à retenir pour s'organiser</h4>
+      <p>Le palier des mille abonnés explique rétrospectivement tout le reste de la session : <b>c'est lui qui impose la période de travail à vide, et c'est lui que la stratégie de volume et la stratégie par langue servent à franchir.</b></p>
+      <p>Et la conséquence sur l'ordre des chantiers : <b>inutile de construire l'offre payante avant ce seuil</b>, puisque ni la monétisation ni l'audience ne sont encore là. D'où le conseil donné plus haut : bâtir l'offre quand on atteint quelques milliers d'abonnés, pas avant.</p>
+    </div>
+  </div>
+</section>
+<section class="chap" id="s14" data-c="g">
+  <div class="chead">
+    <span class="num">14</span>
+    <h2>Distribution et profils d'artiste</h2>
+    <p class="tc">90:53 — 107:56</p>
+  </div>
+  <div class="cbody">
+    <p>C'est la partie la plus technique de la session, et la plus utile pour une première sortie. Elle répond à une question que tout débutant se pose : <b>faut-il créer un compte sur chaque plateforme ?</b></p>
+
+    <div class="box b-key">
+      <h4>Non : tout part du distributeur</h4>
+      <p><b>« À partir du moment où tu fais ta sortie digitale, tu vas utiliser ce qu'on appelle un distributeur. Et le distributeur, lui, est chargé de le mettre sur toutes les plateformes. Donc toi, tu mets le titre à un seul endroit. De ce seul endroit, c'est dispatché un peu partout dans le monde. »</b></p>
+      <p>Et la précision qui lève la confusion : <b>une sortie sur la plateforme vidéo ne suffit pas.</b> <i>« Il faut faire une sortie digitale via ton distributeur. Il sera disponible aussi sur la plateforme vidéo, bien entendu, mais il faut que tu passes par ton distributeur. C'est ça, le point d'entrée. »</i></p>
+      <p>Et la condition d'existence du profil : <b>« il faut qu'il y ait au moins un titre sorti pour pouvoir modifier tes profils. Sinon le profil n'existe pas, donc tu n'as pas la main. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Ce que la sortie déclenche, dans l'ordre</h4>
+      <div class="tl">
+        <div class="tli"><b>1. Vous déposez la sortie chez votre distributeur.</b></div>
+        <div class="tli"><b>2. Le distributeur livre toutes les plateformes.</b></div>
+        <div class="tli"><b>3. Toutes les plateformes vous découvrent et créent un compte à votre nom</b> — <i>« tu vas avoir peut-être 270 comptes créés, probablement dans des pays où tu n'as jamais mis les pieds »</i>.</div>
+        <div class="tli"><b>4. À la date de sortie, vous réclamez vos profils</b> sur les plateformes principales.</div>
+      </div>
+      <p>Les plateformes qui comptent, selon lui : <b>trois principales</b>, plus une quatrième surtout pertinente sur le marché français. <i>« Les principales, tu les connais. Elles font 95 % de parts de marché. »</i></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le « claim » : la seule étape que personne ne peut faire pour vous</h4>
+      <p><b>« Le claim, c'est une réclamation. »</b> Le parcours est montré à l'écran.</p>
+      <div class="tl">
+        <div class="tli"><b>Vous recevez l'adresse de votre profil</b>, puis vous demandez l'accès.</div>
+        <div class="tli"><b>On vous demande quel profil d'artiste vous voulez réclamer</b>, et vous désignez le vôtre.</div>
+        <div class="tli"><b>La plateforme met environ 72 heures à répondre.</b></div>
+        <div class="tli"><b>Elle demande une preuve d'identité</b> : une pièce d'identité — <b>« si tu le fais, mets bien un filigrane dessus »</b> — ou, en alternative, <b>un profil de réseau social</b> à votre nom.</div>
+        <div class="tli"><b>Une fois validé, l'accès au profil vous est envoyé.</b></div>
+      </div>
+      <p>Et pourquoi cette étape vous revient : <b>« nous, on ne peut pas le faire, parce qu'on n'est pas toi, quelque part. »</b></p>
+      <p><b>Le filigrane sur la pièce d'identité est le détail à ne pas oublier :</b> il protège le document contre toute réutilisation, sans empêcher la vérification.</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Ce que le profil permet, et pourquoi ça compte</h4>
+      <p>Une fois la main récupérée : <b>modifier la photo, la biographie, les présélections de morceaux à écouter en priorité, créer des playlists, voir toutes les playlists où le titre est apparu, publier des visuels animés qui tournent pendant l'écoute</b>, et accéder aux statistiques.</p>
+      <p>Le mot qui résume l'enjeu : <b>« comme ça, tu contrôles la narrative. »</b></p>
+      <p>Et un bénéfice de référencement auquel on ne pense pas : <b>« si dans ta biographie il y a des mots clés comme piano, relaxation, reprise, c'est un truc qui remonte dans la barre de recherche de la plateforme. »</b></p>
+      <p><b>La biographie d'un profil de streaming est un emplacement de mots-clés</b>, exactement comme la description d'une vidéo.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>L'opération qui double la valeur de chaque vue</h4>
+      <p>C'est le point le plus rentable de la section. <b>Après la première sortie, les deux chaînes — la chaîne vidéo et sa version musicale — sont fusionnées.</b></p>
+      <p>Pourquoi : <b>« sinon, tu vas te retrouver avec des doublons. D'un côté tu auras la musique, d'un autre côté la vidéo avec la musique. Alors que nous, ce qu'on veut, c'est centraliser les écoutes. »</b></p>
+      <p>Et le résultat : <b>« la version musicale met en avant ta vidéo, ça te fait plus de vues. Et la plateforme globale met en avant ta vidéo, ça comptabilise aussi en stream. Et là, tu fais coup double : chaque vue devient un stream. »</b></p>
+      <p>C'est une démarche technique que le gestionnaire prend en charge : <b>« toi, tu fais juste les sorties. Nous, on gère les problèmes. »</b></p>
+    </div>
+
+    <div class="box b-danger">
+      <h4>Pourquoi démarrer accompagné dès la première sortie</h4>
+      <p>La question est posée : faut-il attendre d'avoir une audience avant de passer par un service de gestion ? <b>« Oui, complètement. Tu peux tout à fait démarrer à ta première sortie. C'est même recommandé. »</b></p>
+      <p>Les deux raisons :</p>
+      <div class="tl">
+        <div class="tli"><b>Les erreurs de sortie sont difficiles à corriger après.</b> <i>« C'est plus dur pour nous de récupérer la main sur des titres quand ils sont sortis ailleurs et mal sortis avant. »</i></div>
+        <div class="tli"><b>Et surtout : la fenêtre de rattrapage s'est refermée.</b> <i>« Avant, on avait une fenêtre de cinq ans en arrière pour rattraper certaines choses. Maintenant, on peut revenir qu'un an en arrière. Si les déclarations ne sont pas bien faites un an après la sortie, tu perds un an de revenus sur le digital, alors qu'avant c'était cinq ans. »</i></div>
+      </div>
+      <p><b>C'est l'information la plus coûteuse à ignorer de toute la session.</b> Une première sortie mal déclarée ne se répare plus au-delà d'un an — et un débutant ne sait pas, par définition, ce qui est mal déclaré.</p>
+      <p>Sa conclusion : <b>« plus tôt c'est fait, bien fait, mieux c'est. »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Une transparence à relever</h4>
+      <p>Interrogé sur le choix d'un distributeur parmi la multitude, il répond en expliquant d'abord qu'il en est lui-même un, puis <b>désamorce lui-même son propre conseil</b> : <i>« après, je prêche pour ma paroisse, donc mon avis est à prendre avec des pincettes. »</i></p>
+      <p>Et il relativise sa taille sans détour : <b>« après, on reste un petit distributeur. Tu compares avec les gros, on est minuscules. »</b></p>
+      <p>L'origine de ce réseau est instructive : après <b>un litige où un distributeur a écarté tout son catalogue avec trente jours de préavis</b>, il s'est rapproché d'un groupement international qui lui a conseillé de créer son propre réseau — <b>de sept plateformes au départ à plus de cinq cents aujourd'hui</b>, avec l'ouverture de plateformes asiatiques qui n'étaient pas couvertes. <b>Les noms ne sont pas repris ici.</b></p>
+      <p>Et ce que l'opération a révélé : <b>« il y a plein de frais cachés que les distributeurs nous mettaient. Quand on a découvert tout ça, j'ai dit : on me facturait 10 euros pour ça, je vois que ça coûte en fait 30 centimes. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Et le cœur du métier, qui n'est pas la distribution</h4>
+      <p><b>« Le cœur de notre métier, c'est quand même la collecte de droits. Il y a des artistes, quand on les récupère, on récupère des dizaines de milliers d'euros pour eux. »</b></p>
+      <p>Et la réaction de ces artistes : <i>« c'est dingue, mon éditeur n'a jamais récupéré ça. »</i> Avec une explication qui n'épargne personne : <b>« oui, il ne travaille pas. Ce n'est pas qu'il ne peut pas le faire — on a les mêmes outils. C'est qu'il ne bosse pas. Quand tu bosses un peu, oui, tu peux récupérer des trucs sympas. »</b></p>
+      <p><b>« On arrive à retrouver des dizaines de milliers d'euros de droits perdus dans la nature. »</b></p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Comment un outil naît d'un besoin personnel</h4>
+      <p>L'histoire est racontée en entier, et elle vaut comme leçon d'entrepreneuriat.</p>
+      <div class="tl">
+        <div class="tli"><b>Des process internes, créés pour lui-même</b> et pour ses équipes. <i>« Au départ, ça ne ressemblait pas à ça. C'étaient des formulaires. »</i></div>
+        <div class="tli"><b>Des artistes qui demandent de l'aide</b> sur les démarches administratives. Sa réponse à l'époque : <i>« je n'ai pas le temps, mais si tu veux, je t'envoie le process que j'utilise en interne, puis tu le fais toi-même. »</i></div>
+        <div class="tli"><b>Le jour où quelqu'un a voulu payer.</b> <i>« C'est génial, le gain de temps, dis-moi combien je te dois. » — « Non, rien du tout. »</i></div>
+        <div class="tli"><b>La première version, faite de formulaires</b>, avec un abonnement d'une vingtaine d'euros par mois. <b>Résultat du premier mois : 60 000 € de chiffre d'affaires.</b></div>
+        <div class="tli"><b>Puis l'amélioration continue</b>, demande par demande — et le remplacement des formulaires par du code, pour ne plus redemander deux fois la même information.</div>
+        <div class="tli"><b>Et aujourd'hui l'international</b> : des demandes venues de l'étranger, un avocat engagé pour adapter les contrats à un autre système de droit, et une version anglophone en préparation.</div>
+      </div>
+      <p>Son résumé : <b>« moi, j'ai des problèmes, j'ai créé des process. Un jour, quelqu'un a eu les mêmes, je lui ai donné accès. On a vu qu'il y en avait plein qui étaient contents. On s'est dit : il y a peut-être un truc à développer. »</b></p>
+      <p><b>Un produit né d'un problème qu'on avait soi-même, donné d'abord gratuitement, et vendu seulement quand quelqu'un l'a demandé.</b> C'est la trajectoire la plus solide qui existe, et elle est transposable à n'importe quel projet.</p>
+    </div>
+
+    <div class="pull">« Toi, tu fais juste les sorties. Nous, on gère les problèmes. »</div>
+  </div>
+</section>
+
+<section class="chap" id="s15" data-c="b">
+  <div class="chead">
+    <span class="num">15</span>
+    <h2>Protéger son nom de scène</h2>
+    <p class="tc">107:56 — 110:11</p>
+  </div>
+  <div class="cbody">
+    <p>Trois questions en fin de séance portent sur le nom d'artiste. La réponse est courte et opérationnelle.</p>
+
+    <div class="box b-key">
+      <h4>Le premier réflexe, déjà pris</h4>
+      <p>Avant toute chose : <b>vérifier que le nom est libre</b>, au moins dans le domaine musical. <i>« C'est bien, déjà, que tu vérifies que le nom est bien libre. »</i></p>
+      <p>Et la raison de déposer, qui tient à la sonorité : <b>« ça dépend de ton nom. Disons que la phonétique sonne bien, donc oui, ça peut vite être repris »</b> — y compris dans des univers très éloignés, musique pour enfants ou autre.</p>
+      <p><b>« Oui, ce serait bien que tu le protèges dans ce cas. Tu fais un dépôt à l'office des marques. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Combien de classes déposer</h4>
+      <p>La question est précise — faut-il toutes les classes ou une seule ? — et la réponse est chiffrée : <b>« je dirais qu'il y a entre trois et cinq classes dans lesquelles c'est intéressant de déposer un nom d'artiste. Plus, ça ne sert à rien. »</b></p>
+      <p>Et la classe qu'on oublie, avec sa justification : <b>« tout ce qui va être affiche, c'est important. Parce que si demain tu fais des concerts et que tu es sur une affiche, et que ton nom n'est pas déposé dans la catégorie reliée au support de communication visuelle, tu peux avoir des problèmes. »</b></p>
+      <p>Sa règle de conduite, formulée en une phrase : <b>« on anticipe un peu tout ça. On part du principe qu'on joue pour gagner. »</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Et l'étalement possible du coût</h4>
+      <p>Le dépôt n'a pas à être fait d'un bloc : <b>« tu n'es pas obligée de faire les six tout de suite. Tu peux faire les deux, trois principales maintenant et les deux, trois autres plus tard. »</b></p>
+      <p><b>Déposer les classes essentielles immédiatement, compléter ensuite</b> — c'est ce qui rend la protection accessible à un projet qui démarre sans trésorerie.</p>
+      <p>Des ressources détaillées sur la procédure sont envoyées à la suite de l'entretien, avec une relance convenue : <i>« rappelle-moi quand on finit, tu m'envoies un message. »</i></p>
+    </div>
+
+    <div class="box b-info">
+      <p><em>Le dépôt d'une marque et le choix des classes se préparent avec un conseil en propriété industrielle. Les éléments ci-dessus sont un retour d'expérience, pas un avis juridique.</em></p>
+    </div>
+  </div>
+</section>
+<section class="chap" id="s16" data-c="r">
+  <div class="chead">
+    <span class="num">16</span>
+    <h2>Le matériel : l'image, et surtout le son</h2>
+    <p class="tc">112:18 — 120:00</p>
+  </div>
+  <div class="cbody">
+    <p>La dernière question de la séance est la plus concrète : <i>« je joue sur mon piano, j'ai la caméra, l'angle de vue, l'ambiance. Est-ce que ça suffit, un portable ? »</i></p>
+
+    <div class="box b-key">
+      <h4>Pour l'image : oui, largement</h4>
+      <p><b>« Oui, largement. »</b> Et sur la manipulation : <i>« je joue et j'allume la vidéo pour enregistrer, c'est un bon plan ? » — « Pour la vidéo, oui. »</i></p>
+      <p><b>Le téléphone règle entièrement la question de l'image.</b> C'est le son qui est le vrai sujet, et toute la suite de la section y est consacrée.</p>
+    </div>
+
+    <div class="box b-warn">
+      <h4>Pour le son : personne ne peut répondre à votre place</h4>
+      <p><b>« Pour la qualité de son, je ne sais pas, ça dépend de ton acoustique. Ça, il faut que tu testes. Peut-être que ça va très bien rendre. Peut-être qu'il va falloir que tu branches un micro. Peut-être qu'il va falloir que tu fasses des prises son à part. Il n'y a que toi qui le sauras. »</b></p>
+      <p>L'exemple donné : <b>un pianiste de son entourage filme beaucoup au téléphone et le rendu est bon</b> — mais pas partout. <i>« Il y a eu des endroits où j'ai joué, ça ne passait pas du tout. »</i></p>
+      <p>Les variables qui jouent : <b>le modèle de téléphone, son micro, et surtout son emplacement.</b> <i>« Il faut l'essayer en allongé, en debout. Peut-être qu'en debout le son sera un peu écrasé. Selon où tu le mets, peut-être qu'il y aura trop de résonance ou pas. Il n'y a pas de règle. »</i></p>
+      <p><b>« Mais le son est important. Donc si tu sens que la qualité n'est pas là, il faut vraiment que tu cherches des solutions de prise de son différentes. »</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>Solution 1 — le micro cravate</h4>
+      <p><b>« Le must, c'est un micro cravate que tu peux brancher au téléphone directement. »</b></p>
+      <p>Et son propre usage, qui contredit les recommandations habituelles : il place les siens <b>sous le col</b>, invisibles. <i>« Et sans le voir, ça coupe le vent automatiquement. Il n'y a même pas besoin de la petite mousse qu'on met dessus. La prise, elle est nickel. »</i></p>
+      <p>Avec la démarche qui l'a conduit là : <b>« à chaque fois que je regardais dans des vidéos, on me recommandait de bien le mettre près de la bouche, avec la petite mousse. Sauf que moi je trouvais ça moche, ça prenait trop de place. Et finalement j'ai fait un test, j'ai écouté. J'ai quand même des oreilles, j'entends que là, c'est propre. J'y vais. »</b></p>
+      <p><b>Tester soi-même et écouter le résultat prime sur les recommandations générales.</b> C'est la même règle que pour le placement du téléphone.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Solution 2 — jouer sur un clavier MIDI : la réponse définitive</h4>
+      <p>C'est la recommandation la plus forte de la section, et elle règle le problème du son à la racine.</p>
+      <p><b>Le principe :</b> le clavier est branché à l'ordinateur et ne produit aucun son par lui-même. <i>« Si j'appuie, il n'y a rien. Mais il va être branché directement à mon ordinateur. Je vais dedans mettre une sonorité de piano et je vais pouvoir enregistrer en format MIDI directement mes sons. »</i></p>
+      <p>La différence, expliquée simplement : <b>« ce sera un vrai clavier, mais la sonorité ne sortira pas du clavier, elle ne sortira que de l'ordinateur. C'est ça la différence. C'est pour ça que le son sera parfait. Il n'y aura pas d'écho, pas de grésillement, pas de truc bizarre. »</b></p>
+      <p>Et ce que les sonorités professionnelles permettent : <b>« ça résonne comme dans une salle. Tu peux même choisir le type de salle : une grande salle de concert, une petite, un studio, un grand studio, à la maison. Et ça applique des effets automatiquement. »</b></p>
+      <p>Le résultat, à une condition : <b>« si tu as le bon doigté, que tu joues bien avec tes pédales et que tu vas chercher la meilleure interprétation possible, on ne voit pas que ce n'est pas un vrai piano, ça ne s'entend pas. Très peu de gens feront la différence. »</b></p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Et le bénéfice caché : tous les exports deviennent gratuits</h4>
+      <p>C'est le point qui relie cette section à tout le modèle d'affaires de la section 6.</p>
+      <p><b>« En plus, faire ça te ferait gagner du temps. Parce que si demain tu as besoin d'exporter des partitions, il suffit d'appuyer sur un bouton et ça te les exporte. Tu veux les sortir en fichier MIDI, tu appuies sur un bouton. Tu veux sortir l'audio, tu fais exporter, tu sors l'audio en haute qualité. »</b></p>
+      <p><b>Un seul enregistrement produit les trois formats vendables : la partition, le fichier MIDI et l'audio.</b> Le clavier MIDI n'est donc pas qu'une solution de prise de son : c'est l'outil qui rend viables trois des six sources de revenus identifiées plus haut.</p>
+    </div>
+
+    <div class="box b-tip">
+      <h4>La méthode de tournage qui en découle</h4>
+      <p><b>« Et après, quand tu as l'audio, tu t'enregistres en train de le rejouer avec ton téléphone, qui filme — mais tu mets le son sorti de ton ordinateur dedans. Et comme ça, tu as le doigté de l'image qui est nickel et l'audio qui est parfait. »</b></p>
+      <p>Elle reformule, et c'est exact : <i>« je joue au rythme de l'audio de l'ordinateur. » — « Exactement. »</i></p>
+      <p><b>L'image et le son sont découplés :</b> on enregistre le son dans les meilleures conditions, puis on se filme en rejouant dessus. C'est la pratique standard des chaînes de ce créneau.</p>
+    </div>
+
+    <div class="box b-info">
+      <h4>Le budget, et les logiciels</h4>
+      <table class="tbl">
+        <tr><th>Élément</th><th>Ordre de prix</th></tr>
+        <tr><td><b>Un clavier MIDI</b></td><td><b>Environ 70 €</b></td></tr>
+        <tr><td><b>Des pédales</b></td><td><b>Environ 50 €</b></td></tr>
+        <tr><td><b>Un logiciel</b> permettant d'y connecter une sonorité de piano</td><td>Voir ci-dessous</td></tr>
+      </table>
+      <p>Les logiciels cités : <b>Logic Pro</b> — <i>« le meilleur que tu peux utiliser »</i> — et en équivalents <b>Cubase</b> et <b>Ableton Live</b>. <i>« Si tu tapes ces trois noms-là, tu verras, il y en a plein d'autres. Il y en a six ou sept qui existent sur le marché à l'heure actuelle. »</i></p>
+      <p>Et une bonne nouvelle pour ce projet : <b>le piano récemment acquis gère déjà le MIDI.</b> Il ne reste donc que le branchement et le logiciel.</p>
+    </div>
+
+    <div class="box b-key">
+      <h4>Le branchement : une seule chose à vérifier</h4>
+      <p><b>« Soit tu connectes en USB, si tu en as la possibilité. Ça, c'est le plus simple. Tu branches du clavier à l'ordi avec un port USB et c'est parfait. »</b></p>
+      <p>Et pourquoi éviter l'autre voie : <b>« soit tu connectes en MIDI, et auquel cas les câbles MIDI vont nécessiter une interface audio externe »</b> — un boîtier supplémentaire, avec les branchements d'un côté et l'ordinateur de l'autre.</p>
+      <p>Son pronostic : <b>« à mon avis, ton piano, surtout s'il est récent, il a forcément un port USB. »</b></p>
+      <p><b>Vérifier la présence d'un port USB avant d'acheter quoi que ce soit d'autre</b> — c'est ce qui sépare une installation à 120 € d'une installation qui demande un boîtier en plus.</p>
+    </div>
+
+    <div class="pull">« On ne voit pas que ce n'est pas un vrai piano, ça ne s'entend pas. Très peu de gens feront la différence. »</div>
+  </div>
+</section>
+<div class="faq">
+  <div class="bar"></div>
+  <div class="faqhead">
+    <h2>Questions / Réponses</h2>
+    <p>Les 156 points traités pendant la session, regroupés par thème.</p>
+  </div>
+  <div class="faqbody">
+
+    <div class="faqcat">Le cadre de la formation et de l'examen</div>
+    <div class="qa"><div class="q"><span>Q1.</span>Les exercices de fin de module sont-ils obligatoires ?</div><div class="a"><p>Non. <strong>« Ce qui est obligatoire, c'est le suivi du contenu et les QCM d'autoévaluation de fin de module. »</strong> Les exercices sont là pour vous aider à implémenter et à vous situer.</p></div></div>
+    <div class="qa"><div class="q"><span>Q2.</span>Et si on n'a pas encore de répertoire pour les faire ?</div><div class="a"><p>Ce n'est pas un problème : <strong>« si ce n'est pas prioritaire sur le moment, ce n'est pas un souci. Si tu veux les faire plus tard, tu peux aussi. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q3.</span>Garde-t-on l'accès à la plateforme ?</div><div class="a"><p>Oui, <strong>sans limite de durée</strong> — ce qui permet de survoler pendant la période financée et d'approfondir plus tard.</p></div></div>
+    <div class="qa"><div class="q"><span>Q4.</span>Y a-t-il un examen à la fin ?</div><div class="a"><p>Oui, <strong>un examen devant jury</strong>, à distance. Avec un taux de réussite de <strong>100 % des stagiaires jusqu'ici</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q5.</span>Comment se prépare-t-il ?</div><div class="a"><p>Un lien de questions sur votre projet est envoyé après la formation. À partir de vos réponses sont produits <strong>le livrable écrit à remettre à l'inscription et les slides de présentation.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q6.</span>Sur quoi ces documents sont-ils construits ?</div><div class="a"><p><strong>Sur les critères de la grille d'évaluation.</strong> <em class="q">« Rien qu'en les faisant dans la forme dont je l'ai fait, ça te garantit quasiment la moyenne. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q7.</span>Les questions du jury sont-elles connues ?</div><div class="a"><p>Oui : <strong>« je les ai d'avance et je vais t'y préparer »</strong>, avec une répétition de vingt à trente minutes.</p></div></div>
+    <div class="qa"><div class="q"><span>Q8.</span>Que doit-on faire soi-même sur ces documents ?</div><div class="a"><p>Ils sont fournis <strong>en format modifiable</strong>, avec des passages que vous seul pouvez remplir. Le travail attendu : <strong>relire, vérifier la cohérence avec le projet réel, s'approprier le texte.</strong> Environ une heure.</p></div></div>
+    <div class="qa"><div class="q"><span>Q9.</span>Pourquoi cet oral existe-t-il, au fond ?</div><div class="a"><p><strong>Pour prévenir la fraude.</strong> L'inscription passe par l'identité numérique, et à l'oral <em class="q">« le nom inscrit n'est pas le même que la personne que j'ai en face de moi »</em> se voit immédiatement.</p></div></div>
+    <div class="qa"><div class="q"><span>Q10.</span>Le jury évalue-t-il mon niveau réel ?</div><div class="a"><p><strong>« La certification en soi n'évalue pas spécialement ton niveau de compétence dans le domaine. »</strong> Elle vérifie que certains éléments ont été énoncés.</p></div></div>
+    <div class="qa"><div class="q"><span>Q11.</span>Faut-il bien s'exprimer à l'oral ?</div><div class="a"><p>Non : <strong>« ils ne sont pas là pour évaluer la capacité que tu as à présenter ton projet. Ils savent très bien que vous êtes des artistes, vous n'êtes pas des orateurs. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q12.</span>Que fait concrètement le jury ?</div><div class="a"><p><strong>« Ils sont juste là pour mettre des croix dans des cases »</strong> : on a parlé de structure, validé ; de stratégie promo, validé.</p></div></div>
+    <div class="qa"><div class="q"><span>Q13.</span>Juge-t-il mes choix stratégiques ?</div><div class="a"><p>Non : <strong>« ils ne sont pas là pour te dire que tes choix sont bons ou mauvais. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q14.</span>Faut-il tout mémoriser ?</div><div class="a"><p><strong>« Ce n'est pas le but. Le but, c'est de découvrir un champ des possibles et ensuite de les appliquer progressivement à ton projet. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q15.</span>Peut-on avoir ses notes ?</div><div class="a"><p>Oui, <strong>l'examen se fait à distance</strong> : <em class="q">« tu peux très bien avoir des notes sur ton ordinateur. Lisez vos slides, ce n'est pas un souci. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q16.</span>Dans quel cas ça échoue, alors ?</div><div class="a"><p>Quand la personne n'est pas du domaine. Son image : <strong>une certification en plomberie qu'il passerait lui-même</strong> — <em class="q">« à part dire tuyau et robinet, je n'ai aucun mot de vocabulaire. Là, grillé. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q17.</span>Le certificateur cherche-t-il à piéger ?</div><div class="a"><p>L'inverse : <strong>« il a intérêt, pour que sa certification soit renouvelée, à avoir un taux de réussite supérieur à 80 %. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q18.</span>Peut-on décaler la fin de la formation ?</div><div class="a"><p>C'est possible, mais <strong>« si tu peux terminer à la date prévue, c'est mieux »</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q19.</span>Quand passer l'examen ?</div><div class="a"><p><strong>Jusqu'à six mois après la fin de la formation</strong>, sur l'une des <strong>trois dates proposées chaque mois</strong> par le certificateur — les sessions proches se remplissant vite.</p></div></div>
+    <div class="qa"><div class="q"><span>Q20.</span>Comment réserve-t-on ?</div><div class="a"><p>Par <strong>un lien de réservation</strong>, puis la convocation arrive avec tous les éléments pratiques.</p></div></div>
+
+    <div class="faqcat">Bonnes pratiques de l'entretien lui-même</div>
+    <div class="qa"><div class="q"><span>Q21.</span>Comment cadrer un entretien individuel ?</div><div class="a"><p><strong>« Il n'y a pas de plan particulier, tout se fait autour de toi et de ce que tu pourras évoquer avec moi. »</strong> C'est l'accompagné qui fixe l'ordre du jour.</p></div></div>
+    <div class="qa"><div class="q"><span>Q22.</span>Comment demander l'autorisation d'enregistrer ?</div><div class="a"><p>En disant ce qui sera fait du fichier : <strong>« je l'enregistre, je vais la chapitrer et t'envoyer un résumé. Et dès que tu m'accuses réception, je le supprime. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q23.</span>Pourquoi cette précaution compte ?</div><div class="a"><p>Parce qu'elle transforme l'enregistrement en service rendu plutôt qu'en collecte : <strong>demander l'accord, annoncer l'usage, supprimer après remise.</strong></p></div></div>
+
+    <div class="faqcat">Le projet, et pourquoi il tient debout</div>
+    <div class="qa"><div class="q"><span>Q24.</span>Un projet de reprises piano pour la détente a-t-il un marché ?</div><div class="a"><p>Oui, et il le valide par son propre usage : <strong>« je suis capable de faire tourner pendant une heure, même plus, en boucle, des musiques de piano qui n'évoluent même pas, parce que ça m'apaise. Donc il y a un marché pour ça, c'est évident. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q25.</span>Faut-il ajouter la voix tout de suite ?</div><div class="a"><p>Non : <strong>rester sur l'instrumental</strong> pour l'instant, et garder la voix pour plus tard.</p></div></div>
+    <div class="qa"><div class="q"><span>Q26.</span>Qu'est-ce qui rend ce créneau particulièrement ouvert ?</div><div class="a"><p>Deux choses : <strong>l'offre y est presque exclusivement masculine</strong>, et <strong>l'instrumental n'a aucune barrière de langue.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q27.</span>Quelle est l'opportunité que personne n'exploite ?</div><div class="a"><p>Publier <strong>les mêmes vidéos sur des chaînes référencées dans d'autres langues</strong> : <em class="q">« tu pourrais créer 10 chaînes en même temps et partir dans 10 directions différentes. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q28.</span>Pourquoi viser de grandes aires linguistiques ?</div><div class="a"><p>Pour le volume brut : <strong>« l'hindi, tu as 1 milliard de personnes qui la parlent. Le mandarin, 1 milliard aussi. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q29.</span>Que rapporte un million de vues ?</div><div class="a"><p><strong>« À peu près 1 500 euros minimum dans ta poche »</strong>, davantage avec de gros annonceurs, hors droits et autres modèles d'affaires.</p></div></div>
+    <div class="qa"><div class="q"><span>Q30.</span>Qu'est-ce que la modélisation ?</div><div class="a"><p>Copier une structure d'activité qui marche — formats, prix, canaux — plutôt qu'inventer. <strong>« En plus, lui, il a essuyé les plâtres. Il suffit vraiment que tu suives ce qu'il fait. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q31.</span>Quel est le seul vrai obstacle ?</div><div class="a"><p><strong>« Lui, il a la communauté. C'est ça le plus dur à construire. »</strong> Le modèle donne la carte, pas l'audience.</p></div></div>
+    <div class="qa"><div class="q"><span>Q32.</span>Est-ce grave de ne pas tout comprendre tout de suite ?</div><div class="a"><p>Non : <strong>« la vision que tu as déjà, elle est bonne. C'est ce qui fait défaut à 95 % des gens. Déjà, tu vois dans quelle direction tu veux aller. »</strong></p></div></div>
+
+    <div class="faqcat">Les reprises et les droits</div>
+    <div class="qa"><div class="q"><span>Q33.</span>Faut-il une autorisation pour commercialiser une reprise ?</div><div class="a"><p><strong>« Aucune. Tu peux prendre le morceau, le mettre sur les plateformes, le commercialiser. Tu n'as absolument aucune autorisation à demander à personne. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q34.</span>À quelles conditions ?</div><div class="a"><p>Deux : <strong>garder le thème principal</strong>, et <strong>créditer les ayants droit d'origine au moment de la sortie.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q35.</span>Que peut-on ajouter sans problème ?</div><div class="a"><p><strong>« Des notes d'octave graves derrière en fond »</strong>, <strong>« des petites notes en aigu en réponse »</strong> — tout ce qui habille sans toucher au thème.</p></div></div>
+    <div class="qa"><div class="q"><span>Q36.</span>Peut-on changer le tempo ?</div><div class="a"><p>Oui, dans une limite : <strong>« si le morceau a un tempo à 140, tu peux le passer à 160 sans problème — mais tu ne peux pas le passer à 50 »</strong>, car il deviendrait méconnaissable.</p></div></div>
+    <div class="qa"><div class="q"><span>Q37.</span>Quel est le critère unique ?</div><div class="a"><p><strong>« À partir du moment où le morceau est reconnaissable et qu'il n'est pas défiguré, il n'y a pas de souci. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q38.</span>Touche-t-on des droits d'auteur sur une reprise ?</div><div class="a"><p>Non : <strong>« tu ne seras pas créditée. Il ne faut pas espérer récupérer des droits d'auteur là-dessus. C'est l'œuvre de quelqu'un d'autre. »</strong> En revanche les recettes d'exploitation et les droits voisins vous reviennent.</p></div></div>
+    <div class="qa"><div class="q"><span>Q39.</span>Et si on réarrange vraiment l'œuvre ?</div><div class="a"><p>Là, <strong>« tu changes la destination de l'œuvre »</strong> — et il faut une autorisation préalable.</p></div></div>
+    <div class="qa"><div class="q"><span>Q40.</span>Qui faut-il alors autoriser ?</div><div class="a"><p>Si vous avez tout rejoué : <strong>les auteurs, les compositeurs et le ou les éditeurs.</strong> Si vous avez réutilisé des éléments de l'enregistrement original : <strong>eux plus le producteur d'origine.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q41.</span>Comment les identifier ?</div><div class="a"><p><strong>Via le répertoire des œuvres de la société d'auteurs</strong> : <em class="q">« tu tapes le nom, normalement ça te sort la liste des ayants droit. Il y a toujours un contact avec. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q42.</span>Et si l'autorisation est refusée ?</div><div class="a"><p><strong>« Si tu ne l'as pas, tu ne peux rien en faire. »</strong> D'où le conseil : <em class="q">« idéalement il faut tout rejouer, et idéalement ne pas adapter l'œuvre. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q43.</span>Que risque une adaptation légère sortie sans accord ?</div><div class="a"><p>Dans les faits, souvent rien — <em class="q">« si personne ne te dit rien, ça passe »</em> — mais en cas de contestation la sanction habituelle est <strong>le retrait du titre</strong>, et avec lui la perte du travail et des écoutes accumulées. <strong>La seule voie sans exposition reste la reprise fidèle</strong>, ce qui ne coûte rien ici puisque c'est le format visé.</p></div></div>
+    <div class="qa"><div class="q"><span>Q44.</span>Tout cela vaut-il pour un CD ou un vinyle ?</div><div class="a"><p>Non. En physique, <strong>pas d'autorisation à demander mais des droits de reproduction mécanique à acquitter : environ un euro par exemplaire fabriqué.</strong> <em class="q">« Reste sur le digital, c'est plus cool. »</em></p></div></div>
+
+    <div class="faqcat">Le fichier MIDI</div>
+    <div class="qa"><div class="q"><span>Q45.</span>Qu'est-ce qu'un fichier MIDI ?</div><div class="a"><p><strong>« La piste avec toutes les notes qui apparaissent »</strong> — ce qui permet de changer la tonalité, les notes, le tempo ou la sonorité. L'audio, lui, est figé.</p></div></div>
+    <div class="qa"><div class="q"><span>Q46.</span>Quelle est la différence pratique ?</div><div class="a"><p>Sur un audio <strong>les pistes ne sont pas séparées</strong> et la sonorité est imposée. Sur un MIDI, chaque instrument reste indépendant et modifiable.</p></div></div>
+    <div class="qa"><div class="q"><span>Q47.</span>Pourquoi quelqu'un achèterait le mien ?</div><div class="a"><p>Pour le temps gagné : <strong>« soit je rejoue tout à l'oreille, ce qui va me prendre une journée, soit j'achète le fichier MIDI de quelqu'un qui l'a déjà fait. Ça va me coûter 20 balles, mais j'ai déjà tout. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q48.</span>Est-ce que ça dispense de jouer ?</div><div class="a"><p>Non, et la mise au point est nette : <strong>« attention, toi, ce que tu fais, il faut que tu joues. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q49.</span>Où est la valeur, alors ?</div><div class="a"><p>Dans votre interprétation : <strong>« si tu crées un charme unique et que je veux absolument le retrouver, plutôt que de rejouer à l'oreille tout ce que tu auras fait, je préfère acheter ton fichier MIDI. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q50.</span>Qui achète ce genre de fichier ?</div><div class="a"><p><strong>Des compositeurs.</strong> <em class="q">« Le commun des mortels ne sait même pas ce que c'est et n'a pas d'intérêt à l'acheter. »</em> D'où la nécessité de viser le monde.</p></div></div>
+    <div class="qa"><div class="q"><span>Q51.</span>Combien ça rapporte ?</div><div class="a"><p>Sans illusion : <strong>« il ne faut pas espérer faire fortune dessus. Si tu prends 200 balles par mois avec un fichier MIDI, c'est top. Mais mine de rien, ça fait ça en plus. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q52.</span>À quel prix vendre ?</div><div class="a"><p><strong>Très bas.</strong> Le modèle observé se situe <strong>entre 10 et 35 dollars</strong> selon le produit.</p></div></div>
+
+    <div class="faqcat">Les six sources de revenus</div>
+    <div class="qa"><div class="q"><span>Q53.</span>Quelles sont les sources possibles sur un même catalogue ?</div><div class="a"><p><strong>La monétisation vidéo, le streaming, les partitions, les fichiers MIDI, les tutoriels, et un espace privé payant</strong> — plus les cours. Toutes reposent sur le travail déjà produit.</p></div></div>
+    <div class="qa"><div class="q"><span>Q54.</span>Pourquoi vendre des cours à bas prix ?</div><div class="a"><p>Parce que le volume compense : <strong>« même à 10, 15 ou 20 euros, ce serait très rentable, parce que tu pourrais faire 1 000 ventes dans la journée, littéralement. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q55.</span>Que vendre : la partition ou le tutoriel ?</div><div class="a"><p>Les deux sens marchent, mais un argument tranche : <strong>« c'est mieux de vendre la partition et offrir le tuto, parce que tu ne peux pas râler sur quelqu'un qui t'a offert quelque chose. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q56.</span>Quel est le cas qui prouve le modèle ?</div><div class="a"><p>Un créateur qui <strong>arrange des morceaux pour la guitare, vend la tablature dix euros et offre le tutoriel</strong> : <strong>entre 1 000 et 2 000 ventes par mois.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q57.</span>Comment transposer ça au piano ?</div><div class="a"><p><strong>« Tu reprends un morceau qui est au violon, tu l'adaptes au piano »</strong>, et tu vends la partition arrangée à 9,99 avec le tutoriel offert.</p></div></div>
+    <div class="qa"><div class="q"><span>Q58.</span>Combien de temps coûte un tutoriel ?</div><div class="a"><p><strong>« Peut-être deux heures »</strong> — et la partition se génère quasiment seule avec les logiciels actuels.</p></div></div>
+    <div class="qa"><div class="q"><span>Q59.</span>Quel est le calcul qui rend le volume viable ?</div><div class="a"><p><strong>« Même s'ils ne marchent pas, tes titres te rapportent 8 euros par an chacun. Si tu en as 100, ça fait 800. Si tu en as 1 000, ça fait 8 000. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q60.</span>Qu'est-ce que ça change psychologiquement ?</div><div class="a"><p><strong>Aucun titre n'a besoin de réussir.</strong> C'est le nombre qui produit le revenu — ce qui retire toute pression sur chaque sortie.</p></div></div>
+    <div class="qa"><div class="q"><span>Q61.</span>Quand construire son offre payante ?</div><div class="a"><p>Pas à 40 abonnés. <strong>« Dès que tu commences à en avoir plusieurs milliers, ça vaut le coup de bâtir une offre, même si tu sais qu'elle ne vendra pas. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q62.</span>Une piste de diffusion à laquelle on ne pense pas ?</div><div class="a"><p>Les professeurs : <strong>« peut-être que des profs de piano vont inclure un des titres que tu auras repris dans leur cours. Et s'ils ont 50 élèves, les 50 sont susceptibles de devenir clients. »</strong></p></div></div>
+
+    <div class="faqcat">Le point de départ : saturer sa niche</div>
+    <div class="qa"><div class="q"><span>Q63.</span>À quoi ressemble le dispositif de tournage ?</div><div class="a"><p>Au plus simple : <strong>« tu poses une caméra sur le côté, une ambiance assez sombre avec une lumière bien tamisée uniquement sur tes mains, et tu joues. C'est tout. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q64.</span>Comment choisir les morceaux ?</div><div class="a"><p>Un seul critère : <strong>« des morceaux dont les mots clés sont très recherchés. Voilà, point. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q65.</span>Combien de vidéos viser ?</div><div class="a"><p>Sans plafond : <strong>« tu en fais une, deux, trois, quatre, cinq, 1 000, 5 000, 10 000, 100 000 s'il faut. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q66.</span>Qu'est-ce que « saturer sa niche » ?</div><div class="a"><p><strong>« Il faut que quand on tape un nom d'artiste et piano, on voit ta tête quelque part »</strong> — pour que votre cible vous croise au moins une fois par jour.</p></div></div>
+    <div class="qa"><div class="q"><span>Q67.</span>Est-ce atteignable ?</div><div class="a"><p>Il le démontre sur son propre cas : <strong>« si tu testes des mots clés dans l'industrie musicale, dans 90 % des cas tu vas voir ma tête quelque part. »</strong> Résultat de plus de mille cinq cents vidéos.</p></div></div>
+    <div class="qa"><div class="q"><span>Q68.</span>Pourquoi commencer par la vidéo et pas les réseaux sociaux ?</div><div class="a"><p>Parce que <strong>« les réseaux sociaux créent du contenu limité dans le temps. On ne regarde pas ce que quelqu'un a fait sur un fil il y a deux mois. La plateforme vidéo, c'est l'inverse. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q69.</span>Faut-il un plan de contenu ?</div><div class="a"><p>Oui : <strong>« tu dois avoir un plan de création de contenu où tu crées des sons en masse. Point. Et tu n'as pas de limite. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q70.</span>Faut-il se fixer un plafond de publication ?</div><div class="a"><p>Non : <strong>« il ne faut pas te dire : peut-être qu'une par semaine c'est assez. Plus tu produis, mieux c'est. »</strong></p></div></div>
+
+    <div class="faqcat">Le référencement d'une vidéo</div>
+    <div class="qa"><div class="q"><span>Q71.</span>Qu'est-ce que le référencement, exactement ?</div><div class="a"><p><strong>« Tout ce que tu mets en plus de ton contenu qui est lu par les algorithmes. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q72.</span>Quels éléments remplir ?</div><div class="a"><p><strong>Miniature, titre, description, un à trois hashtags, sous-titres, fiches, écrans de fin, tags, langue et catégorie.</strong> <em class="q">« Il faut vraiment prendre le temps de bien tout détailler. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q73.</span>Comment terminer une description ?</div><div class="a"><p>Par <strong>le titre de la vidéo suivi de son lien</strong> — <em class="q">« ça la rend plus lisible par l'algorithme »</em>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q74.</span>Faut-il des sous-titres sur une vidéo de piano ?</div><div class="a"><p>Oui, pour deux raisons : <strong>l'accessibilité réelle</strong> (beaucoup de personnes les ont activés par défaut) et <strong>parce que les algorithmes les lisent.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q75.</span>Que mettre dans ces sous-titres ?</div><div class="a"><p>Des mots-clés : <strong>« si dans tes sous-titres il y a régulièrement le nom d'un artiste suivi de "au piano", l'algorithme va le voir. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q76.</span>Le texte des miniatures compte-t-il ?</div><div class="a"><p>Oui : <strong>« la miniature aussi, le texte qui apparaît dessus maintenant est lu par l'algorithme. »</strong> Une miniature trompeuse devient donc une incohérence détectable.</p></div></div>
+    <div class="qa"><div class="q"><span>Q77.</span>À quoi servent les tags ?</div><div class="a"><p>À déclarer <strong>« des mots clés spécifiques sur lesquels tu veux que la plateforme référence la vidéo »</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q78.</span>Et au-delà des mots-clés ?</div><div class="a"><p><strong>La rétention</strong> — <em class="q">« est-ce qu'ils se barrent au bout de trois secondes ou est-ce qu'ils restent jusqu'à la fin ? »</em> — et <strong>les interactions, commentaires, likes et partages.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q79.</span>Est-ce un avantage pour la musique de relaxation ?</div><div class="a"><p>Oui, structurellement : un auditeur qui met un morceau pour travailler ou s'endormir <strong>reste jusqu'au bout et relance</strong> — exactement le signal récompensé.</p></div></div>
+    <div class="qa"><div class="q"><span>Q80.</span>Le chapitrage est-il utile ici ?</div><div class="a"><p><strong>« Dans ton cas, ce n'est pas indispensable. »</strong></p></div></div>
+
+    <div class="faqcat">Le rythme de publication</div>
+    <div class="qa"><div class="q"><span>Q81.</span>Combien de temps pour publier une vidéo ?</div><div class="a"><p><strong>« Entre 30 et 45 minutes à chaque fois. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q82.</span>Comment programmer quand on a douze vidéos ?</div><div class="a"><p><strong>Une par mois</strong>, soit une année couverte.</p></div></div>
+    <div class="qa"><div class="q"><span>Q83.</span>Et quand on en a douze de plus ?</div><div class="a"><p>On ne programme pas plus loin, <strong>on programme plus serré</strong> : <em class="q">« tu les remets d'avance et ça te fait une tous les 15 jours »</em>, puis une par semaine.</p></div></div>
+    <div class="qa"><div class="q"><span>Q84.</span>Une sortie par mois, est-ce assez ?</div><div class="a"><p>Oui : <strong>« c'est un objectif atteignable et cohérent. Un très bon point de départ. Ce n'est ni trop ambitieux ni pas assez. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q85.</span>Comment lui-même a-t-il démarré ?</div><div class="a"><p><strong>Une vidéo, puis un an sans rien.</strong> Puis une deuxième, une troisième huit mois plus tard. <strong>« J'ai dû mettre deux ou trois ans avant de commencer à en faire régulièrement. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q86.</span>Pourquoi si lentement ?</div><div class="a"><p>Il n'avait pas le temps non plus : <strong>une tournée permanente, des enfants qui venaient de naître, un label et dix-sept artistes à gérer.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q87.</span>Comment a-t-il accéléré ?</div><div class="a"><p>En doublant à chaque fois qu'il avait du temps : <strong>« au lieu d'en faire juste une, je vais en faire quatre »</strong>, puis une tous les deux mois, et ainsi de suite.</p></div></div>
+    <div class="qa"><div class="q"><span>Q88.</span>Est-ce que ça devient plus facile ?</div><div class="a"><p>Oui : <strong>« les 50 premières seront les plus dures. Les 50 suivantes vont te paraître très faciles. »</strong></p></div></div>
+
+    <div class="faqcat">Travailler un an à vide</div>
+    <div class="qa"><div class="q"><span>Q89.</span>Combien de vues feront les premières vidéos ?</div><div class="a"><p><strong>« Zéro vue, ou deux, ou trois, ou cinq, ou dix. C'est normal, c'est comme ça que fonctionne l'algorithme. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q90.</span>Combien de temps avant des résultats ?</div><div class="a"><p><strong>« Entre un an et 18 mois pour vraiment générer du résultat. »</strong> Puis on amplifie.</p></div></div>
+    <div class="qa"><div class="q"><span>Q91.</span>Comment tenir ?</div><div class="a"><p>En l'ayant prévu : <strong>« tu auras envie d'arrêter toutes les semaines. Et c'est normal. »</strong> Et la consigne : <em class="q">« appelle-moi quand c'est comme ça. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q92.</span>Quels leviers pendant cette période ?</div><div class="a"><p><strong>La publicité en ligne, les autres réseaux pour drainer du trafic, les webzines spécialisés qui partagent des reprises, et la sortie digitale sur les plateformes.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q93.</span>Pourquoi la sortie digitale compte-t-elle autant ?</div><div class="a"><p>Pour l'effet de ricochet : <strong>« il suffit qu'une seule plateforme les mette en avant, ça va rejaillir sur toutes les autres. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q94.</span>Y a-t-il une opportunité du moment ?</div><div class="a"><p>Oui : certaines plateformes font actuellement <strong>beaucoup de playlists à thème pour les morceaux instrumentaux</strong>, donc beaucoup de mises en avant sur ce créneau.</p></div></div>
+    <div class="qa"><div class="q"><span>Q95.</span>À quoi ressemble le déclic, quand il arrive ?</div><div class="a"><p><strong>« Tu peux te retrouver, au bout du 123e morceau, boum, un pic de visibilité, il va péter un million de streams. »</strong> D'où l'importance de biographies à jour partout.</p></div></div>
+    <div class="qa"><div class="q"><span>Q96.</span>Quelle est la priorité malgré tout ?</div><div class="a"><p><strong>« Le cœur du réacteur, c'est produire tes vidéos, bien les référencer et les poster régulièrement. Le reste, c'est de l'eau que tu amènes à ton moulin. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q97.</span>Faut-il être doué au départ ?</div><div class="a"><p>Son propre contre-exemple : <strong>une timidité extrême</strong> — <em class="q">« même serrer la main, je n'arrivais pas à le faire »</em> — <strong>un vieil ordinateur posé sur un grille-pain</strong>, pas de lumière, pas de micro, et une image réduite pour masquer la mauvaise qualité.</p></div></div>
+    <div class="qa"><div class="q"><span>Q98.</span>Qu'est-ce qui a changé ?</div><div class="a"><p>Le travail : <strong>« tu démarres et petit à petit ça vient, et ça devient de plus en plus facile. »</strong> Aujourd'hui on lui dit qu'il est très à l'aise — <em class="q">« ouais, c'est du travail. »</em></p></div></div>
+
+    <div class="faqcat">Gagner du temps</div>
+    <div class="qa"><div class="q"><span>Q99.</span>Pourquoi se chronométrer ?</div><div class="a"><p>Pour voir le process s'améliorer : <strong>« la première m'a pris trois heures. La deuxième, deux heures vingt. La troisième, deux heures. »</strong> C'est son propre regret de ne pas l'avoir fait.</p></div></div>
+    <div class="qa"><div class="q"><span>Q100.</span>Qu'est-ce qui ne s'optimise pas ?</div><div class="a"><p><strong>« Il y a un temps incompressible. Par exemple, répéter, malheureusement, tu ne peux rien y faire. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q101.</span>Comment éviter de tout retaper à chaque vidéo ?</div><div class="a"><p>Avec la fonction <strong>« Réutiliser les détails d'une autre vidéo »</strong> : playlists, tags, langue et catégorie sont repris. <strong>« 80 %, ce sera la même chose. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q102.</span>Et pour les miniatures ?</div><div class="a"><p><strong>Un modèle à décliner.</strong> Les siennes sont produites avec <strong>un seul prompt réutilisé</strong> : <em class="q">« les photos sont les mêmes, les réglages sont les mêmes, ça modifie simplement le thème. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q103.</span>Qu'est-ce que le batching ?</div><div class="a"><p><strong>« Au lieu de faire une vidéo par une vidéo, on en fait 12 d'un coup. »</strong> On cherche 12 idées, on travaille les 12 morceaux, on enregistre les 12, on monte les 12, on publie les 12.</p></div></div>
+    <div class="qa"><div class="q"><span>Q104.</span>Pourquoi est-ce si rentable ?</div><div class="a"><p>À cause du coût fixe d'installation : <strong>« si je mets 30 à 45 minutes d'installation et que j'en fais 15, j'ai gagné 15 fois 30 à 45 minutes. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q105.</span>Comment organise-t-il ses idées ?</div><div class="a"><p>Il les note en continu — <strong>« les thèmes, je ne les invente pas »</strong> — puis <strong>reprend trois mois de notes d'un coup.</strong> <em class="q">« Souvent j'en prends 30. J'en fais que 10, mais j'en ai 30. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q106.</span>Et le jour du tournage ?</div><div class="a"><p><strong>Matériel installé la veille, tenues prévues, liste des idées à l'écran</strong>, et on enchaîne à l'inspiration. <strong>« Je coupe le début, je coupe la fin. Boum, j'ai une vidéo. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q107.</span>Quel est le résultat ?</div><div class="a"><p><strong>« Pour une journée de travail, j'ai quatre mois de publication. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q108.</span>Faut-il batcher dès le début ?</div><div class="a"><p>Non, et c'est important : <strong>« ta première étape, c'est d'en faire qu'une. C'est important pour valider le cycle en entier. Sinon tu ne verras pas ce que tu peux améliorer. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q109.</span>Que change la première publication ?</div><div class="a"><p><strong>« Ça y est, maintenant ça existe. Ce n'est plus juste dans ta tête, ce n'est pas une fable. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q110.</span>Quand passer au batching ?</div><div class="a"><p>Après trois ou quatre vidéos, quand le process est isolable : <strong>« si je peux en faire quatre, c'est que je peux en faire huit. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q111.</span>Comment surfer sur l'actualité ensuite ?</div><div class="a"><p>En insérant un contenu dans une programmation déjà remplie : <strong>une reprise qui cartonne ailleurs, un anniversaire de disparition d'un grand artiste, une journée thématique.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q112.</span>Et si ces coups ratent ?</div><div class="a"><p><strong>« Si ça marche, tant mieux, ça va être explosif. Si ça ne marche pas, tu t'en fiches. »</strong></p></div></div>
+
+    <div class="faqcat">La stratégie par langue</div>
+    <div class="qa"><div class="q"><span>Q113.</span>Sur quoi repose la stratégie ?</div><div class="a"><p>Sur les mots-clés : <strong>ils ne se traduisent pas, ils se remplacent.</strong> Chaque langue renvoie des résultats complètement différents.</p></div></div>
+    <div class="qa"><div class="q"><span>Q114.</span>Comment l'a-t-il démontré ?</div><div class="a"><p>En direct : la même intention de recherche tapée dans une autre langue fait remonter d'autres vidéos — dont une à <strong>1,3 million de vues</strong> sortie deux ans plus tôt.</p></div></div>
+    <div class="qa"><div class="q"><span>Q115.</span>Pourquoi ces marchés sont-ils séparés ?</div><div class="a"><p>Parce que <strong>personne ne cherche dans une langue qu'il ne maîtrise pas.</strong> <em class="q">« Je n'irais jamais taper un mot clé en mandarin. Je ne sais même pas comment ça s'écrit. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q116.</span>Y a-t-il moins de concurrence ailleurs ?</div><div class="a"><p>Souvent : <strong>« en France, beaucoup de gens ont déjà eu l'idée mais ne l'ont pas poussée. Peut-être qu'ailleurs il y en a 10 fois moins. Si tu es dans le top 10, tu vas aller chercher des millions de vues. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q117.</span>Quelle projection de revenus ?</div><div class="a"><p>Donnée comme hypothèse favorable à trois ans : <strong>plusieurs lignes de monétisation par pays, additionnées.</strong> <em class="q">« Tu vas démultiplier tes sources de revenus. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q118.</span>Pourquoi un chanteur ne peut-il pas faire ça ?</div><div class="a"><p>Parce que sa langue le limite : <strong>« un chanteur qui chante en français, il ne peut pas. »</strong> C'est le privilège structurel de l'instrumental.</p></div></div>
+    <div class="qa"><div class="q"><span>Q119.</span>L'anglais est-il la solution ?</div><div class="a"><p>Il s'exporte mieux, mais <strong>« c'est la langue la plus facile à apprendre, et donc la plus concurrentielle. »</strong> D'où : <em class="q">« aller chercher notre propre marché dans ce marché. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q120.</span>Faut-il créer un compte par langue ?</div><div class="a"><p>Oui : <strong>« tu peux créer des comptes dans la langue que tu veux, et à partir de ces comptes-là tu republies la vidéo dans la langue du pays. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q121.</span>Quelles langues cibler en priorité ?</div><div class="a"><p><strong>Les langues difficiles d'accès.</strong> Les plateformes couvriront d'abord l'anglais, l'espagnol, l'allemand et le portugais ; les langues complexes mettront <strong>quatre à cinq ans</strong>. <em class="q">« Ce qui t'offre une fenêtre de tir intéressante. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q122.</span>La plateforme ne fait-elle pas déjà la traduction ?</div><div class="a"><p>En partie : on peut déjà <strong>choisir la piste audio d'une vidéo</strong> et l'écouter dans une autre langue, avec <strong>douze langues prévues d'ici fin 2027.</strong> C'est pour cela qu'il a arrêté sa propre chaîne anglophone.</p></div></div>
+    <div class="qa"><div class="q"><span>Q123.</span>Que faut-il adapter, concrètement ?</div><div class="a"><p><strong>Rien sur les fichiers MIDI ni les partitions, qui sont internationaux.</strong> Seul le tutoriel demande des sous-titres — d'où l'intérêt de l'offrir plutôt que de le vendre.</p></div></div>
+    <div class="qa"><div class="q"><span>Q124.</span>Et le site ?</div><div class="a"><p><strong>Multilingue, avec des liens dédiés</strong> : <em class="q">« le lien que tu mets sur la description amène directement sur la partie traduite. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q125.</span>Comment produire les traductions ?</div><div class="a"><p><strong>« Avec l'IA aujourd'hui, tu peux traduire n'importe quel titre dans n'importe quelle langue. Tes descriptions aussi. Ta miniature, tu peux remplacer le texte. »</strong></p></div></div>
+
+    <div class="faqcat">Monétisation et distribution</div>
+    <div class="qa"><div class="q"><span>Q126.</span>Quels sont les paliers de monétisation ?</div><div class="a"><p><strong>1 000 abonnés</strong> — le plus difficile — <strong>un volume d'heures de visionnage cumulées</strong>, et un troisième critère plus facile à obtenir.</p></div></div>
+    <div class="qa"><div class="q"><span>Q127.</span>Que faire avant ce seuil ?</div><div class="a"><p>Travailler : <strong>« en dessous de 1 000, tu ne peux pas monétiser. Donc au départ, tu bosses à vide. Mais c'est le jeu. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q128.</span>Comment active-t-on la monétisation ?</div><div class="a"><p><strong>« Il suffit d'en faire la demande depuis ta page. Si tu respectes les critères, tu vas pouvoir cliquer dessus, sinon le bouton est grisé. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q129.</span>Faut-il créer un compte sur chaque plateforme de streaming ?</div><div class="a"><p>Non : <strong>« tu mets le titre à un seul endroit. De ce seul endroit, c'est dispatché un peu partout dans le monde »</strong> par le distributeur.</p></div></div>
+    <div class="qa"><div class="q"><span>Q130.</span>Une sortie sur la plateforme vidéo suffit-elle ?</div><div class="a"><p>Non : <strong>« il faut faire une sortie digitale via ton distributeur. C'est ça, le point d'entrée. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q131.</span>Que déclenche la sortie ?</div><div class="a"><p>La création automatique de <strong>centaines de comptes à votre nom</strong> — <em class="q">« probablement dans des pays où tu n'as jamais mis les pieds »</em>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q132.</span>Qu'est-ce qu'un « claim » ?</div><div class="a"><p><strong>Une réclamation de profil.</strong> Vous désignez votre profil, la plateforme répond en <strong>environ 72 heures</strong> et demande une preuve d'identité.</p></div></div>
+    <div class="qa"><div class="q"><span>Q133.</span>Quelle preuve fournir ?</div><div class="a"><p><strong>Une pièce d'identité — avec un filigrane</strong> — ou, en alternative, <strong>un profil de réseau social</strong> à votre nom.</p></div></div>
+    <div class="qa"><div class="q"><span>Q134.</span>Pourquoi est-ce à moi de le faire ?</div><div class="a"><p><strong>« Nous, on ne peut pas le faire, parce qu'on n'est pas toi, quelque part. »</strong> C'est la seule étape non déléguable.</p></div></div>
+    <div class="qa"><div class="q"><span>Q135.</span>Que permet le profil, une fois récupéré ?</div><div class="a"><p><strong>Modifier photo et biographie, choisir les morceaux mis en avant, créer des playlists, publier des visuels animés, consulter les statistiques.</strong> <em class="q">« Comme ça, tu contrôles la narrative. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q136.</span>La biographie sert-elle au référencement ?</div><div class="a"><p>Oui : <strong>« si dans ta biographie il y a des mots clés comme piano, relaxation, reprise, c'est un truc qui remonte dans la barre de recherche de la plateforme. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q137.</span>Qu'est-ce que la fusion des chaînes ?</div><div class="a"><p>La chaîne vidéo et sa version musicale sont fusionnées pour <strong>centraliser les écoutes</strong> et éviter les doublons. Résultat : <strong>« chaque vue devient un stream. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q138.</span>Faut-il attendre d'avoir une audience pour s'organiser ?</div><div class="a"><p>Non : <strong>« tu peux tout à fait démarrer à ta première sortie. C'est même recommandé. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q139.</span>Pourquoi est-ce si important ?</div><div class="a"><p><strong>La fenêtre de rattrapage est passée de cinq ans à un an.</strong> <em class="q">« Si les déclarations ne sont pas bien faites un an après la sortie, tu perds un an de revenus sur le digital. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q140.</span>Comment choisir un distributeur ?</div><div class="a"><p>Il répond en précisant lui-même sa position : <strong>« je prêche pour ma paroisse, donc mon avis est à prendre avec des pincettes »</strong>, et <em class="q">« on reste un petit distributeur »</em>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q141.</span>Que révèle son expérience côté distribution ?</div><div class="a"><p>Après qu'un distributeur a écarté tout son catalogue avec <strong>trente jours de préavis</strong>, il a monté son propre réseau — <strong>de sept plateformes à plus de cinq cents</strong> — et découvert <strong>« plein de frais cachés »</strong> : <em class="q">« on me facturait 10 euros pour ça, je vois que ça coûte en fait 30 centimes. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q142.</span>Quel est le vrai cœur de ce métier ?</div><div class="a"><p><strong>La collecte de droits</strong> : <em class="q">« on arrive à retrouver des dizaines de milliers d'euros de droits perdus dans la nature. »</em> Et son explication des éditeurs qui n'y parviennent pas : <em class="q">« ce n'est pas qu'il ne peut pas le faire, on a les mêmes outils. C'est qu'il ne bosse pas. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q143.</span>Comment un outil comme celui-là est-il né ?</div><div class="a"><p>D'un besoin personnel : <strong>des process internes, donnés gratuitement à des artistes qui demandaient de l'aide, vendus seulement quand quelqu'un a voulu payer.</strong> Premier mois : 60 000 € de chiffre d'affaires.</p></div></div>
+
+    <div class="faqcat">Nom de scène et matériel</div>
+    <div class="qa"><div class="q"><span>Q144.</span>Faut-il déposer son nom de scène ?</div><div class="a"><p>Oui si la sonorité est attrayante : <strong>« ça peut vite être repris en musique pour enfants, n'importe quoi d'autre. »</strong> Première étape : <strong>vérifier qu'il est libre.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q145.</span>Combien de classes déposer ?</div><div class="a"><p><strong>« Entre trois et cinq classes dans lesquelles c'est intéressant de déposer un nom d'artiste. Plus, ça ne sert à rien. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q146.</span>Quelle classe ne faut-il pas oublier ?</div><div class="a"><p>Celle des <strong>supports de communication visuelle</strong> : <em class="q">« si demain tu fais des concerts et que tu es sur une affiche, et que ton nom n'est pas déposé dans cette catégorie, tu peux avoir des problèmes. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q147.</span>Faut-il tout déposer d'un coup ?</div><div class="a"><p>Non : <strong>« tu peux faire les deux, trois principales maintenant et les deux, trois autres plus tard. »</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q148.</span>Un téléphone suffit-il pour filmer ?</div><div class="a"><p><strong>« Oui, largement. »</strong> L'image n'est pas le problème.</p></div></div>
+    <div class="qa"><div class="q"><span>Q149.</span>Et pour le son ?</div><div class="a"><p><strong>« Ça dépend de ton acoustique. Il faut que tu testes. Il n'y a que toi qui le sauras. »</strong> Le modèle de téléphone, son micro et son emplacement changent tout.</p></div></div>
+    <div class="qa"><div class="q"><span>Q150.</span>Quelle première solution si le son ne va pas ?</div><div class="a"><p><strong>Un micro cravate branché directement au téléphone.</strong> Lui place les siens <strong>sous le col</strong> : <em class="q">« sans le voir, ça coupe le vent automatiquement. La prise, elle est nickel. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q151.</span>Et la solution définitive ?</div><div class="a"><p><strong>Jouer sur un clavier MIDI relié à l'ordinateur</strong> : <em class="q">« la sonorité ne sortira pas du clavier, elle ne sortira que de l'ordinateur. C'est pour ça que le son sera parfait. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q152.</span>Est-ce que ça s'entend ?</div><div class="a"><p><strong>« Si tu as le bon doigté, que tu joues bien avec tes pédales et que tu vas chercher la meilleure interprétation possible, on ne voit pas que ce n'est pas un vrai piano. Très peu de gens feront la différence. »</strong> On peut même choisir le type de salle simulée.</p></div></div>
+    <div class="qa"><div class="q"><span>Q153.</span>Quel est le bénéfice caché ?</div><div class="a"><p><strong>Un seul enregistrement produit les trois formats vendables</strong> : la partition, le fichier MIDI et l'audio haute qualité, en un clic chacun.</p></div></div>
+    <div class="qa"><div class="q"><span>Q154.</span>Comment filmer, alors ?</div><div class="a"><p><strong>On enregistre le son proprement, puis on se filme en rejouant dessus</strong> : <em class="q">« tu as le doigté de l'image qui est nickel et l'audio qui est parfait. »</em></p></div></div>
+    <div class="qa"><div class="q"><span>Q155.</span>Quel budget ?</div><div class="a"><p><strong>Environ 70 € pour un clavier MIDI, 50 € pour des pédales</strong>, plus un logiciel. Les trois cités : <strong>Logic Pro, Cubase, Ableton Live.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q156.</span>Quel branchement privilégier ?</div><div class="a"><p><strong>L'USB</strong>, de loin le plus simple. Les câbles MIDI <strong>exigent une interface audio externe</strong> en plus. <em class="q">« Ton piano, surtout s'il est récent, il a forcément un port USB. »</em></p></div></div>
+
+  </div>
+</div>
+<div class="plan">
+  <h2>Plan d'action</h2>
+  <p>Cochez au fur et à mesure. Les cinq phases suivent la logique de la session : régler les droits, publier la première vidéo, installer un rythme, multiplier par les langues, puis monétiser.</p>
+
+  <div class="phase">Phase 1 — Régler le cadre avant de produire</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Choix du format</b>Rester sur des reprises fidèles : garder le thème principal intact, ce qui dispense de toute demande d'autorisation</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Crédits</b>Pour chaque morceau repris, relever tous les auteurs et compositeurs dans le répertoire de la société d'auteurs, et les reporter au moment de la sortie</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Limites à connaître</b>Noter ce qui reste permis — ajouts de notes graves ou aiguës, variation de tempo modérée — et ce qui ne l'est pas : dénaturer le thème</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Pas de physique</b>Écarter le CD et le vinyle au démarrage : environ un euro de droits de reproduction par exemplaire fabriqué, à avancer avant la première vente</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Nom de scène</b>Vérifier que le nom est libre, puis déposer les trois classes principales — dont celle des supports de communication visuelle</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Formation</b>Si le parcours est financé : suivre le contenu et les QCM d'autoévaluation, qui sont les seules obligations ; les exercices peuvent attendre</span></li>
+  </ul>
+
+  <div class="phase">Phase 2 — Publier la première vidéo</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Choix du morceau</b>Prendre un morceau dont les mots-clés sont très recherchés, pas celui qui vous plaît le plus</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Image</b>Caméra ou téléphone posé sur le côté, ambiance sombre, lumière tamisée uniquement sur les mains</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Test du son</b>Faire des essais : téléphone seul, téléphone allongé, téléphone debout — et écouter le résultat, car il n'y a pas de règle</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Référencement</b>Remplir tous les champs : miniature soignée, titre optimisé, description riche en mots-clés, un à trois hashtags, titre et lien en fin de description</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Sous-titres</b>Ajouter des sous-titres même sans parole : ils servent à des publics réels et les algorithmes les lisent</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Finitions</b>Compléter tags, langue, catégorie, fiches et écrans de fin — leur absence joue contre vous</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Publier</b>Mettre la vidéo en ligne, et accepter qu'elle fasse zéro, deux ou cinq vues</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Chronométrer</b>Noter le temps total passé, de la préparation à la publication, pour pouvoir le comparer aux suivantes</span></li>
+  </ul>
+
+  <div class="phase">Phase 3 — Installer un rythme tenable</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Deux, trois, quatre</b>Refaire le cycle complet trois ou quatre fois avant de chercher à l'industrialiser</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Recycler les réglages</b>Utiliser la fonction qui réutilise les détails d'une autre vidéo : playlists, tags, langue et catégorie sont repris, soit 80 % du travail</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Modèle de miniature</b>Créer un gabarit visuel unique et ne changer que le titre du morceau d'une vidéo à l'autre</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Batching</b>Passer au travail par lots : chercher douze morceaux, les travailler, les enregistrer, les monter et les publier d'affilée</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Installation unique</b>Installer lumière, cadre et micro une seule fois pour toute la série — c'est tout le gain du batching</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Programmation</b>Planifier les douze vidéos à raison d'une par mois, puis intercaler les douze suivantes au lieu de les étaler</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Carnet d'idées</b>Noter en continu les morceaux à reprendre, et reprendre trois mois de notes d'un coup au moment de tourner</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Préparer la veille</b>Installer le matériel et prévoir les tenues la veille du tournage</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Tenir le cap</b>Accepter une période d'un an à dix-huit mois sans résultat, et prévoir l'envie d'arrêter chaque semaine</span></li>
+  </ul>
+
+  <div class="phase">Phase 4 — Multiplier par les langues</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Recherche de mots-clés</b>Taper l'équivalent de vos mots-clés dans plusieurs langues et observer les résultats : ils sont complètement différents</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Évaluation de la concurrence</b>Repérer les langues où l'offre est la plus faible par rapport à la taille de la population</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Choix des cibles</b>Privilégier les langues difficiles d'accès, que la traduction automatique mettra quatre à cinq ans à couvrir</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Un compte par langue</b>Créer une chaîne dédiée par langue visée, et n'y communiquer que dans cette langue</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Traductions</b>Traduire titres, descriptions et textes de miniatures avec une IA, langue par langue</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Site multilingue</b>Prévoir un site traduit, avec un lien dédié dans la description de chaque chaîne</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Produits internationaux</b>Noter que partitions et fichiers MIDI ne demandent aucune adaptation ; seul le tutoriel exige des sous-titres</span></li>
+  </ul>
+
+  <div class="phase">Phase 5 — Monétiser le catalogue</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Première sortie digitale</b>Passer par un distributeur dès le premier titre : c'est le seul moyen d'exister sur les plateformes de streaming</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Ne pas attendre</b>S'organiser dès la première sortie : la fenêtre de rattrapage des déclarations est passée de cinq ans à un an</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Réclamer ses profils</b>Faire le claim sur les plateformes principales, avec une pièce d'identité filigranée ou un profil de réseau social comme preuve</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Biographies</b>Remplir la biographie de chaque profil avec les mots-clés du créneau : elle remonte dans la recherche interne</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Fusion des chaînes</b>Faire fusionner la chaîne vidéo et sa version musicale pour que chaque vue compte aussi comme un stream</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Monétisation vidéo</b>Viser les 1 000 abonnés et le volume d'heures de visionnage, puis en faire la demande depuis la chaîne</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Clavier MIDI</b>S'équiper d'un clavier MIDI relié à l'ordinateur : son parfait, et export en un clic de la partition, du fichier MIDI et de l'audio</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Vérifier l'USB</b>Avant tout achat, vérifier la présence d'un port USB sur le piano — sinon il faut une interface audio en plus</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Offre prête</b>À quelques milliers d'abonnés, bâtir l'offre : partitions, fichiers MIDI, tutoriels, sur un site relié depuis chaque description</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Prix bas</b>Rester sur des prix bas et miser sur le volume mondial, pas sur la marge unitaire</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Vendre, offrir</b>Vendre la partition et offrir le tutoriel : ce qui est offert n'est pas critiqué</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Coups d'actualité</b>Préparer à l'avance des morceaux liés à des dates anniversaires ou des journées thématiques, et les insérer dans la programmation</span></li>
+  </ul>
+</div>
+
+<div class="quiz">
+  <h2>Quiz — 8 questions</h2>
+  <p>Pour vérifier que les mécanismes de la session sont bien assimilés.</p>
+
+  <div class="qz" data-g="1">
+    <p class="qt">1. Faut-il une autorisation pour commercialiser une reprise ?</p>
+    <div class="opt">Oui, celle des auteurs et compositeurs, à demander avant toute sortie</div>
+    <div class="opt">Aucune, tant qu'on garde le thème principal et qu'on crédite les ayants droit</div>
+    <div class="opt">Aucune en dessous d'un certain nombre d'écoutes, puis une négociation s'ouvre</div>
+    <div class="fb">« Tu n'as absolument aucune autorisation à demander à personne. » Les deux conditions sont simples : garder le thème principal, et créditer les ayants droit d'origine au moment de la sortie. En contrepartie, aucun droit d'auteur ne vous revient — c'est l'œuvre de quelqu'un d'autre. Tout change en revanche si vous adaptez l'œuvre, et cela ne vaut que pour le digital : en physique, il faut acquitter environ un euro de droits de reproduction par exemplaire fabriqué.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <p class="qt">2. Jusqu'où peut-on modifier un morceau repris ?</p>
+    <div class="opt">On ne peut rien modifier : ni tempo, ni arrangement, ni instrumentation</div>
+    <div class="opt">On peut tout modifier, à condition de créditer les ayants droit</div>
+    <div class="opt">On peut ajouter des notes et varier le tempo, tant que le morceau reste reconnaissable</div>
+    <div class="fb">« Si tu veux rajouter des notes d'octave graves derrière en fond, tu as parfaitement le droit. Si tu veux rajouter des petites notes en aigu en réponse, tu as le droit. » Pour le tempo : d'un morceau à 140, on peut monter à 160 — mais pas descendre à 50, « parce que là on ne le reconnaîtra plus dans sa forme originale ». Le critère unique : « à partir du moment où le morceau est reconnaissable et qu'il n'est pas défiguré, il n'y a pas de souci. »</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <p class="qt">3. Quel est le vrai moteur du modèle économique proposé ?</p>
+    <div class="opt">Le volume : même un titre qui ne marche pas rapporte quelques euros par an</div>
+    <div class="opt">La qualité d'exécution : un seul morceau très réussi peut suffire à lancer la chaîne</div>
+    <div class="opt">La vente de partitions et de fichiers MIDI, qui dégage les meilleures marges</div>
+    <div class="fb">« Même s'ils ne marchent pas, tes titres te rapportent 8 euros par an chacun. Si tu en as 100, ça fait 800. Si tu en as 1 000, ça fait 8 000. » La conséquence est psychologique autant qu'économique : aucun titre n'a besoin de réussir, ce qui retire toute pression sur chaque sortie — et explique pourquoi toute la session porte ensuite sur la cadence de production plutôt que sur la perfection d'un morceau.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <p class="qt">4. Avec douze vidéos prêtes, comment programmer les douze suivantes ?</p>
+    <div class="opt">Sur l'année suivante, pour garantir deux ans de publication d'avance</div>
+    <div class="opt">En les gardant en réserve pour les sortir en cas de panne d'inspiration</div>
+    <div class="opt">En les intercalant dans l'année déjà remplie, ce qui porte le rythme à deux par mois</div>
+    <div class="fb">C'est l'intuition à renverser : on ne programme pas plus loin, on programme plus serré. « Si tu en refais 12, ça fait deux par mois. Si tu doubles, tu en mets une par semaine, et plus tu rajoutes, plus tu combles les trous. » La production ne change pas, c'est l'espacement qui se réduit — et la chaîne paraît de plus en plus active. Une sortie par mois reste un point de départ validé : « ni trop ambitieux ni pas assez ».</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <p class="qt">5. Pourquoi commencer par la plateforme vidéo plutôt que par les réseaux sociaux ?</p>
+    <div class="opt">Parce que l'audience y est plus nombreuse et plus facile à atteindre au départ</div>
+    <div class="opt">Parce que le contenu des réseaux sociaux est limité dans le temps, alors qu'une vidéo référencée continue de travailler</div>
+    <div class="opt">Parce que la monétisation s'y débloque plus vite, dès les premières centaines d'abonnés</div>
+    <div class="fb">« Les réseaux sociaux créent du contenu qui est limité dans le temps. On ne regarde pas ce que quelqu'un a fait sur un fil il y a deux mois. La plateforme vidéo, par contre, c'est l'inverse. » Pour un catalogue destiné à produire du revenu passif pendant des années, le choix est tranché d'avance. La monétisation, elle, demande au contraire d'atteindre 1 000 abonnés — « donc au départ, tu bosses à vide ».</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <p class="qt">6. Quelles langues faut-il cibler en priorité ?</p>
+    <div class="opt">Les langues difficiles d'accès, que la traduction automatique mettra des années à couvrir</div>
+    <div class="opt">L'anglais d'abord, puisqu'il ouvre le plus grand marché et s'exporte partout</div>
+    <div class="opt">Les langues des pays où les revenus publicitaires par vue sont les plus élevés</div>
+    <div class="fb">« Va cibler des langues dures d'accès. » Le raisonnement : les plateformes vont automatiser le référencement en anglais, espagnol, allemand et portugais, les langues les plus parlées — mais « le mandarin, le japonais, l'hindi, le russe, ce sont des langues tellement compliquées qu'à mon avis, même avec de l'IA, ils vont mettre au moins quatre, cinq ans avant de le faire. Ce qui t'offre une fenêtre de tir intéressante. » L'anglais, lui, est « la langue la plus facile à apprendre, et donc la plus concurrentielle ».</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <p class="qt">7. Pourquoi s'organiser dès la toute première sortie digitale ?</p>
+    <div class="opt">Parce que les plateformes refusent les titres déposés sans accompagnement professionnel</div>
+    <div class="opt">Parce qu'un distributeur ne peut plus reprendre un catalogue déjà sorti ailleurs</div>
+    <div class="opt">Parce que la fenêtre de rattrapage des déclarations est passée de cinq ans à un an</div>
+    <div class="fb">« Avant, on avait une fenêtre de tir de cinq ans en arrière pour rattraper certaines choses. Maintenant, on peut revenir qu'un an en arrière. Si les déclarations ne sont pas bien faites un an après la sortie, tu perds un an de revenus sur le digital. » C'est l'information la plus coûteuse à ignorer de la session, parce qu'un débutant ne sait pas, par définition, ce qui est mal déclaré. Reprendre la main sur des titres mal sortis reste possible, mais plus difficile — d'où : « plus tôt c'est fait, bien fait, mieux c'est ».</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <p class="qt">8. Quel est l'intérêt principal d'enregistrer sur un clavier MIDI ?</p>
+    <div class="opt">Jouer plus facilement les morceaux difficiles, puisque les notes se corrigent après</div>
+    <div class="opt">Obtenir un son propre et produire d'un clic la partition, le fichier MIDI et l'audio</div>
+    <div class="opt">Se passer de piano acoustique, ce qui supprime tout besoin de répétition</div>
+    <div class="fb">« La sonorité ne sortira pas du clavier, elle ne sortira que de l'ordinateur. C'est pour ça que le son sera parfait : pas d'écho, pas de grésillement. » On peut même choisir le type de salle simulée, et « si tu as le bon doigté, très peu de gens feront la différence ». Le bénéfice caché relie cette solution au modèle d'affaires : un seul enregistrement produit les trois formats vendables. Mais il faut toujours jouer — « attention, toi, ce que tu fais, il faut que tu joues » — et vérifier la présence d'un port USB avant d'acheter.</div>
+  </div>
+  <div class="score" id="score"></div>
+</div>
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="wrap">
+    <p><b>Producteur à Succès</b> — Entretien individuel du 23 novembre 2026</p>
+    <p>186 chapitres · 16 sections · 156 questions-réponses · plan d'action en 5 phases</p>
+    <p>La personne accompagnée n'est pas nommée : ni son prénom, ni son nom de scène, ni son métier, ni son lieu de vie, ni le nom de la chaîne prise comme modèle ne sont repris. Le passage personnel du milieu de séance reste dans le replay privé. Les passages juridiques sont des retours d'expérience, pas des avis juridiques.</p>
+  </div>
+</footer>
+<script>
+var CH = [[0, "Ouverture : un entretien pour vous seul"], [62, "Le consentement avant d'enregistrer"], [139, "Les exercices sont-ils obligatoires ?"], [166, "Ce qui est réellement obligatoire"], [186, "Un accès conservé sans limite de durée"], [202, "L'examen devant jury, et le trac qu'il crée"], [233, "Livrable et slides préparés pour vous"], [267, "Les questions du jury, connues d'avance"], [292, "Pourquoi cet oral existe vraiment"], [330, "Ce que la certification n'évalue pas"], [344, "Les slides d'un autre projet, à l'écran"], [459, "Une bonne heure de préparation, en tout"], [535, "Le but n'est pas de tout mémoriser"], [543, "À distance : vous pouvez avoir vos notes"], [582, "Des croix dans des cases, rien de plus"], [623, "Tout est nouveau : partir de zéro"], [650, "La question : d'où vient le déclic"], [722, "Faire sauter les plafonds de verre"], [834, "Le sentiment de ne plus être à sa place"], [868, "La chaîne piano prise comme référence"], [951, "Le projet : la musique de relaxation"], [1055, "Son verdict : des perspectives incroyables"], [1105, "Un marché qui existe, sans aucun doute"], [1130, "La même vidéo, dans une autre langue"], [1144, "Dix chaînes, dix langues, en parallèle"], [1163, "Le référencement comme moteur principal"], [1238, "Ce que rapporte un million de vues"], [1279, "Un modèle d'affaires fondé sur les partitions"], [1311, "La modélisation : copier ce qui marche"], [1336, "Il vend même des fichiers MIDI"], [1361, "Ce qu'est un fichier MIDI"], [1457, "L'intérêt réel pour un compositeur"], [1538, "Celui qui veut réarranger gagne un temps fou"], [1618, "Attention : vous, vous devez jouer"], [1691, "Rester sur des prix très bas"], [1700, "Le cas des tablatures de guitare"], [1722, "Vendre la partition, offrir le tuto"], [1774, "Faites le calcul sur le volume"], [1790, "Le récapitulatif des sources de revenus"], [1910, "La question des droits revient"], [1916, "Sans modifier l'œuvre, c'est votre droit"], [1922, "Ce qu'il faut préserver : le thème"], [1965, "Le tempo : jusqu'où on peut aller"], [1984, "Le critère : rester reconnaissable"], [1994, "Mais aucun droit d'auteur pour vous"], [2018, "Le premier pas, tel qu'elle le voit"], [2051, "Le point de départ : une chaîne de vidéos"], [2090, "Le dispositif de tournage, très simple"], [2111, "Choisir des morceaux très recherchés"], [2124, "Saturer sa niche, littéralement"], [2166, "Il faut un plan de création de contenu"], [2183, "Publier en optimisant le référencement"], [2193, "Pourquoi commencer par YouTube"], [2209, "Miniature, titre, description"], [2235, "Les sous-titres, même sans parole"], [2255, "Et les algorithmes les lisent"], [2293, "Étape une : produire en masse"], [2303, "Douze vidéos, une par mois"], [2358, "Accepter zéro vue au départ"], [2371, "Les leviers pour accélérer la visibilité"], [2401, "La sortie digitale sur les plateformes"], [2439, "Le cœur du réacteur, en une phrase"], [2451, "Entre un an et dix-huit mois"], [2467, "Quand bâtir son offre devient utile"], [2504, "L'objection : une activité à côté"], [2572, "Un par mois, est-ce assez ?"], [2576, "Sa réponse : tenu sur la longueur, oui"], [2587, "Son propre démarrage : une seule vidéo"], [2597, "Deux ou trois ans avant la régularité"], [2675, "Les cinquante premières sont les plus dures"], [2683, "Plus de mille cinq cents vidéos plus tard"], [2702, "Son point de départ : la timidité extrême"], [2774, "Sa première conférence, très difficile"], [2818, "Viser une, puis deux, puis trois"], [2824, "Se chronométrer, et noter ses temps"], [2850, "Le temps incompressible de la répétition"], [2909, "Réutiliser les détails d'une autre vidéo"], [2966, "Un modèle de miniature à décliner"], [3011, "Un seul prompt, réutilisé"], [3106, "Le batching, et ce que ça veut dire"], [3122, "Douze d'un coup, au lieu d'une"], [3182, "Le calcul qui justifie tout le batching"], [3192, "D'où viennent ses idées de sujets"], [3212, "Reprendre trois mois de notes d'un coup"], [3282, "Une journée pour quatre mois de contenu"], [3297, "Mais la première étape, c'est une seule"], [3299, "Valider le cycle complet d'abord"], [3349, "Surfer sur l'actualité, une fois lancé"], [3371, "Se caler sur les dates anniversaires"], [3422, "Si ça rate, aucune importance"], [3439, "Un modèle viable, basé sur le volume"], [3552, "Une stratégie fondée sur les mots clés"], [3592, "Ce que tape quelqu'un à l'autre bout du monde"], [3673, "L'avantage d'y aller tôt"], [3697, "Dix fois moins d'offre, pour autant de demande"], [3723, "La projection de revenus à trois ans"], [3748, "Ce qu'un chanteur francophone ne peut pas faire"], [3751, "Pourquoi l'anglais s'exporte mieux"], [3813, "Aller chercher son marché dans le marché"], [3894, "La question : faut-il plusieurs profils ?"], [3898, "Le secret : cibler des marchés précis"], [3917, "Un site multilingue, et des liens dédiés"], [3950, "Pourquoi offrir le tuto désamorce les critiques"], [3966, "Avoir une vision mondiale dès le départ"], [4015, "Comment on crée ces profils, concrètement"], [4094, "La fonctionnalité multilingue de la plateforme"], [4126, "Choisir la piste audio d'une vidéo"], [4143, "Douze langues prévues d'ici fin 2027"], [4216, "Cibler les langues difficiles d'accès"], [4241, "Quatre à cinq ans de fenêtre de tir"], [4272, "La question : qu'est-ce que le référencement"], [4281, "La définition : tout ce que l'algorithme lit"], [4320, "Les tags, et à quoi ils servent"], [4335, "La rétention compte autant que les mots-clés"], [4361, "La question : comment se débloque la monétisation"], [4371, "Mille abonnés, le premier palier"], [4385, "Les heures de visionnage cumulées"], [4424, "Le parallèle avec le marketing relationnel"], [4477, "Son principe : donner d'abord"], [4603, "Ne pas vouloir porter de masque"], [4744, "Sa propre limite sociale, assumée"], [4849, "Pourquoi une rencontre devient charnière"], [4880, "Ce qu'un mentor transmet, et ce qu'il ne fait pas"], [4938, "Le moteur, c'est vous"], [4986, "Une invitation, et un détour géographique"], [5083, "Question : peut-on décaler la formation ?"], [5124, "L'examen : jusqu'à six mois après"], [5180, "Son résumé : rien d'autre à faire au début"], [5230, "Reprendre sans modifier : aucune autorisation"], [5251, "La seule condition, et les crédits"], [5263, "Si vous modifiez l'œuvre, tout change"], [5278, "Premier cas : vous avez tout rejoué"], [5289, "Qui autoriser, exactement"], [5322, "Deuxième cas : vous avez réutilisé l'original"], [5329, "Il faut alors aussi le producteur"], [5336, "La conclusion : tout rejouer, toujours"], [5347, "Les adaptations légères, et comment les traiter"], [5404, "Attention : cela ne vaut qu'en digital"], [5415, "Le physique : les droits de reproduction"], [5453, "Le rôle du distributeur"], [5462, "Un seul dépôt, dispatché partout"], [5469, "Récupérer la main sur son profil artiste"], [5582, "Contrôler son récit sur les plateformes"], [5636, "Sans sortie, pas de profil à réclamer"], [5648, "Pourquoi YouTube seul ne suffit pas"], [5676, "Pourquoi il a créé son propre réseau"], [5686, "Un catalogue écarté en trente jours"], [5715, "Les principales font l'essentiel du marché"], [5732, "Il précise qu'il prêche pour sa paroisse"], [5744, "Les frais cachés découverts en route"], [5852, "Le claim, sur les quatre plateformes clés"], [5924, "Soixante-douze heures de délai"], [5931, "La preuve d'identité demandée"], [5967, "Ce que ça évite : les doublons de profils"], [6016, "Fusionner la chaîne et sa version musicale"], [6052, "Chaque vue qui devient un stream"], [6088, "L'origine de la plateforme : un besoin personnel"], [6123, "Le jour où quelqu'un a voulu payer"], [6150, "Le résultat du premier mois"], [6216, "Les demandes venues de l'étranger"], [6283, "Le cœur du métier : la collecte de droits"], [6293, "Des dizaines de milliers d'euros retrouvés"], [6330, "Elle reformule tout le plan, elle-même"], [6367, "Une sortie par mois, pour commencer"], [6416, "Non : dès la première sortie"], [6436, "La fenêtre de rattrapage, réduite à un an"], [6482, "Faut-il déposer son nom de scène ?"], [6522, "Le dépôt, et la question des classes"], [6554, "Trois à cinq classes utiles, pas plus"], [6561, "La classe des supports visuels, essentielle"], [6640, "Le plan est bon : il reste à exécuter"], [6650, "La fenêtre de temps incompressible"], [6656, "Vous aurez envie d'arrêter chaque semaine"], [6702, "La validation de l'objectif mensuel"], [6770, "Un téléphone suffit-il pour filmer ?"], [6786, "Le son, lui, dépend de l'acoustique"], [6820, "Il n'y a pas de règle : il faut tester"], [6835, "Le micro cravate branché au téléphone"], [6919, "La solution : jouer sur un clavier MIDI"], [6942, "Une sonorité de piano, depuis l'ordinateur"], [6957, "Le budget : clavier, pédales, logiciel"], [6995, "Avec le bon jeu, personne ne fait la différence"], [7034, "Et l'export : partitions, MIDI, audio"], [7052, "Filmer les mains, utiliser l'audio propre"], [7130, "Les logiciels à regarder"], [7160, "Le branchement : USB de préférence"]];
+
+var frame = document.getElementById('vimeoPlayer');
+
+function fmt(s){ var m = Math.floor(s/60), x = s%60; return m + ':' + (x<10?'0':'') + x; }
+
+function seek(sec){
+  if (!frame || !frame.contentWindow) return;
+  try {
+    frame.contentWindow.postMessage(JSON.stringify({method:'setCurrentTime', value: sec}), '*');
+    frame.contentWindow.postMessage(JSON.stringify({method:'play'}), '*');
+  } catch(e){}
+  var top = frame.getBoundingClientRect().top + window.pageYOffset - 20;
+  window.scrollTo({top: top < 0 ? 0 : top, behavior:'smooth'});
+}
+
+(function(){
+  var host = document.getElementById('chlist');
+  if (!host) return;
+  CH.forEach(function(c){
+    var b = document.createElement('button');
+    var t = document.createElement('b'); t.textContent = fmt(c[0]);
+    var s = document.createElement('span'); s.textContent = c[1];
+    b.appendChild(t); b.appendChild(s);
+    b.addEventListener('click', function(){ seek(c[0]); });
+    host.appendChild(b);
+  });
+})();
+
+(function(){
+  document.querySelectorAll('.tc').forEach(function(el){
+    var parts = el.textContent.split(/(\d+:\d{2})/);
+    if (parts.length < 2) return;
+    el.textContent = '';
+    parts.forEach(function(p){
+      if (/^\d+:\d{2}$/.test(p)) {
+        var mm = p.split(':');
+        var sec = parseInt(mm[0],10)*60 + parseInt(mm[1],10);
+        var btn = document.createElement('button');
+        btn.className = 'seek'; btn.textContent = p;
+        btn.addEventListener('click', function(){ seek(sec); });
+        el.appendChild(btn);
+      } else {
+        el.appendChild(document.createTextNode(p));
+      }
+    });
+  });
+})();
+
+window.addEventListener('scroll', function(){
+  var h = document.documentElement;
+  var max = h.scrollHeight - h.clientHeight;
+  var p = max > 0 ? (h.scrollTop / max) * 100 : 0;
+  document.getElementById('progress').style.width = p + '%';
+});
+
+document.querySelectorAll('.chk li').forEach(function(li){
+  li.addEventListener('click', function(){ li.classList.toggle('done'); });
+});
+
+(function(){
+  var total = document.querySelectorAll('.qz').length, answered = 0, good = 0;
+  document.querySelectorAll('.qz').forEach(function(qz){
+    var g = parseInt(qz.getAttribute('data-g'), 10);
+    var opts = qz.querySelectorAll('.opt');
+    var fb = qz.querySelector('.fb');
+    opts.forEach(function(opt, i){
+      opt.addEventListener('click', function(){
+        if (qz.classList.contains('answered')) return;
+        qz.classList.add('answered');
+        answered++;
+        if (i === g) { opt.classList.add('good'); good++; }
+        else { opt.classList.add('bad'); opts[g].classList.add('good'); }
+        fb.classList.add('show');
+        if (answered === total) {
+          var sc = document.getElementById('score');
+          sc.textContent = 'Score : ' + good + ' / ' + total + (good === total ? ' — parfait.' : ' — relisez les chapitres concernés.');
+          sc.classList.add('show');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

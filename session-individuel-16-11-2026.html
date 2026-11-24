@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session individuelle — 16 novembre 2026 : lancer un projet latino en partant de zéro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED; --primary-dark:#4C1D95; --primary-light:#EDE9FE;
+  --accent:#F59E0B; --accent-light:#FEF3C7;
+  --success:#10B981; --success-light:#D1FAE5;
+  --danger:#EF4444; --danger-light:#FEE2E2;
+  --info:#3B82F6; --info-light:#DBEAFE;
+  --ink:#1A1523; --muted:#5B5670; --line:#E7E4EF; --bg:#FAF9FC; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+.progress-wrap{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(108,58,237,.12);z-index:999}
+#progress{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+.wrap{max-width:940px;margin:0 auto;padding-inline:20px}
+
+.hero{background:linear-gradient(140deg,#3B1D80 0%,#6C3AED 55%,#8B5CF6 100%);color:#fff;padding-block:60px 52px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{content:"";position:absolute;left:-60px;bottom:-120px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.05)}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:700;margin-bottom:14px;position:relative;z-index:2}
+.hero .sub{font-size:17px;opacity:.92;max-width:690px;position:relative;z-index:2}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;position:relative;z-index:2}
+.meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:7px 14px;border-radius:10px;font-size:13.5px;font-weight:500}
+
+/* LECTEUR */
+.player-wrap{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:-32px;position:relative;z-index:6;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.vid{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.chx{margin-top:16px;border:1px solid var(--line);border-radius:12px;background:#FBFAFE}
+.chx summary{cursor:pointer;padding:12px 16px;font-weight:650;font-size:14.5px;color:var(--primary-dark);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chx summary::-webkit-details-marker{display:none}
+.chx summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+.chx[open] summary::before{content:"▾ "}
+.chx summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+.chlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:2px;max-height:330px;overflow-y:auto;padding:0 10px 12px}
+.chlist button{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;background:transparent;border:0;border-radius:9px;padding:8px 10px;font-family:inherit;font-size:14.5px;color:var(--ink);cursor:pointer;line-height:1.45;transition:background .12s}
+.chlist button:hover{background:var(--primary-light);color:var(--primary-dark)}
+.chlist b{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;min-width:54px}
+button.seek{background:var(--primary-light);border:1px solid #DDD3FA;color:var(--primary-dark);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;cursor:pointer;font-variant-numeric:tabular-nums;transition:all .12s}
+button.seek:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.player-wrap + .toc{margin-top:26px}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:-32px;position:relative;z-index:5;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.toc h2{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:16px;color:var(--primary-dark)}
+.toc ol{list-style:none;counter-reset:toc;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.toc li{counter-increment:toc}
+.toc a{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink);padding:9px 10px;border-radius:10px;font-size:14.5px;transition:background .15s}
+.toc a:hover{background:var(--primary-light);color:var(--primary-dark)}
+.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);font-size:13px;flex-shrink:0;padding-top:1px}
+
+section.chap{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+section.chap>.bar{height:5px;background:var(--primary)}
+.chap[data-c="a"]>.bar{background:var(--accent)} .chap[data-c="g"]>.bar{background:var(--success)}
+.chap[data-c="b"]>.bar{background:var(--info)} .chap[data-c="r"]>.bar{background:var(--danger)}
+.chead{padding:26px 28px 0;display:flex;gap:14px;align-items:center}
+.cnum{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--primary-light);color:var(--primary-dark);display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px}
+.chap[data-c="a"] .cnum{background:var(--accent-light);color:#92400E}
+.chap[data-c="g"] .cnum{background:var(--success-light);color:#065F46}
+.chap[data-c="b"] .cnum{background:var(--info-light);color:#1E40AF}
+.chap[data-c="r"] .cnum{background:var(--danger-light);color:#991B1B}
+.chead h2{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.25;font-weight:700}
+.tc{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-top:3px}
+.cbody{padding:18px 28px 28px}
+.cbody p{margin-bottom:14px}
+.cbody h3{font-family:'Space Grotesk',sans-serif;font-size:16.5px;margin:22px 0 10px;color:var(--primary-dark)}
+.cbody ul,.cbody ol{margin:0 0 14px 20px}
+.cbody li{margin-bottom:7px}
+strong{font-weight:650;color:#2D2540}
+em.q{font-style:italic;color:#413655}
+
+.box{border-radius:12px;padding:16px 18px;margin:18px 0;border-left:4px solid;font-size:15px}
+.box .bt{display:block;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.box p:last-child{margin-bottom:0}
+.b-key{background:var(--primary-light);border-color:var(--primary)} .b-key .bt{color:var(--primary-dark)}
+.b-warn{background:var(--accent-light);border-color:var(--accent)} .b-warn .bt{color:#92400E}
+.b-tip{background:var(--success-light);border-color:var(--success)} .b-tip .bt{color:#065F46}
+.b-info{background:var(--info-light);border-color:var(--info)} .b-info .bt{color:#1E40AF}
+.b-danger{background:var(--danger-light);border-color:var(--danger)} .b-danger .bt{color:#991B1B}
+
+.tbl{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:12px 14px;font-weight:600;font-size:13.5px}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#FBFAFE}
+
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.pc>div{border-radius:12px;padding:16px 18px;font-size:14.5px}
+.pc .ok{background:var(--success-light);border:1px solid #A7F3D0}
+.pc .ko{background:var(--danger-light);border:1px solid #FECACA}
+.pc h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.pc .ok h4{color:#065F46} .pc .ko h4{color:#991B1B}
+.pc ul{margin:0 0 0 18px} .pc li{margin-bottom:5px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
+.card{background:#FBFAFE;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h4{font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:6px;color:var(--primary-dark)}
+.card p{font-size:14px;color:var(--muted);margin:0}
+.stat h4{font-size:22px;font-family:'Space Grotesk',sans-serif}
+
+.tl{list-style:none;margin:18px 0;padding-left:26px;border-left:2px dashed var(--line)}
+.tl li{position:relative;margin-bottom:16px;font-size:15px}
+.tl li::before{content:"";position:absolute;left:-33px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light)}
+.tl b{display:block;font-family:'Space Grotesk',sans-serif;color:var(--primary-dark)}
+
+details{border:1px solid var(--line);border-radius:12px;margin:14px 0;background:#FBFAFE}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:15px;color:var(--primary-dark);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+details[open] summary::before{content:"▾ "}
+details .dc{padding:0 18px 16px;font-size:14.5px}
+
+.pull{margin:22px 0;padding:20px 24px;border-radius:14px;background:linear-gradient(120deg,#2D1B69,#4C1D95);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:19px;line-height:1.45;font-weight:600}
+.pull span{display:block;margin-top:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;opacity:.7;letter-spacing:.03em}
+
+.faq{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+.faq>.bar{height:5px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.faqhead{padding:26px 28px 0}
+.faqhead h2{font-family:'Space Grotesk',sans-serif;font-size:26px;color:var(--primary-dark)}
+.faqhead p{color:var(--muted);font-size:15px;margin-top:4px}
+.faqbody{padding:18px 28px 28px}
+.faqcat{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.faqcat:first-child{margin-top:6px}
+.qa{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:#FDFCFF}
+.qa .q{background:linear-gradient(90deg,var(--primary-light),#F6F3FF);padding:13px 18px;font-weight:650;color:var(--primary-dark);font-size:15.5px;display:flex;gap:10px}
+.qa .q span{flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.qa .a{padding:15px 18px;font-size:15px}
+.qa .a p{margin-bottom:10px} .qa .a p:last-child{margin-bottom:0}
+
+.plan{background:linear-gradient(140deg,#0F172A,#1E1B4B);color:#fff;border-radius:18px;padding:30px 28px;margin-top:26px}
+.plan h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:8px}
+.plan>p{opacity:.8;margin-bottom:20px;font-size:15px}
+.phase{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin:22px 0 10px}
+.phase:first-of-type{margin-top:0}
+.chk{list-style:none;margin:0;padding:0}
+.chk li{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;margin-bottom:9px;font-size:15px;cursor:pointer;transition:background .15s}
+.chk li:hover{background:rgba(255,255,255,.09)}
+.chk .bx{flex-shrink:0;width:20px;height:20px;border:2px solid rgba(255,255,255,.4);border-radius:6px;margin-top:3px;display:grid;place-items:center;font-size:13px;font-weight:700;color:transparent}
+.chk li.done .bx{background:var(--success);border-color:var(--success);color:#fff}
+.chk li.done .tx{opacity:.5;text-decoration:line-through}
+.chk .tx b{display:block;font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.04em;text-transform:uppercase;opacity:.65;margin-bottom:2px}
+
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px;margin-top:26px}
+.quiz h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:6px;color:var(--primary-dark)}
+.quiz>p{color:var(--muted);margin-bottom:22px;font-size:15px}
+.qz{margin-bottom:24px;padding-bottom:22px;border-bottom:1px dashed var(--line)}
+.qz:last-of-type{border-bottom:none}
+.qz .qt{font-weight:650;margin-bottom:12px;font-size:15.5px}
+.opt{display:block;width:100%;text-align:left;background:#FBFAFE;border:1.5px solid var(--line);border-radius:10px;padding:11px 15px;margin-bottom:8px;cursor:pointer;font-family:inherit;font-size:14.5px;color:var(--ink);transition:all .15s}
+.opt:hover{border-color:var(--primary);background:var(--primary-light)}
+.opt.good{background:var(--success-light);border-color:var(--success);font-weight:600}
+.opt.bad{background:var(--danger-light);border-color:var(--danger)}
+.fb{display:none;margin-top:10px;padding:12px 15px;border-radius:10px;font-size:14.5px;background:var(--info-light);border-left:4px solid var(--info)}
+.fb.show{display:block}
+.score{margin-top:20px;padding:16px;border-radius:12px;background:var(--primary-light);text-align:center;font-weight:650;color:var(--primary-dark);display:none}
+.score.show{display:block}
+
+footer{text-align:center;padding-block:40px 50px;color:var(--muted);font-size:14px}
+footer b{color:var(--primary-dark);font-family:'Space Grotesk',sans-serif}
+
+@media(max-width:640px){
+  .pc{grid-template-columns:1fr}
+  .chead,.faqhead{padding:22px 18px 0} .cbody,.faqbody{padding:16px 18px 22px}
+  .toc{padding:22px 18px} .plan,.quiz{padding:24px 18px}
+  .hero h1{font-size:27px} .pull{font-size:17px;padding:18px}
+  .player-wrap{padding:14px} .chlist{grid-template-columns:1fr;max-height:280px}
+}
+@media print{
+  .progress-wrap{display:none} body{background:#fff}
+  section.chap,.toc,.quiz,.faq{box-shadow:none;break-inside:avoid}
+  .opt{display:none}
+  .vid{display:none} .player-wrap{box-shadow:none;margin-top:20px}
+  .chlist{max-height:none;overflow:visible} .chlist button{padding:3px 0}
+  button.seek{background:none;border:0;padding:0;color:var(--primary-dark)}
+}
+</style>
+</head>
+<body>
+<div class="progress-wrap"><div id="progress"></div></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">Session individuelle · 16 novembre 2026</div>
+    <h1>Lancer un projet de musique latine,<br>en partant vraiment de zéro</h1>
+    <p class="sub">Deux heures d'accompagnement individuel avec une artiste qui structure tout en même temps : changer de statut juridique, trouver ses premiers collaborateurs, poser une image claire, et bâtir une audience quand on n'a encore ni label, ni réseau professionnel, ni fanbase. Le fil conducteur est un principe simple : ne pas reproduire les erreurs d'un écosystème qui tourne en rond, penser « acquisition de fans » plutôt que « multiplier les dates », et tester avant de produire. On y parle structure (SASU, création de label, comptable), méthode de démarchage, positionnement d'image, modélisation, choix du public, radio et collaborations, usage honnête de l'IA, et une idée sous-estimée empruntée aux humoristes : le concert en rodage.</p>
+    <div class="meta">
+      <span>⏱ 1 h 47</span>
+      <span>🎙 Tarik Hamiche</span>
+      <span>👤 Session individuelle</span>
+      <span>📌 192 chapitres</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="player-wrap">
+  <div class="vid">
+    <iframe id="vimeoPlayer"
+      src="https://player.vimeo.com/video/1249613357?h=32fd1ffdc6"
+      title="Session individuelle du 16 novembre 2026"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  <details class="chx" id="chx">
+    <summary><span>Les 192 chapitres de la session</span><em>Cliquez un chapitre pour y aller</em></summary>
+    <div class="chlist" id="chlist"></div>
+  </details>
+</div>
+
+<nav class="toc">
+  <h2>Au programme</h2>
+  <ol>
+    <li><a href="#s1">Comment lire ce support</a></li>
+    <li><a href="#s2">Le mal de l'écosystème : pourquoi tant d'artistes stagnent</a></li>
+    <li><a href="#s3">Changer de structure : de l'entreprise individuelle à la société</a></li>
+    <li><a href="#s4">Créer son label, et le rôle du comptable</a></li>
+    <li><a href="#s5">Trouver ses collaborateurs : démarcher et mettre à l'essai</a></li>
+    <li><a href="#s6">Le réseau : où le trouver, comment l'activer</a></li>
+    <li><a href="#s7">L'association : s'en protéger sans la subir</a></li>
+    <li><a href="#s8">Négocier, et négocier quand on est une femme</a></li>
+    <li><a href="#s9">Poser une image, et l'assumer pleinement</a></li>
+    <li><a href="#s10">La modélisation : copier ce qui marche déjà</a></li>
+    <li><a href="#s11">Son public, ses valeurs, et le piège de la politique</a></li>
+    <li><a href="#s12">Le projet : penser « acquisition de fans »</a></li>
+    <li><a href="#s13">Radio, cumbia et collaborations : la visibilité</a></li>
+    <li><a href="#s14">L'IA comme outil, sans jamais tromper le public</a></li>
+    <li><a href="#s15">Le concert en rodage : tester avant de produire</a></li>
+    <li><a href="#s16">Clôture : livrables, suivi et intuition</a></li>
+  </ol>
+</nav>
+<section class="chap" id="s1" data-c="a">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">1</div>
+    <div><h2>Comment lire ce support</h2><div class="tc">00:00 — 03:47</div></div>
+  </div>
+  <div class="cbody">
+    <p>Cette session est un accompagnement individuel, et son cadre est posé d'emblée : <b>« je suis à ta disposition pour ce que tu veux. Ça peut être des questions, ça peut être des sujets par rapport à ton projet. »</b> Deux heures, sans ordre du jour imposé — on peut tout prendre, ou terminer avant, sans pression.</p>
+    <p>Ce qui suit n'est donc pas un cours linéaire, mais une suite de réponses à une artiste qui démarre tout en même temps. C'est précisément ce qui la rend utile : les questions posées sont celles que se pose n'importe quel artiste indépendant au moment de passer à la vitesse supérieure.</p>
+
+    <div class="box b-info">
+      <span class="bt">Ce que ce support ne contient pas</span>
+      <p>La personne accompagnée n'est pas nommée : <b>ni son prénom, ni son nom de scène, ni sa ville, ni les personnes, studios ou artistes cités en exemple pendant l'échange.</b> Les noms propres ont été retirés et les exemples généralisés.</p>
+      <p>Le passage personnel de fin de séance <b>reste dans le replay privé, à qui il appartient.</b></p>
+      <p>Les passages juridiques et administratifs sont des <b>retours d'expérience, pas des avis juridiques ou comptables</b> : un cas précis se vérifie auprès d'un professionnel du droit, d'un expert-comptable ou de la société de gestion concernée.</p>
+    </div>
+
+    <div class="box b-key">
+      <span class="bt">Le fil rouge de la session</span>
+      <p>Tout part d'un constat : un écosystème où l'on reproduit les erreurs des autres « en pensant bien faire ». La réponse tient en trois idées — <b>structurer son activité correctement</b>, <b>penser acquisition de fans plutôt que multiplication des dates</b>, et <b>tester avant d'investir</b>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s2" data-c="r">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">2</div>
+    <div><h2>Le mal de l'écosystème : pourquoi tant d'artistes stagnent</h2><div class="tc">03:30 — 10:37</div></div>
+  </div>
+  <div class="cbody">
+    <p>Le point de départ, c'est un diagnostic. Beaucoup d'artistes autour de soi cherchent, depuis des années, à évoluer en association et à décrocher l'intermittence — sans jamais vraiment s'en sortir. L'explication est nette : <b>« c'est un gars qui ne sait pas, qui pose la question à quelqu'un qui croit qu'il sait alors qu'il ne sait pas. »</b> De bouche-à-oreille en bouche-à-oreille, tout un milieu finit par être « dans une dynamique où on pense bien faire alors qu'on fait mal ».</p>
+    <p>Le symptôme le plus visible : des artistes qui enchaînent <b>cinquante dates par an, de 25 à 55 ans</b>, sans comprendre pourquoi ils ne décollent pas. Souvent, ils ont pourtant une fanbase — mais ils ne l'utilisent pas.</p>
+
+    <div class="box b-warn">
+      <span class="bt">Le danger de ne pas structurer à côté</span>
+      <p>Multiplier les dates jusqu'à 60 ans, « c'est dans le meilleur des cas ». Beaucoup se blessent en chemin. <b>« Quand tu n'as plus la force de lever ton instrument »</b>, sans plan B ni autre source de revenus, on revient à la vie civile sans formation, dans un travail qu'on n'aime pas.</p>
+    </div>
+
+    <p>Deux autres constats amènent le reste de la séance : le <b>manque de collaboration</b> entre musiciens (« chacun un peu comme s'il voulait garder son mi-pain pour lui »), et le fait que travailler avec des artistes non déclarés complique tout. D'où la première décision concrète de l'artiste : changer de structure juridique.</p>
+
+    <div class="pull">« Je n'ai pas envie de stagner à ce niveau-là. »<span>Le moteur de toute la séance : refuser le schéma qui mène à l'impasse.</span></div>
+  </div>
+</section>
+<section class="chap" id="s3" data-c="b">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">3</div>
+    <div><h2>Changer de structure : de l'entreprise individuelle à la société</h2><div class="tc">10:37 — 15:26</div></div>
+  </div>
+  <div class="cbody">
+    <p>La prochaine étape de l'artiste : fermer son entreprise individuelle et ouvrir une <b>SASU</b>. L'enjeu derrière ce choix n'est pas qu'administratif — c'est de pouvoir se développer, et surtout de <b>ne pas se tromper dans les statuts</b>, pour éviter une erreur qui coûterait cher à corriger plus tard ou limiterait l'activité.</p>
+
+    <div class="box b-key">
+      <span class="bt">Pourquoi passer en société</span>
+      <p>Une société permet de structurer l'activité, d'ouvrir l'accès à des dispositifs (crédit d'impôt, aides) et de travailler proprement avec des prestataires. C'est l'outil qui rend le reste possible.</p>
+    </div>
+
+    <h3>Le bon réflexe : ne pas viser trop haut sur le comptable</h3>
+    <p>L'artiste cherche un cabinet spécialisé musique et n'obtient pas de réponse. Le conseil tempère : <b>« pour un label qui débute, tu n'as pas besoin d'aller aussi loin dans les compétences. »</b> Un comptable local peut très bien fonctionner — à condition de l'éduquer sur les spécificités du secteur, comme il faut parfois le faire même avec un comptable chevronné.</p>
+
+    <div class="box b-tip">
+      <span class="bt">La méthode pour trouver un comptable</span>
+      <p>« Si tu prends les 10 premiers que tu trouves dans Google et que tu les appelles, il y a des chances que tu obtiennes sept ou huit rendez-vous cette semaine. » Sur les deux ou trois premières années, l'activité demande peu : TVA si assujetti, et bilan annuel. <b>Ça se négocie au rabais au démarrage</b> — même si certains refuseront un dossier qu'ils jugent peu rentable.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s4" data-c="b">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">4</div>
+    <div><h2>Créer son label, et le rôle du comptable</h2><div class="tc">11:50 — 15:26 · 31:32 — 34:21</div></div>
+  </div>
+  <div class="cbody">
+    <p>Sur la création du label, la comparaison est chiffrée : <b>une création par un comptable coûte entre 2 000 et 2 500 €.</b> Via une plateforme d'accompagnement, « c'est inclus dans l'abonnement » avec d'autres services derrière — soit <b>environ trois fois moins cher</b>. Mais un comptable reste indispensable derrière, a minima pour le bilan annuel obligatoire.</p>
+
+    <div class="box b-info">
+      <span class="bt">Deux démarches où le comptable (ou la plateforme) est clé</span>
+      <p>L'<b>adhésion au CNM</b> et la <b>demande d'agrément pour le crédit d'impôt</b> : ce dernier « va te permettre d'amortir quasiment la moitié de tes dépenses ». Soit le comptable sait le faire, soit la plateforme le prépare et le comptable n'a plus qu'à fournir l'export.</p>
+    </div>
+
+    <h3>À quoi ressemble la création, de l'intérieur</h3>
+    <p>Le parcours est un <b>stepper</b> : on choisit sa structure, on renseigne lieu, infos bancaires, associés, pièces jointes. Les <b>statuts provisoires</b> sont générés, puis viennent l'attestation des fonds, la signature des statuts, la publication au journal d'annonces légales, la connexion au compte INPI.</p>
+
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Étape</th><th>Ce qui s'y joue</th></tr></thead>
+        <tbody>
+          <tr><td>Rendez-vous de validation</td><td>Un échange avant dépôt pour tout vérifier</td></tr>
+          <tr><td>Options fiscales</td><td>Plusieurs choix selon ce qu'on veut faire</td></tr>
+          <tr><td>Objet social</td><td>Le point à soigner : « pour pas que tu sois limité plus tard »</td></tr>
+          <tr><td>Durée du 1<sup>er</sup> exercice</td><td>Un des petits pièges du départ</td></tr>
+          <tr><td>Délai</td><td>Label créé en trois jours environ</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="box b-warn">
+      <span class="bt">Quel pack, concrètement</span>
+      <p>Pour un artiste qui crée son label : le pack adapté, pas le pack « structure jusqu'à 10 artistes » (inutile ici). À titre indicatif : <b>57 € / mois sur un règlement annuel, 97 € sans engagement</b> — « un coût, mais beaucoup moins cher que n'importe quel intermédiaire pour la création d'un label ».</p>
+    </div>
+  </div>
+</section>
+<section class="chap" id="s5" data-c="g">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">5</div>
+    <div><h2>Trouver ses collaborateurs : démarcher et mettre à l'essai</h2><div class="tc">15:26 — 20:56</div></div>
+  </div>
+  <div class="cbody">
+    <p>L'artiste a la matière pour un single ou un EP, mais il lui manque quelqu'un pour composer et concevoir la musique. Le conseil est contre-intuitif pour quelqu'un qui débute : <b>démarcher plusieurs concepteurs en même temps</b>, et pas forcément près de chez soi — le travail à distance fonctionne très bien.</p>
+
+    <div class="box b-key">
+      <span class="bt">La méthode de l'essai simultané</span>
+      <p>« Donne le même titre à plusieurs personnes et vois ce que ça donne. » On dit clairement : <b>« Là, tu es à l'essai, montre-moi ce que tu es capable de faire »</b>, voire « c'est un essai, je ne te paierai pas pour ça ». Si ça matche, bon contact ; sinon, chacun reprend sa route.</p>
+    </div>
+
+    <p>Pourquoi ne pas s'engager tout de suite avec une seule personne ? Parce que « je l'ai vu chez des centaines d'artistes » : on reste <b>bloqué un an sur un projet qui n'avance pas</b>, on attend, et on finit avec un projet qui ne nous ressemble plus. L'essai simultané fait gagner un temps précieux — surtout quand on a « beaucoup de mal à patienter ».</p>
+
+    <div class="pull">« Tu vas tout de suite sentir si quelqu'un te fait gagner du temps et correspond à ton projet. »<span>L'intérêt de tester plusieurs profils en parallèle plutôt qu'un seul.</span></div>
+  </div>
+</section>
+
+<section class="chap" id="s6" data-c="g">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">6</div>
+    <div><h2>Le réseau : où le trouver, comment l'activer</h2><div class="tc">18:42 — 24:57 · 35:06 — 44:33</div></div>
+  </div>
+  <div class="cbody">
+    <p>Le réseau est justement ce qui manque. La communauté des membres (plus de 1 300 personnes) est le premier gisement : on y repère qui compose, on écrit, on parle de son projet. Une <b>map des membres</b> permet de trouver qui est près de soi, et une <b>recherche par mots-clés</b> (par exemple « latin ») fait remonter les profils pertinents, à qui on peut écrire directement.</p>
+
+    <div class="box b-tip">
+      <span class="bt">Poster une annonce : le modèle</span>
+      <p>Plutôt que de chercher un à un, on peut publier : <b>« Je cherche actuellement un concepteur musical pour un projet d'album »</b>, décrire son univers, laisser son contact. La communauté interagit et repartage.</p>
+    </div>
+
+    <h3>Démarcher massivement, à l'extérieur aussi</h3>
+    <p>Au-delà de la communauté, on exploite les <b>crédits publics et témoignages</b> d'un studio ou d'un collectif : on relève les artistes de son univers, on tape leur nom sur Instagram, on les contacte. Le message type : « J'ai vu ce que tu faisais, j'aime bien, je cherche des artistes avec qui créer des connexions. »</p>
+
+    <div class="box b-key">
+      <span class="bt">La règle du volume</span>
+      <p>« Si tu en démarches 15, 20, 25 aujourd'hui, avant la fin de la semaine tu en as trois, quatre qui t'auront rappelé. » Et « si en plus tu as le malheur de dire : j'ai un petit budget, alors là ils vont tous te rappeler tout de suite ».</p>
+    </div>
+
+    <p>Le principe sous-jacent : <b>il suffit de planifier, puis de contacter en masse.</b> « Il faut juste en repérer un ou deux, et après tu remontes le fil de leur connexion et tu vas en trouver plein. »</p>
+  </div>
+</section>
+<section class="chap" id="s7" data-c="r">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">7</div>
+    <div><h2>L'association : s'en protéger sans la subir</h2><div class="tc">24:57 — 29:20</div></div>
+  </div>
+  <div class="cbody">
+    <p>Travailler avec des musiciens non déclarés, qui « font tout passer par une asso », est un vrai casse-tête. La réponse n'est pas de refuser, mais de <b>cadrer par écrit</b>.</p>
+
+    <div class="box b-key">
+      <span class="bt">Facture + décharge écrite</span>
+      <p>Quand on vous renvoie vers une association, « tu envoies une facture et tu leur demandes juste de te signer une décharge ». Par mail : <b>« Si vous me dites que vous en faites votre affaire, mettez-moi juste une confirmation écrite, envoyez-moi la facture et je vous règle. »</b> Cela protège votre intention en cas de contrôle.</p>
+    </div>
+
+    <p>Côté dispositifs, pas de pénalité : <b>un règlement sur facture reste dans le cadre subventionnable</b> (crédit d'impôt, aides). Le vrai perdant, c'est l'artiste en face, qui « va céder 20 % au passage à une asso qui, au final, ne lui sert pas à grand-chose ».</p>
+
+    <div class="box b-info">
+      <span class="bt">Pourquoi l'asso paraît être la seule voie</span>
+      <p>Les mairies ont toutes leurs associations, et même de grandes maisons disent parfois à un artiste : « monte une asso vite fait avec quelques copains, envoie la facture. » D'où l'illusion générale que « la musique, c'est gratuit » et qu'on ne peut vivre que par l'association. <b>Ce n'est pas vrai</b> — mais on ne changera pas toutes les mentalités. On s'adapte et on « joue avec les règles ».</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s8" data-c="a">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">8</div>
+    <div><h2>Négocier, et négocier quand on est une femme</h2><div class="tc">29:20 — 31:32</div></div>
+  </div>
+  <div class="cbody">
+    <p>Deux difficultés se cumulent. D'abord faire comprendre que <b>la musique a un coût</b> : on répète, on monte un spectacle, et la personne qui chante avec soi doit aussi y gagner quelque chose. Ensuite, négocier dans un milieu très masculin, où l'on se sent parfois discréditée.</p>
+
+    <div class="box b-warn">
+      <span class="bt">Le seul levier honnête</span>
+      <p>Sur ce point, la réponse ne promet pas de solution miracle : <b>« il n'y a pas de solution à ça, mis à part mettre le plus de barrières possibles et mettre le plus de cadres dans tes échanges. »</b> Cadrer par écrit, poser des limites claires, s'appuyer au besoin sur un intermédiaire — et gagner en confiance au fil de ce qu'on accomplit.</p>
+    </div>
+  </div>
+</section>
+<section class="chap" id="s9" data-c="a">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">9</div>
+    <div><h2>Poser une image, et l'assumer pleinement</h2><div class="tc">50:38 — 53:57</div></div>
+  </div>
+  <div class="cbody">
+    <p>L'artiste veut faire évoluer une image devenue « très folklore » vers quelque chose de plus affirmé. Le conseil : forger son image selon ses besoins, mais avec un vrai travail de réflexion — <b>et surtout éviter d'être « un peu tout et n'importe quoi en même temps ».</b></p>
+
+    <div class="box b-key">
+      <span class="bt">Prendre une position, l'assumer à 200 %</span>
+      <p>« Je prends cette position-là, je l'assume à 200 %, et je construis tout autour. Si je me plante, dans deux ans je ferai autre chose. Mais si ça marche, au moins c'est assumé pleinement. »</p>
+    </div>
+
+    <p>Le risque d'être au croisement de trop de choses : on devient impossible à vendre. « Un festival te dira : tu n'es pas de chez nous — et partout ils se renvoient la balle. » D'où une règle d'équilibre :</p>
+
+    <div class="box b-tip">
+      <span class="bt">La règle 60/70 – 30/35</span>
+      <p>Assumer pleinement <b>une direction d'image</b>, mais sans se brider musicalement : « 60 ou 70 % de ta direction artistique reliée à ton image, et 30 à 35 % gardés sur d'autres branches » pour s'ouvrir à un public plus large.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s10" data-c="b">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">10</div>
+    <div><h2>La modélisation : copier ce qui marche déjà</h2><div class="tc">53:57 — 58:45</div></div>
+  </div>
+  <div class="cbody">
+    <p>Pour se simplifier la vie quand on gère tout seul, un moyen : <b>la modélisation.</b> Trouver un artiste qui est arrivé là où l'on veut arriver, et suivre son chemin — « il n'y a pas de raison qu'il n'y en ait pas deux ».</p>
+
+    <div class="box b-key">
+      <span class="bt">Le modèle n'a pas besoin de vous ressembler</span>
+      <p>« Si c'est un homme, c'est un homme. Si c'est un Italien, c'est un Italien. Tu transposes ce qu'il fait au marché français. » On peut même modéliser hors de son industrie : « la manière dont on vend du sucre, j'y trouve une méthode que je vais réutiliser pour vendre de la musique. »</p>
+    </div>
+
+    <h3>Un cas concret, raconté en entier</h3>
+    <p>Une artiste faisait des reprises au piano sans décoller depuis deux ou trois ans. Le modèle a été trouvé en cinq minutes (« j'ai tapé piano cover, j'ai trouvé un gars »). Conseils : reprendre <b>les titres les plus vus du modèle</b> (« si ça marche pour lui, ça peut marcher pour toi »), et copier aussi son modèle d'affaires — partitions, fichiers MIDI, tutoriels.</p>
+
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Étape</th><th>Résultat</th></tr></thead>
+        <tbody>
+          <tr><td>2<sup>e</sup> mois</td><td>300 à 400 € de ventes</td></tr>
+          <tr><td>Un an après</td><td>2 000 à 4 000 € par mois, ~10 000 abonnés</td></tr>
+          <tr><td>Conseil suivant</td><td>« Maintenant, fais de la pub » pour amplifier ce qui marche</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pull">« Trouve un modèle qui a atteint un palier que tu vises, va chercher tout ce qu'il fait, et applique-le. »<span>Le cerveau humain est le même partout : ce qui plaît ailleurs a toutes les chances de plaire ici.</span></div>
+  </div>
+</section>
+<section class="chap" id="s11" data-c="r">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">11</div>
+    <div><h2>Son public, ses valeurs, et le piège de la politique</h2><div class="tc">58:45 — 78:20</div></div>
+  </div>
+  <div class="cbody">
+    <p>On ne choisit pas son public. « On est par nature attiré par notre opposé » : un artiste masculin aura surtout un public féminin, et inversement. On peut <b>infléchir</b> (thèmes, reprises, danseurs sur scène), mais « c'est le public qui décide de se greffer à toi ou pas ».</p>
+
+    <div class="box b-tip">
+      <span class="bt">Demander directement au public</span>
+      <p>« Ne hésite pas à demander à ton public ce qui lui plaît chez toi. » Souvent c'est la connexion, pas le physique — le courage, la force, les racines partagées, l'espoir que représente une réussite. Comprendre ce lien permet d'en jouer.</p>
+    </div>
+
+    <h3>Incarner des valeurs, sans se politiser</h3>
+    <p>Le levier le plus puissant pour fédérer : <b>incarner des valeurs que le public veut partager.</b> « Il suffit de dire : moi, je pense comme vous, et ça suffit à rapprocher le public de toi. » Mais ce même levier, détourné, devient de la politique — et là, le conseil est sans ambiguïté.</p>
+
+    <div class="box b-warn">
+      <span class="bt">La ligne à tenir</span>
+      <p>« Si tu commences à politiser ton message, tu es foutue d'avance. » La bonne manœuvre : <b>ne prendre parti pour personne, et prôner des valeurs.</b> Exemple : ne pas dire si l'on est pour ou contre tel conflit, mais « je suis pour la paix ». Alors « les deux camps vont se rattacher à toi ».</p>
+    </div>
+
+    <p>Illustration par l'anecdote d'un couple d'amis qui divorce : rester ouvert aux deux, laisser chacun décider de partir. « Ce n'est pas toi qui leur tournes le dos. » Et quand un choix peut gêner (chanter à l'église, par exemple), on peut <b>l'expliquer avec les bons mots</b> : « les gens ouverts d'esprit comprendront, les autres jamais — et c'est le jeu. » Au fond : « liste tes valeurs fondamentales et insuffle-les dans ton message, ça parlera à plus de monde. »</p>
+
+    <div class="box b-info">
+      <span class="bt">Un garde-fou ajouté ici</span>
+      <p>Défendre des valeurs n'autorise pas à affirmer des faits faux ni à instrumentaliser une cause : la nuance « valeurs plutôt que camp » vaut comme posture de communication, pas comme permission de désinformer.</p>
+    </div>
+  </div>
+</section>
+<section class="chap" id="s12" data-c="g">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">12</div>
+    <div><h2>Le projet : penser « acquisition de fans »</h2><div class="tc">78:20 — 85:58</div></div>
+  </div>
+  <div class="cbody">
+    <p>Le projet est jugé ambitieux et porteur : ce n'est pas parce qu'il est peu médiatisé qu'il n'a pas de public. Au contraire, « il y a une énorme demande, pour l'instant divisée sur plein de micro-artistes » — et <b>aucun artiste ne fait autorité</b> sur ce créneau. Avantage supplémentaire : un public « très WhatsApp, très réseau, très bouche-à-oreille ».</p>
+
+    <div class="box b-key">
+      <span class="bt">La stratégie de départ</span>
+      <p>« Porter le projet avec une stratégie au départ exclusivement d'acquisition de fans. » Dix fans actifs, c'est déjà très bien ; demain quinze, puis vingt. <b>Voir chaque fan comme un client.</b></p>
+    </div>
+
+    <h3>L'image du food truck</h3>
+    <p>Plutôt qu'une boutique fixe, pensez food truck : un groupe WhatsApp de 8 000 personnes à qui l'on écrit « ce soir je suis ici » — et il y aura toujours des gens pour venir. Pour un artiste, c'est pareil : avec une base engagée, chaque offre déclenche des ventes. <b>Le plus dur, c'est de passer de 0 à 10 000.</b></p>
+
+    <div class="box b-tip">
+      <span class="bt">Faire valider ses offres avant de les créer</span>
+      <p>Il suffit souvent de <b>sonder sa base</b> : « j'envoie un mail et je demande quel sujet vous intéresse ». On répond à une demande existante, le prix se cale naturellement — et « c'est plus facile d'augmenter un prix que de le baisser ». Même un événement gratuit peut être rentabilisé : un séminaire monté de zéro, avec un lieu financé par un campus et des sponsors de marques, a fait venir près de 600 personnes.</p>
+    </div>
+
+    <div class="pull">« Il faut penser en système d'acquisition de fans, et utiliser les canaux que ton public utilise déjà. »<span>S'ils sont sur WhatsApp, on va sur WhatsApp.</span></div>
+  </div>
+</section>
+
+<section class="chap" id="s13" data-c="b">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">13</div>
+    <div><h2>Radio, cumbia et collaborations : la visibilité</h2><div class="tc">43:39 — 50:38</div></div>
+  </div>
+  <div class="cbody">
+    <p>En France, tout finit « dans la case musique latine » — le public ne distingue pas les sous-genres. Ce n'est pas un handicap : c'est un terrain où l'on peut se positionner. La <b>cumbia</b>, encore peu développée ici, est un créneau à prendre — « tu peux être celle qui l'amène » — et elle ouvre les collaborations avec des rappeurs.</p>
+
+    <div class="box b-warn">
+      <span class="bt">La stratégie radio, lucide</span>
+      <p>Il n'y a pas vraiment de part de marché radio pour ce répertoire. Donc <b>ne pas avoir plus d'ambition que ça</b> : « si tu obtiens une radio latine, c'est bon. » Miser plutôt sur le digital et la fanbase.</p>
+    </div>
+
+    <div class="box b-key">
+      <span class="bt">L'exception qui change tout</span>
+      <p>Une collaboration avec un rappeur à forte cote peut créer un pic de streams et faire entrer un titre « sur toutes les autres radios », par exception. « Le bon feat, au bon moment, avec le bon son » — et ça passe.</p>
+    </div>
+  </div>
+</section>
+<section class="chap" id="s14" data-c="a">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">14</div>
+    <div><h2>L'IA comme outil, sans jamais tromper le public</h2><div class="tc">87:45 — 92:00</div></div>
+  </div>
+  <div class="cbody">
+    <p>Dernière grande question de la séance : chanter sur des instrus générées quand on n'a pas encore de musiciens. Première réponse : <b>ne pas se laisser stresser.</b> « Il faut voir l'IA comme un outil, c'est tout. »</p>
+
+    <div class="box b-tip">
+      <span class="bt">Le bon usage</span>
+      <p>Créer une maquette avec l'IA pour dire à un compositeur « je veux ça » : il a un modèle, vous avez ce que vous voulez. Gain de temps et de productivité. L'IA sert à <b>sublimer</b>, pas à remplacer.</p>
+    </div>
+
+    <div class="box b-danger">
+      <span class="bt">La limite à ne pas franchir</span>
+      <p>Le vrai risque : un morceau <b>100 % généré qui ne sonne pas réel.</b> « Si ça tombe sur des musiciens, on entend tout de suite que c'est chimique. » La seule règle : <b>ne tromper personne.</b> Pour les parties instrumentales, « donne-le à des musiciens qui vont te le rejouer derrière ».</p>
+    </div>
+
+    <p>L'anecdote qui éclaire le principe : un concert où une guitare semblait live, alors que l'artiste faisait semblant de jouer sur une piste enregistrée. « Au pire, assume une bande — mais là, tu mentais aux gens. » Tant qu'on est honnête avec soi et son public, aucun souci.</p>
+  </div>
+</section>
+
+<section class="chap" id="s15" data-c="g">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">15</div>
+    <div><h2>Le concert en rodage : tester avant de produire</h2><div class="tc">92:00 — 98:32</div></div>
+  </div>
+  <div class="cbody">
+    <p>L'artiste hésite : tourner d'abord et produire ce qui prend, ou sortir l'EP d'abord ? La réponse ouvre une idée empruntée aux humoristes : <b>le show en rodage.</b></p>
+
+    <div class="box b-key">
+      <span class="bt">Le principe</span>
+      <p>Les humoristes testent leurs blagues dans de petites salles à 5–10 € la place, avant de vendre à 70. Ce modèle « n'est pas développé dans la musique ». Pourquoi ne pas <b>vendre des concerts privés en rodage</b> ? « L'EP est en cours de production, et c'est vous, par vos applaudissements, qui allez voter pour les titres que vous préférez. »</p>
+    </div>
+
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Format</th><th>Ce que ça rapporte / apporte</th></tr></thead>
+        <tbody>
+          <tr><td>Show de rodage, 10 € la place</td><td>500 à 1 000 € pour 60–100 personnes</td></tr>
+          <tr><td>Participants</td><td>Crédités dans les remerciements de l'album</td></tr>
+          <tr><td>Session de coécriture en direct</td><td>50 à 60 participants, ~500–600 € en une heure</td></tr>
+          <tr><td>Bénéfice réel</td><td>Choisir les meilleurs titres et paroles pour son public</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="box b-info">
+      <span class="bt">Un double effet</span>
+      <p>L'avant-première avec pouvoir de décision « intéresse énormément de monde ». Et ces participants deviennent <b>le meilleur public pour une campagne de crowdfunding</b> ensuite : ils ont vu les extraits et validé la démarche.</p>
+    </div>
+
+    <div class="pull">« L'idée du spectacle en rodage est sous-estimée par les artistes — dans l'humour, ça marche super bien. »<span>Un levier pour valider ses meilleurs projets avant d'investir un centime.</span></div>
+  </div>
+</section>
+
+<section class="chap" id="s16" data-c="b">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">16</div>
+    <div><h2>Clôture : livrables, suivi et intuition</h2><div class="tc">85:58 — 106:53</div></div>
+  </div>
+  <div class="cbody">
+    <p>La séance se clôt sur l'organisation du suivi : <b>une page de replay et un plan d'action écrit</b> reprenant toutes les étapes vues, un livrable et des slides à personnaliser pour l'oral (mieux vaut être sur ordinateur pour présenter), une session de répétition possible, et un canal WhatsApp pour rester joignable.</p>
+
+    <div class="box b-key">
+      <span class="bt">Le principe qui revient le plus souvent</span>
+      <p>Face aux cas où l'on ne sait pas trancher (accepter un concert sans budget, un choix d'image, etc.), la réponse est constante : <b>« écoute ton intuition. »</b> Si on se trompe, on l'assume et on se corrige ; si on a raison, on maintient. « Mais écoute-toi. »</p>
+    </div>
+
+    <p>La toute fin de l'échange, plus personnelle (image perçue, rapport au contact, façon d'être avec les gens), <b>reste volontairement hors de ce support</b> et appartient au replay privé.</p>
+  </div>
+</section>
+<div class="faq">
+  <div class="bar"></div>
+  <div class="faqhead">
+    <h2>Questions / Réponses</h2>
+    <p>Les points traités pendant la session, regroupés par thème — généralisés, sans noms propres.</p>
+  </div>
+  <div class="faqbody">
+
+    <div class="faqcat">Structure, statut, création de label</div>
+    <div class="qa"><div class="q"><span>Q1.</span>Pourquoi passer de l'entreprise individuelle à une société ?</div><div class="a"><p>Pour pouvoir se développer et <strong>ouvrir l'accès aux dispositifs</strong> (crédit d'impôt, aides), tout en travaillant proprement avec des prestataires. Le choix évoqué ici est la <strong>SASU</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q2.</span>Faut-il un comptable spécialisé musique ?</div><div class="a"><p>Non. <strong>« Pour un label qui débute, tu n'as pas besoin d'aller aussi loin dans les compétences. »</strong> Un comptable local suffit, à condition de l'éduquer sur les spécificités du secteur.</p></div></div>
+    <div class="qa"><div class="q"><span>Q3.</span>Comment trouver ce comptable ?</div><div class="a"><p><strong>« Si tu prends les 10 premiers que tu trouves dans Google et que tu les appelles »</strong>, on obtient facilement sept ou huit rendez-vous dans la semaine.</p></div></div>
+    <div class="qa"><div class="q"><span>Q4.</span>Combien coûte la création d'un label ?</div><div class="a"><p>Par un comptable, <strong>entre 2 000 et 2 500 €</strong>. Via une plateforme d'accompagnement, c'est inclus dans l'abonnement — soit environ <strong>trois fois moins cher</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q5.</span>À quoi sert le comptable, une fois le label créé ?</div><div class="a"><p>A minima au <strong>bilan annuel obligatoire</strong>, à la TVA si l'on est assujetti, à l'<strong>adhésion CNM</strong> et à la <strong>demande d'agrément crédit d'impôt</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q6.</span>Qu'apporte le crédit d'impôt ?</div><div class="a"><p>Il « permet d'amortir quasiment la moitié de tes dépenses ». Un levier majeur pour un label qui démarre.</p></div></div>
+    <div class="qa"><div class="q"><span>Q7.</span>Peut-on négocier les honoraires au départ ?</div><div class="a"><p>Oui : sur les <strong>deux ou trois premières années</strong>, l'activité demande peu, donc « ça peut se négocier au rabais ». Certains cabinets refuseront toutefois un dossier jugé peu rentable.</p></div></div>
+    <div class="qa"><div class="q"><span>Q8.</span>Quel est le point à soigner dans les statuts ?</div><div class="a"><p><strong>L'objet social</strong>, « pour pas que tu sois limité plus tard », et la <strong>durée du premier exercice fiscal</strong> — deux petits pièges du départ.</p></div></div>
+    <div class="qa"><div class="q"><span>Q9.</span>Combien de temps pour créer le label ?</div><div class="a"><p>Une fois le dossier complet et validé en rendez-vous, <strong>environ trois jours</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q10.</span>Quel pack choisir ?</div><div class="a"><p>Le pack adapté à un artiste qui crée son label (pas le pack « structure jusqu'à 10 artistes »). Indicativement : <strong>57 € / mois à l'année, 97 € sans engagement.</strong></p></div></div>
+
+    <div class="faqcat">Trouver et activer son réseau</div>
+    <div class="qa"><div class="q"><span>Q11.</span>Comment trouver un concepteur musical ?</div><div class="a"><p><strong>Démarcher plusieurs personnes en même temps</strong>, y compris à distance, et les mettre à l'essai sur un même titre.</p></div></div>
+    <div class="qa"><div class="q"><span>Q12.</span>Comment formuler la mise à l'essai ?</div><div class="a"><p>Clairement : <strong>« Là, tu es à l'essai, montre-moi ce que tu es capable de faire »</strong>, voire « c'est un essai, je ne te paierai pas pour ça ».</p></div></div>
+    <div class="qa"><div class="q"><span>Q13.</span>Pourquoi ne pas s'engager tout de suite avec une seule personne ?</div><div class="a"><p>Parce qu'on peut <strong>rester bloqué un an sur un projet qui n'avance pas</strong>, et finir avec un résultat qui ne nous ressemble plus.</p></div></div>
+    <div class="qa"><div class="q"><span>Q14.</span>Où chercher ces profils ?</div><div class="a"><p>Dans la <strong>communauté des membres</strong> (recherche par mots-clés, map, annonce), et à l'extérieur via les <strong>crédits et témoignages publics</strong> de studios ou collectifs.</p></div></div>
+    <div class="qa"><div class="q"><span>Q15.</span>Quel modèle d'annonce poster ?</div><div class="a"><p><strong>« Je cherche actuellement un concepteur musical pour un projet d'album »</strong>, en décrivant son univers et en laissant un contact.</p></div></div>
+    <div class="qa"><div class="q"><span>Q16.</span>Combien de personnes démarcher ?</div><div class="a"><p>« Si tu en démarches 15, 20, 25 aujourd'hui, avant la fin de la semaine tu en as trois, quatre qui t'auront rappelé. » <strong>Le volume déclenche la machine.</strong></p></div></div>
+
+    <div class="faqcat">L'association et le cadre juridique</div>
+    <div class="qa"><div class="q"><span>Q17.</span>Comment travailler avec un musicien qui passe par une asso ?</div><div class="a"><p>Envoyer une facture et demander une <strong>décharge écrite par mail</strong> : « mettez-moi juste une confirmation écrite, envoyez-moi la facture et je vous règle ».</p></div></div>
+    <div class="qa"><div class="q"><span>Q18.</span>Un règlement sur facture pénalise-t-il mes aides ?</div><div class="a"><p>Non : <strong>« ça rentre dans le cadre subventionnable. »</strong> L'impact négatif est pour l'artiste en face, qui cède ~20 % à l'association.</p></div></div>
+    <div class="qa"><div class="q"><span>Q19.</span>Pourquoi tout le monde croit que l'asso est la seule voie ?</div><div class="a"><p>Parce que les mairies et même de grandes maisons y renvoient. L'illusion générale : « la musique, c'est gratuit ». <strong>C'est faux</strong> — mais on ne change pas toutes les mentalités.</p></div></div>
+    <div class="qa"><div class="q"><span>Q20.</span>Comment négocier dans un milieu très masculin ?</div><div class="a"><p>Pas de solution miracle : <strong>« mettre le plus de barrières possibles et le plus de cadres dans tes échanges »</strong>, cadrer par écrit, poser des limites claires.</p></div></div>
+
+    <div class="faqcat">Image, modélisation, public</div>
+    <div class="qa"><div class="q"><span>Q21.</span>Comment poser son image ?</div><div class="a"><p>En évitant d'être « un peu tout et n'importe quoi en même temps ». <strong>Prendre une position et l'assumer à 200 %.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q22.</span>Faut-il se brider musicalement pour autant ?</div><div class="a"><p>Non : <strong>60 à 70 % de la direction artistique reliée à l'image</strong>, 30 à 35 % gardés ouverts pour élargir le public.</p></div></div>
+    <div class="qa"><div class="q"><span>Q23.</span>Qu'est-ce que la modélisation ?</div><div class="a"><p>Trouver quelqu'un qui a atteint le palier visé et <strong>suivre son chemin</strong> — même s'il ne nous ressemble pas, même dans une autre industrie.</p></div></div>
+    <div class="qa"><div class="q"><span>Q24.</span>Jusqu'où copier le modèle ?</div><div class="a"><p>Les contenus qui marchent chez lui <strong>et</strong> son modèle d'affaires. Dans l'exemple cité : partitions, fichiers MIDI, tutoriels — jusqu'à 2 000–4 000 € / mois un an après.</p></div></div>
+    <div class="qa"><div class="q"><span>Q25.</span>Peut-on choisir son public ?</div><div class="a"><p>Non : <strong>« c'est le public qui décide de se greffer à toi ou pas. »</strong> On peut infléchir, pas décréter.</p></div></div>
+    <div class="qa"><div class="q"><span>Q26.</span>Comment fédérer un public ?</div><div class="a"><p>En <strong>incarnant des valeurs partagées</strong> : « il suffit de dire : je pense comme vous ». Et en <strong>demandant au public ce qui lui plaît</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q27.</span>Faut-il prendre parti politiquement ?</div><div class="a"><p>Non : <strong>« si tu commences à politiser ton message, tu es foutue d'avance. »</strong> Prôner des valeurs (ex. « je suis pour la paix »), sans choisir de camp. <em class="q">Un objet de communication peut être nuancé, mais jamais affirmer un fait faux.</em></p></div></div>
+
+    <div class="faqcat">Audience, radio, collaborations</div>
+    <div class="qa"><div class="q"><span>Q28.</span>Par où commencer, sans label ni fanbase ?</div><div class="a"><p>Par une <strong>stratégie exclusivement d'acquisition de fans</strong> : voir chaque fan comme un client, et utiliser les canaux que le public utilise déjà (WhatsApp, Instagram…).</p></div></div>
+    <div class="qa"><div class="q"><span>Q29.</span>Comment savoir quoi vendre à sa base ?</div><div class="a"><p>En la <strong>sondant</strong> : on demande le sujet qui intéresse, on répond à la demande, le prix se cale — « plus facile d'augmenter un prix que de le baisser ».</p></div></div>
+    <div class="qa"><div class="q"><span>Q30.</span>Quelle place donner à la radio ?</div><div class="a"><p>Limitée pour ce répertoire : <strong>« il ne faut pas avoir plus d'ambition que ça en radio. »</strong> Miser sur le digital et la fanbase.</p></div></div>
+    <div class="qa"><div class="q"><span>Q31.</span>Comment entrer malgré tout en radio généraliste ?</div><div class="a"><p>Par l'exception : une <strong>collaboration avec un rappeur à forte cote</strong>, « le bon feat au bon moment avec le bon son », peut créer un pic de streams.</p></div></div>
+    <div class="qa"><div class="q"><span>Q32.</span>La cumbia est-elle un créneau ?</div><div class="a"><p>Oui : encore peu développée en France, « c'est un créneau à prendre — tu peux être celle qui l'amène », et elle ouvre les collabs rap.</p></div></div>
+
+    <div class="faqcat">IA et production</div>
+    <div class="qa"><div class="q"><span>Q33.</span>Peut-on chanter sur des instrus générées par IA ?</div><div class="a"><p>Oui, sans stress : <strong>« il faut voir l'IA comme un outil. »</strong> Elle sert à faire une maquette, à briefer un compositeur, à gagner du temps.</p></div></div>
+    <div class="qa"><div class="q"><span>Q34.</span>Quel est le risque ?</div><div class="a"><p>Un morceau <strong>100 % généré qui ne sonne pas réel</strong> : les musiciens « entendent tout de suite que c'est chimique ». La règle : <strong>ne tromper personne.</strong></p></div></div>
+    <div class="qa"><div class="q"><span>Q35.</span>Comment faire proprement ?</div><div class="a"><p>Faire <strong>rejouer les parties par des musiciens</strong>. « À partir du moment où tu es honnête avec toi-même et ton public, il n'y a aucun souci. »</p></div></div>
+
+    <div class="faqcat">Tester avant de produire</div>
+    <div class="qa"><div class="q"><span>Q36.</span>Tourner d'abord ou sortir l'EP d'abord ?</div><div class="a"><p>Tester d'abord, via le <strong>concert en rodage</strong> emprunté aux humoristes : le public vote les titres par ses applaudissements.</p></div></div>
+    <div class="qa"><div class="q"><span>Q37.</span>Qu'est-ce que ça rapporte ?</div><div class="a"><p>À 10 € la place, <strong>500 à 1 000 €</strong> pour 60–100 personnes — tout en identifiant les meilleurs titres et paroles.</p></div></div>
+    <div class="qa"><div class="q"><span>Q38.</span>Peut-on le faire en ligne ?</div><div class="a"><p>Oui : une <strong>session de coécriture en direct</strong> (50–60 participants, ~500–600 € en une heure), avec les participants crédités dans les remerciements.</p></div></div>
+    <div class="qa"><div class="q"><span>Q39.</span>Quel bénéfice au-delà de l'argent ?</div><div class="a"><p>Ce public devient le <strong>meilleur vivier pour un crowdfunding</strong> : il a vu les extraits et validé la démarche.</p></div></div>
+    <div class="qa"><div class="q"><span>Q40.</span>Comment trancher quand on hésite ?</div><div class="a"><p>La réponse constante de la séance : <strong>« écoute ton intuition. »</strong> Si on se trompe, on l'assume ; si on a raison, on maintient.</p></div></div>
+
+  </div>
+</div>
+<div class="plan">
+  <h2>Plan d'action</h2>
+  <p>Cochez au fur et à mesure. Les cinq phases suivent la logique de la session : structurer, trouver ses collaborateurs, poser son image, bâtir l'audience, puis tester avant de produire.</p>
+
+  <div class="phase">Phase 1 — Structurer l'activité</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Statut</b>Fermer l'entreprise individuelle et ouvrir une société (SASU), pour se développer et accéder aux dispositifs</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Comptable</b>Appeler dix cabinets locaux : viser sept ou huit rendez-vous dans la semaine, négocier bas pour les premières années</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Création de label</b>Comparer : 2 000–2 500 € via un comptable, ou inclus dans un abonnement de plateforme (≈ 3× moins cher)</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Statuts</b>Soigner l'objet social pour ne pas se limiter plus tard, et la durée du premier exercice fiscal</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Dispositifs</b>Préparer l'adhésion CNM et la demande d'agrément crédit d'impôt (amortit près de la moitié des dépenses)</span></li>
+  </ul>
+
+  <div class="phase">Phase 2 — Trouver ses collaborateurs</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Démarcher large</b>Contacter plusieurs concepteurs musicaux en même temps, y compris à distance — 15 à 25 d'un coup</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Mettre à l'essai</b>Donner le même titre à plusieurs personnes : « tu es à l'essai, montre-moi ce que tu es capable de faire »</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Communauté</b>Chercher par mots-clés, consulter la map des membres, poster une annonce de recherche de concepteur</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Réseau externe</b>Relever les artistes de son univers dans les crédits/témoignages publics d'un studio, les retrouver sur Instagram</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Cadre asso</b>Face à un musicien en association : facture + décharge écrite par mail pour se protéger</span></li>
+  </ul>
+
+  <div class="phase">Phase 3 — Poser son image</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Choisir une direction</b>Assumer une position d'image à 200 % plutôt que d'être « un peu tout à la fois »</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Garder de l'ouverture</b>60 à 70 % de la direction artistique reliée à l'image, 30 à 35 % ouverts pour élargir le public</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Modéliser</b>Trouver un artiste au palier visé, copier ses contenus qui marchent et son modèle d'affaires</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Valeurs, pas politique</b>Incarner des valeurs partagées sans prendre parti ; expliquer ses choix avec les bons mots</span></li>
+  </ul>
+
+  <div class="phase">Phase 4 — Bâtir l'audience</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Acquisition de fans</b>Penser « chaque fan est un client » ; viser le passage de 0 à 10 000, c'est le plus dur</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Bons canaux</b>Être là où le public est déjà (WhatsApp, Instagram) plutôt que de l'attendre ailleurs</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Sonder avant de vendre</b>Demander à sa base quel sujet / offre l'intéresse, caler le prix sur la demande</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Radio réaliste</b>S'arrêter à une radio latine ; viser les radios généralistes seulement via une collab à forte cote</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Créneau cumbia</b>Évaluer la cumbia comme créneau ouvert en France, levier de collaborations avec des rappeurs</span></li>
+  </ul>
+
+  <div class="phase">Phase 5 — Tester avant de produire</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Concert en rodage</b>Organiser un show à 10 € la place où le public vote les titres de l'EP par ses applaudissements</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Version en ligne</b>Proposer une session de coécriture en direct, participants crédités dans les remerciements</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>IA honnête</b>Utiliser l'IA pour maquetter et briefer, faire rejouer les parties par des musiciens, ne tromper personne</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Crowdfunding</b>Transformer le public de rodage en vivier pour financer la production de l'album</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Décision</b>En cas de doute, écouter son intuition — assumer si l'on se trompe, maintenir si l'on a raison</span></li>
+  </ul>
+</div>
+
+<div class="quiz">
+  <h2>Quiz — 8 questions</h2>
+  <p>Pour vérifier que les mécanismes de la session sont bien assimilés.</p>
+
+  <div class="qz" data-g="2">
+    <p class="qt">1. Pour un label qui débute, quel comptable viser ?</p>
+    <div class="opt">Impérativement un cabinet spécialisé dans la musique, même lointain et plus cher</div>
+    <div class="opt">Aucun comptable : la plateforme suffit pour tout, y compris le bilan</div>
+    <div class="opt">Un comptable local, qu'on éduque sur les spécificités du secteur</div>
+    <div class="fb">« Pour un label qui débute, tu n'as pas besoin d'aller aussi loin dans les compétences. » Un comptable local suffit, à condition de l'éduquer — « mon comptable, c'est moi qui l'ai éduqué sur nos sujets ». Et pour le trouver vite : appeler les dix premiers de Google donne souvent sept ou huit rendez-vous dans la semaine. Le comptable reste indispensable a minima pour le bilan annuel.</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <p class="qt">2. Pourquoi démarcher plusieurs concepteurs musicaux en même temps ?</p>
+    <div class="opt">Pour faire baisser les prix en les mettant en concurrence frontale</div>
+    <div class="opt">Pour ne pas rester bloqué un an sur un projet qui n'avance pas</div>
+    <div class="opt">Parce qu'un seul prestataire ne peut jamais produire un EP entier</div>
+    <div class="fb">« Le risque, je l'ai vu chez des centaines d'artistes, c'est de rester bloqué pendant un an sur un projet qui n'avance pas. » En donnant le même titre à plusieurs personnes et en annonçant « tu es à l'essai », on sent tout de suite qui fait gagner du temps et correspond au projet — sans s'enfermer dans une relation qui ne fait pas avancer.</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <p class="qt">3. Comment se protéger quand un musicien passe par une association ?</p>
+    <div class="opt">Envoyer une facture et demander une décharge écrite par mail</div>
+    <div class="opt">Refuser catégoriquement toute collaboration via une association</div>
+    <div class="opt">Créer soi-même une association pour être sur un pied d'égalité</div>
+    <div class="fb">« Tu envoies une facture et tu leur demandes juste de te signer une décharge. » Par écrit : « si vous me dites que vous en faites votre affaire, mettez-moi une confirmation écrite, envoyez la facture et je règle ». Cela protège l'intention en cas de contrôle, et un règlement sur facture reste dans le cadre subventionnable.</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <p class="qt">4. Quel équilibre viser entre image et musique ?</p>
+    <div class="opt">100 % de l'image et de la musique alignées sur une seule esthétique</div>
+    <div class="opt">60 à 70 % de direction artistique liée à l'image, 30 à 35 % ouverts</div>
+    <div class="opt">Tout laisser ouvert, pour ne fermer aucune porte à aucun public</div>
+    <div class="fb">« Il faut que tu assumes pleinement une direction d'image, mais musicalement, ne te freine pas. » Soit environ 60-70 % de la DA reliée à l'image choisie, et 30 à 35 % gardés sur d'autres branches pour s'ouvrir à un public plus large. Le piège inverse : être « un peu tout et n'importe quoi », donc impossible à vendre.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <p class="qt">5. Qu'est-ce que la modélisation ?</p>
+    <div class="opt">Copier un artiste qui nous ressemble exactement, même genre et même pays</div>
+    <div class="opt">Inventer un modèle unique que personne n'a jamais testé avant soi</div>
+    <div class="opt">Suivre le chemin de quelqu'un qui a atteint le palier visé, quitte à l'adapter</div>
+    <div class="fb">« La modélisation n'a pas besoin d'être exactement ressemblant à qui tu es. » Le modèle peut être un homme, un étranger, voire d'une autre industrie — « la manière dont on vend du sucre, j'y trouve une méthode pour vendre de la musique ». On copie ses contenus qui marchent et son modèle d'affaires, puis on adapte.</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <p class="qt">6. Quelle stratégie de départ pour l'audience ?</p>
+    <div class="opt">Penser acquisition de fans, chaque fan vu comme un client</div>
+    <div class="opt">Multiplier les dates de concert le plus vite possible</div>
+    <div class="opt">Viser d'abord la radio généraliste pour un maximum de visibilité</div>
+    <div class="fb">« Il faut le porter avec une stratégie au départ exclusivement d'acquisition de fans » : dix fans actifs, c'est très bien, puis quinze, vingt. L'image du food truck l'illustre — une base engagée sur un canal qu'elle utilise déjà (WhatsApp) permet de vendre à chaque offre. Le plus dur, c'est de passer de 0 à 10 000.</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <p class="qt">7. Jusqu'où aller avec l'IA ?</p>
+    <div class="opt">Générer des morceaux entiers à 100 %, c'est le gain de productivité maximal</div>
+    <div class="opt">L'utiliser comme outil (maquette, brief), mais faire rejouer par des musiciens</div>
+    <div class="opt">Ne jamais y toucher, c'est forcément malhonnête vis-à-vis du public</div>
+    <div class="fb">« Il faut voir l'IA comme un outil. » Elle sert à maquetter et à briefer un compositeur. Le risque, c'est le morceau 100 % généré « qui ne sonne pas réel » — les musiciens l'entendent. La règle : ne tromper personne, et faire rejouer les parties par des musiciens. « À partir du moment où tu es honnête, aucun souci. »</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <p class="qt">8. Quel est l'intérêt du concert en rodage ?</p>
+    <div class="opt">Remplir de grandes salles rapidement grâce à des places bon marché</div>
+    <div class="opt">Remplacer définitivement la sortie d'un EP par des concerts privés</div>
+    <div class="opt">Tester ses titres auprès du public avant de produire, et dégager des revenus</div>
+    <div class="fb">Emprunté aux humoristes : un show à 10 € la place où « c'est le public, par ses applaudissements, qui vote pour les titres qu'il préfère ». 60 à 100 personnes rapportent 500 à 1 000 €, tout en identifiant les meilleurs morceaux et paroles — et ce public devient le meilleur vivier pour un futur crowdfunding.</div>
+  </div>
+  <div class="score" id="score"></div>
+</div>
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="wrap">
+    <p><b>Producteur à Succès</b> — Session individuelle du 16 novembre 2026</p>
+    <p>192 chapitres · 16 sections · 40 questions-réponses · plan d'action en 5 phases</p>
+    <p>La personne accompagnée n'est pas nommée : ni son prénom, ni son nom de scène, ni sa ville, ni les personnes, studios ou artistes cités en exemple ne sont repris. Le passage personnel de fin de séance reste dans le replay privé. Les passages juridiques et administratifs sont des retours d'expérience, pas des avis juridiques ou comptables.</p>
+  </div>
+</footer>
+<script>
+var CH = [[38, "Bienvenue : le cadre de la session individuelle"], [62, "Deux heures, sans ordre du jour imposé"], [86, "Avancer à l'aveugle quand il manque les infos"], [123, "Où arrivent les feuilles de démarrage Live Zone"], [160, "Module d'intro et WhatsApp : les deux accès"], [179, "Les sessions de groupe : jeudi et rattrapage"], [210, "Le réflexe association dans tout l'entourage"], [227, "Le besoin de changer de structure juridique"], [256, "Le cas du musicien qui tourne à l'étranger"], [283, "Courir après l'intermittence pendant des années"], [322, "Celui qui ne sait pas demande à celui qui croit"], [343, "50 dates par an, de 25 à 55 ans"], [362, "Les mêmes artistes au même point depuis 20 ans"], [390, "Une fanbase existante et jamais exploitée"], [417, "On n'a pas les clés pour se développer"], [431, "De l'entreprise individuelle à la société"], [446, "Écrire en espagnol, se mettre au français"], [508, "Le manque de collaboration entre musiciens"], [540, "Collaborer avec des artistes sans réseaux"], [575, "Ça doit venir d'eux : montrer l'exemple"], [594, "Les artistes qui se blessent en cours de route"], [637, "Où en est le projet, quelles prochaines étapes"], [644, "Fermer l'entreprise individuelle, ouvrir une SASU"], [710, "Un label qui débute n'a pas besoin d'un expert"], [725, "2 000 à 2 500 € : la création via un comptable"], [732, "Création incluse : trois fois moins cher"], [756, "Appeler dix cabinets : sept ou huit rendez-vous"], [790, "C'est l'artiste qui éduque son comptable"], [806, "Adhésion CNM et agrément crédit d'impôt"], [815, "Amortir près de la moitié de ses dépenses"], [848, "Négocier bas au démarrage"], [895, "Ne pas se tromper dans les statuts"], [926, "La matière du single ou de l'EP est déjà là"], [941, "Trouver qui composera la musique"], [963, "Passer des covers à ses propres chansons"], [989, "L'association de musiciens qui fait peur"], [1006, "Démarcher plusieurs concepteurs en même temps"], [1040, "Donner le même titre à plusieurs personnes"], [1057, "Rester bloqué un an sur un projet qui stagne"], [1071, "« Tu es à l'essai, montre-moi »"], [1087, "Le projet qui ne te ressemble plus"], [1100, "Le problème de la patience et des délais"], [1152, "Repérer qui compose dans le groupe et écrire"], [1182, "Driver le concepteur avec des modèles précis"], [1200, "« C'est un essai, je ne te paierai pas »"], [1256, "Partage d'écran : le module de démarrage"], [1290, "Feuilles de route, modules et exercices"], [1314, "La communauté : plus de 1 300 membres"], [1357, "La map des membres pour trouver près de soi"], [1387, "Chercher les membres par mots-clés"], [1451, "Poster une annonce : le modèle de message"], [1497, "Des musiciens compétents mais non déclarés"], [1546, "Faire porter la responsabilité par l'association"], [1555, "Facture et décharge écrite de l'association"], [1608, "L'artiste cède 20 % à une asso qui l'aide peu"], [1630, "Pourquoi l'asso paraît être la seule voie"], [1667, "Jouer avec les règles et rester flexible"], [1682, "20 ans dans le métier, les mêmes problèmes"], [1697, "Même les majors renvoient vers une asso"], [1760, "Faire comprendre que la musique a un coût"], [1778, "Négocier en tant que femme dans ce milieu"], [1803, "Mettre des barrières et cadrer ses échanges"], [1892, "Quel pack choisir selon son besoin réel"], [1925, "57 €/mois à l'année, 97 € sans engagement"], [1960, "L'onglet création de label vu de l'intérieur"], [1988, "Le stepper : compléter les étapes une à une"], [2006, "Attestation des fonds, signature, annonce légale"], [2040, "L'objet social : ne pas se limiter plus tard"], [2061, "Label créé en trois jours environ"], [2106, "Y a-t-il d'autres artistes salsa et bachata ?"], [2165, "Le reggaeton plus représenté que la salsa"], [2217, "Une reprise à 24 millions de vues"], [2296, "Une artiste latine connectée en Amérique du Sud"], [2345, "Un compositeur de musique latine à contacter"], [2364, "Un profil déjà connecté à un label"], [2387, "Repérer deux profils et remonter le fil"], [2467, "L'artiste-ingénieur du son et son studio"], [2497, "Lire les références publiques d'un studio"], [2564, "Contacter du monde, mais massivement"], [2592, "Le message type de prise de contact"], [2604, "Démarcher 25 personnes : 3 ou 4 rappellent"], [2619, "Dire qu'on a un budget change tout"], [2673, "La cumbia : y a-t-il quelque chose en France ?"], [2717, "Un créneau à prendre : être celle qui l'amène"], [2783, "En France, tout finit dans la case musique latine"], [2812, "La cumbia ouvre les collabs avec des rappeurs"], [2848, "Pourquoi si peu de reggaeton en français"], [2864, "La barrière de la langue pour chanter en français"], [2897, "Pas de part de marché radio pour ce répertoire"], [2929, "Ne pas avoir plus d'ambition radio que ça"], [2954, "Des contacts directs en radio latine"], [2974, "L'exception : entrer en radio par la collab"], [2990, "Le bon feat, au bon moment, avec le bon son"], [3038, "D'une image folklore vers une image salsa"], [3110, "Forger son image selon ses besoins"], [3130, "Le piège d'être un peu tout à la fois"], [3142, "Prendre une position et l'assumer à 200 %"], [3158, "Trop au croisement : impossible à vendre"], [3186, "60-70 % de DA liée à l'image, 30 % ouverts"], [3237, "La modélisation, le moyen de se simplifier"], [3250, "Trouver celle qui est déjà arrivée où tu vas"], [3285, "Il y a toujours une formule derrière un succès"], [3329, "Le modèle n'a pas besoin de te ressembler"], [3362, "Vendre du sucre : la méthode sert pour la musique"], [3380, "Transposer un modèle étranger au marché français"], [3405, "Cas concret : l'artiste de reprises au piano"], [3420, "Comment le modèle a été trouvé en cinq minutes"], [3447, "Copier aussi le modèle d'affaires"], [3467, "300 à 400 € dès le deuxième mois"], [3484, "Un an après : 2 000 à 4 000 € par mois"], [3497, "Étape suivante : amplifier avec de la publicité"], [3525, "Choisir un modèle au palier que l'on vise"], [3617, "La règle des publics inversés"], [3637, "Les leviers pour attirer un public féminin"], [3650, "Des danseurs sur scène comme levier"], [3667, "C'est le public qui décide, pas toi"], [3714, "Demander à son public ce qui lui plaît"], [3741, "Ce que son public féminin lui renvoie"], [3836, "Les racines partagées comme moteur"], [3865, "Incarner des valeurs partagées"], [3959, "Écrire des morceaux sur ce thème"], [4020, "Le mettre en lumière suffit : un post, une story"], [4039, "« Je pense comme vous » rapproche le public"], [4052, "Le même levier détourné : la politique"], [4098, "Trop de politique dans la musique aujourd'hui"], [4125, "Ne pas vouloir prendre parti politiquement"], [4163, "Défendre des valeurs sans prendre parti"], [4209, "Les deux camps peuvent s'y reconnaître"], [4261, "« Ils font tous ça » : la pression de l'entourage"], [4351, "Une créatrice qui perd en se politisant"], [4382, "Lister ses valeurs et les insuffler au message"], [4419, "Politiser son message : perdu d'avance"], [4429, "Chanter à l'église : un problème d'image ?"], [4492, "Ne prendre parti pour personne"], [4500, "L'anecdote du couple d'amis qui divorce"], [4537, "Laisser la porte ouverte aux deux côtés"], [4558, "Expliquer ses choix quand ils peuvent gêner"], [4602, "Certains n'entendront jamais : c'est le jeu"], [4664, "Faire à l'instinct et suivre son intuition"], [4700, "Un projet ambitieux qui peut marcher"], [4722, "Aucun artiste ne fait autorité sur ce créneau"], [4728, "Un public très WhatsApp, très réseau"], [4764, "Une stratégie 100 % acquisition de fans"], [4777, "Voir chaque fan comme un client"], [4783, "L'image du food truck plutôt que la boutique"], [4810, "Le food truck et ses 8 000 contacts WhatsApp"], [4866, "Le plus dur : passer de 0 à 10 000 fans"], [4921, "Sonder sa base pour trouver le bon sujet"], [4958, "Le séminaire gratuit monté de zéro"], [4988, "600 personnes sur un événement gratuit"], [5008, "Faire valider une offre avant de la créer"], [5046, "Plus facile d'augmenter un prix que de le baisser"], [5069, "Penser en système d'acquisition de fans"], [5083, "Utiliser les canaux que le public utilise déjà"], [5158, "Chanter sans budget : accepter ou refuser ?"], [5222, "La réponse est toujours : écoute ton intuition"], [5265, "Dernière question : l'intelligence artificielle"], [5332, "Voir l'IA comme un outil, rien de plus"], [5346, "La maquette IA comme brief pour le compositeur"], [5368, "Le vrai risque : un morceau 100 % généré"], [5379, "L'anecdote du concert et de la guitare"], [5429, "L'aveu : « je faisais semblant de jouer »"], [5467, "La seule règle : ne tromper personne"], [5503, "Faire rejouer les parties par des musiciens"], [5520, "Tester avec le public avant de produire"], [5532, "Tourner d'abord ou sortir l'EP d'abord ?"], [5581, "Les shows en rodage des humoristes"], [5606, "Un modèle inexploité dans la musique"], [5618, "Vendre des concerts privés « en rodage »"], [5643, "Le public vote les titres de l'EP"], [5656, "500 à 1 000 € par show de rodage"], [5712, "Les participants crédités dans les remerciements"], [5724, "L'avant-première avec pouvoir de décision"], [5786, "La session de coécriture en direct"], [5812, "50 à 60 participants pour 500 à 600 €"], [5850, "Une idée sous-estimée par les artistes"], [5868, "Le meilleur public pour un crowdfunding"], [5912, "La page de replay et le plan d'action écrit"], [5945, "Oral : mieux vaut être sur ordinateur"], [5959, "Livrable écrit et slides à personnaliser"], [6001, "Une session de répétition si besoin"], [6031, "Rester joignable sur WhatsApp"], [6045, "La question franche sur son regard"], [6069, "Réservée, et non timide"], [6162, "Pourquoi il a posé la question"], [6226, "« Tu es un peu impressionnante »"], [6270, "Préférer la froideur sincère à l'hypocrisie"], [6282, "Deux régions, deux rapports aux gens"], [6348, "Image sensuelle et malentendus de perception"], [6363, "La peur d'être trop accessible"], [6376, "Un public trop tactile : poser des limites"], [6413, "Fin de session : le rapport au contact"]];
+
+var frame = document.getElementById('vimeoPlayer');
+
+function fmt(s){ var m = Math.floor(s/60), x = s%60; return m + ':' + (x<10?'0':'') + x; }
+
+function seek(sec){
+  if (!frame || !frame.contentWindow) return;
+  try {
+    frame.contentWindow.postMessage(JSON.stringify({method:'setCurrentTime', value: sec}), '*');
+    frame.contentWindow.postMessage(JSON.stringify({method:'play'}), '*');
+  } catch(e){}
+  var top = frame.getBoundingClientRect().top + window.pageYOffset - 20;
+  window.scrollTo({top: top < 0 ? 0 : top, behavior:'smooth'});
+}
+
+(function(){
+  var host = document.getElementById('chlist');
+  if (!host) return;
+  CH.forEach(function(c){
+    var b = document.createElement('button');
+    var t = document.createElement('b'); t.textContent = fmt(c[0]);
+    var s = document.createElement('span'); s.textContent = c[1];
+    b.appendChild(t); b.appendChild(s);
+    b.addEventListener('click', function(){ seek(c[0]); });
+    host.appendChild(b);
+  });
+})();
+
+(function(){
+  document.querySelectorAll('.tc').forEach(function(el){
+    var parts = el.textContent.split(/(\d+:\d{2})/);
+    if (parts.length < 2) return;
+    el.textContent = '';
+    parts.forEach(function(p){
+      if (/^\d+:\d{2}$/.test(p)) {
+        var mm = p.split(':');
+        var sec = parseInt(mm[0],10)*60 + parseInt(mm[1],10);
+        var btn = document.createElement('button');
+        btn.className = 'seek'; btn.textContent = p;
+        btn.addEventListener('click', function(){ seek(sec); });
+        el.appendChild(btn);
+      } else {
+        el.appendChild(document.createTextNode(p));
+      }
+    });
+  });
+})();
+
+window.addEventListener('scroll', function(){
+  var h = document.documentElement;
+  var max = h.scrollHeight - h.clientHeight;
+  var p = max > 0 ? (h.scrollTop / max) * 100 : 0;
+  document.getElementById('progress').style.width = p + '%';
+});
+
+document.querySelectorAll('.chk li').forEach(function(li){
+  li.addEventListener('click', function(){ li.classList.toggle('done'); });
+});
+
+(function(){
+  var total = document.querySelectorAll('.qz').length, answered = 0, good = 0;
+  document.querySelectorAll('.qz').forEach(function(qz){
+    var g = parseInt(qz.getAttribute('data-g'), 10);
+    var opts = qz.querySelectorAll('.opt');
+    var fb = qz.querySelector('.fb');
+    opts.forEach(function(opt, i){
+      opt.addEventListener('click', function(){
+        if (qz.classList.contains('answered')) return;
+        qz.classList.add('answered');
+        answered++;
+        if (i === g) { opt.classList.add('good'); good++; }
+        else { opt.classList.add('bad'); opts[g].classList.add('good'); }
+        fb.classList.add('show');
+        if (answered === total) {
+          var sc = document.getElementById('score');
+          sc.textContent = 'Score : ' + good + ' / ' + total + (good === total ? ' — parfait.' : ' — relisez les chapitres concernés.');
+          sc.classList.add('show');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

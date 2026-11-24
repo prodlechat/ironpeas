@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session individuelle — 24 novembre 2026 : structurer, financer et développer son projet musical</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#6C3AED; --primary-dark:#4C1D95; --primary-light:#EDE9FE;
+  --accent:#F59E0B; --accent-light:#FEF3C7;
+  --success:#10B981; --success-light:#D1FAE5;
+  --danger:#EF4444; --danger-light:#FEE2E2;
+  --info:#3B82F6; --info-light:#DBEAFE;
+  --ink:#1A1523; --muted:#5B5670; --line:#E7E4EF; --bg:#FAF9FC; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+.progress-wrap{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(108,58,237,.12);z-index:999}
+#progress{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+.wrap{max-width:940px;margin:0 auto;padding-inline:20px}
+
+.hero{background:linear-gradient(140deg,#3B1D80 0%,#6C3AED 55%,#8B5CF6 100%);color:#fff;padding-block:60px 52px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{content:"";position:absolute;left:-60px;bottom:-120px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.05)}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:700;margin-bottom:14px;position:relative;z-index:2}
+.hero .sub{font-size:17px;opacity:.92;max-width:690px;position:relative;z-index:2}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;position:relative;z-index:2}
+.meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:7px 14px;border-radius:10px;font-size:13.5px;font-weight:500}
+
+/* LECTEUR */
+.player-wrap{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:-32px;position:relative;z-index:6;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.vid{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.chx{margin-top:16px;border:1px solid var(--line);border-radius:12px;background:#FBFAFE}
+.chx summary{cursor:pointer;padding:12px 16px;font-weight:650;font-size:14.5px;color:var(--primary-dark);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chx summary::-webkit-details-marker{display:none}
+.chx summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+.chx[open] summary::before{content:"▾ "}
+.chx summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+.chlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:2px;max-height:330px;overflow-y:auto;padding:0 10px 12px}
+.chlist button{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;background:transparent;border:0;border-radius:9px;padding:8px 10px;font-family:inherit;font-size:14.5px;color:var(--ink);cursor:pointer;line-height:1.45;transition:background .12s}
+.chlist button:hover{background:var(--primary-light);color:var(--primary-dark)}
+.chlist b{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;min-width:54px}
+button.seek{background:var(--primary-light);border:1px solid #DDD3FA;color:var(--primary-dark);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;cursor:pointer;font-variant-numeric:tabular-nums;transition:all .12s}
+button.seek:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.player-wrap + .toc{margin-top:26px}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:-32px;position:relative;z-index:5;box-shadow:0 12px 40px rgba(26,21,35,.08)}
+.toc h2{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:16px;color:var(--primary-dark)}
+.toc ol{list-style:none;counter-reset:toc;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.toc li{counter-increment:toc}
+.toc a{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink);padding:9px 10px;border-radius:10px;font-size:14.5px;transition:background .15s}
+.toc a:hover{background:var(--primary-light);color:var(--primary-dark)}
+.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--primary);font-size:13px;flex-shrink:0;padding-top:1px}
+
+section.chap{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+section.chap>.bar{height:5px;background:var(--primary)}
+.chap[data-c="a"]>.bar{background:var(--accent)} .chap[data-c="g"]>.bar{background:var(--success)}
+.chap[data-c="b"]>.bar{background:var(--info)} .chap[data-c="r"]>.bar{background:var(--danger)}
+.chead{padding:26px 28px 0;display:flex;gap:14px;align-items:center}
+.cnum{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--primary-light);color:var(--primary-dark);display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px}
+.chap[data-c="a"] .cnum{background:var(--accent-light);color:#92400E}
+.chap[data-c="g"] .cnum{background:var(--success-light);color:#065F46}
+.chap[data-c="b"] .cnum{background:var(--info-light);color:#1E40AF}
+.chap[data-c="r"] .cnum{background:var(--danger-light);color:#991B1B}
+.chead h2{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.25;font-weight:700}
+.tc{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-top:3px}
+.cbody{padding:18px 28px 28px}
+.cbody p{margin-bottom:14px}
+.cbody h3{font-family:'Space Grotesk',sans-serif;font-size:16.5px;margin:22px 0 10px;color:var(--primary-dark)}
+.cbody ul,.cbody ol{margin:0 0 14px 20px}
+.cbody li{margin-bottom:7px}
+strong{font-weight:650;color:#2D2540}
+em.q{font-style:italic;color:#413655}
+
+.box{border-radius:12px;padding:16px 18px;margin:18px 0;border-left:4px solid;font-size:15px}
+.box .bt{display:block;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.box p:last-child{margin-bottom:0}
+.b-key{background:var(--primary-light);border-color:var(--primary)} .b-key .bt{color:var(--primary-dark)}
+.b-warn{background:var(--accent-light);border-color:var(--accent)} .b-warn .bt{color:#92400E}
+.b-tip{background:var(--success-light);border-color:var(--success)} .b-tip .bt{color:#065F46}
+.b-info{background:var(--info-light);border-color:var(--info)} .b-info .bt{color:#1E40AF}
+.b-danger{background:var(--danger-light);border-color:var(--danger)} .b-danger .bt{color:#991B1B}
+
+.tbl{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+thead th{background:var(--primary);color:#fff;text-align:left;padding:12px 14px;font-weight:600;font-size:13.5px}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#FBFAFE}
+
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.pc>div{border-radius:12px;padding:16px 18px;font-size:14.5px}
+.pc .ok{background:var(--success-light);border:1px solid #A7F3D0}
+.pc .ko{background:var(--danger-light);border:1px solid #FECACA}
+.pc h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.pc .ok h4{color:#065F46} .pc .ko h4{color:#991B1B}
+.pc ul{margin:0 0 0 18px} .pc li{margin-bottom:5px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
+.card{background:#FBFAFE;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h4{font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:6px;color:var(--primary-dark)}
+.card p{font-size:14px;color:var(--muted);margin:0}
+.stat h4{font-size:22px;font-family:'Space Grotesk',sans-serif}
+
+.tl{list-style:none;margin:18px 0;padding-left:26px;border-left:2px dashed var(--line)}
+.tl li{position:relative;margin-bottom:16px;font-size:15px}
+.tl li::before{content:"";position:absolute;left:-33px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary-light)}
+.tl b{display:block;font-family:'Space Grotesk',sans-serif;color:var(--primary-dark)}
+
+details{border:1px solid var(--line);border-radius:12px;margin:14px 0;background:#FBFAFE}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:15px;color:var(--primary-dark);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸ ";color:var(--primary);font-weight:700}
+details[open] summary::before{content:"▾ "}
+details .dc{padding:0 18px 16px;font-size:14.5px}
+
+.pull{margin:22px 0;padding:20px 24px;border-radius:14px;background:linear-gradient(120deg,#2D1B69,#4C1D95);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:19px;line-height:1.45;font-weight:600}
+.pull span{display:block;margin-top:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;opacity:.7;letter-spacing:.03em}
+
+.faq{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:26px;overflow:hidden;box-shadow:0 2px 10px rgba(26,21,35,.04)}
+.faq>.bar{height:5px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.faqhead{padding:26px 28px 0}
+.faqhead h2{font-family:'Space Grotesk',sans-serif;font-size:26px;color:var(--primary-dark)}
+.faqhead p{color:var(--muted);font-size:15px;margin-top:4px}
+.faqbody{padding:18px 28px 28px}
+.faqcat{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.faqcat:first-child{margin-top:6px}
+.qa{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:#FDFCFF}
+.qa .q{background:linear-gradient(90deg,var(--primary-light),#F6F3FF);padding:13px 18px;font-weight:650;color:var(--primary-dark);font-size:15.5px;display:flex;gap:10px}
+.qa .q span{flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.qa .a{padding:15px 18px;font-size:15px}
+.qa .a p{margin-bottom:10px} .qa .a p:last-child{margin-bottom:0}
+
+.plan{background:linear-gradient(140deg,#0F172A,#1E1B4B);color:#fff;border-radius:18px;padding:30px 28px;margin-top:26px}
+.plan h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:8px}
+.plan>p{opacity:.8;margin-bottom:20px;font-size:15px}
+.phase{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin:22px 0 10px}
+.phase:first-of-type{margin-top:0}
+.chk{list-style:none;margin:0;padding:0}
+.chk li{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;margin-bottom:9px;font-size:15px;cursor:pointer;transition:background .15s}
+.chk li:hover{background:rgba(255,255,255,.09)}
+.chk .bx{flex-shrink:0;width:20px;height:20px;border:2px solid rgba(255,255,255,.4);border-radius:6px;margin-top:3px;display:grid;place-items:center;font-size:13px;font-weight:700;color:transparent}
+.chk li.done .bx{background:var(--success);border-color:var(--success);color:#fff}
+.chk li.done .tx{opacity:.5;text-decoration:line-through}
+.chk .tx b{display:block;font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.04em;text-transform:uppercase;opacity:.65;margin-bottom:2px}
+
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px;margin-top:26px}
+.quiz h2{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:6px;color:var(--primary-dark)}
+.quiz>p{color:var(--muted);margin-bottom:22px;font-size:15px}
+.qz{margin-bottom:24px;padding-bottom:22px;border-bottom:1px dashed var(--line)}
+.qz:last-of-type{border-bottom:none}
+.qz .qt{font-weight:650;margin-bottom:12px;font-size:15.5px}
+.opt{display:block;width:100%;text-align:left;background:#FBFAFE;border:1.5px solid var(--line);border-radius:10px;padding:11px 15px;margin-bottom:8px;cursor:pointer;font-family:inherit;font-size:14.5px;color:var(--ink);transition:all .15s}
+.opt:hover{border-color:var(--primary);background:var(--primary-light)}
+.opt.good{background:var(--success-light);border-color:var(--success);font-weight:600}
+.opt.bad{background:var(--danger-light);border-color:var(--danger)}
+.fb{display:none;margin-top:10px;padding:12px 15px;border-radius:10px;font-size:14.5px;background:var(--info-light);border-left:4px solid var(--info)}
+.fb.show{display:block}
+.score{margin-top:20px;padding:16px;border-radius:12px;background:var(--primary-light);text-align:center;font-weight:650;color:var(--primary-dark);display:none}
+.score.show{display:block}
+
+footer{text-align:center;padding-block:40px 50px;color:var(--muted);font-size:14px}
+footer b{color:var(--primary-dark);font-family:'Space Grotesk',sans-serif}
+
+@media(max-width:640px){
+  .pc{grid-template-columns:1fr}
+  .chead,.faqhead{padding:22px 18px 0} .cbody,.faqbody{padding:16px 18px 22px}
+  .toc{padding:22px 18px} .plan,.quiz{padding:24px 18px}
+  .hero h1{font-size:27px} .pull{font-size:17px;padding:18px}
+  .player-wrap{padding:14px} .chlist{grid-template-columns:1fr;max-height:280px}
+}
+@media print{
+  .progress-wrap{display:none} body{background:#fff}
+  section.chap,.toc,.quiz,.faq{box-shadow:none;break-inside:avoid}
+  .opt{display:none}
+  .vid{display:none} .player-wrap{box-shadow:none;margin-top:20px}
+  .chlist{max-height:none;overflow:visible} .chlist button{padding:3px 0}
+  button.seek{background:none;border:0;padding:0;color:var(--primary-dark)}
+}
+</style>
+</head>
+<body>
+<div class="progress-wrap"><div id="progress"></div></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">Session individuelle · 24 novembre 2026</div>
+    <h1>Structurer, financer<br>et développer son projet musical</h1>
+    <p class="sub">Deux heures d'accompagnement individuel avec une artiste autoproduite qui monte tout en même temps : une structure juridique à sécuriser, des aides à aller chercher, une audience à faire grandir et un premier événement à remplir. La session passe en revue le concret — SASU et direction de la structure pour prendre des cachets, ARCE, RSA, intermittence, subventions DAC et SACEM, crédit d'impôt, statut d'artiste-auteur et optimisation fiscale — puis bascule sur le développement : faire monter ses auditeurs Spotify, déléguer ses réseaux sans se faire trahir, vendre un événement avec de l'urgence, lancer un merch qui ouvre des portes, et bâtir une stratégie géographique du local à l'international. Elle se clôt sur la préparation sereine de l'examen de certification.</p>
+    <div class="meta">
+      <span>⏱ 1 h 21</span>
+      <span>🎙 Tarik Hamiche</span>
+      <span>👤 Session individuelle</span>
+      <span>📌 123 chapitres</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="player-wrap">
+  <div class="vid">
+    <iframe id="vimeoPlayer"
+      src="https://player.vimeo.com/video/1249692891?h=9944197688"
+      title="Session individuelle du 24 novembre 2026"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  <details class="chx" id="chx">
+    <summary><span>Les 123 chapitres de la session</span><em>Cliquez un chapitre pour y aller</em></summary>
+    <div class="chlist" id="chlist"></div>
+  </details>
+</div>
+
+<nav class="toc">
+  <h2>Au programme</h2>
+  <ol>
+    <li><a href="#s1">Comment lire ce support</a></li>
+    <li><a href="#s2">Du salariat à la musique : poser le décor</a></li>
+    <li><a href="#s3">La structure : SASU, dirigeant et cachets</a></li>
+    <li><a href="#s4">Aides et statuts : ARCE, RSA, intermittence</a></li>
+    <li><a href="#s5">Déléguer ses réseaux sociaux sans se faire trahir</a></li>
+    <li><a href="#s6">Faire monter ses auditeurs Spotify</a></li>
+    <li><a href="#s7">Les pièges des régies publicitaires</a></li>
+    <li><a href="#s8">Vendre un événement : créer l'urgence</a></li>
+    <li><a href="#s9">Le merch comme totem qui ouvre des portes</a></li>
+    <li><a href="#s10">Le micro-trottoir mis en scène</a></li>
+    <li><a href="#s11">Manager et délégation : tester d'abord</a></li>
+    <li><a href="#s12">La stratégie géographique en pyramide</a></li>
+    <li><a href="#s13">Financer son projet : combien demander</a></li>
+    <li><a href="#s14">Artiste-auteur et optimisation fiscale</a></li>
+    <li><a href="#s15">Contrats et avocats : quand c'est utile</a></li>
+    <li><a href="#s16">L'examen de certification, sans stress</a></li>
+  </ol>
+</nav>
+<section class="chap" id="s1" data-c="a">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">1</div>
+    <div><h2>Comment lire ce support</h2><div class="tc">00:00 — 01:06</div></div>
+  </div>
+  <div class="cbody">
+    <p>Cette session est un accompagnement individuel, et le cadre est posé en ouverture : <b>« l'idée, c'est qu'on parle de toi, qu'on avance sur les projets qui te concernent. Tu es toute à ta disposition pendant les deux prochaines heures. »</b> Ce qui suit n'est donc pas un cours, mais une suite de réponses à une artiste qui structure et développe son activité en même temps.</p>
+
+    <div class="box b-info">
+      <span class="bt">Ce que ce support ne contient pas</span>
+      <p>La personne accompagnée n'est pas nommée : <b>ni son prénom, ni son nom de scène, ni sa région, ni le nom de son événement, ni les personnes citées</b> ne sont repris. Les exemples et territoires ont été généralisés.</p>
+      <p>Les montants, aides et dispositifs sont des <b>repères donnés à l'oral, pas des règles figées</b> : chaque cas se vérifie auprès de l'organisme concerné (URSSAF, SACEM, DAC, France Travail), d'un expert-comptable ou d'un professionnel du droit.</p>
+    </div>
+
+    <div class="box b-key">
+      <span class="bt">Le fil de la session</span>
+      <p>Deux grands blocs : d'abord <b>sécuriser la base</b> (structure, aides, fiscalité), puis <b>développer</b> (audience, événement, merch, collaborations, stratégie géographique), avant de clore sur la préparation de l'examen.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s2" data-c="b">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">2</div>
+    <div><h2>Du salariat à la musique : poser le décor</h2><div class="tc">01:06 — 02:45</div></div>
+  </div>
+  <div class="cbody">
+    <p>Point de départ : deux ans et demi à plein temps dans la musique, après un <b>licenciement économique</b> qui a servi de déclencheur. Les débuts se font « au black », avec les premières claques du métier — un lieu qui ne paie pas et <b>rien pour le prouver</b> (pas de facture possible sans déclaration), une subvention refusée faute de structure.</p>
+    <p>La décision suit logiquement : <b>se déclarer enfin</b>, même sans avoir été « une bonne élève » (ni comptable ni avocat au départ, donc des statuts à revoir). C'est tout l'objet de la section suivante.</p>
+  </div>
+</section>
+<section class="chap" id="s3" data-c="b">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">3</div>
+    <div><h2>La structure : SASU, dirigeant et cachets</h2><div class="tc">02:45 — 05:00</div></div>
+  </div>
+  <div class="cbody">
+    <p>La SASU reste « l'une des meilleures options ». Mais il y a un point technique décisif si l'on veut <b>prendre des cachets depuis sa structure</b> :</p>
+
+    <div class="box b-key">
+      <span class="bt">Le dirigeant ne doit pas être soi</span>
+      <p>« Il faut que la personne à la direction ne soit pas toi. » On peut être associé à 100 %, mais la direction doit revenir à un tiers (conjoint, famille). C'est la condition pour pouvoir se verser des cachets d'artiste via la société, en gardant un lien de subordination.</p>
+    </div>
+
+    <p>En parallèle, deux aides à la production sont dans les tuyaux : la <b>subvention de la Direction des Affaires Culturelles</b> (à déposer avant le 31 décembre) et l'<b>aide SACEM à l'autoproduction</b>.</p>
+
+    <div class="box b-info">
+      <span class="bt">Condition clé de l'aide SACEM</span>
+      <p>Il faut <b>au moins cinq titres inédits ou vingt minutes de musique enregistrée inédite</b> sur le projet (un ou deux titres déjà sortis ne posent pas problème). La demande est possible <b>jusqu'à six mois après la sortie</b>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s4" data-c="g">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">4</div>
+    <div><h2>Aides et statuts : ARCE, RSA, intermittence</h2><div class="tc">05:00 — 11:30</div></div>
+  </div>
+  <div class="cbody">
+    <p>L'<b>ARCE</b> de France Travail (capital versé en deux fois à la création) a été obtenue. Pour tenir les premiers mois, l'idée est de <b>ne pas se verser de salaire</b> et de viser le RSA. C'est jouable, à une condition de forme :</p>
+
+    <div class="box b-key">
+      <span class="bt">Le procès-verbal annuel</span>
+      <p>Prévoir dans les statuts que <b>la rémunération du dirigeant est fixée chaque année par PV de décision des associés</b>. On rédige alors un PV daté (« en ma qualité de présidente, je ne prends pas de rémunération cette année »), et ce document sert de preuve auprès de France Travail pour une demande de RSA ou équivalent. De quoi « jongler d'une année sur l'autre ».</p>
+    </div>
+
+    <h3>L'intermittence : utile un temps</h3>
+    <p>C'est « un bon schéma un certain temps », mais pas un horizon de carrière (« sinon tu vas te cramer à être sur scène jusqu'à 50 balais »). La mécanique : <b>une année à vide, puis 507 heures / 43 cachets</b>, étudiés en commission sous 15 jours.</p>
+
+    <div class="box b-warn">
+      <span class="bt">ARCE et intermittence : incompatibles</span>
+      <p>Vérification faite en séance : on ne peut pas cumuler les deux. L'ARCE est vue comme une démarche de reconversion entrepreneuriale, incompatible avec l'indemnisation des jours non travaillés. <b>Conclusion : prendre l'ARCE d'abord, basculer vers l'intermittence ensuite.</b></p>
+    </div>
+  </div>
+</section>
+<section class="chap" id="s5" data-c="a">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">5</div>
+    <div><h2>Déléguer ses réseaux sociaux sans se faire trahir</h2><div class="tc">11:30 — 16:00</div></div>
+  </div>
+  <div class="cbody">
+    <p>Les réseaux prennent « plus de temps que la création ». Faut-il les déléguer à un community manager ? Oui, si l'on trouve la bonne personne — mais la délégation est un processus, pas un transfert de clés.</p>
+
+    <div class="box b-key">
+      <span class="bt">La passation de trois mois</span>
+      <p>Mois 1 : contrôle absolu sur tout. Mois 2 : contrôle modéré. Mois 3 : la personne gère, sous vérification régulière. Si au bout de trois mois ça matche, on lâche. <b>« L'erreur que tout le monde fait, c'est de donner les clés du bébé et bon courage. »</b></p>
+    </div>
+
+    <div class="box b-warn">
+      <span class="bt">Le vrai test : un « mini-toi »</span>
+      <p>Le piège le plus courant, c'est la façon de répondre aux commentaires : « on sent que ce n'est pas réel ». Tant qu'on n'est pas numéro un des charts, <b>le public doit avoir l'impression que c'est l'artiste qui répond</b>, sinon tout le travail d'acquisition de fans devient plus dur. L'idéal : une proche motivée qui connaît l'artiste par cœur.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s6" data-c="g">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">6</div>
+    <div><h2>Faire monter ses auditeurs Spotify</h2><div class="tc">16:00 — 23:00</div></div>
+  </div>
+  <div class="cbody">
+    <p>Le vrai blocage : des auditeurs mensuels qui plafonnent. Trois leviers.</p>
+
+    <div class="box b-key">
+      <span class="bt">1. Produire beaucoup, et en collab</span>
+      <p>Plus de titres = plus de points d'accès vers un public. Et <b>multiplier les feats</b> : un titre à quatre artistes à 200 auditeurs chacun gonfle mécaniquement chaque profil et « draine du flux algorithmique naturel ». <em class="q">Hack : un morceau uniquement avec des femmes peut entrer dans les playlists « Equals » de plusieurs pays.</em></p>
+    </div>
+
+    <div class="box b-tip">
+      <span class="bt">2. Les stratégies de répétition</span>
+      <p>Un jeu concours (refaire une chorégraphie sur le son, avec un lot &gt; 100 €) où l'un des critères est de <b>montrer qu'on a lancé le son avant de filmer</b>. Chaque participant écoute le titre des dizaines de fois en s'entraînant : « 1 000 personnes qui font ça, c'est un demi-million de streams ». Et plus de volume d'un coup = plus de mise en avant par l'algorithme.</p>
+    </div>
+
+    <div class="box b-info">
+      <span class="bt">3. L'accord Apple-TikTok</span>
+      <p>Depuis l'été, <b>chaque vue d'une vidéo qui utilise ton son se transforme en stream sur Apple Music</b>. Une vidéo à un million de vues = un million de streams (soit 3 à 4 000 €, et beaucoup de playlists déclenchées). À quoi s'ajoute l'effet catalogue : l'algorithme pousse un deuxième, un troisième titre à ceux qui t'ont découvert.</p>
+    </div>
+  </div>
+</section>
+<section class="chap" id="s7" data-c="r">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">7</div>
+    <div><h2>Les pièges des régies publicitaires</h2><div class="tc">23:00 — 26:00</div></div>
+  </div>
+  <div class="cbody">
+    <p>Dès 2 000 écoutes mensuelles, on devient éligible aux ads Spotify. Faut-il les exploiter ? Non.</p>
+
+    <div class="box b-danger">
+      <span class="bt">Les streams publicitaires ne sont pas payés</span>
+      <p>« Tous les streams générés par de la pub ne sont pas payés. » Ils restent dans l'historique (bon pour l'image, la découverte), mais ne rapportent rien — donc <b>ça coûte cher pour rien</b>. <em class="q">YouTube applique la même règle : un clip boosté en Google Ads peut faire deux millions de vues non monétisées.</em></p>
+    </div>
+
+    <div class="box b-tip">
+      <span class="bt">Où mettre son argent à la place</span>
+      <p>Dans des <b>partenariats</b> : rémunérer un webzine, un blog ou une newsletter qui vise ton public, plutôt qu'une régie. Et un cas où la pub plateforme marche vraiment : le <b>retargeting pour vendre des places de concert</b> — les écoutes récentes reçoivent ensuite une alerte « showcase près de chez vous ».</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s8" data-c="a">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">8</div>
+    <div><h2>Vendre un événement : créer l'urgence</h2><div class="tc">26:00 — 35:00 · 41:00 — 44:00</div></div>
+  </div>
+  <div class="cbody">
+    <p>La promo d'un événement collectif est déjà bien menée (flyer sponsorisé, vidéos de répète, cross-canal). Le seul changement à apporter : <b>donner une raison d'acheter maintenant.</b></p>
+
+    <div class="box b-key">
+      <span class="bt">Pourquoi l'urgence est indispensable</span>
+      <p>« Les gens sont durs à la détente. Si tu ne leur donnes pas une excellente raison de cliquer tout de suite, ils reportent jusqu'à oublier. » Il faut un cadre temporel et une vraie raison de se dépêcher.</p>
+    </div>
+
+    <h3>Des leviers concrets</h3>
+    <ul>
+      <li><b>L'upgrade VIP tiré au sort</b> : « les X premiers inscrits aujourd'hui seront tirés au sort pour une place VIP normalement vendue dix fois plus cher. »</li>
+      <li><b>Une achetée, une offerte</b> (plutôt en fin de campagne, pour remplir la jauge), ou place à moitié prix pour un accompagnant.</li>
+      <li><b>La surprise mystère</b> : une boîte (ou une enveloppe) que les artistes se passent en teasant « un truc de dingue », remise sur scène à un acheteur tiré au sort. Modèle de l'anecdote du livre caché en librairie avec un QR code — <b>la curiosité comme moteur d'action.</b></li>
+    </ul>
+
+    <div class="pull">« Tu crées un momentum où les gens se disent : quitte à prendre ma place dans trois semaines, autant la prendre tout de suite. »<span>L'urgence transforme l'intention en achat.</span></div>
+  </div>
+</section>
+<section class="chap" id="s9" data-c="g">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">9</div>
+    <div><h2>Le merch comme totem qui ouvre des portes</h2><div class="tc">36:00 — 41:00</div></div>
+  </div>
+  <div class="cbody">
+    <p>Faut-il lancer un merch avec une petite discographie ? Ça dépend de la demande ressentie — mais le merch a un double effet : <b>le montrer crée l'envie</b> (« personne ne t'écrira pour demander un pull à ton effigie si tu ne dis pas que tu en as un »), et il n'y a pas besoin d'une grosse communauté pour vendre.</p>
+
+    <div class="box b-tip">
+      <span class="bt">Les règles de prudence</span>
+      <p>Commencer avec <b>un ou deux produits</b>, sans investir dans du stock (le stock invendu devient obsolète). Trois ou quatre objets avec soi : si ça part, on en refait ; sinon, ça sert de visuel et de com.</p>
+    </div>
+
+    <div class="box b-key">
+      <span class="bt">Vendre l'objet comme un totem</span>
+      <p>Le déclic vient quand l'objet n'est plus un objet, mais <b>une clé qui ouvre des portes</b>. Exemples vécus : un t-shirt qui donne l'entrée gratuite partout où l'artiste passe (marge énorme, et effet de meute dans les vidéos quand on voit le public le porter), ou un mug qui donne l'accès gratuit à un séminaire. « Quand tu vends ton objet comme un totem, c'est autre chose. »</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s10" data-c="a">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">10</div>
+    <div><h2>Le micro-trottoir mis en scène</h2><div class="tc">41:00 — 44:30</div></div>
+  </div>
+  <div class="cbody">
+    <p>Filmer les gens dans la rue pour parler de l'événement : bonne idée, <b>à condition d'une vraie mise en scène.</b></p>
+
+    <div class="box b-key">
+      <span class="bt">Le dispositif</span>
+      <p>Un beau fauteuil posé sur une place très connue du public visé. « Vous vous asseyez, on vous fait écouter quelque chose, et si vous kiffez, je vous annonce un truc. » On fait écouter, on crée l'envie, et <b>on tend le billet dans l'instant.</b> Si en plus l'artiste surgit pendant le tournage, l'effet est maximal.</p>
+    </div>
+
+    <p>Et on casse la pression après la prise : <b>« ce n'est pas un braquage, c'est pour l'image — si tu veux ta place, en la prenant maintenant, on t'en offre une pour la personne de ton choix. »</b></p>
+  </div>
+</section>
+<section class="chap" id="s11" data-c="b">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">11</div>
+    <div><h2>Manager et délégation : tester d'abord</h2><div class="tc">44:30 — 53:00</div></div>
+  </div>
+  <div class="cbody">
+    <p>Une manager est en vue (20 % sur les prestations au-delà d'un certain cachet). La règle avant tout engagement : <b>toujours tester.</b></p>
+
+    <div class="box b-key">
+      <span class="bt">Le mois d'essai</span>
+      <p>« Faisons un essai, tu as un mois. » Un manager étant payé au pourcentage, un mois d'essai ne lui coûte rien, et chaque plan apporté peut déjà être rémunéré pour montrer le respect. C'est ainsi que se décrochent aussi les premiers contrats de consulting : <b>« si je ne vous apporte rien au bout d'un mois, on s'arrête, vous n'aurez rien perdu. »</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <span class="bt">Déléguer, c'est comme avec un enfant</span>
+      <p>On ne lâche pas, on accompagne puis on relâche : d'abord suivre discrètement, puis espacer les contrôles, jusqu'à ne plus contrôler du tout — <b>le tableau de bord suffit.</b> « Un gars qui bosse avec moi depuis sept ans, je ne sais même pas ce qu'il fait de ses journées : quand je regarde les tableaux de contrôle, le taf est fait. »</p>
+    </div>
+
+    <p>En marge : le choix de se former. L'option « aller étudier ailleurs » (billet, logement, formation chère et jugée trop théorique) a été écartée au profit d'une formation finançable par le CPF.</p>
+  </div>
+</section>
+
+<section class="chap" id="s12" data-c="g">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">12</div>
+    <div><h2>La stratégie géographique en pyramide</h2><div class="tc">53:00 — 60:00</div></div>
+  </div>
+  <div class="cbody">
+    <p>La stratégie proposée : partir du local pour viser l'international, mais <b>progressivement, en pyramide</b> — dominer son territoire d'abord, puis s'étendre par cercles.</p>
+
+    <div class="box b-key">
+      <span class="bt">Viser les réseaux puissants</span>
+      <p>Certains réseaux « rapportent énormément en SACEM » et couvrent de nombreux pays. Pour y accéder : <b>un bon attaché de presse et un bon tourneur</b> qui maîtrisent ces réseaux. En parallèle, multiplier les collabs locales pour être repéré par les décideurs médias et les organisateurs — « si tu es le son du moment, ils t'achètent, peu importe le prix ».</p>
+    </div>
+
+    <div class="box b-tip">
+      <span class="bt">Négocier de la visibilité, pas un cachet</span>
+      <p>Pour s'implanter sur un nouveau territoire : <b>« je m'assieds sur mon cachet, mais en contrepartie tu m'ouvres ces radios, cette télé, ce youtubeur. »</b> La salle se remplit, on revient à son cachet d'origine ensuite, et surtout on a gagné le public. « La visibilité, si c'est le moment et que tu arrives à la négocier, ça vaut de l'or. »</p>
+    </div>
+  </div>
+</section>
+<section class="chap" id="s13" data-c="g">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">13</div>
+    <div><h2>Financer son projet : combien demander</h2><div class="tc">60:00 — 63:00</div></div>
+  </div>
+  <div class="cbody">
+    <p>Face à une aide plafonnée (jusqu'à plusieurs dizaines de milliers d'euros) pour un EP qui coûte bien moins : combien demander, et comment l'agencer ?</p>
+
+    <div class="box b-key">
+      <span class="bt">Justifier, mais ne pas brider son ambition</span>
+      <p>Premier principe : <b>ne demander que ce qu'on peut justifier</b> (un budget sans plan en face n'est pas accordé, et devient un problème au moment des comptes). Mais sans brider son ambition : <b>présenter plusieurs scénarios</b> (album seul / album + collabs / + gros concert), chiffrés. « Plus tu peux récupérer, mieux c'est — et l'avantage, c'est que c'est eux qui assument les pertes, pas toi. »</p>
+    </div>
+
+    <div class="box b-warn">
+      <span class="bt">Le réflexe crédit d'impôt</span>
+      <p>Faire la demande d'agrément <b>avant d'engager les frais</b> de l'album : des dépenses engagées trop tôt peuvent ne pas être prises en compte.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="s14" data-c="b">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">14</div>
+    <div><h2>Artiste-auteur et optimisation fiscale</h2><div class="tc">63:00 — 70:00</div></div>
+  </div>
+  <div class="cbody">
+    <p>Avoir créé une activité d'artiste-auteur en parallèle est « une bonne chose », pour deux raisons.</p>
+
+    <div class="box b-key">
+      <span class="bt">Dispense de précompte + facturation</span>
+      <p>La <b>dispense de précompte URSSAF</b> évite d'être chargé des deux côtés sur les revenus de droits à la source. Et le numéro d'artiste-auteur permet de <b>facturer</b> — notamment de se facturer à son propre label pour service rendu d'écriture.</p>
+    </div>
+
+    <div class="box b-tip">
+      <span class="bt">Le mécanisme crédit d'impôt</span>
+      <p>Cinq titres facturés 1 000 € chacun à son label : sur chaque facture, <b>l'État reverse quasiment la moitié</b> via le crédit d'impôt. Et c'est une charge déductible pour le label.</p>
+    </div>
+
+    <div class="box b-info">
+      <span class="bt">L'article 100 bis</span>
+      <p>L'artiste-auteur peut <b>lisser ses revenus artistiques sur cinq ans</b> (20 000 € répartis, moins 10 % de retenue, deviennent 3 600 € déclarés par an). Un statut « puissant et gratuit » : juste une liasse fiscale à remplir au-delà d'un certain seuil.</p>
+    </div>
+
+    <p>Sur l'idée vue passer de <b>déposer son nom d'artiste comme marque</b> pour facturer une redevance à sa société : possible, mais encadré (plafonné au volume d'affaires, imposé en BIC) et peu intéressant pour de petits montants. Le vrai filon, lui, concerne les <b>créateurs de contenu</b> : via le statut d'artiste-auteur, ils peuvent sortir jusqu'à ~30 000 € par an quasi défiscalisés.</p>
+  </div>
+</section>
+
+<section class="chap" id="s15" data-c="r">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">15</div>
+    <div><h2>Contrats et avocats : quand c'est utile</h2><div class="tc">70:00 — 73:00</div></div>
+  </div>
+  <div class="cbody">
+    <p>Un contrat d'enregistrement entre l'artiste et sa propre société ? <b>Pas aujourd'hui.</b> « Ça ne protège en rien » — au contraire, ça obligerait à certaines choses.</p>
+
+    <div class="box b-key">
+      <span class="bt">Quand un avocat est vraiment utile</span>
+      <p>Dans deux cas seulement : <b>gros enjeux</b> (sommes à six chiffres) ou <b>gros conflit</b> (une attaque directe, type réclamation de dommages et intérêts importants). En dessous, l'intervention ne se justifie pas. « C'est un problème de riche que je te souhaite d'avoir le plus tôt possible. »</p>
+    </div>
+  </div>
+</section>
+<section class="chap" id="s16" data-c="g">
+  <div class="bar"></div>
+  <div class="chead">
+    <div class="cnum">16</div>
+    <div><h2>L'examen de certification, sans stress</h2><div class="tc">73:00 — 81:00</div></div>
+  </div>
+  <div class="cbody">
+    <p>Dernière partie : le déroulé de l'examen. Dès la fin de la formation, on <b>valide ensemble la sortie</b> (heures suivies, complétion), puis un contrôle CPF est fait — d'où l'importance de faire ses heures.</p>
+
+    <div class="box b-key">
+      <span class="bt">Livrable et slides préparés à 80 %</span>
+      <p>Un formulaire sur le projet est envoyé ; à partir des réponses sont créés <b>un livrable écrit et des slides</b>, calés sur la grille d'évaluation du certificateur. L'artiste n'a qu'à compléter les éléments manquants (date de sortie, nombre de titres) — <b>30 minutes à une heure de travail.</b></p>
+    </div>
+
+    <div class="box b-tip">
+      <span class="bt">Réserver et passer</span>
+      <p>On réserve ensuite une date sur la plateforme du certificateur : <b>trois dates par mois, jusqu'à six mois après la formation.</b> L'oral dure 20-25 minutes, à distance, notes autorisées. Les <b>questions sont connues d'avance</b> et préparées ensemble. « Même si tu racontes n'importe quoi, les documents te garantissent la moyenne. » Résultat sous deux semaines, rattrapage possible.</p>
+    </div>
+
+    <div class="box b-info">
+      <span class="bt">La clé : savoir justifier ses choix</span>
+      <p>L'examen vérifie qu'on sait <b>expliquer ses choix</b> (pourquoi telle plateforme, pourquoi la SASU, pourquoi cumuler avec l'artiste-auteur). « Comme c'est ton projet, ta vie, ton parcours, il n'y a pas de raison que tu ne maîtrises pas. » 10/20 suffit.</p>
+    </div>
+  </div>
+</section>
+<div class="faq">
+  <div class="bar"></div>
+  <div class="faqhead">
+    <h2>Questions / Réponses</h2>
+    <p>Les points traités pendant la session, regroupés par thème — généralisés, sans noms propres.</p>
+  </div>
+  <div class="faqbody">
+
+    <div class="faqcat">Structure et statut</div>
+    <div class="qa"><div class="q"><span>Q1.</span>SASU, SARL : quelle structure choisir ?</div><div class="a"><p>La SASU reste « l'une des meilleures options ». Le point clé est ailleurs : la direction.</p></div></div>
+    <div class="qa"><div class="q"><span>Q2.</span>Comment prendre des cachets depuis sa structure ?</div><div class="a"><p>En confiant la <strong>direction à un tiers</strong> (conjoint, famille). « Il faut que la personne à la direction ne soit pas toi. » On peut rester associé à 100 %.</p></div></div>
+    <div class="qa"><div class="q"><span>Q3.</span>Comment ne pas se verser de salaire tout en touchant le RSA ?</div><div class="a"><p>Prévoir dans les statuts une rémunération du dirigeant fixée chaque année par <strong>PV des associés</strong>, puis produire un PV « pas de rémunération cette année » comme preuve auprès de France Travail.</p></div></div>
+    <div class="qa"><div class="q"><span>Q4.</span>L'intermittence est-elle une bonne idée ?</div><div class="a"><p>Oui, « un bon schéma un certain temps », pas un horizon de carrière. Mécanique : une année à vide, puis <strong>507 heures / 43 cachets</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q5.</span>Peut-on cumuler ARCE et intermittence ?</div><div class="a"><p>Non, <strong>incompatibles</strong>. Prendre l'ARCE d'abord, basculer vers l'intermittence ensuite.</p></div></div>
+
+    <div class="faqcat">Aides et financement</div>
+    <div class="qa"><div class="q"><span>Q6.</span>Quelle condition pour l'aide SACEM à l'autoproduction ?</div><div class="a"><p><strong>Au moins cinq titres inédits ou vingt minutes</strong> de musique inédite ; demande possible jusqu'à six mois après la sortie.</p></div></div>
+    <div class="qa"><div class="q"><span>Q7.</span>Combien demander comme subvention ?</div><div class="a"><p>Ce qu'on peut <strong>justifier</strong> — mais sans brider son ambition : présenter plusieurs scénarios chiffrés. « Plus tu peux récupérer, mieux c'est, et c'est eux qui assument les pertes. »</p></div></div>
+    <div class="qa"><div class="q"><span>Q8.</span>Quand faire la demande de crédit d'impôt ?</div><div class="a"><p><strong>Avant d'engager les frais</strong> de l'album, sous peine de ne pas pouvoir les compter.</p></div></div>
+
+    <div class="faqcat">Artiste-auteur et fiscalité</div>
+    <div class="qa"><div class="q"><span>Q9.</span>Pourquoi déclarer une activité d'artiste-auteur ?</div><div class="a"><p>Pour la <strong>dispense de précompte URSSAF</strong> et pour pouvoir <strong>facturer</strong> (notamment se facturer à son propre label).</p></div></div>
+    <div class="qa"><div class="q"><span>Q10.</span>Comment le crédit d'impôt entre en jeu ?</div><div class="a"><p>Sur une facture d'écriture à son label, <strong>l'État reverse quasiment la moitié</strong> ; et c'est déductible pour le label.</p></div></div>
+    <div class="qa"><div class="q"><span>Q11.</span>Qu'est-ce que l'article 100 bis ?</div><div class="a"><p>Un dispositif qui permet de <strong>lisser ses revenus artistiques sur cinq ans</strong>, réduisant l'imposition.</p></div></div>
+    <div class="qa"><div class="q"><span>Q12.</span>Déposer son nom comme marque pour facturer une redevance ?</div><div class="a"><p>Possible mais <strong>encadré</strong> (plafonné au volume d'affaires, imposé en BIC) et peu intéressant pour de petits montants.</p></div></div>
+    <div class="qa"><div class="q"><span>Q13.</span>Et pour un créateur de contenu ?</div><div class="a"><p>Le statut d'artiste-auteur peut lui permettre de sortir jusqu'à <strong>~30 000 € par an quasi défiscalisés</strong> s'il écrit ses contenus.</p></div></div>
+
+    <div class="faqcat">Audience et streaming</div>
+    <div class="qa"><div class="q"><span>Q14.</span>Comment faire monter ses auditeurs Spotify ?</div><div class="a"><p>Trois leviers : <strong>produire beaucoup et en collab</strong>, des <strong>stratégies de répétition</strong> (jeu concours), et l'<strong>accord Apple-TikTok</strong>.</p></div></div>
+    <div class="qa"><div class="q"><span>Q15.</span>Pourquoi les collabs font-elles gonfler les profils ?</div><div class="a"><p>Les publics de chaque artiste se greffent sur la même écoute, ce qui <strong>draine du flux algorithmique</strong> et déclenche les playlists.</p></div></div>
+    <div class="qa"><div class="q"><span>Q16.</span>C'est quoi le hack des playlists « Equals » ?</div><div class="a"><p>Un morceau <strong>uniquement avec des femmes</strong> peut entrer dans les playlists Equals de plusieurs pays à la fois.</p></div></div>
+    <div class="qa"><div class="q"><span>Q17.</span>Comment un jeu concours génère-t-il des streams ?</div><div class="a"><p>Refaire une choré sur le son en <strong>montrant qu'on l'a lancé avant de filmer</strong> : chaque participant l'écoute des dizaines de fois en s'entraînant.</p></div></div>
+    <div class="qa"><div class="q"><span>Q18.</span>L'accord Apple-TikTok, concrètement ?</div><div class="a"><p>Chaque vue d'une vidéo utilisant ton son <strong>devient un stream Apple Music</strong> : une vidéo à un million de vues = un million de streams.</p></div></div>
+    <div class="qa"><div class="q"><span>Q19.</span>Les ads Spotify valent-elles le coup ?</div><div class="a"><p>Non : <strong>les streams générés par la pub ne sont pas payés.</strong> YouTube applique la même règle.</p></div></div>
+    <div class="qa"><div class="q"><span>Q20.</span>Où investir son budget pub alors ?</div><div class="a"><p>Dans des <strong>partenariats</strong> (webzine, newsletter) et, cas gagnant, le <strong>retargeting pour vendre des places de concert</strong>.</p></div></div>
+
+    <div class="faqcat">Événement, merch, délégation</div>
+    <div class="qa"><div class="q"><span>Q21.</span>Comment mieux vendre un événement ?</div><div class="a"><p>Donner <strong>une raison d'acheter maintenant</strong> : urgence, upgrade VIP tiré au sort, « une achetée une offerte », surprise mystère.</p></div></div>
+    <div class="qa"><div class="q"><span>Q22.</span>Un micro-trottoir, est-ce utile ?</div><div class="a"><p>Oui, avec une <strong>mise en scène</strong> (fauteuil sur une place connue, écoute, billet tendu dans l'instant, artiste qui surgit).</p></div></div>
+    <div class="qa"><div class="q"><span>Q23.</span>Faut-il lancer un merch maintenant ?</div><div class="a"><p>Si la demande existe. <strong>Le montrer crée l'envie</strong> ; commencer avec peu de produits, sans stock.</p></div></div>
+    <div class="qa"><div class="q"><span>Q24.</span>Comment vendre du merch efficacement ?</div><div class="a"><p>En le vendant comme un <strong>totem qui ouvre des portes</strong> (entrée gratuite, accès à un événement), pas comme un simple objet.</p></div></div>
+    <div class="qa"><div class="q"><span>Q25.</span>Comment déléguer ses réseaux sans se faire trahir ?</div><div class="a"><p>Une <strong>passation de trois mois</strong> à contrôle décroissant ; le public doit croire que c'est l'artiste qui répond (« un mini-toi »).</p></div></div>
+    <div class="qa"><div class="q"><span>Q26.</span>Comment engager un manager ?</div><div class="a"><p>Par un <strong>mois d'essai</strong> : payé au pourcentage, ça ne lui coûte rien, et on voit s'il apporte de la valeur.</p></div></div>
+    <div class="qa"><div class="q"><span>Q27.</span>Quelle est l'erreur de délégation ?</div><div class="a"><p>« Donner les clés et partir. » Déléguer, c'est <strong>accompagner puis relâcher</strong>, comme avec un enfant.</p></div></div>
+
+    <div class="faqcat">Développement et examen</div>
+    <div class="qa"><div class="q"><span>Q28.</span>Quelle stratégie géographique ?</div><div class="a"><p>Une <strong>pyramide</strong> : dominer son territoire, puis s'étendre par cercles, en visant les réseaux médias puissants.</p></div></div>
+    <div class="qa"><div class="q"><span>Q29.</span>Comment s'implanter sur un nouveau territoire ?</div><div class="a"><p>Négocier <strong>de la visibilité contre son cachet</strong> (radios, télé, médias), puis revenir à son cachet une fois le public gagné.</p></div></div>
+    <div class="qa"><div class="q"><span>Q30.</span>Un contrat d'enregistrement avec sa société est-il utile ?</div><div class="a"><p>Non, pas aujourd'hui : « ça ne protège en rien », ça obligerait même à certaines choses.</p></div></div>
+    <div class="qa"><div class="q"><span>Q31.</span>Quand prendre un avocat ?</div><div class="a"><p>Seulement pour des <strong>gros enjeux</strong> (six chiffres) ou un <strong>gros conflit</strong>. En dessous, ça ne se justifie pas.</p></div></div>
+    <div class="qa"><div class="q"><span>Q32.</span>Comment se passe l'examen ?</div><div class="a"><p>Livrable et slides préparés à 80 %, <strong>questions connues d'avance</strong>, oral de 20-25 min à distance, 10/20 suffit, rattrapage possible.</p></div></div>
+
+  </div>
+</div>
+<div class="plan">
+  <h2>Plan d'action</h2>
+  <p>Cochez au fur et à mesure. Les cinq phases suivent la logique de la session : sécuriser la structure, activer les aides, développer l'audience, vendre l'événement, puis passer l'examen.</p>
+
+  <div class="phase">Phase 1 — Sécuriser la structure</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Statut</b>Confirmer la SASU et, si l'on veut prendre des cachets, confier la direction à un tiers (conjoint, famille)</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Statuts</b>Prévoir une rémunération du dirigeant fixée chaque année par PV des associés, pour garder de la flexibilité</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Revoir l'existant</b>Faire corriger les statuts créés sans accompagnement, avant que ça ne coûte plus cher</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Artiste-auteur</b>Activer la dispense de précompte URSSAF et demander un numéro pour pouvoir facturer</span></li>
+  </ul>
+
+  <div class="phase">Phase 2 — Activer les aides</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>ARCE / intermittence</b>Prendre l'ARCE d'abord (incompatible avec l'intermittence), basculer ensuite</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>RSA</b>Rédiger un PV « pas de rémunération cette année » comme preuve pour France Travail</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>DAC</b>Déposer la demande de subvention avant le 31 décembre</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>SACEM</b>Vérifier les cinq titres inédits / vingt minutes pour l'aide à l'autoproduction</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Crédit d'impôt</b>Faire la demande d'agrément AVANT d'engager les frais de l'album</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Scénarios</b>Préparer plusieurs scénarios de budget chiffrés et justifiables</span></li>
+  </ul>
+
+  <div class="phase">Phase 3 — Développer l'audience</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Produire</b>Multiplier les titres et les collaborations (idéalement un morceau 100 % féminin pour les playlists Equals)</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Répétition</b>Lancer un jeu concours choré avec lot &gt; 100 € et preuve d'écoute lancée avant de filmer</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Apple-TikTok</b>Exploiter le son sur TikTok : chaque vue devient un stream Apple Music</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Pub</b>Éviter les ads Spotify (streams non payés) ; investir en partenariats et retargeting concert</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Réseaux</b>Déléguer après une passation de trois mois, en gardant un ton « mini-toi »</span></li>
+  </ul>
+
+  <div class="phase">Phase 4 — Vendre l'événement et le merch</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Urgence</b>Donner une raison d'acheter maintenant : upgrade VIP tiré au sort, une achetée une offerte</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Surprise</b>Teaser une boîte / enveloppe mystère remise sur scène à un acheteur tiré au sort</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Micro-trottoir</b>Mettre en scène (fauteuil sur une place connue, écoute, billet tendu, artiste qui surgit)</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Merch</b>Lancer un ou deux produits sans stock, vendus comme des totems qui ouvrent des portes</span></li>
+  </ul>
+
+  <div class="phase">Phase 5 — Développer et certifier</div>
+  <ul class="chk">
+    <li><span class="bx">✓</span><span class="tx"><b>Géographie</b>Dominer son territoire, puis s'étendre en pyramide via attaché de presse et tourneur</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Négociation</b>Échanger son cachet contre de la visibilité pour s'implanter sur un nouveau territoire</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Manager</b>Tester par un mois d'essai avant tout engagement</span></li>
+    <li><span class="bx">✓</span><span class="tx"><b>Examen</b>Finir ses heures, compléter le livrable et les slides, réserver une date, préparer les questions connues</span></li>
+  </ul>
+</div>
+
+<div class="quiz">
+  <h2>Quiz — 8 questions</h2>
+  <p>Pour vérifier que les mécanismes de la session sont bien assimilés.</p>
+
+  <div class="qz" data-g="2">
+    <p class="qt">1. Pour prendre des cachets depuis sa structure, qui doit la diriger ?</p>
+    <div class="opt">L'artiste, obligatoirement, puisque c'est son projet</div>
+    <div class="opt">Peu importe, le statut de dirigeant n'a aucun effet sur les cachets</div>
+    <div class="opt">Un tiers (conjoint, famille), l'artiste pouvant rester associé à 100 %</div>
+    <div class="fb">« Il faut que la personne à la direction ne soit pas toi. » C'est la condition pour se verser des cachets d'artiste via la société, en conservant un lien de subordination. On peut être associé à 100 % ; c'est seulement la direction qui doit revenir à un tiers.</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <p class="qt">2. Peut-on cumuler l'ARCE et le statut d'intermittent ?</p>
+    <div class="opt">Oui, les deux dispositifs se complètent sans difficulté</div>
+    <div class="opt">Non : ils sont incompatibles, il faut prendre l'ARCE puis basculer</div>
+    <div class="opt">Oui, mais seulement au-delà de 507 heures travaillées</div>
+    <div class="fb">Vérification faite en séance : l'ARCE est vue comme une démarche de reconversion entrepreneuriale, incompatible avec l'indemnisation des jours non travaillés en intermittence. La bonne séquence : prendre l'ARCE d'abord, puis basculer vers l'intermittence.</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <p class="qt">3. Comment ne pas se verser de salaire tout en demandant le RSA ?</p>
+    <div class="opt">Rédiger chaque année un PV des associés attestant l'absence de rémunération</div>
+    <div class="opt">Fermer temporairement la société pendant la demande</div>
+    <div class="opt">Ce n'est pas possible : avoir une société exclut le RSA</div>
+    <div class="fb">On prévoit dans les statuts une rémunération du dirigeant fixée chaque année par PV des associés, puis on produit un PV « je ne prends pas de rémunération cette année », daté et signé, à fournir à France Travail. De quoi jongler d'une année sur l'autre.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <p class="qt">4. Quel est le levier le plus direct pour faire monter ses auditeurs ?</p>
+    <div class="opt">Acheter des ads Spotify dès 2 000 écoutes mensuelles</div>
+    <div class="opt">Attendre qu'un titre décolle tout seul par chance</div>
+    <div class="opt">Produire beaucoup de titres, idéalement en collaboration</div>
+    <div class="fb">Plus de titres = plus de points d'accès vers un public ; et les feats font gonfler mécaniquement chaque profil en drainant du flux algorithmique. Les ads Spotify, à l'inverse, génèrent des streams non payés — ce n'est pas le bon levier.</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <p class="qt">5. Pourquoi éviter les ads Spotify ?</p>
+    <div class="opt">Parce qu'elles sont réservées aux artistes signés en major</div>
+    <div class="opt">Parce que les streams générés par la pub ne sont pas payés</div>
+    <div class="opt">Parce qu'elles font supprimer les streams organiques existants</div>
+    <div class="fb">« Tous les streams générés par de la pub ne sont pas payés. » Ils restent dans l'historique (utile pour l'image) mais ne rapportent rien, donc coûtent cher pour rien. YouTube applique la même règle. Mieux vaut investir en partenariats ou en retargeting concert.</div>
+  </div>
+
+  <div class="qz" data-g="0">
+    <p class="qt">6. Quel est le seul changement à apporter pour mieux vendre un événement ?</p>
+    <div class="opt">Donner une raison d'acheter maintenant, avec de l'urgence</div>
+    <div class="opt">Baisser fortement le prix des places dès le lancement</div>
+    <div class="opt">Multiplier les canaux de communication, sans rien d'autre</div>
+    <div class="fb">« Les gens sont durs à la détente : si tu ne leur donnes pas une excellente raison de cliquer tout de suite, ils reportent jusqu'à oublier. » Upgrade VIP tiré au sort, « une achetée une offerte », surprise mystère : autant de façons de créer un cadre temporel et une urgence.</div>
+  </div>
+
+  <div class="qz" data-g="2">
+    <p class="qt">7. Comment réussir une délégation (réseaux, manager) ?</p>
+    <div class="opt">Donner les accès et laisser la personne gérer entièrement tout de suite</div>
+    <div class="opt">Ne jamais déléguer, tout faire soi-même pour garder le contrôle</div>
+    <div class="opt">Accompagner puis relâcher progressivement, en testant d'abord</div>
+    <div class="fb">« L'erreur que tout le monde fait, c'est de donner les clés du bébé et bon courage. » Déléguer, c'est comme avec un enfant : d'abord contrôle total, puis contrôle décroissant, jusqu'au tableau de bord seul. Et pour un manager : un mois d'essai avant tout engagement.</div>
+  </div>
+
+  <div class="qz" data-g="1">
+    <p class="qt">8. Quelle est la bonne logique de développement géographique ?</p>
+    <div class="opt">Viser directement l'international pour ne pas se mettre d'œillères</div>
+    <div class="opt">Dominer son territoire d'abord, puis s'étendre en pyramide</div>
+    <div class="opt">Rester uniquement sur le marché national, plus sûr</div>
+    <div class="fb">La bonne séquence est une pyramide : dominer son territoire, puis s'étendre par cercles vers les réseaux médias puissants, avec un bon attaché de presse et un bon tourneur. Et pour s'implanter ailleurs, négocier de la visibilité contre son cachet.</div>
+  </div>
+  <div class="score" id="score"></div>
+</div>
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="wrap">
+    <p><b>Producteur à Succès</b> — Session individuelle du 24 novembre 2026</p>
+    <p>123 chapitres · 16 sections · 32 questions-réponses · plan d'action en 5 phases</p>
+    <p>La personne accompagnée n'est pas nommée : ni son prénom, ni son nom de scène, ni sa région, ni le nom de son événement, ni les personnes citées ne sont repris. Les montants et dispositifs sont des repères donnés à l'oral, pas des avis juridiques, fiscaux ou comptables : chaque cas se vérifie auprès de l'organisme concerné ou d'un professionnel.</p>
+  </div>
+</footer>
+<script>
+var CH = [[0, "Ouverture : prise de contact"], [48, "Le cadre : deux heures rien que pour toi"], [66, "Deux ans et demi à plein temps dans la musique"], [86, "Du salariat à la musique après un licenciement"], [113, "Les débuts au black, et les premières claques"], [142, "Un lieu qui ne paie pas, et rien pour le prouver"], [165, "La décision de se déclarer enfin"], [185, "SASU ou SARL : le choix de structure"], [209, "Le dirigeant ne doit pas être toi pour les cachets"], [230, "La subvention DAC et son échéance"], [251, "L'aide SACEM à l'autoproduction"], [263, "Cinq titres inédits ou vingt minutes"], [281, "Demande possible jusqu'à six mois après la sortie"], [312, "L'ARCE de France Travail, versée en deux fois"], [336, "Ne pas se verser de salaire et viser le RSA"], [362, "Le PV annuel qui fixe la rémunération du dirigeant"], [393, "Le PV comme preuve pour France Travail"], [428, "L'intermittence : un bon schéma, un temps"], [477, "507 heures, 43 cachets : la mécanique"], [616, "ARCE et intermittence sont incompatibles"], [665, "Prendre l'ARCE d'abord, basculer ensuite"], [703, "Une communauté de 7 000 abonnés"], [725, "Faut-il déléguer ses réseaux sociaux ?"], [787, "La passation de trois mois avant de lâcher"], [820, "L'erreur classique : donner les clés et partir"], [887, "Le piège : un CM qui ne te ressemble pas"], [912, "Le public doit croire que c'est toi qui réponds"], [932, "La solution idéale : une proche motivée"], [996, "Faire monter les auditeurs mensuels Spotify"], [1065, "Premier levier : produire beaucoup de titres"], [1079, "Multiplier les collaborations"], [1101, "Comment un feat gonfle mécaniquement les profils"], [1130, "Le hack des playlists Equals pour les femmes"], [1166, "Deuxième levier : les stratégies de répétition"], [1177, "Le jeu concours choré qui génère des streams"], [1207, "Les critères du concours pour forcer les écoutes"], [1274, "L'accord Apple-TikTok : une vue = un stream"], [1302, "Ce que vaut un million de streams"], [1324, "Un catalogue retient ceux qui te découvrent"], [1393, "Les ads Spotify valent-elles le coup ?"], [1421, "Le piège : les streams publicitaires non payés"], [1446, "YouTube applique la même règle"], [1472, "Mieux vaut investir dans des partenariats"], [1514, "Le seul bon usage : le retargeting concerts"], [1588, "Promouvoir un événement collectif à venir"], [1663, "Donner une raison d'acheter maintenant"], [1688, "Créer de l'urgence pour déclencher l'achat"], [1715, "Le tirage au sort pour les premiers acheteurs"], [1735, "L'upgrade VIP tiré au sort"], [1791, "Le « une achetée, une offerte » en fin de campagne"], [1813, "Faire venir du monde via les acheteurs"], [1839, "Faire teaser une surprise par les têtes d'affiche"], [1850, "L'anecdote du livre et de l'enveloppe cachée"], [1880, "La surprise qui déclenche l'achat immédiat"], [1922, "La curiosité comme moteur d'action"], [2019, "La boîte mystère passée entre les artistes"], [2078, "L'enveloppe rouge vendue en une journée"], [2141, "Le matériel : la caméra de poche"], [2205, "Le merch vaut-il le coup maintenant ?"], [2227, "Le signal : la demande existe-t-elle ?"], [2259, "Montrer le produit crée l'envie"], [2287, "Commencer avec peu de produits, sans stock"], [2341, "L'anecdote du merch qui ouvre les portes des clubs"], [2378, "Le t-shirt comme billet d'entrée gratuit"], [2430, "Vendre l'objet comme un totem qui ouvre des portes"], [2508, "Le micro-trottoir dans la rue : bonne idée ?"], [2543, "Le fauteuil posé sur une place connue"], [2619, "Tendre le billet dans l'instant"], [2642, "L'artiste qui surgit pendant le tournage"], [2672, "Casser la pression après la prise"], [2693, "Une manager en vue, encore en négociation"], [2744, "Les conditions : 20 % sur les prestations"], [2789, "Toujours tester avant d'engager"], [2798, "Le mois d'essai non rémunéré"], [2836, "L'essai qui débouche sur l'engagement"], [2941, "L'erreur de délégation la plus courante"], [2950, "Déléguer, c'est comme avec un enfant"], [2971, "Suivre discrètement, puis espacer le contrôle"], [3015, "Le stade final : le tableau de contrôle suffit"], [3055, "L'alternative écartée : aller étudier au CNM"], [3098, "Pourquoi il déconseille certaines formations"], [3182, "Sa stratégie géographique à valider"], [3207, "Partir du local pour viser l'international"], [3267, "La pyramide : dominer son territoire d'abord"], [3281, "Viser les réseaux puissants comme RFI"], [3339, "Attaché de presse et tourneur spécialisés"], [3356, "Multiplier les collabs pour la visibilité locale"], [3391, "Le « son du moment » et les cachets de festivals"], [3425, "Se connecter aux artistes pour être repéré"], [3471, "Négocier de la visibilité plutôt qu'un cachet"], [3526, "Du leadership local au marché national"], [3626, "La visibilité vaut plus que l'argent à court terme"], [3648, "L'aide plafonnée du ministère de la Culture"], [3690, "Ne demander que ce qu'on peut justifier"], [3710, "Mais ne pas brider son ambition"], [3736, "Présenter plusieurs scénarios de budget"], [3776, "Faire la demande de crédit d'impôt avant les frais"], [3803, "Le statut d'artiste-auteur, en parallèle"], [3828, "La dispense de précompte URSSAF"], [3895, "Se facturer à son propre label"], [3930, "Le crédit d'impôt rembourse la moitié"], [3950, "L'article 100 bis : lisser ses revenus"], [3977, "Un statut puissant et gratuit"], [4020, "Déposer son nom d'artiste comme marque"], [4047, "Les limites de la redevance de marque"], [4151, "L'artiste-auteur pour les créateurs de contenu"], [4199, "Facturer studio, reprises et droits voisins"], [4247, "Un contrat d'enregistrement est-il utile ?"], [4270, "Quand un avocat est vraiment utile"], [4323, "Un « problème de riche » à souhaiter"], [4391, "L'examen : quand et comment le réserver"], [4408, "Valider la sortie de formation ensemble"], [4425, "Le contrôle CPF et les heures à faire"], [4462, "Livrable et slides préparés à 80 %"], [4502, "Trois dates par mois, jusqu'à six mois après"], [4529, "Des documents calés sur la grille d'évaluation"], [4562, "Les questions du jury, connues d'avance"], [4588, "Le déroulé de l'oral, minute par minute"], [4623, "Un exemple réel de slides et de livrable"], [4705, "Ce que l'artiste complète elle-même"], [4747, "10/20 suffit : maîtriser son projet"], [4783, "Montrer qu'on sait expliquer ses choix"], [4836, "Savoir justifier le choix de sa structure"]];
+
+var frame = document.getElementById('vimeoPlayer');
+
+function fmt(s){ var m = Math.floor(s/60), x = s%60; return m + ':' + (x<10?'0':'') + x; }
+
+function seek(sec){
+  if (!frame || !frame.contentWindow) return;
+  try {
+    frame.contentWindow.postMessage(JSON.stringify({method:'setCurrentTime', value: sec}), '*');
+    frame.contentWindow.postMessage(JSON.stringify({method:'play'}), '*');
+  } catch(e){}
+  var top = frame.getBoundingClientRect().top + window.pageYOffset - 20;
+  window.scrollTo({top: top < 0 ? 0 : top, behavior:'smooth'});
+}
+
+(function(){
+  var host = document.getElementById('chlist');
+  if (!host) return;
+  CH.forEach(function(c){
+    var b = document.createElement('button');
+    var t = document.createElement('b'); t.textContent = fmt(c[0]);
+    var s = document.createElement('span'); s.textContent = c[1];
+    b.appendChild(t); b.appendChild(s);
+    b.addEventListener('click', function(){ seek(c[0]); });
+    host.appendChild(b);
+  });
+})();
+
+(function(){
+  document.querySelectorAll('.tc').forEach(function(el){
+    var parts = el.textContent.split(/(\d+:\d{2})/);
+    if (parts.length < 2) return;
+    el.textContent = '';
+    parts.forEach(function(p){
+      if (/^\d+:\d{2}$/.test(p)) {
+        var mm = p.split(':');
+        var sec = parseInt(mm[0],10)*60 + parseInt(mm[1],10);
+        var btn = document.createElement('button');
+        btn.className = 'seek'; btn.textContent = p;
+        btn.addEventListener('click', function(){ seek(sec); });
+        el.appendChild(btn);
+      } else {
+        el.appendChild(document.createTextNode(p));
+      }
+    });
+  });
+})();
+
+window.addEventListener('scroll', function(){
+  var h = document.documentElement;
+  var max = h.scrollHeight - h.clientHeight;
+  var p = max > 0 ? (h.scrollTop / max) * 100 : 0;
+  document.getElementById('progress').style.width = p + '%';
+});
+
+document.querySelectorAll('.chk li').forEach(function(li){
+  li.addEventListener('click', function(){ li.classList.toggle('done'); });
+});
+
+(function(){
+  var total = document.querySelectorAll('.qz').length, answered = 0, good = 0;
+  document.querySelectorAll('.qz').forEach(function(qz){
+    var g = parseInt(qz.getAttribute('data-g'), 10);
+    var opts = qz.querySelectorAll('.opt');
+    var fb = qz.querySelector('.fb');
+    opts.forEach(function(opt, i){
+      opt.addEventListener('click', function(){
+        if (qz.classList.contains('answered')) return;
+        qz.classList.add('answered');
+        answered++;
+        if (i === g) { opt.classList.add('good'); good++; }
+        else { opt.classList.add('bad'); opts[g].classList.add('good'); }
+        fb.classList.add('show');
+        if (answered === total) {
+          var sc = document.getElementById('score');
+          sc.textContent = 'Score : ' + good + ' / ' + total + (good === total ? ' — parfait.' : ' — relisez les chapitres concernés.');
+          sc.classList.add('show');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
